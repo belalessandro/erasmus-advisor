@@ -1,8 +1,94 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
   <modelVersion>4.0.0</modelVersion>
+
   <groupId>it.unipd.dei.bding</groupId>
+
   <artifactId>erasmus-advisor</artifactId>
+
   <version>1.00</version>
+
   <name>Erasmus Advisor</name>
+
   <description>Web application holding information about Erasmus students.</description>
+  
+  <inceptionYear>2014</inceptionYear>
+  
+  <developers>
+    <developer>
+        <id>MP</id>
+        <name>Mauro Piazza</name>
+        <email>mauro.piazza.1@studenti.unipd.it</email>           
+    </developer>
+  </developers>
+  
+  <licenses>
+    <license>
+        <name>Apache License, Version 2.0</name>
+        <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+        <distribution>repo</distribution>
+    </license>
+  </licenses>
+  
+  <organization>
+    <name>Information Management System (IMS) , Department of Information Engineering (DEI), University of Padua, Italy</name>
+    <url>http://ims.dei.unipd.it</url>
+  </organization>
+
+  <!-- Build Settings -->
+  
+  <!-- Specifies the encoding used by the source code -->
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>  
+
+  <!-- Configuration of the default build lifecycle -->
+  <build>
+    <defaultGoal>compile</defaultGoal>
+    
+    <!-- source folder -->
+    <sourceDirectory>${basedir}/trunk/java</sourceDirectory>
+    
+    <directory>${basedir}/target</directory>
+    
+    <!-- name if the generated package -->
+    <finalName>${project.artifactId}-${project.version}</finalName>
+    
+    <!-- configuration of the plugins for the different goals -->
+    <plugins>
+        <!-- compiler plugin -->
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+		    <artifactId>maven-compiler-plugin</artifactId>
+		    <version>3.1</version>
+		    <configuration>
+		      <source>1.6</source>
+		      <target>1.6</target>
+		    </configuration>
+        </plugin>
+        
+       <plugin>
+	        <groupId>org.apache.maven.plugins</groupId>
+		    <artifactId>maven-assembly-plugin</artifactId>
+		    <version>2.4</version>
+		    <configuration>
+		      <descriptorRefs>
+		          <descriptorRef>jar-with-dependencies</descriptorRef>
+		      </descriptorRefs>
+		    </configuration>
+		    <executions>
+		      <execution>
+		          <id>make-assembly</id>
+		          <phase>package</phase>
+		          <goals>
+		              <goal>single</goal>
+		          </goals>
+		      </execution>
+		    </executions>
+       </plugin>
+    </plugins>
+    
+  </build>
+  
+
 </project>
