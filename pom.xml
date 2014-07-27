@@ -37,6 +37,8 @@
 
   <!-- Build Settings -->
   
+  <packaging>war</packaging>
+  
   <!-- Specifies the encoding used by the source code -->
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -86,9 +88,75 @@
 		      </execution>
 		    </executions>
        </plugin>
+       
+       <plugin>
+	        <groupId>org.apache.maven.plugins</groupId>
+		    <artifactId>maven-war-plugin</artifactId>
+		    <version>2.4</version>
+		    <configuration>
+		      <webXml>${basedir}/trunk/src/webapp/WEB-INF/web.xml</webXml>
+		    </configuration>
+       </plugin>
     </plugins>
     
+    <!-- Resources to copy during deployment -->
+    <resources>
+        <!-- copy CSS files to the target directory -->
+        <resource>
+            <targetPath>${basedir}/target/${project.artifactId}-${project.version}/css</targetPath>
+            <directory>${basedir}/trunk/src/webapp/css</directory>
+            <includes>
+                <include>**/*.*</include>
+            </includes>
+        </resource>
+        
+        <!-- copy HTML files to the target directory -->
+        <resource>
+            <targetPath>${basedir}/target/${project.artifactId}-${project.version}/html</targetPath>
+            <directory>${basedir}/trunk/src/webapp/html</directory>
+            <includes>
+                <include>**/*.*</include>
+            </includes>
+        </resource>
+        
+        <!-- copy images to the target directory -->
+        <resource>
+            <targetPath>${basedir}/target/${project.artifactId}-${project.version}/img</targetPath>
+            <directory>${basedir}/trunk/src/webapp/img</directory>
+            <includes>
+                <include>**/*.*</include>
+            </includes>
+        </resource>
+        
+        <!-- copy javascript files to the target directory -->
+        <resource>
+            <targetPath>${basedir}/target/${project.artifactId}-${project.version}/js</targetPath>
+            <directory>${basedir}/trunk/webapp/js</directory>
+            <includes>
+                <include>**/*.*</include>
+            </includes>
+        </resource>
+        
+        <!-- copy JSP pages to the target directory -->
+        <resource>
+            <targetPath>${basedir}/target/${project.artifactId}-${project.version}/jsp</targetPath>
+            <directory>${basedir}/trunk/src/webapp/jsp</directory>
+            <includes>
+                <include>**/*.*</include>
+            </includes>
+        </resource>
+    </resources>
   </build>
+  
+  <!-- Dependencies -->
+  <dependencies>
+	  <dependency>
+	    <groupId>javax.servlet</groupId>
+	    <artifactId>javax.servlet-api</artifactId>
+	    <version>3.1.0</version>
+	    <scope>provided</scope>
+	  </dependency>
+  </dependencies>
   
 
 </project>
