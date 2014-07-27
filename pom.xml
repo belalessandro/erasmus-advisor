@@ -16,9 +16,29 @@
   
   <developers>
     <developer>
+        <id>AB</id>
+        <name>Alessandro Beltramin</name>
+        <email>alessandro.beltramin@studenti.unipd.it</email>
+    </developer>
+    <developer>
+        <id>CF</id>
+        <name>Federico Chiarotti</name>
+        <email>chiarotti.federico@gmail.com</email>
+    </developer> 
+    <developer>
         <id>MP</id>
         <name>Mauro Piazza</name>
         <email>mauro.piazza.1@studenti.unipd.it</email>           
+    </developer>
+    <developer>
+        <id>LS</id>
+        <name>Luca Schiappadini</name>
+        <email>luca.schiappadini@studenti.unipd.it</email>
+    </developer>
+    <developer>
+        <id>NT</id>
+        <name>Nicola Tommasi</name>
+        <email>nicola.tommasi.91@gmail.com</email>
     </developer>
   </developers>
   
@@ -34,6 +54,13 @@
     <name>Information Management System (IMS) , Department of Information Engineering (DEI), University of Padua, Italy</name>
     <url>http://ims.dei.unipd.it</url>
   </organization>
+  
+  <!-- <distributionManagement>
+    <repository>
+        <id>TomcatServer</id>
+        <url>http://localhost:8080/manager/${project.artifactId}-${project.version}/repo</url>
+    </repository>
+  </distributionManagement> -->
 
   <!-- Build Settings -->
   
@@ -97,7 +124,24 @@
 		      <webXml>${basedir}/trunk/src/webapp/WEB-INF/web.xml</webXml>
 		    </configuration>
        </plugin>
+       
+       <!--  Automatic Deploy Plugin -->
+       <plugin>
+            <groupId>org.apache.tomcat.maven</groupId>
+            <artifactId>tomcat7-maven-plugin</artifactId>
+            <version>2.2</version>
+            <configuration>
+                <server>TomcatServer</server>
+                <username>studenti</username>
+                <password>dbstud</password>
+                <url>http://localhost:8080/manager/text</url>
+                <path>/${project.artifactId}</path>
+                <update>true</update> <!-- First undeploy and then deploy -->
+            </configuration>
+       </plugin>
+       
     </plugins>
+    
     
     <!-- Resources to copy during deployment -->
     <resources>
@@ -149,14 +193,45 @@
   </build>
   
   <!-- Dependencies -->
+  
+  
   <dependencies>
-	  <dependency>
-	    <groupId>javax.servlet</groupId>
-	    <artifactId>javax.servlet-api</artifactId>
-	    <version>3.1.0</version>
-	    <scope>provided</scope>
-	  </dependency>
+    <!-- Servlet Libraries -->
+    <dependency>
+        <groupId>javax.servlet</groupId>
+        <artifactId>javax.servlet-api</artifactId>
+        <version>3.1.0</version>
+        <scope>provided</scope>
+    </dependency>
+    
+    <!-- JSP dependencies -->  
+    <dependency>
+        <groupId>org.apache.taglibs</groupId>
+        <artifactId>taglibs-standard-spec</artifactId>
+        <version>1.2.1</version>
+    </dependency>
+    
+    <dependency>
+        <groupId>org.apache.taglibs</groupId>
+        <artifactId>taglibs-standard-impl</artifactId>
+        <version>1.2.1</version>
+    </dependency>
+    
+    <dependency>
+        <groupId>org.apache.taglibs</groupId>
+        <artifactId>taglibs-standard-jstlel</artifactId>
+        <version>1.2.1</version>
+    </dependency>
+        
+   <!-- JDBC Dependecies -->
+    <dependency>
+        <groupId>postgresql</groupId>
+        <artifactId>postgresql</artifactId>
+        <version>9.1-901-1.jdbc4</version>
+    </dependency>
   </dependencies>
   
+  
+ 
 
 </project>
