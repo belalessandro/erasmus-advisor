@@ -76,7 +76,7 @@
     <defaultGoal>compile</defaultGoal>
     
     <!-- source folder -->
-    <sourceDirectory>${basedir}/trunk/java</sourceDirectory>
+    <sourceDirectory>${basedir}/trunk/src/java</sourceDirectory>
     
     <directory>${basedir}/target</directory>
     
