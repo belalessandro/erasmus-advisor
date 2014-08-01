@@ -1,237 +1,260 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
-  <modelVersion>4.0.0</modelVersion>
+	<modelVersion>4.0.0</modelVersion>
 
-  <groupId>it.unipd.dei.bding.erasmusadvisor</groupId>
+	<groupId>it.unipd.dei.bding.erasmusadvisor</groupId>
 
-  <artifactId>erasmus-advisor</artifactId>
+	<artifactId>erasmus-advisor</artifactId>
 
-  <version>1.00</version>
+	<version>1.00</version>
 
-  <name>Erasmus Advisor</name>
+	<name>Erasmus Advisor</name>
 
-  <description>Web application holding information about Erasmus students.</description>
-  
-  <inceptionYear>2014</inceptionYear>
-  
-  <developers>
-    <developer>
-        <id>AB</id>
-        <name>Alessandro Beltramin</name>
-        <email>alessandro.beltramin@studenti.unipd.it</email>
-    </developer>
-    <developer>
-        <id>CF</id>
-        <name>Federico Chiarotti</name>
-        <email>chiarotti.federico@gmail.com</email>
-    </developer> 
-    <developer>
-        <id>MP</id>
-        <name>Mauro Piazza</name>
-        <email>mauro.piazza.1@studenti.unipd.it</email>           
-    </developer>
-    <developer>
-        <id>LS</id>
-        <name>Luca Schiappadini</name>
-        <email>luca.schiappadini@studenti.unipd.it</email>
-    </developer>
-    <developer>
-        <id>NT</id>
-        <name>Nicola Tommasi</name>
-        <email>nicola.tommasi.91@gmail.com</email>
-    </developer>
-  </developers>
-  
-  <licenses>
-    <license>
-        <name>Apache License, Version 2.0</name>
-        <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
-        <distribution>repo</distribution>
-    </license>
-  </licenses>
-  
-  <organization>
-    <name>Information Management System (IMS) , Department of Information Engineering (DEI), University of Padua, Italy</name>
-    <url>http://ims.dei.unipd.it</url>
-  </organization>
-  
-  <!-- <distributionManagement>
-    <repository>
-        <id>TomcatServer</id>
-        <url>http://localhost:8080/manager/${project.artifactId}-${project.version}/repo</url>
-    </repository>
-  </distributionManagement> -->
+	<description>Web application holding information about Erasmus students.</description>
 
-  <!-- Build Settings -->
-  
-  <packaging>war</packaging>
-  
-  <!-- Specifies the encoding used by the source code -->
-  <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-  </properties>  
+	<inceptionYear>2014</inceptionYear>
 
-  <!-- Configuration of the default build lifecycle -->
-  <build>
-    <defaultGoal>compile</defaultGoal>
-    
-    <!-- source folder -->
-    <sourceDirectory>${basedir}/trunk/src/java</sourceDirectory>
-    
-    <directory>${basedir}/target</directory>
-    
-    <!-- name if the generated package -->
-    <finalName>${project.artifactId}-${project.version}</finalName>
-    
-    <!-- configuration of the plugins for the different goals -->
-    <plugins>
-        <!-- compiler plugin -->
-        <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-		    <artifactId>maven-compiler-plugin</artifactId>
-		    <version>3.1</version>
-		    <configuration>
-		      <source>1.8</source>
-		      <target>1.8</target>
-		    </configuration>
-        </plugin>
-        
-       <plugin>
-	        <groupId>org.apache.maven.plugins</groupId>
-		    <artifactId>maven-assembly-plugin</artifactId>
-		    <version>2.4</version>
-		    <configuration>
-		      <descriptorRefs>
-		          <descriptorRef>jar-with-dependencies</descriptorRef>
-		      </descriptorRefs>
-		    </configuration>
-		    <executions>
-		      <execution>
-		          <id>make-assembly</id>
-		          <phase>package</phase>
-		          <goals>
-		              <goal>single</goal>
-		          </goals>
-		      </execution>
-		    </executions>
-       </plugin>
-       
-       <plugin>
-	        <groupId>org.apache.maven.plugins</groupId>
-		    <artifactId>maven-war-plugin</artifactId>
-		    <version>2.4</version>
-		    <configuration>
-		      <webXml>${basedir}/trunk/src/webapp/WEB-INF/web.xml</webXml>
-		    </configuration>
-       </plugin>
-       
-       <!--  Automatic Deploy Plugin -->
-       <plugin>
-            <groupId>org.apache.tomcat.maven</groupId>
-            <artifactId>tomcat7-maven-plugin</artifactId>
-            <version>2.2</version>
-            <configuration>
-                <server>TomcatServer</server>
-                <username>studenti</username>
-                <password>dbstud</password>
-                <url>http://localhost:8080/manager/text</url>
-                <path>/${project.artifactId}</path>
-                <update>true</update> <!-- First undeploy and then deploy -->
-            </configuration>
-       </plugin>
-       
-    </plugins>
-    
-    
-    <!-- Resources to copy during deployment -->
-    <resources>
-        <!-- copy CSS files to the target directory -->
-        <resource>
-            <targetPath>${basedir}/target/${project.artifactId}-${project.version}/css</targetPath>
-            <directory>${basedir}/trunk/src/webapp/css</directory>
-            <includes>
-                <include>**/*.*</include>
-            </includes>
-        </resource>
-        
-        <!-- copy HTML files to the target directory -->
-        <resource>
-            <targetPath>${basedir}/target/${project.artifactId}-${project.version}/html</targetPath>
-            <directory>${basedir}/trunk/src/webapp/html</directory>
-            <includes>
-                <include>**/*.*</include>
-            </includes>
-        </resource>
-        
-        <!-- copy images to the target directory -->
-        <resource>
-            <targetPath>${basedir}/target/${project.artifactId}-${project.version}/img</targetPath>
-            <directory>${basedir}/trunk/src/webapp/img</directory>
-            <includes>
-                <include>**/*.*</include>
-            </includes>
-        </resource>
-        
-        <!-- copy javascript files to the target directory -->
-        <resource>
-            <targetPath>${basedir}/target/${project.artifactId}-${project.version}/js</targetPath>
-            <directory>${basedir}/trunk/webapp/js</directory>
-            <includes>
-                <include>**/*.*</include>
-            </includes>
-        </resource>
-        
-        <!-- copy JSP pages to the target directory -->
-        <resource>
-            <targetPath>${basedir}/target/${project.artifactId}-${project.version}/jsp</targetPath>
-            <directory>${basedir}/trunk/src/webapp/jsp</directory>
-            <includes>
-                <include>**/*.*</include>
-            </includes>
-        </resource>
-    </resources>
-  </build>
-  
-  <!-- Dependencies -->
-  
-  
-  <dependencies>
-    <!-- Servlet Libraries -->
-    <dependency>
-        <groupId>javax.servlet</groupId>
-        <artifactId>javax.servlet-api</artifactId>
-        <version>3.1.0</version>
-        <scope>provided</scope>
-    </dependency>
-    
-    <!-- JSP dependencies -->  
-    <dependency>
-        <groupId>org.apache.taglibs</groupId>
-        <artifactId>taglibs-standard-spec</artifactId>
-        <version>1.2.1</version>
-    </dependency>
-    
-    <dependency>
-        <groupId>org.apache.taglibs</groupId>
-        <artifactId>taglibs-standard-impl</artifactId>
-        <version>1.2.1</version>
-    </dependency>
-    
-    <dependency>
-        <groupId>org.apache.taglibs</groupId>
-        <artifactId>taglibs-standard-jstlel</artifactId>
-        <version>1.2.1</version>
-    </dependency>
-        
-   <!-- JDBC Dependecies -->
-    <dependency>
-        <groupId>postgresql</groupId>
-        <artifactId>postgresql</artifactId>
-        <version>9.1-901-1.jdbc4</version>
-    </dependency>
-  </dependencies>
-  
-  
- 
+	<developers>
+		<developer>
+			<id>AB</id>
+			<name>Alessandro Beltramin</name>
+			<email>alessandro.beltramin@studenti.unipd.it</email>
+		</developer>
+		<developer>
+			<id>CF</id>
+			<name>Federico Chiarotti</name>
+			<email>chiarotti.federico@gmail.com</email>
+		</developer>
+		<developer>
+			<id>MP</id>
+			<name>Mauro Piazza</name>
+			<email>mauro.piazza.1@studenti.unipd.it</email>
+		</developer>
+		<developer>
+			<id>LS</id>
+			<name>Luca Schiappadini</name>
+			<email>luca.schiappadini@studenti.unipd.it</email>
+		</developer>
+		<developer>
+			<id>NT</id>
+			<name>Nicola Tommasi</name>
+			<email>nicola.tommasi.91@gmail.com</email>
+		</developer>
+	</developers>
+
+	<licenses>
+		<license>
+			<name>Apache License, Version 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
+
+	<!-- Build Settings -->
+
+	<packaging>war</packaging>
+
+	<!-- Specifies the encoding used by the source code -->
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+
+	<!-- Configuration of the default build lifecycle -->
+	<build>
+		<defaultGoal>compile</defaultGoal>
+
+		<!-- source folder -->
+		<sourceDirectory>${basedir}/trunk/src/java</sourceDirectory>
+
+		<directory>${basedir}/target</directory>
+
+		<!-- name if the generated package -->
+		<finalName>${project.artifactId}-${project.version}</finalName>
+
+		<!-- configuration of the plugins for the different goals -->
+		<plugins>
+
+			<!-- compiler plugin: source and target code is for Java 1.7 -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.1</version>
+				<configuration>
+					<source>1.7</source>
+					<target>1.7</target>
+				</configuration>
+			</plugin>
+
+			<!-- sicuri sto plugin serva a qualcosa? -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<version>2.4</version>
+				<configuration>
+					<descriptorRefs>
+						<descriptorRef>jar-with-dependencies</descriptorRef>
+					</descriptorRefs>
+				</configuration>
+				<executions>
+					<execution>
+						<id>make-assembly</id>
+						<phase>package</phase>
+						<goals>
+							<goal>single</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<!-- packager plugin: create a WAR file to be deployed -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<version>2.4</version>
+				<configuration>
+					<webXml>${basedir}/trunk/src/webapp/WEB-INF/web.xml</webXml>
+				</configuration>
+			</plugin>
+
+			<!-- Automatic Deploy Plugin -->
+			<plugin>
+				<groupId>org.apache.tomcat.maven</groupId>
+				<artifactId>tomcat7-maven-plugin</artifactId>
+				<version>2.2</version>
+				<configuration>
+					<server>TomcatServer</server>
+					<username>studenti</username>
+					<password>dbstud</password>
+					<url>http://localhost:8080/manager/text</url>
+					<path>/${project.artifactId}</path>
+					<update>true</update> <!-- First undeploy and then deploy -->
+				</configuration>
+			</plugin>
+
+		</plugins>
+
+		<!-- Resources to copy during deployment -->
+		<resources>
+
+			<!-- copy CSS files to the target directory -->
+			<resource>
+				<targetPath>${basedir}/target/${project.artifactId}-${project.version}/css</targetPath>
+				<directory>${basedir}/trunk/src/webapp/css</directory>
+				<includes>
+					<include>**/*.*</include>
+				</includes>
+			</resource>
+
+			<!-- copy HTML files to the target directory -->
+			<resource>
+				<targetPath>${basedir}/target/${project.artifactId}-${project.version}/html</targetPath>
+				<directory>${basedir}/trunk/src/webapp/html</directory>
+				<includes>
+					<include>**/*.*</include>
+				</includes>
+			</resource>
+
+			<!-- copy images to the target directory -->
+			<resource>
+				<targetPath>${basedir}/target/${project.artifactId}-${project.version}/img</targetPath>
+				<directory>${basedir}/trunk/src/webapp/img</directory>
+				<includes>
+					<include>**/*.*</include>
+				</includes>
+			</resource>
+
+			<!-- copy Javascript to the target directory -->
+			<resource>
+				<targetPath>${basedir}/target/${project.artifactId}-${project.version}/js</targetPath>
+				<directory>${basedir}/trunk/src/webapp/js</directory>
+				<includes>
+					<include>**/*.*</include>
+				</includes>
+			</resource>
+
+			<!-- copy JSP files to the target directory -->
+			<resource>
+				<targetPath>${basedir}/target/${project.artifactId}-${project.version}/jsp</targetPath>
+				<directory>${basedir}/trunk/src/webapp/jsp</directory>
+				<includes>
+					<include>**/*.*</include>
+				</includes>
+			</resource>
+
+			<!-- copy less files to the target directory -->
+			<resource>
+				<targetPath>${basedir}/target/${project.artifactId}-${project.version}/less</targetPath>
+				<directory>${basedir}/trunk/src/webapp/less</directory>
+				<includes>
+					<include>**/*.*</include>
+				</includes>
+			</resource>
+			
+			<!-- copy fonts files to the target directory -->
+			<resource>
+				<targetPath>${basedir}/target/${project.artifactId}-${project.version}/fonts</targetPath>
+				<directory>${basedir}/trunk/src/webapp/fonts</directory>
+				<includes>
+					<include>**/*.*</include>
+				</includes>
+			</resource>
+
+			<!-- copy configuration files to the target directory -->
+			<resource>
+				<targetPath>${basedir}/target/${project.artifactId}-${project.version}/META-INF</targetPath>
+				<directory>${basedir}/trunk/src/webapp/META-INF</directory>
+				<includes>
+					<include>**/*.*</include>
+				</includes>
+			</resource>
+
+		</resources>
+	</build>
+
+	<!-- Dependencies -->
+
+	<dependencies>
+		<!-- Servlet Libraries -->
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>3.1.0</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<!-- JSP dependencies -->
+		<dependency>
+			<groupId>org.apache.taglibs</groupId>
+			<artifactId>taglibs-standard-spec</artifactId>
+			<version>1.2.1</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.taglibs</groupId>
+			<artifactId>taglibs-standard-impl</artifactId>
+			<version>1.2.1</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.taglibs</groupId>
+			<artifactId>taglibs-standard-jstlel</artifactId>
+			<version>1.2.1</version>
+		</dependency>
+
+		<!-- JDBC Dependecies -->
+		<dependency>
+			<groupId>postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+			<version>9.1-901-1.jdbc4</version>
+		</dependency>
+
+		<!-- Tomcat Dependecies (c'era in un POM del prof) -->
+		<dependency>
+			<groupId>org.apache.tomcat</groupId>
+			<artifactId>tomcat-jdbc</artifactId>
+			<version>7.0.54</version>
+		</dependency>
+	</dependencies>
 
 </project>

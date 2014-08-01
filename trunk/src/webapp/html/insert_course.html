@@ -1,0 +1,275 @@
+<!-- luca:
+sostituire le scelte di università e area  con quelle ad autocompletamento della
+pagina di registrazione -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Add a new Course</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	
+	<!-- CSS -->
+	<link href="../css/ea-main.css" rel="stylesheet">
+	<link href="../css/ea-insert.css" rel="stylesheet">
+	<link href="../css/bootstrap.css" rel="stylesheet">
+	<link href="../fonts/font-awesome-4.1.0/css/font-awesome.css" rel="stylesheet">
+	
+	<!-- Bootstrap-datepicker CSS -->
+	<link rel="stylesheet" href="../css/datepicker.css">
+	
+	<!-- Javascript -->
+	
+	<script type="text/javascript" src="../js/jquery.min.js"></script>
+	<script type="text/javascript" src="../js/bootstrap.min.js"></script>
+	<script src="../js/jquery-1.10.2.js"></script>
+	<script src="../js/jquery-ui-1.10.4.custom.js"></script>
+	
+	<script src="../js/bootstrap.min.js"></script>
+	<script src="../js/bootstrap.js"></script>
+	<script src="../js/ourjs.js"></script>
+	<script src="../js/bootstrap-datepicker.js"></script>
+
+</head>
+
+<body>
+	<div class="container">
+		<!-- inizio barra di navigazione -->
+		<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+			<a href="#"> <img src="../img/logo.svg" class="nav_logo"></a>
+			<ul class="nav nav-pills pull-right nav_style">
+				<li><a href="#">Notifications</a></li>
+				<li><a href="#">Account</a></li>
+				<li><a href="#"><span class="fa fa-sign-out fa-fw"></span>Logout</a></li>
+			</ul>
+		</div>
+		<!-- fine barra di navigazione -->
+		<!-- inizio menu -->
+		<div class="col-md-3">
+		    <div class="menu_title menu_normal"><i class="fa fa-bars fa-fw"></i>MENU</div>
+	        <div class="menu_normal"><a href="#"><i class="fa fa-home fa-fw"></i>Home</a></div>
+	  		<div class="menu_normal"><a href="#"><i class="fa fa-user fa-fw"></i>My Interests</a></div>
+	  		<div class="menu_normal"><a href="#"><i class="fa fa-user fa-fw"></i>My Comments</a></div>
+	        <div class="menu_normal"><a href="#"><i class="fa fa-arrow-right fa-fw"></i>Insert a New Content</a></div>
+			<br>
+			<div class="menu_title menu_normal"><i class="fa fa-search fa-fw"></i>SEARCH</div>
+			<div class="menu_normal"><a href="#"><i class="fa fa-arrow-right fa-fw"></i>Cities</a></div>
+	  		<div class="menu_normal"><a href="#"><i class="fa fa-arrow-right fa-fw"></i>Universities</a></div>
+		  	<div class="menu_normal"><a href="#"><i class="fa fa-arrow-right fa-fw"></i>Classes</a></div>
+			<div class="menu_normal"><a href="#"><i class="fa fa-arrow-right fa-fw"></i>Theses</a></div>
+		  	<div class="menu_normal"><a href="#"><i class="fa fa-arrow-right fa-fw"></i>Advanced Search</a></div>
+		</div>
+		<!-- fine menu -->
+
+		<!-- Class Header -->
+
+		<div class="col-md-9 general_main_border">
+			<h2>Add a new Course</h2>
+			<br>
+
+			<!-- Courses selecting university -->
+			<div class="row insert_row">
+				<!-- University -->
+				<p>
+					<strong>University: </strong>
+				</p>
+				<div class="btn-group">
+					<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">Select</button>
+					<ul class="dropdown-menu" role="menu">
+						<li><a>University Of Padua</a></li>
+						<li><a>University Of Paris</a></li>
+						<li><a>University Of Monaco</a></li>
+						<li><a>University Of Denmark</a></li>
+					</ul>
+				</div>
+				<!-- /.btn-group -->
+			</div>
+			<!-- /.row -->
+			<br>
+
+			<!-- Courses course name -->
+			<div class="row insert_row">
+				<div class="input-group insert_input_group">
+					<span class="input-group-addon insert_course_input">Course Name</span> <input type="text" class="form-control">
+				</div>
+				<br>
+				<!-- /.col-md-6 -->
+			</div>
+			<!-- /.row -->
+
+
+			<!-- Courses Area -->
+			<div class="row insert_row">
+				<div class="btn-group">
+					<button type="button" class=" btn btn-default dropdown-toggle chooser" data-toggle="dropdown">Area</button>
+					<ul class="dropdown-menu chooser" role="menu">
+						<li><span><a>Information Technology</a></span><span class="glyphicon glyphicon-ok"></span></li>
+						<li><a>Philosophy and ethics</a></li>
+						<li><a>Journalism and reporting</a></li>
+						<li><a>Finance, banking and insurance</a></li>
+					</ul>
+				</div>
+				<!-- /.btn-group -->
+			</div>
+			<!-- /.row -->
+			<br>
+
+			<!-- Courses area list -->
+			<div class="row insert_row">
+				<!-- List of certificates -->
+				<ul class="list-group area">
+					<li class="list-group-item"><span class="list-btn-delete glyphicon glyphicon-minus"><a></a></span><span>Information Technology</span></li>
+					<li class="list-group-item"><span class="list-btn-delete glyphicon glyphicon-minus"><a></a></span><span>Philosophy and ethics</span></li>
+					<li class="list-group-item"><span class="list-btn-delete glyphicon glyphicon-minus"><a></a></span><span>Finance, banking and insurance</span></li>
+				</ul>
+				<!-- /.list-group -->
+			</div>
+			<!-- /.row -->
+
+
+			<!-- Courses Level -->
+			<div class="row insert_row">
+				<div class="panel panel-default">
+					<div class="panel-body">
+						<p>
+							<strong>Level</strong>
+						</p>
+						<div class="input-group level">
+							<input type="radio" name="active"><span>Bachelor Degree</span><br> <input type="radio" name="active"><span>Master Degree</span><br> <input type="radio" name="active"><span>Sigle Cycle Degree</span><br>
+						</div>
+						<!-- /.input-group -->
+					</div>
+					<!-- /.panel-body -->
+				</div>
+				<!-- /.panel -->
+			</div>
+			<!-- /.row -->
+
+			<!-- Course Add/Save Buttons -->
+			<div class="row">
+				<div class="col-md-4"></div>
+				<div class="col-md-2">
+
+					<!-- Button add -->
+					<button type="button" class="btn btn-default btn-sm insert_btn_action">
+						<span class="glyphicon glyphicon-plus"></span> Add
+					</button>
+				</div>
+				<div class="col-md-2">
+					<!-- Button Save -->
+					<button type="button" class="btn btn-default btn-sm insert_btn_action">
+						<span class="glyphicon glyphicon-floppy-disk"></span> Save
+					</button>
+				</div>
+
+				<!-- /.btn-group -->
+			</div>
+			<br> <br>
+
+			<!-- Courses inserted list -->
+			<div class="insert_row">
+				<ul class="list-group">
+					<li class="list-group-item">
+
+						<div class="container-fluid">
+							<div class="row">
+								<div class="col-md-2">
+									<span class="glyphicon glyphicon-minus list-btn-delete"></span> <span class="glyphicon glyphicon-pencil list-btn-pencil"></span>
+								</div>
+								<!-- Header -->
+							</div>
+							<div class="row">
+								<div class="col-md-9 list-header">Computer Science Engineering</div>
+							</div>
+							<hr>
+							<!-- Body -->
+							<div class="row">
+								<div class="col-md-5">
+									<strong>University: </strong>
+								</div>
+								<div class="col-md-7">University of Padua</div>
+							</div>
+
+							<div class="row">
+								<div class="col-md-5">
+									<strong>Area Covered: </strong>
+								</div>
+								<div class="col-md-7">
+									Information Technology<br> Computer Science
+								</div>
+							</div>
+
+							<div class="row">
+								<div class="col-md-5">
+									<strong>Level: </strong>
+								</div>
+								<div class="col-md-7">Master</div>
+							</div>
+							<!-- End Body -->
+						</div> <!-- /.container -->
+					</li>
+
+
+					<li class="list-group-item">
+
+						<div class="container-fluid">
+							<div class="row">
+								<div class="col-md-2">
+									<span class="glyphicon glyphicon-minus list-btn-delete"></span> <span class="glyphicon glyphicon-pencil list-btn-pencil"></span>
+								</div>
+								<!-- Header -->
+							</div>
+							<div class="row">
+								<div class="col-md-9 list-header">Electronic Engineering</div>
+							</div>
+							<hr>
+							<!-- Body -->
+							<div class="row">
+								<div class="col-md-5">
+									<strong>University: </strong>
+								</div>
+								<div class="col-md-7">University of Padua</div>
+							</div>
+
+							<div class="row">
+								<div class="col-md-5">
+									<strong>Area Covered: </strong>
+								</div>
+								<div class="col-md-7">
+									Information Technology<br> Electronic Devices
+								</div>
+							</div>
+
+							<div class="row">
+								<div class="col-md-5">
+									<strong>Level: </strong>
+								</div>
+								<div class="col-md-7">Master</div>
+							</div>
+							<!-- End Body -->
+						</div> <!-- /.container -->
+					</li>
+				</ul>
+				<!-- /.list-group -->
+			</div>
+			<!-- /.row -->
+			<br>
+		</div>
+
+	</div>
+	<div class="container">
+		<div class="foot">
+			<p align="center">E.A. Team - All rights reserved</p>
+		</div>
+	</div>
+
+	<!--/container-->
+
+	<!-- Bootstrap core JavaScript
+    ================================================== -->
+	<!-- Placed at the end of the document so the pages load faster -->
+	<script src="../js/bootstrap.min.js"></script>
+	<script src="../js/bootstrap.js"></script>
+	<script src="./bootstrap-3.1.1-/assets/js/docs.min.js"></script>
+</body>
+</html>

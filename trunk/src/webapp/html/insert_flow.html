@@ -1,0 +1,351 @@
+<!-- luca: sostituire il metodo di scelta di certificati, origine e destinazione  
+ -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Add a new Flow</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	
+	<!-- CSS -->
+	<link href="../css/ea-main.css" rel="stylesheet">
+	<link href="../css/ea-insert.css" rel="stylesheet">
+	<link href="../css/bootstrap.css" rel="stylesheet">
+	<link href="../fonts/font-awesome-4.1.0/css/font-awesome.css" rel="stylesheet">
+	
+	<!-- Bootstrap-datepicker CSS -->
+	<link rel="stylesheet" href="../css/datepicker.css">
+	
+	<!-- Javascript -->
+	
+	<script type="text/javascript" src="../js/jquery.min.js"></script>
+	<script type="text/javascript" src="../js/bootstrap.min.js"></script>
+	<script src="../js/jquery-1.10.2.js"></script>
+	<script src="../js/jquery-ui-1.10.4.custom.js"></script>
+	
+	<script src="../js/bootstrap.min.js"></script>
+	<script src="../js/bootstrap.js"></script>
+	<script src="../js/ourjs.js"></script>
+	<script src="../js/bootstrap-datepicker.js"></script>
+
+</head>
+
+<body>
+	<div class="container">
+		<!-- inizio barra di navigazione -->
+		<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+			<a href="#"> <img src="../img/logo.svg" class="nav_logo"></a>
+			<ul class="nav nav-pills pull-right nav_style">
+				<li><a href="#">Notifications</a></li>
+				<li><a href="#">Account</a></li>
+				<li><a href="#"><span class="fa fa-sign-out fa-fw"></span>Logout</a></li>
+			</ul>
+		</div>
+		<!-- fine barra di navigazione -->
+		<!-- inizio menu -->
+		<div class="col-md-3">
+			<div class="menu_title menu_normal">
+				<i class="fa fa-bars fa-fw"></i>MENU
+			</div>
+			<div class="menu_normal">
+				<a href="#"><i class="fa fa-home fa-fw"></i>Home</a>
+			</div>
+			<div class="menu_normal">
+				<a href="#"><i class="fa fa-user fa-fw"></i>My Interests</a>
+			</div>
+			<div class="menu_normal">
+				<a href="#"><i class="fa fa-user fa-fw"></i>My Comments</a>
+			</div>
+			<div class="menu_normal">
+				<a href="#"><i class="fa fa-arrow-right fa-fw"></i>Insert a New Content</a>
+			</div>
+			<br>
+			<div class="menu_title menu_normal">
+				<i class="fa fa-search fa-fw"></i>SEARCH
+			</div>
+			<div class="menu_normal">
+				<a href="#"><i class="fa fa-arrow-right fa-fw"></i>Cities</a>
+			</div>
+			<div class="menu_normal">
+				<a href="#"><i class="fa fa-arrow-right fa-fw"></i>Universities</a>
+			</div>
+			<div class="menu_normal">
+				<a href="#"><i class="fa fa-arrow-right fa-fw"></i>Classes</a>
+			</div>
+			<div class="menu_normal">
+				<a href="#"><i class="fa fa-arrow-right fa-fw"></i>Theses</a>
+			</div>
+			<div class="menu_normal">
+				<a href="#"><i class="fa fa-arrow-right fa-fw"></i>Advanced Search</a>
+			</div>
+		</div>
+		<!-- fine menu -->
+
+		<!-- Class Header -->
+
+		<div class="col-md-9 column general_main_border">
+			<h2>Add a new Flow</h2>
+			<br>
+
+			<!-- Name -->
+			<div class="row insert_row">
+				<div class="input-group insert_input_group">
+					<span class="input-group-addon insert_flow_input">Name</span> <input type="text" class="form-control">
+				</div>
+				<!-- /.input-group -->
+			</div>
+			<!-- /.row -->
+			<br>
+
+			<!-- Duration -->
+			<div class="row insert_row">
+				<div class="input-daterange input-group insert_input_group" id="datepicker">
+					<span class="input-group-addon insert_flow_input">Start</span>
+					 <input type="text" class="form-control date" name="start" />
+					  <span class="input-group-addon insert_flow_input">Finish</span> <input type="text" class="form-control date" name="end" />
+				</div>
+				<!-- /.input-group -->
+			</div>
+			<!-- /.row -->
+			<br>
+
+			<!-- Available Places -->
+			<div class="row insert_row">
+				<div class="input-group insert_input_group">
+					<span class="input-group-addon insert_flow_input">Available Places:</span> <input type="text" class="form-control insert_input_small">
+				</div>
+				<!-- /.input-group -->
+			</div>
+			<!-- /.row -->
+			<br>
+
+			<!-- Language Certificates -->
+			<div class="row insert_row">
+				<div class="input-group insert_input_group">
+					<span class="input-group-addon insert_flow_input">Language Certificates</span> 
+					<input type="text" class="form-control"> <span class="input-group-btn">
+						<button class="btn btn-default" type="button">
+							<span class="glyphicon glyphicon-plus"></span>
+						</button>
+					</span>
+				</div>
+				<!-- /.input-group -->
+				<br>
+
+				<!-- List of certificates -->
+				<ul class="list-group certificates">
+					<li class="list-group-item"><span class="glyphicon glyphicon-minus list-btn-delete"><a href="#"></a></span><span>B1 Certificate</span></li>
+					<li class="list-group-item"><span class="glyphicon glyphicon-minus list-btn-delete"><a href="#"></a></span><span>B2 Certificate</span></li>
+					<li class="list-group-item"><span class="glyphicon glyphicon-minus list-btn-delete"><a href="#"></a></span><span>C2 Certificate</span></li>
+				</ul>
+				<!-- /.list-group -->
+				<br>
+			</div>
+			<!-- /.row -->
+
+			<!-- Course / University Selection (From / To) -->
+			<div class="row insert_row">
+				<!-- Course -->
+				<p>
+					<strong>Origin (Courses): </strong><span id="origin">University Of Padua</span>
+				</p>
+				<!-- Refer to "#origin" to insert the right university-->
+				<div class="btn-group">
+					<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">Courses</button>
+					<ul class="dropdown-menu" role="menu">
+						<li><a>Computer Science Engineering</a></li>
+						<li><a>History</a></li>
+						<li><a>Economic</a></li>
+						<li><a>Psicology</a></li>
+					</ul>
+				</div>
+				<!-- /.btn-group -->
+				<br> <br>
+				<!-- University -->
+				<p>
+					<strong>Destination (University): </strong>
+				</p>
+				<div class="btn-group">
+					<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">Universities</button>
+					<ul class="dropdown-menu" role="menu">
+						<li><a>University Of Padua</a></li>
+						<li><a>University Of Paris</a></li>
+						<li><a>University Of Monaco</a></li>
+						<li><a>University Of Denmark</a></li>
+					</ul>
+				</div>
+				<!-- /.btn-group -->
+			</div>
+			<!-- /.row -->
+			<br> <br>
+
+			<!-- Flow Add  Button -->
+			<div class="row">
+				<div class="col-md-4"></div>
+				<div class="col-md-2">
+
+					<!-- Button add -->
+					<button type="button" class="btn btn-default btn-sm insert_btn_action">
+						<span class="glyphicon glyphicon-plus"></span> Add
+					</button>
+				</div>
+				<div class="col-md-2">
+					<!-- Button Save -->
+					<button type="button" class="btn btn-default btn-sm insert_btn_action">
+						<span class="glyphicon glyphicon-floppy-disk"></span> Save
+					</button>
+				</div>
+
+				<!-- /.btn-group -->
+			</div>
+			<!-- /.row -->
+			<br> <br>
+
+
+			<!-- FLOW inserted list -->
+			<div class="insert_row">
+				<ul class="list-group">
+					<li class="list-group-item">
+
+						<div class="container-fluid">
+							<div class="row">
+								<div class="col-md-2">
+									<span class="glyphicon glyphicon-minus list-btn-delete"></span> <span class="glyphicon glyphicon-pencil list-btn-pencil"></span>
+								</div>
+								<!-- Header -->
+							</div>
+							<div class="row">
+								<div class="col-md-9 list-header">Leopold-Franzens Universität Innsbruck - Institute of Ion and Applied Physics</div>
+							</div>
+							<hr>
+							<!-- Body -->
+							<div class="row">
+								<div class="col-md-5">
+									<strong>Origin: </strong>
+								</div>
+								<div class="col-md-7">University of Padua</div>
+							</div>
+
+							<div class="row">
+								<div class="col-md-5">
+									<strong>Destination: </strong>
+								</div>
+								<div class="col-md-7">University of Innsbruck</div>
+							</div>
+
+							<div class="row">
+								<div class="col-md-5">
+									<strong>Course: </strong>
+								</div>
+								<div class="col-md-7">Physics</div>
+							</div>
+
+							<div class="row">
+								<div class="col-md-5">
+									<strong>Certificates Required: </strong>
+								</div>
+								<div class="col-md-7">B1 English, B2 Deustch</div>
+							</div>
+
+							<div class="row">
+								<div class="col-md-5">
+									<strong>Professor Manager: </strong>
+								</div>
+								<div class="col-md-7">Ugo Gasparini</div>
+							</div>
+
+							<div class="row">
+								<div class="col-md-5">
+									<strong>Available Places:</strong>
+								</div>
+								<div class="col-md-7">10</div>
+							</div>
+							<!-- End Body -->
+						</div> <!-- /.container -->
+					</li>
+
+
+					<li class="list-group-item">
+						<div class="container-fluid">
+							<!-- Header -->
+							<div class="row">
+								<div class="col-md-5">
+									<span class="glyphicon glyphicon-minus list-btn-delete"></span> <span class="glyphicon glyphicon-pencil list-btn-pencil"></span>
+								</div>
+							</div>
+							<!-- Body -->
+							<div class="row">
+								<div class="col-md-12 list-header">Shroeder Adolf Universität Wien - Mass Entropy Physics</div>
+							</div>
+							<hr>
+							<div class="row">
+								<div class="col-md-5">
+									<strong>Origin: </strong>
+								</div>
+								<div class="col-md-7">University of Padua</div>
+							</div>
+
+							<div class="row">
+								<div class="col-md-5">
+									<strong>Destination: </strong>
+								</div>
+								<div class="col-md-7">University of Wien</div>
+							</div>
+
+							<div class="row">
+								<div class="col-md-5">
+									<strong>Course: </strong>
+								</div>
+								<div class="col-md-7">Physics</div>
+							</div>
+
+							<div class="row">
+								<div class="col-md-5">
+									<strong>Certificates Required: </strong>
+								</div>
+								<div class="col-md-7">B2 Deustch</div>
+							</div>
+
+							<div class="row">
+								<div class="col-md-5">
+									<strong>Professor Manager: </strong>
+								</div>
+								<div class="col-md-7">Ugo Gasparini</div>
+							</div>
+
+							<div class="row">
+								<div class="col-md-5">
+									<strong>Available Places:</strong>
+								</div>
+								<div class="col-md-7">5</div>
+							</div>
+							<!-- End Body -->
+						</div> <!-- /.container -->
+					</li>
+				</ul>
+				<!-- /.list-group -->
+			</div>
+			<!-- /.row -->
+			<br>
+		</div>
+
+	</div>
+	<div class="container">
+		<div class="foot">
+			<p align="center">E.A. Team - All rights reserved</p>
+
+		</div>
+	</div>
+
+	<!--/container-->
+
+
+	<!-- Bootstrap core JavaScript
+    ================================================== -->
+	<!-- Placed at the end of the document so the pages load faster -->
+	<script src="../js/bootstrap.min.js"></script>
+	<script src="../js/bootstrap.js"></script>
+	<script src="./bootstrap-3.1.1-/assets/js/docs.min.js"></script>
+</body>
+</html>
