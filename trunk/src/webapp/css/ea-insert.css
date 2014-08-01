@@ -1,0 +1,77 @@
+/* Foglio di stile relativo alle pagine di inserzione
+questo è un caso particolare perchè Mauro ha ridefinito tag di bootstrap
+assolutamente da evitare
+luca: eliminati un sacco di stili, notare che andrebbero tutti portati in ea-main
+*/
+
+/* General Panel Sizing */
+
+.dropdown-menu > li > span > a
+{
+  padding: 3px 20px;
+  clear: both;
+  font-weight: 400;
+  line-height: 1.42857143;
+  color: #333;
+  white-space: nowrap;
+}
+
+/* General list properties */
+
+.list-group.area li span
+{
+  margin: 0 0 0 10px;
+}
+
+.list-group-item:hover
+{
+  background-color: #99CCFF;
+}
+
+/* elements list  (like list of flows / universities / courses / ...)*/
+
+.list-header
+{
+  display: block;
+  font-size: large;
+  font-weight: 300;
+  word-wrap: break-word;
+}
+
+.list-btn-pencil
+{
+  margin-left: 4px;      
+        
+}
+
+.add-flow-header-btn-plus:hover,
+.certificates-btn-delete:hover,
+.list-btn-delete:hover,    
+.list-btn-pencil:hover
+{
+  background: none;
+  color: red;
+}
+
+.certificates > li > span
+{
+  margin: 0 10px 0 0;
+}
+
+/* radio-txt distance*/
+.input-group.level > span
+{
+  margin: 0 0 0 10px;
+}
+
+/* txt-addon|txt|dropdown  case*/
+.panel .input-group
+{
+  width: 100%;
+}
+
+/* dropdown-btn inside a panel */
+.panel-body button.btn.btn-default.dropdown-toggle
+{
+  width: auto;
+}

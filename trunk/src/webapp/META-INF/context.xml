@@ -1,0 +1,25 @@
+<!-- notare che il nome del DB, il nome utente e la password sono placeholder -->
+
+<?xml version='1.0' encoding='utf-8'?>
+<Context>
+
+   <Resource name="jdbc/erasmusadvisor"
+          auth="Container"
+          type="javax.sql.DataSource"
+          factory="org.apache.tomcat.jdbc.pool.DataSourceFactory"
+          driverClassName="org.postgresql.Driver"
+          url="jdbc:postgresql://localhost:5432/erasmusadvisor"
+          username="admin"
+          password="password"
+          testOnBorrow="true"
+          validationQuery="SELECT 1"
+          timeBetweenEvictionRunsMillis="30000"
+          maxActive="10"
+          minIdle="5"
+          maxWait="10000"
+          initialSize="2"
+          removeAbandonedTimeout="60"
+          removeAbandoned="true"
+	/>
+
+</Context>

@@ -1,0 +1,172 @@
+/* navbar and menu */
+.menu_normal 
+{
+	border-bottom:2px solid #DDD;
+	padding:10px 0px;
+}
+.menu_title 
+{
+	color: #999;
+	font-weight: bold;
+	background-color: trasparent;
+}
+.nav_style
+{
+	padding:0px 20px;
+	padding-top:5px;
+}
+.nav_logo
+{
+	height:45px;
+	padding-left:10px;
+	padding-top:3px;
+}
+
+/* general layout */
+
+.general_main_border
+{
+	border-left:2px solid #DDD;
+    padding-right:25px !important;
+    padding-left:25px !important;
+}
+div.container 
+{ 
+	background-repeat: no-repeat;
+	background-attachment: scroll;
+	background-size: 100% 100%;
+    border: 2px solid #ddd;; 
+    margin: 20px auto;
+    margin-top:80px;
+    padding: 20px;
+    border-radius: 20px;
+    -moz-border-radius: 20px;
+    -webkit-border-radius: 20px;
+}
+div.foot 
+{
+    background-color: trasparent;
+    color: #ddd;
+    margin: 5px auto;
+    border-radius: 20px;
+    -moz-border-radius: 20px;
+    -webkit-border-radius: 20px;
+}
+
+/* dunno where used */
+
+div.regForm
+{
+	background: #ddd;
+}
+li.menu 
+{
+	list-style: none;
+}
+ 
+/*home page*/
+
+.home_nav_style
+{
+	padding:0px 10px;
+}
+.home_body
+{
+	background-attachment:fixed;
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: 100% 100%;
+	width: 100%; 
+	height: 100%; 
+	min-height: 100%;
+}
+.home_text_box
+{
+	text-align: center; 
+	background:rgba(255,255,255,0.7); 
+	padding:10px 10px;
+	position: absolute;
+	left: 40%;
+	top: 40%;
+	transform: translate(-50%, -50%);
+	width: 25%;			
+	min-width:250px;
+    border-radius: 20px;
+    -moz-border-radius: 20px;
+    -webkit-border-radius: 20px;
+}
+
+/* search pages*/
+
+.search_scrollable_menu 
+{
+	height: auto;
+	max-height: 400px;
+	overflow-x: hidden;
+}
+
+
+/*entity pages*/
+
+.entity_top
+{
+	border-bottom:2px solid #DDD;
+}
+.entity_box
+{
+	border-bottom:2px solid #DDD;
+	padding: 10px
+}
+
+/*insert pages*/
+
+.insert_row
+{
+	padding-left:15px;
+}
+.insert_btn_action /* used for add and save buttons*/
+{
+	min-width:100%;
+}
+.insert_input_group /* used for input box sizes*/
+{
+	width: 100%;
+}
+.insert_input_small /* used for small elements in input boxes*/
+{
+	width: 50px !important;
+}
+.insert_class_input
+{
+	width:120px !important;
+}
+.insert_course_input
+{
+	width:100px !important;
+}
+.insert_flow_input
+{
+	width:160px !important;
+}
+.insert_thesis_input
+{
+	width:120px !important;
+}
+.insert_uni_input
+{
+	width:80px !important;
+}
+
+/*notification pages*/
+tr:hover {
+	background: rgba(222, 222, 222, 0.3);
+}
+.notification_to_validate {
+	background-color: #fc8674;
+}
+.notification_to_validate:hover {
+	background: #b94a48;
+}
+
+    
+    
