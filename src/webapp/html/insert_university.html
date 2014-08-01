@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Add a new University</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<!-- CSS -->
+	<link href="../css/ea-main.css" rel="stylesheet">
+	<link href="../css/ea-insert.css" rel="stylesheet">
+	<link href="../css/bootstrap.css" rel="stylesheet">
+	<link href="../fonts/font-awesome-4.1.0/css/font-awesome.css" rel="stylesheet">
+	
+	<!-- Bootstrap-datepicker CSS -->
+	<link rel="stylesheet" href="../css/datepicker.css">
+	
+	<!-- Javascript -->
+	
+	<script type="text/javascript" src="../js/jquery.min.js"></script>
+	<script type="text/javascript" src="../js/bootstrap.min.js"></script>
+	<script src="../js/jquery-1.10.2.js"></script>
+	<script src="../js/jquery-ui-1.10.4.custom.js"></script>
+	
+	<script src="../js/bootstrap.min.js"></script>
+	<script src="../js/bootstrap.js"></script>
+	<script src="../js/ourjs.js"></script>
+	<script src="../js/bootstrap-datepicker.js"></script>
+
+
+</head>
+
+<body>
+	<div class="container">
+		<!-- inizio barra di navigazione -->
+		<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+			<a href="#"> <img src="../img/logo.svg" class="nav_logo"></a>
+			<ul class="nav nav-pills pull-right nav_style">
+				<li><a href="#">Notifications</a></li>
+				<li><a href="#">Account</a></li>
+				<li><a href="#"><span class="fa fa-sign-out fa-fw"></span>Logout</a></li>
+			</ul>
+		</div>
+		<!-- fine barra di navigazione -->
+		<!-- inizio menu -->
+		<div class="col-md-3">
+			<div class="menu_title menu_normal">
+				<i class="fa fa-bars fa-fw"></i>MENU
+			</div>
+			<div class="menu_normal">
+				<a href="#"><i class="fa fa-home fa-fw"></i>Home</a>
+			</div>
+			<div class="menu_normal">
+				<a href="#"><i class="fa fa-user fa-fw"></i>My Interests</a>
+			</div>
+			<div class="menu_normal">
+				<a href="#"><i class="fa fa-user fa-fw"></i>My Comments</a>
+			</div>
+			<div class="menu_normal">
+				<a href="#"><i class="fa fa-arrow-right fa-fw"></i>Insert a New Content</a>
+			</div>
+			<br>
+			<div class="menu_title menu_normal">
+				<i class="fa fa-search fa-fw"></i>SEARCH
+			</div>
+			<div class="menu_normal">
+				<a href="#"><i class="fa fa-arrow-right fa-fw"></i>Cities</a>
+			</div>
+			<div class="menu_normal">
+				<a href="#"><i class="fa fa-arrow-right fa-fw"></i>Universities</a>
+			</div>
+			<div class="menu_normal">
+				<a href="#"><i class="fa fa-arrow-right fa-fw"></i>Classes</a>
+			</div>
+			<div class="menu_normal">
+				<a href="#"><i class="fa fa-arrow-right fa-fw"></i>Theses</a>
+			</div>
+			<div class="menu_normal">
+				<a href="#"><i class="fa fa-arrow-right fa-fw"></i>Advanced Search</a>
+			</div>
+		</div>
+		<!-- fine menu -->
+
+		<!-- Class Header -->
+
+		<div class="col-md-9 general_main_border">
+			<h2>Add a new University</h2>
+			<br>
+
+			<!-- University Name -->
+			<div class="row insert_row">
+				<!-- Name -->
+				<div class="input-group insert_input_group">
+					<span class="input-group-addon insert_uni_input">Name</span> <input type="text" class="form-control">
+				</div>
+				<!-- /.col-md-6 -->
+			</div>
+			<!-- /.row -->
+			<br>
+
+			<!-- University Link -->
+			<div class="row insert_row">
+				<div class="input-group insert_input_group">
+					<span class="input-group-addon insert_uni_input">Link</span> <input type="text" class="form-control">
+				</div>
+				<!-- /.col-md-6 -->
+			</div>
+			<!-- /.row -->
+			<br>
+
+			<!-- University Country -->
+			<div class="row insert_row">
+				<div class="input-group insert_input_group">
+					<span class="input-group-addon insert_uni_input">Country</span> <input type="text" class="form-control">
+				</div>
+				<br>
+				<div class="input-group insert_input_group">
+					<span class="input-group-addon insert_uni_input">City</span> <input type="text" class="form-control">
+				</div>
+			</div>
+			<!-- /.row -->
+			<br>
+
+			<!-- University Language -->
+			<div class="row insert_row">
+				<div class="btn-group">
+					<button type="button" class=" btn btn-default dropdown-toggle" data-toggle="dropdown">
+						Language <span class="caret"></span>
+					</button>
+					<ul class="dropdown-menu" role="menu">
+						<li><a>English</a></li>
+						<li><a>Italian</a></li>
+						<li><a>Dambi</a></li>
+						<li><a>Danish</a></li>
+					</ul>
+				</div>
+				<!-- /.btn-group -->
+			</div>
+			<!-- /.row -->
+			<br> <br>
+
+			<!-- Flow Add  Button -->
+			<div class="row">
+				<div class="col-md-4"></div>
+				<div class="col-md-2">
+
+					<!-- Button add -->
+					<button type="button" class="btn btn-default btn-sm insert_btn_action">
+						<span class="glyphicon glyphicon-plus"></span> Add
+					</button>
+				</div>
+				<div class="col-md-2">
+					<!-- Button Save -->
+					<button type="button" class="btn btn-default btn-sm insert_btn_action">
+						<span class="glyphicon glyphicon-floppy-disk"></span> Save
+					</button>
+				</div>
+
+				<!-- /.btn-group -->
+			</div>
+			<br> <br>
+
+			<!-- University List -->
+			<div class="insert_row">
+				<ul class="list-group">
+					<li class="list-group-item">
+
+						<div class="container-fluid">
+							<div class="row">
+								<div class="col-md-2">
+									<span class="glyphicon glyphicon-minus list-btn-delete"></span> <span class="glyphicon glyphicon-pencil list-btn-pencil"></span>
+								</div>
+								<!-- Header -->
+							</div>
+							<div class="row">
+								<div class="col-md-12 list-header">Leopold-Franzens Universität Innsbruck</div>
+							</div>
+							<hr>
+							<!-- Body -->
+							<div class="row">
+								<div class="col-md-5">
+									<strong>URL: </strong>
+								</div>
+								<div class="col-md-7">www.universityinnsbruck.au</div>
+							</div>
+
+							<div class="row">
+								<div class="col-md-5">
+									<strong>Country: </strong>
+								</div>
+								<div class="col-md-7">Austria</div>
+							</div>
+
+							<div class="row">
+								<div class="col-md-5">
+									<strong>City: </strong>
+								</div>
+								<div class="col-md-7">Innsbruck</div>
+							</div>
+
+							<div class="row">
+								<div class="col-md-5">
+									<strong>Language: </strong>
+								</div>
+								<div class="col-md-7">Deustch</div>
+							</div>
+							<!-- End Body -->
+						</div> <!-- /.container -->
+					</li>
+
+
+					<li class="list-group-item">
+						<div class="container-fluid">
+							<!-- Header -->
+							<div class="row">
+								<div class="col-md-5">
+									<span class="glyphicon glyphicon-minus list-btn-delete"></span> <span class="glyphicon glyphicon-pencil list-btn-pencil"></span>
+								</div>
+							</div>
+							<!-- Body -->
+							<div class="row">
+								<div class="col-md-12 list-header">Shroeder Adolf Universität Wien - Mass Entropy Physics</div>
+							</div>
+							<hr>
+							<div class="row">
+								<div class="col-md-5">
+									<strong>Origin: </strong>
+								</div>
+								<div class="col-md-7">University of Padua</div>
+							</div>
+
+							<div class="row">
+								<div class="col-md-5">
+									<strong>Destination: </strong>
+								</div>
+								<div class="col-md-7">University of Wien</div>
+							</div>
+
+							<div class="row">
+								<div class="col-md-5">
+									<strong>Course: </strong>
+								</div>
+								<div class="col-md-7">Physics</div>
+							</div>
+
+							<div class="row">
+								<div class="col-md-5">
+									<strong>Certificates Required: </strong>
+								</div>
+								<div class="col-md-7">B2 Deustch</div>
+							</div>
+
+							<div class="row">
+								<div class="col-md-5">
+									<strong>Professor Manager: </strong>
+								</div>
+								<div class="col-md-7">Ugo Gasparini</div>
+							</div>
+
+							<div class="row">
+								<div class="col-md-5">
+									<strong>Available Places:</strong>
+								</div>
+								<div class="col-md-7">5</div>
+							</div>
+							<!-- End Body -->
+						</div> <!-- /.container -->
+					</li>
+				</ul>
+				<!-- /.list-group -->
+			</div>
+			<br>
+
+
+		</div>
+	</div>
+	<div class="container">
+		<div class="foot">
+			<p align="center">E.A. Team - All rights reserved</p>
+		</div>
+	</div>
+
+	<!--/container-->
+
+	<!-- Bootstrap core JavaScript
+    ================================================== -->
+	<!-- Placed at the end of the document so the pages load faster -->
+	<script src="../js/bootstrap.min.js"></script>
+	<script src="../js/bootstrap.js"></script>
+	<script src="./bootstrap-3.1.1-/assets/js/docs.min.js"></script>
+</body>
+</html>

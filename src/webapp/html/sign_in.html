@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Registration Page</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	
+	<link href="../css/ea-main.css" rel="stylesheet">
+	
+	<link href="../css/bootstrap.css" rel="stylesheet">
+	<link href="../css/bootstrap.min.css" rel="stylesheet">
+	<link href="../fonts/font-awesome-4.1.0/css/font-awesome.css" rel="stylesheet">
+	<link href="../fonts/font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet">
+	<link href="../css/ui-lightness/jquery-ui-1.10.4.custom.css" rel="stylesheet">
+	
+	<script type="text/javascript" src="../js/jquery.min.js"></script>
+	<script type="text/javascript" src="../js/bootstrap.min.js"></script>
+	<script src="../js/jquery-1.10.2.js"></script>
+	<script src="../js/jquery-ui-1.10.4.custom.js"></script>
+	
+	<script type="text/javascript" src="../js/scripts.js"></script>
+	<script type="text/javascript" src="../js/jquery.balloon.min.js"></script>
+	<script src="../js/search.js"></script>
+	<script src="../js/bootstrap.min.js"></script>
+	<script src="../js/bootstrap.js"></script>
+	<script src="../bootstrap-3.1.1-/assets/js/docs.min.js"></script>
+	<script src="../js/ourjs.js"></script>
+
+</head>
+
+<body>
+	<div class="container">
+	<!-- inizio barra di navigazione -->
+		<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+			<a href="#"> <img src="../img/logo.svg" class="nav_logo"></a>
+			<ul class="nav nav-pills pull-right nav_style">
+				<li><a href="#">Notifications</a></li>
+				<li><a href="#">Account</a></li>
+				<li><a href="#"><span class="fa fa-sign-out fa-fw"></span>Logout</a></li>
+			</ul>
+		</div>
+		<!-- fine barra di navigazione -->
+		<!-- inizio menu -->
+		<div class="col-md-3">
+		    <div class="menu_title menu_normal"><i class="fa fa-bars fa-fw"></i>MENU</div>
+	        <div class="menu_normal"><a href="#"><i class="fa fa-home fa-fw"></i>Home</a></div>
+	  		<div class="menu_normal"><a href="#"><i class="fa fa-user fa-fw"></i>My Interests</a></div>
+	  		<div class="menu_normal"><a href="#"><i class="fa fa-user fa-fw"></i>My Comments</a></div>
+	        <div class="menu_normal"><a href="#"><i class="fa fa-arrow-right fa-fw"></i>Insert a New Content</a></div>
+			<br>
+			<div class="menu_title menu_normal"><i class="fa fa-search fa-fw"></i>SEARCH</div>
+
+			<div class="menu_normal"><a href="#"><i class="fa fa-arrow-right fa-fw"></i>Cities</a></div>
+	  		<div class="menu_normal"><a href="#"><i class="fa fa-arrow-right fa-fw"></i>Universities</a></div>
+		  	<div class="menu_normal"><a href="#"><i class="fa fa-arrow-right fa-fw"></i>Classes</a></div>
+			<div class="menu_normal"><a href="#"><i class="fa fa-arrow-right fa-fw"></i>Theses</a></div>
+		  	<div class="menu_normal"><a href="#"><i class="fa fa-arrow-right fa-fw"></i>Advanced Search</a></div>
+
+		</div>
+		<!-- fine menu -->
+
+		<!-- Class Header -->
+
+		<div class="col-md-9 general_main_border">
+			<h2>Sign up</h2>
+			<br>
+
+			<form align="center" name='registration' onSubmit="return formValidation();">
+
+				<div align="center" class="col-lg-9">
+					<div class="input-group">
+						<span class="input-group-addon">Username* :</span> <input type="text" class="form-control" name="user" placeholder="Username">
+					</div>
+
+
+					<br></br>
+
+					<div class="input-group">
+						<span class="input-group-addon">E-mail* :</span> <input type="text" class="form-control" placeholder="Example: mario.rossi@studenti.unipd.it">
+					</div>
+
+
+					<br></br>
+
+
+					<div class="input-group">
+						<span class="input-group-addon">Password* :</span> <input type="password" class="form-control" placeholder="Password">
+					</div>
+
+					<br></br>
+
+					<div class="input-group">
+						<span class="input-group-addon">Confirm Password* :</span> <input type="password" class="form-control" placeholder="Password">
+					</div>
+
+					<br></br>
+
+					<div class="input-group">
+						<span class="input-group-addon" width="300px">University</span> <input id="autocomplete" class="form-control" title="type &quot;a&quot;" placeholder="Select University">
+
+					</div>
+					<!-- /btn-group -->
+
+					<br></br>
+
+
+					<div class="input-group">
+						<span class="input-group-addon">Undergraduate Degree</span> <input id="autocomplete2" class="form-control" title="type &quot;a&quot;" placeholder="Select Undergraduate Degree">
+					</div>
+					<!-- /btn-group -->
+
+
+					<br></br>
+
+
+
+					<div class="row">
+						<div class="col-lg-3"></div>
+						<div class="col-lg-9">
+							<div class="input-group input-group">
+								<span class="input-group-addon">Start from: </span> <input type="text" class="form-control" id="datepicker" name="name" placeholder="dd/mm/yyyy">
+
+							</div>
+							</br>
+							<div class="input-group input-group">
+								<span class="input-group-addon">To: </span> <input type="text" class="form-control" id="datepicker2" name="name2" placeholder="dd/mm/yyyy">
+							</div>
+						</div>
+
+
+					</div>
+					<div class="row">
+						<hr>
+						<div class="alert alert-warning">
+							Agree to the registration's terms* : </br> <input align="center" id="poBoxRadio" name="poBoxRadio" type="radio" class="radio-btn" value="No" /> Yes <input align="center" id="poBoxRadio" name="poBoxRadio" type="radio" class="radio-btn" value="Yes" /> No
+
+						</div>
+						<hr>
+					</div>
+					<input type="submit" class="btn btn-default" name="submit" value="Submit" align="center">
+
+				</div>
+
+
+			</form>
+
+
+
+
+
+
+
+		</div>
+		<!-- /.col-lg-9 -->
+
+
+
+	</div>
+	<div class="container">
+		<div class="foot">
+			<p align="center">E.A. Team - All rights reserved</p>
+		</div>
+	</div>
+
+	<!--/container-->
+
+	<!-- Bootstrap core JavaScript
+    ================================================== -->
+	<!-- Placed at the end of the document so the pages load faster -->
+	<script src="../js/bootstrap.min.js"></script>
+	<script src="../js/bootstrap.js"></script>
+	<script src="./bootstrap-3.1.1-/assets/js/docs.min.js"></script>
+</body>
+</html>

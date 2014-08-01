@@ -1,24 +1,47 @@
+<!--
+	### Notes	
+	### Used with jsp
+	
+	<welcome-file-list>
+		<welcome-file>jsp/index.jsp</welcome-file>
+	</welcome-file-list>
+	
+	### Used with Servlet 
+	  
+	## Declaration
+	<servlet>
+		<servlet-name>HelloWorldPost</servlet-name>
+		<servlet-class>it.unipd.dei.bding.HelloWorldPostServlet</servlet-class>
+	</servlet>
+	
+ 	## Mapping between servlets and URIs 
+	<servlet-mapping>
+		<servlet-name>HelloWorld</servlet-name>
+		<url-pattern>/helloworld</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>HelloWorld</servlet-name>
+		<url-pattern>/ciao</url-pattern>
+	</servlet-mapping>
+	
+--> 
+
 <?xml version="1.0" encoding="UTF-8"?>
 
-<web-app xmlns="http://java.sun.com/xml/ns/j2ee"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
-    version="2.5">
-
-    <!-- General Information -->
-    <display-name>Erasmus Advisor Web Application</display-name>
+<web-app id="ErasmusAdvisor" version="1.0" xmlns="http://java.sun.com/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+    
+	<display-name>Erasmus Advisor</display-name>
     <description>
-        This is a web application that holds information about Erasmus and Erasmus 
-        students, by showing flows, universities and interesting stuffs regarding 
+        This is a web application that holds information about Erasmus and Erasmus
+        students, by showing flows, universities and interesting stuffs regarding
         an Erasmus trip.
     </description>
-    
-    <welcome-file-list>
-        <welcome-file>jsp/index.jsp</welcome-file>
-    </welcome-file-list>
 
-    <!-- Servlets -->
-    
-    <!-- Servlets Mapping -->
-
+	<welcome-file-list>
+		<welcome-file>jsp/index.jsp</welcome-file>
+	</welcome-file-list>
+	
 </web-app>
+		
