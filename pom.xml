@@ -77,6 +77,8 @@
 
 			<!-- compiler plugin: source and target code is for Java 1.7 -->
 			<plugin>
+			
+    			<inherited>true</inherited>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.1</version>
