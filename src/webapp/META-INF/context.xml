@@ -1,8 +1,5 @@
 <!-- notare che il nome del DB, il nome utente e la password sono placeholder -->
-
-<?xml version='1.0' encoding='utf-8'?>
 <Context>
-
    <Resource name="jdbc/erasmusadvisor"
           auth="Container"
           type="javax.sql.DataSource"
@@ -21,5 +18,4 @@
           removeAbandonedTimeout="60"
           removeAbandoned="true"
 	/>
-
 </Context>
