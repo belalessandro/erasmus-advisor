@@ -14,6 +14,14 @@
 	<welcome-file-list>
 		<welcome-file>jsp/index.jsp</welcome-file>
 	</welcome-file-list>
+    
+    <!-- Make available connection's pool to the application web -->
+    <resource-ref>
+        <description>Database connection</description>
+        <res-ref-name>jdbc/erasmusadvisor</res-ref-name>
+        <res-type>javax.Sql.DataSource</res-type>
+        <res-auth>Container</res-auth>
+    </resource-ref>
 
 </web-app>
 
