@@ -6,16 +6,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-
-
-
 public class ListOfCities {
 
 	private static final String DRIVER = "org.postgresql.Driver";
 	
 	private static final String DATABASE = "jdbc:postgresql://localhost/erasmusadvisor";
 	
-	private static String USER = "mauro";
 	
 	private static final String SQL = "SELECT * FROM Citta;"; 
 	
