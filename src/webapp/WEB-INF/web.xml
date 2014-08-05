@@ -6,7 +6,7 @@
     
 	<display-name>Erasmus Advisor</display-name>
     <description>
-        This is a web application that holds information about Erasmus and Erasmus
+        Erasmus Advisor is a web application that holds information about Erasmus and Erasmus
         students, by showing flows, universities and interesting stuffs regarding
         an Erasmus trip.
     </description>
@@ -26,14 +26,45 @@
 </web-app>
 
 <!--
-	### Notes	
-	### Used with jsp
+	############### Notes ###############
+		
+	###### Custom Error Pages
+	It may be useful to include some custom error pages.
+	
+	### HTTP error codes (one per error page)
+	<error-page>
+		<error-code>404</error-code>
+		<location>/jsp/NotFound.jsp</location>
+	</error-page>
+	
+	### servlet exceptions
+	<error-page>
+		<exception-type>java.lang.Throwable</exception-type>
+		<location>/jsp/error.jsp</location>
+	</error-page>
+	
+	###### Direct Access Restriction
+	This code should be tested, but it should forbid direct access to files
+	in selected folders.
+	
+	<security-constraint>
+	    <display-name>Restrict direct access to certain folders</display-name>
+	    <web-resource-collection>
+	        <web-resource-name>Restricted folders</web-resource-name>
+	        <url-pattern>/css/*</url-pattern>
+	        <url-pattern>/fonts/*</url-pattern>
+	        <url-pattern>/img/*</url-pattern>
+	    </web-resource-collection>
+	    <auth-constraint />
+	</security-constraint>
+	
+	###### Used with jsp
 	
 	<welcome-file-list>
 		<welcome-file>jsp/index.jsp</welcome-file>
 	</welcome-file-list>
 	
-	### Used with Servlet 
+	###### Used with servlets 
 	  
 	## Declaration
 	<servlet>
@@ -43,11 +74,11 @@
 	
  	## Mapping between servlets and URIs 
 	<servlet-mapping>
-		<servlet-name>HelloWorld</servlet-name>
+		<servlet-name>HelloWorldPost</servlet-name>
 		<url-pattern>/helloworld</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
-		<servlet-name>HelloWorld</servlet-name>
+		<servlet-name>HelloWorldPost</servlet-name>
 		<url-pattern>/ciao</url-pattern>
 	</servlet-mapping>
 	
