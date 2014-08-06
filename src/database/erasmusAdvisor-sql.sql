@@ -46,7 +46,7 @@ CREATE DOMAIN VALUTAZIONE AS SMALLINT
 	CHECK(VALUE >= 1 AND VALUE <= 5);
 
 	
--- mauro: dominio di validazione email (vedere file functions.sql)
+-- mauro: dominio di validazione email
 CREATE DOMAIN EMAIL AS TEXT
     CHECK(
         VALUE ~* '^([A-Za-z0-9._-]+)@([A-Za-z0-9._-]+)[.]([a-z]{2,4})$'
