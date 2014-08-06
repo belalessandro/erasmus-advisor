@@ -27,6 +27,8 @@
 drop database "erasmusadvisor";
 create database "erasmusadvisor";
 \c erasmusadvisor;
+--\ir 'functions.sql';
+
 
 -- Domains
 CREATE DOMAIN SEMESTRE AS SMALLINT
@@ -42,6 +44,13 @@ CREATE DOMAIN ANNOACCADEMICO AS SMALLINT
 CREATE DOMAIN VALUTAZIONE AS SMALLINT
 	NOT NULL
 	CHECK(VALUE >= 1 AND VALUE <= 5);
+
+	
+-- mauro: dominio di validazione email (vedere file functions.sql)
+CREATE DOMAIN EMAIL AS TEXT
+    CHECK(
+        VALUE ~* '^([A-Za-z0-9._-]+)@([A-Za-z0-9._-]+)[.]([a-z]{2,4})$'
+    );
 	
 -- Enums
 -- luca: fatta come enum
@@ -67,14 +76,14 @@ PRIMARY KEY (Nome,Stato)
 
 CREATE TABLE Estensione
 (
-IdArgomentoTesi SERIAL,
+IdArgomentoTesi INTEGER,
 Area VARCHAR(40),
 PRIMARY KEY (IdArgomentoTesi,Area)
 );
 
 CREATE TABLE Documentazione
 (
-IdFlusso SERIAL,
+IdFlusso INTEGER,
 NomeCertificato CHAR(3), 
 LivelloCertificato CHAR(2), -- luca: il livello certificato è solo del tipo B1, C2 etc
 PRIMARY KEY (IdFlusso,NomeCertificato,LivelloCertificato)
@@ -90,8 +99,8 @@ PRIMARY KEY (Sigla)
 CREATE TABLE LinguaTesi -- ale: corretto errore grammaticale LiguaTesi -> LinguaTesi 
 (
 SiglaLingua CHAR(3),
-IdArgomentoTesi SERIAL,
-PRIMARY KEY (SiglaLingua,IdArgomentoTesi)
+IdArgomentoTesi INTEGER,
+PRIMARY KEY (SiglaLingua, IdArgomentoTesi)
 );
 
 CREATE TABLE LinguaCitta
@@ -111,8 +120,8 @@ PRIMARY KEY (NomeLingua,Livello)
 
 CREATE TABLE Origine
 (
-IdFlusso SERIAL,
-IdCorso SERIAL,
+IdFlusso INTEGER,
+IdCorso INTEGER,
 PRIMARY KEY (IdFlusso,IdCorso)
 );
 
@@ -126,21 +135,22 @@ PRIMARY KEY (Id)
 
 CREATE TABLE Gestione
 (
-IdArgomentoTesi SERIAL,
-IdProfessore SERIAL,
+IdArgomentoTesi INTEGER,
+IdProfessore INTEGER,
 PRIMARY KEY (IdArgomentoTesi,IdProfessore)
 );
 
 CREATE TABLE Riconoscimento
 (
-IdInsegnamento SERIAL,
-IdFlusso SERIAL,
+IdInsegnamento INTEGER,
+IdFlusso INTEGER,
 PRIMARY KEY (IdInsegnamento,IdFlusso)
 );
 
 CREATE TABLE Flusso
 (
 Id SERIAL,
+Destinazione VARCHAR(80) NOT NULL, -- mauro: aggiunta campo dell'universita di destinazione
 RespFlusso VARCHAR(50) NOT NULL,
 PostiDisponibili SMALLINT NOT NULL,
 Attivo BOOLEAN NOT NULL DEFAULT TRUE,
@@ -152,25 +162,26 @@ PRIMARY KEY (Id)
 CREATE TABLE Specializzazione
 (
 NomeArea VARCHAR(40),
-IdCorso SERIAL,
+IdCorso INTEGER,
 PRIMARY KEY (NomeArea,IdCorso)
 );
 
 CREATE TABLE Studente
 (
 NomeUtente VARCHAR(50),
-Email VARCHAR(50) NOT NULL,
+Email EMAIL NOT NULL,
 DataRegistrazione DATE DEFAULT CURRENT_DATE,
 Password VARCHAR(128) NOT NULL,
 Salt VARCHAR(128) NOT NULL,
 UltimoAccesso DATE DEFAULT NULL,
 Attivo BOOLEAN NOT NULL DEFAULT TRUE,
-PRIMARY KEY (NomeUtente)
+PRIMARY KEY (NomeUtente),
+UNIQUE (Email)              
 );
 
 CREATE TABLE Iscrizione
 (
-IdCorso SERIAL,
+IdCorso INTEGER,
 NomeUtenteStudente VARCHAR(50),
 PRIMARY KEY (IdCorso,NomeUtenteStudente)
 );
@@ -178,14 +189,14 @@ PRIMARY KEY (IdCorso,NomeUtenteStudente)
 CREATE TABLE Interesse
 (
 NomeUtenteStudente VARCHAR(50),
-IdFlusso SERIAL,
+IdFlusso INTEGER,
 PRIMARY KEY (NomeUtenteStudente,IdFlusso)
 );
 
 CREATE TABLE Partecipazione
 (
 NomeUtenteStudente VARCHAR(50),
-IdFlusso SERIAL,
+IdFlusso INTEGER,
 Inizio DATE NOT NULL,
 Fine DATE NOT NULL,
 CHECK (Fine > Inizio), -- luca: aggiunto vincolo
@@ -194,8 +205,8 @@ PRIMARY KEY (NomeUtenteStudente,IdFlusso)
 
 CREATE TABLE Svolgimento
 (
-IdInsegnamento SERIAL,
-IdProfessore SERIAL,
+IdInsegnamento INTEGER,
+IdProfessore INTEGER,
 PRIMARY KEY (IdInsegnamento,IdProfessore)
 );
 
@@ -210,12 +221,6 @@ statoCitta VARCHAR(30),
 PRIMARY KEY (Nome)
 );
 
-CREATE TABLE Destinazione
-(
-NomeUniversita VARCHAR(80),
-IdFlusso SERIAL,
-PRIMARY KEY (NomeUniversita,IdFlusso)
-);
 
 CREATE TABLE ResponsabileFlusso
 (
@@ -296,7 +301,7 @@ PRIMARY KEY (NomeUtenteStudente,NomeCitta,StatoCitta)
 CREATE TABLE ValFlusso
 (
 NomeUtenteStudente VARCHAR(50),
-IdFlusso SERIAL,
+IdFlusso INTEGER,
 SoddEsperienza VALUTAZIONE,
 SoddAccademica VALUTAZIONE,
 Didattica VALUTAZIONE,
@@ -309,7 +314,7 @@ PRIMARY KEY (NomeUtenteStudente,IdFlusso)
 CREATE TABLE ValInsegnamento
 (
 NomeUtenteStudente VARCHAR(50),
-IdInsegnamento SERIAL,
+IdInsegnamento INTEGER,
 QtaInsegnamanto VALUTAZIONE,
 Interesse VALUTAZIONE,
 Difficolta VALUTAZIONE,
@@ -322,7 +327,7 @@ PRIMARY KEY (NomeUtenteStudente,IdInsegnamento)
 CREATE TABLE ValTesi
 (
 NomeUtenteStudente VARCHAR(50),
-IdArgomentoTesi SERIAL,
+IdArgomentoTesi INTEGER,
 ImpegnoNecessario VALUTAZIONE,
 InteresseArgomento VALUTAZIONE,
 DiponibilitaRelatore VALUTAZIONE,
@@ -345,63 +350,64 @@ Commento TEXT DEFAULT NULL,
 PRIMARY KEY (NomeUtenteStudente,NomeUniversita)
 );
 
-ALTER TABLE Estensione ADD FOREIGN KEY (IdArgomentoTesi) REFERENCES ArgomentoTesi (Id);
 
-ALTER TABLE Estensione ADD FOREIGN KEY (Area) REFERENCES Area (Nome);
 
-ALTER TABLE Documentazione ADD FOREIGN KEY (IdFlusso) REFERENCES Flusso (Id);
 
-ALTER TABLE Documentazione ADD FOREIGN KEY (NomeCertificato,LivelloCertificato) REFERENCES CertificatiLinguistici (NomeLingua,Livello);
 
-ALTER TABLE LinguaTesi ADD FOREIGN KEY (SiglaLingua) REFERENCES Lingua (Sigla);
+ALTER TABLE Estensione ADD FOREIGN KEY (IdArgomentoTesi) REFERENCES ArgomentoTesi (Id) ON DELETE CASCADE;
 
-ALTER TABLE LinguaTesi ADD FOREIGN KEY (IdArgomentoTesi) REFERENCES ArgomentoTesi (Id);
+ALTER TABLE Estensione ADD  FOREIGN KEY (Area) REFERENCES Area (Nome) ON DELETE CASCADE
+                                                                      ON UPDATE CASCADE;
 
-ALTER TABLE LinguaCitta ADD FOREIGN KEY (SiglaLingua) REFERENCES Lingua (Sigla);
+ALTER TABLE Documentazione ADD  FOREIGN KEY (IdFlusso) REFERENCES Flusso (Id) ON DELETE CASCADE;
 
-ALTER TABLE LinguaCitta ADD FOREIGN KEY (NomeCitta,StatoCitta) REFERENCES Citta (Nome,Stato);
+ALTER TABLE Documentazione ADD  FOREIGN KEY (NomeCertificato,LivelloCertificato) REFERENCES CertificatiLinguistici (NomeLingua,Livello);
 
-ALTER TABLE CertificatiLinguistici ADD FOREIGN KEY (NomeLingua) REFERENCES Lingua (Sigla);
+ALTER TABLE LinguaTesi ADD  FOREIGN KEY (SiglaLingua) REFERENCES Lingua (Sigla);
 
-ALTER TABLE Origine ADD FOREIGN KEY (IdFlusso) REFERENCES Flusso (Id);
+ALTER TABLE LinguaTesi ADD  FOREIGN KEY (IdArgomentoTesi) REFERENCES ArgomentoTesi (Id) ON DELETE CASCADE;
 
-ALTER TABLE Origine ADD FOREIGN KEY (IdCorso) REFERENCES CorsoDiLaurea (Id);
+ALTER TABLE LinguaCitta ADD  FOREIGN KEY (SiglaLingua) REFERENCES Lingua (Sigla);
 
-ALTER TABLE Gestione ADD FOREIGN KEY (IdArgomentoTesi) REFERENCES ArgomentoTesi (Id);
+ALTER TABLE LinguaCitta ADD  FOREIGN KEY (NomeCitta,StatoCitta) REFERENCES Citta (Nome,Stato);
 
-ALTER TABLE Gestione ADD FOREIGN KEY (IdProfessore) REFERENCES Professore (Id);
+ALTER TABLE Origine ADD FOREIGN KEY (IdFlusso) REFERENCES Flusso (Id) ON DELETE CASCADE;
 
-ALTER TABLE Riconoscimento ADD FOREIGN KEY (IdInsegnamento) REFERENCES Insegnamento (Id);
+ALTER TABLE Origine ADD FOREIGN KEY (IdCorso) REFERENCES CorsoDiLaurea (Id) ON DELETE CASCADE;
 
-ALTER TABLE Riconoscimento ADD FOREIGN KEY (IdFlusso) REFERENCES Flusso (Id);
+ALTER TABLE Gestione ADD FOREIGN KEY (IdArgomentoTesi) REFERENCES ArgomentoTesi (Id) ON DELETE CASCADE;
 
-ALTER TABLE Flusso ADD FOREIGN KEY (RespFlusso) REFERENCES ResponsabileFlusso (NomeUtente);
+ALTER TABLE Gestione ADD FOREIGN KEY (IdProfessore) REFERENCES Professore (Id) ON DELETE CASCADE;
+
+ALTER TABLE Riconoscimento ADD FOREIGN KEY (IdInsegnamento) REFERENCES Insegnamento (Id) ON DELETE CASCADE;
+
+ALTER TABLE Riconoscimento ADD FOREIGN KEY (IdFlusso) REFERENCES Flusso (Id) ON DELETE CASCADE;
+
+ALTER TABLE Flusso ADD FOREIGN KEY (RespFlusso) REFERENCES ResponsabileFlusso (NomeUtente) ON DELETE CASCADE
+                                                                                           ON UPDATE CASCADE;
+ALTER TABLE Flusso ADD FOREIGN KEY (Destinazione) REFERENCES Universita (Nome) ON DELETE CASCADE;
 
 ALTER TABLE Specializzazione ADD FOREIGN KEY (NomeArea) REFERENCES Area (Nome);
 
-ALTER TABLE Specializzazione ADD FOREIGN KEY (IdCorso) REFERENCES CorsoDiLaurea (Id);
+ALTER TABLE Specializzazione ADD FOREIGN KEY (IdCorso) REFERENCES CorsoDiLaurea (Id) ON DELETE CASCADE;
 
-ALTER TABLE Iscrizione ADD FOREIGN KEY (IdCorso) REFERENCES CorsoDiLaurea (Id);
+ALTER TABLE Iscrizione ADD FOREIGN KEY (IdCorso) REFERENCES CorsoDiLaurea (Id) ON DELETE CASCADE;
 
 ALTER TABLE Iscrizione ADD FOREIGN KEY (NomeUtenteStudente) REFERENCES Studente (NomeUtente);
 
 ALTER TABLE Interesse ADD FOREIGN KEY (NomeUtenteStudente) REFERENCES Studente (NomeUtente);
 
-ALTER TABLE Interesse ADD FOREIGN KEY (IdFlusso) REFERENCES Flusso (Id);
+ALTER TABLE Interesse ADD FOREIGN KEY (IdFlusso) REFERENCES Flusso (Id) ON DELETE CASCADE;
 
 ALTER TABLE Partecipazione ADD FOREIGN KEY (NomeUtenteStudente) REFERENCES Studente (NomeUtente);
 
-ALTER TABLE Partecipazione ADD FOREIGN KEY (IdFlusso) REFERENCES Flusso (Id);
+ALTER TABLE Partecipazione ADD FOREIGN KEY (IdFlusso) REFERENCES Flusso (Id) ON DELETE CASCADE;
 
-ALTER TABLE Svolgimento ADD FOREIGN KEY (IdInsegnamento) REFERENCES Insegnamento (Id);
+ALTER TABLE Svolgimento ADD FOREIGN KEY (IdInsegnamento) REFERENCES Insegnamento (Id) ON DELETE CASCADE;
 
-ALTER TABLE Svolgimento ADD FOREIGN KEY (IdProfessore) REFERENCES Professore (Id);
+ALTER TABLE Svolgimento ADD FOREIGN KEY (IdProfessore) REFERENCES Professore (Id) ON DELETE CASCADE;
 
 ALTER TABLE Universita ADD FOREIGN KEY (nomeCitta,statoCitta) REFERENCES Citta (Nome,Stato);
-
-ALTER TABLE Destinazione ADD FOREIGN KEY (NomeUniversita) REFERENCES Universita (Nome);
-
-ALTER TABLE Destinazione ADD FOREIGN KEY (IdFlusso) REFERENCES Flusso (Id);
 
 ALTER TABLE ResponsabileFlusso ADD FOREIGN KEY (NomeUniversita) REFERENCES Universita (Nome);
 
@@ -431,7 +437,7 @@ ALTER TABLE ValInsegnamento ADD FOREIGN KEY (IdInsegnamento) REFERENCES Insegnam
 
 ALTER TABLE ValTesi ADD FOREIGN KEY (NomeUtenteStudente) REFERENCES Studente (NomeUtente);
 
-ALTER TABLE ValTesi ADD FOREIGN KEY (IdArgomentoTesi) REFERENCES ArgomentoTesi (Id);
+ALTER TABLE ValTesi ADD FOREIGN KEY (IdArgomentoTesi) REFERENCES ArgomentoTesi (Id) ON DELETE CASCADE;
 
 ALTER TABLE ValUniversita ADD FOREIGN KEY (NomeUtenteStudente) REFERENCES Studente (NomeUtente);
 
