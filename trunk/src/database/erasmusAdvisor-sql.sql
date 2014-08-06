@@ -7,10 +7,15 @@
 -- eg: CREATE TABLE Insegnamento (id SERIAL);
 --     CREATE TABLE Valutazione (id INTEGER, FOREIGN KEY id REFERENCES Insegnamento(id));
 -- pare non cambi niente farlo in un modo o nell'altro, in ogni caso è una cosa da tenere a mente
+-- ale: 
+-- esatto, sono dei semplici INTEGER con l'AUTO-INCREMENT preimpostato
 
 -- luca:
 -- sarebbe bene definire un tipo di dato per le email, in modo da fare il controllo di validità
 -- ma non capisco come si può fare
+-- ale:
+-- il prof aveva detto che si puo' usare una reg expr: da inserire interna al create table
+-- CONSTRAINT proper_email CHECK (email ~* '^[A-Za-z0-9._%-]+@[A-Za-z0-9.-]+[.][A-Za-z]+$')
 
 -- luca:
 -- valutare meglio quando usare VARCHAR e quando usare TEXT
@@ -70,7 +75,7 @@ PRIMARY KEY (IdArgomentoTesi,Area)
 CREATE TABLE Documentazione
 (
 IdFlusso SERIAL,
-NomeCertificato CHAR(3),
+NomeCertificato CHAR(3), 
 LivelloCertificato CHAR(2), -- luca: il livello certificato è solo del tipo B1, C2 etc
 PRIMARY KEY (IdFlusso,NomeCertificato,LivelloCertificato)
 );
@@ -82,7 +87,7 @@ Nome VARCHAR(40) NOT NULL,
 PRIMARY KEY (Sigla)
 );
 
-CREATE TABLE LiguaTesi
+CREATE TABLE LinguaTesi -- ale: corretto errore grammaticale LiguaTesi -> LinguaTesi 
 (
 SiglaLingua CHAR(3),
 IdArgomentoTesi SERIAL,
@@ -99,7 +104,7 @@ PRIMARY KEY (SiglaLingua,NomeCitta,StatoCitta)
 
 CREATE TABLE CertificatiLinguistici
 (
-NomeLingua CHAR(3),
+NomeLingua CHAR(3),  
 Livello CHAR(2) NOT NULL, -- luca: il livello certificato è solo del tipo B1, C2 etc
 PRIMARY KEY (NomeLingua,Livello)
 );
@@ -348,9 +353,9 @@ ALTER TABLE Documentazione ADD FOREIGN KEY (IdFlusso) REFERENCES Flusso (Id);
 
 ALTER TABLE Documentazione ADD FOREIGN KEY (NomeCertificato,LivelloCertificato) REFERENCES CertificatiLinguistici (NomeLingua,Livello);
 
-ALTER TABLE LiguaTesi ADD FOREIGN KEY (SiglaLingua) REFERENCES Lingua (Sigla);
+ALTER TABLE LinguaTesi ADD FOREIGN KEY (SiglaLingua) REFERENCES Lingua (Sigla);
 
-ALTER TABLE LiguaTesi ADD FOREIGN KEY (IdArgomentoTesi) REFERENCES ArgomentoTesi (Id);
+ALTER TABLE LinguaTesi ADD FOREIGN KEY (IdArgomentoTesi) REFERENCES ArgomentoTesi (Id);
 
 ALTER TABLE LinguaCitta ADD FOREIGN KEY (SiglaLingua) REFERENCES Lingua (Sigla);
 
