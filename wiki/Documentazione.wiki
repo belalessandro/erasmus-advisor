@@ -42,4 +42,5 @@ Tool automatico di gestione della qualità del codice (si interfaccia con Maven 
 http://www.sonarqube.org/
 ( http://www.methodsandtools.com/tools/tools.php?sonar )
 
-Tool di testing: http://jmeter.apache.org/index.html
+Tool di testing 1: http://jmeter.apache.org/index.html
+Tool di testing 2: http://www.soapui.org/About-SoapUI/what-is-soapui.html
