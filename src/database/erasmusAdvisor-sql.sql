@@ -407,10 +407,17 @@ ALTER TABLE Iscrizione ADD FOREIGN KEY (NomeUtenteStudente) REFERENCES Studente 
 	-- ale: mettere ON DELETE CASCADE, dato che voglio poter eliminare lo studente anche se e' iscritto a dei corsi
 
 ALTER TABLE Interesse ADD FOREIGN KEY (NomeUtenteStudente) REFERENCES Studente (NomeUtente);
+	-- ale: qui metterei ON DELETE CASCADE, perché vogliamo poter eliminare lo studente anche se ha inserito degli interessi
+	--      Si puo' invece impedire di eliminare uno studente se e' marcato come attivo tramite una trigger procedure:
+	-- 		in caso di eliminazione, impedisce l'azione e piuttosto trasforma lo studente da ATTIVO ad INATTIVO.
+	--		Piuttosto consente l'effettiva eliminazione solo se e' inattivo 
+	-- 		(e quindi deve poter eliminare in cascata le rispettive valutazioni o iscrizioni.. ecc.., si pensi ad es.
+	-- 		all'eliminazione di account fake/spam)
 
 ALTER TABLE Interesse ADD FOREIGN KEY (IdFlusso) REFERENCES Flusso (Id) ON DELETE CASCADE;
 
 ALTER TABLE Partecipazione ADD FOREIGN KEY (NomeUtenteStudente) REFERENCES Studente (NomeUtente);
+	-- 		Ale: Idem di quanto scritto sopra per Interesse
 
 ALTER TABLE Partecipazione ADD FOREIGN KEY (IdFlusso) REFERENCES Flusso (Id) ON DELETE CASCADE;
 
@@ -421,18 +428,28 @@ ALTER TABLE Svolgimento ADD FOREIGN KEY (IdProfessore) REFERENCES Professore (Id
 ALTER TABLE Universita ADD FOREIGN KEY (nomeCitta,statoCitta) REFERENCES Citta (Nome,Stato);
 
 ALTER TABLE ResponsabileFlusso ADD FOREIGN KEY (NomeUniversita) REFERENCES Universita (Nome);
+	--	Ale: ci vuole sicuramente ON UPDATE CASCADE nel caso l'universita' cambi leggermente nome
 
 ALTER TABLE Insegnamento ADD FOREIGN KEY (NomeUniversita) REFERENCES Universita (Nome);
+	--	Ale: ci vuole sicuramente ON UPDATE CASCADE nel caso l'universita' cambi leggermente nome
+	--  per l'ON DELETE si potrebbe tenere il RESTRICT di default, così per eliminare l'università
+	--	bisogna prima togliere tutti gli insegnamenti 
 
 ALTER TABLE Insegnamento ADD FOREIGN KEY (NomeArea) REFERENCES Area (Nome);
 
 ALTER TABLE Insegnamento ADD FOREIGN KEY (NomeLingua) REFERENCES Lingua (Sigla);
 
 ALTER TABLE ArgomentoTesi ADD FOREIGN KEY (NomeUniversita) REFERENCES Universita (Nome);
+	--	Ale: ci vuole sicuramente ON UPDATE CASCADE nel caso l'universita' cambi leggermente nome
 
 ALTER TABLE CorsoDiLaurea ADD FOREIGN KEY (nomeUniversita) REFERENCES Universita (Nome);
+	--	Ale: ci vuole sicuramente ON UPDATE CASCADE nel caso l'universita' cambi leggermente nome
 
 ALTER TABLE Coordinatore ADD FOREIGN KEY (NomeUniversita) REFERENCES Universita (Nome);
+	--	Ale: ci vuole sicuramente ON UPDATE CASCADE nel caso l'universita' cambi leggermente nome
+
+-- Ale: per tutte le valutazioni dovremmo mettere l'ON DELETE CASCADE, altrimenti per cancellare 
+--		anche un semplice insegnamento bisogna eliminare tutte le singole valutazioni associate 
 
 ALTER TABLE ValCitta ADD FOREIGN KEY (NomeUtenteStudente) REFERENCES Studente (NomeUtente);
 
@@ -453,4 +470,5 @@ ALTER TABLE ValTesi ADD FOREIGN KEY (IdArgomentoTesi) REFERENCES ArgomentoTesi (
 ALTER TABLE ValUniversita ADD FOREIGN KEY (NomeUtenteStudente) REFERENCES Studente (NomeUtente);
 
 ALTER TABLE ValUniversita ADD FOREIGN KEY (NomeUniversita) REFERENCES Universita (Nome);
+	--	Ale: ci vuole sicuramente ON UPDATE CASCADE nel caso l'universita' cambi leggermente nome
 
