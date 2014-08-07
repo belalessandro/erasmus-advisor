@@ -1,0 +1,5 @@
+# Here a list of the error codes defined by the application
+
+CODE                Meaning
+------------+--------------------------------------------------------
+EA001               Origin and destination universities are equal.

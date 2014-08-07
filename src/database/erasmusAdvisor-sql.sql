@@ -25,12 +25,7 @@
 
 -- ######### INIZIO CODICE #########
 
--- luca: queste 4 righe a me non funzionano
-\c postgres
-drop database "erasmusadvisor";
-create database "erasmusadvisor";
-\c erasmusadvisor;
---\ir 'functions.sql';
+
 
 
 -- Domains
@@ -86,7 +81,7 @@ PRIMARY KEY (IdArgomentoTesi,Area)
 
 CREATE TABLE Documentazione
 (
-IdFlusso INTEGER,
+IdFlusso VARCHAR(20),
 NomeCertificato CHAR(3), 
 LivelloCertificato CHAR(2), -- luca: il livello certificato è solo del tipo B1, C2 etc
 PRIMARY KEY (IdFlusso,NomeCertificato,LivelloCertificato)
@@ -123,7 +118,7 @@ PRIMARY KEY (NomeLingua,Livello)
 
 CREATE TABLE Origine
 (
-IdFlusso INTEGER,
+IdFlusso VARCHAR(20),
 IdCorso INTEGER,
 PRIMARY KEY (IdFlusso,IdCorso)
 );
@@ -146,13 +141,13 @@ PRIMARY KEY (IdArgomentoTesi,IdProfessore)
 CREATE TABLE Riconoscimento
 (
 IdInsegnamento INTEGER,
-IdFlusso INTEGER,
+IdFlusso VARCHAR(20),
 PRIMARY KEY (IdInsegnamento,IdFlusso)
 );
 
 CREATE TABLE Flusso
 (
-Id SERIAL,
+Id VARCHAR(20),
 Destinazione VARCHAR(80) NOT NULL, -- mauro: aggiunta campo dell'universita di destinazione
 RespFlusso VARCHAR(50) NOT NULL,
 PostiDisponibili SMALLINT NOT NULL,
@@ -186,20 +181,22 @@ CREATE TABLE Iscrizione
 (
 IdCorso INTEGER,
 NomeUtenteStudente VARCHAR(50),
+AnnoInizio  DATE    NOT NULL,       -- TODO: DATE o INTERVAL YEAR?
+AnnoFine    DATE    NOT NULL,       -- TODO: DATE o INTERVAL YEAR?
 PRIMARY KEY (IdCorso,NomeUtenteStudente)
 ); -- Ale: mancano attributi!! Anno inizio.. ecc..
 
 CREATE TABLE Interesse
 (
 NomeUtenteStudente VARCHAR(50),
-IdFlusso INTEGER,
+IdFlusso VARCHAR(20),
 PRIMARY KEY (NomeUtenteStudente,IdFlusso)
 );
 
 CREATE TABLE Partecipazione
 (
 NomeUtenteStudente VARCHAR(50),
-IdFlusso INTEGER,
+IdFlusso VARCHAR(20),
 Inizio DATE NOT NULL,
 Fine DATE NOT NULL,
 CHECK (Fine > Inizio), -- luca: aggiunto vincolo
@@ -287,7 +284,7 @@ NomeUniversita VARCHAR(80),
 PRIMARY KEY (NomeUtente)
 );
 
-CREATE TABLE ValCitta
+CREATE TABLE ValutazioneCitta
 (
 NomeUtenteStudente VARCHAR(50),
 NomeCitta VARCHAR(30),
@@ -301,20 +298,20 @@ Commento TEXT DEFAULT NULL,
 PRIMARY KEY (NomeUtenteStudente,NomeCitta,StatoCitta)
 );
 
-CREATE TABLE ValFlusso
+CREATE TABLE ValutazioneFlusso
 (
 NomeUtenteStudente VARCHAR(50),
-IdFlusso INTEGER,
+IdFlusso VARCHAR(20),
 SoddEsperienza VALUTAZIONE,
 SoddAccademica VALUTAZIONE,
 Didattica VALUTAZIONE,
-ValResponsabile VALUTAZIONE,
+ValutazioneResponsabile VALUTAZIONE,
 DataInserimento DATE DEFAULT CURRENT_DATE,
 Commento TEXT DEFAULT NULL,
 PRIMARY KEY (NomeUtenteStudente,IdFlusso)
 );
 
-CREATE TABLE ValInsegnamento
+CREATE TABLE ValutazioneInsegnamento
 (
 NomeUtenteStudente VARCHAR(50),
 IdInsegnamento INTEGER,
@@ -327,7 +324,7 @@ Commento TEXT DEFAULT NULL,
 PRIMARY KEY (NomeUtenteStudente,IdInsegnamento)
 );
 
-CREATE TABLE ValTesi
+CREATE TABLE ValutazioneTesi
 (
 NomeUtenteStudente VARCHAR(50),
 IdArgomentoTesi INTEGER,
@@ -340,7 +337,7 @@ Commento TEXT DEFAULT NULL,
 PRIMARY KEY (NomeUtenteStudente,IdArgomentoTesi)
 );
 
-CREATE TABLE ValUniversita
+CREATE TABLE ValutazioneUniversita
 (
 NomeUtenteStudente VARCHAR(50),
 NomeUniversita VARCHAR(80),
@@ -393,6 +390,7 @@ ALTER TABLE Flusso ADD FOREIGN KEY (RespFlusso) REFERENCES ResponsabileFlusso (N
      --      Quindi per eliminarlo definitivamente e' necessario aver trovato dei responsabili sostituti ai flussi,
      --      oppure averli cancellati singolarmente (NO ACTION)
      
+                                                                                           
 ALTER TABLE Flusso ADD FOREIGN KEY (Destinazione) REFERENCES Universita (Nome) ON DELETE CASCADE;
 	-- ale: anche qui impedirei di eliminare cosi' facilmente tutti i flussi, al massimo permetterei un ON UPDATE CASCADE,
 	--      nel caso l'universita' cambiasse leggermente il nome o la dicitura iniziale
@@ -451,24 +449,24 @@ ALTER TABLE Coordinatore ADD FOREIGN KEY (NomeUniversita) REFERENCES Universita 
 -- Ale: per tutte le valutazioni dovremmo mettere l'ON DELETE CASCADE, altrimenti per cancellare 
 --		anche un semplice insegnamento bisogna eliminare tutte le singole valutazioni associate 
 
-ALTER TABLE ValCitta ADD FOREIGN KEY (NomeUtenteStudente) REFERENCES Studente (NomeUtente);
+ALTER TABLE ValutazioneCitta ADD FOREIGN KEY (NomeUtenteStudente) REFERENCES Studente (NomeUtente);
 
-ALTER TABLE ValCitta ADD FOREIGN KEY (NomeCitta,StatoCitta) REFERENCES Citta (Nome,Stato);
+ALTER TABLE ValutazioneCitta ADD FOREIGN KEY (NomeCitta,StatoCitta) REFERENCES Citta (Nome,Stato);
 
-ALTER TABLE ValFlusso ADD FOREIGN KEY (NomeUtenteStudente) REFERENCES Studente (NomeUtente);
+ALTER TABLE ValutazioneFlusso ADD FOREIGN KEY (NomeUtenteStudente) REFERENCES Studente (NomeUtente);
 
-ALTER TABLE ValFlusso ADD FOREIGN KEY (IdFlusso) REFERENCES Flusso (Id);
+ALTER TABLE ValutazioneFlusso ADD FOREIGN KEY (IdFlusso) REFERENCES Flusso (Id);
 
-ALTER TABLE ValInsegnamento ADD FOREIGN KEY (NomeUtenteStudente) REFERENCES Studente (NomeUtente);
+ALTER TABLE ValutazioneInsegnamento ADD FOREIGN KEY (NomeUtenteStudente) REFERENCES Studente (NomeUtente);
 
-ALTER TABLE ValInsegnamento ADD FOREIGN KEY (IdInsegnamento) REFERENCES Insegnamento (Id);
+ALTER TABLE ValutazioneInsegnamento ADD FOREIGN KEY (IdInsegnamento) REFERENCES Insegnamento (Id);
 
-ALTER TABLE ValTesi ADD FOREIGN KEY (NomeUtenteStudente) REFERENCES Studente (NomeUtente);
+ALTER TABLE ValutazioneTesi ADD FOREIGN KEY (NomeUtenteStudente) REFERENCES Studente (NomeUtente);
 
-ALTER TABLE ValTesi ADD FOREIGN KEY (IdArgomentoTesi) REFERENCES ArgomentoTesi (Id) ON DELETE CASCADE;
+ALTER TABLE ValutazioneTesi ADD FOREIGN KEY (IdArgomentoTesi) REFERENCES ArgomentoTesi (Id) ON DELETE CASCADE;
 
-ALTER TABLE ValUniversita ADD FOREIGN KEY (NomeUtenteStudente) REFERENCES Studente (NomeUtente);
+ALTER TABLE ValutazioneUniversita ADD FOREIGN KEY (NomeUtenteStudente) REFERENCES Studente (NomeUtente);
 
-ALTER TABLE ValUniversita ADD FOREIGN KEY (NomeUniversita) REFERENCES Universita (Nome);
+ALTER TABLE ValutazioneUniversita ADD FOREIGN KEY (NomeUniversita) REFERENCES Universita (Nome);
 	--	Ale: ci vuole sicuramente ON UPDATE CASCADE nel caso l'universita' cambi leggermente nome
 
