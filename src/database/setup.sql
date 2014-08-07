@@ -7,7 +7,7 @@
 drop database "erasmusadvisor";
 create database "erasmusadvisor";
 \c erasmusadvisor;
-\ir 'erasmusAdvisor-sql.sql';   
+\ir 'create.sql';   
 \ir 'triggers.sql';           
 \ir 'fill.sql';               
 
