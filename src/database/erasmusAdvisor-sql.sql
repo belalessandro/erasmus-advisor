@@ -20,6 +20,9 @@
 -- luca:
 -- valutare meglio quando usare VARCHAR e quando usare TEXT
 
+-- ale:
+-- modificare opportunamente DATE con TIMESTAMP WITH TIMEZONE
+
 -- ######### INIZIO CODICE #########
 
 -- luca: queste 4 righe a me non funzionano
@@ -184,7 +187,7 @@ CREATE TABLE Iscrizione
 IdCorso INTEGER,
 NomeUtenteStudente VARCHAR(50),
 PRIMARY KEY (IdCorso,NomeUtenteStudente)
-);
+); -- Ale: mancano attributi!! Anno inizio.. ecc..
 
 CREATE TABLE Interesse
 (
@@ -384,8 +387,15 @@ ALTER TABLE Riconoscimento ADD FOREIGN KEY (IdInsegnamento) REFERENCES Insegname
 ALTER TABLE Riconoscimento ADD FOREIGN KEY (IdFlusso) REFERENCES Flusso (Id) ON DELETE CASCADE;
 
 ALTER TABLE Flusso ADD FOREIGN KEY (RespFlusso) REFERENCES ResponsabileFlusso (NomeUtente) ON DELETE CASCADE
-                                                                                           ON UPDATE CASCADE;
+                                                                                           ON UPDATE CASCADE; 
+     -- ale: inserire un trigger, ad es. se il responsabile ha almeno un flusso a lui assegnato, non viene eliminato ma
+     --      viene semplicemente disabilitato l'account e tutti i flussi a lui associati, per evitare eliminazioni a catena
+     --      Quindi per eliminarlo definitivamente e' necessario aver trovato dei responsabili sostituti ai flussi,
+     --      oppure averli cancellati singolarmente (NO ACTION)
+     
 ALTER TABLE Flusso ADD FOREIGN KEY (Destinazione) REFERENCES Universita (Nome) ON DELETE CASCADE;
+	-- ale: anche qui impedirei di eliminare cosi' facilmente tutti i flussi, al massimo permetterei un ON UPDATE CASCADE,
+	--      nel caso l'universita' cambiasse leggermente il nome o la dicitura iniziale
 
 ALTER TABLE Specializzazione ADD FOREIGN KEY (NomeArea) REFERENCES Area (Nome);
 
@@ -393,7 +403,8 @@ ALTER TABLE Specializzazione ADD FOREIGN KEY (IdCorso) REFERENCES CorsoDiLaurea 
 
 ALTER TABLE Iscrizione ADD FOREIGN KEY (IdCorso) REFERENCES CorsoDiLaurea (Id) ON DELETE CASCADE;
 
-ALTER TABLE Iscrizione ADD FOREIGN KEY (NomeUtenteStudente) REFERENCES Studente (NomeUtente);
+ALTER TABLE Iscrizione ADD FOREIGN KEY (NomeUtenteStudente) REFERENCES Studente (NomeUtente); 
+	-- ale: mettere ON DELETE CASCADE, dato che voglio poter eliminare lo studente anche se e' iscritto a dei corsi
 
 ALTER TABLE Interesse ADD FOREIGN KEY (NomeUtenteStudente) REFERENCES Studente (NomeUtente);
 
