@@ -1,23 +1,6 @@
 -- ######### COMMENTI GENERICI AL CODICE #########
 
 -- luca:
--- abbiamo usato serial come tipo di dato per i contatori. potrebe essere meglio, nel caso
--- bisognasse riferirsi a quei campi come chiave esterna, impostare il loro tipo di dato nelle tabelle
--- esterne ad INTEGER invece che SERIAL.
--- eg: CREATE TABLE Insegnamento (id SERIAL);
---     CREATE TABLE Valutazione (id INTEGER, FOREIGN KEY id REFERENCES Insegnamento(id));
--- pare non cambi niente farlo in un modo o nell'altro, in ogni caso è una cosa da tenere a mente
--- ale: 
--- esatto, sono dei semplici INTEGER con l'AUTO-INCREMENT preimpostato
-
--- luca:
--- sarebbe bene definire un tipo di dato per le email, in modo da fare il controllo di validità
--- ma non capisco come si può fare
--- ale:
--- il prof aveva detto che si puo' usare una reg expr: da inserire interna al create table
--- CONSTRAINT proper_email CHECK (email ~* '^[A-Za-z0-9._%-]+@[A-Za-z0-9.-]+[.][A-Za-z]+$')
-
--- luca:
 -- valutare meglio quando usare VARCHAR e quando usare TEXT
 
 -- ale:
@@ -25,40 +8,31 @@
 
 -- ######### INIZIO CODICE #########
 
-
-
-
 -- Domains
+
 CREATE DOMAIN SEMESTRE AS SMALLINT
 	CHECK(VALUE = 1 OR VALUE = 2 OR VALUE IS NULL);
 
--- luca: corretto, anno accademico non indica l'anno accademico in cui viene erogato (eg 2013/2014)
--- ma l'anno del corso di studi in cui viene erogato (eg quarto anno)
 CREATE DOMAIN ANNOACCADEMICO AS SMALLINT
 	NOT NULL
 	CHECK(VALUE >= 1 AND VALUE <= 6);
 
--- luca: non può essere nulla, il voto numerico è obbligatorio
 CREATE DOMAIN VALUTAZIONE AS SMALLINT
 	NOT NULL
 	CHECK(VALUE >= 1 AND VALUE <= 5);
 
-	
--- mauro: dominio di validazione email
 CREATE DOMAIN EMAIL AS TEXT
     CHECK(
         VALUE ~* '^([A-Za-z0-9._-]+)@([A-Za-z0-9._-]+)[.]([a-z]{2,4})$'
     );
 	
 -- Enums
--- luca: fatta come enum
+
 CREATE TYPE TIPOLAUREA AS ENUM ('triennale', 'magistrale', 'ciclounico');
 
--- luca: lo stato di insegnamento e argomento tesi
 CREATE TYPE STATO AS ENUM ('DISABLED', 'VERIFIED', 'NOT VERIFIED', 'SIGNALLED');
 
-
--- Tables (Created with SQLEditor)
+-- Tables 
 CREATE TABLE Area
 (
 Nome VARCHAR(40),
@@ -83,7 +57,7 @@ CREATE TABLE Documentazione
 (
 IdFlusso VARCHAR(20),
 NomeCertificato CHAR(3), 
-LivelloCertificato CHAR(2), -- luca: il livello certificato è solo del tipo B1, C2 etc
+LivelloCertificato CHAR(2),
 PRIMARY KEY (IdFlusso,NomeCertificato,LivelloCertificato)
 );
 
@@ -112,7 +86,7 @@ PRIMARY KEY (SiglaLingua,NomeCitta,StatoCitta)
 CREATE TABLE CertificatiLinguistici
 (
 NomeLingua CHAR(3),  
-Livello CHAR(2) NOT NULL, -- luca: il livello certificato è solo del tipo B1, C2 etc
+Livello CHAR(2) NOT NULL,
 PRIMARY KEY (NomeLingua,Livello)
 );
 
@@ -148,12 +122,12 @@ PRIMARY KEY (IdInsegnamento,IdFlusso)
 CREATE TABLE Flusso
 (
 Id VARCHAR(20),
-Destinazione VARCHAR(80) NOT NULL, -- mauro: aggiunta campo dell'universita di destinazione
+Destinazione VARCHAR(80) NOT NULL,
 RespFlusso VARCHAR(50) NOT NULL,
 PostiDisponibili SMALLINT NOT NULL,
 Attivo BOOLEAN NOT NULL DEFAULT TRUE,
 DataUltimaModifica DATE,
-Durata SMALLINT NOT NULL CHECK (Durata > 0), -- luca: così dovrebbe andare
+Durata SMALLINT NOT NULL CHECK (Durata > 0),
 PRIMARY KEY (Id)
 );
 
@@ -199,7 +173,7 @@ NomeUtenteStudente VARCHAR(50),
 IdFlusso VARCHAR(20),
 Inizio DATE NOT NULL,
 Fine DATE NOT NULL,
-CHECK (Fine > Inizio), -- luca: aggiunto vincolo
+CHECK (Fine > Inizio),
 PRIMARY KEY (NomeUtenteStudente,IdFlusso)
 );
 
@@ -213,8 +187,8 @@ PRIMARY KEY (IdInsegnamento,IdProfessore)
 CREATE TABLE Universita
 (
 Nome VARCHAR(80),
-Link TEXT DEFAULT NULL, -- luca: messo TEXT come tipo di dato
-PosizioneClassifica SMALLINT DEFAULT NULL CHECK (PosizioneClassifica > 0), -- luca: aggiunto check
+Link TEXT DEFAULT NULL, 
+PosizioneClassifica SMALLINT DEFAULT NULL CHECK (PosizioneClassifica > 0),
 PresenzaAlloggi BOOLEAN DEFAULT FALSE,
 nomeCitta VARCHAR(30),
 statoCitta VARCHAR(30),
@@ -241,7 +215,7 @@ CREATE TABLE Insegnamento
 (
 Id SERIAL,
 Nome VARCHAR(40) NOT NULL,
-Crediti SMALLINT NOT NULL CHECK (Crediti > 0), -- luca: aggiunto check
+Crediti SMALLINT NOT NULL CHECK (Crediti > 0),
 NomeUniversita VARCHAR(80) NOT NULL,
 PeriodoErogazione SEMESTRE NOT NULL,
 Stato STATO NOT NULL,
