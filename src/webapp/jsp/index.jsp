@@ -10,14 +10,11 @@
 	
 	<!-- CSS -->
 	<link href="css/ea-main.css" rel="stylesheet">
-	<link href="css/bootstrap.css" rel="stylesheet">
 	<link href="css/bootstrap.min.css" rel="stylesheet">
 	<link href="fonts/font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet">
-	<link href="fonts/font-awesome-4.1.0/css/font-awesome.css" rel="stylesheet">
 		
 	<!-- Javascript -->
 	<script src="js/bootstrap.min.js"></script>
-	<script src="js/bootstrap.js"></script>
 </head>
 <body>
 	<div class="container">
