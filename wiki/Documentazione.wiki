@@ -37,3 +37,9 @@ Non ancora disponibili.
 
 Testi di riferimento del corso:
 https://moodle.dei.unipd.it/mod/resource/view.php?id=38791
+
+Tool automatico di gestione della qualità del codice (si interfaccia con Maven ed Eclipse):
+http://www.sonarqube.org/
+( http://www.methodsandtools.com/tools/tools.php?sonar )
+
+Tool di testing: http://jmeter.apache.org/index.html
