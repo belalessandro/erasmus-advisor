@@ -444,3 +444,4 @@ ALTER TABLE ValutazioneUniversita ADD FOREIGN KEY (NomeUtenteStudente) REFERENCE
 ALTER TABLE ValutazioneUniversita ADD FOREIGN KEY (NomeUniversita) REFERENCES Universita (Nome);
 	--	Ale: ci vuole sicuramente ON UPDATE CASCADE nel caso l'universita' cambi leggermente nome
 
+
