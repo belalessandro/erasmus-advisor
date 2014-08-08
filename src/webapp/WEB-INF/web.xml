@@ -13,7 +13,7 @@
 
 	<!-- Home Page -->
 	<welcome-file-list>
-		<welcome-file>jsp/index.jsp</welcome-file>
+		<welcome-file>jsp/home.jsp</welcome-file>
 	</welcome-file-list>
     
     <!-- Make available connection's pool to the application web -->

@@ -29,12 +29,20 @@
 		<div class="col-md-9 general_main_border">
 			<h2 align="center">About Erasmus Advisor</h2>
 			<br>
-			This web site has been realized as part of the Databases course at University of Padua by
-			Alessandro Beltramin, Federico Chiariotti, Mauro Piazza, Luca Schiappadini and Nicola Tommasi.
-			
-			We have used third part code:
-			
-			
+			This web application has been realized by
+			<b>Alessandro Beltramin</b>, <b>Federico Chiariotti</b>, <b>Mauro Piazza</b>, 
+			<b>Luca Schiappadini</b> and <b>Nicola Tommasi</b>
+			as part of the Databases course given at the University of Padua.
+			<br><br>
+			In the web site we have included code developed by others, that owns their specific licenses.
+			In particular we have used: <br><br>
+			<nav>
+				<ul>
+					<li>Bootstrap 3.1.1 (<a href="http://getbootstrap.com/">http://getbootstrap.com/</a>);</li>
+					<li>Font Awesome 4.1.0 (<a href="http://fortawesome.github.io/Font-Awesome/">http://fortawesome.github.io/Font-Awesome/</a>);</li>
+					<li>jQuery (<a href="http://jquery.com/">http://jquery.com/</a>).</li>
+				</ul>
+			</nav>
 		</div>	
 	</div>
 	<!-- footer -->
