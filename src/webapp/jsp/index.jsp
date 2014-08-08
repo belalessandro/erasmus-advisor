@@ -22,7 +22,7 @@
 		<jsp:include page="/jsp/include/navbar.jsp"/>
 		<!-- menu -->
 		<jsp:include page="/jsp/include/menu.jsp">
-			<jsp:param name="thisPage" value="index"/>
+			<jsp:param name="pageName" value="index"/>
 		</jsp:include>
 
 		<!-- corpo della pagina -->
