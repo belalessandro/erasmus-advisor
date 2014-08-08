@@ -64,7 +64,8 @@
 				</button>
 			</div>
 			<div class="navbar-collapse collapse">
-				<form class="navbar-form navbar-right" role="form">
+				<!-- action deve puntare alla servlet che gestisce la registrazione -->
+				<form class="navbar-form navbar-right" method="post" action="#">
 					<div class="form-group"><input type="text" placeholder="Email" class="form-control"></div>
 					<div class="form-group"><input type="password" placeholder="Password" class="form-control"></div>
 					<button type="submit" class="btn btn-primary">Sign in</button>
@@ -78,7 +79,7 @@
 			<h1>Erasmus Advisor</h1>
 			<h4>Plan your Erasmus experience and share your evaluations.</h4>
 			<br>
-			<a href="#" class="btn btn-primary">Register</a>
+			<a href="jsp/sign_in.jsp" class="btn btn-primary">Sign in</a>
 			<a href="jsp/index.jsp" class="btn btn-primary">Test to index</a>
 			<br>
 			<br>

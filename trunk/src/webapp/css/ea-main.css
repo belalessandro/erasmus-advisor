@@ -168,5 +168,19 @@ tr:hover {
 	background: #b94a48;
 }
 
+/*sign in page*/
+.sign_in_input_group /* used for input box sizes*/
+{
+	width: 100%;
+}
+.sign_in_input
+{
+	width:150px !important;
+}
+.sign_in_input_small
+{
+	width:60px !important;
+}
+
     
     
