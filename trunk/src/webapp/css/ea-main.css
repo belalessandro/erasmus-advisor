@@ -86,8 +86,8 @@ li.menu
 	background:rgba(255,255,255,0.7); 
 	padding:10px 10px;
 	position: absolute;
-	left: 40%;
-	top: 40%;
+	left: 50%;
+	top: 50%;
 	transform: translate(-50%, -50%);
 	width: 25%;			
 	min-width:250px;

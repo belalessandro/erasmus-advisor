@@ -1,3 +1,9 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+
+<!-- luca:
+	notare che la pagina iniziale si trova in un limbo che non sono riuscito a capire
+	per lei i percorsi dei file sono diversi che per tutte le altre pagine -->
+
 <!DOCTYPE html>
 <html lang="en">
 	<head>
@@ -5,19 +11,19 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 
-		<title>Erasmus Advisor Home Page</title>
+		<title>Erasmus Advisor</title>
 
-		<link href="../css/ea-main.css" rel="stylesheet">
-		<!--Bootstrap -->
-		<link href="../css/bootstrap.min.css" rel="stylesheet">
-		<link href="../css/bootstrap-theme.min.css" rel="stylesheet">
+		<link href="css/ea-main.css" rel="stylesheet">
+		<link href="css/bootstrap.min.css" rel="stylesheet">
+		<link href="css/bootstrap-theme.min.css" rel="stylesheet">
 		
 		<script>
+			// il codice dello script è tutto per lo sfondo rotante
 			var bgimages=new Array()
 			
-			bgimages[0]="../img/home_back_1.jpg"
-			bgimages[1]="../img/home_back_2.jpg"
-			bgimages[2]="../img/home_back_3.jpg"
+			bgimages[0]="img/home_back_1.jpg"
+			bgimages[1]="img/home_back_2.jpg"
+			bgimages[2]="img/home_back_3.jpg"
 			
 			//preload images
 			var pathToImg=new Array()
@@ -45,10 +51,9 @@
 	</head>
 
 	<!-- qui si setta l'immagine di sfondo di default (visualizzata all'inizio o se non va lo script) -->
-	<body class="home_body" background="../img/home_back_3.jpg">
+	<body class="home_body" background="img/home_back_3.jpg">
 		
-	<!-- menù -->
-	
+		<!-- menù superiore -->
 		<div class="navbar navbar-inverse home_nav_style" role="navigation">
 			<div class="navbar-header">
 				<button type="button" class="navbar-toggle"data-toggle="collapse" data-target=".navbar-collapse">
@@ -74,6 +79,7 @@
 			<h4>Plan your Erasmus experience and share your evaluations.</h4>
 			<br>
 			<a href="#" class="btn btn-primary">Register</a>
+			<a href="jsp/index.jsp" class="btn btn-primary">Test to index</a>
 			<br>
 			<br>
 		</div>

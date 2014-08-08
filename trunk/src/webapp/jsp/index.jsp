@@ -1,6 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
+<!-- questa è la pagina che appare quando si è completato il login
+	la home è solo l'interfaccia verso l'esterno -->
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,12 +12,12 @@
 	<meta charset="utf-8">
 	
 	<!-- CSS -->
-	<link href="css/ea-main.css" rel="stylesheet">
-	<link href="css/bootstrap.min.css" rel="stylesheet">
-	<link href="fonts/font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet">
+	<link href="../css/ea-main.css" rel="stylesheet">
+	<link href="../css/bootstrap.min.css" rel="stylesheet">
+	<link href="../fonts/font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet">
 		
 	<!-- Javascript -->
-	<script src="js/bootstrap.min.js"></script>
+	<script src="../js/bootstrap.min.js"></script>
 </head>
 <body>
 	<div class="container">
