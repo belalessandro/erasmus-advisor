@@ -11,6 +11,7 @@
         an Erasmus trip.
     </description>
 
+	<!-- Home Page -->
 	<welcome-file-list>
 		<welcome-file>jsp/index.jsp</welcome-file>
 	</welcome-file-list>
@@ -22,7 +23,7 @@
         <res-type>javax.Sql.DataSource</res-type>
         <res-auth>Container</res-auth>
     </resource-ref>
-
+    
 </web-app>
 
 <!--
@@ -58,12 +59,6 @@
 	    <auth-constraint />
 	</security-constraint>
 	
-	###### Used with jsp
-	
-	<welcome-file-list>
-		<welcome-file>jsp/index.jsp</welcome-file>
-	</welcome-file-list>
-	
 	###### Used with servlets 
 	  
 	## Declaration
@@ -81,6 +76,5 @@
 		<servlet-name>HelloWorldPost</servlet-name>
 		<url-pattern>/ciao</url-pattern>
 	</servlet-mapping>
-	
 --> 
 		
