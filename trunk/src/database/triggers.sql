@@ -53,4 +53,284 @@ CREATE TRIGGER CheckingFlowCourses BEFORE UPDATE OR INSERT
     
     
     
+
+--Checking that a student does not have multiple simultaneous subscriptions
+CREATE FUNCTION CheckSubscriptionOverlap() RETURNS TRIGGER AS $$
+    BEGIN
+	    PERFORM I.nomeUtenteStudente
+	            FROM iscrizione AS I
+	            WHERE NEW.AnnoInizio<I.AnnoFine OR NEW.AnnoInizio<I.AnnoFine AND NEW.nomeUtenteStudente=I.nomeUtenteStudente;
+
+	    IF FOUND THEN
+	       RAISE EXCEPTION 'EA ERROR: Overlap in program subscription.' USING ERRCODE = 'EA003'; 
+	    END IF;
+	    
+	    RETURN NEW;
+    END;
+$$ LANGUAGE PLPGSQL;
+
+
+CREATE TRIGGER CheckingSubscriptionOverlap BEFORE UPDATE OR INSERT 
+    ON iscrizione
+    FOR EACH ROW 
+    EXECUTE PROCEDURE CheckSubscriptionOverlap();
     
+    
+    
+    
+    
+    
+    
+--Checking that a student does not have multiple simultaneous Erasmus programs
+CREATE FUNCTION CheckErasmusOverlap() RETURNS TRIGGER AS $$
+    BEGIN
+	    PERFORM P.NomeUtenteStudente
+	            FROM partecipazione AS P
+	            WHERE NEW.Inizio<P.Fine OR P.Inizio<NEW.Fine AND NEW.nomeUtenteStudente=P.NomeUtenteStudente;
+	    RAISE NOTICE 'YO mother fucker!';
+	    
+	    IF FOUND THEN
+	       RAISE EXCEPTION 'EA ERROR: Overlap in Erasmus subscription.' USING ERRCODE = 'EA004'; 
+	    END IF;
+	    
+	    RETURN NEW;
+    END;
+$$ LANGUAGE PLPGSQL;
+
+CREATE TRIGGER CheckingErasmusOverlap BEFORE UPDATE OR INSERT 
+    ON partecipazione
+    FOR EACH ROW 
+    EXECUTE PROCEDURE CheckErasmusOverlap();
+    
+    
+    
+    
+    
+    
+--Checking that a student does not evaluate Erasmus flows he did not participate in
+CREATE FUNCTION CheckUniEval() RETURNS TRIGGER AS $$
+    BEGIN
+	    PERFORM P.NomeUtenteStudente
+	            FROM partecipazione AS P, Flusso as F
+	            WHERE NEW.idFlusso=P.idFlusso, P.idFlusso=F.idFlusso, F.Destinazione=NEW.NomeUniversita, 
+	            	NEW.NomeUtenteStudente=P.NomeUtenteStudente;
+	    RAISE NOTICE 'YO mother fucker!';
+	    
+	    IF NOT FOUND THEN
+	       RAISE EXCEPTION 'EA ERROR: Invalid evaluation.' USING ERRCODE = 'EA005'; 
+	    END IF;
+	    
+	    RETURN NEW;
+    END;
+$$ LANGUAGE PLPGSQL;
+
+
+CREATE TRIGGER CheckingUniEval BEFORE UPDATE OR INSERT 
+    ON ValutazioneUniversita
+    FOR EACH ROW 
+    EXECUTE PROCEDURE CheckUniEval();
+    
+    
+    
+    
+    
+    
+--Checking that a student does not evaluate Erasmus flows he did not participate in
+CREATE FUNCTION CheckUniEval() RETURNS TRIGGER AS $$
+    BEGIN
+	    PERFORM P.nomeUtenteStudente
+	            FROM partecipazione AS P
+	            WHERE P.idFlusso=NEW.IdFlusso, NEW.NomeUtenteStudente=P.NomeUtenteStudente;
+	    RAISE NOTICE 'YO mother fucker!';
+	    
+	    IF NOT FOUND THEN
+	       RAISE EXCEPTION 'EA ERROR: Invalid evaluation.' USING ERRCODE = 'EA005'; 
+	    END IF;
+	    
+	    RETURN NEW;
+    END;
+$$ LANGUAGE PLPGSQL;
+
+
+CREATE TRIGGER CheckingFlowEval BEFORE UPDATE OR INSERT 
+    ON ValutazioneFlusso
+    FOR EACH ROW 
+    EXECUTE PROCEDURE CheckFlowEval();
+    
+    
+    
+    
+    
+    
+    
+--Checking that a student does not evaluate Erasmus flows he did not participate in
+CREATE FUNCTION CheckCityEval() RETURNS TRIGGER AS $$
+    BEGIN
+	    PERFORM P.nomeUtenteStudente
+	            FROM partecipazione AS P, Flusso as F, Universita as U
+	            WHERE NEW.idFlusso=P.idFlusso, P.idFlusso=F.idFlusso, F.Destinazione=U.NomeUniversita, 
+	            	NEW.NomeUtenteStudente=P.NomeUtenteStudente, U.nomeCitta=NEW.nomeCitta;
+	    RAISE NOTICE 'YO mother fucker!';
+	    
+	    IF NOT FOUND THEN
+	       RAISE EXCEPTION 'EA ERROR: Invalid evaluation.' USING ERRCODE = 'EA005'; 
+	    END IF;
+	    
+	    RETURN NEW;
+    END;
+$$ LANGUAGE PLPGSQL;
+
+
+CREATE TRIGGER CheckingCityEval BEFORE UPDATE OR INSERT 
+    ON ValutazioneCitta
+    FOR EACH ROW 
+    EXECUTE PROCEDURE CheckCityEval();
+    
+    
+    
+    
+    
+    
+--Checking that a student does not evaluate Erasmus flows he did not participate in
+CREATE FUNCTION CheckExamEval() RETURNS TRIGGER AS $$
+    BEGIN
+	    PERFORM P.nomeUtenteStudente
+	            FROM partecipazione AS P, Flusso as F, Insegnamento as I
+	            WHERE NEW.idFlusso=P.idFlusso, P.idFlusso=F.idFlusso, F.Destinazione=I.NomeUniversita, 
+	            	NEW.NomeUtenteStudente=P.NomeUtenteStudente, NEW.IdInsegnamento=I.Id;
+	    RAISE NOTICE 'YO mother fucker!';
+	    
+	    IF NOT FOUND THEN
+	       RAISE EXCEPTION 'EA ERROR: Invalid evaluation.' USING ERRCODE = 'EA005'; 
+	    END IF;
+	    
+	    RETURN NEW;
+    END;
+$$ LANGUAGE PLPGSQL;
+
+
+CREATE TRIGGER CheckingExamEval BEFORE UPDATE OR INSERT 
+    ON ValutazioneInsegnamento
+    FOR EACH ROW 
+    EXECUTE PROCEDURE CheckExamEval();
+    
+    
+    
+    
+    
+    
+--Checking that a student does not evaluate Erasmus flows he did not participate in
+CREATE FUNCTION CheckThesisEval() RETURNS TRIGGER AS $$
+    BEGIN
+	    PERFORM P.nomeUtenteStudente
+	            FROM partecipazione AS P, Flusso as F, ArgomentoTesi as T
+	            WHERE NEW.idFlusso=P.idFlusso, P.idFlusso=F.idFlusso, F.Destinazione=T.NomeUniversita, 
+	            	NEW.NomeUtenteStudente=P.NomeUtenteStudente, NEW.IdArgomentoTesi=T.Id
+	    RAISE NOTICE 'YO mother fucker!';
+	    
+	    IF NOT FOUND THEN
+	       RAISE EXCEPTION 'EA ERROR: Invalid evaluation.' USING ERRCODE = 'EA005'; 
+	    END IF;
+	    
+	    RETURN NEW;
+    END;
+$$ LANGUAGE PLPGSQL;
+
+
+CREATE TRIGGER CheckingThesisEval BEFORE UPDATE OR INSERT 
+    ON ValutazioneTesi
+    FOR EACH ROW 
+    EXECUTE PROCEDURE CheckThesisEval();
+    
+    
+    
+    
+    
+    
+--Checking that a new user does not have the same username as an existing user
+CREATE FUNCTION CheckCoordinator() RETURNS TRIGGER AS $$
+    BEGIN
+	    PERFORM C.NomeUtente
+	            FROM Coordinatore AS C
+	            WHERE NEW.NomeUtente=C.NomeUtente;
+	    RAISE NOTICE 'YO mother fucker!';
+	    
+	    IF FOUND THEN
+	       RAISE EXCEPTION 'EA ERROR: Username already present.' USING ERRCODE = 'EA006'; 
+	    END IF;
+	    
+	    RETURN NEW;
+    END;
+$$ LANGUAGE PLPGSQL;
+
+
+CREATE TRIGGER CheckingNewStudentC BEFORE UPDATE OR INSERT 
+    ON Studente
+    FOR EACH ROW 
+    EXECUTE PROCEDURE CheckCoordinator();
+    
+CREATE TRIGGER CheckingNewRespC BEFORE UPDATE OR INSERT 
+    ON ResponsabileFlusso
+    FOR EACH ROW 
+    EXECUTE PROCEDURE CheckCoordinator();
+    
+    
+    
+    
+    
+--Checking that a new user does not have the same username as an existing user
+CREATE FUNCTION CheckResp() RETURNS TRIGGER AS $$
+    BEGIN
+	    PERFORM R.NomeUtente
+	            FROM ResponsabileFlusso AS R
+	            WHERE NEW.NomeUtente=R.NomeUtente;
+	    RAISE NOTICE 'YO mother fucker!';
+	    
+	    IF FOUND THEN
+	       RAISE EXCEPTION 'EA ERROR: Username already present.' USING ERRCODE = 'EA006'; 
+	    END IF;
+	    
+	    RETURN NEW;
+    END;
+$$ LANGUAGE PLPGSQL;
+
+
+CREATE TRIGGER CheckingNewStudentR BEFORE UPDATE OR INSERT 
+    ON Studente
+    FOR EACH ROW 
+    EXECUTE PROCEDURE CheckResp();
+    
+CREATE TRIGGER CheckingNewCoordR BEFORE UPDATE OR INSERT 
+    ON Coordinatore
+    FOR EACH ROW 
+    EXECUTE PROCEDURE CheckResp();    
+    
+ 
+
+ 
+ --Checking that a new user does not have the same username as an existing user
+CREATE FUNCTION CheckStudent() RETURNS TRIGGER AS $$
+    BEGIN
+	    PERFORM S.NomeUtente
+	            FROM Studente AS S
+	            WHERE NEW.NomeUtente=S.NomeUtente
+	    RAISE NOTICE 'YO mother fucker!';
+	    
+	    IF FOUND THEN
+	       RAISE EXCEPTION 'EA ERROR: Username already present.' USING ERRCODE = 'EA006'; 
+	    END IF;
+	    
+	    RETURN NEW;
+    END;
+$$ LANGUAGE PLPGSQL;
+
+
+CREATE TRIGGER CheckingNewRespS BEFORE UPDATE OR INSERT 
+    ON ResponsabileFlusso
+    FOR EACH ROW 
+    EXECUTE PROCEDURE CheckStudent();
+    
+CREATE TRIGGER CheckingNewCoordS BEFORE UPDATE OR INSERT 
+    ON Coordinatore
+    FOR EACH ROW 
+    EXECUTE PROCEDURE CheckStudent();
