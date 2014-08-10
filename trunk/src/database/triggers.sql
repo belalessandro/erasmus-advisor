@@ -114,7 +114,7 @@ CREATE FUNCTION CheckUniEval() RETURNS TRIGGER AS $$
     BEGIN
 	    PERFORM P.NomeUtenteStudente
 	            FROM partecipazione AS P, Flusso as F
-	            WHERE NEW.idFlusso=P.idFlusso, P.idFlusso=F.idFlusso, F.Destinazione=NEW.NomeUniversita, 
+	            WHERE NEW.idFlusso=P.idFlusso AND P.idFlusso=F.idFlusso AND F.Destinazione=NEW.NomeUniversita AND 
 	            	NEW.NomeUtenteStudente=P.NomeUtenteStudente;
 	    RAISE NOTICE 'YO mother fucker!';
 	    
@@ -138,11 +138,11 @@ CREATE TRIGGER CheckingUniEval BEFORE UPDATE OR INSERT
     
     
 --Checking that a student does not evaluate Erasmus flows he did not participate in
-CREATE FUNCTION CheckUniEval() RETURNS TRIGGER AS $$
+CREATE FUNCTION CheckFlowEval() RETURNS TRIGGER AS $$
     BEGIN
 	    PERFORM P.nomeUtenteStudente
 	            FROM partecipazione AS P
-	            WHERE P.idFlusso=NEW.IdFlusso, NEW.NomeUtenteStudente=P.NomeUtenteStudente;
+	            WHERE P.idFlusso=NEW.IdFlusso AND NEW.NomeUtenteStudente=P.NomeUtenteStudente;
 	    RAISE NOTICE 'YO mother fucker!';
 	    
 	    IF NOT FOUND THEN
@@ -170,8 +170,8 @@ CREATE FUNCTION CheckCityEval() RETURNS TRIGGER AS $$
     BEGIN
 	    PERFORM P.nomeUtenteStudente
 	            FROM partecipazione AS P, Flusso as F, Universita as U
-	            WHERE NEW.idFlusso=P.idFlusso, P.idFlusso=F.idFlusso, F.Destinazione=U.NomeUniversita, 
-	            	NEW.NomeUtenteStudente=P.NomeUtenteStudente, U.nomeCitta=NEW.nomeCitta;
+	            WHERE NEW.idFlusso=P.idFlusso AND P.idFlusso=F.idFlusso AND F.Destinazione=U.NomeUniversita AND 
+	            	NEW.NomeUtenteStudente=P.NomeUtenteStudente AND U.nomeCitta=NEW.nomeCitta;
 	    RAISE NOTICE 'YO mother fucker!';
 	    
 	    IF NOT FOUND THEN
@@ -198,8 +198,8 @@ CREATE FUNCTION CheckExamEval() RETURNS TRIGGER AS $$
     BEGIN
 	    PERFORM P.nomeUtenteStudente
 	            FROM partecipazione AS P, Flusso as F, Insegnamento as I
-	            WHERE NEW.idFlusso=P.idFlusso, P.idFlusso=F.idFlusso, F.Destinazione=I.NomeUniversita, 
-	            	NEW.NomeUtenteStudente=P.NomeUtenteStudente, NEW.IdInsegnamento=I.Id;
+	            WHERE NEW.idFlusso=P.idFlusso AND P.idFlusso=F.idFlusso AND F.Destinazione=I.NomeUniversita AND 
+	            	NEW.NomeUtenteStudente=P.NomeUtenteStudente AND NEW.IdInsegnamento=I.Id;
 	    RAISE NOTICE 'YO mother fucker!';
 	    
 	    IF NOT FOUND THEN
@@ -226,8 +226,8 @@ CREATE FUNCTION CheckThesisEval() RETURNS TRIGGER AS $$
     BEGIN
 	    PERFORM P.nomeUtenteStudente
 	            FROM partecipazione AS P, Flusso as F, ArgomentoTesi as T
-	            WHERE NEW.idFlusso=P.idFlusso, P.idFlusso=F.idFlusso, F.Destinazione=T.NomeUniversita, 
-	            	NEW.NomeUtenteStudente=P.NomeUtenteStudente, NEW.IdArgomentoTesi=T.Id
+	            WHERE NEW.idFlusso=P.idFlusso AND P.idFlusso=F.idFlusso AND F.Destinazione=T.NomeUniversita AND 
+	            	NEW.NomeUtenteStudente=P.NomeUtenteStudente AND NEW.IdArgomentoTesi=T.Id
 	    RAISE NOTICE 'YO mother fucker!';
 	    
 	    IF NOT FOUND THEN
