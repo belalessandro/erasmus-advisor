@@ -158,7 +158,7 @@ NomeUtenteStudente VARCHAR(50),
 AnnoInizio  DATE    NOT NULL,       -- TODO: DATE o INTERVAL YEAR?
 AnnoFine    DATE    NOT NULL,       -- TODO: DATE o INTERVAL YEAR?
 PRIMARY KEY (IdCorso,NomeUtenteStudente)
-); -- Ale: mancano attributi!! Anno inizio.. ecc..
+);
 
 CREATE TABLE Interesse
 (
@@ -222,7 +222,8 @@ Stato STATO NOT NULL,
 AnnoCorso ANNOACCADEMICO NOT NULL,
 NomeArea VARCHAR(40) NOT NULL,
 NomeLingua CHAR(3),
-PRIMARY KEY (Id)
+PRIMARY KEY (Id),
+UNIQUE (Nome, Crediti, NomeUniversita)  -- luca: aggiunto
 );
 
 CREATE TABLE ArgomentoTesi
@@ -233,7 +234,8 @@ NomeUniversita VARCHAR(80),
 Triennale BOOLEAN NOT NULL,
 Magistrale BOOLEAN NOT NULL,
 Stato STATO NOT NULL,
-PRIMARY KEY (Id)
+PRIMARY KEY (Id),
+UNIQUE (Nome, NomeUniversita) -- luca: aggiunto
 );
 
 CREATE TABLE CorsoDiLaurea
@@ -241,8 +243,9 @@ CREATE TABLE CorsoDiLaurea
 Id SERIAL,
 Nome VARCHAR(40) NOT NULL,
 Livello TIPOLAUREA,
-nomeUniversita VARCHAR(80),
-PRIMARY KEY (Id)
+NomeUniversita VARCHAR(80),
+PRIMARY KEY (Id),
+UNIQUE (Nome, Livello, NomeUniversita)  -- luca: aggiunto
 );
 
 CREATE TABLE Coordinatore
@@ -414,7 +417,7 @@ ALTER TABLE Insegnamento ADD FOREIGN KEY (NomeLingua) REFERENCES Lingua (Sigla);
 ALTER TABLE ArgomentoTesi ADD FOREIGN KEY (NomeUniversita) REFERENCES Universita (Nome);
 	--	Ale: ci vuole sicuramente ON UPDATE CASCADE nel caso l'universita' cambi leggermente nome
 
-ALTER TABLE CorsoDiLaurea ADD FOREIGN KEY (nomeUniversita) REFERENCES Universita (Nome);
+ALTER TABLE CorsoDiLaurea ADD FOREIGN KEY (NomeUniversita) REFERENCES Universita (Nome);
 	--	Ale: ci vuole sicuramente ON UPDATE CASCADE nel caso l'universita' cambi leggermente nome
 
 ALTER TABLE Coordinatore ADD FOREIGN KEY (NomeUniversita) REFERENCES Universita (Nome);
