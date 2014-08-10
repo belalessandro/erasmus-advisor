@@ -334,3 +334,89 @@ CREATE TRIGGER CheckingNewCoordS BEFORE UPDATE OR INSERT
     ON Coordinatore
     FOR EACH ROW 
     EXECUTE PROCEDURE CheckStudent();
+    
+    
+--Checking that a new user does not have the same email address as an existing user
+CREATE FUNCTION CheckCoordinatorEmail() RETURNS TRIGGER AS $$
+    BEGIN
+	    PERFORM C.NomeUtente
+	            FROM Coordinatore AS C
+	            WHERE NEW.Email=C.Email;
+	    
+	    IF FOUND THEN
+	       RAISE EXCEPTION 'EA ERROR: Email already present.' USING ERRCODE = 'EA007'; 
+	    END IF;
+	    
+	    RETURN NEW;
+    END;
+$$ LANGUAGE PLPGSQL;
+
+
+CREATE TRIGGER CheckingEmailStudentC BEFORE UPDATE OR INSERT 
+    ON Studente
+    FOR EACH ROW 
+    EXECUTE PROCEDURE CheckCoordinatorEmail();
+    
+CREATE TRIGGER CheckingEmailRespC BEFORE UPDATE OR INSERT 
+    ON ResponsabileFlusso
+    FOR EACH ROW 
+    EXECUTE PROCEDURE CheckCoordinatorEmail();
+    
+    
+    
+    
+    
+--Checking that a new user does not have the same email address as an existing user
+CREATE FUNCTION CheckRespEmail() RETURNS TRIGGER AS $$
+    BEGIN
+	    PERFORM R.NomeUtente
+	            FROM ResponsabileFlusso AS R
+	            WHERE NEW.Email=R.Email;
+	    
+	    IF FOUND THEN
+	       RAISE EXCEPTION 'EA ERROR: Email already present.' USING ERRCODE = 'EA007'; 
+	    END IF;
+	    
+	    RETURN NEW;
+    END;
+$$ LANGUAGE PLPGSQL;
+
+
+CREATE TRIGGER CheckingEmailStudentR BEFORE UPDATE OR INSERT 
+    ON Studente
+    FOR EACH ROW 
+    EXECUTE PROCEDURE CheckRespEmail();
+    
+CREATE TRIGGER CheckingEmailCoordR BEFORE UPDATE OR INSERT 
+    ON Coordinatore
+    FOR EACH ROW 
+    EXECUTE PROCEDURE CheckRespEmail();    
+    
+ 
+
+ 
+ --Checking that a new user does not have the same email address as an existing user
+CREATE FUNCTION CheckStudentEmail() RETURNS TRIGGER AS $$
+    BEGIN
+	    PERFORM S.Email
+	            FROM Studente AS S
+	            WHERE NEW.Email=S.Email
+	    
+	    IF FOUND THEN
+	       RAISE EXCEPTION 'EA ERROR: Email already present.' USING ERRCODE = 'EA007'; 
+	    END IF;
+	    
+	    RETURN NEW;
+    END;
+$$ LANGUAGE PLPGSQL;
+
+
+CREATE TRIGGER CheckingEmailRespS BEFORE UPDATE OR INSERT 
+    ON ResponsabileFlusso
+    FOR EACH ROW 
+    EXECUTE PROCEDURE CheckStudentEmail();
+    
+CREATE TRIGGER CheckingEmailCoordS BEFORE UPDATE OR INSERT 
+    ON Coordinatore
+    FOR EACH ROW 
+    EXECUTE PROCEDURE CheckStudentEmail();
