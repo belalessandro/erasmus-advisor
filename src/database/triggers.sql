@@ -1,6 +1,8 @@
--- Author: Mauro Piazza
+-- Author: Mauro Piazza, Fede Chiariotti
 --
 -- Description: File containing all functions for managing database's domains and triggers
+
+--Possibile che manchi il trigger per i professori (un prof deve avere almeno un insegnamento o tesi per restare nel db)
 
 -- Checking foreach flow that the departure university is not the same as the arriving one
 CREATE FUNCTION CheckFlowOriginAndDestination() RETURNS TRIGGER AS $$
