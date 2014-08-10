@@ -13,6 +13,5 @@ CREATE INDEX Insegnamento_NomeArea_index ON Insegnamento (NomeArea);
 
 -- Index for Operation 4: Ricerca di un Argomento di Tesi
 CREATE INDEX ArgomentoTesi_NomeUniversita_index ON ArgomentoTesi (NomeUniversita);
-CREATE INDEX ArgomentoTesi_NomeArea_index ON ArgomentoTesi (NomeArea);
 
 -- Indexes for other queries: .......Arriving soon......
