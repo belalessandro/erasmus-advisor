@@ -1,0 +1,74 @@
+Op.1 - Creazione Account
+Inserimento delle informazioni riguardanti un nuovo account.
+
+BEGIN TRANSACTION;
+INSERT INTO Studente (NomeUtente, Email, DataRegistrazione, Password, Salt, UltimoAccesso, Attivo)
+	VALUES('name', 'name@domain.com', DEFAULT, 'pass', '9AF7CCD001', CURRENT_DATE , TRUE);
+INSERT INTO Iscrizione (IdCorso, NomeUtenteStudente, AnnoInizio, AnnoFine)
+	VALUES(7854, 'name', '2012-09-01', '2015-06-30');
+COMMIT;
+
+Op.2 - Ricerca di un Flusso
+Ricerca di tutti i Flussi che originano da un determinato Corso di Laurea.
+Il join con ResponsabileFlusso serve per visualizzare il suo nome e cognome.
+IdCorso è il parametro fornito per fare la ricerca
+
+SELECT F.Id, F.Destinazione, F.PostiDisponibili, F.Attivo, F.DataUltimaModifica, F.Durata,
+		R.Nome, R.Cognome
+	FROM Flusso AS F INNER JOIN Origine AS O ON F.Id = O.IdFlusso
+		INNER JOIN ResponsabileFlusso AS R ON F.RespFlusso = R.NomeUtente
+	WHERE O.IdCorso = 648;
+
+Op.3 - Ricerca di un Insegnamento
+Ricerca di un Insegnamento in base all'Area e all'Università in cui viene erogato.
+Area e NomeUniversita sono forniti come parametri.
+
+SELECT I.Nome, I.Crediti, I.PeriodoErogazione, I.Stato, I.AnnoDiCorso, L.Nome, P.Nome, P.Cognome
+	FROM Insegnamento AS I INNER JOIN Universita AS U ON I.NomeUniversita = U.Nome
+		INNER JOIN Lingua AS L ON I.NomeLingua = L.Sigla
+		INNER JOIN Svolgimento AS S ON I.Id = S.IdInsegnamento
+		INNER JOIN Professore AS P ON S.IdProfessore = P.Id
+	WHERE I.Area = 'Law' AND U.Nome = 'London University';
+
+Op.4 - Ricerca di un Argomento di Tesi
+Ricerca di un Argomento di Tesi in base all'Area e all'Università che lo propone.
+Area e NomeUniversita sono forniti come parametri.
+
+SELECT A.Nome, A.Triennale, A.Magistrale, A.Stato, L.Nome, P.Nome, P.Cognome
+	FROM ArgomentoTesi AS A INNER JOIN Universita AS U ON A.NomeUniversita = U.Nome
+		INNER JOIN Estensione AS E ON A.Id = E.IdArgomentoTesi
+		INNER JOIN LinguaTesi AS T ON A.Id = T.IdArgomentoTesi
+		INNER JOIN Lingua AS L ON T.SiglaLingua = L.Sigla
+		INNER JOIN Gestione AS G ON A.Id = G.IdArgomentoTesi
+		INNER JOIN Professore AS P ON S.IdProfessore = G.Id
+	WHERE I.Area = 'Law' AND U.Nome = 'London University';
+
+Op.5 - Inserimento di un Flusso
+Inserimento nel database di un nuovo Flusso.
+
+BEGIN TRANSACTION;
+INSERT INTO Flusso(ID, Destinazione, RespFlusso, PostiDisponibili, Attivo, DataUltimaModifica, Durata)
+	VALUES('IT79879', 'London University', 'Prezzemolina', 5, TRUE, CURRENT_DATE, 6);
+INSERT INTO Origine(IdFlusso, IdCorso) VALUES 
+		('IT79879', 666),
+		('IT79879', 1020),
+		('IT79879', 12367);
+COMMIT;
+
+Op.6 - Inserimento di un Insegnamento
+Inserimento nel database di un nuovo Insegnamento.
+
+Op.7 - Visualizzazione di una Città
+Visualizzazione di una Città e delle valutazioni ad essa collegate.
+
+Op. 8 - Visualizzazione di una Università
+Visualizzazione di una Università e delle valutazioni ad essa collegate.
+
+Op.9 - Visualizzazione di un Flusso
+Visualizzazione di un Flusso e delle valutazioni ad esso collegate.
+
+Op.10 - Visualizzazione di un Insegnamento
+Visualizzazione di un Insegnamento e delle valutazioni ad esso collegate.
+
+Op.11 - Visualizzazione di un Argomento di Tesi
+Visualizzazione di un Argomento di Tesi e delle valutazioni ad esso collegate.

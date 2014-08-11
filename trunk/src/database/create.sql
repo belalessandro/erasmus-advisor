@@ -22,6 +22,7 @@ CREATE DOMAIN VALUTAZIONE AS SMALLINT
 	CHECK(VALUE >= 1 AND VALUE <= 5);
 
 CREATE DOMAIN EMAIL AS TEXT
+	NOT NULL
     CHECK(
         VALUE ~* '^([A-Za-z0-9._-]+)@([A-Za-z0-9._-]+)[.]([a-z]{2,4})$'
     );
@@ -45,7 +46,7 @@ CREATE TYPE STATO AS ENUM ('DISABLED', 'VERIFIED', 'NOT VERIFIED', 'SIGNALLED');
 
 CREATE TABLE Area
 (
-Nome VARCHAR(40),
+Nome VARCHAR(60),
 PRIMARY KEY (Nome)
 );
 
@@ -59,7 +60,7 @@ PRIMARY KEY (Nome,Stato)
 CREATE TABLE Estensione
 (
 IdArgomentoTesi INTEGER,
-Area VARCHAR(40),
+Area VARCHAR(60),
 PRIMARY KEY (IdArgomentoTesi,Area)
 );
 
@@ -133,7 +134,7 @@ CREATE TABLE Flusso
 (
 Id VARCHAR(20),
 Destinazione VARCHAR(80) NOT NULL,
-RespFlusso VARCHAR(50) NOT NULL,
+RespFlusso USERNAME NOT NULL,
 PostiDisponibili SMALLINT NOT NULL,
 Attivo BOOLEAN NOT NULL DEFAULT TRUE,
 DataUltimaModifica DATE,
@@ -143,15 +144,15 @@ PRIMARY KEY (Id)
 
 CREATE TABLE Specializzazione
 (
-NomeArea VARCHAR(40),
+NomeArea VARCHAR(60),
 IdCorso INTEGER,
 PRIMARY KEY (NomeArea,IdCorso)
 );
 
 CREATE TABLE Studente
 (
-NomeUtente VARCHAR(50),
-Email EMAIL NOT NULL,
+NomeUtente USERNAME,
+Email EMAIL,
 DataRegistrazione DATE DEFAULT CURRENT_DATE,
 Password VARCHAR(128) NOT NULL,
 Salt VARCHAR(128) NOT NULL,
@@ -164,7 +165,7 @@ UNIQUE (Email)
 CREATE TABLE Iscrizione
 (
 IdCorso INTEGER,
-NomeUtenteStudente VARCHAR(50),
+NomeUtenteStudente USERNAME,
 AnnoInizio  DATE    NOT NULL,       -- TODO: DATE o INTERVAL YEAR?
 AnnoFine    DATE    NOT NULL,       -- TODO: DATE o INTERVAL YEAR?
 PRIMARY KEY (IdCorso,NomeUtenteStudente)
@@ -172,14 +173,14 @@ PRIMARY KEY (IdCorso,NomeUtenteStudente)
 
 CREATE TABLE Interesse
 (
-NomeUtenteStudente VARCHAR(50),
+NomeUtenteStudente USERNAME,
 IdFlusso VARCHAR(20),
 PRIMARY KEY (NomeUtenteStudente,IdFlusso)
 );
 
 CREATE TABLE Partecipazione
 (
-NomeUtenteStudente VARCHAR(50),
+NomeUtenteStudente USERNAME,
 IdFlusso VARCHAR(20),
 Inizio DATE NOT NULL,
 Fine DATE NOT NULL,
@@ -207,17 +208,18 @@ PRIMARY KEY (Nome)
 
 CREATE TABLE ResponsabileFlusso
 (
-NomeUtente VARCHAR(50),
+NomeUtente USERNAME,
 Nome VARCHAR(30) NOT NULL,
 Cognome VARCHAR(40) NOT NULL,
-Email VARCHAR(50) NOT NULL,
+Email EMAIL,
 DataRegistrazione DATE NOT NULL DEFAULT CURRENT_DATE,
 Password VARCHAR(128) NOT NULL,
 Salt VARCHAR(128) NOT NULL,
 UltimoAccesso DATE DEFAULT NULL,
 Attivo BOOLEAN NOT NULL DEFAULT FALSE,
 NomeUniversita VARCHAR(80) NOT NULL,
-PRIMARY KEY (NomeUtente)
+PRIMARY KEY (NomeUtente),
+UNIQUE(Email)
 );
 
 CREATE TABLE Insegnamento
@@ -229,7 +231,7 @@ NomeUniversita VARCHAR(80) NOT NULL,
 PeriodoErogazione SEMESTRE NOT NULL,
 Stato STATO NOT NULL,
 AnnoCorso ANNOACCADEMICO NOT NULL,
-NomeArea VARCHAR(40) NOT NULL,
+NomeArea VARCHAR(60) NOT NULL,
 NomeLingua CHAR(3),
 PRIMARY KEY (Id),
 UNIQUE (Nome, Crediti, NomeUniversita)  -- luca: aggiunto
@@ -259,20 +261,21 @@ UNIQUE (Nome, Livello, NomeUniversita)  -- luca: aggiunto
 
 CREATE TABLE Coordinatore
 (
-NomeUtente VARCHAR(50),
-Email VARCHAR(50) NOT NULL,
+NomeUtente USERNAME,
+Email EMAIL,
 DataRegistrazione DATE DEFAULT CURRENT_DATE,
 Password VARCHAR(128) NOT NULL,
 Salt VARCHAR(128) NOT NULL,
 UltimoAccesso DATE DEFAULT NULL,
 Attivo BOOLEAN NOT NULL,
 NomeUniversita VARCHAR(80),
-PRIMARY KEY (NomeUtente)
+PRIMARY KEY (NomeUtente),
+UNIQUE(Email)
 );
 
 CREATE TABLE ValutazioneCitta
 (
-NomeUtenteStudente VARCHAR(50),
+NomeUtenteStudente USERNAME,
 NomeCitta VARCHAR(30),
 StatoCitta VARCHAR(30),
 CostoDellaVita VALUTAZIONE,
@@ -286,7 +289,7 @@ PRIMARY KEY (NomeUtenteStudente,NomeCitta,StatoCitta)
 
 CREATE TABLE ValutazioneFlusso
 (
-NomeUtenteStudente VARCHAR(50),
+NomeUtenteStudente USERNAME,
 IdFlusso VARCHAR(20),
 SoddEsperienza VALUTAZIONE,
 SoddAccademica VALUTAZIONE,
@@ -299,7 +302,7 @@ PRIMARY KEY (NomeUtenteStudente,IdFlusso)
 
 CREATE TABLE ValutazioneInsegnamento
 (
-NomeUtenteStudente VARCHAR(50),
+NomeUtenteStudente USERNAME,
 IdInsegnamento INTEGER,
 QtaInsegnamanto VALUTAZIONE,
 Interesse VALUTAZIONE,
@@ -312,7 +315,7 @@ PRIMARY KEY (NomeUtenteStudente,IdInsegnamento)
 
 CREATE TABLE ValutazioneTesi
 (
-NomeUtenteStudente VARCHAR(50),
+NomeUtenteStudente USERNAME,
 IdArgomentoTesi INTEGER,
 ImpegnoNecessario VALUTAZIONE,
 InteresseArgomento VALUTAZIONE,
@@ -325,7 +328,7 @@ PRIMARY KEY (NomeUtenteStudente,IdArgomentoTesi)
 
 CREATE TABLE ValutazioneUniversita
 (
-NomeUtenteStudente VARCHAR(50),
+NomeUtenteStudente USERNAME,
 NomeUniversita VARCHAR(80),
 CollocazioneUrbana VALUTAZIONE,
 IniziativeErasmus VALUTAZIONE,
