@@ -10,5 +10,6 @@ create database "erasmusadvisor";
 \ir 'create.sql';   
 \ir 'triggers.sql'; 
 \ir 'indexes.sql';           
-\ir 'fill.sql';               
+\ir 'populate.sql';          
+\ir 'populateFixedDomain.sql';                 
 
