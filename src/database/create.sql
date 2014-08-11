@@ -25,6 +25,15 @@ CREATE DOMAIN EMAIL AS TEXT
     CHECK(
         VALUE ~* '^([A-Za-z0-9._-]+)@([A-Za-z0-9._-]+)[.]([a-z]{2,4})$'
     );
+    
+-- luca: creato dominio per il nome utente, così si può fare agilmente un controllo di validità
+CREATE DOMAIN USERNAME AS TEXT
+	NOT NULL
+	CHECK(
+	    LENGTH(VALUE) > 3 AND
+   		LENGTH(VALUE) < 50 AND
+    	VALUE ~* '^[A-Za-z][A-Za-z0-9._-]+$'
+	);
 	
 -- Enums
 
@@ -33,6 +42,7 @@ CREATE TYPE TIPOLAUREA AS ENUM ('triennale', 'magistrale', 'ciclounico');
 CREATE TYPE STATO AS ENUM ('DISABLED', 'VERIFIED', 'NOT VERIFIED', 'SIGNALLED');
 
 -- Tables 
+
 CREATE TABLE Area
 (
 Nome VARCHAR(40),
@@ -68,7 +78,7 @@ Nome VARCHAR(40) NOT NULL,
 PRIMARY KEY (Sigla)
 );
 
-CREATE TABLE LinguaTesi -- ale: corretto errore grammaticale LiguaTesi -> LinguaTesi 
+CREATE TABLE LinguaTesi
 (
 SiglaLingua CHAR(3),
 IdArgomentoTesi INTEGER,
@@ -194,7 +204,6 @@ nomeCitta VARCHAR(30),
 statoCitta VARCHAR(30),
 PRIMARY KEY (Nome)
 );
-
 
 CREATE TABLE ResponsabileFlusso
 (
@@ -327,28 +336,51 @@ Commento TEXT DEFAULT NULL,
 PRIMARY KEY (NomeUtenteStudente,NomeUniversita)
 );
 
-
-
+-- luca: note su ON DELETE e ON UPDATE
+-- notare che alcune tabelle (Area, Lingua, Certificati Linguistici) sono a dominio fisso
+-- sono cioè create dal SysAdmin e non possono essere modificate durante le operazioni normali
+-- per le relazioni che si riferiscono a loro direi che va bene ON UPDATE CASCADE
+-- rendendo l'eliminazione di quanto già inserito problematico
+--
+-- l'eliminazione di alcuni dei concetti centrali inoltre (città, università e flusso)
+-- dovrebbe essere allo stesso modo impossibile se non al SysAdmin
+--
+-- per quanto riguarda gli utenti se eliminano l'account essi non sono eliminati dal database
+-- ma si pone la flag attivo su false. l'eliminazione dal db avviene solo ad opera dal SysAdmin
+-- e sono operazioni straordinarie fatte per ripulire il database. quindi mettere
+-- ON DELETE CASCADE ON UPDATE CASCADE direi che va bene
+-- in alternativa ale proponeva un sistema più articolato:
+--      Si puo' invece impedire di eliminare uno studente se e' marcato come attivo tramite una trigger procedure:
+-- 		in caso di eliminazione, impedisce l'azione e piuttosto trasforma lo studente da ATTIVO ad INATTIVO.
+--		Piuttosto consente l'effettiva eliminazione solo se e' inattivo 
+-- 		(e quindi deve poter eliminare in cascata le rispettive valutazioni o iscrizioni.. ecc.., si pensi ad es.
+-- 		all'eliminazione di account fake/spam)
+--
+-- notare che Idflusso, nonostante il nome, non è un ID Numerico ma l'ID nel sistema erasmus
+-- quindi ho messo ON UPDATE CASCADE in quanto il sistema con cui gli ID sono generati potrebbe cambiare
+-- negli ID di tipo SERIAL invece l'ON UPDATE non serve in quanto questo non può cambiare
+-- lo stesso trattamento è stato applicato a tutte le tabelle che hanno identificatore non SERIAL
+-- (eg: Università, Studente, Città)
 
 
 ALTER TABLE Estensione ADD FOREIGN KEY (IdArgomentoTesi) REFERENCES ArgomentoTesi (Id) ON DELETE CASCADE;
 
-ALTER TABLE Estensione ADD  FOREIGN KEY (Area) REFERENCES Area (Nome) ON DELETE CASCADE
-                                                                      ON UPDATE CASCADE;
+ALTER TABLE Estensione ADD FOREIGN KEY (Area) REFERENCES Area (Nome) ON UPDATE CASCADE;
 
-ALTER TABLE Documentazione ADD  FOREIGN KEY (IdFlusso) REFERENCES Flusso (Id) ON DELETE CASCADE;
+ALTER TABLE Documentazione ADD FOREIGN KEY (IdFlusso) REFERENCES Flusso (Id) ON DELETE CASCADE ON UPDATE CASCADE;
 
-ALTER TABLE Documentazione ADD  FOREIGN KEY (NomeCertificato,LivelloCertificato) REFERENCES CertificatiLinguistici (NomeLingua,Livello);
+ALTER TABLE Documentazione ADD FOREIGN KEY (NomeCertificato,LivelloCertificato) REFERENCES CertificatiLinguistici (NomeLingua,Livello)
+																	ON UPDATE CASCADE;
 
-ALTER TABLE LinguaTesi ADD  FOREIGN KEY (SiglaLingua) REFERENCES Lingua (Sigla);
+ALTER TABLE LinguaTesi ADD FOREIGN KEY (SiglaLingua) REFERENCES Lingua (Sigla) ON UPDATE CASCADE;
 
-ALTER TABLE LinguaTesi ADD  FOREIGN KEY (IdArgomentoTesi) REFERENCES ArgomentoTesi (Id) ON DELETE CASCADE;
+ALTER TABLE LinguaTesi ADD FOREIGN KEY (IdArgomentoTesi) REFERENCES ArgomentoTesi (Id) ON DELETE CASCADE;
 
-ALTER TABLE LinguaCitta ADD  FOREIGN KEY (SiglaLingua) REFERENCES Lingua (Sigla);
+ALTER TABLE LinguaCitta ADD FOREIGN KEY (SiglaLingua) REFERENCES Lingua (Sigla) ON UPDATE CASCADE;
 
-ALTER TABLE LinguaCitta ADD  FOREIGN KEY (NomeCitta,StatoCitta) REFERENCES Citta (Nome,Stato);
+ALTER TABLE LinguaCitta ADD FOREIGN KEY (NomeCitta,StatoCitta) REFERENCES Citta (Nome,Stato) ON DELETE CASCADE ON UPDATE CASCADE;
 
-ALTER TABLE Origine ADD FOREIGN KEY (IdFlusso) REFERENCES Flusso (Id) ON DELETE CASCADE;
+ALTER TABLE Origine ADD FOREIGN KEY (IdFlusso) REFERENCES Flusso (Id) ON DELETE CASCADE ON UPDATE CASCADE;
 
 ALTER TABLE Origine ADD FOREIGN KEY (IdCorso) REFERENCES CorsoDiLaurea (Id) ON DELETE CASCADE;
 
@@ -358,93 +390,78 @@ ALTER TABLE Gestione ADD FOREIGN KEY (IdProfessore) REFERENCES Professore (Id) O
 
 ALTER TABLE Riconoscimento ADD FOREIGN KEY (IdInsegnamento) REFERENCES Insegnamento (Id) ON DELETE CASCADE;
 
-ALTER TABLE Riconoscimento ADD FOREIGN KEY (IdFlusso) REFERENCES Flusso (Id) ON DELETE CASCADE;
+ALTER TABLE Riconoscimento ADD FOREIGN KEY (IdFlusso) REFERENCES Flusso (Id) ON DELETE CASCADE ON UPDATE CASCADE;
 
-ALTER TABLE Flusso ADD FOREIGN KEY (RespFlusso) REFERENCES ResponsabileFlusso (NomeUtente) ON DELETE CASCADE
-                                                                                           ON UPDATE CASCADE; 
      -- ale: inserire un trigger, ad es. se il responsabile ha almeno un flusso a lui assegnato, non viene eliminato ma
      --      viene semplicemente disabilitato l'account e tutti i flussi a lui associati, per evitare eliminazioni a catena
      --      Quindi per eliminarlo definitivamente e' necessario aver trovato dei responsabili sostituti ai flussi,
      --      oppure averli cancellati singolarmente (NO ACTION)
-     
+     -- luca: per me non serve un trigger apposta, come detto sopra l'eliminazione di un account dal DB viene fatta
+     --		  apposta per ripulire il database 
+ALTER TABLE Flusso ADD FOREIGN KEY (RespFlusso) REFERENCES ResponsabileFlusso (NomeUtente) ON DELETE CASCADE ON UPDATE CASCADE;     
                                                                                            
-ALTER TABLE Flusso ADD FOREIGN KEY (Destinazione) REFERENCES Universita (Nome) ON DELETE CASCADE;
-	-- ale: anche qui impedirei di eliminare cosi' facilmente tutti i flussi, al massimo permetterei un ON UPDATE CASCADE,
-	--      nel caso l'universita' cambiasse leggermente il nome o la dicitura iniziale
+	-- ale: anche qui impedirei di eliminare cosi' facilmente tutti i flussi
+	-- luca: non capisco
+ALTER TABLE Flusso ADD FOREIGN KEY (Destinazione) REFERENCES Universita (Nome) ON DELETE CASCADE ON UPDATE CASCADE;
 
-ALTER TABLE Specializzazione ADD FOREIGN KEY (NomeArea) REFERENCES Area (Nome);
+ALTER TABLE Specializzazione ADD FOREIGN KEY (NomeArea) REFERENCES Area (Nome) ON UPDATE CASCADE;
 
 ALTER TABLE Specializzazione ADD FOREIGN KEY (IdCorso) REFERENCES CorsoDiLaurea (Id) ON DELETE CASCADE;
 
 ALTER TABLE Iscrizione ADD FOREIGN KEY (IdCorso) REFERENCES CorsoDiLaurea (Id) ON DELETE CASCADE;
 
-ALTER TABLE Iscrizione ADD FOREIGN KEY (NomeUtenteStudente) REFERENCES Studente (NomeUtente); 
-	-- ale: mettere ON DELETE CASCADE, dato che voglio poter eliminare lo studente anche se e' iscritto a dei corsi
+ALTER TABLE Iscrizione ADD FOREIGN KEY (NomeUtenteStudente) REFERENCES Studente (NomeUtente) ON DELETE CASCADE ON UPDATE CASCADE; 
 
-ALTER TABLE Interesse ADD FOREIGN KEY (NomeUtenteStudente) REFERENCES Studente (NomeUtente);
-	-- ale: qui metterei ON DELETE CASCADE, perché vogliamo poter eliminare lo studente anche se ha inserito degli interessi
-	--      Si puo' invece impedire di eliminare uno studente se e' marcato come attivo tramite una trigger procedure:
-	-- 		in caso di eliminazione, impedisce l'azione e piuttosto trasforma lo studente da ATTIVO ad INATTIVO.
-	--		Piuttosto consente l'effettiva eliminazione solo se e' inattivo 
-	-- 		(e quindi deve poter eliminare in cascata le rispettive valutazioni o iscrizioni.. ecc.., si pensi ad es.
-	-- 		all'eliminazione di account fake/spam)
+ALTER TABLE Interesse ADD FOREIGN KEY (NomeUtenteStudente) REFERENCES Studente (NomeUtente) ON DELETE CASCADE ON UPDATE CASCADE;
 
-ALTER TABLE Interesse ADD FOREIGN KEY (IdFlusso) REFERENCES Flusso (Id) ON DELETE CASCADE;
+ALTER TABLE Interesse ADD FOREIGN KEY (IdFlusso) REFERENCES Flusso (Id) ON DELETE CASCADE ON UPDATE CASCADE;
 
-ALTER TABLE Partecipazione ADD FOREIGN KEY (NomeUtenteStudente) REFERENCES Studente (NomeUtente);
-	-- 		Ale: Idem di quanto scritto sopra per Interesse
+ALTER TABLE Partecipazione ADD FOREIGN KEY (NomeUtenteStudente) REFERENCES Studente (NomeUtente) ON DELETE CASCADE ON UPDATE CASCADE;
 
-ALTER TABLE Partecipazione ADD FOREIGN KEY (IdFlusso) REFERENCES Flusso (Id) ON DELETE CASCADE;
+ALTER TABLE Partecipazione ADD FOREIGN KEY (IdFlusso) REFERENCES Flusso (Id) ON DELETE CASCADE ON UPDATE CASCADE;
 
 ALTER TABLE Svolgimento ADD FOREIGN KEY (IdInsegnamento) REFERENCES Insegnamento (Id) ON DELETE CASCADE;
 
 ALTER TABLE Svolgimento ADD FOREIGN KEY (IdProfessore) REFERENCES Professore (Id) ON DELETE CASCADE;
 
-ALTER TABLE Universita ADD FOREIGN KEY (nomeCitta,statoCitta) REFERENCES Citta (Nome,Stato);
+-- luca: eliminando una città si genera un errore
+ALTER TABLE Universita ADD FOREIGN KEY (nomeCitta,statoCitta) REFERENCES Citta (Nome,Stato) ON UPDATE CASCADE;
 
-ALTER TABLE ResponsabileFlusso ADD FOREIGN KEY (NomeUniversita) REFERENCES Universita (Nome);
-	--	Ale: ci vuole sicuramente ON UPDATE CASCADE nel caso l'universita' cambi leggermente nome
+ALTER TABLE ResponsabileFlusso ADD FOREIGN KEY (NomeUniversita) REFERENCES Universita (Nome) ON UPDATE CASCADE;
 
-ALTER TABLE Insegnamento ADD FOREIGN KEY (NomeUniversita) REFERENCES Universita (Nome);
-	--	Ale: ci vuole sicuramente ON UPDATE CASCADE nel caso l'universita' cambi leggermente nome
-	--  per l'ON DELETE si potrebbe tenere il RESTRICT di default, così per eliminare l'università
-	--	bisogna prima togliere tutti gli insegnamenti 
+-- Ale: per l'ON DELETE si potrebbe tenere il RESTRICT di default, così per eliminare l'università
+-- bisogna prima togliere tutti gli insegnamenti 
+-- luca: io credo che un CASCADE sarebbe meglio
+ALTER TABLE Insegnamento ADD FOREIGN KEY (NomeUniversita) REFERENCES Universita (Nome) ON UPDATE CASCADE;
 
-ALTER TABLE Insegnamento ADD FOREIGN KEY (NomeArea) REFERENCES Area (Nome);
+ALTER TABLE Insegnamento ADD FOREIGN KEY (NomeArea) REFERENCES Area (Nome) ON UPDATE CASCADE;
 
-ALTER TABLE Insegnamento ADD FOREIGN KEY (NomeLingua) REFERENCES Lingua (Sigla);
+ALTER TABLE Insegnamento ADD FOREIGN KEY (NomeLingua) REFERENCES Lingua (Sigla) ON UPDATE CASCADE;
 
-ALTER TABLE ArgomentoTesi ADD FOREIGN KEY (NomeUniversita) REFERENCES Universita (Nome);
-	--	Ale: ci vuole sicuramente ON UPDATE CASCADE nel caso l'universita' cambi leggermente nome
+ALTER TABLE ArgomentoTesi ADD FOREIGN KEY (NomeUniversita) REFERENCES Universita (Nome) ON UPDATE CASCADE;
 
-ALTER TABLE CorsoDiLaurea ADD FOREIGN KEY (NomeUniversita) REFERENCES Universita (Nome);
-	--	Ale: ci vuole sicuramente ON UPDATE CASCADE nel caso l'universita' cambi leggermente nome
+ALTER TABLE CorsoDiLaurea ADD FOREIGN KEY (NomeUniversita) REFERENCES Universita (Nome) ON UPDATE CASCADE ON DELETE CASCADE;
 
-ALTER TABLE Coordinatore ADD FOREIGN KEY (NomeUniversita) REFERENCES Universita (Nome);
-	--	Ale: ci vuole sicuramente ON UPDATE CASCADE nel caso l'universita' cambi leggermente nome
+ALTER TABLE Coordinatore ADD FOREIGN KEY (NomeUniversita) REFERENCES Universita (Nome) ON UPDATE CASCADE;
 
--- Ale: per tutte le valutazioni dovremmo mettere l'ON DELETE CASCADE, altrimenti per cancellare 
---		anche un semplice insegnamento bisogna eliminare tutte le singole valutazioni associate 
+ALTER TABLE ValutazioneCitta ADD FOREIGN KEY (NomeUtenteStudente) REFERENCES Studente (NomeUtente) ON UPDATE CASCADE ON DELETE CASCADE;
 
-ALTER TABLE ValutazioneCitta ADD FOREIGN KEY (NomeUtenteStudente) REFERENCES Studente (NomeUtente);
+ALTER TABLE ValutazioneCitta ADD FOREIGN KEY (NomeCitta,StatoCitta) REFERENCES Citta (Nome,Stato) ON UPDATE CASCADE ON DELETE CASCADE;
 
-ALTER TABLE ValutazioneCitta ADD FOREIGN KEY (NomeCitta,StatoCitta) REFERENCES Citta (Nome,Stato);
+ALTER TABLE ValutazioneFlusso ADD FOREIGN KEY (NomeUtenteStudente) REFERENCES Studente (NomeUtente) ON UPDATE CASCADE ON DELETE CASCADE;
 
-ALTER TABLE ValutazioneFlusso ADD FOREIGN KEY (NomeUtenteStudente) REFERENCES Studente (NomeUtente);
+ALTER TABLE ValutazioneFlusso ADD FOREIGN KEY (IdFlusso) REFERENCES Flusso (Id) ON DELETE CASCADE ON UPDATE CASCADE;
 
-ALTER TABLE ValutazioneFlusso ADD FOREIGN KEY (IdFlusso) REFERENCES Flusso (Id);
+ALTER TABLE ValutazioneInsegnamento ADD FOREIGN KEY (NomeUtenteStudente) REFERENCES Studente (NomeUtente) ON UPDATE CASCADE ON DELETE CASCADE;
 
-ALTER TABLE ValutazioneInsegnamento ADD FOREIGN KEY (NomeUtenteStudente) REFERENCES Studente (NomeUtente);
+ALTER TABLE ValutazioneInsegnamento ADD FOREIGN KEY (IdInsegnamento) REFERENCES Insegnamento (Id) ON DELETE CASCADE;
 
-ALTER TABLE ValutazioneInsegnamento ADD FOREIGN KEY (IdInsegnamento) REFERENCES Insegnamento (Id);
-
-ALTER TABLE ValutazioneTesi ADD FOREIGN KEY (NomeUtenteStudente) REFERENCES Studente (NomeUtente);
+ALTER TABLE ValutazioneTesi ADD FOREIGN KEY (NomeUtenteStudente) REFERENCES Studente (NomeUtente) ON UPDATE CASCADE ON DELETE CASCADE;
 
 ALTER TABLE ValutazioneTesi ADD FOREIGN KEY (IdArgomentoTesi) REFERENCES ArgomentoTesi (Id) ON DELETE CASCADE;
 
-ALTER TABLE ValutazioneUniversita ADD FOREIGN KEY (NomeUtenteStudente) REFERENCES Studente (NomeUtente);
-
-ALTER TABLE ValutazioneUniversita ADD FOREIGN KEY (NomeUniversita) REFERENCES Universita (Nome);
-	--	Ale: ci vuole sicuramente ON UPDATE CASCADE nel caso l'universita' cambi leggermente nome
+ALTER TABLE ValutazioneUniversita ADD FOREIGN KEY (NomeUtenteStudente) REFERENCES Studente (NomeUtente) ON UPDATE CASCADE ON DELETE CASCADE;
+ 
+ALTER TABLE ValutazioneUniversita ADD FOREIGN KEY (NomeUniversita) REFERENCES Universita (Nome) ON UPDATE CASCADE;
 
 
