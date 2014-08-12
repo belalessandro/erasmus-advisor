@@ -1,74 +1,144 @@
+NOTA: le operazioni di ricerca sono parametrizzate, le operazioni di inserimento hanno dati fittizzi
+
 Op.1 - Creazione Account
 Inserimento delle informazioni riguardanti un nuovo account.
 
-BEGIN TRANSACTION;
 INSERT INTO Studente (NomeUtente, Email, DataRegistrazione, Password, Salt, UltimoAccesso, Attivo)
 	VALUES('name', 'name@domain.com', DEFAULT, 'pass', '9AF7CCD001', CURRENT_DATE , TRUE);
+	
 INSERT INTO Iscrizione (IdCorso, NomeUtenteStudente, AnnoInizio, AnnoFine)
 	VALUES(7854, 'name', '2012-09-01', '2015-06-30');
-COMMIT;
 
 Op.2 - Ricerca di un Flusso
 Ricerca di tutti i Flussi che originano da un determinato Corso di Laurea.
 Il join con ResponsabileFlusso serve per visualizzare il suo nome e cognome.
-IdCorso è il parametro fornito per fare la ricerca
+$param$ è il parametro fornito a IdCorso per la ricerca
 
-SELECT F.Id, F.Destinazione, F.PostiDisponibili, F.Attivo, F.DataUltimaModifica, F.Durata,
+SELECT F.Id, F.Destinazione, F.PostiDisponibili, F.Attivo, F.DataUltimaModifica, F.Durata, F.Dettagli
 		R.Nome, R.Cognome
 	FROM Flusso AS F INNER JOIN Origine AS O ON F.Id = O.IdFlusso
 		INNER JOIN ResponsabileFlusso AS R ON F.RespFlusso = R.NomeUtente
-	WHERE O.IdCorso = 648;
+	WHERE O.IdCorso = $param$;
 
 Op.3 - Ricerca di un Insegnamento
 Ricerca di un Insegnamento in base all'Area e all'Università in cui viene erogato.
-Area e NomeUniversita sono forniti come parametri.
+$param1$ e $param2$ sono i parametri per Area e NomeUniversita.
 
 SELECT I.Nome, I.Crediti, I.PeriodoErogazione, I.Stato, I.AnnoDiCorso, L.Nome, P.Nome, P.Cognome
-	FROM Insegnamento AS I INNER JOIN Universita AS U ON I.NomeUniversita = U.Nome
-		INNER JOIN Lingua AS L ON I.NomeLingua = L.Sigla
+	FROM Insegnamento AS I INNER JOIN Lingua AS L ON I.NomeLingua = L.Sigla
 		INNER JOIN Svolgimento AS S ON I.Id = S.IdInsegnamento
 		INNER JOIN Professore AS P ON S.IdProfessore = P.Id
-	WHERE I.Area = 'Law' AND U.Nome = 'London University';
+	WHERE I.Area = '$param1$' AND I.nomeUniversita = '$param2$';
+	
+notare che non sono sicuro questo approccio funzioni in modo efficiente, in quanto in teoria vengono prodotte
+un sacco di righe uguali che differiscono solo per il professore. potrebbe esser necessario fare
+
+SELECT I.Nome, I.Crediti, I.PeriodoErogazione, I.Stato, I.AnnoDiCorso, L.Nome
+	FROM Insegnamento AS I INNER JOIN Lingua AS L ON I.NomeLingua = L.Sigla
+	WHERE I.Area = '$param1$' AND I.nomeUniversita = '$param2$';
+	
+e per ogni singolo insegnamento eseguire
+
+SELECT P.Nome, P.Cognome
+	FROM Insegnamento AS I INNER JOIN Svolgimento AS S ON I.Id = S.IdInsegnamento
+		INNER JOIN Professore AS P ON S.IdProfessore = P.Id
+	WHERE I.Nome = '$result_i$';
 
 Op.4 - Ricerca di un Argomento di Tesi
 Ricerca di un Argomento di Tesi in base all'Area e all'Università che lo propone.
-Area e NomeUniversita sono forniti come parametri.
+$param1$ e $param2$ sono i parametri per Area e NomeUniversita.
 
 SELECT A.Nome, A.Triennale, A.Magistrale, A.Stato, L.Nome, P.Nome, P.Cognome
-	FROM ArgomentoTesi AS A INNER JOIN Universita AS U ON A.NomeUniversita = U.Nome
-		INNER JOIN Estensione AS E ON A.Id = E.IdArgomentoTesi
+	FROM ArgomentoTesi AS A INNER JOIN Estensione AS E ON A.Id = E.IdArgomentoTesi
 		INNER JOIN LinguaTesi AS T ON A.Id = T.IdArgomentoTesi
 		INNER JOIN Lingua AS L ON T.SiglaLingua = L.Sigla
 		INNER JOIN Gestione AS G ON A.Id = G.IdArgomentoTesi
 		INNER JOIN Professore AS P ON S.IdProfessore = G.Id
-	WHERE I.Area = 'Law' AND U.Nome = 'London University';
+	WHERE E.Area = '$param1$' AND A.nomeUniversita = '$param2$';
+	
+anche per questa vale la considerazione analoga all'operazione 3
+(con la differenza che potrebbe esser necessaria anche una query apposita per la lingua della tesi e per l'estensione)
 
 Op.5 - Inserimento di un Flusso
 Inserimento nel database di un nuovo Flusso.
 
-BEGIN TRANSACTION;
 INSERT INTO Flusso(ID, Destinazione, RespFlusso, PostiDisponibili, Attivo, DataUltimaModifica, Durata)
 	VALUES('IT79879', 'London University', 'Prezzemolina', 5, TRUE, CURRENT_DATE, 6);
+	
 INSERT INTO Origine(IdFlusso, IdCorso) VALUES 
 		('IT79879', 666),
 		('IT79879', 1020),
 		('IT79879', 12367);
-COMMIT;
 
 Op.6 - Inserimento di un Insegnamento
 Inserimento nel database di un nuovo Insegnamento.
+Notare che bisogna con il comando RETURNING lo statement ritorna il valore di un parametro dell'istruzione
+che poi viene salvato in una variabile, che viene estratto in Java e usato nelle istruzioni successive. 
+Ha bisogno di un test, e potrebbe anche esserci un modo alternativo:
+http://stackoverflow.com/questions/241003/how-to-get-a-value-from-the-last-inserted-row
+
+INSERT INTO Insegnamento(Id, Nome, Crediti, NomeUniversita, PeriodoErogazione, Stato, AnnoDiCorso, NomeArea, NomeLingua)
+	VALUES(DEFAULT, 'Analisi 1', 9, 'London University', 1, 'NOT VERIFIED' , 4, 'Mathematics', 'eng')
+	RETURNING Id;
+
+INSERT INTO Svolgimento(idProfessore, idInsegnamento) VALUES
+	(54654, $ID$),
+	(4252, $ID$),
+	(234, $ID$);
 
 Op.7 - Visualizzazione di una Città
 Visualizzazione di una Città e delle valutazioni ad essa collegate.
 
+-- estrae le lingue della citta
+SELECT M.Sigla
+	FROM Citta AS C INNER JOIN LinguaCitta AS L ON C.NomeCitta = L.NomeCitta AND C.StatoCitta = L.StatoCitta
+		INNER JOIN Lingua AS M ON L.nomeLingua = M.Sigla
+	WHERE C.NomeCitta = '$param1$' AND C.StatoCitta = '$param2$';
+
+-- estrae le valutazioni
+SELECT V.NomeUtenteStudente, V.CostoDellaVita, V.DisponibilitaAlloggi, V.VivibilitaUrbana, V.VitaSociale, V.DataInserimento, V.Commento
+	FROM Citta AS C INNER JOIN ValutazioneCitta AS V ON C.NomeCitta = V.NomeCitta AND C.StatoCitta = V.StatoCitta
+	WHERE C.NomeCitta = '$param1$' AND C.StatoCitta = '$param2$';
+
 Op. 8 - Visualizzazione di una Università
 Visualizzazione di una Università e delle valutazioni ad essa collegate.
+
+SELECT U.Link, U.PosizioneClassifica, U.PresenzaAlloggi, U.NomeCitta, U.StatoCitta, V.NomeUtenteStudente,
+		 V.DataInserimento, V.Commento, V.CollocazioneUrbana, V.IniziativeErasmus, V.QtaInsegnamenti, V.QtaAule
+	FROM Universita AS U INNER JOIN ValutazioneUniversita AS V ON U.Nome = V.NomeUniversita
+	WHERE U.Nome = '$param1$';
 
 Op.9 - Visualizzazione di un Flusso
 Visualizzazione di un Flusso e delle valutazioni ad esso collegate.
 
+-- estrae prima i dati del flusso
+SELECT F.Destinazione, F.PostiDisponibili, F.Attivo, F.DataUltimaModifica, F.Durata, F.Dettagli, R.Nome, R.Cognome
+	FROM Flusso AS F INNER JOIN ResponsabileFlusso AS R ON F.RespFlusso = R.NomeUtente
+	WHERE F.Id = '$param1$';
+	
+-- i corsi di laurea di origine
+SELECT C.Nome, C.Livello
+	FROM Flusso AS F INNER JOIN Origine AS O ON F.Id = O.IdFlusso
+		INNER JOIN CorsoDiLaurea AS C ON O.IdFlusso = C.Id
+	WHERE F.Id = '$param1$';
+
+-- e infine le valutazioni
+SELECT V.NomeUtenteStudente, V.DataInserimento, V.Commento, V.SoddEsperienza, V.SoddAccademica, V.Didattica, V.ValutazioneResponsabile
+	FROM Flusso AS F INNER JOIN ValutazioneFlusso AS V ON F.Id = V.IdFlusso
+	WHERE F.Id = '$param1$';
+
 Op.10 - Visualizzazione di un Insegnamento
 Visualizzazione di un Insegnamento e delle valutazioni ad esso collegate.
 
+-- estrae prima i dati dell'insegnamento
+-- i professori che lo svolgono
+-- e infine le valutazioni
+
 Op.11 - Visualizzazione di un Argomento di Tesi
 Visualizzazione di un Argomento di Tesi e delle valutazioni ad esso collegate.
+
+-- estrae prima i dati dell'argomento di tesi
+-- i professori che lo gestiscono
+-- le aree che specializza
+-- le lingue in cui si può fare
+-- e infine le valutazioni
