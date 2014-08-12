@@ -183,15 +183,6 @@
 					<include>**/*.*</include>
 				</includes>
 			</resource>
-
-			<!-- copy less files to the target directory -->
-			<resource>
-				<targetPath>${basedir}/target/${project.artifactId}-${project.version}/less</targetPath>
-				<directory>${basedir}/trunk/src/webapp/less</directory>
-				<includes>
-					<include>**/*.*</include>
-				</includes>
-			</resource>
 			
 			<!-- copy fonts files to the target directory -->
 			<resource>
