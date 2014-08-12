@@ -29,11 +29,75 @@
 		</jsp:include>
 
 		<!-- corpo della pagina -->
-		<div class="col-md-9 general_main_border" align="center">
-			<h2>Erasmus Advisor
+		<div class="col-md-9 general_main_border" >
+			<h2 align="center">Erasmus Advisor</h2>
 			<br>
-			Site under construction.
-			</h2>
+			[Qui teoricamente si potrebbe mettere una qualche breve spiegazione del sito.
+			Sotto, da specifiche, ci vanno gli interessi espressi dall'utente]
+			<br>
+			<br>
+			<!-- Da generare in JSP -->
+			<!-- Notare che cliccando sul tasto remove si deve togliere l'interesse dal DB
+				ossia bisogna usare Ajax -->
+			<div class="panel panel-default">
+				<!-- Default panel contents -->
+				<div class="col-sm-1 column"></div>
+				<div class="panel-heading">
+					<strong>You have express interest for the following flows.</strong>
+				</div>
+				<table class="table">
+					<thead>
+						<tr>
+							<th>Flow ID</th>
+							<th>Target University</th>
+							<th>Target City</th>
+							<th class="index_table_col_remove" align="center">Remove</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td><a href="#">EN985</a></td>
+							<td><a href="#">Aberdeen University</a></td>
+							<td><a href="#">Aberdeen</a></td>
+							<td align="center">
+								<button type="button" class="btn btn-default btn-xs">
+									<span class="glyphicon glyphicon glyphicon-remove"></span>
+								</button>
+							</td>
+						</tr>
+						<tr>
+							<td><a href="#">OS025</a></td>
+							<td><a href="#">Universitat fur Bodenkultur Wien</a></td>
+							<td><a href="#">Wien</a></td>
+							<td align="center">
+								<button type="button" class="btn btn-default btn-xs">
+									<span class="glyphicon glyphicon glyphicon-remove"></span>
+								</button>
+							</td>
+						</tr>
+						<tr>
+							<td><a href="#">FR7785</a></td>
+							<td><a href="#">Haute Ecole Léonard de Vinci- ECAM</a></td>
+							<td><a href="#">Paris</a></td>
+							<td align="center">
+								<button type="button" class="btn btn-default btn-xs">
+									<span class="glyphicon glyphicon glyphicon-remove"></span>
+								</button>
+							</td>
+						</tr>
+						<tr>
+							<td><a href="#">ES153</a></td>
+							<td><a href="#">Universidad de Alcala'</a></td>
+							<td><a href="#">Alcalá de Henares</a></td>
+							<td align="center">
+								<button type="button" class="btn btn-default btn-xs">
+									<span class="glyphicon glyphicon glyphicon-remove"></span>
+								</button>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
 		</div>	
 	</div>
 	<!-- footer -->

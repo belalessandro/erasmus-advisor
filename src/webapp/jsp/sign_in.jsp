@@ -1,3 +1,5 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,11 +14,15 @@
 	
 	<script src="../js/ea-signin-validation.js"></script>
 	
-	<!-- questi servono per il datepicker (in ea-firstjs c'è anche uno pseudo autocompletamento) -->
+	<!-- questi servono per il datepicker 
+		mi sembra impossibile ci voglia tutta sta roba per forza, ma se si toglie qualcosa non va -.-
+		notare come l'autocompletamento in ea-firstjs sia stato eliminato -->
+	<link href="../css/datepicker3.css" rel="stylesheet">
 	<link href="../css/ui-lightness/jquery-ui-1.10.4.custom.css" rel="stylesheet">
 	<script src="../js/jquery.min.js"></script>
 	<script src="../js/jquery-1.10.2.js"></script>
 	<script src="../js/jquery-ui-1.10.4.custom.js"></script>
+	<script src="../js/bootstrap-datepicker.js"></script>
 	<script src="../js/ea-firstjs.js"></script>
 	
 </head>
@@ -61,7 +67,7 @@
 					</div>
 					<br>
 					<div class="input-group sign_in_input_group">
-						<span class="input-group-addon sign_in_input">Degree</span> <input id="autocomplete2" class="form-control" name="degree" title="Type a letter for suggestions." placeholder="Insert your Degree">
+						<span class="input-group-addon sign_in_input">Degree Course</span> <input id="autocomplete2" class="form-control" name="degree" title="Type a letter for suggestions." placeholder="Insert your Degree Course">
 					</div>
 					<br>
 					<div class="row">
@@ -79,12 +85,12 @@
 						<hr>
 						<div class="alert alert-warning">
 							Agree to the registration's terms* :
-							<input id="regTermRadio" name="regTermRadio" type="radio" class="radio-btn" value="Yes" /> Yes 
-							<input id="regTermRadio" name="regTermRadio" type="radio" class="radio-btn" value="No" /> No
+							<input id="regTermRadioYes" name="regTermRadio" type="radio" class="radio-btn" value="Yes" /> Yes 
+							<input id="regTermRadioNo" name="regTermRadio" type="radio" class="radio-btn" value="No" /> No
 						</div>
 						<hr>
 					</div>
-					<input type="submit" class="btn btn-default">
+					<input type="submit" class="btn btn-primary">
 				</div>
 			</form>
 		</div>

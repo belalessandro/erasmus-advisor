@@ -16,7 +16,7 @@
 	<a href="#"> <img src="../img/logo.svg" class="nav_logo"></a>
 	<ul class="nav nav-pills pull-right nav_style">
 		<li><a href="#">Notifications</a></li>
-		<li><a href="#">Account</a></li>
+		<li><a href="user_profile.jsp">Account</a></li>
 		<li><a href="#"><span class="fa fa-sign-out fa-fw"></span>Logout</a></li>
 	</ul>
 </div>
