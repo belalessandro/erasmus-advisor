@@ -9,7 +9,7 @@ create database "erasmusadvisor";
 \c erasmusadvisor;
 \ir 'create.sql';   
 \ir 'triggers.sql'; 
-\ir 'indexes.sql';           
-\ir 'populate.sql';          
-\ir 'populateFixedDomain.sql';                 
+\ir 'indexes.sql';   
+\ir 'populateFixedDomain.sql';          
+\ir 'populate.sql';                         
 

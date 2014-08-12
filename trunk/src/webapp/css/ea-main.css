@@ -182,5 +182,12 @@ tr:hover {
 	width:60px !important;
 }
 
+/*index page*/
+
+.index_table_col_remove
+{
+	width:70px !important;
+	max-width:70px !important;
+}
     
     

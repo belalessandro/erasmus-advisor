@@ -1,9 +1,18 @@
+// file da eliminare
+// questo file è un mischiotto di funzioni javascript prese dalle pagine prima della grande unificazione
+// le loro funzioni sono importanti, ma non si riesce a dividerle una dalle altre
+// nel gestire una pagina html controllare se il file è necessario provando a eliminarlo
+// dall'include e guardando se tutto si comporta come dovrebbe
+//
+// d'altronde un po' di codice offuscato e dal significato oscuro serve in ogni applicazione che si rispetti
+
+
 $(function() {
 		
 		$( "#accordion" ).accordion();
 			
 		var availableTags = [
-"Universit� degli studi di Padova","Aberdeen University",
+"Universit� degli studi di Padova","Aberdeen University",
 "Barcellona"
 		];
 		$( "#autocomplete" ).autocomplete({

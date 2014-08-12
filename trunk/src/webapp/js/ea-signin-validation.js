@@ -3,13 +3,14 @@
 function formValidation()  
 {  
 	var minUserIDLength = 4
-	var maxUserIDLength = 100
-	var minPassLength = 8
+	var maxUserIDLength = 50
+	var minPassLength = 6
 	var maxPassLength = 20
 	var uid = document.registration.user;   
 	var uemail = document.registration.email;
 	var pwd = document.registration.password; 
 	var pwd2 = document.registration.password2; 
+	var regterm = document.registration.regTermRadioYes;
 	
 	if(userid_validation(uid,minUserIDLength,maxUserIDLength))  
 	{  
@@ -17,24 +18,49 @@ function formValidation()
 		{  
 			if(email_validation(uemail))  
 			{  
-				return true;
+				if(regterm_validation(regterm))
+				{
+					return true;
+				}
 			}   
 		}  
 	}  
 	return false;  
 
 } 
+function regterm_validation(regterm)
+{
+	if (regterm.checked)
+	{
+		return true;
+	}
+	alert("You have to accept the registration terms.");  
+	regterm.focus();  
+	return false;  
+}
+
 function userid_validation(uid,mx,my)  
 {  
 	var uid_len = uid.value.length;  
-	if (uid_len == 0 || uid_len >= my || uid_len < mx)  
+	var unameformat = /^[A-Za-z][A-Za-z0-9._-]+$/;
+	if(uid.value.match(unameformat))  
 	{  
-		alert("Username length length should be between "+mx+" to "+my+ ".");  
+		if (uid_len == 0 || uid_len >= my || uid_len < mx)  
+		{  
+			alert("Username length length should be between "+mx+" to "+my+ ".");  
+			uid.focus();  
+			return false;  
+		}   
+	}  
+	else  
+	{  
+		alert("You have entered an invalid user name!");  
 		uid.focus();  
 		return false;  
 	}  
 	return true;  
 }  
+
 function pwd_validation(pwd,pwd2,mx,my)  
 {  
 	var pwd_len = pwd.value.length;  
@@ -55,7 +81,7 @@ function pwd_validation(pwd,pwd2,mx,my)
 
 function email_validation(uemail)  
 {  
-	var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;  
+	var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,4})+$/;  
 	if(uemail.value.match(mailformat))  
 	{  
 		return true;  
