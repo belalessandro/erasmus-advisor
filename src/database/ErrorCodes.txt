@@ -4,3 +4,8 @@ CODE                Meaning
 ------------+------------------------------------------------------------------
 EA001               Origin and destination universities are equal.
 EA002               Flow with courses belonging to different universities.
+EA003				A student follows more contemporary courses.
+EA004				A student takes part to more contemporary flows.
+EA005				A student evaluates something he is not allowed to.
+EA006				A new user has the same username as an existing one.
+EA007				A new user has the same e-mail as an existing one.
