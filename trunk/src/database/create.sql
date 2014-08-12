@@ -139,6 +139,7 @@ PostiDisponibili SMALLINT NOT NULL,
 Attivo BOOLEAN NOT NULL DEFAULT TRUE,
 DataUltimaModifica DATE,
 Durata SMALLINT NOT NULL CHECK (Durata > 0),
+Dettagli TEXT DEFAULT NULL,
 PRIMARY KEY (Id)
 );
 
