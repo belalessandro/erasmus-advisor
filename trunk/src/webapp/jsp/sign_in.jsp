@@ -12,39 +12,41 @@
 	<link href="../fonts/font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet">
 	<script src="../js/bootstrap.min.js"></script>
 	
-	<script src="../js/ea-signin-validation.js"></script>
+	<script src="../js/ea-form-validation.js"></script>
 	
 	<!-- questi servono per il datepicker 
 		mi sembra impossibile ci voglia tutta sta roba per forza, ma se si toglie qualcosa non va -.-
-		notare come l'autocompletamento in ea-firstjs sia stato eliminato -->
+		notare come l'autocompletamento in ea-basic sia stato eliminato -->
 	<link href="../css/datepicker3.css" rel="stylesheet">
 	<link href="../css/ui-lightness/jquery-ui-1.10.4.custom.css" rel="stylesheet">
 	<script src="../js/jquery.min.js"></script>
 	<script src="../js/jquery-1.10.2.js"></script>
 	<script src="../js/jquery-ui-1.10.4.custom.js"></script>
 	<script src="../js/bootstrap-datepicker.js"></script>
-	<script src="../js/ea-firstjs.js"></script>
+	<script src="../js/ea-basic.js"></script>
 	
 </head>
 
 <body>
 	<div class="container">
 		<!-- barra di navigazione -->
-		<jsp:include page="/jsp/include/navbar.jsp"/>
+		<jsp:include page="/jsp/include/navbar.jsp">
+			<jsp:param name="pageName" value="sign_in"/>
+		</jsp:include>
 		<!-- menu -->
 		<jsp:include page="/jsp/include/menu.jsp">
-			<jsp:param name="pageName" value="index"/>
+			<jsp:param name="pageName" value="sign_in"/>
 		</jsp:include>
 
 		<!-- Class Header -->
 
 		<div class="col-md-9 general_main_border">
-			<h2 align="center">Sign up</h2>
+			<h2 align="center">Registration Page</h2>
 			<br>
 			<p align="center">An * indicates a required field.</p>
 			<br>
 			<!-- action deve puntare alla servlet che gestisce la registrazione -->
-			<form name='registration' onSubmit="return formValidation();" method="post" action="#"> 
+			<form name='registration' onSubmit="return signInFormValidation();" method="post" action="#"> 
 				<div align="center">
 					<div class="input-group sign_in_input_group">
 						<span class="input-group-addon sign_in_input">Username*</span> <input type="text" class="form-control" name="user" id="user" placeholder="Insert your username">

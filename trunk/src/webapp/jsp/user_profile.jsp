@@ -1,4 +1,5 @@
 <!-- luca: non mi è ben chiaro come dovrebbe funzionare il form di questa pagina
+	per quanto riguarda il passaggio delle informazioni al server.
 	anche cercando in internet non sembra che la gente lo sappia -->
 
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
@@ -14,7 +15,7 @@
 	<link href="../css/bootstrap.min.css" rel="stylesheet">
 	<link href="../fonts/font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet">
 	
-	<script src="../js/ea-signin-validation.js"></script>
+	<script src="../js/ea-form-validation.js"></script>
 	
 	<!-- Datepicker -->
 	<link href="../css/datepicker3.css" rel="stylesheet">
@@ -22,7 +23,7 @@
 	<script src="../js/jquery.min.js"></script>
 	<script src="../js/jquery-1.10.2.js"></script>
 	<script src="../js/jquery-ui-1.10.4.custom.js"></script>
-	<script src="../js/ea-firstjs.js"></script>
+	<script src="../js/ea-basic.js"></script>
 	<script src="../js/bootstrap-datepicker.js"></script>
 	<script src="../js/bootstrap.min.js"></script>
 </head>
@@ -67,7 +68,7 @@
 									</div>
 									<div class="modal-body">
 										<!-- action deve puntare alla servlet che gestisce il cambio delle informazioni -->
-										<form name='registration' onSubmit="return formValidation();" method="post" action="#">
+										<form name='registration' onSubmit="return userProfileFormValidation();" method="post" action="#">
 											<div class="input-group sign_in_input_group">
 												<span class="input-group-addon sign_in_input">Username*</span> <input type="text" class="form-control" name="user" id="user" placeholder="Insert your username">
 											</div>

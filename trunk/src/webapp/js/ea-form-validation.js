@@ -1,6 +1,6 @@
-// function used for the validation of the elements in the sign-in page
+// contains functions used for the validation of forms through the website
 
-function formValidation()  
+function signInFormValidation()  
 {  
 	var minUserIDLength = 4
 	var maxUserIDLength = 50
@@ -26,8 +26,32 @@ function formValidation()
 		}  
 	}  
 	return false;  
-
 } 
+
+function userProfileFormValidation()
+{
+	var minUserIDLength = 4
+	var maxUserIDLength = 50
+	var minPassLength = 6
+	var maxPassLength = 20
+	var uid = document.registration.user;   
+	var uemail = document.registration.email;
+	var pwd = document.registration.password; 
+	var pwd2 = document.registration.password2; 
+	
+	if(userid_validation(uid,minUserIDLength,maxUserIDLength))  
+	{  
+		if(pwd_validation(pwd, pwd2,minPassLength,maxPassLength))  
+		{  
+			if(email_validation(uemail))  
+			{  
+				return true;
+			}   
+		}  
+	}  
+	return false;  
+}
+
 function regterm_validation(regterm)
 {
 	if (regterm.checked)
