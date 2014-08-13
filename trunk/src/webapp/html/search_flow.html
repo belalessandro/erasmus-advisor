@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title>Ricerca</title>
+	<title>Find a Flow</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	
 	<link href="../css/ea-main.css" rel="stylesheet">
@@ -10,24 +10,29 @@
 	<link href="../css/bootstrap-select.css" rel="stylesheet">
 	<link href="../fonts/font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet">
 	
-	<script src="../js/jquery.js"></script>
 	<script src="../js/jquery.min.js"></script>
-	<script src="../js/jquery.balloon.min.js"></script>
-	<script src="../js/search.js"></script>
 	<script src="../js/bootstrap.min.js"></script>
 	<script src="../js/bootstrap-select.js"></script>
 	
 	<script type="text/javascript">
-		function comparsa() {if (document.getElementById("sidebar").style.display=="none"){ document.getElementById("sidebar").style.display="block";} else {document.getElementById("sidebar").style.display="none";} }
-	</script>
-	<script type="text/javascript">
-        $(window).on('load', function () {
-
-            $('.selectpicker').selectpicker({
-                'selectedText': 'cat'
-            });
-
-            // $('.selectpicker').selectpicker('hide');
+		// serve per la comparsa delle impostazioni di ricerca avanzata
+		function comparsa() 
+		{
+			if (document.getElementById("sidebar").style.display=="none")
+			{ 
+				document.getElementById("sidebar").style.display="block";
+			} 
+			else 
+			{
+				document.getElementById("sidebar").style.display="none";
+			} 
+		}
+		
+		// credo serva per l'inizializzazione delle combobox
+        $(window).on('load', function () 
+        {
+        	$('.selectpicker').selectpicker({'selectedText': 'cat'});
+         	// $('.selectpicker').selectpicker('hide');
         });
     </script>
 
