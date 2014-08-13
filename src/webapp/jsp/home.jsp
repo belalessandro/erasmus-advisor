@@ -68,7 +68,7 @@
 				<form class="navbar-form navbar-right" method="post" action="#">
 					<div class="form-group"><input type="text" placeholder="Email" class="form-control"></div>
 					<div class="form-group"><input type="password" placeholder="Password" class="form-control"></div>
-					<button type="submit" class="btn btn-primary">Sign in</button>
+					<button type="submit" class="btn btn-primary">Login</button>
 				</form>
 			</div>
 		</div>

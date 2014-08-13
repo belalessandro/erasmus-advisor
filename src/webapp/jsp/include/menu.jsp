@@ -5,7 +5,6 @@
 	la pagina che include il menu passa nel parametro pageName il suo nome
 	con l'istruzione jsp <c:if test="${param.pageName == 'index'}">active</c:if>
 	si possono inserire tag specifici per evidenziare la pagina in cui ci si trova
-	o simili
 	
 	non l'ho implementata semplicemente perchè non so cosa si vorrebbe fare
 -->
@@ -14,7 +13,7 @@
 	Home			>		index 
 							sono visualizzati gli interessi, volendo pure una guida/introduzione
 	
-	My Interests	void	pagina rimossa, è ridondante con la Home
+	My Interests			pagina rimossa, è ridondante con la Home
 	
 	My Comments		-/->	manca la pagina
 							elenco di tutti i commenti inseriti dall'utente?
@@ -38,8 +37,8 @@
 <!-- inizio menu -->
 <div class="col-md-3">
 	<div class="menu_title menu_normal"><i class="fa fa-bars fa-fw"></i>MENU</div>
-	<div class="col-sm-1 column"></div><div class="menu_normal"><a href="index.jsp"><i class="fa fa-home fa-fw"></i>Home</a></div>
-	<div class="col-sm-1 column"></div><div class="menu_normal"><a href="#"><i class="fa fa-user fa-fw"></i>My Comments</a></div>
+	<div class="menu_normal"><a href="index.jsp"><i class="fa fa-home fa-fw"></i>Home</a></div>
+	<div class="menu_normal"><a href="#"><i class="fa fa-user fa-fw"></i>My Comments</a></div>
 	<div class="menu_normal"><a href="#"><i class="fa fa-arrow-right fa-fw"></i>Insert a New Content</a></div>
 	<br>
 	<div class="menu_title menu_normal"><i class="fa fa-search fa-fw"></i>SEARCH</div>
