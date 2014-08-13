@@ -45,7 +45,7 @@
 	<div class="menu_normal"><a href="#"><i class="fa fa-arrow-right fa-fw"></i>Flows</a></div>
 	<div class="menu_normal"><a href="#"><i class="fa fa-arrow-right fa-fw"></i>Universities</a></div>
 	<div class="menu_normal"><a href="#"><i class="fa fa-arrow-right fa-fw"></i>Cities</a></div>
-	<div class="menu_normal"><a href="#"><i class="fa fa-arrow-right fa-fw"></i>Classes</a></div>
+	<div class="menu_normal"><a href="search_class.jsp"><i class="fa fa-arrow-right fa-fw"></i>Classes</a></div>
 	<div class="menu_normal"><a href="#"><i class="fa fa-arrow-right fa-fw"></i>Theses</a></div>
 	<div class="menu_normal"><a href="#"><i class="fa fa-arrow-right fa-fw"></i>Advanced Search</a></div>
 </div>

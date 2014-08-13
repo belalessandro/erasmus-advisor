@@ -1,6 +1,7 @@
-
 <!-- come mai funzionerà questa pagina? JSP? Ajax?
 	a te, baldo implementatore, la scelta! -->
+
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -43,37 +44,20 @@
 </head>
 
 <body>
-<div class="container">
-		<!-- inizio barra di navigazione -->
-		<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-			<a href="#"> <img src="img/logo.svg" class="nav_logo"></a>
-			<ul class="nav nav-pills pull-right nav_style">
-				<li><a href="#">Notifications</a></li>
-				<li><a href="#">Account</a></li>
-				<li><a href="#"><span class="fa fa-sign-out fa-fw"></span>Logout</a></li>
-			</ul>
-		</div>
-		<!-- fine barra di navigazione -->
-		<!-- inizio menu -->
-		<div class="col-md-3">
-		    <div class="menu_title menu_normal"><i class="fa fa-bars fa-fw"></i>MENU</div>
-	        <div class="menu_normal"><a href="#"><i class="fa fa-home fa-fw"></i>Home</a></div>
-	  		<div class="menu_normal"><a href="#"><i class="fa fa-user fa-fw"></i>My Interests</a></div>
-	  		<div class="menu_normal"><a href="#"><i class="fa fa-user fa-fw"></i>My Comments</a></div>
-	        <div class="menu_normal"><a href="#"><i class="fa fa-arrow-right fa-fw"></i>Insert a New Content</a></div>
-			<br>
-			<div class="menu_title menu_normal"><i class="fa fa-search fa-fw"></i>SEARCH</div>
-			<div class="menu_normal"><a href="#"><i class="fa fa-arrow-right fa-fw"></i>Cities</a></div>
-	  		<div class="menu_normal"><a href="#"><i class="fa fa-arrow-right fa-fw"></i>Universities</a></div>
-		  	<div class="menu_normal"><a href="#"><i class="fa fa-arrow-right fa-fw"></i>Classes</a></div>
-			<div class="menu_normal"><a href="#"><i class="fa fa-arrow-right fa-fw"></i>Theses</a></div>
-		  	<div class="menu_normal"><a href="#"><i class="fa fa-arrow-right fa-fw"></i>Advanced Search</a></div>
-		</div>
-		<!-- fine menu -->
+	<div class="container">
+		<!-- barra di navigazione -->
+		<jsp:include page="/jsp/include/navbar.jsp"/>
+		<!-- menu -->
+		<jsp:include page="/jsp/include/menu.jsp">
+			<jsp:param name="pageName" value="search_class"/>
+		</jsp:include>
+		
 		<!-- inizio pagina -->
 		<div class="col-md-9 general_main_border">
 			<h2 class="text-center">Search a Class</h2>
 			<br>
+			<!-- luca: ho messo tanto amore nel fare questo form usando componenti di bootstrap standard
+			non scartatelo -->
 			<div class="col-md-4 text-center">
 				<div class="btn-group">
 					<button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" id="dropMenu">
@@ -105,7 +89,7 @@
 			<div class="col-md-4 text-center">
 				<button class="btn btn-primary" onclick="doSearch()"><span class="fa fa-search fa-fw"></span> Search</button>
 			</div>
-			<br><br>
+			<br><br><br>
 			<!-- frase da da creare dinamicamente -->
 			<h5>Results for <strong>Mathematics</strong> in <strong>Università agli Studi di Padova</strong>.</h5>
 			<br>
@@ -180,6 +164,8 @@
 			</ul>
 			 -->
 		</div>
-</div>		
+	</div>	
+	<!-- footer -->
+	<jsp:include page="/jsp/include/footer.jsp" />	
 </body>
 </html>
