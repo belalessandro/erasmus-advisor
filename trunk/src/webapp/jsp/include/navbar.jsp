@@ -22,7 +22,7 @@
 	<ul class="nav nav-pills pull-right nav_style">
 		<!-- nella pagina di sign in non si vedono le voci di menù -->
 		<c:if test="${param.pageName != 'sign_in'}">
-			<li><a href="#">Notifications</a></li>
+			<li><a href="notifications.jsp">Notifications</a></li>
 			<li><a href="user_profile.jsp">Account</a></li>
 			<li><a href="#"><span class="fa fa-sign-out fa-fw"></span>Logout</a></li>
 		</c:if>
