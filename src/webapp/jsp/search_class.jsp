@@ -1,4 +1,4 @@
-<!-- come mai funzionerà questa pagina? JSP? Ajax?
+<!-- in quale arcano modo questa pagina caricherà i risultati della ricerca? Ajax?
 	a te, baldo implementatore, la scelta! -->
 
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
@@ -16,6 +16,8 @@
 	
 	<script src="../js/jquery.min.js"></script>
 	<script src="../js/bootstrap.min.js"></script>
+	<script src="../js/jquery.tablesorter.min.js"></script>
+	<link href="../css/tablesorter/style.css" rel="stylesheet"> 
 	<script>
 		var areaDropValue;
 		var universityDropValue;
@@ -29,17 +31,22 @@
 		$(document).on('click', '.dropdown-menu li a', function () {
 			var selText = $(this).text();
 			var elem = $(this).parents('.btn-group').children('.dropdown-toggle').attr('id');
-			if (elem === 'dropMenu')
+			if (elem === 'dropArea')
 			{
-				$('#dropMenu').html(selText + ' <span class="caret"></span>');
+				$('#dropArea').html(selText + ' <span class="caret"></span>');
 				areaDropValue = selText;
 			}
-			else if (elem === 'dropMenu2')
+			else if (elem === 'dropUniversity')
 			{
-				$('#dropMenu2').html(selText + ' <span class="caret"></span>');
+				$('#dropUniversity').html(selText + ' <span class="caret"></span>');
 				universityDropValue = selText;
 			}
 		});
+		// inizializza tablesorter
+		$(document).ready(function() 
+    	{ 
+        	$("#resultTable").tablesorter();
+   		}); 
 	</script>
 </head>
 
@@ -56,11 +63,13 @@
 		<div class="col-md-9 general_main_border">
 			<h2 class="text-center">Search a Class</h2>
 			<br>
-			<!-- luca: ho messo tanto amore nel fare questo form usando componenti di bootstrap standard
-			non scartatelo -->
+			<!-- ho messo tanto amore nel fare questo form usando componenti di bootstrap standard
+			non scartatelo a priori. I nomi delle aree e delle università vanno caricate in modo dinamico. 
+			Notare che potrebbe essere meglio inserire un altro dropdown che ad esempio permetta di selezionare 
+			lo stato in cui si trova l'università e da lì, tramite Ajax, aggiornare l'altro.-->
 			<div class="col-md-4 text-center">
 				<div class="btn-group">
-					<button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" id="dropMenu">
+					<button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" id="dropArea">
 						Select an Area <span class="caret"></span>
 					</button>
 					<ul class="dropdown-menu search_scrollable_menu text-left">
@@ -74,7 +83,7 @@
 			</div>
 			<div class="col-md-4 text-center" >
 				<div class="btn-group">
-					<button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" id="dropMenu2">
+					<button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" id="dropUniversity">
 						Select an University <span class="caret"></span>
 					</button>
 					<ul class="dropdown-menu search_scrollable_menu text-left">
@@ -93,8 +102,10 @@
 			<!-- frase da da creare dinamicamente -->
 			<h5>Results for <strong>Mathematics</strong> in <strong>Università agli Studi di Padova</strong>.</h5>
 			<br>
-			<table class="table table-bordered table-hover table-striped">
-				<thead>
+			<table class="table table-bordered table-hover table-striped tablesorter" id="resultTable">
+<!-- 		rimossi i filtri, non si possono avere due thead sennò il tablesorter va in casino
+			al limite si possono reinserire sotto o in un'altra posizione
+			<thead>
 					<tr>
 						<th>
 							<div class="input-group input-group-md">
@@ -119,9 +130,9 @@
 							</div>
 						</th>
 					</tr>
-				</thead>
+				</thead> -->
 				<thead>
-					<tr class="warning">
+					<tr>
 						<th>Name</th>
 						<th>CFU</th>
 						<th>Year</th>
@@ -146,7 +157,15 @@
 						<td>2</td>
 						<td>1</td>
 						<td>IT</td>
-						<td>Pietro Maroponda, Andrea Angeletti</td>
+						<td>Pietro Maroponda</td>
+					</tr>
+					<tr>
+						<td><a href="#" class="linkExam">Probabilità Discreta</a></td>
+						<td>9</td>
+						<td>3</td>
+						<td>1</td>
+						<td>IT</td>
+						<td>Vincenzo Rossi</td>
 					</tr>
 					<tr>
 						<td><a href="#" class="linkExam">Algebra Lineare e Geometria</a></td>
@@ -154,7 +173,7 @@
 						<td>1</td>
 						<td>2</td>
 						<td>IT</td>
-						<td>Stagnaro</td>
+						<td>Stagnaro is Love</td>
 					</tr>
 				</tbody>
 			</table>
