@@ -10,7 +10,7 @@
 -->
 
 <!-- Mappa dei link del menù
-	Home			>		index 
+	Home			->		index 
 							sono visualizzati gli interessi, volendo pure una guida/introduzione
 	
 	My Interests			pagina rimossa, è ridondante con la Home
@@ -18,20 +18,20 @@
 	My Comments		-/->	manca la pagina
 							elenco di tutti i commenti inseriti dall'utente?
 	
-	Insert a new...	>		insert_x
+	Insert a new...	->		insert_x
 							manca un menù per decidere a quale pagina reindirizzare
 	
-	Flows			>		search_flow
+	Flows			->		search_flow
 	
-	Universities	-/->	manca la pagina
+	Universities	->		search_university
 	
-	Cities			-/->	manca la pagina
+	Cities			->		search_city
 	
-	Classes			>		search_class
+	Classes			->		search_class
 	
-	Theses			>		search_theses
+	Theses			->		search_theses
 	
-	Advanced Search	-/->	manca la pagina (non essenziale però) 
+	Advanced Search			pagina rimossa
 -->
 
 <!-- inizio menu -->
@@ -42,11 +42,10 @@
 	<div class="menu_normal"><a href="#"><i class="fa fa-arrow-right fa-fw"></i>Insert a New Content</a></div>
 	<br>
 	<div class="menu_title menu_normal"><i class="fa fa-search fa-fw"></i>SEARCH</div>
-	<div class="menu_normal"><a href="#"><i class="fa fa-arrow-right fa-fw"></i>Flows</a></div>
-	<div class="menu_normal"><a href="#"><i class="fa fa-arrow-right fa-fw"></i>Universities</a></div>
-	<div class="menu_normal"><a href="#"><i class="fa fa-arrow-right fa-fw"></i>Cities</a></div>
+	<div class="menu_normal"><a href="search_flow.jsp"><i class="fa fa-arrow-right fa-fw"></i>Flows</a></div>
+	<div class="menu_normal"><a href="search_city.jsp"><i class="fa fa-arrow-right fa-fw"></i>Cities</a></div>
+	<div class="menu_normal"><a href="search_university.jsp"><i class="fa fa-arrow-right fa-fw"></i>Universities</a></div>
 	<div class="menu_normal"><a href="search_class.jsp"><i class="fa fa-arrow-right fa-fw"></i>Classes</a></div>
-	<div class="menu_normal"><a href="#"><i class="fa fa-arrow-right fa-fw"></i>Theses</a></div>
-	<div class="menu_normal"><a href="#"><i class="fa fa-arrow-right fa-fw"></i>Advanced Search</a></div>
+	<div class="menu_normal"><a href="search_thesis.jsp"><i class="fa fa-arrow-right fa-fw"></i>Theses</a></div>
 </div>
 <!-- fine menu -->

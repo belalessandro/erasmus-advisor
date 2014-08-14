@@ -33,14 +33,10 @@
 		<jsp:include page="/jsp/include/navbar.jsp">
 			<jsp:param name="pageName" value="sign_in"/>
 		</jsp:include>
-		<!-- menu -->
-		<jsp:include page="/jsp/include/menu.jsp">
-			<jsp:param name="pageName" value="sign_in"/>
-		</jsp:include>
 
 		<!-- Class Header -->
-
-		<div class="col-md-9 general_main_border">
+		<div class ="col-md-2"></div>
+		<div class="col-md-8">
 			<h2 align="center">Registration Page</h2>
 			<br>
 			<p align="center">An * indicates a required field.</p>
@@ -96,6 +92,7 @@
 				</div>
 			</form>
 		</div>
+		<div class ="col-md-2"></div>
 	</div>
 	<!--/container-->
 	<!-- footer -->

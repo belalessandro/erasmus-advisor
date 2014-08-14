@@ -7,7 +7,7 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title>Find a University</title>
+	<title>Find a City</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	
 	<link href="../css/ea-main.css" rel="stylesheet">
@@ -22,19 +22,19 @@
 		// variabili che contengono i valori selezionati nei dropdown
 		// usate nella chiamata per effettuare la ricerca vera e propria
 		var countryDropValue;
-		var cityDropValue;
+		var languageDropValue;
 		
 		// da questa funzione si fa partire la ricerca
 		function doSearch()
 		{
-			if (cityDropValue === undefined || cityDropValue === null) 
+			if (languageDropValue === undefined || languageDropValue === null) 
 			{
-				// città non selezionata
+				// lingua non selezionata
 				alert('country ' + countryDropValue);
 			}
 			else
 			{
-				alert('country ' + countryDropValue + ' city ' + cityDropValue);
+				alert('country ' + countryDropValue + ' language ' + languageDropValue);
 			}
 		}
 		// aggiorna l'etichetta mostrata dai dropdown e salva il valore selezionato
@@ -46,21 +46,17 @@
 				$('#dropCountry').html(selText + ' <span class="caret"></span>');
 				countryDropValue = selText;
 			}
-			else if (elem === 'dropCity')
+			else if (elem === 'dropLanguage')
 			{
-				$('#dropCity').html(selText + ' <span class="caret"></span>');
-				cityDropValue = selText;
+				$('#dropLanguage').html(selText + ' <span class="caret"></span>');
+				languageDropValue = selText;
 			}
 		});
 		// inizializza tablesorter
-		// disabilita l'ordinamento sulla prima colonna
-		$(document).ready(function() { 
-		    $("#resultTable").tablesorter({ 
-		        headers: { 
-		            1: { sorter: false }
-		        } 
-		    }); 
-		}); 
+		$(document).ready(function() 
+    	{ 
+        	$("#resultTable").tablesorter();
+   		}); 
 	</script>
 </head>
 
@@ -70,17 +66,15 @@
 		<jsp:include page="/jsp/include/navbar.jsp"/>
 		<!-- menu -->
 		<jsp:include page="/jsp/include/menu.jsp">
-			<jsp:param name="pageName" value="search_university"/>
+			<jsp:param name="pageName" value="search_city"/>
 		</jsp:include>
 		
 		<!-- inizio pagina -->
 		<div class="col-md-9 general_main_border">
-			<h2 class="text-center">Search a University</h2>
+			<h2 class="text-center">Search a City</h2>
 			<br>
 			<!-- ho messo tanto amore nel fare questo form usando componenti di bootstrap standard
-			non scartatelo a priori. I nomi delle aree e delle università vanno caricate in modo dinamico. 
-			Notare che potrebbe essere meglio inserire un altro dropdown che ad esempio permetta di selezionare 
-			lo stato in cui si trova l'università e da lì, tramite Ajax, aggiornare l'altro.-->
+			non scartatelo a priori. I nomi vanno caricate in modo dinamico. -->
 			<div class="col-md-4 text-center">
 				<div class="btn-group">
 					<button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" id="dropCountry">
@@ -97,15 +91,15 @@
 			</div>
 			<div class="col-md-4 text-center" >
 				<div class="btn-group">
-					<button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" id="dropCity">
-						Select a City <span class="caret"></span>
+					<button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" id="dropLanguage">
+						Select a Language <span class="caret"></span>
 					</button>
 					<ul class="dropdown-menu search_scrollable_menu text-left">
-						<li><a href="#">City1</a></li>
-						<li><a href="#">City2</a></li>
-						<li><a href="#">City3</a></li>
-						<li><a href="#">City4</a></li>
-						<li><a href="#">City5</a></li>
+						<li><a href="#">Language1</a></li>
+						<li><a href="#">Language2</a></li>
+						<li><a href="#">Language3</a></li>
+						<li><a href="#">Language4</a></li>
+						<li><a href="#">Language5</a></li>
 					</ul>
 				</div>
 			</div>
@@ -117,45 +111,31 @@
 			<!-- frase da da creare dinamicamente -->
 			<h5>Results for <strong>Italy</strong>.</h5>
 			<br>
+			<!-- si potrebbe al limite visualizzare le università per città in una colonna apposita -->
 			<table class="table table-bordered table-hover table-striped tablesorter" id="resultTable">
 				<thead>
 					<tr>
 						<th>Name</th>
-						<th>Link</th>
-						<th>Rank</th>
-						<th>Campus</th>
-						<th>City</th>
+						<th>Languages</th>
 					</tr>
 				</thead>
 				<tbody>
 				<!-- risultati da creare dinamicamente -->
 					<tr>
-						<td><a href="#">Università degli Studi di Padova</a></td>
-						<td><a href="http://www.unipd.it">http://www.unipd.it</a></td>
-						<td>180</td>
-						<td>No</td>
-						<td>Padua</td>
+						<td><a href="#">Padua</a></td>
+						<td>Italian, Venetian, Zibbo</td>
 					</tr>
 					<tr>
-						<td><a href="#">Università degli Studi di Bologna</a></td>
-						<td><a href="http://www.unibo.it">http://www.unibo.it</a></td>
-						<td>160</td>
-						<td>Yes</td>
-						<td>Bologna</td>
+						<td><a href="#">Neaples</a></td>
+						<td>Terron</td>
 					</tr>
 					<tr>
-						<td><a href="#">Università degli Studi di Napoli Federico II</a></td>
-						<td><a href="http://www.unina.it">http://www.unina.it</a></td>
-						<td>NV</td>
-						<td>No</td>
-						<td>Neaples</td>
+						<td><a href="#">Milan</a></td>
+						<td>Italian</td>
 					</tr>
 					<tr>
-						<td><a href="#">La Sapienza - Università di Roma</a></td>
-						<td><a href="http://www.uniroma1.it">http://www.uniroma1.it</a></td>
-						<td>380</td>
-						<td>Yes</td>
-						<td>Rome</td>
+						<td><a href="#">Florence</a></td>
+						<td>Italian</td>
 					</tr>
 				</tbody>
 			</table>
