@@ -7,7 +7,7 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title>Find a Class</title>
+	<title>Find a flow</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	
 	<link href="../css/ea-main.css" rel="stylesheet">
@@ -21,25 +21,30 @@
 	<script>
 		// variabili che contengono i valori selezionati nei dropdown
 		// usate nella chiamata per effettuare la ricerca vera e propria
-		var areaDropValue;
-		var universityDropValue;
-		var yearDropValue;
-		var semesterDropValue;
-		var languageDropValue;
+		var countryDropValue;
+		var cityDropValue;
+		var durationDropValue;
+		var seatsDropValue;
+		var certificateDropValue;
 		
 		// da questa funzione si fa partire la ricerca
 		function doSearch()
 		{
-			if (document.getElementById("sidebar").style.display=="none")
+			if (countryDropValue === undefined || countryDropValue === null) 
+			{
+				// l'utente vuole tutti i flussi
+				alert('get all the flows');
+			}
+			else if (document.getElementById("sidebar").style.display=="none")
 			{ 
 				// ricerca avanzata disabilitata
-				alert('area ' + areaDropValue + ' university ' + universityDropValue);
+				alert('area ' + countryDropValue + ' city ' + cityDropValue);
 			} 
 			else
 			{
-				alert('area ' + areaDropValue + ' university ' + universityDropValue
-					+ ' year ' + yearDropValue + ' semester ' + semesterDropValue 
-					+ ' language ' + languageDropValue);
+				alert('area ' + countryDropValue + ' city ' + cityDropValue
+					+ ' duration ' + durationDropValue + ' seats ' + seatsDropValue 
+					+ ' certificate ' + certificateDropValue);
 			}
 		}
 		// serve per la comparsa delle impostazioni di ricerca avanzata
@@ -58,30 +63,30 @@
 		$(document).on('click', '.dropdown-menu li a', function () {
 			var selText = $(this).text();
 			var elem = $(this).parents('.btn-group').children('.dropdown-toggle').attr('id');
-			if (elem === 'dropArea')
+			if (elem === 'dropCountry')
 			{
-				$('#dropArea').html(selText + ' <span class="caret"></span>');
-				areaDropValue = selText;
+				$('#dropCountry').html(selText + ' <span class="caret"></span>');
+				countryDropValue = selText;
 			}
-			else if (elem === 'dropUniversity')
+			else if (elem === 'dropCity')
 			{
-				$('#dropUniversity').html(selText + ' <span class="caret"></span>');
-				universityDropValue = selText;
+				$('#dropCity').html(selText + ' <span class="caret"></span>');
+				cityDropValue = selText;
 			}
-			else if (elem === 'dropYear')
+			else if (elem === 'dropDuration')
 			{
-				$('#dropYear').html(selText + ' <span class="caret"></span>');
-				yearDropValue = selText;
+				$('#dropDuration').html(selText + ' <span class="caret"></span>');
+				durationDropValue = selText;
 			}
-			else if (elem === 'dropSemester')
+			else if (elem === 'dropSeats')
 			{
-				$('#dropSemester').html(selText + ' <span class="caret"></span>');
-				semesterDropValue = selText;
+				$('#dropSeats').html(selText + ' <span class="caret"></span>');
+				seatsDropValue = selText;
 			}
-			else if (elem === 'dropLanguage')
+			else if (elem === 'dropCertificate')
 			{
-				$('#dropLanguage').html(selText + ' <span class="caret"></span>');
-				languageDropValue = selText;
+				$('#dropCertificate').html(selText + ' <span class="caret"></span>');
+				certificateDropValue = selText;
 			}
 		});
 		// inizializza tablesorter
@@ -103,37 +108,38 @@
 		
 		<!-- inizio pagina -->
 		<div class="col-md-9 general_main_border">
-			<h2 class="text-center">Search a Class</h2>
+			<h2 class="text-center">Search a Flow</h2>
 			<br>
+			The results are automatically filtered to show you only the Erasmus flows that start from your degree course.
+			If you do not specify any parameter you will get their full list.
+			<br><br>
 			<!-- ho messo tanto amore nel fare questo form usando componenti di bootstrap standard
-			non scartatelo a priori. I nomi delle aree e delle università vanno caricate in modo dinamico. 
-			Notare che potrebbe essere meglio inserire un altro dropdown che ad esempio permetta di selezionare 
-			lo stato in cui si trova l'università e da lì, tramite Ajax, aggiornare l'altro.-->
+			non scartatelo a priori. I nomi vanno caricati in modo dinamico.-->
 			<div class="col-md-4 text-center">
 				<div class="btn-group">
-					<button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" id="dropArea">
-						Select an Area <span class="caret"></span>
+					<button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" id="dropCountry">
+						Select a Country <span class="caret"></span>
 					</button>
 					<ul class="dropdown-menu search_scrollable_menu text-left">
-						<li><a href="#">Area1</a></li>
-						<li><a href="#">Area2</a></li>
-						<li><a href="#">Area3</a></li>
-						<li><a href="#">Area4</a></li>
-						<li><a href="#">Area5</a></li>
+						<li><a href="#">Country1</a></li>
+						<li><a href="#">Country2</a></li>
+						<li><a href="#">Country3</a></li>
+						<li><a href="#">Country4</a></li>
+						<li><a href="#">Country5</a></li>
 					</ul>
 				</div>
 			</div>
 			<div class="col-md-4 text-center" >
 				<div class="btn-group">
-					<button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" id="dropUniversity">
-						Select a University <span class="caret"></span>
+					<button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" id="dropCity">
+						Select a City <span class="caret"></span>
 					</button>
 					<ul class="dropdown-menu search_scrollable_menu text-left">
-						<li><a href="#">University1</a></li>
-						<li><a href="#">University2</a></li>
-						<li><a href="#">University3</a></li>
-						<li><a href="#">University4</a></li>
-						<li><a href="#">University5</a></li>
+						<li><a href="#">City1</a></li>
+						<li><a href="#">City2</a></li>
+						<li><a href="#">City3</a></li>
+						<li><a href="#">City4</a></li>
+						<li><a href="#">City5</a></li>
 					</ul>
 				</div>
 			</div>
@@ -149,8 +155,8 @@
 			<div id="sidebar" style="display:none">
 				<div class="col-md-4 text-center" >
 					<div class="btn-group">
-						<button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" id="dropYear">
-							Select a Year <span class="caret"></span>
+						<button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" id="dropDuration">
+							Select a number of months <span class="caret"></span>
 						</button>
 						<ul class="dropdown-menu search_scrollable_menu text-left">
 							<li><a href="#">1</a></li>
@@ -164,24 +170,30 @@
 				</div>
 				<div class="col-md-4 text-center" >
 					<div class="btn-group">
-						<button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" id="dropSemester">
-							Select a Semester <span class="caret"></span>
+						<button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" id="dropSeats">
+							Select the minimum avaible seats <span class="caret"></span>
 						</button>
 						<ul class="dropdown-menu search_scrollable_menu text-left">
 							<li><a href="#">1</a></li>
 							<li><a href="#">2</a></li>
+							<li><a href="#">3</a></li>
+							<li><a href="#">4</a></li>
+							<li><a href="#">5</a></li>
+							<li><a href="#">6</a></li>
 						</ul>
 					</div>
 				</div>
 				<div class="col-md-4 text-center" >
 					<div class="btn-group">
-						<button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" id="dropLanguage">
-							Select a Language <span class="caret"></span>
+						<button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" id="dropCertificate">
+							Select a Linguistic Certification <span class="caret"></span>
 						</button>
 						<ul class="dropdown-menu search_scrollable_menu text-left">
-							<li><a href="#">Italian</a></li>
-							<li><a href="#">Spanish</a></li>
-							<li><a href="#">English</a></li>
+							<li><a href="#">Certificate1</a></li>
+							<li><a href="#">Certificate2</a></li>
+							<li><a href="#">Certificate3</a></li>
+							<li><a href="#">Certificate4</a></li>
+							<li><a href="#">Certificate5</a></li>
 						</ul>
 					</div>
 				</div>
@@ -189,75 +201,52 @@
 			<!-- fine Ricerca Avanzata -->
 			<br><br><br>
 			<!-- frase da da creare dinamicamente -->
-			<h5>Results for <strong>Mathematics</strong> in <strong>Università agli Studi di Padova</strong>.</h5>
+			<h5>Results for <strong>United Kingdom</strong>.</h5>
 			<br>
 			<table class="table table-bordered table-hover table-striped tablesorter" id="resultTable">
-<!-- 		rimossi i filtri, non si possono avere due thead sennò il tablesorter va in casino
-			al limite si possono reinserire sotto o in un'altra posizione
-			<thead>
-					<tr>
-						<th>
-							<div class="input-group input-group-md">
-								<input type="text" class="form-control" placeholder="Filter by Name"> 
-								<span class="input-group-btn">
-									<button class="btn btn-default" type="button"><span class="glyphicon glyphicon-search"></span></button>
-								</span>
-							</div>
-						</th>
-						<th></th><th></th><th></th><th></th>
-						<th>
-							<div class="input-group input-group-md">
-								<input type="text" class="form-control" placeholder="Filter by Professor"> 
-								<span class="input-group-btn">
-									<button class="btn btn-default" type="button"><span class="glyphicon glyphicon-search"></span></button>
-								</span>
-							</div>
-						</th>
-					</tr>
-				</thead> -->
 				<thead>
 					<tr>
-						<th>Name</th>
-						<th>CFU</th>
-						<th>Year</th>
-						<th>Semester</th>
-						<th>Language</th>
-						<th>Professors</th>
+						<th>ID</th>
+						<th>University</th>
+						<th>City</th>
+						<th>Avaible Seats</th>
+						<th>Duration</th>
+						<th>Certificates</th>
 					</tr>
 				</thead>
 				<tbody>
 				<!-- risultati da creare dinamicamente -->
 					<tr>
-						<td><a href="#">Analisi matematica 1</a></td>
-						<td>12</td>
+						<td><a href="#">UK854</a></td>
+						<td><a href="#">Imperial College</a></td>
+						<td><a href="#">London</a></td>
 						<td>1</td>
-						<td>1</td>
-						<td>Italian</td>
-						<td>Marco Bardi, Matteo Novaga</td>
+						<td>6</td>
+						<td>English C2</td>
 					</tr>
 					<tr>
-						<td><a href="#">Analisi matematica 2</a></td>
-						<td>12</td>
+						<td><a href="#">UK5</a></td>
+						<td><a href="#">Brighton University</a></td>
+						<td><a href="#">Brighton</a></td>
 						<td>2</td>
-						<td>1</td>
-						<td>Italian</td>
-						<td>Pietro Maroponda</td>
+						<td>9</td>
+						<td>English B2</td>
 					</tr>
 					<tr>
-						<td><a href="#">Probabilità Discreta</a></td>
-						<td>9</td>
-						<td>3</td>
-						<td>1</td>
-						<td>Italian</td>
-						<td>Vincenzo Rossi</td>
+						<td><a href="#">UK202</a></td>
+						<td><a href="#">University of London</a></td>
+						<td><a href="#">London</a></td>
+						<td>4</td>
+						<td>6</td>
+						<td>English C1</td>
 					</tr>
 					<tr>
-						<td><a href="#">Algebra Lineare e Geometria</a></td>
-						<td>9</td>
+						<td><a href="#">UK412</a></td>
+						<td><a href="#">Edimburgh College</a></td>
+						<td><a href="#">Edimburgh</a></td>
 						<td>1</td>
-						<td>2</td>
-						<td>Italian</td>
-						<td>Stagnaro is Love</td>
+						<td>6</td>
+						<td>English C1</td>
 					</tr>
 				</tbody>
 			</table>

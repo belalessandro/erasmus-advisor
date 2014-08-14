@@ -7,7 +7,7 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title>Find a Class</title>
+	<title>Find a Thesis</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	
 	<link href="../css/ea-main.css" rel="stylesheet">
@@ -23,8 +23,7 @@
 		// usate nella chiamata per effettuare la ricerca vera e propria
 		var areaDropValue;
 		var universityDropValue;
-		var yearDropValue;
-		var semesterDropValue;
+		var levelDropValue;
 		var languageDropValue;
 		
 		// da questa funzione si fa partire la ricerca
@@ -38,8 +37,7 @@
 			else
 			{
 				alert('area ' + areaDropValue + ' university ' + universityDropValue
-					+ ' year ' + yearDropValue + ' semester ' + semesterDropValue 
-					+ ' language ' + languageDropValue);
+					+ ' level ' + levelDropValue + ' language ' + languageDropValue);
 			}
 		}
 		// serve per la comparsa delle impostazioni di ricerca avanzata
@@ -68,15 +66,10 @@
 				$('#dropUniversity').html(selText + ' <span class="caret"></span>');
 				universityDropValue = selText;
 			}
-			else if (elem === 'dropYear')
+			else if (elem === 'dropLevel')
 			{
-				$('#dropYear').html(selText + ' <span class="caret"></span>');
-				yearDropValue = selText;
-			}
-			else if (elem === 'dropSemester')
-			{
-				$('#dropSemester').html(selText + ' <span class="caret"></span>');
-				semesterDropValue = selText;
+				$('#dropLevel').html(selText + ' <span class="caret"></span>');
+				levelDropValue = selText;
 			}
 			else if (elem === 'dropLanguage')
 			{
@@ -103,7 +96,7 @@
 		
 		<!-- inizio pagina -->
 		<div class="col-md-9 general_main_border">
-			<h2 class="text-center">Search a Class</h2>
+			<h2 class="text-center">Search a Thesis</h2>
 			<br>
 			<!-- ho messo tanto amore nel fare questo form usando componenti di bootstrap standard
 			non scartatelo a priori. I nomi delle aree e delle università vanno caricate in modo dinamico. 
@@ -147,33 +140,18 @@
 			</div>
 			<br>
 			<div id="sidebar" style="display:none">
-				<div class="col-md-4 text-center" >
+				<div class="col-md-6 text-center" >
 					<div class="btn-group">
-						<button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" id="dropYear">
-							Select a Year <span class="caret"></span>
+						<button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" id="dropLevel">
+							Select a Level <span class="caret"></span>
 						</button>
 						<ul class="dropdown-menu search_scrollable_menu text-left">
-							<li><a href="#">1</a></li>
-							<li><a href="#">2</a></li>
-							<li><a href="#">3</a></li>
-							<li><a href="#">4</a></li>
-							<li><a href="#">5</a></li>
-							<li><a href="#">6</a></li>
+							<li><a href="#">Undergraduate</a></li>
+							<li><a href="#">Graduate</a></li>
 						</ul>
 					</div>
 				</div>
-				<div class="col-md-4 text-center" >
-					<div class="btn-group">
-						<button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" id="dropSemester">
-							Select a Semester <span class="caret"></span>
-						</button>
-						<ul class="dropdown-menu search_scrollable_menu text-left">
-							<li><a href="#">1</a></li>
-							<li><a href="#">2</a></li>
-						</ul>
-					</div>
-				</div>
-				<div class="col-md-4 text-center" >
+				<div class="col-md-6 text-center" >
 					<div class="btn-group">
 						<button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" id="dropLanguage">
 							Select a Language <span class="caret"></span>
@@ -204,7 +182,7 @@
 								</span>
 							</div>
 						</th>
-						<th></th><th></th><th></th><th></th>
+						<th></th><th></th><th></th>
 						<th>
 							<div class="input-group input-group-md">
 								<input type="text" class="form-control" placeholder="Filter by Professor"> 
@@ -218,46 +196,41 @@
 				<thead>
 					<tr>
 						<th>Name</th>
-						<th>CFU</th>
-						<th>Year</th>
-						<th>Semester</th>
-						<th>Language</th>
+						<th>Other Areas</th>
+						<th>Level</th>
+						<th>Languages</th>
 						<th>Professors</th>
 					</tr>
 				</thead>
 				<tbody>
 				<!-- risultati da creare dinamicamente -->
 					<tr>
-						<td><a href="#">Analisi matematica 1</a></td>
-						<td>12</td>
-						<td>1</td>
-						<td>1</td>
-						<td>Italian</td>
-						<td>Marco Bardi, Matteo Novaga</td>
+						<td><a href="#">Counting up to ten.</a></td>
+						<td></td>
+						<td>Undergraduate</td>
+						<td>Italian, English</td>
+						<td>Matteo Novaga</td>
 					</tr>
 					<tr>
-						<td><a href="#">Analisi matematica 2</a></td>
-						<td>12</td>
-						<td>2</td>
-						<td>1</td>
+						<td><a href="#">Counting up to a hundred.</a></td>
+						<td>Philosophy and ethics, Statistics</td>
+						<td>Graduate</td>
 						<td>Italian</td>
-						<td>Pietro Maroponda</td>
+						<td>Matteo Novaga</td>
 					</tr>
 					<tr>
-						<td><a href="#">Probabilità Discreta</a></td>
-						<td>9</td>
-						<td>3</td>
-						<td>1</td>
-						<td>Italian</td>
-						<td>Vincenzo Rossi</td>
+						<td><a href="#">Algebraic properties of n-dimensional spaces.</a></td>
+						<td></td>
+						<td>Undergraduate</td>
+						<td>Italian, English</td>
+						<td>Pietro de Petris, Alvaro Azzolini</td>
 					</tr>
 					<tr>
-						<td><a href="#">Algebra Lineare e Geometria</a></td>
-						<td>9</td>
-						<td>1</td>
-						<td>2</td>
-						<td>Italian</td>
-						<td>Stagnaro is Love</td>
+						<td><a href="#">The sum of all fears.</a></td>
+						<td>Statistics</td>
+						<td>Undergraduate</td>
+						<td>English</td>
+						<td>Alberico degli Uberti</td>
 					</tr>
 				</tbody>
 			</table>
