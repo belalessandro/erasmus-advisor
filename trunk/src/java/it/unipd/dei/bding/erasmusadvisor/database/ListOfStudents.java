@@ -1,12 +1,14 @@
 package it.unipd.dei.bding.erasmusadvisor.database;
 
+import it.unipd.dei.bding.erasmusadvisor.beans.StudenteBean;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class ListOfCities {
+public class ListOfStudents {
 
 	private static final String DRIVER = "org.postgresql.Driver";
 	
@@ -22,7 +24,7 @@ public class ListOfCities {
 	 */
 	private static final String PASSWORD = "EATeam";
 	
-	private static final String SQL = "SELECT * FROM Citta;"; 
+	private static final String SQL = "SELECT * FROM Studente;"; 
 	
 	public static void main(String[] args) {
 		
@@ -35,8 +37,7 @@ public class ListOfCities {
 		long start;
 		long end;
 		
-		String cityName = null;
-		String cityCountry = null;
+		StudenteBean studente = new StudenteBean();
 		
 		try {
 			Class.forName(DRIVER);
@@ -74,12 +75,17 @@ public class ListOfCities {
 			// cycle on the query results
 			while(rs.next())
 			{
-				cityName = rs.getString("Nome");
-				cityCountry = rs.getString("Stato");
+				studente.setNomeUtente(rs.getString("NomeUtente"));
+				studente.setEmail(rs.getString("Email"));
+				studente.setPassword(rs.getString("Password"));
+				studente.setSalt(rs.getString("Salt"));
+				studente.setDataRegistrazione(rs.getDate("DataRegistrazione"));
+				studente.setUltimoAccesso(rs.getDate("UltimoAccesso"));
+				studente.setAttivo(rs.getBoolean("Attivo"));
 				
 				
-				System.out.printf("- %s %s%n", 
-						cityName, cityCountry);
+				System.out.printf("-The student %s has been created the %s%n", 
+						studente.getNomeUtente(), studente.getDataRegistrazione().toString());
 			}
 			
 		} catch (SQLException e) {
