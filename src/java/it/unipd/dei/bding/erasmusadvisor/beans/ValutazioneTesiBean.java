@@ -12,6 +12,11 @@ import java.sql.Date;
  */
 class ValutazioneTesiBean implements Serializable {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1569276918498251354L;
+
+	/**
 	 *
 	 */
 	private String nomeUtenteStudente;

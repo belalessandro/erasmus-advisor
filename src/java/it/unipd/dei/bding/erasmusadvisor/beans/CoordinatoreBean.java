@@ -12,6 +12,11 @@ import java.sql.Date;
  */
 class CoordinatoreBean implements Serializable {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4054409786449348156L;
+
+	/**
 	 *
 	 */
 	private String nomeUtente;

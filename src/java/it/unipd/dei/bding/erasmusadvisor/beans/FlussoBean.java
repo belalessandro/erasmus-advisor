@@ -12,6 +12,11 @@ import java.sql.Date;
  */
 class FlussoBean implements Serializable {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7311535251244471827L;
+
+	/**
 	 *
 	 */
 	private String id;

@@ -1,7 +1,6 @@
 package it.unipd.dei.bding.erasmusadvisor.beans;
 
 import java.io.Serializable;
-import java.sql.Date;
 
 /**
  * Represents the ...
@@ -11,6 +10,11 @@ import java.sql.Date;
  *  
  */
 class CittaBean implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5963735648471148344L;
+
 	/**
 	 *
 	 */
