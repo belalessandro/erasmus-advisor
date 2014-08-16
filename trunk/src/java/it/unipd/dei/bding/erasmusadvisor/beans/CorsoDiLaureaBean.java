@@ -1,7 +1,6 @@
 package it.unipd.dei.bding.erasmusadvisor.beans;
 
 import java.io.Serializable;
-import java.sql.Date;
 
 /**
  * Represents the ...
@@ -11,6 +10,10 @@ import java.sql.Date;
  *  
  */
 class CorsoDiLaureaBean implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1430601017206451611L;
 	/**
 	 * Constants for enum TIPOLAUREA
 	 */

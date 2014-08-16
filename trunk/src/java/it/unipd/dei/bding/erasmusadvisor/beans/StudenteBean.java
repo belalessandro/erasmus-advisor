@@ -14,6 +14,11 @@ import java.util.regex.Pattern;
  */
 public class StudenteBean implements Serializable {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8326089057059842805L;
+
+	/**
 	 *
 	 */
 	private String nomeUtente;

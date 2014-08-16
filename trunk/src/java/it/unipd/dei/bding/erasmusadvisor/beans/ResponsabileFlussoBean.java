@@ -12,6 +12,11 @@ import java.sql.Date;
  */
 class ResponsabileFlussoBean implements Serializable {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2625192943857821639L;
+
+	/**
 	 *
 	 */
 	private String nomeUtente;

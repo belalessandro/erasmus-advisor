@@ -12,6 +12,11 @@ import java.sql.Date;
  */
 class ValutazioneCittaBean implements Serializable {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -22416953176376311L;
+
+	/**
 	 *
 	 */
 	private String nomeUtenteStudente;

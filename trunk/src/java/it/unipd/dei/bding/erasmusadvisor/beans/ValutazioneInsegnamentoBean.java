@@ -12,6 +12,11 @@ import java.sql.Date;
  */
 class ValutazioneInsegnamentoBean implements Serializable {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4780429788958187651L;
+
+	/**
 	 *
 	 */
 	private String nomeUtenteStudente;

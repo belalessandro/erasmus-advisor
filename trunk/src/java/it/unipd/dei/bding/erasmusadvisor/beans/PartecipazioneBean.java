@@ -12,6 +12,11 @@ import java.sql.Date;
  */
 class PartecipazioneBean implements Serializable {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4929346344491070921L;
+
+	/**
 	 *
 	 */
 	private String nomeUtenteStudente;
