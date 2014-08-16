@@ -182,6 +182,39 @@ tr:hover {
 	width:60px !important;
 }
 
+/*new insert pages*/
+
+.insert_new_input_group
+{
+	width: 100%;
+}
+.insert_new_input_group_small
+{
+	width: 70%;
+}
+.insert_new_input
+{
+	width:150px !important;
+}
+.insert_new_input_small
+{
+	width:80px !important;
+}
+.insert_new_select_label_top
+{
+	border-radius: 4px !important; 
+	width: 220px !important; /*220 px è la dimensione del bootstrap-select*/
+	padding: 8px 12px !important;
+}
+.insert_new_select_label_inline
+{
+	border-radius: 4px !important; 
+	width: 220px !important;
+	padding: 8px 12px !important;
+	display: inline !important;
+	vertical-align:4px !important;
+}
+
 /*index page*/
 
 .index_table_col_remove

@@ -23,8 +23,7 @@
 	<script src="../js/jquery-1.10.2.js"></script>
 	<script src="../js/jquery-ui-1.10.4.custom.js"></script>
 	<script src="../js/bootstrap-datepicker.js"></script>
-	<script src="../js/ea-basic.js"></script>
-	
+	<script src="../js/ea-basic.js"></script>	
 </head>
 
 <body>
@@ -61,11 +60,11 @@
 					</div>
 					<br>
 					<div class="input-group sign_in_input_group">
-						<span class="input-group-addon sign_in_input">University</span> <input id="autocomplete" class="form-control" name="university" title="Type a letter for suggestions." placeholder="Insert your University">
+						<span class="input-group-addon sign_in_input">University</span> <input id="university" class="form-control" name="university" title="Type a letter for suggestions." placeholder="Insert your University">
 					</div>
 					<br>
 					<div class="input-group sign_in_input_group">
-						<span class="input-group-addon sign_in_input">Degree Course</span> <input id="autocomplete2" class="form-control" name="degree" title="Type a letter for suggestions." placeholder="Insert your Degree Course">
+						<span class="input-group-addon sign_in_input">Degree Course</span> <input id="degree" class="form-control" name="degree" title="Type a letter for suggestions." placeholder="Insert your Degree Course">
 					</div>
 					<br>
 					<div class="row">
@@ -88,7 +87,7 @@
 						</div>
 						<hr>
 					</div>
-					<input type="submit" class="btn btn-primary">
+					<input type="submit" class="btn btn-primary" value="Register Now!">
 				</div>
 			</form>
 		</div>
