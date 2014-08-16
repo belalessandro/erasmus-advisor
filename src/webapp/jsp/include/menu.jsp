@@ -39,7 +39,7 @@
 	<div class="menu_title menu_normal"><i class="fa fa-bars fa-fw"></i>MENU</div>
 	<div class="menu_normal"><a href="index.jsp"><i class="fa fa-home fa-fw"></i>Home</a></div>
 	<div class="menu_normal"><a href="#"><i class="fa fa-user fa-fw"></i>My Comments</a></div>
-	<div class="menu_normal"><a href="#"><i class="fa fa-arrow-right fa-fw"></i>Insert a New Content</a></div>
+	<div class="menu_normal"><a href="insert_flow.jsp"><i class="fa fa-arrow-right fa-fw"></i>Insert a New Content</a></div>
 	<br>
 	<div class="menu_title menu_normal"><i class="fa fa-search fa-fw"></i>SEARCH</div>
 	<div class="menu_normal"><a href="search_flow.jsp"><i class="fa fa-arrow-right fa-fw"></i>Flows</a></div>

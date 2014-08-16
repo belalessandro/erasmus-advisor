@@ -41,7 +41,9 @@
 					<li>Bootstrap 3.1.1 (<a href="http://getbootstrap.com/">http://getbootstrap.com/</a>);</li>
 					<li>Font Awesome 4.1.0 (<a href="http://fortawesome.github.io/Font-Awesome/">http://fortawesome.github.io/Font-Awesome/</a>);</li>
 					<li>jQuery (<a href="http://jquery.com/">http://jquery.com/</a>).</li>
-					<li>jQuery Plugin: Tablesorter 2.0 (<a href="http://tablesorter.com/docs/">http://tablesorter.com/docs//a>).</li>
+					<li>Tablesorter 2.0 (<a href="http://tablesorter.com/docs/">http://tablesorter.com/docs//a>).</li>
+					<li>Bootstrap-datepicker (<a href="bootstrap-datepicker.readthedocs.org/en/release/">bootstrap-datepicker.readthedocs.org/en/release/</a>).</li>
+					<li>Bootstrap-select (<a href="http://silviomoreto.github.io/bootstrap-select/">http://silviomoreto.github.io/bootstrap-select/</a>).</li>
 				</ul>
 			</nav>
 		</div>	
