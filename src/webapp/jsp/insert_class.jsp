@@ -4,13 +4,26 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title>Insert a new Class</title>
+	<title>Insert a new class</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	
 	<link href="../css/ea-main.css" rel="stylesheet">
 	<link href="../css/bootstrap.min.css" rel="stylesheet">
 	<link href="../fonts/font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet">
+	
+	<link href="../css/bootstrap-select.min.css" rel="stylesheet">
+	<script src="../js/jquery.min.js"></script>
+	<script src="../js/bootstrap-select.js"></script>	
 	<script src="../js/bootstrap.min.js"></script>	
+	<script>
+	// inizializza i select avanzati
+	$(document).ready(function() {
+	    $('.selectpicker').selectpicker({
+	        style: 'btn-default',
+	        size: false
+	    });
+	});
+	</script>
 </head>
 
 <body>
@@ -41,8 +54,16 @@
 						<span class="input-group-addon insert_new_input">Professors*</span> <textarea rows="2" class="form-control" name="professor" id="professor" placeholder="Insert the class' professors, one per line"></textarea>
 					</div>
 					<br>
-					<div class="input-group insert_new_input_group">
-						<span class="input-group-addon insert_new_input">Area*</span> <input id="area" class="form-control" name="area" placeholder="Insert the class's Area">
+					<div class="row">
+						<span></span>
+						<span class="input-group-addon insert_new_select_label_inline">Select the class' area*</span>
+						<select class="selectpicker text-left" id="area" name="area">
+	    					<option>Area1</option>
+	    					<option>Area2</option>
+	   						<option>Area3</option>
+	    					<option>Area4</option>
+	   						<option>Area5</option>
+	    				</select>
 					</div>
 					<br>
 					<div class="input-group insert_new_input_group">

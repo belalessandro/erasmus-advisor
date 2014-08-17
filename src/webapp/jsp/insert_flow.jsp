@@ -4,7 +4,7 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title>Insert a new Flow</title>
+	<title>Insert a new flow</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	
 	<link href="../css/ea-main.css" rel="stylesheet">
@@ -81,7 +81,7 @@
 					<br>
 					<div class="col-md-6">
 						<div class="input-group insert_new_input_group_small">
-							<span class="input-group-addon insert_new_input_small">Seats*</span> <input type="text" class="form-control" name="seats" id="seats" placeholder="">
+							<span class="input-group-addon insert_new_input_small">Available positions*</span> <input type="text" class="form-control" name="seats" id="seats" placeholder="">
 						</div>
 					</div>
 					<div class="col-md-6">

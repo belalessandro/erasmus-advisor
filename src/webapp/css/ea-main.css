@@ -2,13 +2,15 @@
 .menu_normal 
 {
 	border-bottom:2px solid #DDD;
-	padding:10px 0px;
+	padding:10px 0px 10px 10px;
 }
 .menu_title 
 {
 	color: #999;
 	font-weight: bold;
 	background-color: trasparent;
+	border-bottom:2px solid #DDD;
+	padding:10px 0px;
 }
 .nav_style
 {
