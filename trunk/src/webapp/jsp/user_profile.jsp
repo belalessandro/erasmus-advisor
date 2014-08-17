@@ -3,6 +3,7 @@
 	anche cercando in internet non sembra che la gente lo sappia -->
 
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -11,21 +12,21 @@
 	<title>User Profile</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	
-	<link href="../css/ea-main.css" rel="stylesheet">
-	<link href="../css/bootstrap.min.css" rel="stylesheet">
-	<link href="../fonts/font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet">
+	<link href="<c:url value="/css"/>/ea-main.css" rel="stylesheet">
+	<link href="<c:url value="/css"/>/bootstrap.min.css" rel="stylesheet">
+	<link href="<c:url value="/fonts"/>/font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet">
 	
-	<script src="../js/ea-form-validation.js"></script>
+	<script src="<c:url value="/js"/>/ea-form-validation.js"></script>
 	
 	<!-- Datepicker -->
-	<link href="../css/datepicker3.css" rel="stylesheet">
-	<link href="../css/ui-lightness/jquery-ui-1.10.4.custom.css" rel="stylesheet">
-	<script src="../js/jquery.min.js"></script>
-	<script src="../js/jquery-1.10.2.js"></script>
-	<script src="../js/jquery-ui-1.10.4.custom.js"></script>
-	<script src="../js/ea-basic.js"></script>
-	<script src="../js/bootstrap-datepicker.js"></script>
-	<script src="../js/bootstrap.min.js"></script>
+	<link href="<c:url value="/css"/>/datepicker3.css" rel="stylesheet">
+	<link href="<c:url value="/css"/>/ui-lightness/jquery-ui-1.10.4.custom.css" rel="stylesheet">
+	<script src="<c:url value="/js"/>/jquery.min.js"></script>
+	<script src="<c:url value="/js"/>/jquery-1.10.2.js"></script>
+	<script src="<c:url value="/js"/>/jquery-ui-1.10.4.custom.js"></script>
+	<script src="<c:url value="/js"/>/ea-basic.js"></script>
+	<script src="<c:url value="/js"/>/bootstrap-datepicker.js"></script>
+	<script src="<c:url value="/js"/>/bootstrap.min.js"></script>
 </head>
 
 <body role="document">
@@ -36,7 +37,7 @@
 		</jsp:include>
 		<!-- menu -->
 		<jsp:include page="/jsp/include/menu.jsp" />
-		
+    	
 		<!-- pagina -->
 		<div class="col-md-9 general_main_border">
 			<h2 align="center">User Account</h2>
@@ -117,68 +118,76 @@
 						</div>
 					</div>
 				</div>
+				
+				
+		
+    			
+    	
 				<!-- Information Table -->
 				<!-- Da generare con JSP -->
-				<table class="table">
-					<thead>
-						<tr>
-							<th></th>
-							<th>Field</th>
-							<th>Content</th>
-							<th></th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<td></td>
-							<td>Username</td>
-							<td>Pippo</td>
-							<td></td>
-						</tr>
-						<tr>
-							<td></td>
-							<td>E-mail</td>
-							<td>pippo@studenti.unipd.it</td>
-							<td></td>
-						</tr>
-						<tr>
-							<td></td>
-							<td>Password</td>
-							<td>34ab2425234c</td>
-							<td></td>
-						</tr>
-						<tr>
-							<td></td>
-							<td>University</td>
-							<td>Università degli studi di Padova</td>
-							<td></td>
-						</tr>
-						<tr>
-							<td></td>
-							<td>Degree Course</td>
-							<td>Computer Science Engineering</td>
-							<td></td>
-						</tr>
-						<tr>
-							<td></td>
-							<td>From</td>
-							<td>2010</td>
-							<td></td>
-						</tr>
-						<tr>
-							<td></td>
-							<td>To</td>
-							<td>2013</td>
-							<td></td>
-						</tr>
-						<tr>
-							<td></td>
-							<td>Registration Date</td>
-							<td>5/08/2013</td>
-							<td></td>
-						</tr>
-					</tbody>
-				</table>
+				<c:if test='${not empty student}'>
+					<table class="table">
+						<thead>
+							<tr>
+								<th></th>
+								<th>Field</th>
+								<th>Content</th>
+								<th></th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td></td>
+								<td>Username</td>
+								<td><c:out value="${student.nomeUtente}" /></td>
+								<td></td>
+							</tr>
+							<tr>
+								<td></td>
+								<td>E-mail</td>
+								<td><c:out value="${student.email}" /></td>
+								<td></td>
+							</tr>
+							<tr>
+								<td></td>
+								<td>Password</td>
+								<td><c:out value="${student.password}" /></td>
+								<td></td>
+							</tr>
+							<tr>
+								<td></td>
+								<td>University</td>
+								<td>Università degli studi di Padova</td>
+								<td></td>
+							</tr>
+							<tr>
+								<td></td>
+								<td>Degree Course</td>
+								<td>Computer Science Engineering</td>
+								<td></td>
+							</tr>
+							<tr>
+								<td></td>
+								<td>From</td>
+								<td>2010</td>
+								<td></td>
+							</tr>
+							<tr>
+								<td></td>
+								<td>To</td>
+								<td>2013</td>
+								<td></td>
+							</tr>
+							<tr>
+								<td></td>
+								<td>Registration Date</td>
+								<td><c:out value="${student.dataRegistrazione}" /></td>
+								<td></td>
+							</tr>
+						</tbody>
+					</table>
+
+				</c:if>
 			</div>
 		</div>
 	</div>

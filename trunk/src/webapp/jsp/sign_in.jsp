@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -7,23 +8,23 @@
 	<title>Registration Page</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	
-	<link href="../css/ea-main.css" rel="stylesheet">
-	<link href="../css/bootstrap.min.css" rel="stylesheet">
-	<link href="../fonts/font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet">
-	<script src="../js/bootstrap.min.js"></script>
+	<link href="<c:url value="/css"/>/ea-main.css" rel="stylesheet">
+	<link href="<c:url value="/css"/>/bootstrap.min.css" rel="stylesheet">
+	<link href="<c:url value="/fonts"/>/font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet">
+	<script src="<c:url value="/js"/>/bootstrap.min.js"></script>
 	
-	<script src="../js/ea-form-validation.js"></script>
+	<script src="<c:url value="/js"/>/js/ea-form-validation.js"></script>
 	
 	<!-- questi servono per il datepicker 
 		mi sembra impossibile ci voglia tutta sta roba per forza, ma se si toglie qualcosa non va -.-
 		notare come l'autocompletamento in ea-basic sia stato eliminato -->
-	<link href="../css/datepicker3.css" rel="stylesheet">
-	<link href="../css/ui-lightness/jquery-ui-1.10.4.custom.css" rel="stylesheet">
-	<script src="../js/jquery.min.js"></script>
-	<script src="../js/jquery-1.10.2.js"></script>
-	<script src="../js/jquery-ui-1.10.4.custom.js"></script>
-	<script src="../js/bootstrap-datepicker.js"></script>
-	<script src="../js/ea-basic.js"></script>	
+	<link href=".<c:url value="/css"/>/datepicker3.css" rel="stylesheet">
+	<link href="<c:url value="/css"/>/ui-lightness/jquery-ui-1.10.4.custom.css" rel="stylesheet">
+	<script src="<c:url value="/js"/>/jquery.min.js"></script>
+	<script src="<c:url value="/js"/>/jquery-1.10.2.js"></script>
+	<script src="<c:url value="/js"/>/jquery-ui-1.10.4.custom.js"></script>
+	<script src="<c:url value="/js"/>/bootstrap-datepicker.js"></script>
+	<script src="<c:url value="/js"/>/ea-basic.js"></script>	
 </head>
 
 <body>
@@ -35,13 +36,15 @@
 
 		<!-- Class Header -->
 		<div class ="col-md-2"></div>
+		
 		<div class="col-md-8">
+			
 			<h2 align="center">Registration Page</h2>
 			<br>
 			<p align="center">An * indicates a required field.</p>
 			<br>
 			<!-- action deve puntare alla servlet che gestisce la registrazione -->
-			<form name='registration' onSubmit="return signInFormValidation();" method="post" action="#"> 
+			<form name='registration' onSubmit="return signInFormValidation();" action="<c:url value="/create-student"/>" method="post" action="#"> 
 				<div align="center">
 					<div class="input-group sign_in_input_group">
 						<span class="input-group-addon sign_in_input">Username*</span> <input type="text" class="form-control" name="user" id="user" placeholder="Insert your username">
@@ -85,6 +88,10 @@
 							<input id="regTermRadioYes" name="regTermRadio" type="radio" class="radio-btn" value="Yes" /> Yes 
 							<input id="regTermRadioNo" name="regTermRadio" type="radio" class="radio-btn" value="No" /> No
 						</div>
+						
+							<!-- display the message -->
+    						<c:import url="/jsp/include/showMessage.jsp"/>
+    	
 						<hr>
 					</div>
 					<input type="submit" class="btn btn-primary" value="Register Now!">
