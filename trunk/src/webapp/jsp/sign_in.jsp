@@ -18,7 +18,7 @@
 	<!-- questi servono per il datepicker 
 		mi sembra impossibile ci voglia tutta sta roba per forza, ma se si toglie qualcosa non va -.-
 		notare come l'autocompletamento in ea-basic sia stato eliminato -->
-	<link href=".<c:url value="/css"/>/datepicker3.css" rel="stylesheet">
+	<link href="<c:url value="/css"/>/datepicker3.css" rel="stylesheet">
 	<link href="<c:url value="/css"/>/ui-lightness/jquery-ui-1.10.4.custom.css" rel="stylesheet">
 	<script src="<c:url value="/js"/>/jquery.min.js"></script>
 	<script src="<c:url value="/js"/>/jquery-1.10.2.js"></script>

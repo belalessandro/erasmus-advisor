@@ -54,6 +54,10 @@ div.foot
     -moz-border-radius: 20px;
     -webkit-border-radius: 20px;
 }
+.include_footer
+{
+    margin-top:20px !important;
+}
 
 /* dunno where used */
 

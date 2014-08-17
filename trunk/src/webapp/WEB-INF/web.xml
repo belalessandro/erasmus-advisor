@@ -24,6 +24,13 @@
         <res-auth>Container</res-auth>
     </resource-ref>
     
+    <!-- HTTP error codes (one per error page) -->
+	<error-page>
+		<error-code>404</error-code>
+		<location>/jsp/error.jsp</location>
+	</error-page>
+    
+    <!-- Servlet list. Remember to keep servlet and servlet-mapping combined -->
 	<servlet>
 		<servlet-name>SignInServlet</servlet-name>
 		<servlet-class>it.unipd.dei.bding.erasmusadvisor.servlets.SignInServlet</servlet-class>
