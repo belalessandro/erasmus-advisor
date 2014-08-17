@@ -148,15 +148,6 @@
 				</includes>
 			</resource>
 
-			<!-- copy HTML files to the target directory -->
-			<resource>
-				<targetPath>${basedir}/target/${project.artifactId}-${project.version}/html</targetPath>
-				<directory>${basedir}/trunk/src/webapp/html</directory>
-				<includes>
-					<include>**/*.*</include>
-				</includes>
-			</resource>
-
 			<!-- copy images to the target directory -->
 			<resource>
 				<targetPath>${basedir}/target/${project.artifactId}-${project.version}/img</targetPath>
