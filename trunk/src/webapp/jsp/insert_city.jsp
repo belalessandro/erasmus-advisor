@@ -4,7 +4,7 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title>Insert a new thesis</title>
+	<title>Insert a new city</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	
 	<link href="../css/ea-main.css" rel="stylesheet">
@@ -32,48 +32,31 @@
 		<jsp:include page="/jsp/include/navbar.jsp"/>
 		<!-- menu -->
 		<jsp:include page="/jsp/include/menu.jsp">
-			<jsp:param name="pageName" value="insert_thesis"/>
+			<jsp:param name="pageName" value="insert_city"/>
 		</jsp:include>
 
 		<!-- Class Header -->
 		<div class="col-md-9 general_main_border">
-			<h2 align="center">Insert a New Thesis</h2>
+			<h2 align="center">Insert a New City</h2>
 			<br>
 			<p align="center">An * indicates a required field.</p>
 			<br>
 			<!-- action deve puntare alla servlet che gestisce la registrazione -->
-			<!-- implementare insertThesisFormValidation -->
-			<!-- università con autocomplemento, università mostra solo le opzioni consentite -->
-			<!-- opzioni di area e lingua passate via JSP -->
-			<form name='insert_thesis' method="post" action="#" onSubmit="return insertThesisFormValidation();"> 
+			<!-- implementare insertCityFormValidation -->
+			<!-- lingua mostra solo le opzioni consentite -->
+			<form name='insert_class' method="post" action="#" onSubmit="return insertCityFormValidation();"> 
 				<div align="center">
 					<div class="input-group insert_new_input_group">
-						<span class="input-group-addon insert_new_input">Name*</span> <input type="text" class="form-control" name="name" id="name" placeholder="Insert the thesis' title">
+						<span class="input-group-addon insert_new_input">Name*</span> <input type="text" class="form-control" name="name" id="name" placeholder="Insert the city's name">
 					</div>
 					<br>
 					<div class="input-group insert_new_input_group">
-						<span class="input-group-addon insert_new_input">Professors*</span> <textarea rows="2" class="form-control" name="professor" id="professor" placeholder="Insert the thesis' professors, one per line"></textarea>
-					</div>
-					<br>
-					<div class="input-group insert_new_input_group">
-						<span class="input-group-addon insert_new_input">University*</span> <input id="university" class="form-control" name="university" placeholder="Insert the University">
+						<span class="input-group-addon insert_new_input">Country*</span> <input id="country" class="form-control" name="country" placeholder="Insert the city's country">
 					</div>
 					<br>
 					<div class="row">
 						<span></span>
-						<span class="input-group-addon insert_new_select_label_inline">Select the thesis' areas*</span>
-						<select class="selectpicker text-left" multiple id="area" name="area[]">
-	    					<option>Area1</option>
-	    					<option>Area2</option>
-	   						<option>Area3</option>
-	    					<option>Area4</option>
-	   						<option>Area5</option>
-	    				</select>
-					</div>
-					<br>
-					<div class="row">
-						<span></span>
-						<span class="input-group-addon insert_new_select_label_inline">Select the thesis' languages*</span>
+						<span class="input-group-addon insert_new_select_label_inline">Select the languages spoken in the city*</span>
 						<select class="selectpicker text-left" multiple id="language" name="language[]">
 	    					<option>Language1</option>
 	    					<option>Language2</option>
@@ -81,16 +64,6 @@
 	    					<option>Language4</option>
 	   						<option>Language5</option>
 	    				</select>
-					</div>
-					<br>
-					<div class="col-md-4">
-						Choose the thesis' availability (one or both):
-					</div>
-					<div class="col-md-4">
-						<input type="checkbox" id="undergraduate" name="undergraduate" value="undergraduate"> Undergraduate
-					</div>
-					<div class="col-md-4">
-						<input type="checkbox" id="graduate" name="graduate" value="graduate"> Graduate
 					</div>
 					<br>
 					<br>

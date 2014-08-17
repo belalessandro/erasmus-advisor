@@ -171,7 +171,7 @@
 				<div class="col-md-4 text-center" >
 					<div class="btn-group">
 						<button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" id="dropSeats">
-							Select the minimum avaible seats <span class="caret"></span>
+							Select the minimum available position <span class="caret"></span>
 						</button>
 						<ul class="dropdown-menu search_scrollable_menu text-left">
 							<li><a href="#">1</a></li>
