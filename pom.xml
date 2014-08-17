@@ -248,6 +248,13 @@
 			<artifactId>tomcat-jdbc</artifactId>
 			<version>7.0.54</version>
 		</dependency>
+
+		<!-- Apache Commons, BeanUtils  (per popolare i Beans) -->
+		<dependency>
+			<groupId>commons-beanutils</groupId>
+			<artifactId>commons-beanutils-core</artifactId>
+			<version>1.8.3</version>
+		</dependency>
 	</dependencies>
 
 </project>
