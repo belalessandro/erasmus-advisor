@@ -27,7 +27,7 @@ public class CreateFlussoDatabase {
 	private final FlussoBean flusso;
 
 	/**
-	 * Creates a new object for storing a record of Studente into the database.
+	 * Creates a new object for storing a record of Flusso into the database.
 	 * 
 	 * @param con
 	 *            the connection to the database.
@@ -53,7 +53,11 @@ public class CreateFlussoDatabase {
 			pstmt = con.prepareStatement(STATEMENT);
 			pstmt.setString(1, flusso.getId());
 			pstmt.setString(2, flusso.getDestinazione());
-			pstmt.setString(3, flusso.getRespFlusso());
+//			if (flusso.getRespFlusso() != null) {
+			pstmt.setString(3, flusso.getRespFlusso()); 
+//			} else {
+//				pstmt.setNull(3, java.sql.Types.VARCHAR);
+//			}
 			pstmt.setInt(4, flusso.getPostiDisponibili());
 			pstmt.setInt(5, flusso.getDurata());
 			pstmt.setString(6, flusso.getDettagli());

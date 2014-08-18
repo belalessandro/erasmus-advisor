@@ -38,7 +38,27 @@
 	
 	<servlet-mapping>
 		<servlet-name>SignInServlet</servlet-name>
-		<url-pattern>/create-student</url-pattern>
+		<url-pattern>/sign-in</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>LogInServlet</servlet-name>
+		<servlet-class>it.unipd.dei.bding.erasmusadvisor.servlets.LogInServlet</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>LogInServlet</servlet-name>
+		<url-pattern>/login</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>InsertFlowServlet</servlet-name>
+		<servlet-class>it.unipd.dei.bding.erasmusadvisor.servlets.InsertFlowServlet</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>InsertFlowServlet</servlet-name>
+		<url-pattern>/insert-flow</url-pattern>
 	</servlet-mapping>
 </web-app>
 
