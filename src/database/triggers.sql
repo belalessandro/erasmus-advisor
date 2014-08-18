@@ -187,7 +187,7 @@ CREATE FUNCTION CheckThesisEval() RETURNS TRIGGER AS $$
 	    PERFORM P.nomeUtenteStudente
 	            FROM partecipazione AS P, Flusso as F, ArgomentoTesi as T
 	            WHERE NEW.idFlusso=P.idFlusso AND P.idFlusso=F.idFlusso AND F.Destinazione=T.NomeUniversita AND 
-	            	NEW.NomeUtenteStudente=P.NomeUtenteStudente AND NEW.IdArgomentoTesi=T.Id
+	            	NEW.NomeUtenteStudente=P.NomeUtenteStudente AND NEW.IdArgomentoTesi=T.Id;
 	    
 	    IF NOT FOUND THEN
 	       RAISE EXCEPTION 'EA ERROR: Invalid evaluation.' USING ERRCODE = 'EA005'; 
@@ -258,7 +258,7 @@ CREATE FUNCTION CheckStudent() RETURNS TRIGGER AS $$
     BEGIN
 	    PERFORM S.NomeUtente
 	            FROM Studente AS S
-	            WHERE NEW.NomeUtente=S.NomeUtente
+	            WHERE NEW.NomeUtente=S.NomeUtente;
 	    
 	    IF FOUND THEN
 	       RAISE EXCEPTION 'EA ERROR: Username already present.' USING ERRCODE = 'EA006'; 
@@ -333,7 +333,7 @@ CREATE FUNCTION CheckStudentEmail() RETURNS TRIGGER AS $$
     BEGIN
 	    PERFORM S.Email
 	            FROM Studente AS S
-	            WHERE NEW.Email=S.Email
+	            WHERE NEW.Email=S.Email;
 	    
 	    IF FOUND THEN
 	       RAISE EXCEPTION 'EA ERROR: Email already present.' USING ERRCODE = 'EA007'; 
