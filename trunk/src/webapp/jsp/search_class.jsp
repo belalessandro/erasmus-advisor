@@ -115,11 +115,11 @@
 						Select an Area <span class="caret"></span>
 					</button>
 					<ul class="dropdown-menu search_scrollable_menu text-left">
-						<li><a href="#">Area1</a></li>
-						<li><a href="#">Area2</a></li>
-						<li><a href="#">Area3</a></li>
-						<li><a href="#">Area4</a></li>
-						<li><a href="#">Area5</a></li>
+						<li><a href="#" target="_blank">Area1</a></li>
+						<li><a href="#" target="_blank">Area2</a></li>
+						<li><a href="#" target="_blank">Area3</a></li>
+						<li><a href="#" target="_blank">Area4</a></li>
+						<li><a href="#" target="_blank">Area5</a></li>
 					</ul>
 				</div>
 			</div>
@@ -129,11 +129,11 @@
 						Select a University <span class="caret"></span>
 					</button>
 					<ul class="dropdown-menu search_scrollable_menu text-left">
-						<li><a href="#">University1</a></li>
-						<li><a href="#">University2</a></li>
-						<li><a href="#">University3</a></li>
-						<li><a href="#">University4</a></li>
-						<li><a href="#">University5</a></li>
+						<li><a href="#" target="_blank">University1</a></li>
+						<li><a href="#" target="_blank">University2</a></li>
+						<li><a href="#" target="_blank">University3</a></li>
+						<li><a href="#" target="_blank">University4</a></li>
+						<li><a href="#" target="_blank">University5</a></li>
 					</ul>
 				</div>
 			</div>
@@ -153,12 +153,12 @@
 							Select a Year <span class="caret"></span>
 						</button>
 						<ul class="dropdown-menu search_scrollable_menu text-left">
-							<li><a href="#">1</a></li>
-							<li><a href="#">2</a></li>
-							<li><a href="#">3</a></li>
-							<li><a href="#">4</a></li>
-							<li><a href="#">5</a></li>
-							<li><a href="#">6</a></li>
+							<li><a href="#" target="_blank">1</a></li>
+							<li><a href="#" target="_blank">2</a></li>
+							<li><a href="#" target="_blank">3</a></li>
+							<li><a href="#" target="_blank">4</a></li>
+							<li><a href="#" target="_blank">5</a></li>
+							<li><a href="#" target="_blank">6</a></li>
 						</ul>
 					</div>
 				</div>
@@ -168,8 +168,8 @@
 							Select a Semester <span class="caret"></span>
 						</button>
 						<ul class="dropdown-menu search_scrollable_menu text-left">
-							<li><a href="#">1</a></li>
-							<li><a href="#">2</a></li>
+							<li><a href="#" target="_blank">1</a></li>
+							<li><a href="#" target="_blank">2</a></li>
 						</ul>
 					</div>
 				</div>
@@ -179,9 +179,9 @@
 							Select a Language <span class="caret"></span>
 						</button>
 						<ul class="dropdown-menu search_scrollable_menu text-left">
-							<li><a href="#">Italian</a></li>
-							<li><a href="#">Spanish</a></li>
-							<li><a href="#">English</a></li>
+							<li><a href="#" target="_blank">Italian</a></li>
+							<li><a href="#" target="_blank">Spanish</a></li>
+							<li><a href="#" target="_blank">English</a></li>
 						</ul>
 					</div>
 				</div>
@@ -228,7 +228,7 @@
 				<tbody>
 				<!-- risultati da creare dinamicamente -->
 					<tr>
-						<td><a href="#">Analisi matematica 1</a></td>
+						<td><a href="#" target="_blank">Analisi matematica 1</a></td>
 						<td>12</td>
 						<td>1</td>
 						<td>1</td>
@@ -236,7 +236,7 @@
 						<td>Marco Bardi, Matteo Novaga</td>
 					</tr>
 					<tr>
-						<td><a href="#">Analisi matematica 2</a></td>
+						<td><a href="#" target="_blank">Analisi matematica 2</a></td>
 						<td>12</td>
 						<td>2</td>
 						<td>1</td>
@@ -244,7 +244,7 @@
 						<td>Pietro Maroponda</td>
 					</tr>
 					<tr>
-						<td><a href="#">Probabilità Discreta</a></td>
+						<td><a href="#" target="_blank">Probabilità Discreta</a></td>
 						<td>9</td>
 						<td>3</td>
 						<td>1</td>
@@ -252,7 +252,7 @@
 						<td>Vincenzo Rossi</td>
 					</tr>
 					<tr>
-						<td><a href="#">Algebra Lineare e Geometria</a></td>
+						<td><a href="#" target="_blank">Algebra Lineare e Geometria</a></td>
 						<td>9</td>
 						<td>1</td>
 						<td>2</td>
@@ -263,7 +263,7 @@
 			</table>
 			<!-- da usare solo se si sceglie di non visualizzare tutti i risultati nella pagina
 			<ul class="pager">
-				<li class="next"><a href="#">Show more &darr;</a></li>
+				<li class="next"><a href="#" target="_blank">Show more &darr;</a></li>
 			</ul>
 			 -->
 		</div>

@@ -108,11 +108,11 @@
 						Select an Area <span class="caret"></span>
 					</button>
 					<ul class="dropdown-menu search_scrollable_menu text-left">
-						<li><a href="#">Area1</a></li>
-						<li><a href="#">Area2</a></li>
-						<li><a href="#">Area3</a></li>
-						<li><a href="#">Area4</a></li>
-						<li><a href="#">Area5</a></li>
+						<li><a href="#" target="_blank">Area1</a></li>
+						<li><a href="#" target="_blank">Area2</a></li>
+						<li><a href="#" target="_blank">Area3</a></li>
+						<li><a href="#" target="_blank">Area4</a></li>
+						<li><a href="#" target="_blank">Area5</a></li>
 					</ul>
 				</div>
 			</div>
@@ -122,11 +122,11 @@
 						Select a University <span class="caret"></span>
 					</button>
 					<ul class="dropdown-menu search_scrollable_menu text-left">
-						<li><a href="#">University1</a></li>
-						<li><a href="#">University2</a></li>
-						<li><a href="#">University3</a></li>
-						<li><a href="#">University4</a></li>
-						<li><a href="#">University5</a></li>
+						<li><a href="#" target="_blank">University1</a></li>
+						<li><a href="#" target="_blank">University2</a></li>
+						<li><a href="#" target="_blank">University3</a></li>
+						<li><a href="#" target="_blank">University4</a></li>
+						<li><a href="#" target="_blank">University5</a></li>
 					</ul>
 				</div>
 			</div>
@@ -146,8 +146,8 @@
 							Select a Level <span class="caret"></span>
 						</button>
 						<ul class="dropdown-menu search_scrollable_menu text-left">
-							<li><a href="#">Undergraduate</a></li>
-							<li><a href="#">Graduate</a></li>
+							<li><a href="#" target="_blank">Undergraduate</a></li>
+							<li><a href="#" target="_blank">Graduate</a></li>
 						</ul>
 					</div>
 				</div>
@@ -157,9 +157,9 @@
 							Select a Language <span class="caret"></span>
 						</button>
 						<ul class="dropdown-menu search_scrollable_menu text-left">
-							<li><a href="#">Italian</a></li>
-							<li><a href="#">Spanish</a></li>
-							<li><a href="#">English</a></li>
+							<li><a href="#" target="_blank">Italian</a></li>
+							<li><a href="#" target="_blank">Spanish</a></li>
+							<li><a href="#" target="_blank">English</a></li>
 						</ul>
 					</div>
 				</div>
@@ -205,28 +205,28 @@
 				<tbody>
 				<!-- risultati da creare dinamicamente -->
 					<tr>
-						<td><a href="#">Counting up to ten.</a></td>
+						<td><a href="#" target="_blank">Counting up to ten.</a></td>
 						<td></td>
 						<td>Undergraduate</td>
 						<td>Italian, English</td>
 						<td>Matteo Novaga</td>
 					</tr>
 					<tr>
-						<td><a href="#">Counting up to a hundred.</a></td>
+						<td><a href="#" target="_blank">Counting up to a hundred.</a></td>
 						<td>Philosophy and ethics, Statistics</td>
 						<td>Graduate</td>
 						<td>Italian</td>
 						<td>Matteo Novaga</td>
 					</tr>
 					<tr>
-						<td><a href="#">Algebraic properties of n-dimensional spaces.</a></td>
+						<td><a href="#" target="_blank">Algebraic properties of n-dimensional spaces.</a></td>
 						<td></td>
 						<td>Undergraduate</td>
 						<td>Italian, English</td>
 						<td>Pietro de Petris, Alvaro Azzolini</td>
 					</tr>
 					<tr>
-						<td><a href="#">The sum of all fears.</a></td>
+						<td><a href="#" target="_blank">The sum of all fears.</a></td>
 						<td>Statistics</td>
 						<td>Undergraduate</td>
 						<td>English</td>
@@ -236,7 +236,7 @@
 			</table>
 			<!-- da usare solo se si sceglie di non visualizzare tutti i risultati nella pagina
 			<ul class="pager">
-				<li class="next"><a href="#">Show more &darr;</a></li>
+				<li class="next"><a href="#" target="_blank">Show more &darr;</a></li>
 			</ul>
 			 -->
 		</div>

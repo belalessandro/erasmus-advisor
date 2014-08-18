@@ -121,11 +121,11 @@
 						Select a Country <span class="caret"></span>
 					</button>
 					<ul class="dropdown-menu search_scrollable_menu text-left">
-						<li><a href="#">Country1</a></li>
-						<li><a href="#">Country2</a></li>
-						<li><a href="#">Country3</a></li>
-						<li><a href="#">Country4</a></li>
-						<li><a href="#">Country5</a></li>
+						<li><a href="#" target="_blank">Country1</a></li>
+						<li><a href="#" target="_blank">Country2</a></li>
+						<li><a href="#" target="_blank">Country3</a></li>
+						<li><a href="#" target="_blank">Country4</a></li>
+						<li><a href="#" target="_blank">Country5</a></li>
 					</ul>
 				</div>
 			</div>
@@ -135,11 +135,11 @@
 						Select a City <span class="caret"></span>
 					</button>
 					<ul class="dropdown-menu search_scrollable_menu text-left">
-						<li><a href="#">City1</a></li>
-						<li><a href="#">City2</a></li>
-						<li><a href="#">City3</a></li>
-						<li><a href="#">City4</a></li>
-						<li><a href="#">City5</a></li>
+						<li><a href="#" target="_blank">City1</a></li>
+						<li><a href="#" target="_blank">City2</a></li>
+						<li><a href="#" target="_blank">City3</a></li>
+						<li><a href="#" target="_blank">City4</a></li>
+						<li><a href="#" target="_blank">City5</a></li>
 					</ul>
 				</div>
 			</div>
@@ -159,12 +159,12 @@
 							Select a number of months <span class="caret"></span>
 						</button>
 						<ul class="dropdown-menu search_scrollable_menu text-left">
-							<li><a href="#">1</a></li>
-							<li><a href="#">2</a></li>
-							<li><a href="#">3</a></li>
-							<li><a href="#">4</a></li>
-							<li><a href="#">5</a></li>
-							<li><a href="#">6</a></li>
+							<li><a href="#" target="_blank">1</a></li>
+							<li><a href="#" target="_blank">2</a></li>
+							<li><a href="#" target="_blank">3</a></li>
+							<li><a href="#" target="_blank">4</a></li>
+							<li><a href="#" target="_blank">5</a></li>
+							<li><a href="#" target="_blank">6</a></li>
 						</ul>
 					</div>
 				</div>
@@ -174,12 +174,12 @@
 							Select the minimum available position <span class="caret"></span>
 						</button>
 						<ul class="dropdown-menu search_scrollable_menu text-left">
-							<li><a href="#">1</a></li>
-							<li><a href="#">2</a></li>
-							<li><a href="#">3</a></li>
-							<li><a href="#">4</a></li>
-							<li><a href="#">5</a></li>
-							<li><a href="#">6</a></li>
+							<li><a href="#" target="_blank">1</a></li>
+							<li><a href="#" target="_blank">2</a></li>
+							<li><a href="#" target="_blank">3</a></li>
+							<li><a href="#" target="_blank">4</a></li>
+							<li><a href="#" target="_blank">5</a></li>
+							<li><a href="#" target="_blank">6</a></li>
 						</ul>
 					</div>
 				</div>
@@ -189,11 +189,11 @@
 							Select a Linguistic Certification <span class="caret"></span>
 						</button>
 						<ul class="dropdown-menu search_scrollable_menu text-left">
-							<li><a href="#">Certificate1</a></li>
-							<li><a href="#">Certificate2</a></li>
-							<li><a href="#">Certificate3</a></li>
-							<li><a href="#">Certificate4</a></li>
-							<li><a href="#">Certificate5</a></li>
+							<li><a href="#" target="_blank">Certificate1</a></li>
+							<li><a href="#" target="_blank">Certificate2</a></li>
+							<li><a href="#" target="_blank">Certificate3</a></li>
+							<li><a href="#" target="_blank">Certificate4</a></li>
+							<li><a href="#" target="_blank">Certificate5</a></li>
 						</ul>
 					</div>
 				</div>
@@ -217,33 +217,33 @@
 				<tbody>
 				<!-- risultati da creare dinamicamente -->
 					<tr>
-						<td><a href="#">UK854</a></td>
-						<td><a href="#">Imperial College</a></td>
-						<td><a href="#">London</a></td>
+						<td><a href="#" target="_blank">UK854</a></td>
+						<td><a href="#" target="_blank">Imperial College</a></td>
+						<td><a href="#" target="_blank">London</a></td>
 						<td>1</td>
 						<td>6</td>
 						<td>English C2</td>
 					</tr>
 					<tr>
-						<td><a href="#">UK5</a></td>
-						<td><a href="#">Brighton University</a></td>
-						<td><a href="#">Brighton</a></td>
+						<td><a href="#" target="_blank">UK5</a></td>
+						<td><a href="#" target="_blank">Brighton University</a></td>
+						<td><a href="#" target="_blank">Brighton</a></td>
 						<td>2</td>
 						<td>9</td>
 						<td>English B2</td>
 					</tr>
 					<tr>
-						<td><a href="#">UK202</a></td>
-						<td><a href="#">University of London</a></td>
-						<td><a href="#">London</a></td>
+						<td><a href="#" target="_blank">UK202</a></td>
+						<td><a href="#" target="_blank">University of London</a></td>
+						<td><a href="#" target="_blank">London</a></td>
 						<td>4</td>
 						<td>6</td>
 						<td>English C1</td>
 					</tr>
 					<tr>
-						<td><a href="#">UK412</a></td>
-						<td><a href="#">Edimburgh College</a></td>
-						<td><a href="#">Edimburgh</a></td>
+						<td><a href="#" target="_blank">UK412</a></td>
+						<td><a href="#" target="_blank">Edimburgh College</a></td>
+						<td><a href="#" target="_blank">Edimburgh</a></td>
 						<td>1</td>
 						<td>6</td>
 						<td>English C1</td>
@@ -252,7 +252,7 @@
 			</table>
 			<!-- da usare solo se si sceglie di non visualizzare tutti i risultati nella pagina
 			<ul class="pager">
-				<li class="next"><a href="#">Show more &darr;</a></li>
+				<li class="next"><a href="#" target="_blank">Show more &darr;</a></li>
 			</ul>
 			 -->
 		</div>

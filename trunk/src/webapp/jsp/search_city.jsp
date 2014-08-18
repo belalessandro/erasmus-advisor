@@ -81,11 +81,11 @@
 						Select a Country <span class="caret"></span>
 					</button>
 					<ul class="dropdown-menu search_scrollable_menu text-left">
-						<li><a href="#">Country1</a></li>
-						<li><a href="#">Country2</a></li>
-						<li><a href="#">Country2</a></li>
-						<li><a href="#">Country4</a></li>
-						<li><a href="#">Country5</a></li>
+						<li><a href="#" target="_blank">Country1</a></li>
+						<li><a href="#" target="_blank">Country2</a></li>
+						<li><a href="#" target="_blank">Country2</a></li>
+						<li><a href="#" target="_blank">Country4</a></li>
+						<li><a href="#" target="_blank">Country5</a></li>
 					</ul>
 				</div>
 			</div>
@@ -95,11 +95,11 @@
 						Select a Language <span class="caret"></span>
 					</button>
 					<ul class="dropdown-menu search_scrollable_menu text-left">
-						<li><a href="#">Language1</a></li>
-						<li><a href="#">Language2</a></li>
-						<li><a href="#">Language3</a></li>
-						<li><a href="#">Language4</a></li>
-						<li><a href="#">Language5</a></li>
+						<li><a href="#" target="_blank">Language1</a></li>
+						<li><a href="#" target="_blank">Language2</a></li>
+						<li><a href="#" target="_blank">Language3</a></li>
+						<li><a href="#" target="_blank">Language4</a></li>
+						<li><a href="#" target="_blank">Language5</a></li>
 					</ul>
 				</div>
 			</div>
@@ -122,26 +122,26 @@
 				<tbody>
 				<!-- risultati da creare dinamicamente -->
 					<tr>
-						<td><a href="#">Padua</a></td>
+						<td><a href="#" target="_blank">Padua</a></td>
 						<td>Italian, Venetian, Zibbo</td>
 					</tr>
 					<tr>
-						<td><a href="#">Neaples</a></td>
+						<td><a href="#" target="_blank">Neaples</a></td>
 						<td>Terron</td>
 					</tr>
 					<tr>
-						<td><a href="#">Milan</a></td>
+						<td><a href="#" target="_blank">Milan</a></td>
 						<td>Italian</td>
 					</tr>
 					<tr>
-						<td><a href="#">Florence</a></td>
+						<td><a href="#" target="_blank">Florence</a></td>
 						<td>Italian</td>
 					</tr>
 				</tbody>
 			</table>
 			<!-- da usare solo se si sceglie di non visualizzare tutti i risultati nella pagina
 			<ul class="pager">
-				<li class="next"><a href="#">Show more &darr;</a></li>
+				<li class="next"><a href="#" target="_blank">Show more &darr;</a></li>
 			</ul>
 			 -->
 		</div>
