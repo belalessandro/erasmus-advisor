@@ -1,6 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
+<!-- questa pagina costituisce un template per tutte le pagine di visualizzazione entità, ossia
+	show_flow
+	show_city
+	show_university
+	show_class
+	show_theses
+	le differenze tra queste pagine sono minime e non nella struttura -->
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -20,10 +28,10 @@
 	<script src="../js/star-rating.min.js"></script>	
 	
 	<script>
-	    function evaluate()
-	    {
-	        alert('evaluate');
-	    }
+		// funziona che notifica che questa entità è da segnare REPORTED
+		// ossia necessita di moderazione
+		// possibile solo per insegnamento e argomento tesi
+		// da fare con ajax
 	    function report()
 	    {
 	        alert('report');
@@ -72,18 +80,32 @@
 							<h4 class="modal-title" id="myModalLabel">Insert an evalutation for <b>Università degli Studi di Padova</b></h4>
 						</div>
 						<div class="modal-body">
-							<!-- action deve puntare alla servlet che gestisce il cambio delle informazioni -->
+							<!-- action deve puntare alla servlet che gestisce l'inserimento della valutazione -->
 							<form name='registration' onSubmit="return xEvaluationFormValidation();" method="post" action="#">
-								<div class="input-group sign_in_input_group">
-									<span class="input-group-addon sign_in_input">Username*</span> <input type="text" class="form-control" name="user" id="user" placeholder="Insert your username">
-								</div>
-								<br>
-								<div class="col-md-6">Collocazione Urbana:</div>
-								<div class="col-md-6">
-									<input id="evalutate" class="rating" data-size="sm" data-stars="0" data-min="0" data-max="5" data-step="1" data-show-clear="false" data-show-caption="false">
+								<div class="col-md-6 text-center">Rating 1:</div>
+								<div class="col-md-6 text-center">
+									<input id="rating1" class="rating" data-size="sm" data-min="0" data-max="5" data-step="1" data-show-clear="false" data-show-caption="false">
 								</div>
 								<br>
 								<br>
+								<div class="col-md-6 text-center">Rating 2:</div>
+								<div class="col-md-6 text-center">
+									<input id="rating2" class="rating" data-size="sm" data-min="0" data-max="5" data-step="1" data-show-clear="false" data-show-caption="false">
+								</div>
+								<br>
+								<br>
+								<div class="col-md-6 text-center">Rating 3:</div>
+								<div class="col-md-6 text-center">
+									<input id="rating3" class="rating" data-size="sm" data-min="0" data-max="5" data-step="1" data-show-clear="false" data-show-caption="false">
+								</div>
+								<br>
+								<br>
+								<div class="col-md-6 text-center">Rating 4:</div>
+								<div class="col-md-6 text-center">
+									<input id="rating4" class="rating" data-size="sm" data-min="0" data-max="5" data-step="1" data-show-clear="false" data-show-caption="false">
+								</div>
+								<br>
+								<br><br>								
 								<div class="input-group insert_new_input_group">
 									<span class="input-group-addon insert_new_input">Comment</span> <textarea rows="2" class="form-control" name="comment" id="comment" placeholder="Insert a general comment about the entity."></textarea>
 								</div>
