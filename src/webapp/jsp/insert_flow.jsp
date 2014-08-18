@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -37,6 +38,11 @@
 
 		<!-- Class Header -->
 		<div class="col-md-9 general_main_border">
+			<c:if test="${param.notify eq 'success'}">
+				<!-- display the message -->
+    			<c:import url="/jsp/include/showMessage.jsp"/>
+    		</c:if>
+    		
 			<h2 align="center">Insert a New Flow</h2>
 			<br>
 			<p align="center">An * indicates a required field.</p>
@@ -45,21 +51,21 @@
 			<!-- implementare insertFlowFormValidation -->
 			<!-- università e corso di laurea con autocomplemento e mostrano solo le opzioni consentite -->
 			<!-- opzioni di area e lingua passate via JSP -->
-			<form name='insert_class' method="post" action="#" onSubmit="return insertFlowFormValidation();"> 
+			<form name='insert_flow' method="post" action="<c:url value="/insert-flow"/>" onSubmit="return insertFlowFormValidation();"> 
 				<div align="center">
 					<div class="input-group insert_new_input_group">
-						<span class="input-group-addon insert_new_input">ID*</span> <input type="text" class="form-control" name="name" id="name" placeholder="Insert the course's name">
+						<span class="input-group-addon insert_new_input">ID*</span> <input type="text" class="form-control" name="name" id="name" placeholder="Insert the flow's name">
 					</div>
 					<br>
 					<div class="row">
 						<span></span>
 						<span class="input-group-addon insert_new_select_label_inline">Insert the flow's starting degree courses*</span>
 						<select class="selectpicker text-left" multiple id="origin" name="origin[]">
-	    					<option>Course1</option>
-	    					<option>Course2</option>
-	   						<option>Course3</option>
-	    					<option>Course4</option>
-	   						<option>Course5</option>
+	    					<option value="1">Course1</option>
+	    					<option value="2">Course2</option>
+	   						<option value="3">Course3</option>
+	    					<option value="4">Course4</option>
+	   						<option value="5">Course5</option>
 	    				</select> 
 					</div>
 					<br>
@@ -71,11 +77,11 @@
 						<span></span>
 						<span class="input-group-addon insert_new_select_label_inline">Insert the flow's Language Certifications*</span>
 						<select class="selectpicker text-left" multiple id="certificate" name="certificate[]">
-	    					<option>Certificate1</option>
-	    					<option>Certificate2</option>
-	   						<option>Certificate3</option>
-	    					<option>Certificate4</option>
-	   						<option>Certificate5</option>
+	    					<option value="eng:B1">B1 of English</option>
+	    					<option value="eng:B2">B2 of English</option>
+	   						<option value="eng:C1">Certificate3</option>
+	    					<option value="eng:C2">Certificate4</option>
+	   						<option value="fra:B1">B1 of French</option>
 	    				</select> 						
 					</div>
 					<br>
@@ -86,7 +92,7 @@
 					</div>
 					<div class="col-md-6">
 						<div class="input-group insert_new_input_group_small">
-							<span class="input-group-addon insert_new_input_small">Lenght (months)*</span> <input type="text" class="form-control" name="length" id="length" placeholder="">
+							<span class="input-group-addon insert_new_input_small">Length (months)*</span> <input type="text" class="form-control" name="length" id="length" placeholder="">
 						</div>
 					</div>
 					<br><br><br>

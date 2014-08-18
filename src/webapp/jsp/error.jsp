@@ -29,7 +29,9 @@
 			<h2 align="center">An Error has occurred</h2>
 			<br>
 			<p align="center">Something has gone wrong. We are sorry for the inconvenience.</p>
-
+			<br>
+			<!-- display the message -->
+    		<c:import url="/jsp/include/showMessage.jsp"/>
 		</div>
 		<div class ="col-md-2"></div>
 	</div>

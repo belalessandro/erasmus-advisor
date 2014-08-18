@@ -18,15 +18,21 @@ public class LoggedUser {
 	 * Stores the authorization level
 	 */
 	private final String auth;
+	
+	/**
+	 * Stores the username
+	 */
+	private final String user;
 
 	
 	/**
 	 * Creates a model for a logged user, specifying an authorization level
 	 * @param auth LoggedUser.AUTH_STUDENT, LoggedUser.AUTH_FLOWRESP or LoggedUser.AUTH_COORD
 	 */
-	public LoggedUser(final String auth) {
+	public LoggedUser(final String auth, final String user) {
 		super();
 		this.auth = auth;
+		this.user = user;
 	}
 
 
@@ -57,6 +63,16 @@ public class LoggedUser {
 	 */
 	public boolean isCoord() {
 		return auth.equals(AUTH_COORD);
+	}
+
+
+	/**
+	 * Returns the field user.
+	 *
+	 * @return the value of user
+	 */
+	public String getUser() {
+		return user;
 	}
 	
 	
