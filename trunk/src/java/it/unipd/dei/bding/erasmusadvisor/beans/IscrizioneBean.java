@@ -10,7 +10,7 @@ import java.sql.Date;
  * @version 1.0
  *  
  */
-class IscrizioneBean implements Serializable {
+public class IscrizioneBean implements Serializable {
 	/**
 	 * 
 	 */

@@ -10,7 +10,7 @@ import java.sql.Date;
  * @version 1.0
  *  
  */
-class PartecipazioneBean implements Serializable {
+public class PartecipazioneBean implements Serializable {
 	/**
 	 * 
 	 */

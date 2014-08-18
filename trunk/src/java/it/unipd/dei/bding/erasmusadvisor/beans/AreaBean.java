@@ -9,7 +9,7 @@ import java.io.Serializable;
  * @version 1.0
  *  
  */
-class AreaBean implements Serializable {
+public class AreaBean implements Serializable {
 	/**
 	 * 
 	 */

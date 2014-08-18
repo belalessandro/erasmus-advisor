@@ -9,7 +9,7 @@ import java.io.Serializable;
  * @version 1.0
  *  
  */
-class CertificatiLinguisticiBean implements Serializable {
+public class CertificatiLinguisticiBean implements Serializable {
 	/**
 	 * 
 	 */

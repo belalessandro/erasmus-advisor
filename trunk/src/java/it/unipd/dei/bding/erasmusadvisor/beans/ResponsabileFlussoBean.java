@@ -10,7 +10,7 @@ import java.sql.Date;
  * @version 1.0
  *  
  */
-class ResponsabileFlussoBean implements Serializable {
+public class ResponsabileFlussoBean implements Serializable {
 	/**
 	 * 
 	 */
