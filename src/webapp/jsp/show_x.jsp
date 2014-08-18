@@ -16,6 +16,9 @@
 	<!-- Javascript -->
 	<script src="../js/jquery.min.js"></script>
 	<script src="../js/bootstrap.min.js"></script>	
+	<link href="../css/star-rating.css" rel="stylesheet">
+	<script src="../js/star-rating.min.js"></script>	
+	
 	<script>
 	    function evaluate()
 	    {
@@ -53,15 +56,50 @@
 				</div>
 				<div class="entity_details_text">
 					<ul class="nav nav-stacked pull-right">
-						<li class="active"><span onClick="evaluate();">Evaluate</span></li>
+						<li class="active"><span data-toggle="modal" data-target="#evalutateForm">Evaluate</span></li>
 						<li class="active"><span onClick="report();">Report</span></li>
 						<li class="active"><span onClick="edit();">Edit</span></li>
 					</ul>
 				</div>
 			</div>
-
+			
+			<!--Form di modifica a comparsa-->
+			<div class="modal fade" id="evalutateForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+							<h4 class="modal-title" id="myModalLabel">Insert an evalutation for <b>Università degli Studi di Padova</b></h4>
+						</div>
+						<div class="modal-body">
+							<!-- action deve puntare alla servlet che gestisce il cambio delle informazioni -->
+							<form name='registration' onSubmit="return xEvaluationFormValidation();" method="post" action="#">
+								<div class="input-group sign_in_input_group">
+									<span class="input-group-addon sign_in_input">Username*</span> <input type="text" class="form-control" name="user" id="user" placeholder="Insert your username">
+								</div>
+								<br>
+								<div class="col-md-6">Collocazione Urbana:</div>
+								<div class="col-md-6">
+									<input id="evalutate" class="rating" data-size="sm" data-stars="0" data-min="0" data-max="5" data-step="1" data-show-clear="false" data-show-caption="false">
+								</div>
+								<br>
+								<br>
+								<div class="input-group insert_new_input_group">
+									<span class="input-group-addon insert_new_input">Comment</span> <textarea rows="2" class="form-control" name="comment" id="comment" placeholder="Insert a general comment about the entity."></textarea>
+								</div>
+								<br>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+									<input type="submit" value="Save!" class="btn btn-primary pull-right">
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- fine Form di valutazione a comparsa-->
+			
 			<!-- inizio valutazioni -->
-
 			<div class="header entity_top">
 				<div class="row">
 					<div style="text-align: center">

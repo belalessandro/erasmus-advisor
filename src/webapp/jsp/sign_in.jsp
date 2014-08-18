@@ -43,6 +43,9 @@
 			<br>
 			<p align="center">An * indicates a required field.</p>
 			<br>
+			<!-- display the message -->
+    		<c:import url="/jsp/include/showMessage.jsp"/>
+			<br>
 			<!-- action deve puntare alla servlet che gestisce la registrazione -->
 			<form name='registration' onSubmit="return signInFormValidation();" action="<c:url value="/create-student"/>" method="post" action="#"> 
 				<div align="center">
@@ -88,10 +91,6 @@
 							<input id="regTermRadioYes" name="regTermRadio" type="radio" class="radio-btn" value="Yes" /> Yes 
 							<input id="regTermRadioNo" name="regTermRadio" type="radio" class="radio-btn" value="No" /> No
 						</div>
-						
-							<!-- display the message -->
-    						<c:import url="/jsp/include/showMessage.jsp"/>
-    	
 						<hr>
 					</div>
 					<input type="submit" class="btn btn-primary" value="Register Now!">

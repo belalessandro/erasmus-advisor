@@ -106,22 +106,18 @@
 												</div>
 											</div>
 											<br>
-											<input type="submit" class="btn btn-primary pull-right">
+											<div class="modal-footer">
+												<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+													<input type="submit" class="btn btn-primary pull-right" value="Save changes!">
+											</div>
 										</form>
-									</div>
-									<div class="modal-footer">
-										<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-										<button type="button" class="btn btn-primary">Save changes</button>
 									</div>
 								</div>
 							</div>
 						</div>
+						<!--Fine form di modifica a comparsa-->
 					</div>
-				</div>
-				
-				
-		
-    			
+				</div>  			
     	
 				<!-- Information Table -->
 				<!-- Da generare con JSP -->
@@ -186,7 +182,6 @@
 							</tr>
 						</tbody>
 					</table>
-
 				</c:if>
 			</div>
 		</div>
