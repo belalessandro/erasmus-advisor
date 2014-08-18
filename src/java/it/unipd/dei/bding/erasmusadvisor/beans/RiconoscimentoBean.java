@@ -9,7 +9,7 @@ import java.io.Serializable;
  * @version 1.0
  *  
  */
-class RiconoscimentoBean implements Serializable {
+public class RiconoscimentoBean implements Serializable {
 	/**
 	 * 
 	 */

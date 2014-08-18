@@ -10,7 +10,7 @@ import java.sql.Date;
  * @version 1.0
  *  
  */
-class ValutazioneInsegnamentoBean implements Serializable {
+public class ValutazioneInsegnamentoBean implements Serializable {
 	/**
 	 * 
 	 */

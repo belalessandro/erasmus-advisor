@@ -9,7 +9,7 @@ import java.io.Serializable;
  * @version 1.0
  *  
  */
-class ArgomentoTesiBean implements Serializable {
+public class ArgomentoTesiBean implements Serializable {
 	/**
 	 * 
 	 */

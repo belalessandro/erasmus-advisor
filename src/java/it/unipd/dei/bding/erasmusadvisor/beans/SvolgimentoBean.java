@@ -9,7 +9,7 @@ import java.io.Serializable;
  * @version 1.0
  *  
  */
-class SvolgimentoBean implements Serializable {
+public class SvolgimentoBean implements Serializable {
 	/**
 	 * 
 	 */

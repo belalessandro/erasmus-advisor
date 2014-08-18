@@ -10,7 +10,7 @@ import java.sql.Date;
  * @version 1.0
  *  
  */
-class CoordinatoreBean implements Serializable {
+public class CoordinatoreBean implements Serializable {
 	/**
 	 * 
 	 */

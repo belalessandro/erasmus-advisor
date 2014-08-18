@@ -10,7 +10,7 @@ import java.sql.Date;
  * @version 1.0
  *  
  */
-class FlussoBean implements Serializable {
+public class FlussoBean implements Serializable {
 	/**
 	 * 
 	 */
