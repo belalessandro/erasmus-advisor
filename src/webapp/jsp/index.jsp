@@ -56,9 +56,9 @@
 					</thead>
 					<tbody>
 						<tr>
-							<td><a href="#">EN985</a></td>
-							<td><a href="#">Aberdeen University</a></td>
-							<td><a href="#">Aberdeen</a></td>
+							<td><a href="#" target="_blank">EN985</a></td>
+							<td><a href="#" target="_blank">Aberdeen University</a></td>
+							<td><a href="#" target="_blank">Aberdeen</a></td>
 							<td align="center">
 								<button type="button" class="btn btn-default btn-xs">
 									<span class="glyphicon glyphicon glyphicon-remove"></span>
@@ -66,9 +66,9 @@
 							</td>
 						</tr>
 						<tr>
-							<td><a href="#">OS025</a></td>
-							<td><a href="#">Universitat fur Bodenkultur Wien</a></td>
-							<td><a href="#">Wien</a></td>
+							<td><a href="#" target="_blank">OS025</a></td>
+							<td><a href="#" target="_blank">Universitat fur Bodenkultur Wien</a></td>
+							<td><a href="#" target="_blank">Wien</a></td>
 							<td align="center">
 								<button type="button" class="btn btn-default btn-xs">
 									<span class="glyphicon glyphicon glyphicon-remove"></span>
@@ -76,9 +76,9 @@
 							</td>
 						</tr>
 						<tr>
-							<td><a href="#">FR7785</a></td>
-							<td><a href="#">Haute Ecole Léonard de Vinci- ECAM</a></td>
-							<td><a href="#">Paris</a></td>
+							<td><a href="#" target="_blank">FR7785</a></td>
+							<td><a href="#" target="_blank">Haute Ecole Léonard de Vinci- ECAM</a></td>
+							<td><a href="#" target="_blank">Paris</a></td>
 							<td align="center">
 								<button type="button" class="btn btn-default btn-xs">
 									<span class="glyphicon glyphicon glyphicon-remove"></span>
@@ -86,9 +86,9 @@
 							</td>
 						</tr>
 						<tr>
-							<td><a href="#">ES153</a></td>
-							<td><a href="#">Universidad de Alcala'</a></td>
-							<td><a href="#">Alcalá de Henares</a></td>
+							<td><a href="#" target="_blank">ES153</a></td>
+							<td><a href="#" target="_blank">Universidad de Alcala'</a></td>
+							<td><a href="#" target="_blank">Alcalá de Henares</a></td>
 							<td align="center">
 								<button type="button" class="btn btn-default btn-xs">
 									<span class="glyphicon glyphicon glyphicon-remove"></span>

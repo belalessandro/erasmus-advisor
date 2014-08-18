@@ -87,11 +87,11 @@
 						Select a Country <span class="caret"></span>
 					</button>
 					<ul class="dropdown-menu search_scrollable_menu text-left">
-						<li><a href="#">Country1</a></li>
-						<li><a href="#">Country2</a></li>
-						<li><a href="#">Country2</a></li>
-						<li><a href="#">Country4</a></li>
-						<li><a href="#">Country5</a></li>
+						<li><a href="#" target="_blank">Country1</a></li>
+						<li><a href="#" target="_blank">Country2</a></li>
+						<li><a href="#" target="_blank">Country2</a></li>
+						<li><a href="#" target="_blank">Country4</a></li>
+						<li><a href="#" target="_blank">Country5</a></li>
 					</ul>
 				</div>
 			</div>
@@ -101,11 +101,11 @@
 						Select a City <span class="caret"></span>
 					</button>
 					<ul class="dropdown-menu search_scrollable_menu text-left">
-						<li><a href="#">City1</a></li>
-						<li><a href="#">City2</a></li>
-						<li><a href="#">City3</a></li>
-						<li><a href="#">City4</a></li>
-						<li><a href="#">City5</a></li>
+						<li><a href="#" target="_blank">City1</a></li>
+						<li><a href="#" target="_blank">City2</a></li>
+						<li><a href="#" target="_blank">City3</a></li>
+						<li><a href="#" target="_blank">City4</a></li>
+						<li><a href="#" target="_blank">City5</a></li>
 					</ul>
 				</div>
 			</div>
@@ -130,28 +130,28 @@
 				<tbody>
 				<!-- risultati da creare dinamicamente -->
 					<tr>
-						<td><a href="#">Università degli Studi di Padova</a></td>
+						<td><a href="#" target="_blank">Università degli Studi di Padova</a></td>
 						<td><a href="http://www.unipd.it">http://www.unipd.it</a></td>
 						<td>180</td>
 						<td>No</td>
 						<td>Padua</td>
 					</tr>
 					<tr>
-						<td><a href="#">Università degli Studi di Bologna</a></td>
+						<td><a href="#" target="_blank">Università degli Studi di Bologna</a></td>
 						<td><a href="http://www.unibo.it">http://www.unibo.it</a></td>
 						<td>160</td>
 						<td>Yes</td>
 						<td>Bologna</td>
 					</tr>
 					<tr>
-						<td><a href="#">Università degli Studi di Napoli Federico II</a></td>
+						<td><a href="#" target="_blank">Università degli Studi di Napoli Federico II</a></td>
 						<td><a href="http://www.unina.it">http://www.unina.it</a></td>
 						<td>NV</td>
 						<td>No</td>
 						<td>Neaples</td>
 					</tr>
 					<tr>
-						<td><a href="#">La Sapienza - Università di Roma</a></td>
+						<td><a href="#" target="_blank">La Sapienza - Università di Roma</a></td>
 						<td><a href="http://www.uniroma1.it">http://www.uniroma1.it</a></td>
 						<td>380</td>
 						<td>Yes</td>
@@ -161,7 +161,7 @@
 			</table>
 			<!-- da usare solo se si sceglie di non visualizzare tutti i risultati nella pagina
 			<ul class="pager">
-				<li class="next"><a href="#">Show more &darr;</a></li>
+				<li class="next"><a href="#" target="_blank">Show more &darr;</a></li>
 			</ul>
 			 -->
 		</div>

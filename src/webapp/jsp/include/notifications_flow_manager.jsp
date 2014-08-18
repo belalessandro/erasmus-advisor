@@ -46,7 +46,7 @@
 					<span class="glyphicon glyphicon glyphicon-remove"></span>
 				</button>
 			</td>
-			<td><a href="#">Analisi del Pene</a></td>
+			<td><a href="#" target="_blank">Analisi del Pene</a></td>
 			<td>Università agli Studi di Padova</td>
 			<td>HUEHUEHUEHUE</td>
 		</tr>
@@ -59,7 +59,7 @@
 					<span class="glyphicon glyphicon glyphicon-remove"></span>
 				</button>
 			</td>
-			<td><a href="#">Culo</a></td>
+			<td><a href="#" target="_blank">Culo</a></td>
 			<td>Università agli Studi di Bologna</td>
 			<td>Matteo Montesi</td>
 		</tr>
@@ -91,7 +91,7 @@
 					<span class="glyphicon glyphicon glyphicon-remove"></span>
 				</button>
 			</td>
-			<td><a href="#">;DROP TABLE Users CASCADE;</a></td>
+			<td><a href="#" target="_blank">;DROP TABLE Users CASCADE;</a></td>
 			<td>London University</td>
 			<td>LOLOL</td>
 		</tr>
@@ -104,7 +104,7 @@
 					<span class="glyphicon glyphicon glyphicon-remove"></span>
 				</button>
 			</td>
-			<td><a href="#">Analisys of Trolls</a></td>
+			<td><a href="#" target="_blank">Analisys of Trolls</a></td>
 			<td>Università agli Studi di Napoli</td>
 			<td>Paolo Chiavetor</td>
 		</tr>

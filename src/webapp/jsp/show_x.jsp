@@ -14,11 +14,20 @@
 	<link href="../fonts/font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet">
 		
 	<!-- Javascript -->
-	<script src="../js/bootstrap.min.js"></script>
+	<script src="../js/jquery.min.js"></script>
+	<script src="../js/bootstrap.min.js"></script>	
 	<script>
 	    function evaluate()
 	    {
 	        alert('evaluate');
+	    }
+	    function report()
+	    {
+	        alert('report');
+	    }
+	    function edit()
+	    {
+	        alert('edit');
 	    }
 	</script>
 </head>
@@ -38,15 +47,15 @@
 				<div class="entity_details_text">
 					<h2>Università degli Studi di Padova</h2> 
 					<p>City: Padua (Italy)<br> 
-					Link: <a href="www.unipd.it">www.unipd.it</a><br> 
+					Link: <a href="http://www.unipd.it" target="_blank">www.unipd.it</a><br> 
 					World Ranking: 250<br> 
 					Has a residence for Erasmus Students<br></p>
 				</div>
 				<div class="entity_details_text">
 					<ul class="nav nav-stacked pull-right">
-						<li class="active"><a href="#" onclick="evaluate();">Evaluate</a></li>
-						<li class="active"><a href="#" onclick="report();">Report</a></li>
-						<li class="active"><a href="#" onclick="edit();">Edit</a></li>
+						<li class="active"><span onClick="evaluate();">Evaluate</span></li>
+						<li class="active"><span onClick="report();">Report</span></li>
+						<li class="active"><span onClick="edit();">Edit</span></li>
 					</ul>
 				</div>
 			</div>
@@ -76,7 +85,7 @@
 
 			<!-- inizio singola valutazione -->
 			<section class="entity_box">
-				Inserito da <a href="#">CuliNudi</a>
+				Inserito da <a href="#" target="_blank">CuliNudi</a>
 				<div class="row">
 					<div class="col-xs-12 col-sm-12 col-md-3">
 						Collocazione urbana <br> Qualità aule e laboratori <br> Qualità insegnamenti <br> Iniziative Erasmus <br>
@@ -96,7 +105,7 @@
 
 			<!-- inizio singola valutazione -->
 			<section class="entity_box">
-				Inserito da <a href="#">Prezzemolina69</a>
+				Inserito da <a href="#" target="_blank">Prezzemolina69</a>
 				<div class="row">
 					<div class="col-xs-12 col-sm-12 col-md-3">
 						Collocazione urbana <br> Qualità aule e laboratori <br> Qualità insegnamenti <br> Iniziative Erasmus <br>
@@ -116,7 +125,7 @@
 
 			<!-- inizio singola valutazione -->
 			<section class="entity_box">
-				Inserito da <a href="#">Trave666</a>
+				Inserito da <a href="#" target="_blank">Trave666</a>
 				<div class="row">
 					<div class="col-xs-12 col-sm-12 col-md-3">
 						Collocazione urbana <br> Qualità aule e laboratori <br> Qualità insegnamenti <br> Iniziative Erasmus <br>
