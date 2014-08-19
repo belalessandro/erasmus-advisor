@@ -4,13 +4,18 @@ import it.unipd.dei.bding.erasmusadvisor.beans.CittaBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.FlussoBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.UniversitaBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.ValutazioneUniversitaBean;
+import it.unipd.dei.bding.erasmusadvisor.database.UniversitaDatabase;
 import it.unipd.dei.bding.erasmusadvisor.resources.LoggedUser;
+import it.unipd.dei.bding.erasmusadvisor.resources.University;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.dbutils.ResultSetHandler;
 
 /**
  * Mapped to /university
@@ -30,20 +35,26 @@ public class UniversityServlet extends AbstractDatabaseServlet {
 		String univName = req.getParameter("univName");
 
 		if (univName != null && !univName.isEmpty()) {
-			UniversitaBean u;
-			ValutazioneUniversitaBean[] val;
-			CittaBean c;
-			
-			u= new UniversitaBean();// GET Flusso.lookupBookById(id);
-			val= new ValutazioneUniversitaBean[2]; // fare il Get dal database
-			c=new CittaBean();
-			req.setAttribute("university", u);
-			req.setAttribute("valuations", val);
-			req.setAttribute("city", c);
+			University results;
+			try {
+				results = new UniversitaDatabase().searchUniversityModelByName(DS, univName);
+
+				req.setAttribute("university", results.getUniversita());
+				req.setAttribute("evaluations", results.getListaValutazioni());
+			} catch (SQLException e) { // TODO CATTURARE GLI ERRORI OPPORTUNAMENTE (usare redirect/message..)
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 
 			/* Show results to the JSP page. */
-			getServletContext().getRequestDispatcher("/jsp/show_x.jsp").forward(
+			getServletContext().getRequestDispatcher("/jsp/show_university.jsp").forward(
 					req, resp);
+			// MAPPARE su JSP TRAMITE:
+			// <c:forEach var="ev" items="${evaluations}">
+			//					${ev.SoddEsperienza}
+			//					${ev.Sodd..}
+			//					${ev.Sodd...}
+			// </c:forEach>
 		} else {
 			
 			/* Redirect to insert form. */
@@ -62,7 +73,6 @@ public class UniversityServlet extends AbstractDatabaseServlet {
 		
 		// TODO: DA SESSIONE
 		LoggedUser lu = new LoggedUser(LoggedUser.AUTH_FLOWRESP, "erick.burn"); 
-		
 
 		String operation = req.getParameter("operation");
 		if (operation == null || operation.isEmpty() || !lu.isFlowResp()) {
