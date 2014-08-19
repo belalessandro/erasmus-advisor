@@ -7,6 +7,8 @@
 	<title>Insert a new university</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	
+	<script src="../js/ea-form-validation.js"></script>
+	
 	<link href="../css/ea-main.css" rel="stylesheet">
 	<link href="../css/bootstrap.min.css" rel="stylesheet">
 	<link href="../fonts/font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet">
@@ -29,9 +31,8 @@
 			<p align="center">An * indicates a required field.</p>
 			<br>
 			<!-- action deve puntare alla servlet che gestisce la registrazione -->
-			<!-- implementare insertUniversityFormValidation -->
 			<!-- lingua mostra solo le opzioni consentite -->
-			<form name='insert_class' method="post" action="#" onSubmit="return insertUniversityFormValidation();"> 
+			<form name='insert_university' method="post" action="#" onSubmit="return insertUniversityFormValidation();"> 
 				<div align="center">
 					<div class="input-group insert_new_input_group">
 						<span class="input-group-addon insert_new_input">Name*</span> <input type="text" class="form-control" name="name" id="name" placeholder="Insert the university's name">

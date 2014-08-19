@@ -11,6 +11,8 @@
 	<link href="../css/bootstrap.min.css" rel="stylesheet">
 	<link href="../fonts/font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet">
 	
+	<script src="../js/ea-form-validation.js"></script>
+	
 	<link href="../css/bootstrap-select.min.css" rel="stylesheet">
 	<script src="../js/jquery.min.js"></script>
 	<script src="../js/bootstrap-select.js"></script>	
@@ -42,7 +44,6 @@
 			<p align="center">An * indicates a required field.</p>
 			<br>
 			<!-- action deve puntare alla servlet che gestisce la registrazione -->
-			<!-- implementare insertClassFormValidation -->
 			<!-- area e università con autocomplemento, università mostra solo le opzioni consentite -->
 			<form name='insert_class' method="post" action="#" onSubmit="return insertClassFormValidation();"> 
 				<div align="center">
@@ -58,6 +59,7 @@
 						<span></span>
 						<span class="input-group-addon insert_new_select_label_inline">Select the class' area*</span>
 						<select class="selectpicker text-left" id="area" name="area">
+	    					<option disabled selected>Nothing Selected</option> <!-- serve per la corretta validazione -->
 	    					<option>Area1</option>
 	    					<option>Area2</option>
 	   						<option>Area3</option>
@@ -70,8 +72,17 @@
 						<span class="input-group-addon insert_new_input">University*</span> <input id="university" class="form-control" name="university" placeholder="Insert the University">
 					</div>
 					<br>
-					<div class="input-group insert_new_input_group">
-						<span class="input-group-addon insert_new_input">Language*</span> <input type="text" class="form-control" name="language" id="language" placeholder="Insert the class' language">
+					<div class="row">
+						<span></span>
+						<span class="input-group-addon insert_new_select_label_inline">Select the class' language*</span>
+						<select class="selectpicker text-left" id="language" name="language">
+	    					<option disabled selected>Nothing Selected</option> <!-- serve per la corretta validazione -->
+	    					<option>Language1</option>
+	    					<option>Language2</option>
+	   						<option>Language3</option>
+	    					<option>Language4</option>
+	   						<option>Language5</option>
+	    				</select>
 					</div>
 					<br>
 					<div class="col-md-4">

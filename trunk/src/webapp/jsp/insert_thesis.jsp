@@ -11,6 +11,8 @@
 	<link href="../css/bootstrap.min.css" rel="stylesheet">
 	<link href="../fonts/font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet">
 	
+	<script src="../js/ea-form-validation.js"></script>
+	
 	<link href="../css/bootstrap-select.min.css" rel="stylesheet">
 	<script src="../js/jquery.min.js"></script>
 	<script src="../js/bootstrap-select.js"></script>	
@@ -42,7 +44,6 @@
 			<p align="center">An * indicates a required field.</p>
 			<br>
 			<!-- action deve puntare alla servlet che gestisce la registrazione -->
-			<!-- implementare insertThesisFormValidation -->
 			<!-- università con autocomplemento, università mostra solo le opzioni consentite -->
 			<!-- opzioni di area e lingua passate via JSP -->
 			<form name='insert_thesis' method="post" action="#" onSubmit="return insertThesisFormValidation();"> 
