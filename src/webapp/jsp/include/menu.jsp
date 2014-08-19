@@ -48,11 +48,11 @@
 	<div class="menu_normal"><a href="search_thesis.jsp"><i class="fa fa-arrow-right fa-fw"></i>Theses</a></div>
 	<br>
 	<div class="menu_title"><i class="fa fa-search fa-fw"></i>INSERT</div>
-	<div class="menu_normal"><a href="insert_flow.jsp"><i class="fa fa-arrow-right fa-fw"></i>Insert a New Flow</a></div>
-	<div class="menu_normal"><a href="insert_city.jsp"><i class="fa fa-arrow-right fa-fw"></i>Insert a New City</a></div>
-	<div class="menu_normal"><a href="insert_university.jsp"><i class="fa fa-arrow-right fa-fw"></i>Insert a New University</a></div>
-	<div class="menu_normal"><a href="insert_course.jsp"><i class="fa fa-arrow-right fa-fw"></i>Insert a New Course</a></div>
-	<div class="menu_normal"><a href="insert_class.jsp"><i class="fa fa-arrow-right fa-fw"></i>Insert a New Class</a></div>
-	<div class="menu_normal"><a href="insert_thesis.jsp"><i class="fa fa-arrow-right fa-fw"></i>Insert a New Thesis</a></div>
+	<div class="menu_normal"><a href="insert_flow.jsp"><i class="fa fa-arrow-right fa-fw"></i>Insert a new Flow</a></div>
+	<div class="menu_normal"><a href="insert_city.jsp"><i class="fa fa-arrow-right fa-fw"></i>Insert a new City</a></div>
+	<div class="menu_normal"><a href="insert_university.jsp"><i class="fa fa-arrow-right fa-fw"></i>Insert a new University</a></div>
+	<div class="menu_normal"><a href="insert_course.jsp"><i class="fa fa-arrow-right fa-fw"></i>Insert a new Course</a></div>
+	<div class="menu_normal"><a href="insert_class.jsp"><i class="fa fa-arrow-right fa-fw"></i>Insert a new Class</a></div>
+	<div class="menu_normal"><a href="insert_thesis.jsp"><i class="fa fa-arrow-right fa-fw"></i>Insert a new Thesis</a></div>
 </div>
 <!-- fine menu -->
