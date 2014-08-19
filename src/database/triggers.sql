@@ -61,7 +61,7 @@ CREATE FUNCTION CheckSubscriptionOverlap() RETURNS TRIGGER AS $$
     BEGIN
 	    PERFORM I.nomeUtenteStudente
 	            FROM iscrizione AS I
-	            WHERE NEW.AnnoInizio<I.AnnoFine OR NEW.AnnoInizio<I.AnnoFine AND NEW.nomeUtenteStudente=I.nomeUtenteStudente;
+	            WHERE (NEW.AnnoInizio<I.AnnoFine OR NEW.AnnoInizio<I.AnnoFine) AND NEW.nomeUtenteStudente=I.nomeUtenteStudente;
 
 	    IF FOUND THEN
 	       RAISE EXCEPTION 'EA ERROR: Overlap in program subscription.' USING ERRCODE = 'EA003'; 
@@ -81,7 +81,7 @@ CREATE FUNCTION CheckErasmusOverlap() RETURNS TRIGGER AS $$
     BEGIN
 	    PERFORM P.NomeUtenteStudente
 	            FROM partecipazione AS P
-	            WHERE NEW.Inizio<P.Fine OR P.Inizio<NEW.Fine AND NEW.nomeUtenteStudente=P.NomeUtenteStudente;
+	            WHERE (NEW.Inizio<P.Fine OR P.Inizio<NEW.Fine) AND NEW.nomeUtenteStudente=P.NomeUtenteStudente;
 	    
 	    IF FOUND THEN
 	       RAISE EXCEPTION 'EA ERROR: Overlap in Erasmus subscription.' USING ERRCODE = 'EA004'; 
@@ -101,7 +101,7 @@ CREATE FUNCTION CheckUniEval() RETURNS TRIGGER AS $$
     BEGIN
 	    PERFORM P.NomeUtenteStudente
 	            FROM partecipazione AS P, Flusso as F
-	            WHERE NEW.idFlusso=P.idFlusso AND P.idFlusso=F.idFlusso AND F.Destinazione=NEW.NomeUniversita AND 
+	            WHERE /*NEW.idFlusso=P.idFlusso AND*/ P.idFlusso=F.id AND F.Destinazione=NEW.NomeUniversita AND 
 	            	NEW.NomeUtenteStudente=P.NomeUtenteStudente;
 	    
 	    IF NOT FOUND THEN
@@ -143,7 +143,7 @@ CREATE FUNCTION CheckCityEval() RETURNS TRIGGER AS $$
     BEGIN
 	    PERFORM P.nomeUtenteStudente
 	            FROM partecipazione AS P, Flusso as F, Universita as U
-	            WHERE NEW.idFlusso=P.idFlusso AND P.idFlusso=F.idFlusso AND F.Destinazione=U.NomeUniversita AND 
+	            WHERE /*NEW.idFlusso=P.idFlusso AND*/ P.idFlusso=F.id AND F.Destinazione=U.Nome AND 
 	            	NEW.NomeUtenteStudente=P.NomeUtenteStudente AND U.nomeCitta=NEW.nomeCitta;
 	    RAISE NOTICE 'YO mother fucker!';
 	    
@@ -165,7 +165,7 @@ CREATE FUNCTION CheckExamEval() RETURNS TRIGGER AS $$
     BEGIN
 	    PERFORM P.nomeUtenteStudente
 	            FROM partecipazione AS P, Flusso as F, Insegnamento as I
-	            WHERE NEW.idFlusso=P.idFlusso AND P.idFlusso=F.idFlusso AND F.Destinazione=I.NomeUniversita AND 
+	            WHERE /*NEW.idFlusso=P.idFlusso AND*/ P.idFlusso=F.id AND F.Destinazione=I.NomeUniversita AND 
 	            	NEW.NomeUtenteStudente=P.NomeUtenteStudente AND NEW.IdInsegnamento=I.Id;
 	    
 	    IF NOT FOUND THEN
@@ -186,7 +186,7 @@ CREATE FUNCTION CheckThesisEval() RETURNS TRIGGER AS $$
     BEGIN
 	    PERFORM P.nomeUtenteStudente
 	            FROM partecipazione AS P, Flusso as F, ArgomentoTesi as T
-	            WHERE NEW.idFlusso=P.idFlusso AND P.idFlusso=F.idFlusso AND F.Destinazione=T.NomeUniversita AND 
+	            WHERE /*NEW.idFlusso=P.idFlusso AND*/ P.idFlusso=F.id AND F.Destinazione=T.NomeUniversita AND 
 	            	NEW.NomeUtenteStudente=P.NomeUtenteStudente AND NEW.IdArgomentoTesi=T.Id;
 	    
 	    IF NOT FOUND THEN

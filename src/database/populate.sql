@@ -98,6 +98,8 @@ INSERT INTO Flusso (Id, Destinazione, RespFlusso, PostiDisponibili, Attivo, Data
 	('F-PARIS006','Université Pierre et Marie Curie, Paris 6- Main Site', 'georgua.en', 2, TRUE, CURRENT_DATE, 10, NULL),
 	('IRL-DUBLIN27', 'Dublin Institute of Technology- Main Site', 'erick.burn', 4, TRUE, CURRENT_DATE, 12, NULL);
 
+
+	
 	
 -- Inserting degree courses
 INSERT INTO CorsoDiLaurea (Id, Nome, NomeUniversita, Livello) VALUES
@@ -112,6 +114,13 @@ INSERT INTO Origine (IdFlusso, IdCorso) VALUES
 	('FRA001', CURRVAL('CorsoDiLaurea_id_seq')),
 	('IRL-DUBLIN27', CURRVAL('CorsoDiLaurea_id_seq')),
 	('COP001', CURRVAL('CorsoDiLaurea_id_seq'));
+
+--Inserting Partecipations	
+INSERT INTO Partecipazione (NomeUtenteStudente, IdFlusso, Inizio, Fine) VALUES 
+	('mario.rossi', 'E-BARCELO01', '2012-09-01', '2013-01-30'),
+	('prezzemolino', 'E-BARCELO01','2011-01-07', '2011-07-10'),
+	('user','IRL-DUBLIN27', '2013-02-03', '2013-09-14'),
+	('JuventinoDOC','FRA001', '2013-01-15', '2013-06-22');
 	
 
 INSERT INTO CorsoDiLaurea (Id, Nome, NomeUniversita, Livello) VALUES
@@ -129,7 +138,7 @@ INSERT INTO CorsoDiLaurea (Id, Nome, NomeUniversita, Livello) VALUES
 INSERT INTO Specializzazione (NomeArea, IdCorso) VALUES
 	('Law', CURRVAL('CorsoDiLaurea_id_seq'));
 INSERT INTO Iscrizione (IdCorso, NomeUtenteStudente, AnnoInizio, AnnoFine) VALUES
-	(CURRVAL('CorsoDiLaurea_id_seq'),'JuventinoDOC', '2014-09-01', '2016-06-30');
+	(CURRVAL('CorsoDiLaurea_id_seq'),'JuventinoDOC', '2014-06-01', '2016-06-30');
 INSERT INTO Origine (IdFlusso, IdCorso) VALUES
 	('E-BARCELO01', CURRVAL('CorsoDiLaurea_id_seq')),
 	('ENG57', CURRVAL('CorsoDiLaurea_id_seq'));
@@ -151,7 +160,7 @@ INSERT INTO Insegnamento(Id, Nome, Crediti, NomeUniversita, PeriodoErogazione, S
 INSERT INTO Riconoscimento (IdFlusso, IdInsegnamento) VALUES
 	('E-BARCELO01',CURRVAL('Insegnamento_id_seq'));
 INSERT INTO ArgomentoTesi(Id, Nome, NomeUniversita, Triennale, Magistrale, Stato) VALUES
-	(DEFAULT, 'Counting up to ten', 'Università degli Studi di Padova', TRUE, TRUE, 'NOT VERIFIED');
+	(DEFAULT, 'Counting up to ten', 'Universitat de Barcelona- Main Site', TRUE, TRUE, 'NOT VERIFIED');
 INSERT INTO Professore(Id, Nome, Cognome) VALUES
 	(DEFAULT, 'Luca', 'Pizzul');
 INSERT INTO Svolgimento (IdInsegnamento, IdProfessore) VALUES
@@ -257,13 +266,6 @@ INSERT INTO Interesse (NomeUtenteStudente, IdFlusso) VALUES
 	('user', 'FRA001'),
 	('mario.rossi', 'FRA001'),
 	('user', 'IRL-DUBLIN27');
-	
---Inserting Partecipations	
-INSERT INTO Partecipazione (NomeUtenteStudente, IdFlusso, Inizio, Fine) VALUES 
-	('mario.rossi', 'E-BARCELO01', '2012-09-01', '2013-01-30'),
-	--('prezzemolino', 'E-BARCELO01','2011-01-07', '2011-07-10'),
-	('user','IRL-DUBLIN27', '2013-02-03', '2013-09-14'),
-	('JuventinoDOC','FRA001', '2013-01-15', '2013-06-22');
 
 --Inserting Documentations
 INSERT INTO Documentazione (IdFlusso, NomeCertificato, LivelloCertificato) VALUES
