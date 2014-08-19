@@ -37,10 +37,6 @@
 	    {
 	        alert('report');
 	    }
-	    function edit()
-	    {
-	        alert('edit');
-	    }
 	</script>
 </head>
 <body>
@@ -67,12 +63,12 @@
 					<ul class="nav nav-stacked pull-right">
 						<li class="active"><span data-toggle="modal" data-target="#evalutateForm">Evaluate</span></li>
 						<li class="active"><span onClick="report();">Report</span></li>
-						<li class="active"><span onClick="edit();">Edit</span></li>
+						<li class="active"><span data-toggle="modal" data-target="#editForm">Edit</span></li>
 					</ul>
 				</div>
 			</div>
 			
-			<!--Form di modifica a comparsa-->
+			<!--Form di valutazione a comparsa-->
 			<div class="modal fade" id="evalutateForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false">
 				<div class="modal-dialog">
 					<div class="modal-content">
@@ -114,6 +110,53 @@
 								<div class="modal-footer">
 									<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 									<input type="submit" value="Save!" class="btn btn-primary pull-right">
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- fine Form di valutazione a comparsa-->
+			
+			<!--Form di edit a comparsa-->
+			<div class="modal fade" id="editForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+							<h4 class="modal-title" id="myModalLabel">Edit <b>Università degli Studi di Padova</b></h4>
+						</div>
+						<div class="modal-body">
+							<!-- action deve puntare alla servlet che gestisce la modifica dell'entità -->
+							<!-- notare che ogni input deve avere il campo value settato a quanto è presente nel DB -->
+							<form name='evalutationForm' onSubmit="return xEditFormValidation();" method="post" action="#">
+								<div class="input-group insert_new_input_group">
+									<span class="input-group-addon insert_new_input">Name*</span> <input type="text" class="form-control" name="name" id="name" value="Università degli Studi di Padova">
+								</div>
+								<br>
+								<div class="input-group insert_new_input_group">
+									<span class="input-group-addon insert_new_input">Country*</span> <input type="text" id="country" class="form-control" name="country" value="Italy">
+								</div>
+								<br>
+								<div class="input-group insert_new_input_group">
+									<span class="input-group-addon insert_new_input">City*</span> <input type="text" id="city" class="form-control" name="city" value="Padua">
+								</div>
+								<br>
+								<div class="input-group insert_new_input_group">
+									<span class="input-group-addon insert_new_input">Link*</span> <input type="text" id="link" class="form-control" name="link" value="http://www.unipd.it">
+								</div>
+								<br>
+								<div class="input-group insert_new_input_group">
+									<span class="input-group-addon insert_new_input">World ranking*</span> <input type="text" class="form-control" name="ranking" id="ranking" value="250">
+								</div>
+								<br>
+								<div class="text-center">
+									<input type="checkbox" id="hasResidence" name="hasResidence" value="hasResidence" checked> Select if the university has a residence for Erasmus students.
+								</div>
+								<br>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+									<input type="submit" value="Save your changes" class="btn btn-primary pull-right">
 								</div>
 							</form>
 						</div>
