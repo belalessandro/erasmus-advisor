@@ -59,13 +59,13 @@
 						</div>
 
 						<!--Form di modifica a comparsa-->
+						<!-- notare che ogni input deve avere il campo value settato a quanto è presente nel DB -->
 						<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false">
 							<div class="modal-dialog">
 								<div class="modal-content">
 									<div class="modal-header">
 										<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 										<h3 class="modal-title" id="myModalLabel">Edit your profile information</h3>
-										Note that you have to fill all the fields.
 									</div>
 									<div class="modal-body">
 										<!-- action deve puntare alla servlet che gestisce il cambio delle informazioni -->
