@@ -14,6 +14,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
+ * Servlet for getting lists of university
+ * 
  * Mapped to /university/list
  * @author Alessandro
  *
@@ -63,7 +65,7 @@ public class UniversityListServlet extends AbstractDatabaseServlet {
 		} else { /* NO OPERATION */
 			
 			/* Redirect to the Search JSP page */
-			resp.sendRedirect("/jsp/search_university.jsp");
+			resp.sendRedirect(req.getContextPath() + "/jsp/search_university.jsp");
 		}
 
 	}
