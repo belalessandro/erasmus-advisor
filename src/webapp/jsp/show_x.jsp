@@ -37,6 +37,17 @@
 	    {
 	        alert('report');
 	    }
+		function doDelete()
+		{
+			var r = confirm("Are you sure you want to delete this entity from the database? The action is not reversible.");
+			if (r == true) 
+			{
+			    // procedere con la cancellazione
+			} 
+			else {
+			    // splash: nothing happens
+			} 
+		}
 	</script>
 </head>
 <body>
@@ -60,10 +71,13 @@
 					Has a residence for Erasmus Students<br></p>
 				</div>
 				<div class="entity_details_text">
+					<!-- evalutate visibile solo da studente
+						edit e delete solo da reponsabili di flusso e coordinatori erasmus -->
 					<ul class="nav nav-stacked pull-right">
 						<li class="active"><span data-toggle="modal" data-target="#evalutateForm">Evaluate</span></li>
 						<li class="active"><span onClick="report();">Report</span></li>
 						<li class="active"><span data-toggle="modal" data-target="#editForm">Edit</span></li>
+						<li class="active"><span onClick="doDelete();">Delete</span></li>
 					</ul>
 				</div>
 			</div>
@@ -189,7 +203,7 @@
 
 			<!-- inizio singola valutazione -->
 			<section class="entity_box">
-				Inserito da <a href="#" target="_blank">CuliNudi</a>
+				Inserito da <b>CuliNudi</b>.
 				<div class="row">
 					<div class="col-xs-12 col-sm-12 col-md-3">
 						Collocazione urbana <br> Qualità aule e laboratori <br> Qualità insegnamenti <br> Iniziative Erasmus <br>
@@ -209,7 +223,7 @@
 
 			<!-- inizio singola valutazione -->
 			<section class="entity_box">
-				Inserito da <a href="#" target="_blank">Prezzemolina69</a>
+				Inserito da <b>Fake</b>.
 				<div class="row">
 					<div class="col-xs-12 col-sm-12 col-md-3">
 						Collocazione urbana <br> Qualità aule e laboratori <br> Qualità insegnamenti <br> Iniziative Erasmus <br>
@@ -229,7 +243,7 @@
 
 			<!-- inizio singola valutazione -->
 			<section class="entity_box">
-				Inserito da <a href="#" target="_blank">Trave666</a>
+				Inserito da <b>YoyoBBoy</b>.
 				<div class="row">
 					<div class="col-xs-12 col-sm-12 col-md-3">
 						Collocazione urbana <br> Qualità aule e laboratori <br> Qualità insegnamenti <br> Iniziative Erasmus <br>
@@ -242,6 +256,7 @@
 					<div class="col-xs-12 col-sm-12 col-md-7"></div>
 				</div>
 			</section>
+			<!-- fine singola valutazione -->
 
 		</div>
 	</div>

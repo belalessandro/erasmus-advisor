@@ -38,13 +38,13 @@
 			In particular we have used: <br><br>
 			<nav>
 				<ul>
-					<li>Bootstrap 3.1.1 (<a href="http://getbootstrap.com/">http://getbootstrap.com/</a>);</li>
-					<li>Font Awesome 4.1.0 (<a href="http://fortawesome.github.io/Font-Awesome/">http://fortawesome.github.io/Font-Awesome/</a>);</li>
-					<li>jQuery (<a href="http://jquery.com/">http://jquery.com/</a>).</li>
-					<li>Tablesorter 2.0 (<a href="http://tablesorter.com/docs/">http://tablesorter.com/docs/</a>).</li>
-					<li>Bootstrap-datepicker (<a href="bootstrap-datepicker.readthedocs.org/en/release/">bootstrap-datepicker.readthedocs.org/en/release/</a>).</li>
-					<li>Bootstrap-select (<a href="http://silviomoreto.github.io/bootstrap-select/">http://silviomoreto.github.io/bootstrap-select/</a>).</li>
-					<li>Bootstrap star rating (<a href="http://plugins.krajee.com/star-rating">http://plugins.krajee.com/star-rating</a>).</li>
+					<li>Bootstrap 3.1.1 (<a href="http://getbootstrap.com/" target="_blank">http://getbootstrap.com/</a>);</li>
+					<li>Font Awesome 4.1.0 (<a href="http://fortawesome.github.io/Font-Awesome/" target="_blank">http://fortawesome.github.io/Font-Awesome/</a>);</li>
+					<li>jQuery (<a href="http://jquery.com/" target="_blank">http://jquery.com/</a>).</li>
+					<li>Tablesorter 2.0 (<a href="http://tablesorter.com/docs/" target="_blank">http://tablesorter.com/docs/</a>).</li>
+					<li>Bootstrap-datepicker (<a href="bootstrap-datepicker.readthedocs.org/en/release/" target="_blank">bootstrap-datepicker.readthedocs.org/en/release/</a>).</li>
+					<li>Bootstrap-select (<a href="http://silviomoreto.github.io/bootstrap-select/" target="_blank">http://silviomoreto.github.io/bootstrap-select/</a>).</li>
+					<li>Bootstrap star rating (<a href="http://plugins.krajee.com/star-rating" target="_blank">http://plugins.krajee.com/star-rating</a>).</li>
 				</ul>
 			</nav>
 		</div>	
