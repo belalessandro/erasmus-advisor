@@ -69,39 +69,40 @@
 									</div>
 									<div class="modal-body">
 										<!-- action deve puntare alla servlet che gestisce il cambio delle informazioni -->
+										<!-- notare che ogni input deve avere il campo value settato a quanto è presente nel DB -->
 										<form name='registration' onSubmit="return userProfileFormValidation();" method="post" action="#">
 											<div class="input-group sign_in_input_group">
-												<span class="input-group-addon sign_in_input">Username*</span> <input type="text" class="form-control" name="user" id="user" placeholder="Insert your username">
+												<span class="input-group-addon sign_in_input">Username*</span> <input type="text" class="form-control" name="user" id="user" value="placeholder">
 											</div>
 											<br>
 											<div class="input-group sign_in_input_group">
-												<span class="input-group-addon sign_in_input">E-mail*</span> <input type="text" class="form-control" name="email" id="email" placeholder="Example: mario.rossi@example.com">
+												<span class="input-group-addon sign_in_input">E-mail*</span> <input type="text" class="form-control" name="email" id="email" value="placeholder">
 											</div>
 											<br>
 											<div class="input-group sign_in_input_group">
-												<span class="input-group-addon sign_in_input">Password*</span> <input type="password" class="form-control" name="password" id="password" placeholder="Insert a password">
+												<span class="input-group-addon sign_in_input">Password*</span> <input type="password" class="form-control" name="password" id="password" value="placeholder">
 											</div>
 											<br>
 											<div class="input-group sign_in_input_group">
-												<span class="input-group-addon sign_in_input">Confirm Password*</span> <input type="password" class="form-control" name="password2" id="password2" placeholder="Confirm your password">
+												<span class="input-group-addon sign_in_input">Confirm Password*</span> <input type="password" class="form-control" name="password2" id="password2" value="placeholder">
 											</div>
 											<br>
 											<div class="input-group sign_in_input_group">
-												<span class="input-group-addon sign_in_input">University</span> <input id="autocomplete" class="form-control" name="university" title="Type a letter for suggestions." placeholder="Insert your University">
+												<span class="input-group-addon sign_in_input">University</span> <input id="autocomplete" class="form-control" name="university" title="Type a letter for suggestions." value="placeholder">
 											</div>
 											<br>
 											<div class="input-group sign_in_input_group">
-												<span class="input-group-addon sign_in_input">Degree Course</span> <input id="autocomplete2" class="form-control" name="degree" title="Type a letter for suggestions." placeholder="Insert your Degree Course">
+												<span class="input-group-addon sign_in_input">Degree Course</span> <input id="autocomplete2" class="form-control" name="degree" title="Type a letter for suggestions." value="placeholder">
 											</div>
 											<br>
 											<div class="row">
 												<div class="col-lg-5"></div>
 												<div class="col-lg-7">
 													<div class="input-group sign_in_input_group">
-														<span class="input-group-addon sign_in_input_small">From</span><input type="text" class="form-control" id="datepicker" name="date_from" placeholder="dd/mm/yyyy">
+														<span class="input-group-addon sign_in_input_small">From</span><input type="text" class="form-control" id="datepicker" name="date_from" value="01/01/1900">
 													</div>
 													<div class="input-group sign_in_input_group">
-														<span class="input-group-addon sign_in_input_small">To</span><input type="text" class="form-control" id="datepicker2" name="date_to" placeholder="dd/mm/yyyy">
+														<span class="input-group-addon sign_in_input_small">To</span><input type="text" class="form-control" id="datepicker2" name="date_to" value="01/01/1900">
 													</div>
 												</div>
 											</div>
