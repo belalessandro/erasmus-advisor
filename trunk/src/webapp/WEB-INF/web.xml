@@ -42,6 +42,25 @@
 	</servlet-mapping>
 	
 	<servlet>
+		<servlet-name>FlowServlet</servlet-name>
+		<servlet-class>it.unipd.dei.bding.erasmusadvisor.servlets.FlowServlet</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>FlowServlet</servlet-name>
+		<url-pattern>/flow</url-pattern>
+	</servlet-mapping>
+	
+	<servlet> <!-- DEPRECATO -->
+		<servlet-name>InsertFlowServlet</servlet-name>
+		<servlet-class>it.unipd.dei.bding.erasmusadvisor.servlets.InsertFlowServlet</servlet-class>
+	</servlet>
+	
+	<servlet-mapping> <!-- DEPRECATO -->
+		<servlet-name>InsertFlowServlet</servlet-name>
+		<url-pattern>/insert-flow</url-pattern>
+	</servlet-mapping>
+	<!-- servlet>
 		<servlet-name>LogInServlet</servlet-name>
 		<servlet-class>it.unipd.dei.bding.erasmusadvisor.servlets.LogInServlet</servlet-class>
 	</servlet>
@@ -52,33 +71,23 @@
 	</servlet-mapping>
 	
 	<servlet>
-		<servlet-name>InsertFlowServlet</servlet-name>
-		<servlet-class>it.unipd.dei.bding.erasmusadvisor.servlets.InsertFlowServlet</servlet-class>
-	</servlet>
-	
-	<servlet-mapping>
-		<servlet-name>InsertFlowServlet</servlet-name>
-		<url-pattern>/insert-flow</url-pattern>
-	</servlet-mapping>
-	
-	<servlet>
 		<servlet-name>EvaluateServlet</servlet-name>
 		<servlet-class>it.unipd.dei.bding.erasmusadvisor.servlets.EvaluateServlet</servlet-class>
 	</servlet>
 	
 	<servlet-mapping>
 		<servlet-name>EvaluateServlet</servlet-name>
-		<url-pattern>/student/evaluations</url-pattern>
+		<url-pattern>/student/evaluate</url-pattern>
 	</servlet-mapping>
 	
 	<servlet>
-		<servlet-name>EvaluateUniversityServlet</servlet-name>
-		<servlet-class>it.unipd.dei.bding.erasmusadvisor.servlets.EvaluateUniversityServlet</servlet-class>
+		<servlet-name>UniversityEvaluationsServlet</servlet-name>
+		<servlet-class>it.unipd.dei.bding.erasmusadvisor.servlets.UniversityEvaluationsServlet</servlet-class>
 	</servlet>
 	
 	<servlet-mapping>
-		<servlet-name>EvaluateUniversityServlet</servlet-name>
-		<url-pattern>/university/evaluate</url-pattern>
+		<servlet-name>UniversityEvaluationServlet</servlet-name>
+		<url-pattern>/university/evaluations</url-pattern>
 	</servlet-mapping>
 	
 	<servlet>
@@ -99,7 +108,7 @@
 	<servlet-mapping>
 		<servlet-name>UniversityListServlet</servlet-name>
 		<url-pattern>/university/list</url-pattern>
-	</servlet-mapping>
+	</servlet-mapping-->
 </web-app>
 
 <!--

@@ -51,7 +51,8 @@
 			<!-- action deve puntare alla servlet che gestisce la registrazione -->
 			<!-- università e corso di laurea con autocomplemento e mostrano solo le opzioni consentite -->
 			<!-- opzioni di area e lingua passate via JSP -->
-			<form name='insert_flow' method="post" action="<c:url value="/insert-flow"/>" onSubmit="return insertFlowFormValidation();"> 
+			<form name='insert_flow' method="post" action="<c:url value="/flow"/>" onSubmit="return insertFlowFormValidation();"> 
+				<input type="hidden" name="operation" value="insert">
 				<div align="center">
 					<div class="input-group insert_new_input_group">
 						<span class="input-group-addon insert_new_input">ID*</span> <input type="text" class="form-control" name="name" id="name" placeholder="Insert the flow's name">

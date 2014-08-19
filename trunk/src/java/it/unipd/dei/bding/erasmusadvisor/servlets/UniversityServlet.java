@@ -65,7 +65,7 @@ public class UniversityServlet extends AbstractDatabaseServlet {
 		
 
 		String operation = req.getParameter("operation");
-		if (operation == null || operation.isEmpty() || !lu.isStudent() || !lu.isFlowResp()) {
+		if (operation == null || operation.isEmpty() || !lu.isFlowResp()) {
 			/* Error or not authorized. */
 			getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(req, resp);
 			return;

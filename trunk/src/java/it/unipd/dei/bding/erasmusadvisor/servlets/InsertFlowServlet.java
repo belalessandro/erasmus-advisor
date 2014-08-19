@@ -16,7 +16,10 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/**
+/** TODO: PORTARE QUESTA SERVLET 
+ * 			IN FlowServlet.doPost con operation="insert" o fare forward a questa   
+ * 
+ * 
  * Form processing for the creation of a new Flow
  * 
  * @author Alessandro

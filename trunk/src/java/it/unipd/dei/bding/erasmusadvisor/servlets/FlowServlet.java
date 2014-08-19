@@ -5,6 +5,7 @@ package it.unipd.dei.bding.erasmusadvisor.servlets;
 
 import it.unipd.dei.bding.erasmusadvisor.beans.FlussoBean;
 import it.unipd.dei.bding.erasmusadvisor.resources.LoggedUser;
+import it.unipd.dei.bding.erasmusadvisor.resources.Message;
 
 import java.io.IOException;
 
@@ -56,4 +57,39 @@ public class FlowServlet extends AbstractDatabaseServlet {
 //		response.sendRedirect(request.getContextPath() + "/book/");
 //	}
 
+	/**
+	 * Insert or update the flow sent with a POST form
+	 */
+	@Override
+	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
+			throws ServletException, IOException {
+		
+		// TODO: DA SESSIONE
+		LoggedUser lu = new LoggedUser(LoggedUser.AUTH_FLOWRESP, "erick.burn"); 
+		
+
+		String operation = req.getParameter("operation");
+		if (operation == null || operation.isEmpty() || !lu.isFlowResp()) {
+			/* Error or not authorized. */
+			Message m = new Message("Not authorized or operation null", "", "");
+			req.setAttribute("message", m);
+			getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(req, resp);
+			return;
+		} else if (operation.equals("insert") ) {
+			/*
+			 * Insert a new University 
+			 */
+			/* Redirect to existing servlet for Insert flow...... TODO spostare qui */
+			getServletContext().getRequestDispatcher("/insert-flow").forward(
+					req, resp);
+			return;
+		} else if (operation.equals("update") ) {
+			/*
+			 * Updates an existing University 
+			 */
+			//bookRepo.updateBook(id, title, description, price, pubDate);
+		}
+
+		resp.sendRedirect(req.getParameter("returnTo"));
+	}
 }
