@@ -70,7 +70,6 @@ public class InsertFlowServlet extends AbstractDatabaseServlet {
 					d[j].setNomeCertificato(nomeCertificato);
 					d[j].setLivelloCertificato(livelloCertificato);
 					d[j].setIdFlusso(f.getId());
-
 					new CreateDocumentazioneDatabase(DS.getConnection(), d[j]).createDocumentazione(); // MOLTO SPORCO: apre una connessione per ogni insert
 				}
 			}
