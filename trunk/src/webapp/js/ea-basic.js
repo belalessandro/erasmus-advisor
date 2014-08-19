@@ -10,25 +10,6 @@
 
 $(function() {
 		
-		$( "#accordion" ).accordion();
-			
-		var availableTags = [
-"Universit� degli studi di Padova","Aberdeen University",
-"Barcellona"
-		];
-		$( "#autocomplete" ).autocomplete({
-			source: availableTags
-		});
-		
-		var availableTags = [
-"Ingegneria Informatica", "Ingegneria delle Telecomunicazioni","Farmacia","Psicologia del lavoro","Medicina","Giurisprudenza"
-		];
-		$( "#autocomplete2" ).autocomplete({
-			source: availableTags
-		});
-		
-
-		
 		$( "#button" ).button();
 		$( "#radioset" ).buttonset();
 		

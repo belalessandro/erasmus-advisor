@@ -15,9 +15,7 @@
 	
 	<script src="<c:url value="/js"/>/js/ea-form-validation.js"></script>
 	
-	<!-- questi servono per il datepicker 
-		mi sembra impossibile ci voglia tutta sta roba per forza, ma se si toglie qualcosa non va -.-
-		notare come l'autocompletamento in ea-basic sia stato eliminato -->
+	<!-- questi servono per il datepicker -->
 	<link href="<c:url value="/css"/>/datepicker3.css" rel="stylesheet">
 	<link href="<c:url value="/css"/>/ui-lightness/jquery-ui-1.10.4.custom.css" rel="stylesheet">
 	<script src="<c:url value="/js"/>/jquery.min.js"></script>
@@ -45,7 +43,6 @@
 			<br>
 			<!-- display the message -->
     		<c:import url="/jsp/include/showMessage.jsp"/>
-			<br>
 			<!-- action deve puntare alla servlet che gestisce la registrazione -->
 			<form name='registration' onSubmit="return signInFormValidation();" action="<c:url value="/create-student"/>" method="post" action="#"> 
 				<div align="center">

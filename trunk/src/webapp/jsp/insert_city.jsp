@@ -11,6 +11,8 @@
 	<link href="../css/bootstrap.min.css" rel="stylesheet">
 	<link href="../fonts/font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet">
 	
+	<script src="../js/ea-form-validation.js"></script>
+	
 	<link href="../css/bootstrap-select.min.css" rel="stylesheet">
 	<script src="../js/jquery.min.js"></script>
 	<script src="../js/bootstrap-select.js"></script>	
@@ -42,9 +44,8 @@
 			<p align="center">An * indicates a required field.</p>
 			<br>
 			<!-- action deve puntare alla servlet che gestisce la registrazione -->
-			<!-- implementare insertCityFormValidation -->
 			<!-- lingua mostra solo le opzioni consentite -->
-			<form name='insert_class' method="post" action="#" onSubmit="return insertCityFormValidation();"> 
+			<form name='insert_city' method="post" action="#" onSubmit="return insertCityFormValidation();"> 
 				<div align="center">
 					<div class="input-group insert_new_input_group">
 						<span class="input-group-addon insert_new_input">Name*</span> <input type="text" class="form-control" name="name" id="name" placeholder="Insert the city's name">

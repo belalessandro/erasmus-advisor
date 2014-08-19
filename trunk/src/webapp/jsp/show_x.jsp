@@ -21,7 +21,8 @@
 	<link href="../css/bootstrap.min.css" rel="stylesheet">
 	<link href="../fonts/font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet">
 		
-	<!-- Javascript -->
+	<script src="../js/ea-form-validation.js"></script>
+	<!-- componenti aggiuntivi -->
 	<script src="../js/jquery.min.js"></script>
 	<script src="../js/bootstrap.min.js"></script>	
 	<link href="../css/star-rating.css" rel="stylesheet">
@@ -81,7 +82,7 @@
 						</div>
 						<div class="modal-body">
 							<!-- action deve puntare alla servlet che gestisce l'inserimento della valutazione -->
-							<form name='registration' onSubmit="return xEvaluationFormValidation();" method="post" action="#">
+							<form name='evalutationForm' onSubmit="return xEvaluationFormValidation();" method="post" action="#">
 								<div class="col-md-6 text-center">Rating 1:</div>
 								<div class="col-md-6 text-center">
 									<input id="rating1" class="rating" data-size="sm" data-min="0" data-max="5" data-step="1" data-show-clear="false" data-show-caption="false">
