@@ -351,3 +351,107 @@ CREATE TRIGGER CheckingEmailCoordS BEFORE UPDATE OR INSERT
     ON Coordinatore
     FOR EACH ROW 
     EXECUTE PROCEDURE CheckStudentEmail();
+    
+    
+-- Checking that an Instance of professor is always present into Svolgimento or Gestione relations    
+CREATE FUNCTION CheckProfessorInstance() RETURNS TRIGGER AS $$
+    BEGIN 
+	    PERFORM * 
+	    FROM Svolgimento AS S
+	    WHERE S.idProfessore = OLD.idProfessore;
+	    
+	    IF NOT FOUND THEN
+	       PERFORM *
+	       FROM Gestione AS G
+	       WHERE G.idProfessore = OLD.idProfessore;
+	       
+	       IF NOT FOUND THEN
+	           -- Remove the professor from the corresponding table
+	           DELETE FROM Professore WHERE id = OLD.idProfessore;
+	           
+	           RAISE NOTICE 'Professor % has just been removed.', OLD.idProfessore;
+	       ELSE 
+	           RAISE NOTICE 'Keep calm, a professor has been found.';
+	       END IF;
+	    ELSE
+	       RAISE NOTICE 'Keep calm, a professor has been found.';
+	    END IF;
+	    
+	    RETURN OLD;
+    END 
+$$ LANGUAGE PLPGSQL;
+
+ CREATE TRIGGER CheckProfessorByTeaching AFTER UPDATE OR DELETE
+    ON Svolgimento
+    FOR EACH ROW
+    EXECUTE PROCEDURE CheckProfessorInstance();
+    
+ CREATE TRIGGER CheckProfessorByThesis AFTER UPDATE OR DELETE
+    ON Gestione
+    FOR EACH ROW
+    EXECUTE PROCEDURE CheckProfessorInstance();
+    
+    
+-- Checking that each professor teaches and has thesis from the same university. (Launched by a new insertion of Svolgimento)
+CREATE FUNCTION CheckProfessorUniversityConsistencyS() RETURNS TRIGGER AS $$
+BEGIN 
+	PERFORM *
+	FROM Svolgimento AS S, Insegnamento AS I1, Insegnamento AS I2
+	WHERE S.idProfessore = NEW.idProfessore AND S.idInsegnamento = I1.id 
+	AND I2.id = NEW.idInsegnamento AND I1.NomeUniversita <> I2.NomeUniversita;
+	       
+	IF FOUND THEN
+    	RAISE EXCEPTION 'EA ERROR: Professor has an university different from the new one.' USING ERRCODE = 'EA008';
+	END IF;
+		
+	PERFORM *
+	FROM Gestione AS G, ArgomentoTesi AS A, Insegnamento AS I
+	WHERE G.idProfessore = NEW.IdProfessore AND G.idArgomentoTesi = A.id AND 
+	      I.id = NEW.idInsegnamento AND I.NomeUniversita <> A.NomeUniversita;
+         
+    IF FOUND THEN
+        RAISE EXCEPTION 'EA ERROR: Professor has an university different from the new one.' USING ERRCODE = 'EA008';
+    END IF;
+	
+    RETURN NEW;
+END 
+$$ LANGUAGE PLPGSQL;
+    
+CREATE TRIGGER CheckProfessorUniversityByTeaching BEFORE INSERT OR UPDATE
+    ON Svolgimento
+    FOR EACH ROW
+    EXECUTE PROCEDURE CheckProfessorUniversityConsistencyS();
+    
+    
+-- Checking that each professor teaches and has thesis from the same universi   ty. (Launched by a new insertion of Gestione)
+CREATE FUNCTION CheckProfessorUniversityConsistencyG() RETURNS TRIGGER AS $$
+BEGIN 
+    PERFORM *
+    FROM Gestione AS G, ArgomentoTesi AS A1, ArgomentoTesi AS A2
+    WHERE G.idProfessore = NEW.idProfessore AND G.idArgomentoTesi = A1.id 
+          AND A2.id = NEW.idArgomentoTesi AND A1.NomeUniversita <> A2.NomeUniversita;
+           
+    IF FOUND THEN
+        RAISE EXCEPTION 'EA ERROR: Professor has an university different from the new one.' USING ERRCODE = 'EA008';
+    END IF;
+        
+    PERFORM *
+    FROM Svolgimento AS S, Insegnamento AS I, ArgomentoTesi AS A
+    WHERE S.idProfessore = NEW.idProfessore AND S.idInsegnamento = I.id 
+          AND A.id = NEW.idArgomentoTesi AND I.NomeUniversita <> A.NomeUniversita;
+         
+    IF FOUND THEN
+        RAISE EXCEPTION 'EA ERROR: Professor has an university different from the new one.' USING ERRCODE = 'EA008';
+    END IF;
+    
+    RETURN NEW;
+END 
+$$ LANGUAGE PLPGSQL;
+
+CREATE TRIGGER CheckProfessorUniversityByThesis BEFORE INSERT OR UPDATE
+    ON Gestione
+    FOR EACH ROW
+    EXECUTE PROCEDURE CheckProfessorUniversityConsistencyG();    
+    
+ 
+    
