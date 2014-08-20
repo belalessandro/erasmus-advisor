@@ -1,7 +1,9 @@
 package it.unipd.dei.bding.erasmusadvisor.beans;
 
-import java.util.*;
-import javax.servlet.http.*;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.commons.beanutils.BeanUtils;
 
 /** Some utilities to populate beans, usually based on

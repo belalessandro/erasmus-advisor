@@ -253,6 +253,13 @@
     		<artifactId>commons-dbutils</artifactId>
    			<version>1.6</version>
 		</dependency>
+		
+		<!-- JSON support -->
+		<dependency>
+    		<groupId>javax.json</groupId>
+    		<artifactId>javax.json-api</artifactId>
+    		<version>1.0</version>
+		</dependency>
 	</dependencies>
 
 </project>

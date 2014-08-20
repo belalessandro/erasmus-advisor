@@ -2,14 +2,8 @@
 package it.unipd.dei.bding.erasmusadvisor.servlets;
 
 import it.unipd.dei.bding.erasmusadvisor.beans.CorsoDiLaureaBean;
-import it.unipd.dei.bding.erasmusadvisor.beans.DocumentazioneBean;
-import it.unipd.dei.bding.erasmusadvisor.beans.FlussoBean;
-import it.unipd.dei.bding.erasmusadvisor.beans.OrigineBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.SpecializzazioneBean;
 import it.unipd.dei.bding.erasmusadvisor.database.CreateCorsoDiLaureaDatabase;
-import it.unipd.dei.bding.erasmusadvisor.database.CreateDocumentazioneDatabase;
-import it.unipd.dei.bding.erasmusadvisor.database.CreateFlussoDatabase;
-import it.unipd.dei.bding.erasmusadvisor.database.CreateOrigineDatabase;
 import it.unipd.dei.bding.erasmusadvisor.database.CreateSpecializzazioneDatabase;
 import it.unipd.dei.bding.erasmusadvisor.resources.LoggedUser;
 import it.unipd.dei.bding.erasmusadvisor.resources.Message;

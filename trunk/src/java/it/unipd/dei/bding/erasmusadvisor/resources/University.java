@@ -1,10 +1,10 @@
 package it.unipd.dei.bding.erasmusadvisor.resources;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import it.unipd.dei.bding.erasmusadvisor.beans.UniversitaBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.ValutazioneUniversitaBean;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class University {
 	

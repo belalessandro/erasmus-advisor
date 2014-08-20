@@ -3,14 +3,6 @@
  */
 package it.unipd.dei.bding.erasmusadvisor.servlets;
 
-import it.unipd.dei.bding.erasmusadvisor.beans.FlussoBean;
-import it.unipd.dei.bding.erasmusadvisor.resources.LoggedUser;
-
-import java.io.IOException;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 /**
  * @author Alessandro
