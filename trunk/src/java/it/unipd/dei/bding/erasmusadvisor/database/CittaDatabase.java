@@ -5,11 +5,14 @@ import it.unipd.dei.bding.erasmusadvisor.beans.ValutazioneCittaBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.LinguaBean;
 import it.unipd.dei.bding.erasmusadvisor.resources.City;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
 
 import javax.sql.DataSource;
 
+import org.apache.commons.dbutils.DbUtils;
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.ResultSetHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
@@ -21,6 +24,24 @@ import org.apache.commons.dbutils.handlers.BeanListHandler;
  */
 
 public class CittaDatabase {
+	public static void createCitta(Connection con, CittaBean citta)
+			throws SQLException {
+		
+		final String statement = "INSERT INTO Citta (nome, stato) VALUES (?, ?)";
+		
+		PreparedStatement pstmt = null;
+		try {
+			pstmt = con.prepareStatement(statement);
+			pstmt.setString(1, citta.getNome());
+			pstmt.setString(2, citta.getStato());
+			pstmt.execute();
+		} finally {
+			DbUtils.closeQuietly(pstmt);
+			//System.out.println("PreparedStatement closed");
+		}
+	}
+	
+	
 	public City searchCityByName(DataSource ds, String name, String country) throws SQLException {
 		/**
 		 * The SQL statements to be executed
