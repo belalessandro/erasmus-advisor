@@ -9,12 +9,12 @@ import it.unipd.dei.bding.erasmusadvisor.resources.City;
 import it.unipd.dei.bding.erasmusadvisor.resources.CityEvaluationsAverage;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.SQLException;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import javax.json.*;
 
 /**
@@ -98,12 +98,18 @@ public class CityServlet extends AbstractDatabaseServlet
 				int results;
 				try {
 					results = new CittaDatabase().deleteCity(DS, city, country);
-					
-					req.setAttribute("deletedEntity", city + " (" + country + ")");
+					// bisogna passare anche un parametro deletedEntity con valore
+					// city + " (" + country + ")"
 					
 					if (results > 0 )
 					{
-						resp.getWriter().write("{ url: '/jsp/deleted_entity.jsp'}");
+						System.out.println("si");
+						resp.setContentType("application/json");  
+				        PrintWriter out = resp.getWriter();
+				        out.println("{");
+				        out.println("\"url\": \"../jsp/entity_deleted.jsp\"");
+				        out.println("}");
+				        out.close();
 					}
 					
 				} 
