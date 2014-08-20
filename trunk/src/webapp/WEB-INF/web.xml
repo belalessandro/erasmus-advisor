@@ -58,6 +58,15 @@
 		<url-pattern>/city</url-pattern>
 	</servlet-mapping>
 	
+	<servlet>
+		<servlet-name>UniversityServlet</servlet-name>
+		<servlet-class>it.unipd.dei.bding.erasmusadvisor.servlets.UniversityServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>UniversityServlet</servlet-name>
+		<url-pattern>/university</url-pattern>
+	</servlet-mapping>
+	
 	<servlet> <!-- DEPRECATO -->
 		<servlet-name>InsertFlowServlet</servlet-name>
 		<servlet-class>it.unipd.dei.bding.erasmusadvisor.servlets.InsertFlowServlet</servlet-class>
