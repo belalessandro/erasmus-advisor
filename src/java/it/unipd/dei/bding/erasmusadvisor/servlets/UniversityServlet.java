@@ -1,7 +1,10 @@
 package it.unipd.dei.bding.erasmusadvisor.servlets;
 
+import it.unipd.dei.bding.erasmusadvisor.beans.BeanUtilities;
+import it.unipd.dei.bding.erasmusadvisor.beans.UniversitaBean;
 import it.unipd.dei.bding.erasmusadvisor.database.UniversitaDatabase;
 import it.unipd.dei.bding.erasmusadvisor.resources.LoggedUser;
+import it.unipd.dei.bding.erasmusadvisor.resources.Message;
 import it.unipd.dei.bding.erasmusadvisor.resources.University;
 
 import java.io.IOException;
@@ -15,6 +18,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.dbutils.DbUtils;
 
 /**
@@ -36,13 +40,19 @@ public class UniversityServlet extends AbstractDatabaseServlet {
 
 		if (univName == null || univName.isEmpty()) {
 			/* Redirect to insert form. */
-			getServletContext().getRequestDispatcher("/jsp/insert_university.jsp").forward(
-					req, resp);
+			resp.sendRedirect(req.getContextPath() + "/jsp/insert_university.jsp");
 			return;
 		}
 		
-		/* Gets the university details */
+		/**
+		 *  Gets the university model from the database
+		 */
+		
+		// model
 		University results = null;
+		Message m = null;
+		
+		// database connection
 		Connection conn = null;
 
 		try {
@@ -50,16 +60,20 @@ public class UniversityServlet extends AbstractDatabaseServlet {
 			conn = DS.getConnection();
 			results = UniversitaDatabase.searchUniversityModelByName(conn, univName);
 			DbUtils.close(conn);
-
-			req.setAttribute("university", results.getUniversita());
-			req.setAttribute("evaluations", results.getListaValutazioni());
-		} catch (SQLException e) { // TODO CATTURARE GLI ERRORI OPPORTUNAMENTE (usare redirect/message..)
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			
+		} catch (SQLException ex) {
+			m = new Message("Error while getting the university.",
+					"XXX", ex.getMessage());
 		} finally {
 			DbUtils.closeQuietly(conn);
 		}
-
+		
+		
+		/**
+		 *  Send the university model to the appropriate output (Ajax or normal)
+		 *
+		 */
+		
 		if ("XMLHttpRequest".equals(req.getHeader("X-Requested-With"))) {
 			// Handle Ajax response (e.g. return JSON data object).
 
@@ -74,16 +88,30 @@ public class UniversityServlet extends AbstractDatabaseServlet {
 		} else {
 			// Handle normal response (e.g. forward and/or set message as attribute).
 
-			/* Show results to the JSP page. */
-			getServletContext().getRequestDispatcher("/jsp/show_university.jsp").forward(
-					req, resp);
+			if (m == null && results != null) {
+				/** 
+				 * Show results to the JSP page. 
+				 *
+				 */
 
-			// MAPPARE su JSP TRAMITE:
-			// <c:forEach var="ev" items="${evaluations}">
-			//					${ev.SoddEsperienza}
-			//					${ev.Sodd..}
-			//					${ev.Sodd...}
-			// </c:forEach>
+				req.setAttribute("university", results.getUniversita());
+				req.setAttribute("evaluations", results.getListaValutazioni());
+
+				getServletContext().getRequestDispatcher("/jsp/show_university.jsp").forward(
+						req, resp);
+				
+				// MAPPARE su JSP TRAMITE:
+				// <c:forEach var="ev" items="${evaluations}">
+				//					${ev.SoddEsperienza}
+				//					${ev.Sodd..}
+				//					${ev.Sodd...}
+				// </c:forEach>
+				
+			} else { // Error page
+				req.setAttribute("message", m);
+				getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(
+						req, resp);
+			}
 		}
 
 	}
@@ -104,18 +132,43 @@ public class UniversityServlet extends AbstractDatabaseServlet {
 			getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(req, resp);
 			return;
 		} else if (operation.equals("insert") ) {
-			/*
+			/**
 			 * Insert a new University 
 			 */
-			//bookRepo.addBook(title, description, price, pubDate);
+			
+			// bean, model and database connection
+			UniversitaBean uni = new UniversitaBean(); 
+			Message m = null;
+			Connection conn = null;
+			
+			// Populate bean from the FORM submitted
+			BeanUtilities.populateBean(uni, req);
+			
+			try {
+				// Start of database operation
+				conn = DS.getConnection();
+				UniversitaDatabase.createUniversita(conn, uni);
+				DbUtils.close(conn);
+				// End of database operation
+				
+			} catch (SQLException ex) {
+				m = new Message("Error while inserting the university.",
+						"XXX", ex.getMessage());
+				req.setAttribute("message", m);
+				getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(
+					req, resp); // ERROR PAGE
+				return;
+			} finally {
+				DbUtils.closeQuietly(conn);
+			}
 			
 		} else if (operation.equals("update") ) {
-			/*
+			/**
 			 * Updates an existing University 
 			 */
-			//bookRepo.updateBook(id, title, description, price, pubDate);
+			//UniversitaDatabase.updateUniversita(conn, uni);
 		}
-
+		
 		resp.sendRedirect(req.getParameter("returnTo"));
 	}
 

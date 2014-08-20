@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -32,18 +33,19 @@
 			<br>
 			<!-- action deve puntare alla servlet che gestisce la registrazione -->
 			<!-- lingua mostra solo le opzioni consentite -->
-			<form name='insert_university' method="post" action="#" onSubmit="return insertUniversityFormValidation();"> 
+			<form name='insert_university' method="post" action="<c:url value="/university"/>" onSubmit="return insertUniversityFormValidation();">
+				<input type="hidden" name="operation" value="insert">
 				<div align="center">
 					<div class="input-group insert_new_input_group">
-						<span class="input-group-addon insert_new_input">Name*</span> <input type="text" class="form-control" name="name" id="name" placeholder="Insert the university's name">
+						<span class="input-group-addon insert_new_input">Name*</span> <input type="text" class="form-control" name="nome" id="name" placeholder="Insert the university's name">
 					</div>
 					<br>
 					<div class="input-group insert_new_input_group">
-						<span class="input-group-addon insert_new_input">Country*</span> <input id="country" class="form-control" name="country" placeholder="Insert the university's country">
+						<span class="input-group-addon insert_new_input">Country*</span> <input id="country" class="form-control" name="statoCitta" placeholder="Insert the university's country">
 					</div>
 					<br>
 					<div class="input-group insert_new_input_group">
-						<span class="input-group-addon insert_new_input">City*</span> <input id="city" class="form-control" name="city" placeholder="Insert the university's city">
+						<span class="input-group-addon insert_new_input">City*</span> <input id="city" class="form-control" name="nomeCitta" placeholder="Insert the university's city">
 					</div>
 					<br>
 					<div class="input-group insert_new_input_group">
@@ -52,11 +54,11 @@
 					<br>
 					<div class="col-md-6">
 						<div class="input-group insert_new_input_group_small">
-							<span class="input-group-addon insert_new_input_small">Position in university ranking*</span> <input type="text" class="form-control" name="ranking" id="ranking" placeholder="">
+							<span class="input-group-addon insert_new_input_small">Position in university ranking*</span> <input type="text" class="form-control" name="posizioneClassifica" id="ranking" placeholder="">
 						</div>
 					</div>
 					<div class="col-md-6">
-							<input type="checkbox" id="hasResidence" name="hasResidence" value="hasResidence"> Select if the university has a residence for Erasmus students.
+							<input type="checkbox" id="hasResidence" name="presenzaAlloggi" value="hasResidence"> Select if the university has a residence for Erasmus students.
 					</div>
 					<br><br><br><br>
 					<input type="submit" class="btn btn-primary" value="Insert into the Database">

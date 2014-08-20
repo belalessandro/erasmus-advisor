@@ -45,11 +45,12 @@ public class UniversitaDatabase {
 		PreparedStatement pstmt = null;
 		try {
 			pstmt = con.prepareStatement(insertStmt);
-			pstmt.setString(1, uni.getLink());
-			pstmt.setInt(2, uni.getPosizioneClassifica());
-			pstmt.setBoolean(3, uni.isPresenzaAlloggi());
-			pstmt.setString(4, uni.getNomeCitta());
-			pstmt.setString(5, uni.getStatoCitta());
+			pstmt.setString(1, uni.getNome());
+			pstmt.setString(2, uni.getLink());
+			pstmt.setInt(3, uni.getPosizioneClassifica());
+			pstmt.setBoolean(4, uni.isPresenzaAlloggi());
+			pstmt.setString(5, uni.getNomeCitta());
+			pstmt.setString(6, uni.getStatoCitta());
 			pstmt.execute();
 		} finally {
 			DbUtils.closeQuietly(pstmt);
@@ -92,7 +93,7 @@ public class UniversitaDatabase {
 		 * The SQL statements to be executed
 		 */
 		
-		String statement1 = "SELECT U.Link, U.PosizioneClassifica, U.PresenzaAlloggi, "
+		String statement1 = "SELECT U.Nome, U.Link, U.PosizioneClassifica, U.PresenzaAlloggi, "
 				+ "U.NomeCitta, U.StatoCitta "
 				+ "FROM Universita AS U "
 				+ "WHERE U.Nome = ?";
@@ -114,7 +115,9 @@ public class UniversitaDatabase {
 		// Gets the university
 		ResultSetHandler<UniversitaBean> h = new BeanHandler<UniversitaBean>(UniversitaBean.class);
 		uni = run.query(con, statement1, h, byName); 
-		uni.setNome(byName); // adds also the name, not returned by the query 
+		
+		if (uni == null)
+			throw new SQLException("University not found");
 		
 		// Gets the evaluations
 		ResultSetHandler<List<ValutazioneUniversitaBean>> h2 = 
