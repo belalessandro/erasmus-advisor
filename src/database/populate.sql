@@ -41,13 +41,13 @@ INSERT INTO Studente (NomeUtente, Email, DataRegistrazione, Password, Salt, Ulti
 
 -- Inserting Universities
 INSERT INTO Universita VALUES 
-	('Università degli Studi di Padova','www.unipd.it', 200, FALSE, 'Padua', 'Italy'),
+	('Universitï¿½degli Studi di Padova','www.unipd.it', 200, FALSE, 'Padua', 'Italy'),
 	('Ecole normale supÃ©rieure','www.ens.fr', 28, TRUE, 'Paris', 'France'),
 	('Imperial College London','www.imperial.ac.uk', 4, FALSE, 'London', 'United Kingdom'),
 	('University College London','www.ucl.ac.uk', 4, FALSE, 'London', 'United Kingdom'),
 	('University of Copenhagen','www.ku.dk', 45, TRUE, 'Copenhagen', 'Denmark'),
 	('Universitat de Barcelona- Main Site','http://www.ub.edu/uri/estudiantsNOUB/nie_en.htm', 4, FALSE, 'Barcelona', 'Spain'),
-	('Université Pierre et Marie Curie, Paris 6- Main Site','http://www.upmc.fr/en/', 45, TRUE, 'Paris', 'France'),
+	('Universitï¿½ Pierre et Marie Curie, Paris 6- Main Site','http://www.upmc.fr/en/', 45, TRUE, 'Paris', 'France'),
 	('Dublin Institute of Technology- Main Site','http://www.dit.ie/', 45, TRUE, 'Dublin', 'Ireland'),
 	('University of Cambridge','www.cam.ac.uk', 1, TRUE, 'Cambridge', 'United Kingdom');
 
@@ -72,7 +72,7 @@ INSERT INTO ResponsabileFlusso VALUES
     'wskjscnn301qqq', 
     NULL, 
     TRUE, 
-    'Università degli Studi di Padova'),
+    'Universitï¿½degli Studi di Padova'),
     ( 'erick.burn',
     'Erick', 
     'Burngood', 
@@ -87,7 +87,7 @@ INSERT INTO ResponsabileFlusso VALUES
 	
 --Inserting Coordinator
 INSERT INTO Coordinatore (NomeUtente, Email, DataRegistrazione, Password, Salt, UltimoAccesso, Attivo, NomeUniversita) VALUES
-	('ErasmusCoordinator', 'EACoordinator@mail.com', CURRENT_DATE, 'password', 'void', NULL, TRUE, 'Università degli Studi di Padova');
+	('ErasmusCoordinator', 'EACoordinator@mail.com', CURRENT_DATE, 'password', 'void', NULL, TRUE, 'Universitï¿½degli Studi di Padova');
 
 --Inserting Flows
 INSERT INTO Flusso (Id, Destinazione, RespFlusso, PostiDisponibili, Attivo, DataUltimaModifica, Durata, Dettagli) VALUES 
@@ -95,7 +95,7 @@ INSERT INTO Flusso (Id, Destinazione, RespFlusso, PostiDisponibili, Attivo, Data
 	('ENG57', 'Imperial College London', 'pilu', 1, TRUE, CURRENT_DATE, 9, 'Highly Exclusive'),
 	('COP001', 'University of Copenhagen', 'pilu', 3, TRUE, CURRENT_DATE, 6, NULL),
 	('E-BARCELO01', 'Universitat de Barcelona- Main Site','erick.burn', 3, TRUE, CURRENT_DATE, 5, NULL),
-	('F-PARIS006','Université Pierre et Marie Curie, Paris 6- Main Site', 'georgua.en', 2, TRUE, CURRENT_DATE, 10, NULL),
+	('F-PARIS006','Universitï¿½ Pierre et Marie Curie, Paris 6- Main Site', 'georgua.en', 2, TRUE, CURRENT_DATE, 10, NULL),
 	('IRL-DUBLIN27', 'Dublin Institute of Technology- Main Site', 'erick.burn', 4, TRUE, CURRENT_DATE, 12, NULL);
 
 
@@ -103,7 +103,7 @@ INSERT INTO Flusso (Id, Destinazione, RespFlusso, PostiDisponibili, Attivo, Data
 	
 -- Inserting degree courses
 INSERT INTO CorsoDiLaurea (Id, Nome, NomeUniversita, Livello) VALUES
-	(DEFAULT, 'Ingegneria Informatica', 'Università degli Studi di Padova', 'UNDERGRADUATE');
+	(DEFAULT, 'Ingegneria Informatica', 'Universitï¿½degli Studi di Padova', 'UNDERGRADUATE');
 INSERT INTO Specializzazione (NomeArea, IdCorso) VALUES
 	('Software and applications development and analysis', CURRVAL('CorsoDiLaurea_id_seq')),
 	('Database and network design and administration', CURRVAL('CorsoDiLaurea_id_seq'));
@@ -124,7 +124,7 @@ INSERT INTO Partecipazione (NomeUtenteStudente, IdFlusso, Inizio, Fine) VALUES
 	
 
 INSERT INTO CorsoDiLaurea (Id, Nome, NomeUniversita, Livello) VALUES
-	(DEFAULT, 'Ingegneria delle Telecomunicazioni', 'Università degli Studi di Padova', 'GRADUATE');
+	(DEFAULT, 'Ingegneria delle Telecomunicazioni', 'Universitï¿½degli Studi di Padova', 'GRADUATE');
 INSERT INTO Specializzazione (NomeArea, IdCorso) VALUES
 	('Software and applications development and analysis', CURRVAL('CorsoDiLaurea_id_seq')),
 	('Database and network design and administration', CURRVAL('CorsoDiLaurea_id_seq'));
@@ -134,7 +134,7 @@ INSERT INTO Origine (IdFlusso, IdCorso) VALUES
 	('FRA001', CURRVAL('CorsoDiLaurea_id_seq'));
 	
 INSERT INTO CorsoDiLaurea (Id, Nome, NomeUniversita, Livello) VALUES
-	(DEFAULT, 'Giurisprudenza', 'Università degli Studi di Padova', 'UNIQUE');
+	(DEFAULT, 'Giurisprudenza', 'Universitï¿½degli Studi di Padova', 'UNIQUE');
 INSERT INTO Specializzazione (NomeArea, IdCorso) VALUES
 	('Law', CURRVAL('CorsoDiLaurea_id_seq'));
 INSERT INTO Iscrizione (IdCorso, NomeUtenteStudente, AnnoInizio, AnnoFine) VALUES
@@ -145,7 +145,7 @@ INSERT INTO Origine (IdFlusso, IdCorso) VALUES
 
 	
 INSERT INTO CorsoDiLaurea (Id, Nome, NomeUniversita, Livello) VALUES
-	(DEFAULT, 'Medicina Generale', 'Università degli Studi di Padova', 'UNIQUE');
+	(DEFAULT, 'Medicina Generale', 'Universitï¿½degli Studi di Padova', 'UNIQUE');
 INSERT INTO Specializzazione (NomeArea, IdCorso) VALUES
 	('Medicine', CURRVAL('CorsoDiLaurea_id_seq'));
 INSERT INTO Iscrizione (IdCorso, NomeUtenteStudente, AnnoInizio, AnnoFine) VALUES
@@ -155,7 +155,7 @@ INSERT INTO Origine (IdFlusso, IdCorso) VALUES
 
 
 -- Inserting Courses
-INSERT INTO Insegnamento(Id, Nome, Crediti, NomeUniversita, PeriodoErogazione, Stato, AnnoDiCorso, NomeArea, NomeLingua) VALUES
+INSERT INTO Insegnamento(Id, Nome, Crediti, NomeUniversita, PeriodoErogazione, Stato, AnnoCorso, NomeArea, NomeLingua) VALUES
 	(DEFAULT, 'Analisi 1', 12, 'Universitat de Barcelona- Main Site', 1, 'NOT VERIFIED' , 1, 'Mathematics', 'ita');
 INSERT INTO Riconoscimento (IdFlusso, IdInsegnamento) VALUES
 	('E-BARCELO01',CURRVAL('Insegnamento_id_seq'));
@@ -177,8 +177,8 @@ INSERT INTO ValutazioneTesi VALUES
 ('mario.rossi', CURRVAL('ArgomentoTesi_id_seq'),4,3,2,1,CURRENT_DATE, NULL);
 
 
-INSERT INTO Insegnamento(Id, Nome, Crediti, NomeUniversita, PeriodoErogazione, Stato, AnnoDiCorso, NomeArea, NomeLingua) VALUES
-	(DEFAULT, 'Chimica', 6, 'Università degli Studi di Padova', 2, 'NOT VERIFIED' , 2, 'Chemistry', 'ita');
+INSERT INTO Insegnamento(Id, Nome, Crediti, NomeUniversita, PeriodoErogazione, Stato, AnnoCorso, NomeArea, NomeLingua) VALUES
+	(DEFAULT, 'Chimica', 6, 'Universitï¿½degli Studi di Padova', 2, 'NOT VERIFIED' , 2, 'Chemistry', 'ita');
 INSERT INTO Riconoscimento (IdFlusso, IdInsegnamento) VALUES
 	('COP001',CURRVAL('Insegnamento_id_seq'));
 INSERT INTO Professore(Id, Nome, Cognome) VALUES
@@ -189,7 +189,7 @@ INSERT INTO Svolgimento (IdInsegnamento, IdProfessore) VALUES
 INSERT INTO Gestione (IdArgomentoTesi, IdProfessore) VALUES
 	(CURRVAL('ArgomentoTesi_id_seq'),CURRVAL('Professore_id_seq'));
 	
-INSERT INTO Insegnamento(Id, Nome, Crediti, NomeUniversita, PeriodoErogazione, Stato, AnnoDiCorso, NomeArea, NomeLingua) VALUES
+INSERT INTO Insegnamento(Id, Nome, Crediti, NomeUniversita, PeriodoErogazione, Stato, AnnoCorso, NomeArea, NomeLingua) VALUES
 	(DEFAULT, 'Network Security', 6, 'Imperial College London', 2, 'NOT VERIFIED' , 2, 'Computer use', 'eng');
 INSERT INTO Riconoscimento (IdFlusso, IdInsegnamento) VALUES
 	('IRL-DUBLIN27',CURRVAL('Insegnamento_id_seq'));
@@ -206,7 +206,7 @@ INSERT INTO Estensione (IdArgomentoTesi, Area) VALUES
 INSERT INTO LinguaTesi(IdArgomentoTesi, SiglaLingua) VALUES
 	(CURRVAL('ArgomentoTesi_id_seq'), 'eng');
 	
-INSERT INTO Insegnamento(Id, Nome, Crediti, NomeUniversita, PeriodoErogazione, Stato, AnnoDiCorso, NomeArea, NomeLingua) VALUES
+INSERT INTO Insegnamento(Id, Nome, Crediti, NomeUniversita, PeriodoErogazione, Stato, AnnoCorso, NomeArea, NomeLingua) VALUES
 	(DEFAULT, 'Elettronica Digitale', 9, 'University of Copenhagen', 1, 'NOT VERIFIED' , 2, 'Electronics and automation', 'ita');
 INSERT INTO Riconoscimento (IdFlusso, IdInsegnamento) VALUES
 	('E-BARCELO01',CURRVAL('Insegnamento_id_seq'));
@@ -223,7 +223,7 @@ INSERT INTO Estensione (IdArgomentoTesi, Area) VALUES
 INSERT INTO LinguaTesi(IdArgomentoTesi, SiglaLingua) VALUES
 	(CURRVAL('ArgomentoTesi_id_seq'), 'ita');
 
-INSERT INTO Insegnamento(Id, Nome, Crediti, NomeUniversita, PeriodoErogazione, Stato, AnnoDiCorso, NomeArea, NomeLingua) VALUES
+INSERT INTO Insegnamento(Id, Nome, Crediti, NomeUniversita, PeriodoErogazione, Stato, AnnoCorso, NomeArea, NomeLingua) VALUES
 	(DEFAULT, 'Biologia Molecolare', 6, 'University of Copenhagen', 1, 'NOT VERIFIED' , 1, 'Biology', 'ita');
 INSERT INTO Riconoscimento (IdFlusso, IdInsegnamento) VALUES
 	('E-BARCELO01',CURRVAL('Insegnamento_id_seq'));
@@ -240,7 +240,7 @@ INSERT INTO Estensione (IdArgomentoTesi, Area) VALUES
 INSERT INTO LinguaTesi(IdArgomentoTesi, SiglaLingua) VALUES
 	(CURRVAL('ArgomentoTesi_id_seq'), 'dan');
 
-INSERT INTO Insegnamento(Id, Nome, Crediti, NomeUniversita, PeriodoErogazione, Stato, AnnoDiCorso, NomeArea, NomeLingua) VALUES
+INSERT INTO Insegnamento(Id, Nome, Crediti, NomeUniversita, PeriodoErogazione, Stato, AnnoCorso, NomeArea, NomeLingua) VALUES
 	(DEFAULT, 'Calcolus', 9, 'Imperial College London', 1, 'NOT VERIFIED' , 1, 'Mathematics', 'eng');
 INSERT INTO Riconoscimento (IdFlusso, IdInsegnamento) VALUES
 	('F-PARIS006',CURRVAL('Insegnamento_id_seq'));

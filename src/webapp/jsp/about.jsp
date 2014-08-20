@@ -38,8 +38,8 @@
 			In particular we have used: <br><br>
 			<nav>
 				<ul>
-					<li>Bootstrap 3.1.1 (<a href="http://getbootstrap.com/" target="_blank">http://getbootstrap.com/</a>);</li>
-					<li>Font Awesome 4.1.0 (<a href="http://fortawesome.github.io/Font-Awesome/" target="_blank">http://fortawesome.github.io/Font-Awesome/</a>);</li>
+					<li>Bootstrap 3.1.1 (<a href="http://getbootstrap.com/" target="_blank">http://getbootstrap.com/</a>).</li>
+					<li>Font Awesome 4.1.0 (<a href="http://fortawesome.github.io/Font-Awesome/" target="_blank">http://fortawesome.github.io/Font-Awesome/</a>).</li>
 					<li>jQuery (<a href="http://jquery.com/" target="_blank">http://jquery.com/</a>).</li>
 					<li>Tablesorter 2.0 (<a href="http://tablesorter.com/docs/" target="_blank">http://tablesorter.com/docs/</a>).</li>
 					<li>Bootstrap-datepicker (<a href="bootstrap-datepicker.readthedocs.org/en/release/" target="_blank">bootstrap-datepicker.readthedocs.org/en/release/</a>).</li>

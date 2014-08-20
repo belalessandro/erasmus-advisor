@@ -145,7 +145,6 @@ CREATE FUNCTION CheckCityEval() RETURNS TRIGGER AS $$
 	            FROM partecipazione AS P, Flusso as F, Universita as U
 	            WHERE /*NEW.idFlusso=P.idFlusso AND*/ P.idFlusso=F.id AND F.Destinazione=U.Nome AND 
 	            	NEW.NomeUtenteStudente=P.NomeUtenteStudente AND U.nomeCitta=NEW.nomeCitta;
-	    RAISE NOTICE 'YO mother fucker!';
 	    
 	    IF NOT FOUND THEN
 	       RAISE EXCEPTION 'EA ERROR: Invalid evaluation.' USING ERRCODE = 'EA005'; 
