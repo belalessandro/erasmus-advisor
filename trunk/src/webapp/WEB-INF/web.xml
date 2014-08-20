@@ -35,7 +35,6 @@
 		<servlet-name>SignInServlet</servlet-name>
 		<servlet-class>it.unipd.dei.bding.erasmusadvisor.servlets.SignInServlet</servlet-class>
 	</servlet>
-	
 	<servlet-mapping>
 		<servlet-name>SignInServlet</servlet-name>
 		<url-pattern>/sign-in</url-pattern>
@@ -45,10 +44,18 @@
 		<servlet-name>FlowServlet</servlet-name>
 		<servlet-class>it.unipd.dei.bding.erasmusadvisor.servlets.FlowServlet</servlet-class>
 	</servlet>
-	
 	<servlet-mapping>
 		<servlet-name>FlowServlet</servlet-name>
 		<url-pattern>/flow</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>CityServlet</servlet-name>
+		<servlet-class>it.unipd.dei.bding.erasmusadvisor.servlets.CityServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>CityServlet</servlet-name>
+		<url-pattern>/city</url-pattern>
 	</servlet-mapping>
 	
 	<servlet> <!-- DEPRECATO -->

@@ -74,7 +74,7 @@
 					<!-- evalutate visibile solo da studente
 						edit e delete solo da reponsabili di flusso e coordinatori erasmus -->
 					<ul class="nav nav-stacked pull-right">
-						<li class="active"><span data-toggle="modal" data-target="#evalutateForm">Evaluate</span></li>
+						<li class="active"><span data-toggle="modal" data-target="#evaluateForm">Evaluate</span></li>
 						<li class="active"><span onClick="report();">Report</span></li>
 						<li class="active"><span data-toggle="modal" data-target="#editForm">Edit</span></li>
 						<li class="active"><span onClick="doDelete();">Delete</span></li>
@@ -83,7 +83,7 @@
 			</div>
 			
 			<!--Form di valutazione a comparsa-->
-			<div class="modal fade" id="evalutateForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false">
+			<div class="modal fade" id="evaluateForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false">
 				<div class="modal-dialog">
 					<div class="modal-content">
 						<div class="modal-header">
@@ -143,7 +143,7 @@
 						<div class="modal-body">
 							<!-- action deve puntare alla servlet che gestisce la modifica dell'entità -->
 							<!-- notare che ogni input deve avere il campo value settato a quanto è presente nel DB -->
-							<form name='evalutationForm' onSubmit="return xEditFormValidation();" method="post" action="#">
+							<form name='editForm' onSubmit="return xEditFormValidation();" method="post" action="#">
 								<div class="input-group insert_new_input_group">
 									<span class="input-group-addon insert_new_input">Name*</span> <input type="text" class="form-control" name="name" id="name" value="Università degli Studi di Padova">
 								</div>
