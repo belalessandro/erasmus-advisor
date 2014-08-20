@@ -8,6 +8,14 @@ Qui vengono presentati i diagrammi di architettura delle servlet.
 = Esempio di GET =
 http://www.websequencediagrams.com/cgi-bin/cdraw?lz=dGl0bGUgR0VUIC91bml2ZXJzaXR5P25hbWU9VW5pcGQKCm5vdGUgbGVmdCBvZiBVABsJU2VydmxldDogZG9HZXQoLi4pCgAMES0-ACcJYURhdGFiYXNlOiBzZWFyY2gAQApNb2RlbEJ5TmFtZSguLiwgbmFtZQBCCwAxCS0tPisAJw86IG5ldwCBCgsARgUoKQCBLgZyaWdoAIEnDgB6C1NFTEVDVCAqIEZST00AFwsgV0hFUkUgbm9tZT0_AG8WAIFKCkJlYW46IHJlc3VsdFNldACBKQtCZWFuAB8MAIEnCHNldACBBAtCZWFuAIJaBwCBAitWYWx1dGF6aW9uaQCBIxUAgmoKAIEqGAAtFQCBPRAADBkAgUAYTGlzdDwAQhk-AIQUCwCDbQUtLT4tAIQLFACDZhQAg20MAIRwCXJldHVybiAAhS0KAIREBQCDZBgAhScKaWYgKHN1Y2Nlc3MpXG4gc2V0QXR0cmlidXRlcwCBEhMrc2hvd18AhhMKLmpzcDogcmVxLgAtDQCFahgtACoVZm9yd2FyZCB0byBKU1AgcGFnZQoAVRMAhFsTPGpzcDpnZXRQcm9wZXJ0eSAuLi4uIC8AglQLAIR1CACBIxUAURUAFRY8Yzpmb3JFYWNoPi4uPC8ABAoAgRMXAIQ8GgCBHBggAIRIHQCCZBQAh0sPAIMGFVNIT1cgVEhFIFBBR0U&s=default&nonsense=something_that_ends_with.png
 
+||Nome||Descrizione||
+|| UniversityServlet || è la servlet mappata in "\university" e contenuta nel package *servlets*; si occupa di aprire una *sola* connessione al database e richiuderla correttamente ||
+|| UniversitaDatabase || è la classe per le operazioni sul database che riguardano Universita; contiene metodi statici con le varie istruzioni SQL, che vengono eseguite sulla Connection passata come parametro ||
+|| UniversityModel || è il data model contenuto nel package *resources*||
+|| UniversitaBean || è l'entity bean contenuto nel package *beans*: esso mappa lo schema della relazione Universita nelle rispettive variabili Java: ci *deve* essere corrispondenza biunivoca con i nomi nel database ||
+|| ValutazioneUniversitaBean || è l'entity bean che mappa lo schema della relazione ValutazioneUniversita nelle rispettive variabili Java: ci *deve* essere corrispondenza biunivoca con i nomi nel database ||
+|| show_university.jsp || è la pagina della *webapp* contenuta in _/jsp_ che si occupa di elencare i dettagli dell'universita' e le valutazioni passate come argomenti ||
+
 <wiki:comment>
 https://www.websequencediagrams.com/#
 
