@@ -1,0 +1,37 @@
+#summary Diagrams of the Servlet architecture.
+
+= Introduzione =
+
+Qui vengono presentati i diagrammi di architettura delle servlet.
+
+
+= Esempio di GET =
+http://www.websequencediagrams.com/cgi-bin/cdraw?lz=dGl0bGUgR0VUIC91bml2ZXJzaXR5P25hbWU9VW5pcGQKCm5vdGUgbGVmdCBvZiBVABsJU2VydmxldDogZG9HZXQoLi4pCgAMES0-ACcJYURhdGFiYXNlOiBzZWFyY2gAQApNb2RlbEJ5TmFtZSguLiwgbmFtZQBCCwAxCS0tPisAJw86IG5ldwCBCgsARgUoKQCBLgZyaWdoAIEnDgB6C1NFTEVDVCAqIEZST00AFwsgV0hFUkUgbm9tZT0_AG8WAIFKCkJlYW46IHJlc3VsdFNldACBKQtCZWFuAB8MAIEnCHNldACBBAtCZWFuAIJaBwCBAitWYWx1dGF6aW9uaQCBIxUAgmoKAIEqGAAtFQCBPRAADBkAgUAYTGlzdDwAQhk-AIQUCwCDbQUtLT4tAIQLFACDZhQAg20MAIRwCXJldHVybiAAhS0KAIREBQCDZBgAhScKaWYgKHN1Y2Nlc3MpXG4gc2V0QXR0cmlidXRlcwCBEhMrc2hvd18AhhMKLmpzcDogcmVxLgAtDQCFahgtACoVZm9yd2FyZCB0byBKU1AgcGFnZQoAVRMAhFsTPGpzcDpnZXRQcm9wZXJ0eSAuLi4uIC8AglQLAIR1CACBIxUAURUAFRY8Yzpmb3JFYWNoPi4uPC8ABAoAgRMXAIQ8GgCBHBggAIRIHQCCZBQAh0sPAIMGFVNIT1cgVEhFIFBBR0U&s=default&nonsense=something_that_ends_with.png
+
+<wiki:comment>
+https://www.websequencediagrams.com/#
+
+title GET /university?name=Unipd
+
+note left of UniversityServlet: doGet(..)
+UniversityServlet->UniversitaDatabase: searchUniversityModelByName(.., name)
+UniversitaDatabase-->+UniversityModel: new UniversityModel()
+note right of UniversitaDatabase: SELECT * FROM Universita WHERE nome=?
+UniversitaDatabase-->UniversitaBean: resultSet
+UniversitaBean-->UniversityModel: set UniversitaBean
+
+note right of UniversitaDatabase: SELECT * FROM ValutazioniUniversita WHERE nomeUniversita=?
+UniversitaDatabase-->ValutazioniUniversitaBean: resultSet
+ValutazioniUniversitaBean-->UniversityModel: set List<ValutazioniUniversitaBean>
+UniversityModel-->-UniversitaDatabase: 
+UniversitaDatabase->+UniversityServlet: return universityModel
+note right of UniversityServlet: if (success)\n setAttributes
+UniversityModel-->+show_university.jsp: req.setAttributes(..)
+UniversityServlet->-show_university.jsp: forward to JSP page
+show_university.jsp-->UniversitaBean: <jsp:getProperty .... />
+UniversitaBean-->show_university.jsp: 
+show_university.jsp->show_university.jsp: <c:forEach>..</c:forEach>
+show_university.jsp-->ValutazioniUniversitaBean:<jsp:getProperty .... /> 
+ValutazioniUniversitaBean-->show_university.jsp:
+note right of show_university.jsp: SHOW THE PAGE
+</wiki:comment>
