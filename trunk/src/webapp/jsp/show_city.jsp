@@ -38,7 +38,7 @@
 			          dataType: "json",
 			          data: { 'operation' : 'delete', 'city' : '<c:out value="${city.nome}"/>', 'country' : '<c:out value="${city.stato}"/>'},
 		              success: function(data) {
-		                  window.location.href = data.url;
+		                  window.location.href = "<c:url value="/js"/>" + data.url;
 		                } 
 			        });
 			} 
