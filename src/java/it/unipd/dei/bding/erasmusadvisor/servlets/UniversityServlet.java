@@ -5,6 +5,7 @@ import it.unipd.dei.bding.erasmusadvisor.resources.LoggedUser;
 import it.unipd.dei.bding.erasmusadvisor.resources.University;
 
 import java.io.IOException;
+import java.sql.Connection;
 import java.sql.SQLException;
 
 import javax.json.Json;
@@ -13,6 +14,8 @@ import javax.json.JsonWriter;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.dbutils.DbUtils;
 
 /**
  * Mapped to /university
@@ -24,56 +27,63 @@ public class UniversityServlet extends AbstractDatabaseServlet {
 	private static final long serialVersionUID = 1462509389265503855L;
 
 	/**
-	 * Get the details of a specific university or redirects to the insert form-page
+	 * Get the details of a specific university
 	 */
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		
 		String univName = req.getParameter("univName");
 
-		if (univName != null && !univName.isEmpty()) {
-			University results = null;
-			try {
-				results = new UniversitaDatabase().searchUniversityModelByName(DS, univName);
-
-				req.setAttribute("university", results.getUniversita());
-				req.setAttribute("evaluations", results.getListaValutazioni());
-			} catch (SQLException e) { // TODO CATTURARE GLI ERRORI OPPORTUNAMENTE (usare redirect/message..)
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-
-			if ("XMLHttpRequest".equals(req.getHeader("X-Requested-With"))) {
-				// Handle Ajax response (e.g. return JSON data object).
-				
-				resp.setContentType("application/json");
-				if (results != null) {
-					/* NOT IMPLEMENTED YET */
-					JsonWriter jsonWriter = Json.createWriter(resp.getWriter());
-					jsonWriter.writeObject(convertToJson(results));
-					jsonWriter.close();
-				}
-
-			} else {
-				// Handle normal response (e.g. forward and/or set message as attribute).
-
-				/* Show results to the JSP page. */
-				getServletContext().getRequestDispatcher("/jsp/show_university.jsp").forward(
-						req, resp);
-				
-				// MAPPARE su JSP TRAMITE:
-				// <c:forEach var="ev" items="${evaluations}">
-				//					${ev.SoddEsperienza}
-				//					${ev.Sodd..}
-				//					${ev.Sodd...}
-				// </c:forEach>
-			}
-			
-		} else {
-			
+		if (univName == null || univName.isEmpty()) {
 			/* Redirect to insert form. */
 			getServletContext().getRequestDispatcher("/jsp/insert_university.jsp").forward(
 					req, resp);
+			return;
+		}
+		
+		/* Gets the university details */
+		University results = null;
+		Connection conn = null;
+
+		try {
+
+			conn = DS.getConnection();
+			results = UniversitaDatabase.searchUniversityModelByName(conn, univName);
+			DbUtils.close(conn);
+
+			req.setAttribute("university", results.getUniversita());
+			req.setAttribute("evaluations", results.getListaValutazioni());
+		} catch (SQLException e) { // TODO CATTURARE GLI ERRORI OPPORTUNAMENTE (usare redirect/message..)
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			DbUtils.closeQuietly(conn);
+		}
+
+		if ("XMLHttpRequest".equals(req.getHeader("X-Requested-With"))) {
+			// Handle Ajax response (e.g. return JSON data object).
+
+			resp.setContentType("application/json");
+			if (results != null) {
+				/* NOT IMPLEMENTED YET */
+				JsonWriter jsonWriter = Json.createWriter(resp.getWriter());
+				jsonWriter.writeObject(convertToJson(results));
+				jsonWriter.close();
+			}
+
+		} else {
+			// Handle normal response (e.g. forward and/or set message as attribute).
+
+			/* Show results to the JSP page. */
+			getServletContext().getRequestDispatcher("/jsp/show_university.jsp").forward(
+					req, resp);
+
+			// MAPPARE su JSP TRAMITE:
+			// <c:forEach var="ev" items="${evaluations}">
+			//					${ev.SoddEsperienza}
+			//					${ev.Sodd..}
+			//					${ev.Sodd...}
+			// </c:forEach>
 		}
 
 	}
