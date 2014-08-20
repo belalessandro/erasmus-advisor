@@ -15,6 +15,7 @@ import javax.sql.DataSource;
 import org.apache.commons.dbutils.DbUtils;
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.ResultSetHandler;
+import org.apache.commons.dbutils.handlers.BeanHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
 
 /**
@@ -23,7 +24,9 @@ import org.apache.commons.dbutils.handlers.BeanListHandler;
  *
  */
 
-public class CittaDatabase {
+
+public class CittaDatabase 
+{
 	public static void createCitta(Connection con, CittaBean citta)
 			throws SQLException {
 		
@@ -40,12 +43,14 @@ public class CittaDatabase {
 			//System.out.println("PreparedStatement closed");
 		}
 	}
-	
-	
-	public City searchCityByName(DataSource ds, String name, String country) throws SQLException {
+
+	public City searchCityByName(DataSource ds, String name, String country) throws SQLException 
+	{
 		/**
 		 * The SQL statements to be executed
 		 */
+		
+		final String statement = "SELECT Nome, Stato FROM Citta WHERE Nome = ? AND Stato = ?";
 		
 		final String statement1 = "SELECT L.nome FROM Lingua AS L INNER JOIN LinguaCitta AS C ON L.Sigla = C.SiglaLingua WHERE C.NomeCitta = ? AND C.StatoCitta = ?";
 		
@@ -58,28 +63,43 @@ public class CittaDatabase {
 		
 		final String statement2 = "SELECT * FROM ValutazioneCitta WHERE NomeCitta = ? AND StatoCitta = ?";
 
-
 		// Entity Bean
 		CittaBean citta = new CittaBean();
 		List<ValutazioneCittaBean> valList = null;
 		List<LinguaBean> lingue = null;
 		
-		citta.setNome(name);
-		citta.setStato(country);
-		
 		QueryRunner run = new QueryRunner(ds);
 		
+		ResultSetHandler<CittaBean> h = new BeanHandler<CittaBean>(CittaBean.class);
+		citta = run.query(statement, h, name, country);
+		
+		if (citta == null)
+		{
+			return null;
+		}
+		
 		// Gets the languages
-		ResultSetHandler<List<LinguaBean>> h1 = 
-				new BeanListHandler<LinguaBean>(LinguaBean.class);
+		ResultSetHandler<List<LinguaBean>> h1 = new BeanListHandler<LinguaBean>(LinguaBean.class);
 		lingue = run.query(statement1, h1, name, country);
 		
 		// Gets the evaluations
-		ResultSetHandler<List<ValutazioneCittaBean>> h2 = 
-				new BeanListHandler<ValutazioneCittaBean>(ValutazioneCittaBean.class);
+		ResultSetHandler<List<ValutazioneCittaBean>> h2 = new BeanListHandler<ValutazioneCittaBean>(ValutazioneCittaBean.class);
 		valList = run.query(statement2, h2, name, country);
 		
 		// Returns the results
 		return new City(citta, valList, lingue);
+	}
+	
+	/**
+	* Delete a city
+	* @return the number of rows affected	
+	*/
+	public int deleteCity(DataSource ds, String name, String country) throws SQLException 
+	{
+		final String statement = "DELETE From Citta WHERE Nome = ? AND Stato = ?";
+		
+		QueryRunner run = new QueryRunner(ds);
+		return run.update(statement, name, country);
+		
 	}
 }

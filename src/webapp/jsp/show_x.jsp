@@ -35,7 +35,14 @@
 		// da fare con ajax
 	    function report()
 	    {
-	        alert('report');
+	    	var r = confirm("Do you really want to report this city to the moderators?");
+			if (r == true) 
+			{
+			    // procedere con la cancellazione
+			} 
+			else {
+			    // splash! and nothing happens
+			} 
 	    }
 		function doDelete()
 		{
@@ -45,7 +52,7 @@
 			    // procedere con la cancellazione
 			} 
 			else {
-			    // splash: nothing happens
+				// splash! and nothing happens
 			} 
 		}
 	</script>
