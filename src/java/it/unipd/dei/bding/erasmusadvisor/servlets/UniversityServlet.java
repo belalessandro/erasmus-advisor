@@ -1,9 +1,5 @@
 package it.unipd.dei.bding.erasmusadvisor.servlets;
 
-import it.unipd.dei.bding.erasmusadvisor.beans.CittaBean;
-import it.unipd.dei.bding.erasmusadvisor.beans.FlussoBean;
-import it.unipd.dei.bding.erasmusadvisor.beans.UniversitaBean;
-import it.unipd.dei.bding.erasmusadvisor.beans.ValutazioneUniversitaBean;
 import it.unipd.dei.bding.erasmusadvisor.database.UniversitaDatabase;
 import it.unipd.dei.bding.erasmusadvisor.resources.LoggedUser;
 import it.unipd.dei.bding.erasmusadvisor.resources.University;
@@ -11,11 +7,12 @@ import it.unipd.dei.bding.erasmusadvisor.resources.University;
 import java.io.IOException;
 import java.sql.SQLException;
 
+import javax.json.Json;
+import javax.json.JsonObject;
+import javax.json.JsonWriter;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import org.apache.commons.dbutils.ResultSetHandler;
 
 /**
  * Mapped to /university
@@ -35,7 +32,7 @@ public class UniversityServlet extends AbstractDatabaseServlet {
 		String univName = req.getParameter("univName");
 
 		if (univName != null && !univName.isEmpty()) {
-			University results;
+			University results = null;
 			try {
 				results = new UniversitaDatabase().searchUniversityModelByName(DS, univName);
 
@@ -46,15 +43,32 @@ public class UniversityServlet extends AbstractDatabaseServlet {
 				e.printStackTrace();
 			}
 
-			/* Show results to the JSP page. */
-			getServletContext().getRequestDispatcher("/jsp/show_university.jsp").forward(
-					req, resp);
-			// MAPPARE su JSP TRAMITE:
-			// <c:forEach var="ev" items="${evaluations}">
-			//					${ev.SoddEsperienza}
-			//					${ev.Sodd..}
-			//					${ev.Sodd...}
-			// </c:forEach>
+			if ("XMLHttpRequest".equals(req.getHeader("X-Requested-With"))) {
+				// Handle Ajax response (e.g. return JSON data object).
+				
+				resp.setContentType("application/json");
+				if (results != null) {
+					/* NOT IMPLEMENTED YET */
+					JsonWriter jsonWriter = Json.createWriter(resp.getWriter());
+					jsonWriter.writeObject(convertToJson(results));
+					jsonWriter.close();
+				}
+
+			} else {
+				// Handle normal response (e.g. forward and/or set message as attribute).
+
+				/* Show results to the JSP page. */
+				getServletContext().getRequestDispatcher("/jsp/show_university.jsp").forward(
+						req, resp);
+				
+				// MAPPARE su JSP TRAMITE:
+				// <c:forEach var="ev" items="${evaluations}">
+				//					${ev.SoddEsperienza}
+				//					${ev.Sodd..}
+				//					${ev.Sodd...}
+				// </c:forEach>
+			}
+			
 		} else {
 			
 			/* Redirect to insert form. */
@@ -95,4 +109,26 @@ public class UniversityServlet extends AbstractDatabaseServlet {
 		resp.sendRedirect(req.getParameter("returnTo"));
 	}
 
+	private JsonObject convertToJson(University uni) {
+		/* NOT IMPLEMENTED YET */
+		JsonObject json = Json.createObjectBuilder()
+			     .add("firstName", "John")
+			     .add("lastName", "Smith")
+			     .add("age", 25)
+			     .add("address", Json.createObjectBuilder()
+			         .add("streetAddress", "21 2nd Street")
+			         .add("city", "New York")
+			         .add("state", "NY")
+			         .add("postalCode", "10021"))
+			     .add("phoneNumber", Json.createArrayBuilder()
+			         .add(Json.createObjectBuilder()
+			             .add("type", "home")
+			             .add("number", "212 555-1234"))
+			         .add(Json.createObjectBuilder()
+			             .add("type", "fax")
+			             .add("number", "646 555-4567")))
+			     .build();
+		
+		return json;
+	}
 }

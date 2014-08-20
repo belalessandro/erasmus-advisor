@@ -1,7 +1,6 @@
 package it.unipd.dei.bding.erasmusadvisor.database;
 
-import it.unipd.dei.bding.erasmusadvisor.beans.*;
-
+import it.unipd.dei.bding.erasmusadvisor.beans.CorsoDiLaureaBean;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

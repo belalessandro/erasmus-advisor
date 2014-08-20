@@ -1,17 +1,5 @@
 package it.unipd.dei.bding.erasmusadvisor.servlets;
 
-import it.unipd.dei.bding.erasmusadvisor.beans.BeanUtilities;
-import it.unipd.dei.bding.erasmusadvisor.beans.StudenteBean;
-import it.unipd.dei.bding.erasmusadvisor.database.CreateStudenteDatabase;
-import it.unipd.dei.bding.erasmusadvisor.resources.Message;
-
-import java.io.IOException;
-import java.sql.SQLException;
-
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 // DEPRECATED - IGNORARE QUESTA SERVLET
 

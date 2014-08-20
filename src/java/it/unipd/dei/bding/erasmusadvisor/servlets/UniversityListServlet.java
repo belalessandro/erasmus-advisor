@@ -1,10 +1,6 @@
 package it.unipd.dei.bding.erasmusadvisor.servlets;
 
-import it.unipd.dei.bding.erasmusadvisor.beans.CittaBean;
-import it.unipd.dei.bding.erasmusadvisor.beans.FlussoBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.UniversitaBean;
-import it.unipd.dei.bding.erasmusadvisor.beans.ValutazioneUniversitaBean;
-import it.unipd.dei.bding.erasmusadvisor.resources.LoggedUser;
 
 import java.io.IOException;
 import java.util.ArrayList;

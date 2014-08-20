@@ -2,7 +2,10 @@ package it.unipd.dei.bding.erasmusadvisor.database;
 
 import it.unipd.dei.bding.erasmusadvisor.beans.StudenteBean;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 /**
  * Esempio di blocco "finally" corretto per disconnessione db 
  * @author Alessandro
