@@ -194,9 +194,9 @@
 				<div class="header entity_top">
 					<div class="row">
 						<div style="text-align: center">
-							<div class="col-xs-3 col-sm-3 col-md-3">
 							<h3>There are <b><c:out value="${fn:length(evaluations)}"></c:out></b> evaluations</h3>
-								Cost of life<br> 
+							<div class="col-xs-3 col-sm-3 col-md-3">
+								Cost of life<br>
 								<span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star-empty"></span>
 							</div>
 							<div class="col-xs-3 col-sm-3 col-md-3">
@@ -218,7 +218,7 @@
 				<c:forEach var="eval" items='${evaluations}'>
 				<!-- inizio singola valutazione -->
 				<section class="entity_box">
-					Inserted by <b><c:out value="${eval.NomeUtenteStudente}"></c:out></b> on <c:out value="${eval.DataInserimento}"></c:out>.
+					Inserted by <b><c:out value="${eval.nomeUtenteStudente}"></c:out></b> on <c:out value="${eval.dataInserimento}"></c:out>.
 					<div class="row">
 						<div class="col-xs-12 col-sm-12 col-md-3">
 							Cost of life <br> House availability <br> Liveability <br> Social Life <br>
