@@ -107,7 +107,7 @@ public class CityServlet extends AbstractDatabaseServlet
 						resp.setContentType("application/json");  
 				        PrintWriter out = resp.getWriter();
 				        out.println("{");
-				        out.println("\"url\": \"../jsp/entity_deleted.jsp\"");
+				        out.println("\"url\": \"/entity_deleted.jsp\"");
 				        out.println("}");
 				        out.close();
 					}
