@@ -26,23 +26,24 @@
 	<script src="<c:url value="/js"/>/star-rating.min.js"></script>	
 	
 	<script>
-		// funziona che notifica che questa entità è da segnare REPORTED
-		// ossia necessita di moderazione
-		// possibile solo per insegnamento e argomento tesi
-		// da fare con ajax
-	    function report()
-	    {
-	        alert('report');
-	    }
 		function doDelete()
 		{
 			var r = confirm("Are you sure you want to delete this entity from the database? The action is not reversible.");
 			if (r == true) 
 			{
 			    // procedere con la cancellazione
+			    $.ajax({
+			          type: "POST",
+			          url: "<c:url value="/city"/>",
+			          dataType: "json",
+			          data: { 'operation' : 'delete', 'city' : '<c:out value="${city.nome}"/>', 'country' : '<c:out value="${city.stato}"/>'},
+		              success: function(data) {
+		                  window.location.href = data.url;
+		                } 
+			        });
 			} 
 			else {
-			    // splash: nothing happens
+			    // splash! and nothing happens
 			} 
 		}
 		// inizializza i select avanzati
@@ -85,7 +86,6 @@
 						edit e delete solo da reponsabili di flusso e coordinatori erasmus -->
 					<ul class="nav nav-stacked pull-right">
 						<li class="active"><span data-toggle="modal" data-target="#evaluateForm">Evaluate</span></li>
-						<li class="active"><span onClick="report();">Report</span></li>
 						<li class="active"><span data-toggle="modal" data-target="#editForm">Edit</span></li>
 						<li class="active"><span onClick="doDelete();">Delete</span></li>
 					</ul>
@@ -165,11 +165,16 @@
 								<div class="row text-center">
 									<span></span><span class="input-group-addon insert_new_select_label_inline">Select the languages spoken in the city*</span> 
 									<select class="selectpicker text-left" multiple id="language" name="language[]">
-										<option selected>Language1</option>
-										<option selected>Language2</option>
-										<option>Language3</option>
-										<option>Language4</option>
-										<option>Language5</option>
+									<c:forEach var="languageDomain" items='${languageDomain}'>
+										<option 
+											<c:forEach var="lingua" items='${languages}' >
+											<c:if test="${languageDomain.nome == lingua.nome}">selected</c:if>
+											</c:forEach>
+										>
+										${languageDomain.nome}</option>
+										<c:if test="${!status.last}">, </c:if>
+										<c:if test="${status.last}">.</c:if>
+									</c:forEach>
 									</select>
 								</div>
 								<br>
@@ -197,19 +202,75 @@
 							<h3>There are <b><c:out value="${fn:length(evaluations)}"></c:out></b> evaluations</h3>
 							<div class="col-xs-3 col-sm-3 col-md-3">
 								Cost of life<br>
-								<span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star-empty"></span>
+								<c:if test="${evaluationsAvg.costOfLife == 1}">
+									<span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star-empty"></span> <span class="glyphicon glyphicon-star-empty"></span> <span class="glyphicon glyphicon-star-empty"></span> <span class="glyphicon glyphicon-star-empty"></span> <br> 
+								</c:if>  
+								<c:if test="${evaluationsAvg.costOfLife == 2}">
+									<span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star-empty"></span> <span class="glyphicon glyphicon-star-empty"></span> <span class="glyphicon glyphicon-star-empty"></span> <br> 
+								</c:if>  
+								<c:if test="${evaluationsAvg.costOfLife == 3}">
+									<span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star-empty"></span> <span class="glyphicon glyphicon-star-empty"></span> <br> 
+								</c:if>  
+								<c:if test="${evaluationsAvg.costOfLife == 4}">
+									<span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <br> 
+								</c:if>  
+								<c:if test="${evaluationsAvg.costOfLife == 5}">
+									<span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star-empty"></span> <br> 
+								</c:if>  
 							</div>
 							<div class="col-xs-3 col-sm-3 col-md-3">
 								House availability<br> 
-								<span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star-empty"></span> <span class="glyphicon glyphicon-star-empty"></span>
+								<c:if test="${evaluationsAvg.houseAvailability == 1}">
+									<span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star-empty"></span> <span class="glyphicon glyphicon-star-empty"></span> <span class="glyphicon glyphicon-star-empty"></span> <span class="glyphicon glyphicon-star-empty"></span> <br> 
+								</c:if>  
+								<c:if test="${evaluationsAvg.houseAvailability == 2}">
+									<span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star-empty"></span> <span class="glyphicon glyphicon-star-empty"></span> <span class="glyphicon glyphicon-star-empty"></span> <br> 
+								</c:if>  
+								<c:if test="${evaluationsAvg.houseAvailability == 3}">
+									<span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star-empty"></span> <span class="glyphicon glyphicon-star-empty"></span> <br> 
+								</c:if>  
+								<c:if test="${evaluationsAvg.houseAvailability == 4}">
+									<span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <br> 
+								</c:if>  
+								<c:if test="${evaluationsAvg.houseAvailability == 5}">
+									<span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star-empty"></span> <br> 
+								</c:if>  
 							</div>
 							<div class="col-xs-3 col-sm-3 col-md-3">
 								Liveability<br> 
-								<span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star-empty"></span>
+								<c:if test="${evaluationsAvg.liveability == 1}">
+									<span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star-empty"></span> <span class="glyphicon glyphicon-star-empty"></span> <span class="glyphicon glyphicon-star-empty"></span> <span class="glyphicon glyphicon-star-empty"></span> <br> 
+								</c:if>  
+								<c:if test="${evaluationsAvg.liveability == 2}">
+									<span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star-empty"></span> <span class="glyphicon glyphicon-star-empty"></span> <span class="glyphicon glyphicon-star-empty"></span> <br> 
+								</c:if>  
+								<c:if test="${evaluationsAvg.liveability == 3}">
+									<span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star-empty"></span> <span class="glyphicon glyphicon-star-empty"></span> <br> 
+								</c:if>  
+								<c:if test="${evaluationsAvg.liveability == 4}">
+									<span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <br> 
+								</c:if>  
+								<c:if test="${evaluationsAvg.liveability == 5}">
+									<span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star-empty"></span> <br> 
+								</c:if>  
 							</div>
 							<div class="col-xs-3 col-sm-3 col-md-3">
 								Social Life<br> 
-								<span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star-empty"></span> <span class="glyphicon glyphicon-star-empty"></span> <span class="glyphicon glyphicon-star-empty"></span>
+								<c:if test="${evaluationsAvg.socialLife == 1}">
+									<span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star-empty"></span> <span class="glyphicon glyphicon-star-empty"></span> <span class="glyphicon glyphicon-star-empty"></span> <span class="glyphicon glyphicon-star-empty"></span> <br> 
+								</c:if>  
+								<c:if test="${evaluationsAvg.socialLife == 2}">
+									<span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star-empty"></span> <span class="glyphicon glyphicon-star-empty"></span> <span class="glyphicon glyphicon-star-empty"></span> <br> 
+								</c:if>  
+								<c:if test="${evaluationsAvg.socialLife == 3}">
+									<span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star-empty"></span> <span class="glyphicon glyphicon-star-empty"></span> <br> 
+								</c:if>  
+								<c:if test="${evaluationsAvg.socialLife == 4}">
+									<span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <br> 
+								</c:if>  
+								<c:if test="${evaluationsAvg.socialLife == 5}">
+									<span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star-empty"></span> <br> 
+								</c:if>  
 							</div>
 						</div>
 					</div>
@@ -289,7 +350,11 @@
 							</c:if> 
 					</div>
 						<div class="col-xs-12 col-sm-12 col-md-7">
-							<p></p>
+							<p>
+							<c:if test="${not empty eval.commento}">
+								<c:out value="${eval.commento}"></c:out>
+							</c:if> 
+							</p>
 						</div>
 					</div>
 				</section>
