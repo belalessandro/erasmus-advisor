@@ -12,6 +12,8 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
 
+import javax.sql.DataSource;
+
 import org.apache.commons.dbutils.DbUtils;
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.ResultSetHandler;
@@ -65,10 +67,12 @@ public class UniversitaDatabase {
 	 * @param con The connection to the database
 	 * @param uni The Universita to be updated
 	 * 
+	 * @return the number of rows affected	
+	 * 
 	 * @throws SQLException
 	 *             if any error occurs while storing the Universita.
 	 */
-	public static void updateUniversita(Connection con, UniversitaBean uni)
+	public static int updateUniversita(Connection con, UniversitaBean uni)
 			throws SQLException {
 		/**
 		 * The SQL update statement
@@ -79,10 +83,26 @@ public class UniversitaDatabase {
 		
 		QueryRunner run = new QueryRunner( );
 		
-	    run.update(con, updateStmt, uni.getLink(), uni.getPosizioneClassifica(), uni.isPresenzaAlloggi(),
+	    return run.update(con, updateStmt, uni.getLink(), uni.getPosizioneClassifica(), uni.isPresenzaAlloggi(),
 	    		uni.getNomeCitta(), uni.getStatoCitta(), uni.getNome());
-	    
-	    return;
+	}
+	
+	/**
+	* Delete a Universita
+	* 
+	* @return the number of rows affected	
+	* @throws SQLException if any error occurs 
+	*/
+	public static int deleteUniversita(Connection con, String name) throws SQLException 
+	{
+		/**
+		 * The SQL delete statement
+		 */
+		String statement = "DELETE From Universita WHERE nome = ?";
+		
+		QueryRunner run = new QueryRunner();
+		return run.update(con, statement, name);
+		
 	}
 	
 	/**
