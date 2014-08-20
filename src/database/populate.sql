@@ -222,9 +222,8 @@ INSERT INTO Estensione (IdArgomentoTesi, Area) VALUES
 	(CURRVAL('ArgomentoTesi_id_seq'), 'Electronics and automation');
 INSERT INTO LinguaTesi(IdArgomentoTesi, SiglaLingua) VALUES
 	(CURRVAL('ArgomentoTesi_id_seq'), 'ita');
-
 INSERT INTO Insegnamento(Id, Nome, Crediti, NomeUniversita, PeriodoErogazione, Stato, AnnoCorso, NomeArea, NomeLingua) VALUES
-	(DEFAULT, 'Biologia Molecolare', 6, 'University of Copenhagen', 1, 'NOT VERIFIED' , 1, 'Biology', 'ita');
+    (DEFAULT, 'Biologia Molecolare', 6, 'University of Copenhagen', 1, 'NOT VERIFIED' , 1, 'Biology', 'ita');
 INSERT INTO Riconoscimento (IdFlusso, IdInsegnamento) VALUES
 	('E-BARCELO01',CURRVAL('Insegnamento_id_seq'));
 INSERT INTO ArgomentoTesi(Id, Nome, NomeUniversita, Triennale, Magistrale, Stato) VALUES
@@ -244,8 +243,12 @@ INSERT INTO Insegnamento(Id, Nome, Crediti, NomeUniversita, PeriodoErogazione, S
 	(DEFAULT, 'Calcolus', 9, 'Imperial College London', 1, 'NOT VERIFIED' , 1, 'Mathematics', 'eng');
 INSERT INTO Riconoscimento (IdFlusso, IdInsegnamento) VALUES
 	('F-PARIS006',CURRVAL('Insegnamento_id_seq'));
+
 INSERT INTO ArgomentoTesi(Id, Nome, NomeUniversita, Triennale, Magistrale, Stato) VALUES
 	(DEFAULT, 'Uniformization of Riemann Surfaces', 'Imperial College London', FALSE, TRUE, 'VERIFIED');
+	
+	
+	
 INSERT INTO Professore(Id, Nome, Cognome) VALUES
 	(DEFAULT, 'Jeoffrey', 'Baratheon');
 INSERT INTO Svolgimento (IdInsegnamento, IdProfessore) VALUES
@@ -295,6 +298,13 @@ INSERT INTO ValutazioneFlusso VALUES
 	--('prezzemolino', 'E-BARCELO01', 3,4,5,4,CURRENT_DATE, NULL),
 	('user', 'IRL-DUBLIN27',4,4,3,2,CURRENT_DATE, NULL),
 	('JuventinoDOC', 'FRA001',1,4,2,1,CURRENT_DATE, NULL);
+
+	
+
+
+
+
+
 	
 	
 
