@@ -1,6 +1,6 @@
 package it.unipd.dei.bding.erasmusadvisor.database;
 
-import it.unipd.dei.bding.erasmusadvisor.beans.LinguaBean;
+import it.unipd.dei.bding.erasmusadvisor.beans.AreaBean;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -12,22 +12,22 @@ import org.apache.commons.dbutils.ResultSetHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
 
 /**
- * Get the values of the domain of Lingua
+ * Get the values of the domain of Area
  * @author Luca
  *
  */
 
-public class GetLinguaValues 
+public class GetAreaValues 
 {
-	public static List<LinguaBean> getLinguaDomain(DataSource ds) throws SQLException
+	public static List<AreaBean> getAreaDomain(DataSource ds) throws SQLException
 	{
-		final String statement = "SELECT * FROM Lingua ORDER BY nome ASC"; 
+		final String statement = "SELECT nome FROM Area"; 
 		
 		QueryRunner run = new QueryRunner(ds);
 		
-		List<LinguaBean> lingue = null;
+		List<AreaBean> lingue = null;
 		
-		ResultSetHandler<List<LinguaBean>> h1 = new BeanListHandler<LinguaBean>(LinguaBean.class);
+		ResultSetHandler<List<AreaBean>> h1 = new BeanListHandler<AreaBean>(AreaBean.class);
 		lingue = run.query(statement, h1);
 				
 		return lingue;
