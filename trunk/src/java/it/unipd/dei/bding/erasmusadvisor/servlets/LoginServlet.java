@@ -13,6 +13,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.dbutils.DbUtils;
 
@@ -42,10 +43,11 @@ public class LoginServlet extends AbstractDatabaseServlet {
 			UserBean user = userDb.login(conn, email);
 			if (user != null) {
 				try {
-					String sessionId = user.checkPassword(pass);
-					if (sessionId != null) {
-						Cookie cookie = new Cookie("sessionId", sessionId);
-						response.addCookie(cookie);
+					boolean correct = user.checkPassword(pass);
+					if (correct) {
+						HttpSession session = request.getSession(true);
+						session.setAttribute("type", user.getType());
+						session.setAttribute("email", user.getEmail());
 						getServletContext().getRequestDispatcher(
 								"/jsp/index.jsp").forward(request, response);
 						return;
