@@ -102,39 +102,45 @@
 						</div>
 						<div class="modal-body">
 							<!-- action deve puntare alla servlet che gestisce l'inserimento della valutazione -->
-							<form name='cityEvaluationForm' onSubmit="return xEvaluationFormValidation();" method="post" action="#">
+							<form name='cityEvaluationForm' onSubmit="return xEvaluationFormValidation();" method="post" action="<c:url value="/student/evaluate"/>">
 								<div class="col-md-6 text-center">Cost of life:</div>
 								<div class="col-md-6 text-center">
-									<input id="costOfLife" class="rating" data-size="sm" data-min="0" data-max="5" data-step="1" data-show-clear="false" data-show-caption="false">
+									<input id="costOfLife" name="costoDellaVita" class="rating" data-size="sm" data-min="0" data-max="5" data-step="1" data-show-clear="false" data-show-caption="false">
 								</div>
 								<br>
 								<br>
 								<div class="col-md-6 text-center">House availability:</div>
 								<div class="col-md-6 text-center">
-									<input id="houseAvailability" class="rating" data-size="sm" data-min="0" data-max="5" data-step="1" data-show-clear="false" data-show-caption="false">
+									<input id="houseAvailability" name="disponibilitaAlloggi" class="rating" data-size="sm" data-min="0" data-max="5" data-step="1" data-show-clear="false" data-show-caption="false">
 								</div>
 								<br>
 								<br>
 								<div class="col-md-6 text-center">Liveability:</div>
 								<div class="col-md-6 text-center">
-									<input id="liveability" class="rating" data-size="sm" data-min="0" data-max="5" data-step="1" data-show-clear="false" data-show-caption="false">
+									<input id="liveability" name="vivibilitaUrbana" class="rating" data-size="sm" data-min="0" data-max="5" data-step="1" data-show-clear="false" data-show-caption="false">
 								</div>
 								<br>
 								<br>
 								<div class="col-md-6 text-center">Social life:</div>
 								<div class="col-md-6 text-center">
-									<input id="socialLife" class="rating" data-size="sm" data-min="0" data-max="5" data-step="1" data-show-clear="false" data-show-caption="false">
+									<input id="socialLife" name="vitaSociale" class="rating" data-size="sm" data-min="0" data-max="5" data-step="1" data-show-clear="false" data-show-caption="false">
 								</div>
 								<br>
 								<br><br>								
 								<div class="input-group insert_new_input_group">
-									<span class="input-group-addon insert_new_input">Comment</span> <textarea rows="2" class="form-control" name="comment" id="comment" placeholder="Insert a general comment about the city."></textarea>
+									<span class="input-group-addon insert_new_input">Comment</span> <textarea rows="2" class="form-control" name="commento" id="comment" placeholder="Insert a general comment about the city."></textarea>
 								</div>
 								<br>
 								<div class="modal-footer">
 									<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 									<input type="submit" value="Save!" class="btn btn-primary pull-right">
 								</div>
+                
+                                <!-- Tag necessario per il riconoscimento del tipo di valutazione lato servlet -->
+                                <input type="hidden" name="TypeOfEvaluation" value="city" />
+                                <input type="hidden" name="nomeCitta" value="${city.nome}">
+                                <input type="hidden" name="statoCitta" value="${city.stato}">
+                                
 							</form>
 						</div>
 					</div>
@@ -153,7 +159,7 @@
 						<div class="modal-body">
 							<!-- action deve puntare alla servlet che gestisce la modifica dell'entità -->
 							<!-- notare che ogni input deve avere il campo value settato a quanto è presente nel DB -->
-							<form name='cityEditForm' onSubmit="return xEditFormValidation();" method="post" action="#">
+							<form name='cityEditForm' onSubmit="return xEditFormValidation();" method="post" action="">
 								<div class="input-group insert_new_input_group">
 									<span class="input-group-addon insert_new_input">Name*</span> <input type="text" class="form-control" name="name" id="name" value="<c:out value="${city.nome}"/>">
 								</div>
