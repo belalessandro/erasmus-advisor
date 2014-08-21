@@ -3,6 +3,7 @@
  */
 package it.unipd.dei.bding.erasmusadvisor.servlets;
 
+import it.unipd.dei.bding.erasmusadvisor.beans.ArgomentoTesiBean;
 import it.unipd.dei.bding.erasmusadvisor.database.ArgomentoTesiDatabase;
 import it.unipd.dei.bding.erasmusadvisor.resources.Message;
 import it.unipd.dei.bding.erasmusadvisor.resources.Thesis;
@@ -10,6 +11,7 @@ import it.unipd.dei.bding.erasmusadvisor.resources.Thesis;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.List;
 
 import javax.json.Json;
 import javax.json.JsonWriter;
@@ -20,10 +22,12 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.dbutils.DbUtils;
 
 /**
- * @author Alessandro
+ * @author Nicola
  *
  */
 public class ThesisListServlet extends AbstractDatabaseServlet {
+	
+	private static final long serialVersionUID = 24559389234503855L;
 	
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
@@ -36,15 +40,17 @@ public class ThesisListServlet extends AbstractDatabaseServlet {
 			getServletContext().getRequestDispatcher("/jsp/search_thesis.jsp").forward(
 					req, resp);
 		}
-			Thesis results = null;
+			List<ArgomentoTesiBean> results = null;
 			Message m = null;
 			
 			// database connection
 			Connection conn = null;		
 			try {
 				conn = DS.getConnection();
-				results = ArgomentoTesiDatabase.searchArgomentoTesiBy(DS, univName, area);
+				results = ArgomentoTesiDatabase.searchArgomentoTesiBy(conn, univName, area);
 				DbUtils.close(conn);
+				
+				
 				
 			} catch (SQLException ex) {
 				m = new Message("Error while getting the university.",
@@ -53,12 +59,12 @@ public class ThesisListServlet extends AbstractDatabaseServlet {
 				DbUtils.closeQuietly(conn);
 			}
 		
-		if ("XMLHttpRequest".equals(req.getHeader("X-Requested-With"))) {
+		/*if ("XMLHttpRequest".equals(req.getHeader("X-Requested-With"))) {
 			// Handle Ajax response (e.g. return JSON data object).
 
 			resp.setContentType("application/json");
 			if (results != null) {
-				/* NOT IMPLEMENTED YET */
+				 NOT IMPLEMENTED YET 
 				JsonWriter jsonWriter = Json.createWriter(resp.getWriter());
 				jsonWriter.writeObject(convertToJson(results));
 				jsonWriter.close();
@@ -68,10 +74,10 @@ public class ThesisListServlet extends AbstractDatabaseServlet {
 			// Handle normal response (e.g. forward and/or set message as attribute).
 
 			if (m == null && results != null) {
-				/** 
+				*//** 
 				 * Show results to the JSP page. 
 				 *
-				 */
+				 *//*
 				req.setAttribute("university", results.getUniversita());
 				req.setAttribute("evaluations", results.getListaValutazioni());
 
@@ -83,6 +89,6 @@ public class ThesisListServlet extends AbstractDatabaseServlet {
 				getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(
 						req, resp);
 			}
-		}	
+		}*/	
 	}
 }

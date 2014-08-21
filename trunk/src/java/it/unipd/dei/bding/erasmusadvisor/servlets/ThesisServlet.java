@@ -105,7 +105,7 @@ public class ThesisServlet extends AbstractDatabaseServlet {
 				 * Show results to the JSP page. 
 				 *
 				 */
-				req.setAttribute("university", results.getArgomentoTesi());
+				req.setAttribute("thesis", results.getArgomentoTesi());
 				req.setAttribute("evaluations", results.getListaValutazioni());
 
 				getServletContext().getRequestDispatcher("/jsp/show_thesis.jsp").forward(

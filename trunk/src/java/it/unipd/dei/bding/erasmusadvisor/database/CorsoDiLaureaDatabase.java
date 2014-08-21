@@ -12,7 +12,7 @@ import java.sql.SQLException;
  * 
  * @author Nicola
  */
-public class CreateCorsoDiLaureaDatabase  {
+public class CorsoDiLaureaDatabase  {
 
 	/**
 	 * The first SQL statement to be executed
@@ -41,7 +41,7 @@ public class CreateCorsoDiLaureaDatabase  {
 	 * @param corsoDiLaurea
 	 *            the CorsoDiLaurea to be stored into the database.
 	 */
-	public CreateCorsoDiLaureaDatabase(final Connection con, final CorsoDiLaureaBean corsoDiLaurea) {
+	public CorsoDiLaureaDatabase(final Connection con, final CorsoDiLaureaBean corsoDiLaurea) {
 		this.con = con;
 		this.corsoDiLaurea = corsoDiLaurea;
 	}
