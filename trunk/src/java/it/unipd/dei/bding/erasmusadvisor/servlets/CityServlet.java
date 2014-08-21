@@ -3,14 +3,17 @@
  */
 package it.unipd.dei.bding.erasmusadvisor.servlets;
 
+import it.unipd.dei.bding.erasmusadvisor.beans.LinguaBean;
 import it.unipd.dei.bding.erasmusadvisor.database.CittaDatabase;
 import it.unipd.dei.bding.erasmusadvisor.database.GetLinguaValues;
 import it.unipd.dei.bding.erasmusadvisor.resources.City;
 import it.unipd.dei.bding.erasmusadvisor.resources.CityEvaluationsAverage;
+import it.unipd.dei.bding.erasmusadvisor.resources.Message;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -51,29 +54,35 @@ public class CityServlet extends AbstractDatabaseServlet
 
 		if (city != null && ! city.isEmpty() && country != null && ! country.isEmpty()) 
 		{
-			City results;
+			City results = null;
+			List<LinguaBean> languageDomain = null;
+			Message m = null;
+			
 			try {
 				results = new CittaDatabase().searchCityByName(DS, city, country);
-				
-				if (results == null)
-				{
-					getServletContext().getRequestDispatcher("/jsp/insert_city.jsp").forward(req, resp);
-				}
+				languageDomain = GetLinguaValues.getLinguaDomain(DS);
+			} 
+			catch (SQLException ex) {
+				m = new Message("Error while getting the city.", "XXX", ex.getMessage());
+			}
+			
+			if (m == null && results != null)
+			{
 
 				req.setAttribute("city", results.getCity());
 				req.setAttribute("evaluations", results.getEvalutationList());
 				req.setAttribute("languages", results.getLanguagesList());
 				
-				req.setAttribute("languageDomain", GetLinguaValues.getLinguaDomain(DS));
+				req.setAttribute("languageDomain", languageDomain);
 				req.setAttribute("evaluationsAvg", new CityEvaluationsAverage(results.getEvalutationList()));
 
 				/* Show results to the JSP page. */
 				getServletContext().getRequestDispatcher("/jsp/show_city.jsp").forward(req, resp);
-				
-			} 
-			catch (SQLException e) {
-				// TODO CATTURARE GLI ERRORI OPPORTUNAMENTE (usare redirect/message..)
-				e.printStackTrace();
+			}
+			else
+			{
+				req.setAttribute("message", m);
+				getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(req, resp);
 			}
 
 		} 
