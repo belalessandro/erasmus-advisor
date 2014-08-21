@@ -13,12 +13,15 @@ import it.unipd.dei.bding.erasmusadvisor.beans.AreaBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.LinguaBean;
 
 import java.io.IOException;
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.dbutils.DbUtils;
 
 
 /**
@@ -49,14 +52,22 @@ public class ClassServlet extends AbstractDatabaseServlet
 		List<LinguaBean> languageDomain = null;
 		List<AreaBean> areaDomain = null;
 		
+		// database connection
+		Connection conn = null;
+
+					
 		try {
-			results = InsegnamentoDatabase.getInsegnamento(DS, ID);
-			languageDomain = GetLinguaValues.getLinguaDomain(DS);
-			areaDomain = GetAreaValues.getAreaDomain(DS);
+			conn = DS.getConnection();
+			results = InsegnamentoDatabase.getInsegnamento(conn, ID);
+			languageDomain = GetLinguaValues.getLinguaDomain(conn);
+			areaDomain = GetAreaValues.getAreaDomain(conn);
 		} 
 		catch (SQLException ex) {
 			m = new Message("Error while getting the class.", "XXX", ex.getMessage());
 		} 
+		finally {
+			DbUtils.closeQuietly(conn); // always closes the connection 
+		}
 		
 		
 		/**
