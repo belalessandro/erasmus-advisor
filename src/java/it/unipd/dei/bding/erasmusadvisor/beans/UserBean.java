@@ -1,5 +1,7 @@
 package it.unipd.dei.bding.erasmusadvisor.beans;
 
+import it.unipd.dei.bding.erasmusadvisor.resources.UserType;
+
 import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
@@ -52,6 +54,10 @@ public class UserBean implements Serializable {
 		return password;
 	}
 
+	public UserType getType() {
+		return type;
+	}
+
 	public void setHashedPassword(String hashedPassword) {
 		this.password = hashedPassword;
 	}
@@ -74,7 +80,7 @@ public class UserBean implements Serializable {
 		return matcher.matches();
 	}
 
-	public String checkPassword(String pass) throws IllegalStateException {
+	public boolean checkPassword(String pass) throws IllegalStateException {
 		MessageDigest digest;
 		try {
 			digest = MessageDigest.getInstance("SHA-256");
@@ -82,7 +88,7 @@ public class UserBean implements Serializable {
 			try {
 				byte[] hash = digest.digest(salted.getBytes("UTF-8"));
 				if (password.compareTo(new String(hash, "UTF-8")) == 0) {
-					return "Hello!";
+					return true;
 				}
 			} catch (UnsupportedEncodingException e) {
 				e.printStackTrace();
@@ -92,12 +98,6 @@ public class UserBean implements Serializable {
 			e.printStackTrace();
 			throw new IllegalStateException();
 		}
-		// If the password matching has failed, the method returns a null
-		// sessionId
-		return null;
-	}
-
-	private enum UserType {
-		STUDENTE, RESPONSABILE, COORDINATORE;
+		return false;
 	}
 }
