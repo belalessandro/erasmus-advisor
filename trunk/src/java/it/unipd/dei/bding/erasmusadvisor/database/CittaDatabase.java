@@ -44,7 +44,7 @@ public class CittaDatabase
 		}
 	}
 
-	public City searchCityByName(DataSource ds, String name, String country) throws SQLException 
+	public City searchCityByName(Connection conn, String name, String country) throws SQLException 
 	{
 		/**
 		 * The SQL statements to be executed
@@ -68,23 +68,21 @@ public class CittaDatabase
 		List<ValutazioneCittaBean> valList = null;
 		List<LinguaBean> lingue = null;
 		
-		QueryRunner run = new QueryRunner(ds);
+		QueryRunner run = new QueryRunner();
 		
 		ResultSetHandler<CittaBean> h = new BeanHandler<CittaBean>(CittaBean.class);
-		citta = run.query(statement, h, name, country);
+		citta = run.query(conn, statement, h, name, country);
 		
 		if (citta == null)
-		{
-			return null;
-		}
+			throw new SQLException("City not found.");
 		
 		// Gets the languages
 		ResultSetHandler<List<LinguaBean>> h1 = new BeanListHandler<LinguaBean>(LinguaBean.class);
-		lingue = run.query(statement1, h1, name, country);
+		lingue = run.query(conn, statement1, h1, name, country);
 		
 		// Gets the evaluations
 		ResultSetHandler<List<ValutazioneCittaBean>> h2 = new BeanListHandler<ValutazioneCittaBean>(ValutazioneCittaBean.class);
-		valList = run.query(statement2, h2, name, country);
+		valList = run.query(conn, statement2, h2, name, country);
 		
 		// Returns the results
 		return new City(citta, valList, lingue);
@@ -94,12 +92,12 @@ public class CittaDatabase
 	* Delete a city
 	* @return the number of rows affected	
 	*/
-	public int deleteCity(DataSource ds, String name, String country) throws SQLException 
+	public int deleteCity(Connection conn, String name, String country) throws SQLException 
 	{
 		final String statement = "DELETE From Citta WHERE Nome = ? AND Stato = ?";
 		
-		QueryRunner run = new QueryRunner(ds);
-		return run.update(statement, name, country);
+		QueryRunner run = new QueryRunner();
+		return run.update(conn, statement, name, country);
 		
 	}
 }

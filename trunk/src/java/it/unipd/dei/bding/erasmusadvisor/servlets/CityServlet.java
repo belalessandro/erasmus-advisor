@@ -12,6 +12,7 @@ import it.unipd.dei.bding.erasmusadvisor.resources.Message;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -19,6 +20,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.json.*;
+
+import org.apache.commons.dbutils.DbUtils;
 
 /**
  * @author Luca
@@ -54,16 +57,24 @@ public class CityServlet extends AbstractDatabaseServlet
 
 		if (city != null && ! city.isEmpty() && country != null && ! country.isEmpty()) 
 		{
+			// model
 			City results = null;
 			List<LinguaBean> languageDomain = null;
 			Message m = null;
 			
+			// the connection to database
+			Connection conn = null;
+			
 			try {
-				results = new CittaDatabase().searchCityByName(DS, city, country);
-				languageDomain = GetLinguaValues.getLinguaDomain(DS);
+				conn = DS.getConnection();
+				results = new CittaDatabase().searchCityByName(conn, city, country);
+				languageDomain = GetLinguaValues.getLinguaDomain(conn);
 			} 
 			catch (SQLException ex) {
 				m = new Message("Error while getting the city.", "XXX", ex.getMessage());
+			} 
+			finally {
+				DbUtils.closeQuietly(conn); // always closes the connection 
 			}
 			
 			if (m == null && results != null)
@@ -104,9 +115,14 @@ public class CityServlet extends AbstractDatabaseServlet
 		{
 			if (city != null && ! city.isEmpty() && country != null && ! country.isEmpty()) 
 			{
+
+				// the connection to database
+				Connection conn = null;
+				
 				int results;
 				try {
-					results = new CittaDatabase().deleteCity(DS, city, country);
+					conn = DS.getConnection();
+					results = new CittaDatabase().deleteCity(conn, city, country);
 					// bisogna passare anche un parametro deletedEntity con valore
 					// city + " (" + country + ")"
 					
@@ -125,6 +141,9 @@ public class CityServlet extends AbstractDatabaseServlet
 				catch (SQLException e) {
 					// TODO CATTURARE GLI ERRORI OPPORTUNAMENTE (usare redirect/message..)
 					e.printStackTrace();
+				}
+				finally {
+					DbUtils.closeQuietly(conn); // always closes the connection 
 				}
 			} 
 			else {
