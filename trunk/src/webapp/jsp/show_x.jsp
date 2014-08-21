@@ -35,7 +35,7 @@
 		// da fare con ajax
 	    function report()
 	    {
-	    	var r = confirm("Do you really want to report this city to the moderators?");
+	    	var r = confirm("Do you really want to report this entity to the moderators?");
 			if (r == true) 
 			{
 			    // procedere con la cancellazione

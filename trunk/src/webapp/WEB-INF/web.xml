@@ -59,6 +59,15 @@
 	</servlet-mapping>
 	
 	<servlet>
+		<servlet-name>ClassServlet</servlet-name>
+		<servlet-class>it.unipd.dei.bding.erasmusadvisor.servlets.ClassServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ClassServlet</servlet-name>
+		<url-pattern>/class</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
 		<servlet-name>UniversityServlet</servlet-name>
 		<servlet-class>it.unipd.dei.bding.erasmusadvisor.servlets.UniversityServlet</servlet-class>
 	</servlet>
