@@ -188,7 +188,7 @@
 									<select class="selectpicker text-left" id="language" name="language">
 										<c:forEach var="languageDomain" items='${languageDomain}'>
 											<option 
-												<c:if test="${languageDomain.nome == classBean.nomeLingua}">selected</c:if>
+												<c:if test="${languageDomain.sigla == classBean.nomeLingua}">selected</c:if>
 											>
 											${languageDomain.nome}</option>
 											<c:if test="${!status.last}">, </c:if>
@@ -197,22 +197,23 @@
 				    				</select>
 								</div>
 								<br>
-								<div class="row text-center">
+								<div class="input-group insert_new_input_group text-center">
 									<div class="input-group insert_new_input_group">
-										<span class="input-group-addon insert_new_input_small">Credits*</span> <input type="text" class="form-control" name="credits" id="credits" value="<c:out value="${classBean.crediti}"/>">
+										<span class="input-group-addon insert_new_input">Credits*</span> <input type="text" class="form-control" name="credits" id="credits" value="<c:out value="${classBean.crediti}"/>">
 									</div>
 								</div>
-								<div class="row text-center">
+								<br>
+								<div class="input-group insert_new_input_group text-center">
 									<div class="input-group insert_new_input_group">
-										<span class="input-group-addon insert_new_input_small">Year*</span> <input type="text" class="form-control" name="year" id="year" value="<c:out value="${classBean.annoCorso}"/>">
+										<span class="input-group-addon insert_new_input">Year*</span> <input type="text" class="form-control" name="year" id="year" value="<c:out value="${classBean.annoCorso}"/>">
 									</div>
 								</div>
-								<div class="row text-center">
+								<br>
+								<div class="input-group insert_new_input_group text-center">
 									<div class="input-group insert_new_input_group">
-										<span class="input-group-addon insert_new_input_small">Semester*</span> <input type="text" class="form-control" name="semester" id="semester" value="<c:out value="${classBean.periodoErogazione}"/>">
+										<span class="input-group-addon insert_new_input">Semester*</span> <input type="text" class="form-control" name="semester" id="semester" value="<c:out value="${classBean.periodoErogazione}"/>">
 									</div>
 								</div>
-
 								<br>
 								<div class="modal-footer">
 									<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -235,7 +236,14 @@
 				<div class="header entity_top">
 					<div class="row">
 						<div style="text-align: center">
-							<h3>There are <b><c:out value="${fn:length(evaluations)}"></c:out></b> evaluations</h3>
+							<c:choose>
+								<c:when test="${fn:length(evaluations) == 1}">
+									<h3>There is <b>1</b> evaluation</h3>
+								</c:when>
+								<c:otherwise>
+									<h3>There are <b><c:out value="${fn:length(evaluations)}"></c:out></b> evaluations</h3>
+								</c:otherwise>
+							</c:choose>
 							<div class="col-xs-3 col-sm-3 col-md-3">
 								Teaching quality<br>
 								<c:if test="${evaluationsAvg.teachingQuality == 1}">

@@ -199,7 +199,14 @@
 				<div class="header entity_top">
 					<div class="row">
 						<div style="text-align: center">
-							<h3>There are <b><c:out value="${fn:length(evaluations)}"></c:out></b> evaluations</h3>
+							<c:choose>
+								<c:when test="${fn:length(evaluations) == 1}">
+									<h3>There is <b>1</b> evaluation</h3>
+								</c:when>
+								<c:otherwise>
+									<h3>There are <b><c:out value="${fn:length(evaluations)}"></c:out></b> evaluations</h3>
+								</c:otherwise>
+							</c:choose>
 							<div class="col-xs-3 col-sm-3 col-md-3">
 								Cost of life<br>
 								<c:if test="${evaluationsAvg.costOfLife == 1}">

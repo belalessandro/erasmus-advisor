@@ -4,6 +4,6 @@
 	<div align="center">
 		Site developed by EA Team - 2014 - All rights reserved
 		<br>
-		<a href="about.jsp">About us</a>
+		<a href="<c:url value="/jsp"/>/about.jsp">About us</a>
 	</div>
 </div>

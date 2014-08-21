@@ -18,12 +18,12 @@
 		<c:when test="${param.pageName == 'sign_in'}"><a href="/erasmus-advisor/"></c:when>
 		<c:otherwise><a href="index.jsp"></c:otherwise>
 	</c:choose>
-	<img src="../img/logo.svg" class="nav_logo"></a>
+	<img src="<c:url value="/img"/>/logo.svg" class="nav_logo"></a>
 	<ul class="nav nav-pills pull-right nav_style">
 		<!-- nella pagina di sign in non si vedono le voci di menù -->
 		<c:if test="${param.pageName != 'sign_in'}">
-			<li><a href="notifications.jsp">Notifications</a></li>
-			<li><a href="user_profile.jsp">Account</a></li>
+			<li><a href="<c:url value="/jsp"/>/notifications.jsp">Notifications</a></li>
+			<li><a href="<c:url value="/jsp"/>/user_profile.jsp">Account</a></li>
 			<li><a href="#"><span class="fa fa-sign-out fa-fw"></span>Logout</a></li>
 		</c:if>
 	</ul>

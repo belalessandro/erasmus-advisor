@@ -50,11 +50,9 @@ public class ClassServlet extends AbstractDatabaseServlet
 		List<AreaBean> areaDomain = null;
 		
 		try {
-			System.out.println("fuori query");
 			results = InsegnamentoDatabase.getInsegnamento(DS, ID);
 			languageDomain = GetLinguaValues.getLinguaDomain(DS);
 			areaDomain = GetAreaValues.getAreaDomain(DS);
-			System.out.println("fine db");
 		} 
 		catch (SQLException ex) {
 			m = new Message("Error while getting the class.", "XXX", ex.getMessage());
@@ -62,7 +60,7 @@ public class ClassServlet extends AbstractDatabaseServlet
 		
 		
 		/**
-		 *  Send the university model to the appropriate output (Ajax or normal)
+		 *  Send the university model to the appropriate output
 		 *
 		 */
 		// Handle normal response (e.g. forward and/or set message as attribute).
@@ -86,7 +84,6 @@ public class ClassServlet extends AbstractDatabaseServlet
 		} 
 		else { // Error page
 			req.setAttribute("message", m);
-			System.out.println("error page");
 			getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(req, resp);
 		}
 
