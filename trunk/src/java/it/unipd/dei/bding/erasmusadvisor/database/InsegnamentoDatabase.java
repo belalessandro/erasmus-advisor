@@ -27,7 +27,7 @@ import org.apache.commons.dbutils.handlers.BeanListHandler;
  */
 public class InsegnamentoDatabase 
 {
-	public static Class getInsegnamento(DataSource ds, String ID)
+	public static Class getInsegnamento(Connection conn, String ID)
 			throws SQLException 
 	{
 		final String statement1 = "SELECT * FROM Insegnamento WHERE ID = CAST (? AS INTEGER)";
@@ -40,27 +40,26 @@ public class InsegnamentoDatabase
 		List<ValutazioneInsegnamentoBean> listaValutazioni = null;
 		List<ProfessoreBean> professori = null;
 
-		QueryRunner run = new QueryRunner(ds);
+		System.out.println("inizia query");
+		QueryRunner run = new QueryRunner();
 		
 		ResultSetHandler<InsegnamentoBean> h1 = new BeanHandler<InsegnamentoBean>(InsegnamentoBean.class);
-		insegnamento = run.query(statement1, h1, ID);
+		insegnamento = run.query(conn, statement1, h1, ID);
 		
 		if (insegnamento == null)
-		{
-			return null;
-		}
+			throw new SQLException("Class id not found.");
 		
 		// Gets the language
 		ResultSetHandler<LinguaBean> h2 = new BeanHandler<LinguaBean>(LinguaBean.class);
-		lingua = run.query(statement2, h2, insegnamento.getNomeLingua());
+		lingua = run.query(conn, statement2, h2, insegnamento.getNomeLingua());
 		
 		// Gets the evaluations
 		ResultSetHandler<List<ValutazioneInsegnamentoBean>> h3 = new BeanListHandler<ValutazioneInsegnamentoBean>(ValutazioneInsegnamentoBean.class);
-		listaValutazioni = run.query(statement3, h3, ID);
+		listaValutazioni = run.query(conn, statement3, h3, ID);
 		
 		// Gets the profs
 		ResultSetHandler<List<ProfessoreBean>> h4 = new BeanListHandler<ProfessoreBean>(ProfessoreBean.class);
-		professori = run.query(statement4, h4, ID);
+		professori = run.query(conn, statement4, h4, ID);
 		
 		// Returns the results
 		return new Class(insegnamento, listaValutazioni, professori, lingua);
