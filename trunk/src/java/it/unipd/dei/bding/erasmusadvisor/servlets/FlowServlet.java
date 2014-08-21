@@ -3,17 +3,28 @@
  */
 package it.unipd.dei.bding.erasmusadvisor.servlets;
 
+
+
+import it.unipd.dei.bding.erasmusadvisor.beans.CertificatiLinguisticiBean;
+import it.unipd.dei.bding.erasmusadvisor.beans.CorsoDiLaureaBean;
+import it.unipd.dei.bding.erasmusadvisor.database.FlussoDatabase;
+import it.unipd.dei.bding.erasmusadvisor.database.GetCertificatiLinguisticiValues;
+import it.unipd.dei.bding.erasmusadvisor.database.GetCorsoDiLaureaValues;
+import it.unipd.dei.bding.erasmusadvisor.resources.Flow;
+import it.unipd.dei.bding.erasmusadvisor.resources.FlowEvaluationAverage;
 import it.unipd.dei.bding.erasmusadvisor.resources.LoggedUser;
 import it.unipd.dei.bding.erasmusadvisor.resources.Message;
 
 import java.io.IOException;
+import java.sql.SQLException;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * @author Alessandro
+ * @author Luca
  *
  */
 public class FlowServlet extends AbstractDatabaseServlet {
@@ -89,5 +100,68 @@ public class FlowServlet extends AbstractDatabaseServlet {
 		}
 
 		resp.sendRedirect(req.getParameter("returnTo"));
+	}
+	
+	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
+			throws ServletException, IOException
+	{
+		
+		String ID = req.getParameter("ID");
+
+		if (ID == null || ID.isEmpty()) {
+			/* Redirect to insert form. */
+			resp.sendRedirect(req.getContextPath() + "/jsp/insert_class.jsp");
+			return;
+		}
+		
+		/**
+		 *  Gets the university model from the database
+		 */
+		
+		// model
+		Flow results = null;
+		Message m = null;
+		List<CertificatiLinguisticiBean> certificatesDomain = null;
+		List<CorsoDiLaureaBean> possibileCourses = null;
+		
+		try {
+			results = FlussoDatabase.getFlusso(DS, ID);
+			certificatesDomain = GetCertificatiLinguisticiValues.getCertificatiLinguisticiDomain(DS);
+			possibileCourses = GetCorsoDiLaureaValues.getPossibleCourses(DS, results.getResponsabile());
+		} 
+		catch (SQLException ex) {
+			m = new Message("Error while getting the class.", "XXX", ex.getMessage());
+		} 
+		
+		
+		/**
+		 *  Send the university model to the appropriate output
+		 *
+		 */
+		// Handle normal response (e.g. forward and/or set message as attribute).
+
+		if (m == null && results != null) 
+		{
+			/** 
+			 * Show results to the JSP page. 
+			 */
+			req.setAttribute("flow", results.getFlusso());
+			req.setAttribute("manager", results.getResponsabile());
+			req.setAttribute("origins", results.getCorsi());
+			req.setAttribute("evaluations", results.getListaValutazioni());
+			req.setAttribute("certificates", results.getCertificati());
+
+			req.setAttribute("certificatesDomain", certificatesDomain);
+			req.setAttribute("possibileCourses", possibileCourses);
+			req.setAttribute("evaluationsAvg", new FlowEvaluationAverage(results.getListaValutazioni()));
+			
+			getServletContext().getRequestDispatcher("/jsp/show_flow.jsp").forward(req, resp);
+						
+		} 
+		else { // Error page
+			req.setAttribute("message", m);
+			getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(req, resp);
+		}
+
 	}
 }
