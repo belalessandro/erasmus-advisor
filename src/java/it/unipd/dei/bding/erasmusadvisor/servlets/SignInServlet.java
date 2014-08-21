@@ -6,6 +6,10 @@ import it.unipd.dei.bding.erasmusadvisor.database.CreateStudenteDatabase;
 import it.unipd.dei.bding.erasmusadvisor.resources.Message;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 import java.sql.SQLException;
 
 import javax.servlet.ServletException;
@@ -34,7 +38,9 @@ public class SignInServlet extends AbstractDatabaseServlet {
 			s = new StudenteBean();
 			// Sporcooooo.. da valutare se utilizzare gli stessi nomi per la conversione automatica o farlo a mano
 			BeanUtilities.populateBean(s, request); // popola automaticam. i campi i cui nomi coincidono con quelli dei beans
-			s.setSalt("afdfsfafdsg");
+			SecureRandom random = new SecureRandom();
+			s.setSalt(""+random.nextLong());
+			s.setPassword(hashPassword(s.getPassword(), s.getSalt()));
 			s.setNomeUtente(request.getParameter("user"));
 			
 			new CreateStudenteDatabase(DS.getConnection(), s).createStudente();
@@ -65,6 +71,24 @@ public class SignInServlet extends AbstractDatabaseServlet {
 		}
 			
 		
+	}
+		
+	private String hashPassword(String password, String salt){
+		MessageDigest digest;
+		try {
+			digest = MessageDigest.getInstance("SHA-256");
+			String salted = password + salt;
+			try {
+				byte[] hash = digest.digest(salted.getBytes("UTF-8"));
+				return new String(hash, "UTF-8");
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+				throw new IllegalStateException();
+			}
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+			throw new IllegalStateException();
+		}
 	}
 
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
