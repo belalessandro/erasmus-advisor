@@ -76,6 +76,18 @@
 		<url-pattern>/university</url-pattern>
 	</servlet-mapping>
 	
+    <!-- mauro: servlet per la gestione delle valutazioni da parte di studente -->
+    <servlet>
+        <servlet-name>StudentEvaluateServlet</servlet-name>
+        <servlet-class>it.unipd.dei.bding.erasmusadvisor.servlets.StudentEvaluateServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>StudentEvaluateServlet</servlet-name>
+        <url-pattern>/student/evaluate</url-pattern>
+    </servlet-mapping>
+        
+    
+    
 	<servlet> <!-- DEPRECATO -->
 		<servlet-name>InsertFlowServlet</servlet-name>
 		<servlet-class>it.unipd.dei.bding.erasmusadvisor.servlets.InsertFlowServlet</servlet-class>
@@ -85,6 +97,9 @@
 		<servlet-name>InsertFlowServlet</servlet-name>
 		<url-pattern>/insert-flow</url-pattern>
 	</servlet-mapping>
+    
+    
+    
 	<!-- servlet>
 		<servlet-name>LogInServlet</servlet-name>
 		<servlet-class>it.unipd.dei.bding.erasmusadvisor.servlets.LogInServlet</servlet-class>
