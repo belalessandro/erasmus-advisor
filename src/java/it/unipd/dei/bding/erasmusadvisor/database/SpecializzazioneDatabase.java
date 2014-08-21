@@ -12,7 +12,7 @@ import java.sql.SQLException;
  * @author Nicola
  */
 
-public class CreateSpecializzazioneDatabase {
+public class SpecializzazioneDatabase {
 
 	/**
 	 * The SQL statement to be executed
@@ -38,7 +38,7 @@ public class CreateSpecializzazioneDatabase {
 	 * @param flusso
 	 *            the Specializzazione to be stored into the database.
 	 */
-	public CreateSpecializzazioneDatabase(final Connection con, final SpecializzazioneBean specializzazione) {
+	public SpecializzazioneDatabase(final Connection con, final SpecializzazioneBean specializzazione) {
 		this.con = con;
 		this.specializzazione = specializzazione;
 	}

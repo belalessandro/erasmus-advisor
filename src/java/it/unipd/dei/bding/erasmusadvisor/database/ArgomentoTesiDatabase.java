@@ -148,14 +148,14 @@ public class ArgomentoTesiDatabase {
 		return new Thesis(arg, valList);
 	}
 	
-	/*//DA RIVEDERE:
-	*//**
+
+	/**
 	 * Search Theses by University and by Area and fits into Thesis model   
-	 *//*
-	public static List<Thesis> searchArgomentoTesiBy(Connection con, String nomeUni, String area) throws SQLException {
-		*//**
+	 */
+	public static List<ArgomentoTesiBean> searchArgomentoTesiBy(Connection con, String nomeUni, String area) throws SQLException {
+		/**
 		 * The SQL statements to be executed
-		 *//*
+		 */
 		
 		String statement = "SELECT A.Nome, A.NomeUniversita, A.Triennale, A.Magistrale, A.Stato "
 				+ "FROM ArgomentoTesi AS A INNER JOIN Estensione AS E ON A.id=E.idArgomentoTesi"
@@ -173,6 +173,6 @@ public class ArgomentoTesiDatabase {
 			throw new SQLException("Theses not found");
 
 		// Returns the results through the university model
-		return new Thesis(argList);
-	}*/
+		return argList;
+	}
 }
