@@ -47,10 +47,7 @@ public class InsegnamentoDatabase
 		insegnamento = run.query(conn, statement1, h1, ID);
 		
 		if (insegnamento == null)
-		{
-			System.out.println("null");
-			return null;
-		}
+			throw new SQLException("Class id not found.");
 		
 		// Gets the language
 		ResultSetHandler<LinguaBean> h2 = new BeanHandler<LinguaBean>(LinguaBean.class);
