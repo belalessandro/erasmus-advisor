@@ -50,7 +50,7 @@ public class TestUniversitaDatabase {
 			con = DriverManager.getConnection(DATABASE, USER, PASSWORD); // UNICA CONNESSIONE
 
 			
-			it.unipd.dei.bding.erasmusadvisor.resources.Class c = InsegnamentoDatabase.getInsegnamento(con, 1);
+			it.unipd.dei.bding.erasmusadvisor.resources.Teaching c = InsegnamentoDatabase.getInsegnamento(con, 1);
 			
 			DbUtils.close(con);
 

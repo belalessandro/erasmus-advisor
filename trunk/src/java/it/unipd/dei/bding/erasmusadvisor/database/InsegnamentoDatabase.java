@@ -5,7 +5,7 @@ import it.unipd.dei.bding.erasmusadvisor.beans.InsegnamentoBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.LinguaBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.ProfessoreBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.ValutazioneInsegnamentoBean;
-import it.unipd.dei.bding.erasmusadvisor.resources.Class;
+import it.unipd.dei.bding.erasmusadvisor.resources.Teaching;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -27,7 +27,7 @@ import org.apache.commons.dbutils.handlers.BeanListHandler;
  */
 public class InsegnamentoDatabase 
 {
-	public static Class getInsegnamento(Connection conn, int ID)
+	public static Teaching getInsegnamento(Connection conn, int ID)
 			throws SQLException 
 	{
 		final String statement1 = "SELECT * FROM Insegnamento WHERE ID = ?";
@@ -63,7 +63,7 @@ public class InsegnamentoDatabase
 		professori = run.query(conn, statement4, h4, ID);
 		
 		// Returns the results
-		return new Class(insegnamento, listaValutazioni, professori, lingua);
+		return new Teaching(insegnamento, listaValutazioni, professori, lingua);
 	}
 
 }

@@ -10,14 +10,14 @@ import java.util.List;
  * @author Luca
  *
  */
-public class ClassEvaluationAverage implements Serializable
+public class TeachingEvaluationAverage implements Serializable
 {
 	int teachingQuality = 0;
 	int scheduleCompliance = 0;
 	int difficulty = 0;
 	int interest = 0;
 	
-	public ClassEvaluationAverage(List<ValutazioneInsegnamentoBean> list)
+	public TeachingEvaluationAverage(List<ValutazioneInsegnamentoBean> list)
 	{
 		int[] sum = new int[4];
 		
