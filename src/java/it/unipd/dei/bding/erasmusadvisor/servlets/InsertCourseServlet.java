@@ -3,17 +3,20 @@ package it.unipd.dei.bding.erasmusadvisor.servlets;
 
 import it.unipd.dei.bding.erasmusadvisor.beans.CorsoDiLaureaBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.SpecializzazioneBean;
-import it.unipd.dei.bding.erasmusadvisor.database.CreateCorsoDiLaureaDatabase;
-import it.unipd.dei.bding.erasmusadvisor.database.CreateSpecializzazioneDatabase;
+import it.unipd.dei.bding.erasmusadvisor.database.CorsoDiLaureaDatabase;
+import it.unipd.dei.bding.erasmusadvisor.database.SpecializzazioneDatabase;
 import it.unipd.dei.bding.erasmusadvisor.resources.LoggedUser;
 import it.unipd.dei.bding.erasmusadvisor.resources.Message;
 
 import java.io.IOException;
+import java.sql.Connection;
 import java.sql.SQLException;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.dbutils.DbUtils;
 
 /**
  * Form processing for the creation of a new Course
@@ -44,6 +47,8 @@ public class InsertCourseServlet extends AbstractDatabaseServlet {
 		// data models
 		Message m = null;
 		
+		// database connection
+		Connection conn = null;
 
 		try{
 			c = new CorsoDiLaureaBean();
@@ -51,7 +56,11 @@ public class InsertCourseServlet extends AbstractDatabaseServlet {
 			c.setLivello(request.getParameter("level"));
 			c.setNomeUniversita(request.getParameter("university"));
 			
-			int id = new CreateCorsoDiLaureaDatabase(DS.getConnection(), c).createCorsoDiLaurea(); // TODO: FARE OPERAZIONE UNA TRANSAZIONE UNICA?
+
+			conn = DS.getConnection(); // Create *only* ONE connection
+			conn.setAutoCommit(false); // BEGIN TRANSACTION
+			
+			int id = CorsoDiLaureaDatabase.createCorsoDiLaurea(conn, c);
 			
 			String[] aree = request.getParameterValues("aree[]");
 			if (aree != null) {
@@ -63,9 +72,11 @@ public class InsertCourseServlet extends AbstractDatabaseServlet {
 
 					s[j].setIdCorso(id);
 					s[j].setNomeArea(area);
-					new CreateSpecializzazioneDatabase(DS.getConnection(), s[j]).createSpecializzazione(); // MOLTO SPORCO: apre una connessione per ogni insert
+					SpecializzazioneDatabase.createSpecializzazione(conn, s[j]); 
 				}
 			}
+			
+			DbUtils.commitAndClose(conn); // COMMIT TRANSACTION
 			
 			m = new Message("Course " + id + " inserted successfully.");
 						
@@ -73,6 +84,7 @@ public class InsertCourseServlet extends AbstractDatabaseServlet {
 			m = new Message("Cannot create the course. Invalid input parameters.", 
 					"E100", ex.getMessage());
 		} catch (SQLException ex) {
+			DbUtils.rollbackAndCloseQuietly(conn); // ROLLBACK TRANSACTION
 			if (ex.getSQLState().equals("23505")) {
 				m = new Message("Cannot create the course: id " + c.getId() + " already exists.", 
 						"E300", ex.getMessage());
@@ -80,6 +92,8 @@ public class InsertCourseServlet extends AbstractDatabaseServlet {
 				m = new Message("Cannot create the course: unexpected error while accessing the database.", 
 						"E200", ex.getMessage());
 			}
+		} finally {
+			DbUtils.closeQuietly(conn); // Close *always* the database connection
 		}
 		
 		if (!m.isError()) {
