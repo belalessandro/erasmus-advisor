@@ -1,17 +1,25 @@
-
 package it.unipd.dei.bding.erasmusadvisor.servlets;
 
-import it.unipd.dei.bding.erasmusadvisor.beans.CorsoDiLaureaBean;
-import it.unipd.dei.bding.erasmusadvisor.beans.SpecializzazioneBean;
 import it.unipd.dei.bding.erasmusadvisor.database.CorsoDiLaureaDatabase;
+import it.unipd.dei.bding.erasmusadvisor.database.GetAreaValues;
+import it.unipd.dei.bding.erasmusadvisor.database.GetLinguaValues;
+import it.unipd.dei.bding.erasmusadvisor.database.InsegnamentoDatabase;
 import it.unipd.dei.bding.erasmusadvisor.database.SpecializzazioneDatabase;
+import it.unipd.dei.bding.erasmusadvisor.resources.Course;
 import it.unipd.dei.bding.erasmusadvisor.resources.LoggedUser;
+import it.unipd.dei.bding.erasmusadvisor.resources.TeachingEvaluationAverage;
 import it.unipd.dei.bding.erasmusadvisor.resources.Message;
+import it.unipd.dei.bding.erasmusadvisor.resources.Teaching;
 import it.unipd.dei.bding.erasmusadvisor.resources.UserType;
+import it.unipd.dei.bding.erasmusadvisor.beans.AreaBean;
+import it.unipd.dei.bding.erasmusadvisor.beans.CorsoDiLaureaBean;
+import it.unipd.dei.bding.erasmusadvisor.beans.LinguaBean;
+import it.unipd.dei.bding.erasmusadvisor.beans.SpecializzazioneBean;
 
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -20,14 +28,11 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.dbutils.DbUtils;
 
 /**
- * Form processing for the creation of a new Course
- * 
- * @author Nicola
- * @version 1.0
- * 
- * Nb: in insert_course.jsp va aggiunto un campo di inserimento area!!
+ * @author Nicola, Ale
+ *
  */
-public class InsertCourseServlet extends AbstractDatabaseServlet {
+
+public class CourseServlet extends AbstractDatabaseServlet {
 	
 	private static final long serialVersionUID = 12091245444464363L;
 
@@ -107,6 +112,5 @@ public class InsertCourseServlet extends AbstractDatabaseServlet {
 			// come back to flow insertion JSP page
 			request.getRequestDispatcher("/jsp/error.jsp").forward(request, response);
 		}
-			
 	}
 }
