@@ -6,9 +6,9 @@ package it.unipd.dei.bding.erasmusadvisor.servlets;
 import it.unipd.dei.bding.erasmusadvisor.database.GetAreaValues;
 import it.unipd.dei.bding.erasmusadvisor.database.GetLinguaValues;
 import it.unipd.dei.bding.erasmusadvisor.database.InsegnamentoDatabase;
-import it.unipd.dei.bding.erasmusadvisor.resources.ClassEvaluationAverage;
+import it.unipd.dei.bding.erasmusadvisor.resources.TeachingEvaluationAverage;
 import it.unipd.dei.bding.erasmusadvisor.resources.Message;
-import it.unipd.dei.bding.erasmusadvisor.resources.Class;
+import it.unipd.dei.bding.erasmusadvisor.resources.Teaching;
 import it.unipd.dei.bding.erasmusadvisor.beans.AreaBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.LinguaBean;
 
@@ -47,7 +47,7 @@ public class ClassServlet extends AbstractDatabaseServlet
 		 */
 		
 		// model
-		Class results = null;
+		Teaching results = null;
 		Message m = null;
 		List<LinguaBean> languageDomain = null;
 		List<AreaBean> areaDomain = null;
@@ -88,7 +88,7 @@ public class ClassServlet extends AbstractDatabaseServlet
 
 			req.setAttribute("languageDomain", languageDomain);
 			req.setAttribute("areaDomain", areaDomain);
-			req.setAttribute("evaluationsAvg", new ClassEvaluationAverage(results.getValutazioni()));
+			req.setAttribute("evaluationsAvg", new TeachingEvaluationAverage(results.getValutazioni()));
 			
 			getServletContext().getRequestDispatcher("/jsp/show_class.jsp").forward(req, resp);
 						

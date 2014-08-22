@@ -14,14 +14,14 @@ import it.unipd.dei.bding.erasmusadvisor.beans.ValutazioneInsegnamentoBean;
  * @author Luca
  *
  */
-public class Class 
+public class Teaching 
 {
 	private InsegnamentoBean insegnamento;
 	private List<ValutazioneInsegnamentoBean> listaValutazioni;
 	private List<ProfessoreBean> professori;
 	private LinguaBean lingua;
 	
-	public Class(InsegnamentoBean insegnamento, List<ValutazioneInsegnamentoBean> listaValutazioni, 
+	public Teaching(InsegnamentoBean insegnamento, List<ValutazioneInsegnamentoBean> listaValutazioni, 
 			List<ProfessoreBean> professori, LinguaBean lingua)
 
 	{
