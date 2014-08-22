@@ -58,7 +58,7 @@ public class ClassServlet extends AbstractDatabaseServlet
 					
 		try {
 			conn = DS.getConnection();
-			results = InsegnamentoDatabase.getInsegnamento(conn, ID);
+			results = InsegnamentoDatabase.getInsegnamento(conn, Integer.parseInt(ID));
 			languageDomain = GetLinguaValues.getLinguaDomain(conn);
 			areaDomain = GetAreaValues.getAreaDomain(conn);
 		} 

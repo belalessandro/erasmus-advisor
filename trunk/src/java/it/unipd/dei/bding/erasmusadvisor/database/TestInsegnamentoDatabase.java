@@ -1,9 +1,9 @@
 package it.unipd.dei.bding.erasmusadvisor.database;
 
 import it.unipd.dei.bding.erasmusadvisor.beans.CittaBean;
-import it.unipd.dei.bding.erasmusadvisor.beans.ProfessoreBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.UniversitaBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.ValutazioneUniversitaBean;
+import it.unipd.dei.bding.erasmusadvisor.resources.University;
 
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -14,7 +14,7 @@ import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.dbutils.DbUtils;
 import org.apache.tomcat.jdbc.pool.DataSource;
 
-public class TestUniversitaDatabase {
+public class TestInsegnamentoDatabase {
 
 
 	private static final String DRIVER = "org.postgresql.Driver";
@@ -45,19 +45,31 @@ public class TestUniversitaDatabase {
 		}
 
 
+		CittaBean beanC = new CittaBean();
+		beanC.setNome("Bagdad");
+		beanC.setStato("Iraq");
 
 		try {
 			con = DriverManager.getConnection(DATABASE, USER, PASSWORD); // UNICA CONNESSIONE
 
+			con.setAutoCommit(false); // UNICA TRANSAZIONE
 			
-			it.unipd.dei.bding.erasmusadvisor.resources.Class c = InsegnamentoDatabase.getInsegnamento(con, 1);
 			
-			DbUtils.close(con);
+			//CittaDatabase.createCitta(con, beanC); // Inserisco qualcosa
+			
+			University u = UniversitaDatabase.searchUniversityModelByName(con, "Universitat de Barcelona- Main Site");
+			// VEDI http://docs.oracle.com/javase/tutorial/jdbc/basics/transactions.html
 
-			if (c.getInsegnamento() != null) {
+			UniversitaBean updated = u.getUniversita();
+			updated.setLink("CIAOAOOOOO");
+			UniversitaDatabase.updateUniversita(con, updated);
+			
+			DbUtils.commitAndClose(con); // COMMITTA 
+
+			if (u.getUniversita() != null) {
 				try { 
-					String s = BeanUtils.describe(c.getInsegnamento()).toString();
-					for ( ProfessoreBean v : c.getProfessori())
+					String s = BeanUtils.describe(u.getUniversita()).toString();
+					for ( ValutazioneUniversitaBean v : u.getListaValutazioni())
 						s += "\n" + BeanUtils.describe(v).toString();
 					System.out.println(s);
 				} catch (Exception e) {}
