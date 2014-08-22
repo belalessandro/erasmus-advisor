@@ -8,6 +8,7 @@ import it.unipd.dei.bding.erasmusadvisor.resources.LoggedUser;
 import it.unipd.dei.bding.erasmusadvisor.resources.Message;
 import it.unipd.dei.bding.erasmusadvisor.resources.University;
 import it.unipd.dei.bding.erasmusadvisor.resources.UniversityEvaluationsAverage;
+import it.unipd.dei.bding.erasmusadvisor.resources.UserType;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -120,7 +121,7 @@ public class UniversityServlet extends AbstractDatabaseServlet {
 			throws ServletException, IOException {
 		
 		// TODO: DA SESSIONE
-		LoggedUser lu = new LoggedUser(LoggedUser.AUTH_FLOWRESP, "erick.burn"); 
+		LoggedUser lu = new LoggedUser(UserType.RESPONSABILE, "erick.burn"); 
 
 		String operation = req.getParameter("operation");
 		if (operation == null || operation.isEmpty() || !lu.isFlowResp()) {

@@ -16,6 +16,7 @@ import it.unipd.dei.bding.erasmusadvisor.resources.Flow;
 import it.unipd.dei.bding.erasmusadvisor.resources.FlowEvaluationAverage;
 import it.unipd.dei.bding.erasmusadvisor.resources.LoggedUser;
 import it.unipd.dei.bding.erasmusadvisor.resources.Message;
+import it.unipd.dei.bding.erasmusadvisor.resources.UserType;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -77,7 +78,7 @@ public class FlowServlet extends AbstractDatabaseServlet {
 			throws ServletException, IOException {
 		
 		// TODO: DA SESSIONE
-		LoggedUser lu = new LoggedUser(LoggedUser.AUTH_FLOWRESP, "erick.burn"); 
+		LoggedUser lu = new LoggedUser(UserType.RESPONSABILE, "erick.burn"); 
 		
 
 		String operation = req.getParameter("operation");

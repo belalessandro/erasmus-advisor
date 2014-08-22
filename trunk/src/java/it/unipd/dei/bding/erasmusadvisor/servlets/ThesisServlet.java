@@ -23,6 +23,7 @@ import it.unipd.dei.bding.erasmusadvisor.resources.Message;
 import it.unipd.dei.bding.erasmusadvisor.resources.Thesis;
 import it.unipd.dei.bding.erasmusadvisor.resources.ThesisEvaluationsAverage;
 import it.unipd.dei.bding.erasmusadvisor.resources.University;
+import it.unipd.dei.bding.erasmusadvisor.resources.UserType;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -141,7 +142,7 @@ public class ThesisServlet extends AbstractDatabaseServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 
-		LoggedUser lu = new LoggedUser(LoggedUser.AUTH_FLOWRESP, "erick.burn");
+		LoggedUser lu = new LoggedUser(UserType.RESPONSABILE, "erick.burn");
 		String operation = req.getParameter("operation");
 		if (operation == null || operation.isEmpty() || !lu.isFlowResp()) {
 			/* Error or not authorized. */
