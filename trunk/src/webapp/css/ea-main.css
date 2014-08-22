@@ -4,27 +4,37 @@
 
 .nav-stacked > li.active > a,
 .nav-stacked > li.active > a:hover,
-.nav-stacked > li.active > a:focus {
+.nav-stacked > li.active > a:focus 
+{
 	color: #fff;
 	background-color: #428bca;
 	border-radius: 4px;
 	text-align: center; 
 }
 /*nei menu che usano gli span invece che gli a (ad esempio per chiamate js)*/
-.nav > li > span {
+.nav > li > span 
+{
   position: relative;
   display: block;
   padding: 10px 15px;
 }
-.nav-stacked > li.active > span,
-.nav-stacked > li.active > span:hover,
-.nav-stacked > li.active > span:focus {
+.nav-stacked > li.active > span
+{
 	color: #fff;
 	background-color: #428bca;
 	border-radius: 4px;
 	text-align: center; 
 	cursor: pointer;
 }
+
+.nav-stacked > li.active > span:hover,
+.nav-stacked > li.active > span:focus 
+{
+  color: #fff;
+  background-color: #3276b1;
+  border-color: #285e8e;
+}
+
 .nav-stacked > li + li {
 	margin-top: 4px !important;
 }
@@ -144,6 +154,14 @@ li.menu
 }
 
 /*entity pages*/
+
+.entity_nav_button
+{
+	position: relative;
+	display: block;
+	padding: 9px 15px !important;
+	width: 100% !important;
+}
 
 .entity_top
 {

@@ -89,7 +89,11 @@
 						<li class="active"><span data-toggle="modal" data-target="#evaluateForm">Evaluate</span></li>
 						<li class="active"><span onClick="report();">Report</span></li>
 						<li class="active"><span data-toggle="modal" data-target="#editForm">Edit</span></li>
-						<li class="active"><span onClick="doDelete();">Delete</span></li>
+						<li class="active">
+							<form method="post" action="#">
+								<input type="submit" value="Delete" class="btn btn-primary entity_nav_button">
+							</form>
+						</li>
 					</ul>
 				</div>
 			</div>

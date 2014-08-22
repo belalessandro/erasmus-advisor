@@ -52,7 +52,7 @@ public class CityServlet extends AbstractDatabaseServlet
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException 
 	{
-		String city = req.getParameter("city");
+		String city = req.getParameter("name");
 		String country = req.getParameter("country");
 
 		if (city != null && ! city.isEmpty() && country != null && ! country.isEmpty()) 
