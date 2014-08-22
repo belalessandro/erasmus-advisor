@@ -1,7 +1,6 @@
-<!-- in quale arcano modo questa pagina caricherà i risultati della ricerca? Ajax?
-	a te, baldo implementatore, la scelta! -->
-
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+
+<!-- i risultati della ricerca sono visualizzati in Ajax -->
 
 <!DOCTYPE html>
 <html lang="en">
@@ -9,6 +8,7 @@
 	<meta charset="utf-8">
 	<title>Find a Class</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	
 	<link href="../css/ea-main.css" rel="stylesheet">
 	<link href="../css/bootstrap.min.css" rel="stylesheet">

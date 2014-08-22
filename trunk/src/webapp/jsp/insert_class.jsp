@@ -6,12 +6,14 @@
 	<meta charset="utf-8">
 	<title>Insert a new class</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	
 	<link href="../css/ea-main.css" rel="stylesheet">
 	<link href="../css/bootstrap.min.css" rel="stylesheet">
 	<link href="../fonts/font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet">
 	
 	<script src="../js/ea-form-validation.js"></script>
+	<script src="../js/ea-insert.js"></script>
 	
 	<link href="../css/bootstrap-select.min.css" rel="stylesheet">
 	<script src="../js/jquery.min.js"></script>
@@ -52,7 +54,12 @@
 					</div>
 					<br>
 					<div class="input-group insert_new_input_group">
-						<span class="input-group-addon insert_new_input">Professors*</span> <textarea rows="2" class="form-control" name="professor" id="professor" placeholder="Insert the class' professors, one per line"></textarea>
+						<span class="input-group-addon insert_new_input">Professors*</span>
+						<div id="profRow">
+							<input type="text" class="form-control insert_new_multiple_input" name="professorName" id="professorName" placeholder="Insert the teacher's name">
+							<input type="text" class="form-control insert_new_multiple_input" name="professorSurname" id="professorSurname" placeholder="Insert the teacher's surname">
+							<input class="insert_new_multiple_button btn btn-primary" type="button" value="Add Row" onclick="addRow('profRow', 'professorName', 'professorSurname');" />
+						</div> 
 					</div>
 					<br>
 					<div class="row">
