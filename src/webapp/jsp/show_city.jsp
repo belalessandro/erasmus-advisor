@@ -143,8 +143,8 @@
                 
                                 <!-- Tag necessario per il riconoscimento del tipo di valutazione lato servlet -->
                                 <input type="hidden" name="TypeOfEvaluation" value="city" />
-                                <input type="hidden" name="nomeCitta" value="${city.nome}">
-                                <input type="hidden" name="statoCitta" value="${city.stato}">
+                                <input type="hidden" name="nomeCitta" value="${city.nome}"/>
+                                <input type="hidden" name="statoCitta" value="${city.stato}"/>
                                 
 							</form>
 						</div>
