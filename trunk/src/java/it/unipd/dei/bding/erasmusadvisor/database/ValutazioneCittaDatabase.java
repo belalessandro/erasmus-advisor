@@ -37,7 +37,7 @@ public class ValutazioneCittaDatabase {
 //		final String statement = "INSERT INTO ValutazioneCitta (nomeutentestudente, nomecitta, statocitta, costodellavita, disponibilitaalloggi, vivibilitaurbana, vitasociale, datainserimento, commento)"
 //				+ "VALUES ('JuventinoDOC', 'Paris', 'France',1,2,3,2,default, 'Nammerda');"
 		final String statement = "INSERT INTO ValutazioneCitta (nomeutentestudente, nomecitta, statocitta, costodellavita, disponibilitaalloggi, vivibilitaurbana, vitasociale, datainserimento, commento)"
-						+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";
+						+ "VALUES (?, ?, ?, ?, ?, ?, ?, DEFAULT, ?);";
 
 		
 		ResultSetHandler<ValutazioneCittaBean> rsh = new BeanHandler<ValutazioneCittaBean>(ValutazioneCittaBean.class);
@@ -51,7 +51,6 @@ public class ValutazioneCittaDatabase {
 				val.getDisponibilitaAlloggi(),
 				val.getVivibilitaUrbana(),
 				val.getVitaSociale(),
-				val.getDataInserimento(),
 				val.getCommento()
 				);
 		
