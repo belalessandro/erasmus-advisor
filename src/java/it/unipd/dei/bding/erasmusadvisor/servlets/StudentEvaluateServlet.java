@@ -16,7 +16,6 @@ import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.SQLException;
-import java.time.LocalDate;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -47,7 +46,7 @@ public class StudentEvaluateServlet extends AbstractDatabaseServlet {
 
 		// Verify logged user
 		// TODO: DA SESSIONE
-		LoggedUser lu = new LoggedUser(UserType.RESPONSABILE, "mario.rossi");
+		LoggedUser lu = new LoggedUser(UserType.STUDENTE, "mario.rossi");
 		
 //		resp.setContentType("text/html");
 //		PrintWriter out = resp.getWriter();
@@ -71,7 +70,7 @@ public class StudentEvaluateServlet extends AbstractDatabaseServlet {
 		ValutazioneCittaBean val = new ValutazioneCittaBean();
 		// TODO: recuperare il nome utente in qualche modo
 		val.setNomeUtenteStudente("JuventinoDOC");
-		val.setDataInserimento(Date.valueOf(LocalDate.now()));
+		//val.setDataInserimento(Date.valueOf(LocalDate.now())); ale: sostituita con sql CURRENT_DATE 
 			
 		Connection con = null;
 		Message m = null;
