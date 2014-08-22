@@ -7,6 +7,7 @@ import it.unipd.dei.bding.erasmusadvisor.database.CorsoDiLaureaDatabase;
 import it.unipd.dei.bding.erasmusadvisor.database.SpecializzazioneDatabase;
 import it.unipd.dei.bding.erasmusadvisor.resources.LoggedUser;
 import it.unipd.dei.bding.erasmusadvisor.resources.Message;
+import it.unipd.dei.bding.erasmusadvisor.resources.UserType;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -33,7 +34,7 @@ public class InsertCourseServlet extends AbstractDatabaseServlet {
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// TODO: DA SESSIONE
-		LoggedUser lu = new LoggedUser(LoggedUser.AUTH_FLOWRESP, "erick.burn"); 
+		LoggedUser lu = new LoggedUser(UserType.RESPONSABILE, "erick.burn"); 
 
 		if (!lu.isFlowResp()) { // Not authorized
 			request.getRequestDispatcher("/login").forward(request, response);

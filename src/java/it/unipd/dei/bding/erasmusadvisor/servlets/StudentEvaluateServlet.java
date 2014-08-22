@@ -9,6 +9,7 @@ import it.unipd.dei.bding.erasmusadvisor.beans.ValutazioneCittaBean;
 import it.unipd.dei.bding.erasmusadvisor.database.ValutazioneCittaDatabase;
 import it.unipd.dei.bding.erasmusadvisor.resources.LoggedUser;
 import it.unipd.dei.bding.erasmusadvisor.resources.Message;
+import it.unipd.dei.bding.erasmusadvisor.resources.UserType;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -46,7 +47,7 @@ public class StudentEvaluateServlet extends AbstractDatabaseServlet {
 
 		// Verify logged user
 		// TODO: DA SESSIONE
-		LoggedUser lu = new LoggedUser(LoggedUser.AUTH_STUDENT, "mario.rossi");
+		LoggedUser lu = new LoggedUser(UserType.RESPONSABILE, "mario.rossi");
 		
 //		resp.setContentType("text/html");
 //		PrintWriter out = resp.getWriter();
