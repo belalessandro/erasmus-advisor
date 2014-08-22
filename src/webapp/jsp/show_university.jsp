@@ -43,7 +43,8 @@
 				<div class="entity_details_text">
 					<h2><c:out value="${university.nome}"/></h2> 
 					<p>
-						Located in <c:out value="${university.nomeCitta}"/> (<c:out value="${university.statoCitta}"/>) <br> 
+						Located in <a href="<c:url value="/city"/>?name=${fn:replace(university.nomeCitta, ' ', '+')}&country=${fn:replace(university.statoCitta, ' ', '+')}" target="_blank">
+							<c:out value="${university.nomeCitta}"/> (<c:out value="${university.statoCitta}"/>)</a> <br> 
 						Link to the official website: <a href="<c:out value="${university.link}"/>" target="_blank"><c:out value="${university.link}"/></a> <br> 
 						World Ranking: <c:out value="${university.posizioneClassifica}"/> <br> 
 						<c:choose><c:when test="${university.presenzaAlloggi}">Has </c:when><c:otherwise>Has not </c:otherwise></c:choose>

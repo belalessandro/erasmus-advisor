@@ -68,7 +68,7 @@
 				<div class="entity_details_text">
 					<h2><c:out value="${thesis.nome}"/></h2> 
 					<p>
-						University: <c:out value="${thesis.nomeUniversita}"/> <br> 
+						University:	<a href="<c:url value="/university"/>?name=${fn:replace(thesis.nomeUniversita, ' ', '+')}" target="_blank">${thesis.nomeUniversita}</a><br> 
 						Areas: 
 						<c:forEach var="areas" items='${areas}' varStatus="status">
 							${areas.nome}

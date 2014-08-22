@@ -68,7 +68,7 @@
 				<div class="entity_details_text">
 					<h2><c:out value="${classBean.nome}"/></h2> 
 					<p>
-						University: <c:out value="${classBean.nomeUniversita}"/> <br> 
+						University:	<a href="<c:url value="/university"/>?name=${fn:replace(classBean.nomeUniversita, ' ', '+')}" target="_blank">${classBean.nomeUniversita}</a><br> 
 						Area: <c:out value="${classBean.nomeArea}"/> <br> 
 						Language: <c:out value="${language.nome}"/> <br> 
 						Credits: <c:out value="${classBean.crediti}"/> <br> 
