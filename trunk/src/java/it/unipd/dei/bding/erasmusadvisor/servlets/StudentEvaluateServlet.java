@@ -46,31 +46,17 @@ public class StudentEvaluateServlet extends AbstractDatabaseServlet {
 
 		// Verify logged user
 		// TODO: DA SESSIONE
-		LoggedUser lu = new LoggedUser(UserType.STUDENTE, "mario.rossi");
+		LoggedUser lu = new LoggedUser(UserType.STUDENTE, "JuventinoDOC");
 		
-//		resp.setContentType("text/html");
-//		PrintWriter out = resp.getWriter();
-//		
-//		out.println("<!DOCTYPE html>");
-//		out.println("<html><head><meta charset=\"utf-8\"></head>");
-//		out.println("<body>");
-//		out.println("<h1>Hello World!</h1>");
-//		out.println("</body>");
-//		out.println("</html>");
-//		out.flush();
-//		out.close();
+
 		
-		
-		// Check evaluation category
-		String typeOfEvaluation = req.getParameter("TypeOfEvaluation");
 		//...
 	
 		
 		// Setup bean and the database connection
 		ValutazioneCittaBean val = new ValutazioneCittaBean();
-		// TODO: recuperare il nome utente in qualche modo
-		val.setNomeUtenteStudente("JuventinoDOC");
-		//val.setDataInserimento(Date.valueOf(LocalDate.now())); ale: sostituita con sql CURRENT_DATE 
+		val.setNomeUtenteStudente(lu.getUser());
+
 			
 		Connection con = null;
 		Message m = null;
@@ -79,17 +65,40 @@ public class StudentEvaluateServlet extends AbstractDatabaseServlet {
 		BeanUtilities.populateBean(val, req);
 		
 		
+//		resp.setContentType("text/html");
+//		
+//		PrintWriter out = resp.getWriter();
+//		
+//		
+//		out.println("<!DOCTYPE html>");
+//		out.println("<html><head><meta charset=\"utf-8\"></head>");
+//		out.println("<body>");
+//		out.println("<h1>Hello World!</h1>");
+//		out.println("<h2>" + req.getMethod() + "</h2>");
+//		out.println("<h2>" + req.getRequestURI() + "</h2>");
+//		out.println("<h2>" + req.getRequestURL() + "</h2>");
+//		out.println("<h2>" + req.getServletPath() + "</h2>");
+//		out.println("</body>");
+//		out.println("</html>");
+//		out.flush();
+//		out.close();
+		
 		try {
 			// Starting database operations
 			con = DS.getConnection();
 			ValutazioneCittaDatabase.createValutazioneCitta(con, val);
 			DbUtils.close(con);
 			
-			// Redirect to the original page
 			req.setAttribute("city", val.getNomeCitta());
 			req.setAttribute("country", val.getStatoCitta());
+			StringBuilder builder = new StringBuilder()
+				.append("/erasmus-advisor/city?city=")
+				.append(val.getNomeCitta())
+				.append("&country=")
+				.append(val.getStatoCitta());
+		
+			resp.sendRedirect(builder.toString());
 			
-			getServletContext().getRequestDispatcher("/jsp/show_city.jsp").forward(req, resp);
 			
 		} catch (SQLException e) {
 			m = new Message("Error while submitting evaluations.","XXX", e.getMessage());
@@ -99,68 +108,7 @@ public class StudentEvaluateServlet extends AbstractDatabaseServlet {
 			return;
 		} finally {
 			DbUtils.closeQuietly(con);
-		}
-		
-		
-		// Populate the bean
-// 		
-// 		out.println(val.getNomeUtenteStudente());
-// 		out.println(val.getDataInserimento().toString());
-// 		out.println(val.getNomeCitta());
-// 		out.println(val.getStatoCitta());
-//		out.println(val.getCostoDellaVita());
-//		out.println(val.getDisponibilitaAlloggi());
-//		out.println(val.getVivibilitaUrbana());
-//		out.println(val.getVitaSociale());
-//		out.println(val.getCommento());
-		
-		
-		
-		
-		
-		// Save parameters to the DB
-		
-		
+		}	
 		
 	}
-//
-//	@Override
-//	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
-//			throws ServletException, IOException {
-//		// TODO: DA SESSIONE
-//		LoggedUser lu = new LoggedUser(LoggedUser.AUTH_STUDENT, "erick.burn");
-//
-//		if (!lu.isStudent()) { // Not authorized
-//			resp.sendRedirect("/login");
-//			return;
-//		}
-//		
-//		String id = req.getParameter("id");
-//
-//		if (id != null && !id.isEmpty()) {
-//			FlussoBean f= new FlussoBean();// GET Flusso.lookupBookById(id);
-//			req.setAttribute("book", book);
-//			req.setAttribute("bookPubDate", dateFormat.format(book.getPubDate()));
-//		}
-//
-//		/* Redirect to book-form. */
-//		getServletContext().getRequestDispatcher("/WEB-INF/pages/book-form.jsp").forward(
-//				request, response);
-//		
-//		
-//	}
-//	
-//	@Override
-//	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
-//			throws ServletException, IOException {
-//		// TODO: DA SESSIONE
-//		LoggedUser lu = new LoggedUser(LoggedUser.AUTH_STUDENT, "erick.burn");
-//
-//		if (!lu.isStudent()) { // Not authorized
-//			resp.sendRedirect("/login");
-//			return;
-//		}
-//				
-//	}
-
 }
