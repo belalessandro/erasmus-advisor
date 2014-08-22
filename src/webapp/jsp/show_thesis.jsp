@@ -11,6 +11,7 @@
 <head>
 	<title><c:out value="${thesis.nome}"/></title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<meta charset="utf-8">
 	
 	<!-- CSS -->
@@ -183,7 +184,16 @@
 								</div>
 								<br>
 								<div class="input-group insert_new_input_group">
-									<span class="input-group-addon insert_new_input">Professors*</span> <textarea rows="2" class="form-control" name="professor" id="professor" placeholder="To be changed"></textarea>
+									<span class="input-group-addon insert_new_input">Professors*</span>
+									<div id="profRow">
+										<c:forEach var="prof" items='${professors}' varStatus="status">
+											<input type="text" class="form-control insert_new_multiple_input" name="professorName" id="professorName" value="<c:out value="${prof.nome}"/>">
+											<input type="text" class="form-control insert_new_multiple_input" name="professorSurname" id="professorSurname" value="<c:out value="${prof.cognome}"/>">
+											<c:if test="${status.first}">
+												<input class="insert_new_multiple_button btn btn-primary" type="button" value="Add Row" onclick="addRow('profRow', 'professorName', 'professorSurname');" />
+											</c:if>
+										</c:forEach>
+									</div> 
 								</div>
 								<br>
 								<div class="input-group insert_new_input_group">

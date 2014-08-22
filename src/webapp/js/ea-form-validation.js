@@ -95,7 +95,6 @@ function insertCityFormValidation()
 function insertClassFormValidation()
 {
 	var name = document.insert_class.name;
-	var prof = document.insert_class.professor;
 	var uni = document.insert_class.university;
 	var cfu = document.insert_class.credits;
 	var year = document.insert_class.year;
@@ -103,15 +102,17 @@ function insertClassFormValidation()
 	var lang = document.insert_class.language;
 	var area = document.insert_class.area;
 	
+	var profName = document.getElementsByName("professorName");
+	var profSur = document.getElementsByName("professorSurname");
+	
 	if (select_validate(lang) && select_validate(area))
 	{
-		if(string_validation(name) && string_validation(prof))
+		if(string_validation(name) && professor_validation(profName, profSur))
 		{
 			if (natural_validation(cfu) && string_validation(uni))
 			{
 				if (semester_validation(semester) && year_validation(year))
 				{
-					return true;
 				}
 			}
 		}
@@ -139,16 +140,18 @@ function insertCourseFormValidation()
 function insertThesisFormValidation()
 {
 	var name = document.insert_thesis.name;
-	var prof = document.insert_thesis.professor;
 	var uni = document.insert_thesis.university;
 	var lang = document.insert_thesis.language;
 	var area = document.insert_thesis.area;
 	var undergraduate = document.insert_thesis.undergraduate;
 	var graduate = document.insert_thesis.graduate;
 	
+	var profName = document.getElementsByName("professorName");
+	var profSur = document.getElementsByName("professorSurname");
+	
 	if (multiselect_validate(lang) && multiselect_validate(area))
 	{
-		if(string_validation(name) && string_validation(prof))
+		if(string_validation(name) && professor_validation(profName, profSur))
 		{
 			if (checkbox_one_or_both_validation(undergraduate, graduate) && string_validation(uni))
 			{
@@ -192,6 +195,32 @@ function xEvaluationFormValidation()
 }
 
 // validate the single elements
+
+//profName e profSur sono array
+function professor_validation(profName, profSur)
+{
+	var flag = true;
+	for (var i = 0; i < profName.length; i++) 
+	{
+		if (string_validation(profName[i]) == false)
+		{
+			flag = true;
+			break;
+		}
+	}
+	for (var j = 0; j < profSur.length; j++)
+	{
+		if (string_validation(profSur[j]) == false)
+		{
+			flag = true;
+			break;
+		}
+	}
+	if (flag == false)
+		return true;
+	else
+		return false;
+}
 
 function checkbox_one_or_both_validation(opt1, opt2)
 {

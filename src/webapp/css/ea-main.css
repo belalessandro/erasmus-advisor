@@ -242,6 +242,16 @@ li.menu
 	display: inline !important;
 	vertical-align:4px !important;
 }
+.insert_new_multiple_input
+{
+	width:45% !important;
+}
+
+.insert_new_multiple_button
+{
+	width:10% !important;
+  	height: 34px;
+}
 
 /*notification pages*/
 

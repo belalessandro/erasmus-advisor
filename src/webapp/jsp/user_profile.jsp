@@ -1,9 +1,9 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <!-- luca: non mi è ben chiaro come dovrebbe funzionare il form di questa pagina
 	per quanto riguarda il passaggio delle informazioni al server.
 	anche cercando in internet non sembra che la gente lo sappia -->
-
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -11,6 +11,7 @@
 	<meta charset="utf-8">
 	<title>User Profile</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	
 	<link href="<c:url value="/css"/>/ea-main.css" rel="stylesheet">
 	<link href="<c:url value="/css"/>/bootstrap.min.css" rel="stylesheet">
