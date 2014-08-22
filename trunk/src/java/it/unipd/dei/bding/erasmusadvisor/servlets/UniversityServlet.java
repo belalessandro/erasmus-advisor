@@ -3,9 +3,11 @@ package it.unipd.dei.bding.erasmusadvisor.servlets;
 import it.unipd.dei.bding.erasmusadvisor.beans.BeanUtilities;
 import it.unipd.dei.bding.erasmusadvisor.beans.UniversitaBean;
 import it.unipd.dei.bding.erasmusadvisor.database.UniversitaDatabase;
+import it.unipd.dei.bding.erasmusadvisor.resources.FlowEvaluationAverage;
 import it.unipd.dei.bding.erasmusadvisor.resources.LoggedUser;
 import it.unipd.dei.bding.erasmusadvisor.resources.Message;
 import it.unipd.dei.bding.erasmusadvisor.resources.University;
+import it.unipd.dei.bding.erasmusadvisor.resources.UniversityEvaluationsAverage;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -23,7 +25,7 @@ import org.apache.commons.dbutils.DbUtils;
 
 /**
  * Mapped to /university
- * @author Alessandro
+ * @author Alessandro, Luca
  *
  */
 public class UniversityServlet extends AbstractDatabaseServlet {
@@ -36,7 +38,7 @@ public class UniversityServlet extends AbstractDatabaseServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		
-		String univName = req.getParameter("univName");
+		String univName = req.getParameter("name");
 
 		if (univName == null || univName.isEmpty()) {
 			/* Redirect to insert form. */
@@ -96,21 +98,15 @@ public class UniversityServlet extends AbstractDatabaseServlet {
 
 				req.setAttribute("university", results.getUniversita());
 				req.setAttribute("evaluations", results.getListaValutazioni());
+				req.setAttribute("evaluationsAvg", new UniversityEvaluationsAverage(results.getListaValutazioni()));
 
-				getServletContext().getRequestDispatcher("/jsp/show_university.jsp").forward(
-						req, resp);
-				
-				// MAPPARE su JSP TRAMITE:
-				// <c:forEach var="ev" items="${evaluations}">
-				//					${ev.SoddEsperienza}
-				//					${ev.Sodd..}
-				//					${ev.Sodd...}
-				// </c:forEach>
-				
-			} else { // Error page
+				getServletContext().getRequestDispatcher("/jsp/show_university.jsp").forward(req, resp);
+								
+			}
+			else 
+			{ // Error page
 				req.setAttribute("message", m);
-				getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(
-						req, resp);
+				getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(req, resp);
 			}
 		}
 
