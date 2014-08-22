@@ -34,7 +34,7 @@ public class ClassServlet extends AbstractDatabaseServlet
 			throws ServletException, IOException
 	{
 		
-		String ID = req.getParameter("ID");
+		String ID = req.getParameter("id");
 
 		if (ID == null || ID.isEmpty()) {
 			/* Redirect to insert form. */

@@ -182,11 +182,11 @@ public class ArgomentoTesiDatabase {
 	public static Thesis getArgomentoTesiByID(Connection conn, String ID)
 			throws SQLException 
 	{
-		final String statement1 = "SELECT * FROM ArgomentoTesi WHERE ID = ?";
-		final String statement2 = "SELECT L.Sigla, L.Nome FROM Lingua AS L INNER JOIN LinguaTesi AS T ON L.Sigla = T.SiglaLingua WHERE idargomentotesi = ?";
-		final String statement3 = "SELECT * FROM ValutazioneTesi WHERE idargomentotesi = ?";
-		final String statement4 = "SELECT P.Nome, P.Cognome FROM Professore AS P INNER JOIN Gestione AS G ON P.ID = G.IdProfessore WHERE G.idargomentotesi = ?";
-		final String statement5 = "SELECT area FROM Estensione WHERE idargomentotesi = ?";
+		final String statement1 = "SELECT * FROM ArgomentoTesi WHERE ID = CAST (? AS INTEGER)";
+		final String statement2 = "SELECT L.Sigla, L.Nome FROM Lingua AS L INNER JOIN LinguaTesi AS T ON L.Sigla = T.SiglaLingua WHERE idargomentotesi = CAST (? AS INTEGER)";
+		final String statement3 = "SELECT * FROM ValutazioneTesi WHERE idargomentotesi = CAST (? AS INTEGER)";
+		final String statement4 = "SELECT P.Nome, P.Cognome FROM Professore AS P INNER JOIN Gestione AS G ON P.ID = G.IdProfessore WHERE G.idargomentotesi = CAST (? AS INTEGER)";
+		final String statement5 = "SELECT area FROM Estensione WHERE idargomentotesi = CAST (? AS INTEGER)";
 		
 		ArgomentoTesiBean tesi = new ArgomentoTesiBean();
 		List<LinguaBean> lingue = null;

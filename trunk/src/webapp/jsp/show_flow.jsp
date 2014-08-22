@@ -184,10 +184,7 @@
 												</c:forEach>
 											>
 											${certificatesDomain.nomeLingua} - ${certificatesDomain.livello}</option>
-											<c:if test="${!status.last}">, </c:if>
-											<c:if test="${status.last}">.</c:if>
 										</c:forEach>
-			
 				    				</select> 						
 								</div>
 								<br>
