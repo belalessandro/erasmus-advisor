@@ -6,6 +6,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
+import org.apache.commons.dbutils.DbUtils;
+
 /**
  * Creates a new CorsoDiLaurea into the database.
  * 
@@ -15,56 +17,28 @@ import java.sql.SQLException;
 public class SpecializzazioneDatabase {
 
 	/**
-	 * The SQL statement to be executed
-	 */
-	private static final String STATEMENT = 
-			"INSERT INTO Specializzazione (IdCorso, NomeArea)"
-			+ " VALUES(?, ?)";
-	/**
-	 * The connection to the database
-	 */
-	private final Connection con;
-
-	/**
-	 * The instance of Specializzazione to be stored into the database
-	 */
-	private final SpecializzazioneBean specializzazione;
-
-	/**
-	 * Creates a new object for storing a record of Specializzazione into the database.
-	 * 
-	 * @param con
-	 *            the connection to the database.
-	 * @param flusso
-	 *            the Specializzazione to be stored into the database.
-	 */
-	public SpecializzazioneDatabase(final Connection con, final SpecializzazioneBean specializzazione) {
-		this.con = con;
-		this.specializzazione = specializzazione;
-	}
-
-	/**
-	 * Stores a new Flusso into the database
+	 * Stores a new Specializzazione into the database
 	 * 
 	 * @throws SQLException
-	 *             if any error occurs while storing the Flusso.
+	 *             if any error occurs while storing the Specializzazione.
 	 */
-	public void createSpecializzazione() throws SQLException {
-
+	public static void createSpecializzazione(final Connection conn, final SpecializzazioneBean specializzazione) throws SQLException {
+		/**
+		 * The SQL insert statement
+		 */
+		String sql = "INSERT INTO Specializzazione (IdCorso, NomeArea)"
+					+ " VALUES(?, ?)";
+		
 		PreparedStatement pstmt = null;
 
 		try {
-			pstmt = con.prepareStatement(STATEMENT);
+			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, specializzazione.getIdCorso());
 			pstmt.setString(2, specializzazione.getNomeArea());
 			pstmt.execute();
 			
 		} finally {
-			if (pstmt != null) {
-				pstmt.close();
-			}
-
-			con.close();
+			DbUtils.close(pstmt);
 		}
 
 	}
