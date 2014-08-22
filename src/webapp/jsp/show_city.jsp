@@ -178,8 +178,6 @@
 											</c:forEach>
 										>
 										${languageDomain.nome}</option>
-										<c:if test="${!status.last}">, </c:if>
-										<c:if test="${status.last}">.</c:if>
 									</c:forEach>
 									</select>
 								</div>

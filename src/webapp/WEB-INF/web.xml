@@ -68,6 +68,15 @@
 	</servlet-mapping>
 	
 	<servlet>
+		<servlet-name>ThesisServlet</servlet-name>
+		<servlet-class>it.unipd.dei.bding.erasmusadvisor.servlets.ThesisServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ThesisServlet</servlet-name>
+		<url-pattern>/thesis</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
 		<servlet-name>UniversityServlet</servlet-name>
 		<servlet-class>it.unipd.dei.bding.erasmusadvisor.servlets.UniversityServlet</servlet-class>
 	</servlet>

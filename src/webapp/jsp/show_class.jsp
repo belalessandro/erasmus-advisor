@@ -172,8 +172,6 @@
 												<c:if test="${areaDomain.nome == classBean.nomeArea}">selected</c:if>
 											>
 											${areaDomain.nome}</option>
-											<c:if test="${!status.last}">, </c:if>
-											<c:if test="${status.last}">.</c:if>
 										</c:forEach>					
 				    				</select>
 								</div>
@@ -191,8 +189,6 @@
 												<c:if test="${languageDomain.sigla == classBean.nomeLingua}">selected</c:if>
 											>
 											${languageDomain.nome}</option>
-											<c:if test="${!status.last}">, </c:if>
-											<c:if test="${status.last}">.</c:if>
 										</c:forEach>
 				    				</select>
 								</div>

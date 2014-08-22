@@ -1,5 +1,6 @@
 package it.unipd.dei.bding.erasmusadvisor.servlets;
 
+import it.unipd.dei.bding.erasmusadvisor.beans.AreaBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.ArgomentoTesiBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.BeanUtilities;
 import it.unipd.dei.bding.erasmusadvisor.beans.DocumentazioneBean;
@@ -14,15 +15,19 @@ import it.unipd.dei.bding.erasmusadvisor.database.ArgomentoTesiDatabase;
 import it.unipd.dei.bding.erasmusadvisor.database.CreateDocumentazioneDatabase;
 import it.unipd.dei.bding.erasmusadvisor.database.CreateFlussoDatabase;
 import it.unipd.dei.bding.erasmusadvisor.database.CreateOrigineDatabase;
+import it.unipd.dei.bding.erasmusadvisor.database.GetAreaValues;
+import it.unipd.dei.bding.erasmusadvisor.database.GetLinguaValues;
 import it.unipd.dei.bding.erasmusadvisor.database.UniversitaDatabase;
 import it.unipd.dei.bding.erasmusadvisor.resources.LoggedUser;
 import it.unipd.dei.bding.erasmusadvisor.resources.Message;
 import it.unipd.dei.bding.erasmusadvisor.resources.Thesis;
+import it.unipd.dei.bding.erasmusadvisor.resources.ThesisEvaluationsAverage;
 import it.unipd.dei.bding.erasmusadvisor.resources.University;
 
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.List;
 
 import javax.json.Json;
 import javax.json.JsonObject;
@@ -35,7 +40,7 @@ import org.apache.commons.dbutils.DbUtils;
 
 /**
  * Mapped to /thesis
- * @author Nicola
+ * @author Nicola, Luca
  *
  */
 public class ThesisServlet extends AbstractDatabaseServlet {
@@ -64,6 +69,8 @@ public class ThesisServlet extends AbstractDatabaseServlet {
 		// model
 		Thesis results = null;
 		Message m = null;
+		List<LinguaBean> languageDomain = null;
+		List<AreaBean> areaDomain = null;
 		
 		// database connection
 		Connection conn = null;
@@ -71,6 +78,8 @@ public class ThesisServlet extends AbstractDatabaseServlet {
 		try {
 			conn = DS.getConnection();
 			results = ArgomentoTesiDatabase.getArgomentoTesiByID(conn, ID);
+			languageDomain = GetLinguaValues.getLinguaDomain(conn);
+			areaDomain = GetAreaValues.getAreaDomain(conn);
 			DbUtils.close(conn);
 		} 
 		catch (SQLException ex) {
@@ -106,9 +115,14 @@ public class ThesisServlet extends AbstractDatabaseServlet {
 				 */
 				req.setAttribute("thesis", results.getArgomentoTesi());
 				req.setAttribute("professors", results.getProfessori());
-				req.setAttribute("aree", results.getAree());
-				req.setAttribute("lingue", results.getLingue());
+				req.setAttribute("areas", results.getAree());
+				req.setAttribute("languages", results.getLingue());
 				req.setAttribute("evaluations", results.getListaValutazioni());
+
+				req.setAttribute("evaluationsAvg", new ThesisEvaluationsAverage(results.getListaValutazioni()));
+
+				req.setAttribute("languageDomain", languageDomain);
+				req.setAttribute("areaDomain", areaDomain);
 
 				getServletContext().getRequestDispatcher("/jsp/show_thesis.jsp").forward(req, resp);
 			}
