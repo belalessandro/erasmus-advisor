@@ -7,15 +7,18 @@ package it.unipd.dei.bding.erasmusadvisor.servlets;
 
 import it.unipd.dei.bding.erasmusadvisor.beans.CertificatiLinguisticiBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.CorsoDiLaureaBean;
+import it.unipd.dei.bding.erasmusadvisor.beans.InteresseBean;
 import it.unipd.dei.bding.erasmusadvisor.database.FlussoDatabase;
 import it.unipd.dei.bding.erasmusadvisor.database.GetCertificatiLinguisticiValues;
 import it.unipd.dei.bding.erasmusadvisor.database.GetCorsoDiLaureaValues;
+import it.unipd.dei.bding.erasmusadvisor.database.InteresseDatabase;
 import it.unipd.dei.bding.erasmusadvisor.resources.Flow;
 import it.unipd.dei.bding.erasmusadvisor.resources.FlowEvaluationAverage;
 import it.unipd.dei.bding.erasmusadvisor.resources.LoggedUser;
 import it.unipd.dei.bding.erasmusadvisor.resources.Message;
 
 import java.io.IOException;
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -106,7 +109,7 @@ public class FlowServlet extends AbstractDatabaseServlet {
 			throws ServletException, IOException
 	{
 		
-		String ID = req.getParameter("ID");
+		String ID = req.getParameter("id");
 
 		if (ID == null || ID.isEmpty()) {
 			/* Redirect to insert form. */
@@ -123,11 +126,17 @@ public class FlowServlet extends AbstractDatabaseServlet {
 		Message m = null;
 		List<CertificatiLinguisticiBean> certificatesDomain = null;
 		List<CorsoDiLaureaBean> possibileCourses = null;
+		long interests = 0;
+
+		// the connection to database
+		Connection conn = null;
 		
 		try {
+			conn = DS.getConnection();
 			results = FlussoDatabase.getFlusso(DS, ID);
 			certificatesDomain = GetCertificatiLinguisticiValues.getCertificatiLinguisticiDomain(DS);
 			possibileCourses = GetCorsoDiLaureaValues.getPossibleCourses(DS, results.getResponsabile());
+			interests = InteresseDatabase.getCountInteresseByFlusso(conn, ID);
 		} 
 		catch (SQLException ex) {
 			m = new Message("Error while getting the class.", "XXX", ex.getMessage());
@@ -150,6 +159,7 @@ public class FlowServlet extends AbstractDatabaseServlet {
 			req.setAttribute("origins", results.getCorsi());
 			req.setAttribute("evaluations", results.getListaValutazioni());
 			req.setAttribute("certificates", results.getCertificati());
+			req.setAttribute("interests", interests);
 
 			req.setAttribute("certificatesDomain", certificatesDomain);
 			req.setAttribute("possibileCourses", possibileCourses);
