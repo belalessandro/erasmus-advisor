@@ -57,7 +57,14 @@
 		<servlet-name>CityServlet</servlet-name>
 		<url-pattern>/city</url-pattern>
 	</servlet-mapping>
-	
+	<servlet>
+		<servlet-name>CityEvaluationsServlet</servlet-name>
+		<servlet-class>it.unipd.dei.bding.erasmusadvisor.servlets.CityEvaluationsServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>CityEvaluationsServlet</servlet-name>
+		<url-pattern>/city/evaluations</url-pattern>
+	</servlet-mapping>
 	<servlet>
 		<servlet-name>ClassServlet</servlet-name>
 		<servlet-class>it.unipd.dei.bding.erasmusadvisor.servlets.ClassServlet</servlet-class>

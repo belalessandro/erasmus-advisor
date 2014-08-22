@@ -100,4 +100,13 @@ public class CittaDatabase
 		return run.update(conn, statement, name, country);
 		
 	}
+	
+	public int editCity(Connection conn, String new_name, String new_country,
+			String old_name, String old_country) throws SQLException
+	{
+		final String statement = "UPDATE citta SET nome = ?, stato = ? WHERE nome = ? AND stato = ?";
+		QueryRunner run = new QueryRunner();
+		
+		return run.update(conn, statement, new_name, new_country, old_name, old_country);
+	}
 }

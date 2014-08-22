@@ -16,7 +16,7 @@
 	<link href="<c:url value="/css"/>/bootstrap.min.css" rel="stylesheet">
 	<link href="<c:url value="/fonts"/>/font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet">
 		
-	<script src="<c:url value="/js"/>/ea-form-validation.js"></script>
+	
 	
 	<!-- componenti aggiuntivi -->
 	<link href="<c:url value="/css"/>/bootstrap-select.min.css" rel="stylesheet">
@@ -24,8 +24,10 @@
 	<script src="<c:url value="/js"/>/jquery.min.js"></script>
 	<script src="<c:url value="/js"/>/bootstrap-select.js"></script>
 	<script src="<c:url value="/js"/>/bootstrap.min.js"></script>	
-	<script src="<c:url value="/js"/>/star-rating.min.js"></script>	
+	<script src="<c:url value="/js"/>/star-rating.min.js"></script>
 	
+	<!-- mauro: Spostato qui sotto, altrimenti non vedeva jQuery (sarebbe bene farlo anche per gli altri .jsp) -->
+	<script src="<c:url value="/js"/>/ea-form-validation.js"></script>
 	<script>
 		function doDelete()
 		{
@@ -107,7 +109,10 @@
 						</div>
 						<div class="modal-body">
 							<!-- action deve puntare alla servlet che gestisce l'inserimento della valutazione -->
-							<form name='cityEvaluationForm' onSubmit="return xEvaluationFormValidation();" method="post" action="<c:url value="/student/evaluate"/>">
+<%-- 							<form name='cityEvaluationForm' onSubmit="return xEvaluationFormValidation();" method="post" action="<c:url value="/city/evaluations"/>"> --%>
+							
+							<!-- mauro: ho rimosso onSubmit perché non serve (per la validazione vedi ea-form-validation.js) -->
+							<form id="cityEvaluationForm" name='cityEvaluationForm' method="post" action="<c:url value="/city/evaluations"/>">
 								<div class="col-md-6 text-center">Cost of life:</div>
 								<div class="col-md-6 text-center">
 									<input id="costOfLife" name="costoDellaVita" class="rating" data-size="sm" data-min="0" data-max="5" data-step="1" data-show-clear="false" data-show-caption="false">
@@ -164,13 +169,13 @@
 						<div class="modal-body">
 							<!-- action deve puntare alla servlet che gestisce la modifica dell'entità -->
 							<!-- notare che ogni input deve avere il campo value settato a quanto è presente nel DB -->
-							<form name='cityEditForm' onSubmit="return xEditFormValidation();" method="post" action="">
+							<form name='cityEditForm' onSubmit="return xEditFormValidation();" method="post" action="<c:url value="/city"/> ">
 								<div class="input-group insert_new_input_group">
-									<span class="input-group-addon insert_new_input">Name*</span> <input type="text" class="form-control" name="name" id="name" value="<c:out value="${city.nome}"/>">
+									<span class="input-group-addon insert_new_input">Name*</span> <input type="text" class="form-control" id="name" name="new_name" value="<c:out value="${city.nome}"/> ">
 								</div>
 								<br>
 								<div class="input-group insert_new_input_group">
-									<span class="input-group-addon insert_new_input">Country*</span> <input type="text" id="country" class="form-control" name="country" value="<c:out value="${city.stato}"/>">
+									<span class="input-group-addon insert_new_input">Country*</span> <input type="text" id="country" class="form-control" name="new_country" value="<c:out value="${city.stato}"/>">
 								</div>
 								<br>
 								<div class="row text-center">
@@ -191,6 +196,11 @@
 									<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 									<input type="submit" value="Save your changes" class="btn btn-primary pull-right">
 								</div>
+								
+								<!-- Hidden Parameters -->
+								<input name="operation" type="hidden" value="edit" /> 
+								<input name="old_name" type="hidden" value="<c:out value="${city.nome}"/>"/>
+								<input name="old_country" type="hidden" value="<c:out value="${city.stato}"/>"/>
 							</form>
 						</div>
 					</div>

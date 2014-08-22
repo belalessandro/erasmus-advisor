@@ -52,7 +52,7 @@ div.container
 	background-repeat: no-repeat;
 	background-attachment: scroll;
 	background-size: 100% 100%;
-    border: 2px solid #ddd;; 
+    border: 2px solid #ddd; 
     margin: 20px auto;
     margin-top:80px;
     padding: 20px;
@@ -249,7 +249,7 @@ li.menu
 .insert_new_select_label_top
 {
 	border-radius: 4px !important; 
-	width: 220px !important; /*220 px è la dimensione del bootstrap-select*/
+	width: 220px !important; /*220 px ï¿½ la dimensione del bootstrap-select*/
 	padding: 8px 12px !important;
 }
 .insert_new_select_label_inline

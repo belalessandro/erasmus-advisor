@@ -184,7 +184,7 @@ function insertUniversityFormValidation()
 }
 
 // non va e non serve
-function xEvaluationFormValidation()
+/*function xEvaluationFormValidation()
 {
 	var rat1 = parseInt(document.evalutationForm.rating1.value);
 	var rat2 = parseInt(document.evalutationForm.rating2.value);
@@ -192,7 +192,17 @@ function xEvaluationFormValidation()
 	var rat4 = parseInt(document.evalutationForm.rating4.value);
 	
 	return true;
-}
+}*/
+
+// mauro: Questo va e potrebbe servire per la validazione della valutazione 
+/*$(document).ready(function() {
+	$("#cityEvaluationForm").submit(function(event) {
+		  alert( "" );
+		  event.preventDefault();
+		});
+
+});*/
+
 
 // validate the single elements
 
