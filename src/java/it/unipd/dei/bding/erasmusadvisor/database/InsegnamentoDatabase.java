@@ -40,7 +40,6 @@ public class InsegnamentoDatabase
 		List<ValutazioneInsegnamentoBean> listaValutazioni = null;
 		List<ProfessoreBean> professori = null;
 
-		System.out.println("inizia query");
 		QueryRunner run = new QueryRunner();
 		
 		ResultSetHandler<InsegnamentoBean> h1 = new BeanHandler<InsegnamentoBean>(InsegnamentoBean.class);

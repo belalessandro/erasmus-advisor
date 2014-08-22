@@ -217,6 +217,23 @@
 				</div>
 			</div>
 			<!-- fine Form di valutazione a comparsa-->
+			
+			<c:choose>
+				<c:when test="${interests == 0}">
+					<h4 align="center">No students have expressed interest for this flow</h4>
+				</c:when>
+				<c:otherwise>
+					<c:choose>
+						<c:when test="${interests == 1}">
+							<h4 align="center"><b>One</b> student has expressed interest for this flow</h4>
+						</c:when>
+						<c:otherwise>
+							<h4 align="center">There are <b>${interests}</b> students that have expressed interest for this flow</h4>
+						</c:otherwise>
+					</c:choose>
+				</c:otherwise>
+			</c:choose>
+			
 			<c:choose>
 				<c:when test="${fn:length(evaluations) == 0}">
 					<div class="row text-center">
