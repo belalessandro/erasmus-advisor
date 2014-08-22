@@ -87,7 +87,7 @@
 				<div class="entity_details_text">
 					<h2><c:out value="${flow.id}"/></h2> 
 					<p>
-						Destination: <c:out value="${flow.destinazione}"/> <br> 
+						Destination: <a href="<c:url value="/university"/>?name=${fn:replace(flow.destinazione, ' ', '+')}" target="_blank">${flow.destinazione}</a><br>
 						Starting degree courses:
 						<c:forEach var="orig" items='${origins}' varStatus="status">
 							${orig.nome} (${orig.livello})
@@ -307,7 +307,7 @@
 					</table>
 				</c:otherwise>
 			</c:choose>
-			
+			<br>
 			<c:choose>
 				<c:when test="${fn:length(evaluations) == 0}">
 					<div class="row text-center">
