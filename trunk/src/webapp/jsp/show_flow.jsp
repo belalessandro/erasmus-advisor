@@ -28,8 +28,36 @@
 	<script src="<c:url value="/js"/>/bootstrap-select.js"></script>
 	<script src="<c:url value="/js"/>/bootstrap.min.js"></script>	
 	<script src="<c:url value="/js"/>/star-rating.min.js"></script>	
+	<script src="<c:url value="/js"/>/jquery.tablesorter.min.js"></script>
+	<link href="<c:url value="/css"/>/tablesorter/style.css" rel="stylesheet"> 
 	
 	<script>
+		// funziona che notifica che questa flusso è di interesse per lo studente
+		// da fare con ajax
+	    function showInterest()
+	    {
+	    	var r = confirm("Do you want to add this flow to your interests?");
+			if (r == true) 
+			{
+			    // procedere
+			} 
+			else {
+			    // splash! and nothing happens
+			} 
+	    }
+		// funziona che notifica che questo flusso non è più di interesse per lo studente
+		// da fare con ajax
+	    function removeInterest()
+	    {
+	    	var r = confirm("Do you want to remove this flow from your interests?");
+			if (r == true) 
+			{
+			    // procedere
+			} 
+			else {
+			    // splash! and nothing happens
+			} 
+	    }
 		// inizializza i select avanzati
 		$(document).ready(function() {
 		    $('.selectpicker').selectpicker({
@@ -37,6 +65,11 @@
 		        size: false
 		    });
 		});
+		// inizializza tablesorter
+		$(document).ready(function() 
+    	{ 
+        	$("#resultTable").tablesorter();
+   		}); 
 	</script>
 </head>
 <body>
@@ -61,7 +94,7 @@
 							<c:if test="${!status.last}">, </c:if>
 							<c:if test="${status.last}">.</c:if>
 						</c:forEach><br>
-						Flow Manager: <c:out value="${manager.nomeUtente}"/> <br> 
+						Flow Manager: <c:out value="${manager.nome}"/> <c:out value="${manager.cognome}"/><br> 
 						Available positions: <c:out value="${flow.postiDisponibili}"/> <br> 
 						Length (months): <c:out value="${flow.durata}"/> <br> 
 						Required language certifications:
@@ -78,9 +111,11 @@
 				</div>
 				<div class="entity_details_text">
 					<!-- evalutate visibile solo da studente
+						show interest solo da studente, se ha espresso interesse diventa remove interest
 						edit e delete solo da reponsabili di flusso e coordinatori erasmus -->
 					<ul class="nav nav-stacked pull-right">
 						<li class="active"><span data-toggle="modal" data-target="#evaluateForm">Evaluate</span></li>
+						<li class="active"><span onClick="showInterest();">Show interest</span></li>
 						<li class="active"><span data-toggle="modal" data-target="#editForm">Edit</span></li>
 						<li class="active">
 							<form method="post" action="#">
@@ -218,28 +253,65 @@
 					</div>
 				</div>
 			</div>
-			<!-- fine Form di valutazione a comparsa-->
-			
+			<!-- fine Form di valutazione a comparsa-->		
+			<br>	
+			<h4 align="center">
 			<c:choose>
 				<c:when test="${interests == 0}">
-					<h4 align="center">No students have expressed interest for this flow</h4>
+					No students have expressed interest for this flow
 				</c:when>
 				<c:otherwise>
 					<c:choose>
 						<c:when test="${interests == 1}">
-							<h4 align="center"><b>One</b> student has expressed interest for this flow</h4>
+							<b>One</b> student has expressed interest for this flow
 						</c:when>
 						<c:otherwise>
-							<h4 align="center">There are <b>${interests}</b> students that have expressed interest for this flow</h4>
+							There are <b>${interests}</b> students that have expressed interest for this flow
 						</c:otherwise>
 					</c:choose>
+				</c:otherwise>
+			</c:choose>
+			</h4>
+			
+			<!-- tabella in cui si visualizzano gli insegnamenti riconosciuti per questo flusso -->
+			<br>
+			<c:choose>
+				<c:when test="${fn:length(recognisedClasses) == 0}">
+					<div class="row text-center">
+					<h4>There are no recognised classes for <b><c:out value="${flow.id}"/></b>.</h4>
+					</div>
+				</c:when>
+				<c:otherwise>	
+					<table class="table table-bordered table-hover table-striped tablesorter" id="resultTable">
+						<caption><h4>Recognised classes for this flow</h4></caption>
+						<thead>
+							<tr>
+								<th>Name</th>
+								<th>Area</th>
+								<th>CFU</th>
+								<th>Year</th>
+								<th>Semester</th>
+							</tr>
+						</thead>
+						<tbody>
+							<c:forEach var="recCl" items='${recognisedClasses}' varStatus="status">
+								<tr>
+									<td><a href="<c:url value="/class"/>?id=${recCl.id}" target="_blank">${recCl.nome}</a></td>
+									<td>${recCl.nomeArea}</td>
+									<td>${recCl.crediti}</td>
+									<td>${recCl.annoCorso}</td>
+									<td>${recCl.periodoErogazione}</td>
+								</tr>
+							</c:forEach>					
+						</tbody>
+					</table>
 				</c:otherwise>
 			</c:choose>
 			
 			<c:choose>
 				<c:when test="${fn:length(evaluations) == 0}">
 					<div class="row text-center">
-					<h3>There are no evaluations for <b><c:out value="${flow.id}"/></b>.</h3>
+					<h4>There are no evaluations for <b><c:out value="${flow.id}"/></b>.</h4>
 					</div>
 				</c:when>
 				<c:otherwise>
@@ -249,10 +321,10 @@
 						<div style="text-align: center">
 							<c:choose>
 								<c:when test="${fn:length(evaluations) == 1}">
-									<h3>There is <b>1</b> evaluation</h3>
+									<h4>There is <b>1</b> evaluation</h4>
 								</c:when>
 								<c:otherwise>
-									<h3>There are <b><c:out value="${fn:length(evaluations)}"></c:out></b> evaluations</h3>
+									<h4>There are <b><c:out value="${fn:length(evaluations)}"></c:out></b> evaluations</h4>
 								</c:otherwise>
 							</c:choose>
 							<div class="col-xs-3 col-sm-3 col-md-3">
