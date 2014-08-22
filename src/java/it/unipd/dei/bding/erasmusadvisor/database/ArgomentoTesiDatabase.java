@@ -1,6 +1,9 @@
 package it.unipd.dei.bding.erasmusadvisor.database;
 
+import it.unipd.dei.bding.erasmusadvisor.beans.AreaBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.ArgomentoTesiBean;
+import it.unipd.dei.bding.erasmusadvisor.beans.LinguaBean;
+import it.unipd.dei.bding.erasmusadvisor.beans.ProfessoreBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.ValutazioneTesiBean;
 import it.unipd.dei.bding.erasmusadvisor.resources.Thesis;
 
@@ -174,5 +177,48 @@ public class ArgomentoTesiDatabase {
 
 		// Returns the results through the university model
 		return argList;
+	}
+	
+	public static Thesis getArgomentoTesiByID(Connection conn, String ID)
+			throws SQLException 
+	{
+		final String statement1 = "SELECT * FROM ArgomentoTesi WHERE ID = ?";
+		final String statement2 = "SELECT L.Sigla, L.Nome FROM Lingua AS L INNER JOIN LinguaTesi AS T ON L.Sigla = T.SiglaLingua WHERE idargomentotesi = ?";
+		final String statement3 = "SELECT * FROM ValutazioneTesi WHERE idargomentotesi = ?";
+		final String statement4 = "SELECT P.Nome, P.Cognome FROM Professore AS P INNER JOIN Gestione AS G ON P.ID = G.IdProfessore WHERE G.idargomentotesi = ?";
+		final String statement5 = "SELECT area FROM Estensione WHERE idargomentotesi = ?";
+		
+		ArgomentoTesiBean tesi = new ArgomentoTesiBean();
+		List<LinguaBean> lingue = null;
+		List<ValutazioneTesiBean> listaValutazioni = null;
+		List<ProfessoreBean> professori = null;
+		List<AreaBean> aree = null;
+
+		QueryRunner run = new QueryRunner();
+		
+		ResultSetHandler<ArgomentoTesiBean> h1 = new BeanHandler<ArgomentoTesiBean>(ArgomentoTesiBean.class);
+		tesi = run.query(conn, statement1, h1, ID);
+		
+		if (tesi == null)
+			throw new SQLException("Thesis id not found.");
+		
+		// Gets the languages
+		ResultSetHandler<List<LinguaBean>> h2 = new BeanListHandler<LinguaBean>(LinguaBean.class);
+		lingue = run.query(conn, statement2, h2, ID);
+		
+		// Gets the evaluations
+		ResultSetHandler<List<ValutazioneTesiBean>> h3 = new BeanListHandler<ValutazioneTesiBean>(ValutazioneTesiBean.class);
+		listaValutazioni = run.query(conn, statement3, h3, ID);
+		
+		// Gets the profs
+		ResultSetHandler<List<ProfessoreBean>> h4 = new BeanListHandler<ProfessoreBean>(ProfessoreBean.class);
+		professori = run.query(conn, statement4, h4, ID);
+		
+		// Gets the areas
+		ResultSetHandler<List<AreaBean>> h5 = new BeanListHandler<AreaBean>(AreaBean.class);
+		aree = run.query(conn, statement5, h5, ID);
+		
+		// Returns the results
+		return new Thesis(tesi, listaValutazioni, professori, lingue, aree);
 	}
 }
