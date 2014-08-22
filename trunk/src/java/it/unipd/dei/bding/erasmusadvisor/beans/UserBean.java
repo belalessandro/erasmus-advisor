@@ -17,6 +17,8 @@ public class UserBean implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private String email;
+	
+	private String nomeUtente;
 
 	private String password;
 
@@ -24,10 +26,18 @@ public class UserBean implements Serializable {
 
 	private UserType type;
 
+	/**
+	 * Empty constructor (defaults to no authorizations)
+	 */
 	public UserBean() {
 		type = UserType.STUDENTE;
 	}
 
+	/**
+	 * 
+	 * @param user User from the database
+	 * @param type Privileges of the user
+	 */
 	public UserBean(UserBean user, int type) {
 		this.email = user.email;
 		this.password = user.password;
@@ -42,6 +52,14 @@ public class UserBean implements Serializable {
 		}
 	}
 
+	public String getNomeUtente() {
+		return nomeUtente;
+	}
+
+	public void setNomeUtente(String nomeUtente) {
+		this.nomeUtente = nomeUtente;
+	}
+
 	public String getEmail() {
 		return email;
 	}
@@ -50,7 +68,7 @@ public class UserBean implements Serializable {
 		this.email = email;
 	}
 
-	public String getHashedPassword() {
+	public String getPassword() {
 		return password;
 	}
 
@@ -58,7 +76,7 @@ public class UserBean implements Serializable {
 		return type;
 	}
 
-	public void setHashedPassword(String hashedPassword) {
+	public void setPassword(String hashedPassword) {
 		this.password = hashedPassword;
 	}
 
@@ -70,6 +88,10 @@ public class UserBean implements Serializable {
 		this.salt = salt;
 	}
 
+	/**
+	 * 
+	 * @return true if the given email fits the regular expression
+	 */
 	public boolean isEmailValid() {
 		String EMAIL_PATTERN = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
 				+ "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
@@ -80,6 +102,12 @@ public class UserBean implements Serializable {
 		return matcher.matches();
 	}
 
+	/**
+	 * Checks if the password is correct
+	 * @param password
+	 * @return true if the password is correct
+	 * @throws IllegalStateException if there is a problem with the encoding
+	 */
 	public boolean checkPassword(String pass) throws IllegalStateException {
 		MessageDigest digest;
 		try {

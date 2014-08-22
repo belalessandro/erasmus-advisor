@@ -2,6 +2,7 @@ package it.unipd.dei.bding.erasmusadvisor.servlets;
 
 import it.unipd.dei.bding.erasmusadvisor.beans.UserBean;
 import it.unipd.dei.bding.erasmusadvisor.database.UserDatabase;
+import it.unipd.dei.bding.erasmusadvisor.resources.LoggedUser;
 import it.unipd.dei.bding.erasmusadvisor.resources.Message;
 
 import java.io.IOException;
@@ -20,7 +21,7 @@ import org.apache.commons.dbutils.DbUtils;
 public class LoginServlet extends AbstractDatabaseServlet {
 
 	/**
-	 * CLASSE DI ESEMPIO: Potrebbe essere necessaria una seria revision
+	 * Login servlet
 	 */
 	private static final long serialVersionUID = 1L;
 
@@ -39,15 +40,18 @@ public class LoginServlet extends AbstractDatabaseServlet {
 			UserDatabase userDb = new UserDatabase();
 
 			conn = DS.getConnection();
-
+			//Finds the user in the database
 			UserBean user = userDb.login(conn, email);
+			
 			if (user != null) {
 				try {
+					//Checks the password
 					boolean correct = user.checkPassword(pass);
 					if (correct) {
+						//Starts the session
 						HttpSession session = request.getSession(true);
-						session.setAttribute("type", user.getType());
-						session.setAttribute("email", user.getEmail());
+						LoggedUser logged = new LoggedUser(user.getType(), user.getNomeUtente());
+						session.setAttribute("user", logged);
 						getServletContext().getRequestDispatcher(
 								"/jsp/index.jsp").forward(request, response);
 						return;
@@ -59,14 +63,11 @@ public class LoginServlet extends AbstractDatabaseServlet {
 
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block: cosa succede in caso di errore
-			// SQL?
-			e.printStackTrace();
-		} finally {
 			m = new Message("Email or password incorrect!");
 			request.setAttribute("message", m);
 			getServletContext().getRequestDispatcher("/jsp/home.jsp").forward(
 					request, response);
+		} finally {
 			DbUtils.closeQuietly(conn);
 		}
 

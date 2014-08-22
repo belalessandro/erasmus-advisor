@@ -8,16 +8,9 @@ package it.unipd.dei.bding.erasmusadvisor.resources;
  */
 public class LoggedUser {
 	/**
-	 * Constants for the authorization level
-	 */
-	public final static String AUTH_STUDENT = "Studente";
-	public final static String AUTH_FLOWRESP = "ResponsabileFlusso";
-	public final static String AUTH_COORD = "Coordinatore";
-	
-	/**
 	 * Stores the authorization level
 	 */
-	private final String auth;
+	public final UserType auth;
 	
 	/**
 	 * Stores the username
@@ -29,7 +22,7 @@ public class LoggedUser {
 	 * Creates a model for a logged user, specifying an authorization level
 	 * @param auth LoggedUser.AUTH_STUDENT, LoggedUser.AUTH_FLOWRESP or LoggedUser.AUTH_COORD
 	 */
-	public LoggedUser(final String auth, final String user) {
+	public LoggedUser(final UserType auth, final String user) {
 		super();
 		this.auth = auth;
 		this.user = user;
@@ -42,7 +35,7 @@ public class LoggedUser {
 	 * @return true if the logged user is a Student
 	 */
 	public boolean isStudent() {
-		return auth.equals(AUTH_STUDENT);
+		return auth.equals(UserType.STUDENTE);
 	}
 
 
@@ -52,7 +45,7 @@ public class LoggedUser {
 	 * @return true if the logged user is a Flow Responsible
 	 */
 	public boolean isFlowResp() {
-		return auth.equals(AUTH_FLOWRESP);
+		return auth.equals(UserType.RESPONSABILE);
 	}
 
 
@@ -62,7 +55,7 @@ public class LoggedUser {
 	 * @return true if the logged user is a Coordinator
 	 */
 	public boolean isCoord() {
-		return auth.equals(AUTH_COORD);
+		return auth.equals(UserType.COORDINATORE);
 	}
 
 
