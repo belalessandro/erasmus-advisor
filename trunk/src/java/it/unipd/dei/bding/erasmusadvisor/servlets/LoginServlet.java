@@ -51,7 +51,7 @@ public class LoginServlet extends AbstractDatabaseServlet {
 						//Starts the session
 						HttpSession session = request.getSession(true);
 						LoggedUser logged = new LoggedUser(user.getType(), user.getNomeUtente());
-						session.setAttribute("user", logged);
+						session.setAttribute("loggedUser", logged);
 						getServletContext().getRequestDispatcher(
 								"/jsp/index.jsp").forward(request, response);
 						return;
