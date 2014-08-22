@@ -46,11 +46,12 @@ public class ThesisServlet extends AbstractDatabaseServlet {
 	 * Get the details of a specific thesis or redirects to the insert form-page
 	 */
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
-			throws ServletException, IOException {
-		
-		String nomeTesi = req.getParameter("nome");
+			throws ServletException, IOException 
+	{
+		String ID = req.getParameter("id");
 
-		if (nomeTesi == null || nomeTesi.isEmpty()) {
+		if (ID == null || ID.isEmpty()) 
+		{
 			/* Redirect to insert form. */
 			resp.sendRedirect(req.getContextPath() + "/jsp/insert_thesis.jsp");
 			return;
@@ -68,27 +69,25 @@ public class ThesisServlet extends AbstractDatabaseServlet {
 		Connection conn = null;
 
 		try {
-
 			conn = DS.getConnection();
-			results = ArgomentoTesiDatabase.searchThesisModelByName(conn, nomeTesi);
+			results = ArgomentoTesiDatabase.getArgomentoTesiByID(conn, ID);
 			DbUtils.close(conn);
-			
-		} catch (SQLException ex) {
-			m = new Message("Error while getting the university.",
-					"XXX", ex.getMessage());
-		} finally {
+		} 
+		catch (SQLException ex) {
+			m = new Message("Error while getting the university.","XXX", ex.getMessage());
+		} 
+		finally {
 			DbUtils.closeQuietly(conn);
 		}
-		
 		
 		/**
 		 *  Send the university model to the appropriate output (Ajax or normal)
 		 *
 		 */
 		
-		if ("XMLHttpRequest".equals(req.getHeader("X-Requested-With"))) {
+		if ("XMLHttpRequest".equals(req.getHeader("X-Requested-With"))) 
+		{
 			// Handle Ajax response (e.g. return JSON data object).
-
 			resp.setContentType("application/json");
 			if (results != null) {
 				/* NOT IMPLEMENTED YET */
@@ -97,23 +96,25 @@ public class ThesisServlet extends AbstractDatabaseServlet {
 				jsonWriter.close();
 			}
 
-		} else {
+		} 
+		else {
 			// Handle normal response (e.g. forward and/or set message as attribute).
-
-			if (m == null && results != null) {
+			if (m == null && results != null) 
+			{
 				/** 
-				 * Show results to the JSP page. 
-				 *
+				 * Show results to the JSP page.
 				 */
 				req.setAttribute("thesis", results.getArgomentoTesi());
+				req.setAttribute("professors", results.getProfessori());
+				req.setAttribute("aree", results.getAree());
+				req.setAttribute("lingue", results.getLingue());
 				req.setAttribute("evaluations", results.getListaValutazioni());
 
-				getServletContext().getRequestDispatcher("/jsp/show_thesis.jsp").forward(
-						req, resp);
-			} else { // Error page
+				getServletContext().getRequestDispatcher("/jsp/show_thesis.jsp").forward(req, resp);
+			}
+			else { // Error page
 				req.setAttribute("message", m);
-				getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(
-						req, resp);
+				getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(req, resp);
 			}
 		}
 
@@ -152,7 +153,7 @@ public class ThesisServlet extends AbstractDatabaseServlet {
 				conn = DS.getConnection();
 				int idTesi= ArgomentoTesiDatabase.createArgomentoTesi(conn, a);
 				
-				String[] paramProf = req.getParameterValues("professori[]");
+				/*String[] paramProf = req.getParameterValues("professori[]");
 				if (paramProf != null) {
 					p = new ProfessoreBean[paramProf.length];
 					g = new GestioneBean[paramProf.length];
@@ -198,7 +199,7 @@ public class ThesisServlet extends AbstractDatabaseServlet {
 
 						LinguaTesiDatabase.createLingua(conn, l[i]);
 					}
-				}
+				}*/
 				
 				DbUtils.close(conn);
 				// End of database operation
