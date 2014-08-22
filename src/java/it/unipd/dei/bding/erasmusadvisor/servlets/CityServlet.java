@@ -44,6 +44,7 @@ public class CityServlet extends AbstractDatabaseServlet
 	 * quando riceve POST
 	 *   		-> Se operazione è "remove" rimuove l'interesse collegato allo studente loggato e IdFlusso come parametro
 	 *   		-> Se operazione è "insert" inserisce l'interesse collegato allo studente loggato e IdFlusso come parametro
+	 *   		-> Se operazione è "edit"   edita l'entita citta (deve comparire solo con coordinatore)
 	 */
 	
 	/**
@@ -108,17 +109,21 @@ public class CityServlet extends AbstractDatabaseServlet
 			throws ServletException, IOException 
 	{
 		String operation = req.getParameter("operation");
-		String city = req.getParameter("city");
-		String country = req.getParameter("country");
-				
+			
+		// the connection to database
+		Connection conn = null;
+		Message m = null;
+		
 		if (operation.equals("delete"))
 		{
+			// mauro: spostato qui perché così separiamo bene i parametri di delete e edit
+			String city = req.getParameter("city");
+			String country = req.getParameter("country");
+			
+			
+			
 			if (city != null && ! city.isEmpty() && country != null && ! country.isEmpty()) 
 			{
-
-				// the connection to database
-				Connection conn = null;
-				
 				int results;
 				try {
 					conn = DS.getConnection();
@@ -147,9 +152,66 @@ public class CityServlet extends AbstractDatabaseServlet
 				}
 			} 
 			else {
-				/* Nothing happens. */
+				// An error maybe?
 			}
 		}
+		else if(operation.equals("edit")) 
+		{
+			// TODO: Check user is type coordinator
+			
+			// get parameters
+			String new_name = req.getParameter("new_name");
+			String new_country = req.getParameter("new_country");
+			String old_name = req.getParameter("old_name");
+			String old_country = req.getParameter("old_country");
+			
+			String[] languages = req.getParameterValues("language[]");
+			
+			
+			
+				
+			// edit the entity
+			try {
+				// starting database operations
+				conn = DS.getConnection();
+				// n = # of row updated
+				int n = new CittaDatabase().editCity(conn, new_name, new_country, old_name, old_country);
+				DbUtils.close(conn);
+				
+				if(n == 1)
+				{
+					// success
+					// Creating response path
+					StringBuilder builder = new StringBuilder()
+						.append("/erasmus-advisor/city?name=")
+						.append(new_name)
+						.append("&country=")
+						.append(new_country)
+						.append("&edited=success");
+						resp.sendRedirect(builder.toString());	
+				}
+				else
+				{
+					// Error management
+					m = new Message("Error while updating the city.","XXX", "");
+					req.setAttribute("message", m);
+					
+					getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(req, resp); // ERROR PAGE
+					return;
+				}
+					
+					
+				} catch (SQLException e) {
+					// Error management
+					m = new Message("Error while submitting evaluations.","XXX", e.getMessage());
+					req.setAttribute("message", m);
+					
+					getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(req, resp); // ERROR PAGE
+					return;
+				} finally {
+					DbUtils.closeQuietly(conn);
+				}
+			}
 	}
 }
 

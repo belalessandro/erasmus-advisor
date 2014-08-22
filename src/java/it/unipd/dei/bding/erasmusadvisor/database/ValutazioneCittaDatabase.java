@@ -34,8 +34,6 @@ public class ValutazioneCittaDatabase {
 	 */
 	public static void createValutazioneCitta(Connection con, ValutazioneCittaBean val) 
 		throws SQLException {
-//		final String statement = "INSERT INTO ValutazioneCitta (nomeutentestudente, nomecitta, statocitta, costodellavita, disponibilitaalloggi, vivibilitaurbana, vitasociale, datainserimento, commento)"
-//				+ "VALUES ('JuventinoDOC', 'Paris', 'France',1,2,3,2,default, 'Nammerda');"
 		final String statement = "INSERT INTO ValutazioneCitta (nomeutentestudente, nomecitta, statocitta, costodellavita, disponibilitaalloggi, vivibilitaurbana, vitasociale, datainserimento, commento)"
 						+ "VALUES (?, ?, ?, ?, ?, ?, ?, DEFAULT, ?);";
 
@@ -53,11 +51,6 @@ public class ValutazioneCittaDatabase {
 				val.getVitaSociale(),
 				val.getCommento()
 				);
-		
-		
-		
-		
-		// TODO: NON inserisce uno stracazzo di niente!
 	}
 	
 	
