@@ -86,6 +86,10 @@ public class StudentEvaluateServlet extends AbstractDatabaseServlet {
 			ValutazioneCittaDatabase.createValutazioneCitta(con, val);
 			DbUtils.close(con);
 			
+			// Redirect to the original page
+			req.setAttribute("city", val.getNomeCitta());
+			req.setAttribute("country", val.getStatoCitta());
+			
 			getServletContext().getRequestDispatcher("/jsp/show_city.jsp").forward(req, resp);
 			
 		} catch (SQLException e) {
