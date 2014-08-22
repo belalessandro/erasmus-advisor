@@ -9,7 +9,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title><c:out value="${flow.id}"/></title>
+	<title><c:out value="${university.nome}"/></title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta charset="utf-8">
 	
@@ -21,22 +21,10 @@
 	<script src="<c:url value="/js"/>/ea-form-validation.js"></script>
 	
 	<!-- componenti aggiuntivi -->
-	<link href="<c:url value="/css"/>/bootstrap-select.min.css" rel="stylesheet">
 	<link href="<c:url value="/css"/>/star-rating.css" rel="stylesheet">
 	<script src="<c:url value="/js"/>/jquery.min.js"></script>
-	<script src="<c:url value="/js"/>/bootstrap-select.js"></script>
 	<script src="<c:url value="/js"/>/bootstrap.min.js"></script>	
 	<script src="<c:url value="/js"/>/star-rating.min.js"></script>	
-	
-	<script>
-		// inizializza i select avanzati
-		$(document).ready(function() {
-		    $('.selectpicker').selectpicker({
-		        style: 'btn-default',
-		        size: false
-		    });
-		});
-	</script>
 </head>
 <body>
 	<div class="container">
@@ -48,31 +36,17 @@
 		</jsp:include>
 
 		<!-- corpo della pagina -->
+		<!-- di fatto tutta questa pagina è generata con JSP -->
 		<div class="col-md-9 general_main_border">
 			<div class="entity_details">
 				<div class="entity_details_text">
-					<h2><c:out value="${flow.id}"/></h2> 
+					<h2><c:out value="${university.nome}"/></h2> 
 					<p>
-						Destination: <c:out value="${flow.destinazione}"/> <br> 
-						Starting degree courses:
-						<c:forEach var="orig" items='${origins}' varStatus="status">
-							${orig.nome} (${orig.livello})
-							<c:if test="${!status.last}">, </c:if>
-							<c:if test="${status.last}">.</c:if>
-						</c:forEach><br>
-						Flow Manager: <c:out value="${manager.nomeUtente}"/> <br> 
-						Available positions: <c:out value="${flow.postiDisponibili}"/> <br> 
-						Length (months): <c:out value="${flow.durata}"/> <br> 
-						Required language certifications:
-						<c:forEach var="certificates" items='${certificates}' varStatus="status">
-							${certificates.nomeLingua} - ${certificates.livello}
-							<c:if test="${!status.last}">, </c:if>
-							<c:if test="${status.last}">.</c:if>
-						</c:forEach><br>
-						<c:if test="${not empty flow.dettagli}">Details: <c:out value="${flow.dettagli}"/> <br></c:if>
-						<c:choose><c:when test="${flow.attivo}">Is </c:when><c:otherwise>Not </c:otherwise></c:choose>Active 
-						(Last Modification: <c:out value="${flow.dataUltimaModifica}"/>) <br>  
-						<br>
+						Located in <c:out value="${university.nomeCitta}"/> (<c:out value="${university.statoCitta}"/>) <br> 
+						Link to the official website: <a href="<c:out value="${university.link}"/>" target="_blank"><c:out value="${university.link}"/></a> <br> 
+						World Ranking: <c:out value="${university.posizioneClassifica}"/> <br> 
+						<c:choose><c:when test="${university.presenzaAlloggi}">Has </c:when><c:otherwise>Has not </c:otherwise></c:choose>
+						a residence for Erasmus Students. <br> 
 					</p>
 				</div>
 				<div class="entity_details_text">
@@ -92,43 +66,43 @@
 					<div class="modal-content">
 						<div class="modal-header">
 							<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-							<h4 class="modal-title" id="myModalLabel">Insert an evaluation for <b><c:out value="${flow.id}"/></b></h4>
+							<h4 class="modal-title" id="myModalLabel">Insert an evaluation for <b><c:out value="${university.nome}"/></b></h4>
 						</div>
 						<div class="modal-body">
 							<!-- action deve puntare alla servlet che gestisce l'inserimento della valutazione -->
-							<form name='flowEvaluationForm' onSubmit="return xEvaluationFormValidation();" method="post" action="#">
-								<div class="col-md-6 text-center">Gratification:</div>
+							<form name='universityEvaluationForm' onSubmit="return xEvaluationFormValidation();" method="post" action="<c:url value="/student/evaluate"/>">
+								<div class="col-md-6 text-center">Urban Location:</div>
 								<div class="col-md-6 text-center">
-									<input id="costOfLife" class="rating" data-size="sm" data-min="0" data-max="5" data-step="1" data-show-clear="false" data-show-caption="false">
+									<input id="urbanLocation" name="costoDellaVita" class="rating" data-size="sm" data-min="0" data-max="5" data-step="1" data-show-clear="false" data-show-caption="false">
 								</div>
 								<br>
 								<br>
-								<div class="col-md-6 text-center">Academic Fulfillment:</div>
+								<div class="col-md-6 text-center">Erasmus Events:</div>
 								<div class="col-md-6 text-center">
-									<input id="houseAvailability" class="rating" data-size="sm" data-min="0" data-max="5" data-step="1" data-show-clear="false" data-show-caption="false">
+									<input id="erasmusEvents" name="disponibilitaAlloggi" class="rating" data-size="sm" data-min="0" data-max="5" data-step="1" data-show-clear="false" data-show-caption="false">
 								</div>
 								<br>
 								<br>
-								<div class="col-md-6 text-center">Didactics:</div>
+								<div class="col-md-6 text-center">Teachings Quality:</div>
 								<div class="col-md-6 text-center">
-									<input id="liveability" class="rating" data-size="sm" data-min="0" data-max="5" data-step="1" data-show-clear="false" data-show-caption="false">
+									<input id="teachingsQuality" name="vivibilitaUrbana" class="rating" data-size="sm" data-min="0" data-max="5" data-step="1" data-show-clear="false" data-show-caption="false">
 								</div>
 								<br>
 								<br>
-								<div class="col-md-6 text-center">Manager Evaluation:</div>
+								<div class="col-md-6 text-center">Classroom Quality:</div>
 								<div class="col-md-6 text-center">
-									<input id="socialLife" class="rating" data-size="sm" data-min="0" data-max="5" data-step="1" data-show-clear="false" data-show-caption="false">
+									<input id="classroomQuality" name="vitaSociale" class="rating" data-size="sm" data-min="0" data-max="5" data-step="1" data-show-clear="false" data-show-caption="false">
 								</div>
 								<br>
 								<br><br>								
 								<div class="input-group insert_new_input_group">
-									<span class="input-group-addon insert_new_input">Comment</span> <textarea rows="2" class="form-control" name="comment" id="comment" placeholder="Insert a general comment about the city."></textarea>
+									<span class="input-group-addon insert_new_input">Comment</span> <textarea rows="2" class="form-control" name="commento" id="comment" placeholder="Insert a general comment about the city."></textarea>
 								</div>
 								<br>
 								<div class="modal-footer">
 									<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 									<input type="submit" value="Save!" class="btn btn-primary pull-right">
-								</div>
+								</div>                               
 							</form>
 						</div>
 					</div>
@@ -142,71 +116,35 @@
 					<div class="modal-content">
 						<div class="modal-header">
 							<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-							<h4 class="modal-title" id="myModalLabel">Edit <b><c:out value="${flow.id}"/></b></h4>
+							<h4 class="modal-title" id="myModalLabel">Edit <b><c:out value="${university.nome}"/></b></h4>
 						</div>
 						<div class="modal-body">
 							<!-- action deve puntare alla servlet che gestisce la modifica dell'entità -->
 							<!-- notare che ogni input deve avere il campo value settato a quanto è presente nel DB -->
-							<form name='flowEditForm' onSubmit="return xEditFormValidation();" method="post" action="#">
+							<form name='universityEditForm' onSubmit="return xEditFormValidation();" method="post" action="">
 								<div class="input-group insert_new_input_group">
-									<span class="input-group-addon insert_new_input">ID*</span> <input type="text" class="form-control" name="name" id="name" value="<c:out value="${flow.id}"/>">
+									<span class="input-group-addon insert_new_input">Name*</span> <input type="text" class="form-control" name="nome" id="name" value="<c:out value="${university.nome}"/>">
+								</div>
+								<br>
+								<div class="input-group insert_new_input_group">
+									<span class="input-group-addon insert_new_input">Country*</span> <input id="country" class="form-control" name="statoCitta" value="<c:out value="${university.statoCitta}"/>">
+								</div>
+								<br>
+								<div class="input-group insert_new_input_group">
+									<span class="input-group-addon insert_new_input">City*</span> <input id="city" class="form-control" name="nomeCitta" value="<c:out value="${university.nomeCitta}"/>">
+								</div>
+								<br>
+								<div class="input-group insert_new_input_group">
+									<span class="input-group-addon insert_new_input">Link*</span> <input id="link" class="form-control" name="link" value="<c:out value="${university.link}"/>">
+								</div>
+								<br>
+								<div class="input-group insert_new_input_group">
+									<span class="input-group-addon insert_new_input_small">Position in university ranking*</span> <input type="text" class="form-control" name="posizioneClassifica" id="ranking" value="<c:out value="${university.posizioneClassifica}"/>">
 								</div>
 								<br>
 								<div class="row text-center">
-									<span></span>
-									<span class="input-group-addon insert_new_select_label_inline">Insert the flow's starting degree courses*</span>
-									<select class="selectpicker text-left" multiple id="origin" name="origin[]">
-										<c:forEach var="possibileCourses" items='${possibileCourses}'>
-											<option 
-												<c:forEach var="origins" items='${origins}' >
-												<c:if test="${possibileCourses.id == origins.id}">selected</c:if>
-												</c:forEach>
-											>
-											${possibileCourses.nome} (${possibileCourses.livello})</option>
-											<c:if test="${!status.last}">, </c:if>
-											<c:if test="${status.last}">.</c:if>
-										</c:forEach>
-				    				</select> 
-								</div>
-								<br>
-								<div class="input-group insert_new_input_group">
-									<span class="input-group-addon insert_new_input">Destination*</span> <input id="university" class="form-control" name="university" value="<c:out value="${flow.destinazione}"/>">
-								</div>
-								<br>
-								<div class="row text-center">
-									<span></span>
-									<span class="input-group-addon insert_new_select_label_inline">Insert the flow's Language Certifications*</span>
-									<select class="selectpicker text-left" multiple id="certificate" name="certificate[]">
-										<c:forEach var="certificatesDomain" items='${certificatesDomain}'>
-											<option 
-												<c:forEach var="certificates" items='${certificates}' >
-												<c:if test="${(certificatesDomain.nomeLingua == certificates.nomeLingua) && (certificatesDomain.livello == certificates.livello)}">selected</c:if>
-												</c:forEach>
-											>
-											${certificatesDomain.nomeLingua} - ${certificatesDomain.livello}</option>
-											<c:if test="${!status.last}">, </c:if>
-											<c:if test="${status.last}">.</c:if>
-										</c:forEach>
-			
-				    				</select> 						
-								</div>
-								<br>
-								<div class="input-group insert_new_input_group">
-									<div class="input-group insert_new_input_group_small">
-										<span class="input-group-addon insert_new_input">Available positions*</span> <input type="text" class="form-control" name="seats" id="seats" value="<c:out value="${flow.postiDisponibili}"/>">
-									</div>
-								</div>
-								<br>
-								<div class="input-group insert_new_input_group">
-									<div class="input-group insert_new_input_group_small">
-										<span class="input-group-addon insert_new_input">Length (months)*</span> <input type="text" class="form-control" name="length" id="length" value="<c:out value="${flow.durata}"/>">
-									</div>
-								</div>
-								<br>
-								<div class="input-group insert_new_input_group">
-									<span class="input-group-addon insert_new_input">Details</span> <textarea rows="2" class="form-control" name="details" id="details"></textarea>
-								</div>
-								<br>
+									<input type="checkbox" id="hasResidence" name="presenzaAlloggi" value="hasResidence" <c:if test="${university.presenzaAlloggi}">checked</c:if>> Select if the university has a residence for Erasmus students.
+								</div>												
 								<div class="modal-footer">
 									<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 									<input type="submit" value="Save your changes" class="btn btn-primary pull-right">
@@ -217,27 +155,10 @@
 				</div>
 			</div>
 			<!-- fine Form di valutazione a comparsa-->
-			
-			<c:choose>
-				<c:when test="${interests == 0}">
-					<h4 align="center">No students have expressed interest for this flow</h4>
-				</c:when>
-				<c:otherwise>
-					<c:choose>
-						<c:when test="${interests == 1}">
-							<h4 align="center"><b>One</b> student has expressed interest for this flow</h4>
-						</c:when>
-						<c:otherwise>
-							<h4 align="center">There are <b>${interests}</b> students that have expressed interest for this flow</h4>
-						</c:otherwise>
-					</c:choose>
-				</c:otherwise>
-			</c:choose>
-			
 			<c:choose>
 				<c:when test="${fn:length(evaluations) == 0}">
 					<div class="row text-center">
-					<h3>There are no evaluations for <b><c:out value="${flow.id}"/></b>.</h3>
+					<h3>There are no evaluations for <b><c:out value="${university.nome}"/></b>.</h3>
 					</div>
 				</c:when>
 				<c:otherwise>
@@ -254,74 +175,74 @@
 								</c:otherwise>
 							</c:choose>
 							<div class="col-xs-3 col-sm-3 col-md-3">
-								Gratification<br>
-								<c:if test="${evaluationsAvg.gratification == 1}">
+								Urban Location<br>
+								<c:if test="${evaluationsAvg.urbanLocation == 1}">
 									<span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star-empty"></span> <span class="glyphicon glyphicon-star-empty"></span> <span class="glyphicon glyphicon-star-empty"></span> <span class="glyphicon glyphicon-star-empty"></span> <br> 
 								</c:if>  
-								<c:if test="${evaluationsAvg.gratification == 2}">
+								<c:if test="${evaluationsAvg.urbanLocation == 2}">
 									<span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star-empty"></span> <span class="glyphicon glyphicon-star-empty"></span> <span class="glyphicon glyphicon-star-empty"></span> <br> 
 								</c:if>  
-								<c:if test="${evaluationsAvg.gratification == 3}">
+								<c:if test="${evaluationsAvg.urbanLocation == 3}">
 									<span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star-empty"></span> <span class="glyphicon glyphicon-star-empty"></span> <br> 
 								</c:if>  
-								<c:if test="${evaluationsAvg.gratification == 4}">
+								<c:if test="${evaluationsAvg.urbanLocation == 4}">
 									<span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <br> 
 								</c:if>  
-								<c:if test="${evaluationsAvg.gratification == 5}">
+								<c:if test="${evaluationsAvg.urbanLocation == 5}">
 									<span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star-empty"></span> <br> 
 								</c:if>  
 							</div>
 							<div class="col-xs-3 col-sm-3 col-md-3">
-								Academic Fulfillment<br> 
-								<c:if test="${evaluationsAvg.academicFulfillment == 1}">
+								Erasmus Events<br> 
+								<c:if test="${evaluationsAvg.erasmusEvents == 1}">
 									<span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star-empty"></span> <span class="glyphicon glyphicon-star-empty"></span> <span class="glyphicon glyphicon-star-empty"></span> <span class="glyphicon glyphicon-star-empty"></span> <br> 
 								</c:if>  
-								<c:if test="${evaluationsAvg.academicFulfillment == 2}">
+								<c:if test="${evaluationsAvg.erasmusEvents == 2}">
 									<span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star-empty"></span> <span class="glyphicon glyphicon-star-empty"></span> <span class="glyphicon glyphicon-star-empty"></span> <br> 
 								</c:if>  
-								<c:if test="${evaluationsAvg.academicFulfillment == 3}">
+								<c:if test="${evaluationsAvg.erasmusEvents == 3}">
 									<span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star-empty"></span> <span class="glyphicon glyphicon-star-empty"></span> <br> 
 								</c:if>  
-								<c:if test="${evaluationsAvg.academicFulfillment == 4}">
+								<c:if test="${evaluationsAvg.erasmusEvents == 4}">
 									<span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <br> 
 								</c:if>  
-								<c:if test="${evaluationsAvg.academicFulfillment == 5}">
+								<c:if test="${evaluationsAvg.erasmusEvents == 5}">
 									<span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star-empty"></span> <br> 
 								</c:if>  
 							</div>
 							<div class="col-xs-3 col-sm-3 col-md-3">
-								Didactics<br> 
-								<c:if test="${evaluationsAvg.didactics == 1}">
+								Teachings Quality<br> 
+								<c:if test="${evaluationsAvg.teachingsQuality == 1}">
 									<span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star-empty"></span> <span class="glyphicon glyphicon-star-empty"></span> <span class="glyphicon glyphicon-star-empty"></span> <span class="glyphicon glyphicon-star-empty"></span> <br> 
 								</c:if>  
-								<c:if test="${evaluationsAvg.didactics == 2}">
+								<c:if test="${evaluationsAvg.teachingsQuality == 2}">
 									<span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star-empty"></span> <span class="glyphicon glyphicon-star-empty"></span> <span class="glyphicon glyphicon-star-empty"></span> <br> 
 								</c:if>  
-								<c:if test="${evaluationsAvg.didactics == 3}">
+								<c:if test="${evaluationsAvg.teachingsQuality == 3}">
 									<span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star-empty"></span> <span class="glyphicon glyphicon-star-empty"></span> <br> 
 								</c:if>  
-								<c:if test="${evaluationsAvg.didactics == 4}">
+								<c:if test="${evaluationsAvg.teachingsQuality == 4}">
 									<span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <br> 
 								</c:if>  
-								<c:if test="${evaluationsAvg.didactics == 5}">
+								<c:if test="${evaluationsAvg.teachingsQuality == 5}">
 									<span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star-empty"></span> <br> 
 								</c:if>  
 							</div>
 							<div class="col-xs-3 col-sm-3 col-md-3">
-								Manager Evaluation<br> 
-								<c:if test="${evaluationsAvg.managerEvaluation == 1}">
+								Classroom Quality<br> 
+								<c:if test="${evaluationsAvg.classroomQuality == 1}">
 									<span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star-empty"></span> <span class="glyphicon glyphicon-star-empty"></span> <span class="glyphicon glyphicon-star-empty"></span> <span class="glyphicon glyphicon-star-empty"></span> <br> 
 								</c:if>  
-								<c:if test="${evaluationsAvg.managerEvaluation == 2}">
+								<c:if test="${evaluationsAvg.classroomQuality == 2}">
 									<span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star-empty"></span> <span class="glyphicon glyphicon-star-empty"></span> <span class="glyphicon glyphicon-star-empty"></span> <br> 
 								</c:if>  
-								<c:if test="${evaluationsAvg.managerEvaluation == 3}">
+								<c:if test="${evaluationsAvg.classroomQuality == 3}">
 									<span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star-empty"></span> <span class="glyphicon glyphicon-star-empty"></span> <br> 
 								</c:if>  
-								<c:if test="${evaluationsAvg.managerEvaluation == 4}">
+								<c:if test="${evaluationsAvg.classroomQuality == 4}">
 									<span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <br> 
 								</c:if>  
-								<c:if test="${evaluationsAvg.managerEvaluation == 5}">
+								<c:if test="${evaluationsAvg.classroomQuality == 5}">
 									<span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star-empty"></span> <br> 
 								</c:if>  
 							</div>
@@ -335,70 +256,70 @@
 					Inserted by <b><c:out value="${eval.nomeUtenteStudente}"></c:out></b> on <c:out value="${eval.dataInserimento}"></c:out>.
 					<div class="row">
 						<div class="col-xs-12 col-sm-12 col-md-3">
-							Gratification <br> Academic Fulfillment <br> Didactics <br> Manager Evaluation <br>
+							Urban Location <br> Erasmus Events <br> Teachings Quality <br> Classroom Quality <br>
 						</div>
 						<div class="col-xs-12 col-sm-12 col-md-2">
-							<c:if test="${eval.soddEsperienza == 1}">
+							<c:if test="${eval.collocazioneUrbana == 1}">
 								<span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star-empty"></span> <span class="glyphicon glyphicon-star-empty"></span> <span class="glyphicon glyphicon-star-empty"></span> <span class="glyphicon glyphicon-star-empty"></span> <br> 
 							</c:if>  
-							<c:if test="${eval.soddEsperienza == 2}">
+							<c:if test="${eval.collocazioneUrbana == 2}">
 								<span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star-empty"></span> <span class="glyphicon glyphicon-star-empty"></span> <span class="glyphicon glyphicon-star-empty"></span> <br> 
 							</c:if>  
-							<c:if test="${eval.soddEsperienza == 3}">
+							<c:if test="${eval.collocazioneUrbana == 3}">
 								<span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star-empty"></span> <span class="glyphicon glyphicon-star-empty"></span> <br> 
 							</c:if>  
-							<c:if test="${eval.soddEsperienza == 4}">
+							<c:if test="${eval.collocazioneUrbana == 4}">
 								<span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <br> 
 							</c:if>  
-							<c:if test="${eval.soddEsperienza == 5}">
+							<c:if test="${eval.collocazioneUrbana == 5}">
 								<span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star-empty"></span> <br> 
 							</c:if>  
 							
-							<c:if test="${eval.soddAccademica == 1}">
+							<c:if test="${eval.iniziativeErasmus == 1}">
 								<span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star-empty"></span> <span class="glyphicon glyphicon-star-empty"></span> <span class="glyphicon glyphicon-star-empty"></span> <span class="glyphicon glyphicon-star-empty"></span> <br> 
 							</c:if>  
-							<c:if test="${eval.soddAccademica == 2}">
+							<c:if test="${eval.iniziativeErasmus == 2}">
 								<span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star-empty"></span> <span class="glyphicon glyphicon-star-empty"></span> <span class="glyphicon glyphicon-star-empty"></span> <br> 
 							</c:if>  
-							<c:if test="${eval.soddAccademica == 3}">
+							<c:if test="${eval.iniziativeErasmus == 3}">
 								<span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star-empty"></span> <span class="glyphicon glyphicon-star-empty"></span> <br> 
 							</c:if>  
-							<c:if test="${eval.soddAccademica == 4}">
+							<c:if test="${eval.iniziativeErasmus == 4}">
 								<span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <br> 
 							</c:if>  
-							<c:if test="${eval.soddAccademica == 5}">
-								<span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star-empty"></span> <br> 
-							</c:if> 
-							
-							<c:if test="${eval.didattica == 1}">
-								<span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star-empty"></span> <span class="glyphicon glyphicon-star-empty"></span> <span class="glyphicon glyphicon-star-empty"></span> <span class="glyphicon glyphicon-star-empty"></span> <br> 
-							</c:if>  
-							<c:if test="${eval.didattica == 2}">
-								<span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star-empty"></span> <span class="glyphicon glyphicon-star-empty"></span> <span class="glyphicon glyphicon-star-empty"></span> <br> 
-							</c:if>  
-							<c:if test="${eval.didattica == 3}">
-								<span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star-empty"></span> <span class="glyphicon glyphicon-star-empty"></span> <br> 
-							</c:if>  
-							<c:if test="${eval.didattica == 4}">
-								<span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <br> 
-							</c:if>  
-							<c:if test="${eval.didattica == 5}">
+							<c:if test="${eval.iniziativeErasmus == 5}">
 								<span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star-empty"></span> <br> 
 							</c:if> 
 							
-							<c:if test="${eval.valutazioneResponsabile == 1}">
+							<c:if test="${eval.qtaInsegnamenti == 1}">
 								<span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star-empty"></span> <span class="glyphicon glyphicon-star-empty"></span> <span class="glyphicon glyphicon-star-empty"></span> <span class="glyphicon glyphicon-star-empty"></span> <br> 
 							</c:if>  
-							<c:if test="${eval.valutazioneResponsabile == 2}">
+							<c:if test="${eval.qtaInsegnamenti == 2}">
 								<span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star-empty"></span> <span class="glyphicon glyphicon-star-empty"></span> <span class="glyphicon glyphicon-star-empty"></span> <br> 
 							</c:if>  
-							<c:if test="${eval.valutazioneResponsabile == 3}">
+							<c:if test="${eval.qtaInsegnamenti == 3}">
 								<span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star-empty"></span> <span class="glyphicon glyphicon-star-empty"></span> <br> 
 							</c:if>  
-							<c:if test="${eval.valutazioneResponsabile == 4}">
+							<c:if test="${eval.qtaInsegnamenti == 4}">
 								<span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <br> 
 							</c:if>  
-							<c:if test="${eval.valutazioneResponsabile == 5}">
+							<c:if test="${eval.qtaInsegnamenti == 5}">
+								<span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star-empty"></span> <br> 
+							</c:if> 
+							
+							<c:if test="${eval.qtaAule == 1}">
+								<span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star-empty"></span> <span class="glyphicon glyphicon-star-empty"></span> <span class="glyphicon glyphicon-star-empty"></span> <span class="glyphicon glyphicon-star-empty"></span> <br> 
+							</c:if>  
+							<c:if test="${eval.qtaAule == 2}">
+								<span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star-empty"></span> <span class="glyphicon glyphicon-star-empty"></span> <span class="glyphicon glyphicon-star-empty"></span> <br> 
+							</c:if>  
+							<c:if test="${eval.qtaAule == 3}">
+								<span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star-empty"></span> <span class="glyphicon glyphicon-star-empty"></span> <br> 
+							</c:if>  
+							<c:if test="${eval.qtaAule == 4}">
+								<span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <br> 
+							</c:if>  
+							<c:if test="${eval.qtaAule == 5}">
 								<span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star-empty"></span> <br> 
 							</c:if> 
 					</div>
