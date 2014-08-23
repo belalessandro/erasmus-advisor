@@ -1,5 +1,6 @@
 package it.unipd.dei.bding.erasmusadvisor.database;
 
+import it.unipd.dei.bding.erasmusadvisor.beans.ArgomentoTesiBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.CittaBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.DocumentazioneBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.FlussoBean;
@@ -22,7 +23,7 @@ import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.dbutils.DbUtils;
 import org.apache.tomcat.jdbc.pool.DataSource;
 
-public class TestGestioneDatabase {
+public class TestArgomentoTesiDatabase {
 
 
 	private static final String DRIVER = "org.postgresql.Driver";
@@ -53,24 +54,13 @@ public class TestGestioneDatabase {
 		}
 
 
-//		DocumentazioneBean documentazioneBean = new DocumentazioneBean();
-//		FlussoBean flussoBean = new FlussoBean();
-//		GestioneBean gestioneBean = new GestioneBean();
-		InsegnamentoBean insegnamentoBean = new InsegnamentoBean();
-//		LinguaCittaBean linguaCittaBean = new LinguaCittaBean();
-//		LinguaTesiBean linguaTesiBean = new LinguaTesiBean();
-//		OrigineBean origineBean = new OrigineBean();
-//		SvolgimentoBean svolgimentoBean = new SvolgimentoBean();
+		ArgomentoTesiBean argom = new ArgomentoTesiBean();
 		
 		// populate..
-		insegnamentoBean.setNome("Analisi3");
-		insegnamentoBean.setCrediti(9);
-		insegnamentoBean.setNomeUniversita("University of Cambridge");
-		insegnamentoBean.setPeriodoErogazione(1);
-		insegnamentoBean.setStato("NOT VERIFIED");
-		insegnamentoBean.setAnnoCorso(4);
-		insegnamentoBean.setNomeArea("Mathematics");
-		insegnamentoBean.setNomeLingua("eng");
+		argom.setNome("UnArgomentoDiTEsi");
+		argom.setMagistrale(true);
+		argom.setNomeUniversita("University of Cambridge");
+		argom.setStato("NOT VERIFIED");
 		
 		try {
 			con = DriverManager.getConnection(DATABASE, USER, PASSWORD); // UNICA CONNESSIONE
@@ -80,7 +70,7 @@ public class TestGestioneDatabase {
 //			DocumentazioneDatabase.createDocumentazione(con, documentazioneBean);
 //			FlussoDatabase.createFlusso(con, flussoBean);
 //			GestioneDatabase.createGestione(con, gestioneBean);
-			int ret = InsegnamentoDatabase.createInsegnamento(con, insegnamentoBean);
+			int ret = ArgomentoTesiDatabase.createArgomentoTesi(con, argom);
 //			LinguaCittaDatabase.createLinguaCitta(con, linguaCittaBean);
 //			LinguaTesiDatabase.createLinguaTesi(con, linguaTesiBean);
 //			OrigineDatabase.createOrigine(con, origineBean);
