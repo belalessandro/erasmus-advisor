@@ -41,7 +41,7 @@ public class ArgomentoTesiDatabase {
 		 * The SQL insert statement
 		 */
 		String insertStmt = "INSERT INTO ArgomentoTesi (id, nome, nomeUniversita, triennale, magistrale, stato) "
-				+ "VALUES (DEFAULT, ?, ?, ?, ?, ?)"
+				+ "VALUES (DEFAULT, ?, ?, ?, ?, CAST(? AS stato))"
 				+ "RETURNING id";
 		
 		PreparedStatement pstmt = null;
@@ -54,9 +54,10 @@ public class ArgomentoTesiDatabase {
 			pstmt.setBoolean(4, arg.isMagistrale());
 			pstmt.setString(5, arg.getStato());
 			pstmt.execute();
-			ResultSet rs = pstmt.getGeneratedKeys();
+			
+			ResultSet rs = pstmt.getResultSet();
 			if (rs.next()) {
-				 generatedId = rs.getInt(0);
+				 generatedId = rs.getInt(1);
 			}
 		} finally {
 			DbUtils.closeQuietly(pstmt);

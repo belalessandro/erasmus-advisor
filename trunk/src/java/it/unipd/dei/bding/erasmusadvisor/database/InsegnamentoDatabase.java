@@ -9,6 +9,7 @@ import it.unipd.dei.bding.erasmusadvisor.resources.Teaching;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -34,20 +35,22 @@ public class InsegnamentoDatabase
 	 * 
 	 * @param con The connection to the database
 	 * @param insegnamento The Insegnamento to be stored
-	 * 
+	 * @return the generated id
 	 * @throws SQLException
 	 *             if any error occurs while storing the Insegnamento.
 	 */
-	public static void createInsegnamento(Connection con, InsegnamentoBean insegnamento)
+	public static int createInsegnamento(Connection con, InsegnamentoBean insegnamento)
 			throws SQLException {
 		/**
 		 * The SQL insert statement
 		 */
 		String insertStmt = "INSERT INTO Insegnamento (id, nome, crediti, nomeUniversita, "
 				+ "periodoErogazione, stato, annoCorso, nomeArea, nomeLingua) "
-				+ "VALUES (DEFAULT, ?, ?, ?, ?, ?, ?, ?, ?)";
+				+ "VALUES (DEFAULT, ?, ?, ?, ?, CAST(? AS stato), ?, ?, ?) "
+				+ "RETURNING Id";
 		
 		PreparedStatement pstmt = null;
+		int generatedId = -1;
 		try {
 			pstmt = con.prepareStatement(insertStmt);
 			pstmt.setString(1, insegnamento.getNome());
@@ -59,9 +62,15 @@ public class InsegnamentoDatabase
 			pstmt.setString(7, insegnamento.getNomeArea());
 			pstmt.setString(8, insegnamento.getNomeLingua());
 			pstmt.execute();
+			ResultSet rs = pstmt.getResultSet();
+			
+			if (rs.next()) {
+				 generatedId = rs.getInt(1);
+			}
 		} finally {
 			DbUtils.closeQuietly(pstmt);
 		}
+		return generatedId;
 	}
 	
 	public static Teaching getInsegnamento(Connection conn, int ID)

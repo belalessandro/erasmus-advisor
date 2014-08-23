@@ -34,7 +34,7 @@ public class CorsoDiLaureaDatabase  {
 		 * The SQL insert statement
 		 */
 		String statement = "INSERT INTO CorsoDiLaurea (id, nome, livello, nomeUniversita)"
-							+ " VALUES (DEFAULT, ?, ?, ?)"
+							+ " VALUES (DEFAULT, ?, CAST(? AS tipolaurea), ?)"
 							+ " RETURNING id";
 		
 		PreparedStatement pstmt = null;
@@ -47,7 +47,7 @@ public class CorsoDiLaureaDatabase  {
 			pstmt.setString(3, corsoDiLaurea.getNomeUniversita());
 			pstmt.execute();
 
-			ResultSet rs = pstmt.getGeneratedKeys();
+			ResultSet rs = pstmt.getResultSet();
 			if (rs.next()) {
 				 generatedId = rs.getInt(1);
 			}
