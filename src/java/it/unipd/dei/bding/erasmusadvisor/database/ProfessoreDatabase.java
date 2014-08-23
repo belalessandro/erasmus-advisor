@@ -22,15 +22,61 @@ import org.apache.commons.dbutils.handlers.BeanListHandler;
  *
  */
 public class ProfessoreDatabase {
+	public static int selectOrInsertProfessore (Connection con, String nome, 
+			String cognome, String universita) throws SQLException
+	
+	{
+		int ID = -1;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		//Search if The Teaches has already Classes or Theses and returning the id
+		String statement =  " SELECT P.id FROM Professore AS P " +
+							" INNER JOIN Svolgimento AS S ON P.id = S.idProfessore " +
+							" INNER JOIN Insegnamento AS I on I.id = S.idInsegnamento " +
+							" WHERE P.nome = ? AND P.cognome = ? AND I.nomeUniversita = ? " +
+							" UNION " +
+							" SELECT P.id FROM Professore AS P " +
+							" INNER JOIN Gestione AS G ON P.id = G.idProfessore " + 
+							" INNER JOIN ArgomentoTesi AS A on A.id = G.idArgomentoTesi " +
+							" WHERE P.nome = ? AND P.cognome = ? AND A.nomeUniversita = ? ";
+		try {
+			pstmt = con.prepareStatement(statement);
+			pstmt.setString(1, nome);
+			pstmt.setString(2, cognome);
+			pstmt.setString(3, universita);
+			pstmt.setString(4, nome);
+			pstmt.setString(5, cognome);
+			pstmt.setString(6, universita);
+			rs = pstmt.executeQuery();
+			//If the query has results then update ID
+			if (rs.next()) 
+			{
+				ID = rs.getInt(1);
+			}
+		} finally {
+			DbUtils.closeQuietly(pstmt);
+		}
+		
+		//If NOT, insert the Teacher into database
+		if (ID==-1) 
+		{
+			ProfessoreBean prof = new ProfessoreBean();
+			prof.setNome(nome);
+			prof.setCognome(cognome);
+			ID = createProfessore(con, prof);
+		}
+		
+		return ID;
+	}
+	
+	
 	/**
-	 * Executes a statement to store a new Teacher into the database,
-	 * without closing the connection.
-	 * 
-	 * @param con The connection to the database
-	 * @param uni The Teacher to be stored
-	 * 
+	 * Create a new Teacher and return is Id
+	 * @param con
+	 * @param prof
+	 * @return idProf
 	 * @throws SQLException
-	 *             if any error occurs while storing the Teacher.
 	 */
 	public static int createProfessore(Connection con, ProfessoreBean prof)
 			throws SQLException {
@@ -47,10 +93,9 @@ public class ProfessoreDatabase {
 			pstmt = con.prepareStatement(insertStmt);
 			pstmt.setString(1, prof.getNome());
 			pstmt.setString(2, prof.getCognome());
-			pstmt.execute();
-			ResultSet rs = pstmt.getGeneratedKeys();
+			ResultSet rs = pstmt.executeQuery();
 			if (rs.next()) {
-				 generatedId = rs.getInt(0);
+				 generatedId = rs.getInt(1);
 			}
 		} finally {
 			DbUtils.closeQuietly(pstmt);
