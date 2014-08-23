@@ -26,9 +26,9 @@ import org.apache.commons.dbutils.DbUtils;
  * 
  * * Notice: Only doGet(..) is allowed here! *
  * 
- * Mapped to /city/insert-form
+ * Mapped to /city/insert
  * 
- * @author Alessandro, Luca
+ * @author Luca
  *
  */
 public class InsertCityServlet extends AbstractDatabaseServlet {
