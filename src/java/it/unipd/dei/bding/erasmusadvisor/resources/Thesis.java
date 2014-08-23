@@ -13,7 +13,9 @@ import it.unipd.dei.bding.erasmusadvisor.beans.ValutazioneTesiBean;
 import java.util.ArrayList;
 import java.util.List;
 
+
 /**
+ * Contains all the details of a Thesis needed by an end user.
  * 
  * @author Nicola, Luca
  *
@@ -27,6 +29,15 @@ public class Thesis
 	private List<LinguaBean> lingue;
 	private List<AreaBean> aree;
 
+	/**
+	 * Initialize the Thesis.
+	 * 
+	 * @param arg the Thesis
+	 * @param listaValutazioni the list of the thesis' evaluations 
+	 * @param professori the list of teachers that manage the thesis
+	 * @param lingue the list of languages in which the thesis could be done
+	 * @param aree the list of areas that the thesis extends
+	 */
 	public Thesis(ArgomentoTesiBean arg, List<ValutazioneTesiBean> listaValutazioni,
 			List<ProfessoreBean> professori, List<LinguaBean> lingue, List<AreaBean> aree) 
 	{
@@ -37,52 +48,83 @@ public class Thesis
 		this.aree = aree;
 	}
 	
+	/**
+	 * @param arg
+	 * @param listaValutazioni
+	 */
 	public Thesis(ArgomentoTesiBean arg, List<ValutazioneTesiBean> listaValutazioni) 
 	{
 		this.arg = arg;
 		this.listaValutazioni = listaValutazioni;
 	}
 	
+	/**
+	 * @param arg
+	 */
 	public Thesis(ArgomentoTesiBean arg) 
 	{
 		this.arg = arg;
 		listaValutazioni = null;
 	}
 	
+	/**
+	 * Get the teachers that manage the thesis
+	 * @return a list of beans representing the teachers
+	 */
 	public List<ProfessoreBean> getProfessori()
 	{
 		return professori;
 	}
 	
+	/**
+	 * Set the teachers that manage the thesis
+	 * @param obj
+	 */
 	public void setProfessori(List<ProfessoreBean> obj)
 	{
 		professori = obj;
 	}
 	
+	/**
+	 * Get the thesis' languages
+	 * @return the list of languages
+	 */
 	public List<LinguaBean> getLingue()
 	{
 		return lingue;
 	}
 	
+	/**
+	 * Set the thesis' languages
+	 * @param obj a list of beans representing the languages
+	 */
 	public void setLingue(List<LinguaBean> obj)
 	{
 		lingue = obj;
 	}
 	
+	/**
+	 * Get the thesis' areas
+	 * @return a list of areas
+	 */
 	public List<AreaBean> getAree()
 	{
 		return aree;
 	}
 	
+	/**
+	 * Set the thesis' areas
+	 * @param obj a list of beans representing the areas
+	 */
 	public void setAree(List<AreaBean> obj)
 	{
 		aree = obj;
 	}
 
 	/**
-	 * Returns the field arg.
+	 * Returns Thesis.
 	 *
-	 * @return the value of argomentoTesi
+	 * @return a bean representing the Thesis
 	 */
 	public ArgomentoTesiBean getArgomentoTesi()
 	{
@@ -90,9 +132,9 @@ public class Thesis
 	}
 
 	/**
-	 * Sets the field arg
+	 * Sets the Thesis
 	 *
-	 * @param universita The value to set
+	 * @param arg The thesis
 	 */
 	public void setArgomentoTesi(ArgomentoTesiBean arg) 
 	{
@@ -100,9 +142,9 @@ public class Thesis
 	}
 
 	/**
-	 * Returns the field listaValutazioni.
+	 * Returns the thesis' evaluations.
 	 *
-	 * @return the value of listaValutazioni
+	 * @return a list of beans representing the evaluations
 	 */
 	public List<ValutazioneTesiBean> getListaValutazioni() 
 	{
@@ -110,7 +152,7 @@ public class Thesis
 	}
 
 	/**
-	 * Sets the field listaValutazioni
+	 * Sets the thesis' evaluations
 	 *
 	 * @param listaValutazioni The value to set
 	 */
@@ -120,9 +162,4 @@ public class Thesis
 		this.listaValutazioni = listaValutazioni;
 	}
 	
-	/*public String toString()
-	{
-		String s = arg.getNome()+arg.getNomeUniversita()+arg.getStato()+arg.isTriennale()+arg.isMagistrale()+"";
-		return s;
-	}*/
 }

@@ -20,6 +20,12 @@ import org.apache.commons.dbutils.handlers.BeanListHandler;
 
 public class GetAreaValues 
 {
+	/**
+	 * Get the domain of Area
+	 * @param conn A connection to the database.
+	 * @return a list of areas
+	 * @throws SQLException If an error occurs running the SQL query.
+	 */
 	public static List<AreaBean> getAreaDomain(Connection conn) throws SQLException
 	{
 		final String statement = "SELECT nome FROM Area"; 

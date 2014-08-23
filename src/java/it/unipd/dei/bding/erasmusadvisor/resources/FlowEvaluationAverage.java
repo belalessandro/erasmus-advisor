@@ -16,7 +16,11 @@ public class FlowEvaluationAverage implements Serializable
 	int academicFulfillment = 0;
 	int didactics = 0;
 	int managerEvaluation = 0;
-	
+
+	/**
+	 * Initialize the class computing the evaluations' average. If the list is void the average is set to 0 for all the fields.
+	 * @param list a list of evaluations
+	 */
 	public FlowEvaluationAverage(List<ValutazioneFlussoBean> list)
 	{
 		int[] sum = new int[4];
@@ -36,22 +40,38 @@ public class FlowEvaluationAverage implements Serializable
 			managerEvaluation = Math.round(sum[3]/list.size());
 		}
 	}
-	
+
+	/**
+	 * Get the average of the evaluations in the Gratification field
+	 * @return the average
+	 */
 	public int getGratification()
 	{
 		return gratification;
 	}
-	
+
+	/**
+	 * Get the average of the evaluations in the Academic Fulfillment field
+	 * @return the average
+	 */
 	public int getAcademicFulfillment()
 	{
 		return academicFulfillment;
 	}
-	
+
+	/**
+	 * Get the average of the evaluations in the Didactics field
+	 * @return the average
+	 */
 	public int getDidactics()
 	{
 		return didactics;
 	}
-	
+
+	/**
+	 * Get the average of the evaluations in the Manager Evaluation field
+	 * @return the average
+	 */
 	public int getManagerEvaluation()
 	{
 		return managerEvaluation;

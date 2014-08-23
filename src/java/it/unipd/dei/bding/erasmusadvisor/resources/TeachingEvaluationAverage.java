@@ -16,7 +16,11 @@ public class TeachingEvaluationAverage implements Serializable
 	int scheduleCompliance = 0;
 	int difficulty = 0;
 	int interest = 0;
-	
+
+	/**
+	 * Initialize the class computing the evaluations' average. If the list is void the average is set to 0 for all the fields.
+	 * @param list a list of evaluations
+	 */
 	public TeachingEvaluationAverage(List<ValutazioneInsegnamentoBean> list)
 	{
 		int[] sum = new int[4];
@@ -36,22 +40,38 @@ public class TeachingEvaluationAverage implements Serializable
 			interest = Math.round(sum[3]/list.size());
 		}
 	}
-	
+
+	/**
+	 * Get the average of the evaluations in the Teaching Quality field
+	 * @return the average
+	 */
 	public int getTeachingQuality()
 	{
 		return teachingQuality;
 	}
-	
+
+	/**
+	 * Get the average of the evaluations in the Schedule Compliance field
+	 * @return the average
+	 */
 	public int getScheduleCompliance()
 	{
 		return scheduleCompliance;
 	}
-	
+
+	/**
+	 * Get the average of the evaluations in the Difficulty field
+	 * @return the average
+	 */
 	public int getDifficulty()
 	{
 		return difficulty;
 	}
-	
+
+	/**
+	 * Get the average of the evaluations in the Interest field
+	 * @return the average
+	 */
 	public int getInterest()
 	{
 		return interest;

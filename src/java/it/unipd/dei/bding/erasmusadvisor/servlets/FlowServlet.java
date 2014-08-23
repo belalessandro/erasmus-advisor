@@ -3,15 +3,12 @@
  */
 package it.unipd.dei.bding.erasmusadvisor.servlets;
 
-
-
 import it.unipd.dei.bding.erasmusadvisor.beans.CertificatiLinguisticiBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.CorsoDiLaureaBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.InsegnamentoBean;
-import it.unipd.dei.bding.erasmusadvisor.beans.InteresseBean;
+import it.unipd.dei.bding.erasmusadvisor.database.CorsoDiLaureaDatabase;
 import it.unipd.dei.bding.erasmusadvisor.database.FlussoDatabase;
 import it.unipd.dei.bding.erasmusadvisor.database.GetCertificatiLinguisticiValues;
-import it.unipd.dei.bding.erasmusadvisor.database.GetCorsoDiLaureaValues;
 import it.unipd.dei.bding.erasmusadvisor.database.InteresseDatabase;
 import it.unipd.dei.bding.erasmusadvisor.database.RiconoscimentoDatabase;
 import it.unipd.dei.bding.erasmusadvisor.resources.Flow;
@@ -138,8 +135,8 @@ public class FlowServlet extends AbstractDatabaseServlet {
 		try {
 			conn = DS.getConnection();
 			results = FlussoDatabase.getFlusso(DS, ID);
-			certificatesDomain = GetCertificatiLinguisticiValues.getCertificatiLinguisticiDomain(DS);
-			possibileCourses = GetCorsoDiLaureaValues.getPossibleCourses(DS, results.getResponsabile());
+			certificatesDomain = GetCertificatiLinguisticiValues.getCertificatiLinguisticiDomain(conn);
+			possibileCourses = CorsoDiLaureaDatabase.getPossibleCourses(conn, results.getResponsabile());
 			interests = InteresseDatabase.getCountInteresseByFlusso(conn, ID);
 			recognisedClasses = RiconoscimentoDatabase.getInsegnamentiRiconosciuti(conn, ID);
 		} 
