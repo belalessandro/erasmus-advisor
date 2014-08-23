@@ -109,7 +109,7 @@
 	
 	<servlet-mapping> 
 		<servlet-name>InsertUniversityServlet</servlet-name>
-		<url-pattern>/university/insert-form</url-pattern>
+		<url-pattern>/university/insert</url-pattern>
 	</servlet-mapping>
     
     <servlet>
@@ -119,7 +119,7 @@
 	
 	<servlet-mapping> 
 		<servlet-name>InsertCourseServlet</servlet-name>
-		<url-pattern>/course/insert-form</url-pattern>
+		<url-pattern>/course/insert</url-pattern>
 	</servlet-mapping>
 
 	<servlet>
@@ -129,7 +129,7 @@
 	
 	<servlet-mapping> 
 		<servlet-name>InsertClassServlet</servlet-name>
-		<url-pattern>/class/insert-form</url-pattern>
+		<url-pattern>/class/insert</url-pattern>
 	</servlet-mapping>
 
 	<servlet>
@@ -139,7 +139,7 @@
 	
 	<servlet-mapping> 
 		<servlet-name>InsertThesisServlet</servlet-name>
-		<url-pattern>/thesis/insert-form</url-pattern>
+		<url-pattern>/thesis/insert</url-pattern>
 	</servlet-mapping>
 
 	<servlet>
@@ -149,7 +149,7 @@
 	
 	<servlet-mapping> 
 		<servlet-name>InsertFlowServlet</servlet-name>
-		<url-pattern>/flow/insert-form</url-pattern>
+		<url-pattern>/flow/insert</url-pattern>
 	</servlet-mapping>
 
 	<servlet>
@@ -159,7 +159,7 @@
 	
 	<servlet-mapping> 
 		<servlet-name>InsertCityServlet</servlet-name>
-		<url-pattern>/city/insert-form</url-pattern>
+		<url-pattern>/city/insert</url-pattern>
 	</servlet-mapping>
     
 	<servlet> <!-- DEPRECATO -->

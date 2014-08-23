@@ -197,14 +197,12 @@
 									<span class="input-group-addon insert_new_select_label_inline">Insert the flow's starting degree courses*</span>
 									<select class="selectpicker text-left" multiple id="origin" name="origin[]">
 										<c:forEach var="possibileCourses" items='${possibileCourses}'>
-											<option 
+											<option value="${possibleCourses.id}" 
 												<c:forEach var="origins" items='${origins}' >
 												<c:if test="${possibileCourses.id == origins.id}">selected</c:if>
 												</c:forEach>
 											>
 											${possibileCourses.nome} (${possibileCourses.livello})</option>
-											<c:if test="${!status.last}">, </c:if>
-											<c:if test="${status.last}">.</c:if>
 										</c:forEach>
 				    				</select> 
 								</div>
@@ -218,7 +216,7 @@
 									<span class="input-group-addon insert_new_select_label_inline">Insert the flow's Language Certifications*</span>
 									<select class="selectpicker text-left" multiple id="certificate" name="certificate[]">
 										<c:forEach var="certificatesDomain" items='${certificatesDomain}'>
-											<option 
+											<option value="${certificatesDomain.nomeLingua} - ${certificatesDomain.livello}" 
 												<c:forEach var="certificates" items='${certificates}' >
 												<c:if test="${(certificatesDomain.nomeLingua == certificates.nomeLingua) && (certificatesDomain.livello == certificates.livello)}">selected</c:if>
 												</c:forEach>

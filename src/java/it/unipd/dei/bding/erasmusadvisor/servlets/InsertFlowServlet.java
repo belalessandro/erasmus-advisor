@@ -1,21 +1,31 @@
 package it.unipd.dei.bding.erasmusadvisor.servlets;
 
+import it.unipd.dei.bding.erasmusadvisor.beans.CertificatiLinguisticiBean;
+import it.unipd.dei.bding.erasmusadvisor.beans.CorsoDiLaureaBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.DocumentazioneBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.FlussoBean;
+import it.unipd.dei.bding.erasmusadvisor.beans.LinguaBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.OrigineBean;
+import it.unipd.dei.bding.erasmusadvisor.database.CorsoDiLaureaDatabase;
 import it.unipd.dei.bding.erasmusadvisor.database.CreateDocumentazioneDatabase;
 import it.unipd.dei.bding.erasmusadvisor.database.CreateFlussoDatabase;
 import it.unipd.dei.bding.erasmusadvisor.database.CreateOrigineDatabase;
+import it.unipd.dei.bding.erasmusadvisor.database.GetCertificatiLinguisticiValues;
+import it.unipd.dei.bding.erasmusadvisor.database.GetLinguaValues;
 import it.unipd.dei.bding.erasmusadvisor.resources.LoggedUser;
 import it.unipd.dei.bding.erasmusadvisor.resources.Message;
 import it.unipd.dei.bding.erasmusadvisor.resources.UserType;
 
 import java.io.IOException;
+import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.dbutils.DbUtils;
 
 
 /**
@@ -34,15 +44,40 @@ public class InsertFlowServlet extends AbstractDatabaseServlet {
 	
 	private static final long serialVersionUID = 4109125705340314063L;
 
+	// notare che manca l'istruzione che recupera i corsi selezionabili in base al responsabil di flusso
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		
+
+		List<CertificatiLinguisticiBean> certificatesDomain = null;
+		List<CorsoDiLaureaBean> possibileCourses = null;
+		Connection conn = null;
+		Message m = null;
 		
-		// attribs here...
-		//request.setAttribute("bohhhh", m);
-		
-		// forward to the insert FORM
-		req.getRequestDispatcher("/jsp/insert_flow.jsp").forward(req, resp);
+		try {
+			conn = DS.getConnection();
+			certificatesDomain = GetCertificatiLinguisticiValues.getCertificatiLinguisticiDomain(conn);
+			//possibileCourses = CorsoDiLaureaDatabase.getPossibleCourses(conn, );
+		} 
+		catch (SQLException ex) {
+			m = new Message("Error while getting the city.", "XXX", ex.getMessage());
+		} 
+		finally {
+			DbUtils.closeQuietly(conn); // always closes the connection 
+		}
+
+		if (m == null)
+		{
+			// forward to the insert FORM
+			req.setAttribute("certificatesDomain", certificatesDomain);
+			req.setAttribute("possibileCourses", possibileCourses);
+			getServletContext().getRequestDispatcher("/jsp/insert_flow.jsp").forward(req, resp);
+		}
+		else
+		{
+			req.setAttribute("message", m);
+			getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(req, resp);
+		}
 	}
 	
 	

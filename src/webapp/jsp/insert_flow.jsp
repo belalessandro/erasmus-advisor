@@ -9,16 +9,16 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	
-	<link href="../css/ea-main.css" rel="stylesheet">
-	<link href="../css/bootstrap.min.css" rel="stylesheet">
-	<link href="../fonts/font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet">
+	<link href="<c:url value="/css"/>/ea-main.css" rel="stylesheet">
+	<link href="<c:url value="/css"/>/bootstrap.min.css" rel="stylesheet">
+	<link href="<c:url value="/fonts"/>/font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet">
 	
-	<link href="../css/bootstrap-select.min.css" rel="stylesheet">
-	<script src="../js/jquery.min.js"></script>
-	<script src="../js/bootstrap-select.js"></script>	
-	<script src="../js/bootstrap.min.js"></script>
+	<link href="<c:url value="/css"/>/bootstrap-select.min.css" rel="stylesheet">
+	<script src="<c:url value="/js"/>/jquery.min.js"></script>
+	<script src="<c:url value="/js"/>/bootstrap-select.js"></script>	
+	<script src="<c:url value="/js"/>/bootstrap.min.js"></script>
 		
-	<script src="../js/ea-form-validation.js"></script>
+	<script src="<c:url value="/js"/>/ea-form-validation.js"></script>
 	<script>
 	// inizializza i select avanzati
 	$(document).ready(function() {
@@ -64,11 +64,10 @@
 						<span></span>
 						<span class="input-group-addon insert_new_select_label_inline">Insert the flow's starting degree courses*</span>
 						<select class="selectpicker text-left" multiple id="origin" name="origin[]">
-	    					<option value="1">Course1</option>
-	    					<option value="2">Course2</option>
-	   						<option value="3">Course3</option>
-	    					<option value="4">Course4</option>
-	   						<option value="5">Course5</option>
+							<c:forEach var="possibileCourses" items='${possibileCourses}'>
+								<option value="${possibleCourses.id}" >
+								${possibileCourses.nome} (${possibileCourses.livello})</option>
+							</c:forEach>
 	    				</select> 
 					</div>
 					<br>
@@ -80,11 +79,10 @@
 						<span></span>
 						<span class="input-group-addon insert_new_select_label_inline">Insert the flow's Language Certifications*</span>
 						<select class="selectpicker text-left" multiple id="certificate" name="certificate[]">
-	    					<option value="eng:B1">B1 of English</option>
-	    					<option value="eng:B2">B2 of English</option>
-	   						<option value="eng:C1">Certificate3</option>
-	    					<option value="eng:C2">Certificate4</option>
-	   						<option value="fra:B1">B1 of French</option>
+							<c:forEach var="certificatesDomain" items='${certificatesDomain}'>
+								<option value="${certificatesDomain.nomeLingua} - ${certificatesDomain.livello}" >
+								${certificatesDomain.nomeLingua} - ${certificatesDomain.livello}</option>
+							</c:forEach>
 	    				</select> 						
 					</div>
 					<br>

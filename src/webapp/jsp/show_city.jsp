@@ -153,7 +153,7 @@
 									<span></span><span class="input-group-addon insert_new_select_label_inline">Select the languages spoken in the city*</span> 
 									<select class="selectpicker text-left" multiple id="language" name="language[]">
 									<c:forEach var="languageDomain" items='${languageDomain}'>
-										<option 
+										<option value="${languageDomain.sigla}" 
 											<c:forEach var="lingua" items='${languages}' >
 											<c:if test="${languageDomain.nome == lingua.nome}">selected</c:if>
 											</c:forEach>
