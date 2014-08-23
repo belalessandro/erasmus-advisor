@@ -102,7 +102,65 @@
         <url-pattern>/student/evaluate</url-pattern>
     </servlet-mapping>
         
+    <servlet>
+		<servlet-name>InsertUniversityServlet</servlet-name>
+		<servlet-class>it.unipd.dei.bding.erasmusadvisor.servlets.InsertUniversityServlet</servlet-class>
+	</servlet>
+	
+	<servlet-mapping> 
+		<servlet-name>InsertUniversityServlet</servlet-name>
+		<url-pattern>/university/insert-form</url-pattern>
+	</servlet-mapping>
     
+    <servlet>
+		<servlet-name>InsertCourseServlet</servlet-name>
+		<servlet-class>it.unipd.dei.bding.erasmusadvisor.servlets.InsertCourseServlet</servlet-class>
+	</servlet>
+	
+	<servlet-mapping> 
+		<servlet-name>InsertCourseServlet</servlet-name>
+		<url-pattern>/course/insert-form</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>InsertClassServlet</servlet-name>
+		<servlet-class>it.unipd.dei.bding.erasmusadvisor.servlets.InsertClassServlet</servlet-class>
+	</servlet>
+	
+	<servlet-mapping> 
+		<servlet-name>InsertClassServlet</servlet-name>
+		<url-pattern>/class/insert-form</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>InsertThesisServlet</servlet-name>
+		<servlet-class>it.unipd.dei.bding.erasmusadvisor.servlets.InsertThesisServlet</servlet-class>
+	</servlet>
+	
+	<servlet-mapping> 
+		<servlet-name>InsertThesisServlet</servlet-name>
+		<url-pattern>/thesis/insert-form</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>InsertFlowServlet</servlet-name>
+		<servlet-class>it.unipd.dei.bding.erasmusadvisor.servlets.InsertFlowServlet</servlet-class>
+	</servlet>
+	
+	<servlet-mapping> 
+		<servlet-name>InsertFlowServlet</servlet-name>
+		<url-pattern>/flow/insert-form</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>InsertCityServlet</servlet-name>
+		<servlet-class>it.unipd.dei.bding.erasmusadvisor.servlets.InsertCityServlet</servlet-class>
+	</servlet>
+	
+	<servlet-mapping> 
+		<servlet-name>InsertCityServlet</servlet-name>
+		<url-pattern>/city/insert-form</url-pattern>
+	</servlet-mapping>
     
 	<servlet> <!-- DEPRECATO -->
 		<servlet-name>InsertFlowServlet</servlet-name>
