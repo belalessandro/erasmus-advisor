@@ -9,12 +9,12 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	
-	<script src="../js/ea-form-validation.js"></script>
-	
 	<link href="../css/ea-main.css" rel="stylesheet">
 	<link href="../css/bootstrap.min.css" rel="stylesheet">
 	<link href="../fonts/font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet">
 	<script src="../js/bootstrap.min.js"></script>	
+	
+	<script src="../js/ea-form-validation.js"></script>
 </head>
 
 <body>
