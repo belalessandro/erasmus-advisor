@@ -6,6 +6,7 @@ import it.unipd.dei.bding.erasmusadvisor.beans.DocumentazioneBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.FlussoBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.LinguaBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.OrigineBean;
+import it.unipd.dei.bding.erasmusadvisor.beans.ResponsabileFlussoBean;
 import it.unipd.dei.bding.erasmusadvisor.database.CorsoDiLaureaDatabase;
 import it.unipd.dei.bding.erasmusadvisor.database.CreateDocumentazioneDatabase;
 import it.unipd.dei.bding.erasmusadvisor.database.CreateFlussoDatabase;
@@ -49,6 +50,13 @@ public class InsertFlowServlet extends AbstractDatabaseServlet {
 			throws ServletException, IOException {
 		
 
+		//LoggedUser lu = (LoggedUser) req.getSession().getAttribute("loggedUser");
+		// if !lu.isResp()... => ERROR
+		
+		ResponsabileFlussoBean flowResp = new ResponsabileFlussoBean();
+		// flowResp <- SELECT * from ResponsabileFlusso where lu.getUser() 
+		flowResp.setNomeUniversita("University of Cambridge");// TODO ale: sostituire con il populate da db
+		
 		List<CertificatiLinguisticiBean> certificatesDomain = null;
 		List<CorsoDiLaureaBean> possibileCourses = null;
 		Connection conn = null;
@@ -57,7 +65,7 @@ public class InsertFlowServlet extends AbstractDatabaseServlet {
 		try {
 			conn = DS.getConnection();
 			certificatesDomain = GetCertificatiLinguisticiValues.getCertificatiLinguisticiDomain(conn);
-			//possibileCourses = CorsoDiLaureaDatabase.getPossibleCourses(conn, );
+			possibileCourses = CorsoDiLaureaDatabase.getPossibleCourses(conn, flowResp);
 		} 
 		catch (SQLException ex) {
 			m = new Message("Error while getting the city.", "XXX", ex.getMessage());
