@@ -16,7 +16,11 @@ public class ThesisEvaluationsAverage implements Serializable
 	int subjectAppeal = 0;
 	int supervisorAvailability = 0;
 	int satisfaction = 0;
-	
+
+	/**
+	 * Initialize the class computing the evaluations' average. If the list is void the average is set to 0 for all the fields.
+	 * @param list a list of evaluations
+	 */
 	public ThesisEvaluationsAverage(List<ValutazioneTesiBean> list)
 	{
 		int[] sum = new int[4];
@@ -36,22 +40,38 @@ public class ThesisEvaluationsAverage implements Serializable
 			satisfaction = Math.round(sum[3]/list.size());
 		}
 	}
-	
+
+	/**
+	 * Get the average of the evaluations in the Effort Needed field
+	 * @return the average
+	 */
 	public int getEffortNeeded()
 	{
 		return effortNeeded;
 	}
-	
+
+	/**
+	 * Get the average of the evaluations in the Subject Appeal field
+	 * @return the average
+	 */
 	public int getSubjectAppeal()
 	{
 		return subjectAppeal;
 	}
-	
+
+	/**
+	 * Get the average of the evaluations in the Supervisor Availability field
+	 * @return the average
+	 */
 	public int getSupervisorAvailability()
 	{
 		return supervisorAvailability;
 	}
-	
+
+	/**
+	 * Get the average of the evaluations in the Satisfaction field
+	 * @return the average
+	 */
 	public int getSatisfaction()
 	{
 		return satisfaction;

@@ -7,6 +7,12 @@ import it.unipd.dei.bding.erasmusadvisor.beans.CittaBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.ValutazioneCittaBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.LinguaBean;
 
+/**
+ * Contains all the details of a City needed by an end user.
+ * 
+ * @author Luca
+ *
+ */
 
 public class City {
 	
@@ -15,8 +21,10 @@ public class City {
 	private List<LinguaBean> listaLingue;
 	
 	/**
-	 * @param city
-	 * @param listaValutazioni
+	 * Initialize the city
+	 * @param city the city
+	 * @param listaValutazioni a list of evaluations
+	 * @param listaLingue a list of languages spoken in the city
 	 */
 	public City(CittaBean city, List<ValutazioneCittaBean> listaValutazioni, List<LinguaBean> listaLingue) 
 	{
@@ -27,9 +35,9 @@ public class City {
 
 
 	/**
-	 * Returns the field city.
+	 * Returns the city.
 	 *
-	 * @return the value of city
+	 * @return the city
 	 */
 	public CittaBean getCity() 
 	{
@@ -37,9 +45,9 @@ public class City {
 	}
 
 	/**
-	 * Sets the field city
+	 * Sets the city
 	 *
-	 * @param universita The value to set
+	 * @param city The city
 	 */
 	public void setCity(CittaBean city) 
 	{
@@ -47,9 +55,9 @@ public class City {
 	}
 
 	/**
-	 * Returns the field listaValutazioni.
+	 * Returns the evaluations.
 	 *
-	 * @return the value of listaValutazioni
+	 * @return a list of evaluations
 	 */
 	public List<ValutazioneCittaBean> getEvalutationList() 
 	{
@@ -57,18 +65,19 @@ public class City {
 	}
 
 	/**
-	 * Sets the field listaValutazioni
+	 * Sets the evaluations
 	 *
-	 * @param listaValutazioni The value to set
+	 * @param listaValutazioni a list of evaluations
 	 */
 	public void setEvalutationList(ArrayList<ValutazioneCittaBean> listaValutazioni) 
 	{
 		this.listaValutazioni = listaValutazioni;
 	}
+	
 	/**
-	 * Returns the field listaLingue.
+	 * Returns the languages spoken in the city.
 	 *
-	 * @return the value of listaLingue
+	 * @return a list of languages
 	 */
 	public List<LinguaBean> getLanguagesList() 
 	{
@@ -76,9 +85,9 @@ public class City {
 	}
 
 	/**
-	 * Sets the field listaLingue
+	 * Sets the languages spoken in the city.
 	 *
-	 * @param listaLingue The value to set
+	 * @param listaLingue a list of languages
 	 */
 	public void setLanguagesList(ArrayList<LinguaBean> listaLingue) 
 	{

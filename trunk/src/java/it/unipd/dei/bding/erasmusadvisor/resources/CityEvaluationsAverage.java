@@ -17,6 +17,10 @@ public class CityEvaluationsAverage implements Serializable
 	int liveability = 0;
 	int socialLife = 0;
 	
+	/**
+	 * Initialize the class computing the evaluations' average. If the list is void the average is set to 0 for all the fields.
+	 * @param list a list of evaluations
+	 */
 	public CityEvaluationsAverage(List<ValutazioneCittaBean> list)
 	{
 		int[] sum = new int[4];
@@ -36,22 +40,38 @@ public class CityEvaluationsAverage implements Serializable
 			socialLife = Math.round(sum[3]/list.size());
 		}
 	}
-	
+
+	/**
+	 * Get the average of the evaluations in the Cost of Life field
+	 * @return the average
+	 */
 	public int getCostOfLife()
 	{
 		return costOfLife;
 	}
-	
+
+	/**
+	 * Get the average of the evaluations in the House Availability field
+	 * @return the average
+	 */
 	public int getHouseAvailability()
 	{
 		return houseAvailability;
 	}
-	
+
+	/**
+	 * Get the average of the evaluations in the Liveability field
+	 * @return the average
+	 */
 	public int getLiveability()
 	{
 		return liveability;
 	}
 	
+	/**
+	 * Get the average of the evaluations in the Social Life field
+	 * @return the average
+	 */
 	public int getSocialLife()
 	{
 		return socialLife;

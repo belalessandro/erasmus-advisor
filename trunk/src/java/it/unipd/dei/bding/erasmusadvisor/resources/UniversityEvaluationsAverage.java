@@ -17,7 +17,11 @@ public class UniversityEvaluationsAverage implements Serializable
 	int erasmusEvents = 0;
 	int teachingsQuality = 0;
 	int classroomQuality = 0;
-	
+
+	/**
+	 * Initialize the class computing the evaluations' average. If the list is void the average is set to 0 for all the fields.
+	 * @param list a list of evaluations
+	 */
 	public UniversityEvaluationsAverage(List<ValutazioneUniversitaBean> list)
 	{
 		int[] sum = new int[4];
@@ -37,22 +41,38 @@ public class UniversityEvaluationsAverage implements Serializable
 			classroomQuality = Math.round(sum[3]/list.size());
 		}
 	}
-	
+
+	/**
+	 * Get the average of the evaluations in the Urban Location field
+	 * @return the average
+	 */
 	public int getUrbanLocation()
 	{
 		return urbanLocation;
 	}
-	
+
+	/**
+	 * Get the average of the evaluations in the Erasmus Events field
+	 * @return the average
+	 */
 	public int getErasmusEvents()
 	{
 		return erasmusEvents;
 	}
-	
+
+	/**
+	 * Get the average of the evaluations in the Teachings Quality field
+	 * @return the average
+	 */
 	public int getTeachingsQuality()
 	{
 		return teachingsQuality;
 	}
-	
+
+	/**
+	 * Get the average of the evaluations in the Classroom Quality field
+	 * @return the average
+	 */
 	public int getClassroomQuality()
 	{
 		return classroomQuality;

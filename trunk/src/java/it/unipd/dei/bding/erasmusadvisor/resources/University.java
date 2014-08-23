@@ -6,13 +6,23 @@ import it.unipd.dei.bding.erasmusadvisor.beans.ValutazioneUniversitaBean;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Contains all the details of a University needed by an end user.
+ * 
+ * @author Luca, Alessandro
+ *
+ */
+
 public class University {
 	
 	private UniversitaBean universita;
+	private List<ValutazioneUniversitaBean> listaValutazioni;
 	
 	/**
-	 * @param universita
-	 * @param listaValutazioni
+	 * Initialize the class.
+	 * 
+	 * @param universita the University
+	 * @param listaValutazioni the list of the University evalutaions
 	 */
 	public University(UniversitaBean universita,
 			List<ValutazioneUniversitaBean> listaValutazioni) {
@@ -20,19 +30,17 @@ public class University {
 		this.listaValutazioni = listaValutazioni;
 	}
 
-	private List<ValutazioneUniversitaBean> listaValutazioni;
-
 	/**
-	 * Returns the field universita.
+	 * Returns the University.
 	 *
-	 * @return the value of universita
+	 * @return a bean representing the University
 	 */
 	public UniversitaBean getUniversita() {
 		return universita;
 	}
 
 	/**
-	 * Sets the field universita
+	 * Sets the University
 	 *
 	 * @param universita The value to set
 	 */
@@ -41,18 +49,18 @@ public class University {
 	}
 
 	/**
-	 * Returns the field listaValutazioni.
+	 * Returns the evaluations to the University
 	 *
-	 * @return the value of listaValutazioni
+	 * @return a list of beans representing the evaluations
 	 */
 	public List<ValutazioneUniversitaBean> getListaValutazioni() {
 		return listaValutazioni;
 	}
 
 	/**
-	 * Sets the field listaValutazioni
+	 * Sets the evaluations to the University
 	 *
-	 * @param listaValutazioni The value to set
+	 * @param listaValutazioni the list of evaluations
 	 */
 	public void setListaValutazioni(
 			ArrayList<ValutazioneUniversitaBean> listaValutazioni) {

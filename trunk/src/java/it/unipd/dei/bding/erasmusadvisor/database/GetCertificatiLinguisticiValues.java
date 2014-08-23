@@ -2,6 +2,7 @@ package it.unipd.dei.bding.erasmusadvisor.database;
 
 import it.unipd.dei.bding.erasmusadvisor.beans.CertificatiLinguisticiBean;
 
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -19,16 +20,22 @@ import org.apache.commons.dbutils.handlers.BeanListHandler;
 
 public class GetCertificatiLinguisticiValues 
 {
-	public static List<CertificatiLinguisticiBean> getCertificatiLinguisticiDomain(DataSource ds) throws SQLException
+	/**
+	 * Get the domain of Certificati Linguisici
+	 * @param conn A connection to the database.
+	 * @return a list of certificates
+	 * @throws SQLException If an error occurs running the SQL query.
+	 */
+	public static List<CertificatiLinguisticiBean> getCertificatiLinguisticiDomain(Connection conn) throws SQLException
 	{
 		final String statement = "SELECT * FROM CertificatiLinguistici ORDER BY nomelingua ASC"; 
 		
-		QueryRunner run = new QueryRunner(ds);
+		QueryRunner run = new QueryRunner();
 		
 		List<CertificatiLinguisticiBean> lingue = null;
 		
 		ResultSetHandler<List<CertificatiLinguisticiBean>> h1 = new BeanListHandler<CertificatiLinguisticiBean>(CertificatiLinguisticiBean.class);
-		lingue = run.query(statement, h1);
+		lingue = run.query(conn, statement, h1);
 				
 		return lingue;
 	}
