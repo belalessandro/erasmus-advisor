@@ -75,11 +75,11 @@ public class UniversityListServlet extends AbstractDatabaseServlet {
 			// Handle Ajax response (e.g. return JSON data object).
 
 			/**
-			 * GET FROM THE DB LIST OF ALL THE UNIVERSITIES
-			 * TODO: ci vorrebbe una ricerca STARTING WITH... 
-			 * ad es.. Select ... WHERE nomeUniversita IS LIKE aaa*;
+			 * GET A LIST OF UNIVERSITIES from DB
 			 * 
 			 */
+			
+			String startingWith = req.getParameter("term");
 			
 			// database connection
 			Connection conn = null;
@@ -89,9 +89,15 @@ public class UniversityListServlet extends AbstractDatabaseServlet {
 			
 			try {
 				conn = DS.getConnection();
-				nameList = GetUniversitaValues.getAreaDomain(conn);
+				
+				if (startingWith != null && !startingWith.isEmpty())
+					nameList = GetUniversitaValues.getAreaDomainStartingWith(conn, startingWith);
+				else 
+					nameList = GetUniversitaValues.getAreaDomain(conn);
+				
 			} catch (SQLException e) {
 				// Do nothing..
+				e.printStackTrace();
 			} 
 			finally {
 				DbUtils.closeQuietly(conn);
