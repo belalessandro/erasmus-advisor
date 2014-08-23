@@ -16,23 +16,27 @@ background: white url("<c:url value="/img"/>/ui-anim_basic_16x16.gif") right cen
 }
 </style>
 <script>
-$(function() {
-var cache = {};
-$( "#universityNames" ).autocomplete({
-minLength: 2,
-source: function( request, response ) {
-var term = request.term;
-if ( term in cache ) {
-response( cache[ term ] );
-return;
-}
-$.getJSON( "<c:url value="/university/list"/>", request, function( data, status, xhr ) {
-cache[ term ] = data;
-response( data );
-});
-}
-});
-});
+
+	$(function() {
+		var cache = {};
+		$("#universityNames" ).autocomplete({
+					minLength : 2,
+					source : function(request, response) {
+						var term = request.term;
+						if (term in cache) {
+							response(cache[term]);
+							return;
+						}
+						$.getJSON("<c:url value="/university/list"/>", request,
+								function(data, status, xhr) {
+									xhr.setRequestHeader("X-Requested-With",
+											"XMLHttpRequest");
+									cache[term] = data;
+									response(data);
+								});
+					}
+				});
+	});
 </script>
 </head>
 <body>
