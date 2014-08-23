@@ -17,19 +17,45 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/** TODO: PORTARE QUESTA SERVLET 
- * 			IN FlowServlet.doPost con operation="insert" o fare forward a questa   
+
+/**
+ * Servlet for pre-processing the Insert FORM of a new Flow
+ * It returns the JSP page insert_flow.jsp, populated with the
+ * required fields
  * 
+ * * Notice: Only doGet(..) is allowed here! *
  * 
- * Form processing for the creation of a new Flow
+ * Mapped to /flow/insert-form
  * 
  * @author Alessandro
- * @version 1.0
+ *
  */
 public class InsertFlowServlet extends AbstractDatabaseServlet {
 	
 	private static final long serialVersionUID = 4109125705340314063L;
 
+	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
+			throws ServletException, IOException {
+		
+		
+		// attribs here...
+		//request.setAttribute("bohhhh", m);
+		
+		// forward to the insert FORM
+		req.getRequestDispatcher("/jsp/insert_flow.jsp").forward(req, resp);
+	}
+	
+	
+	
+	
+	
+	/** TODO: PORTARE QUESTA SERVLET 
+	 * 			IN FlowServlet.doPost con operation="insert" o fare forward a questa   
+	 * 
+	 * 
+	 * Form processing for the creation of a new Flow
+	 */
+	// TODO SPOSTARE IN FlowServlet.doPost
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// TODO: DA SESSIONE
