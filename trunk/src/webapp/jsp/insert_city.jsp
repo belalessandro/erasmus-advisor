@@ -12,12 +12,12 @@
 	<link href="../css/bootstrap.min.css" rel="stylesheet">
 	<link href="../fonts/font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet">
 	
-	<script src="../js/ea-form-validation.js"></script>
-	
 	<link href="../css/bootstrap-select.min.css" rel="stylesheet">
 	<script src="../js/jquery.min.js"></script>
 	<script src="../js/bootstrap-select.js"></script>	
 	<script src="../js/bootstrap.min.js"></script>	
+	
+	<script src="../js/ea-form-validation.js"></script>
 	<script>
 	// inizializza i select avanzati
 	$(document).ready(function() {

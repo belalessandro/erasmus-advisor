@@ -2,7 +2,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -16,8 +15,6 @@
 	<link href="<c:url value="/css"/>/bootstrap.min.css" rel="stylesheet">
 	<link href="<c:url value="/fonts"/>/font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet">
 		
-	
-	
 	<!-- componenti aggiuntivi -->
 	<link href="<c:url value="/css"/>/bootstrap-select.min.css" rel="stylesheet">
 	<link href="<c:url value="/css"/>/star-rating.css" rel="stylesheet">
@@ -26,29 +23,8 @@
 	<script src="<c:url value="/js"/>/bootstrap.min.js"></script>	
 	<script src="<c:url value="/js"/>/star-rating.min.js"></script>
 	
-	<!-- mauro: Spostato qui sotto, altrimenti non vedeva jQuery (sarebbe bene farlo anche per gli altri .jsp) -->
 	<script src="<c:url value="/js"/>/ea-form-validation.js"></script>
 	<script>
-		function doDelete()
-		{
-			var r = confirm("Are you sure you want to delete this entity from the database? The action is not reversible.");
-			if (r == true) 
-			{
-			    // procedere con la cancellazione
-			    $.ajax({
-			          type: "POST",
-			          url: "<c:url value="/city"/>",
-			          dataType: "json",
-			          data: { 'operation' : 'delete', 'city' : '<c:out value="${city.nome}"/>', 'country' : '<c:out value="${city.stato}"/>'},
-		              success: function(data) {
-		                  window.location.href = "<c:url value="/js"/>" + data.url;
-		                } 
-			        });
-			} 
-			else {
-			    // splash! and nothing happens
-			} 
-		}
 		// inizializza i select avanzati
 		$(document).ready(function() {
 		    $('.selectpicker').selectpicker({
@@ -68,7 +44,6 @@
 		</jsp:include>
 
 		<!-- corpo della pagina -->
-		<!-- di fatto tutta questa pagina è generata con JSP -->
 		<div class="col-md-9 general_main_border">
 			<div class="entity_details">
 				<div class="entity_details_text">
@@ -108,10 +83,6 @@
 							<h4 class="modal-title" id="myModalLabel">Insert an evaluation for <b><c:out value="${city.nome}"/></b></h4>
 						</div>
 						<div class="modal-body">
-							<!-- action deve puntare alla servlet che gestisce l'inserimento della valutazione -->
-<%-- 							<form name='cityEvaluationForm' onSubmit="return xEvaluationFormValidation();" method="post" action="<c:url value="/city/evaluations"/>"> --%>
-							
-							<!-- mauro: ho rimosso onSubmit perché non serve (per la validazione vedi ea-form-validation.js) -->
 							<form id="cityEvaluationForm" name='cityEvaluationForm' method="post" action="<c:url value="/city/evaluations"/>">
 								<div class="col-md-6 text-center">Cost of life:</div>
 								<div class="col-md-6 text-center">

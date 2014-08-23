@@ -19,13 +19,13 @@
 	<link href="<c:url value="/css"/>/bootstrap.min.css" rel="stylesheet">
 	<link href="<c:url value="/fonts"/>/font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet">
 		
-	<script src="<c:url value="/js"/>/ea-form-validation.js"></script>
-	
 	<!-- componenti aggiuntivi -->
 	<link href="<c:url value="/css"/>/star-rating.css" rel="stylesheet">
 	<script src="<c:url value="/js"/>/jquery.min.js"></script>
 	<script src="<c:url value="/js"/>/bootstrap.min.js"></script>	
 	<script src="<c:url value="/js"/>/star-rating.min.js"></script>	
+	
+	<script src="<c:url value="/js"/>/ea-form-validation.js"></script>
 </head>
 <body>
 	<div class="container">
