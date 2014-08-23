@@ -212,7 +212,7 @@
 	<servlet-mapping>
 		<servlet-name>UniversityServlet</servlet-name>
 		<url-pattern>/university</url-pattern>
-	</servlet-mapping>
+	</servlet-mapping-->
 	
 	<servlet>
 		<servlet-name>UniversityListServlet</servlet-name>
@@ -222,7 +222,7 @@
 	<servlet-mapping>
 		<servlet-name>UniversityListServlet</servlet-name>
 		<url-pattern>/university/list</url-pattern>
-	</servlet-mapping-->
+	</servlet-mapping>
 </web-app>
 
 <!--
