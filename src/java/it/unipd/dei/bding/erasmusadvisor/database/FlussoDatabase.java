@@ -8,11 +8,14 @@ import it.unipd.dei.bding.erasmusadvisor.beans.ResponsabileFlussoBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.ValutazioneFlussoBean;
 import it.unipd.dei.bding.erasmusadvisor.resources.Flow;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
 
 import javax.sql.DataSource;
 
+import org.apache.commons.dbutils.DbUtils;
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.ResultSetHandler;
 import org.apache.commons.dbutils.handlers.BeanHandler;
@@ -25,6 +28,43 @@ import org.apache.commons.dbutils.handlers.BeanListHandler;
  */
 public class FlussoDatabase 
 {
+
+	/**
+	 * Executes a statement to store a new Flusso into the database,
+	 * without closing the connection.
+	 * 
+	 * @param con The connection to the database
+	 * @param flusso The Flusso to be stored
+	 * 
+	 * @throws SQLException
+	 *             if any error occurs while storing the Flusso.
+	 */
+	public static void createFlusso(Connection con, FlussoBean flusso)
+			throws SQLException {
+		/**
+		 * The SQL insert statement
+		 */
+		String insertStmt = "INSERT INTO Flusso (id, destinazione, respFlusso, "
+				+ "postiDisponibili, attivo, dataUltimaModifica, durata, dettagli) "
+				+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+		
+		PreparedStatement pstmt = null;
+		try {
+			pstmt = con.prepareStatement(insertStmt);
+			pstmt.setString(1, flusso.getId());
+			pstmt.setString(2, flusso.getDestinazione());
+			pstmt.setString(3, flusso.getRespFlusso());
+			pstmt.setInt(4, flusso.getPostiDisponibili());
+			pstmt.setBoolean(5, flusso.isAttivo());
+			pstmt.setDate(6, flusso.getDataUltimaModifica());
+			pstmt.setInt(7, flusso.getDurata());
+			pstmt.setString(8, flusso.getDettagli());
+			pstmt.execute();
+		} finally {
+			DbUtils.closeQuietly(pstmt);
+		}
+	}
+	
 	public static Flow getFlusso(DataSource ds, String ID)
 			throws SQLException 
 	{

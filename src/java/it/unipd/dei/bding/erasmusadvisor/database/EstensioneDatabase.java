@@ -31,7 +31,7 @@ public class EstensioneDatabase {
 	 * without closing the connection.
 	 * 
 	 * @param con The connection to the database
-	 * @param uni The Estensione to be stored
+	 * @param est The Estensione to be stored
 	 * 
 	 * @throws SQLException
 	 *             if any error occurs while storing the Estensione.
