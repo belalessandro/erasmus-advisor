@@ -8,6 +8,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 import org.apache.commons.dbutils.DbUtils;
+import org.apache.commons.dbutils.QueryRunner;
 
 /**
  * Database operations about Svolgimento
@@ -42,6 +43,23 @@ public class SvolgimentoDatabase {
 		} finally {
 			DbUtils.closeQuietly(pstmt);
 		}
+	}
+	
+	/**
+	 * Delete Svolgimento's instances by idInsegnamento value.
+	 * @param con database connection
+	 * @param idInsegnamento Insegnamento's id 
+	 * @return number of rows deleted
+	 * @throws SQLException
+	 */
+	public static int deleteSvolgimentoByClassId(Connection con, int idInsegnamento) throws SQLException
+	{
+		// statement
+		final String stmt = "DELETE FROM Svolgimento WHERE idInsegnamento = ?";
+		
+		QueryRunner run = new QueryRunner();
+		
+		return run.update(con, stmt, idInsegnamento);
 	}
 
 }

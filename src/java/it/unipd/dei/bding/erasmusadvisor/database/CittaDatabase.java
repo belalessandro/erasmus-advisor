@@ -1,6 +1,7 @@
 package it.unipd.dei.bding.erasmusadvisor.database;
 
 import it.unipd.dei.bding.erasmusadvisor.beans.CittaBean;
+import it.unipd.dei.bding.erasmusadvisor.beans.LinguaCittaBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.ValutazioneCittaBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.LinguaBean;
 import it.unipd.dei.bding.erasmusadvisor.resources.City;
@@ -101,13 +102,41 @@ public class CittaDatabase
 		
 	}
 	
+	/**
+	 * Function to update city fields and relative languages.
+	 * @param conn database connection
+	 * @param new_name new name of the city
+	 * @param new_country new city country
+	 * @param old_name old name of the city
+	 * @param old_country old city country
+	 * @param linguaCittaBeanList list of bean with new languages
+	 * @return the number of rows updated of relation Citta
+	 * @throws SQLException
+	 */
 	public int editCity(Connection conn, String new_name, String new_country,
-			String old_name, String old_country) throws SQLException
+			String old_name, String old_country, List<LinguaCittaBean> linguaCittaBeanList) throws SQLException
 	{
-		final String statement = "UPDATE citta SET nome = ?, stato = ? WHERE nome = ? AND stato = ?";
+		// required variables
 		QueryRunner run = new QueryRunner();
+		ResultSetHandler<LinguaCittaBean> rsh = new BeanHandler<LinguaCittaBean>(LinguaCittaBean.class);
 		
-		return run.update(conn, statement, new_name, new_country, old_name, old_country);
+		// first of all delete all old "LinguaCitta" (referred to the old city)
+		final String stmt_deleteLinguaCitta = "DELETE FROM LinguaCitta WHERE nomeCitta = ? AND statoCitta = ?";
+		run.update(conn, stmt_deleteLinguaCitta, old_name, old_country);
+
+		// second update the city
+		final String stmt_updateCity = "UPDATE citta SET nome = ?, stato = ? WHERE nome = ? AND stato = ?";
+		int ok = run.update(conn, stmt_updateCity, new_name, new_country, old_name, old_country);
+		
+		// finally inserting new LinguaCitta
+		final String stmt_insertLinguaCitta = "INSERT INTO LinguaCitta (SiglaLingua, NomeCitta, StatoCitta) VALUES (?, ?, ?)";
+		for(LinguaCittaBean linguaCittaBean : linguaCittaBeanList)
+			run.insert(conn, stmt_insertLinguaCitta, rsh, 
+					linguaCittaBean.getSiglaLingua(),
+					linguaCittaBean.getNomeCitta(),
+					linguaCittaBean.getStatoCitta());
+
+		return ok;
 	}
 	
 	public static List<CittaBean> getAllSortByCountry(Connection conn) throws SQLException 

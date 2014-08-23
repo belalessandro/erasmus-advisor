@@ -60,7 +60,7 @@
 					</p>
 				</div>
 				<div class="entity_details_text">
-					<!-- evalutate visibile solo da studente
+					<!-- evaluate visibile solo da studente
 						edit e delete solo da reponsabili di flusso e coordinatori erasmus -->
 					<ul class="nav nav-stacked pull-right">
 						<li class="active"><span data-toggle="modal" data-target="#evaluateForm">Evaluate</span></li>
@@ -73,6 +73,13 @@
 					</ul>
 				</div>
 			</div>
+			<br>
+			<c:if test="${!empty param.edited && param.edited == 'success'}">
+				<div class="alert alert-success alert-dismissible" role="alert" >
+				  <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+				  City Successfully Edited!
+				</div>
+			</c:if>
 			
 			<!--Form di valutazione a comparsa-->
 			<div class="modal fade" id="evaluateForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false">
@@ -140,7 +147,7 @@
 						<div class="modal-body">
 							<!-- action deve puntare alla servlet che gestisce la modifica dell'entità -->
 							<!-- notare che ogni input deve avere il campo value settato a quanto è presente nel DB -->
-							<form name='cityEditForm' onSubmit="return xEditFormValidation();" method="post" action="<c:url value="/city"/> ">
+							<form name='cityEditForm' method="post" action="<c:url value="/city"/> ">
 								<div class="input-group insert_new_input_group">
 									<span class="input-group-addon insert_new_input">Name*</span> <input type="text" class="form-control" id="name" name="new_name" value="<c:out value="${city.nome}"/> ">
 								</div>
