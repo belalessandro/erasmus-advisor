@@ -71,7 +71,7 @@ public class UniversityListServlet extends AbstractDatabaseServlet {
 			/* Show results to the JSP page. */
 			getServletContext().getRequestDispatcher("/jsp/search_university.jsp").forward(
 					req, resp);
-		} else if (true || "XMLHttpRequest".equals(req.getHeader("X-Requested-With"))) {
+		} else if ("XMLHttpRequest".equals(req.getHeader("X-Requested-With"))) {
 			// Handle Ajax response (e.g. return JSON data object).
 
 			/**
