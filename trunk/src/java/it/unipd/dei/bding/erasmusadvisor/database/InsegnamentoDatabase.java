@@ -27,6 +27,43 @@ import org.apache.commons.dbutils.handlers.BeanListHandler;
  */
 public class InsegnamentoDatabase 
 {
+	
+	/**
+	 * Executes a statement to store a new Insegnamento into the database,
+	 * without closing the connection.
+	 * 
+	 * @param con The connection to the database
+	 * @param insegnamento The Insegnamento to be stored
+	 * 
+	 * @throws SQLException
+	 *             if any error occurs while storing the Insegnamento.
+	 */
+	public static void createInsegnamento(Connection con, InsegnamentoBean insegnamento)
+			throws SQLException {
+		/**
+		 * The SQL insert statement
+		 */
+		String insertStmt = "INSERT INTO Insegnamento (id, nome, crediti, nomeUniversita, "
+				+ "periodoErogazione, stato, annoCorso, nomeArea, nomeLingua) "
+				+ "VALUES (DEFAULT, ?, ?, ?, ?, ?, ?, ?, ?)";
+		
+		PreparedStatement pstmt = null;
+		try {
+			pstmt = con.prepareStatement(insertStmt);
+			pstmt.setString(1, insegnamento.getNome());
+			pstmt.setInt(2, insegnamento.getCrediti());
+			pstmt.setString(3, insegnamento.getNomeUniversita());
+			pstmt.setInt(4, insegnamento.getPeriodoErogazione());
+			pstmt.setString(5, insegnamento.getStato());
+			pstmt.setInt(6, insegnamento.getAnnoCorso());
+			pstmt.setString(7, insegnamento.getNomeArea());
+			pstmt.setString(8, insegnamento.getNomeLingua());
+			pstmt.execute();
+		} finally {
+			DbUtils.closeQuietly(pstmt);
+		}
+	}
+	
 	public static Teaching getInsegnamento(Connection conn, int ID)
 			throws SQLException 
 	{

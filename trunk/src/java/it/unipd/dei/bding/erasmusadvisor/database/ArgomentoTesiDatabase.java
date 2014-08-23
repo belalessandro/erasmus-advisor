@@ -30,7 +30,7 @@ public class ArgomentoTesiDatabase {
 	 * without closing the connection.
 	 * 
 	 * @param con The connection to the database
-	 * @param uni The Thesis to be stored
+	 * @param arg The Thesis to be stored
 	 * 
 	 * @throws SQLException
 	 *             if any error occurs while storing the Thesis.
