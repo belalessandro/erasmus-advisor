@@ -1,13 +1,12 @@
-/**
- * 
- */
 package it.unipd.dei.bding.erasmusadvisor.servlets;
 
 import it.unipd.dei.bding.erasmusadvisor.beans.AreaBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.LinguaBean;
 import it.unipd.dei.bding.erasmusadvisor.database.GetAreaValues;
 import it.unipd.dei.bding.erasmusadvisor.database.GetLinguaValues;
+import it.unipd.dei.bding.erasmusadvisor.database.GetTipoLaureaValues;
 import it.unipd.dei.bding.erasmusadvisor.resources.Message;
+import it.unipd.dei.bding.erasmusadvisor.resources.TipoLaureaBean;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -22,29 +21,30 @@ import org.apache.commons.dbutils.DbUtils;
 
 /**
  * Servlet for pre-processing the Insert FORM of a new Course
- * It returns the JSP page insert_thesis.jsp, populated with the
+ * It returns the JSP page insert_class.jsp, populated with the
  * required fields
  * 
  * * Notice: Only doGet(..) is allowed here! *
  * 
- * Mapped to /thesis/insert-form
+ * Mapped to /class/insert-form
  * 
- * @author Alessandro
+ * @author Luca
  *
  */
-public class InsertThesisServlet extends AbstractDatabaseServlet {
+public class InsertCourseServlet2 extends AbstractDatabaseServlet {
 
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
+		
 
-		List<LinguaBean> languageDomain = null;
+		List<TipoLaureaBean> degreeDomain = null;
 		List<AreaBean> areaDomain = null;
 		Connection conn = null;
 		Message m = null;
 		
 		try {
 			conn = DS.getConnection();
-			languageDomain = GetLinguaValues.getLinguaDomain(conn);
+			degreeDomain = GetTipoLaureaValues.getDomain(conn);
 			areaDomain = GetAreaValues.getAreaDomain(conn);
 		} 
 		catch (SQLException ex) {
@@ -57,9 +57,9 @@ public class InsertThesisServlet extends AbstractDatabaseServlet {
 		if (m == null)
 		{
 			// forward to the insert FORM
-			req.setAttribute("languageDomain", languageDomain);
+			req.setAttribute("degreeDomain", degreeDomain);
 			req.setAttribute("areaDomain", areaDomain);
-			getServletContext().getRequestDispatcher("/jsp/insert_thesis.jsp").forward(req, resp);
+			getServletContext().getRequestDispatcher("/jsp/insert_course.jsp").forward(req, resp);
 		}
 		else
 		{

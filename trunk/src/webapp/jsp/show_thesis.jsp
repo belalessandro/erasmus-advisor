@@ -209,7 +209,7 @@
 									<span class="input-group-addon insert_new_select_label_inline">Select the thesis' language*</span>
 									<select class="selectpicker text-left" id="language" name="language">
 										<c:forEach var="languageDomain" items='${languageDomain}'>
-											<option 
+											<option value="${languageDomain.sigla}" 
 												<c:forEach var="lingua" items='${languages}' >
 												<c:if test="${languageDomain.nome == lingua.nome}">selected</c:if>
 												</c:forEach>
@@ -224,7 +224,7 @@
 									<span class="input-group-addon insert_new_select_label_inline">Select the thesis' language*</span>
 									<select class="selectpicker text-left" id="language" name="language">
 										<c:forEach var="areaDomain" items='${areaDomain}'>
-											<option 
+											<option value="${areaDomain.nome}" 
 												<c:forEach var="area" items='${areas}' >
 												<c:if test="${areaDomain.nome == area.nome}">selected</c:if>
 												</c:forEach>

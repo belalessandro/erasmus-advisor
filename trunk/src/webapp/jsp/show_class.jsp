@@ -182,7 +182,7 @@
 									<span class="input-group-addon insert_new_select_label_inline">Select the class' area*</span>
 									<select class="selectpicker text-left" id="area" name="area">
 											<c:forEach var="areaDomain" items='${areaDomain}'>
-											<option 
+											<option value="${areaDomain.nome}" 
 												<c:if test="${areaDomain.nome == classBean.nomeArea}">selected</c:if>
 											>
 											${areaDomain.nome}</option>
@@ -199,7 +199,7 @@
 									<span class="input-group-addon insert_new_select_label_inline">Select the class' language*</span>
 									<select class="selectpicker text-left" id="language" name="language">
 										<c:forEach var="languageDomain" items='${languageDomain}'>
-											<option 
+											<option value="${languageDomain.sigla}" 
 												<c:if test="${languageDomain.sigla == classBean.nomeLingua}">selected</c:if>
 											>
 											${languageDomain.nome}</option>

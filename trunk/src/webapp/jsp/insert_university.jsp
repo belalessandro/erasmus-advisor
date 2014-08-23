@@ -12,9 +12,41 @@
 	<link href="../css/ea-main.css" rel="stylesheet">
 	<link href="../css/bootstrap.min.css" rel="stylesheet">
 	<link href="../fonts/font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet">
+
+	<link href="../css/bootstrap-select.min.css" rel="stylesheet">
+	<script src="../js/jquery.min.js"></script>
+	<script src="../js/bootstrap-select.js"></script>	
 	<script src="../js/bootstrap.min.js"></script>	
 	
 	<script src="../js/ea-form-validation.js"></script>
+	<script>
+	// inizializza i select avanzati
+	$(document).ready(function() {
+	    $('.selectpicker').selectpicker({
+	        style: 'btn-default',
+	        size: false
+	    });
+	});
+	
+	 var cityMap = new Object(); // or var map = {};
+	 cityMap["Italy"] = ["Padua", "Florence", "Rome"];
+	 cityMap["Spain"] = ["Barcelona", "Madrid", "Saragoza"];
+	
+	function updateCity()
+	{
+		var country = document.getElementById("country").value;
+		var city = document.getElementById("city");
+		
+		for(var i = 0; i < cityMap[country].length; i++)
+		{
+			// aggiunge le nuove opzioni
+			var opt = document.createElement("option");
+			opt.appendChild(document.createTextNode(cityMap[country][i])); 
+			opt.value = cityMap[country][i]; 
+			city.appendChild(opt);
+		}
+	}
+	</script>
 </head>
 
 <body>
@@ -41,14 +73,34 @@
 						<span class="input-group-addon insert_new_input">Name*</span> <input type="text" class="form-control" name="nome" id="name" placeholder="Insert the university's name">
 					</div>
 					<br>
-					<div class="input-group insert_new_input_group">
+					
+					
+					<div class="row">
+						<span></span>
+						<span class="input-group-addon insert_new_select_label_inline">Select the university's country*</span>
+						<select class="selectpicker text-left" id="country" name="statoCitta" onchange="updateCity();">
+	    					<option disabled selected>Nothing Selected</option> <!-- serve per la corretta validazione -->
+	    					<option value="Italy">Italy</option>
+	    					<option value="Spain">Spain</option>
+	    				</select>
+					</div>
+					<br>
+					<div class="row">
+						<span></span>
+						<span class="input-group-addon insert_new_select_label_inline">Select the university's city*</span>
+						<select class="selectpicker text-left" id="city" name="nomeCitta">
+	    					<option disabled selected>Nothing Selected</option> <!-- serve per la corretta validazione -->
+	    				</select>
+					</div>
+					<br>
+<!-- 					<div class="input-group insert_new_input_group">
 						<span class="input-group-addon insert_new_input">Country*</span> <input id="country" class="form-control" name="statoCitta" placeholder="Insert the university's country">
 					</div>
 					<br>
 					<div class="input-group insert_new_input_group">
 						<span class="input-group-addon insert_new_input">City*</span> <input id="city" class="form-control" name="nomeCitta" placeholder="Insert the university's city">
 					</div>
-					<br>
+					<br> -->
 					<div class="input-group insert_new_input_group">
 						<span class="input-group-addon insert_new_input">Link*</span> <input id="link" class="form-control" name="link" placeholder="Insert a link to the university's web site">
 					</div>
