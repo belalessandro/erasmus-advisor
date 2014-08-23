@@ -20,32 +20,55 @@
 	
 	<script src="../js/ea-form-validation.js"></script>
 	<script>
-	// inizializza i select avanzati
-	$(document).ready(function() {
-	    $('.selectpicker').selectpicker({
-	        style: 'btn-default',
-	        size: false
-	    });
-	});
+		// inizializza i select avanzati
+		$(document).ready(function() {
+		    $('.selectpicker').selectpicker({
+		        style: 'btn-default',
+		        size: false
+		    });
+		});
 	
-	 var cityMap = new Object(); // or var map = {};
-	 cityMap["Italy"] = ["Padua", "Florence", "Rome"];
-	 cityMap["Spain"] = ["Barcelona", "Madrid", "Saragoza"];
+		// gestione dei select stato - città
+		// alla selezione dello stato compaiono le sue città
+		var cityMap = new Object();
+		var initialized = false;
+		<c:forEach var="state" items='${cities}'>
+		cityMap["${state.country}"] = [
+			<c:forEach var="city" items='${state.cities}' varStatus="status">
+				"${city}"
+				<c:if test="${!status.last}">, </c:if>
+			</c:forEach>
+		];
+		</c:forEach>
 	
-	function updateCity()
-	{
-		var country = document.getElementById("country").value;
-		var city = document.getElementById("city");
-		
-		for(var i = 0; i < cityMap[country].length; i++)
-		{
+		function updateCity() {
+			var country = document.getElementById("country").value;
+			var city = document.getElementById("city");
+			
+			// esclude dal delete la prima voce
+			if (initialized == false)
+			{
+				initialized = true;
+			}
+			else
+			{	// elimina le voci inserite in precedenza
+				for(var i = 0; i <= city.length; i++) 
+		    	{  
+		    	    city.remove(1);
+		    	}  
+			}
+
 			// aggiunge le nuove opzioni
-			var opt = document.createElement("option");
-			opt.appendChild(document.createTextNode(cityMap[country][i])); 
-			opt.value = cityMap[country][i]; 
-			city.appendChild(opt);
+			for (var i = 0; i < cityMap[country].length; i++) 
+			{
+				var opt = document.createElement("option");
+				opt.appendChild(document.createTextNode(cityMap[country][i]));
+				opt.value = cityMap[country][i];
+				city.appendChild(opt);
+			}
+			// aggiorna il controllo
+			$('.selectpicker').selectpicker('refresh');
 		}
-	}
 	</script>
 </head>
 
@@ -72,16 +95,15 @@
 					<div class="input-group insert_new_input_group">
 						<span class="input-group-addon insert_new_input">Name*</span> <input type="text" class="form-control" name="nome" id="name" placeholder="Insert the university's name">
 					</div>
-					<br>
-					
-					
+					<br>					
 					<div class="row">
 						<span></span>
 						<span class="input-group-addon insert_new_select_label_inline">Select the university's country*</span>
 						<select class="selectpicker text-left" id="country" name="statoCitta" onchange="updateCity();">
 	    					<option disabled selected>Nothing Selected</option> <!-- serve per la corretta validazione -->
-	    					<option value="Italy">Italy</option>
-	    					<option value="Spain">Spain</option>
+	    						<c:forEach var="state" items='${cities}'>
+									<option value="${state.country}" >${state.country}</option>
+								</c:forEach>
 	    				</select>
 					</div>
 					<br>
@@ -93,14 +115,6 @@
 	    				</select>
 					</div>
 					<br>
-<!-- 					<div class="input-group insert_new_input_group">
-						<span class="input-group-addon insert_new_input">Country*</span> <input id="country" class="form-control" name="statoCitta" placeholder="Insert the university's country">
-					</div>
-					<br>
-					<div class="input-group insert_new_input_group">
-						<span class="input-group-addon insert_new_input">City*</span> <input id="city" class="form-control" name="nomeCitta" placeholder="Insert the university's city">
-					</div>
-					<br> -->
 					<div class="input-group insert_new_input_group">
 						<span class="input-group-addon insert_new_input">Link*</span> <input id="link" class="form-control" name="link" placeholder="Insert a link to the university's web site">
 					</div>

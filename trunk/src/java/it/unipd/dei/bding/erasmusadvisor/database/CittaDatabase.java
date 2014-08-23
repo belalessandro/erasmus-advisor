@@ -92,7 +92,7 @@ public class CittaDatabase
 	* Delete a city
 	* @return the number of rows affected	
 	*/
-	public int deleteCity(Connection conn, String name, String country) throws SQLException 
+	public static int deleteCity(Connection conn, String name, String country) throws SQLException 
 	{
 		final String statement = "DELETE From Citta WHERE Nome = ? AND Stato = ?";
 		
@@ -108,5 +108,15 @@ public class CittaDatabase
 		QueryRunner run = new QueryRunner();
 		
 		return run.update(conn, statement, new_name, new_country, old_name, old_country);
+	}
+	
+	public static List<CittaBean> getAllSortByCountry(Connection conn) throws SQLException 
+	{
+		final String statement = "SELECT * FROM Citta ORDER BY stato ASC";
+		
+		QueryRunner run = new QueryRunner();
+		
+		ResultSetHandler<List<CittaBean>> h = new BeanListHandler<CittaBean>(CittaBean.class);
+		return run.query(conn, statement, h);
 	}
 }

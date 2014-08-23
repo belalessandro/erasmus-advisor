@@ -36,9 +36,9 @@ import org.apache.commons.dbutils.DbUtils;
  * 
  * * Notice: Only doGet(..) is allowed here! *
  * 
- * Mapped to /flow/insert-form
+ * Mapped to /flow/insert
  * 
- * @author Alessandro
+ * @author Luca
  *
  */
 public class InsertFlowServlet extends AbstractDatabaseServlet {
@@ -68,7 +68,7 @@ public class InsertFlowServlet extends AbstractDatabaseServlet {
 			possibileCourses = CorsoDiLaureaDatabase.getPossibleCourses(conn, flowResp);
 		} 
 		catch (SQLException ex) {
-			m = new Message("Error while getting the city.", "XXX", ex.getMessage());
+			m = new Message("Error while getting the flow.", "XXX", ex.getMessage());
 		} 
 		finally {
 			DbUtils.closeQuietly(conn); // always closes the connection 

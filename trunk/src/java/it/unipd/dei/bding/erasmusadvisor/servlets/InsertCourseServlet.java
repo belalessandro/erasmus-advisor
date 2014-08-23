@@ -26,7 +26,7 @@ import org.apache.commons.dbutils.DbUtils;
  * 
  * * Notice: Only doGet(..) is allowed here! *
  * 
- * Mapped to /class/insert-form
+ * Mapped to /class/insert
  * 
  * @author Luca
  *
@@ -48,7 +48,7 @@ public class InsertCourseServlet extends AbstractDatabaseServlet {
 			areaDomain = GetAreaValues.getAreaDomain(conn);
 		} 
 		catch (SQLException ex) {
-			m = new Message("Error while getting the city.", "XXX", ex.getMessage());
+			m = new Message("Error while getting the course.", "XXX", ex.getMessage());
 		} 
 		finally {
 			DbUtils.closeQuietly(conn); // always closes the connection 
