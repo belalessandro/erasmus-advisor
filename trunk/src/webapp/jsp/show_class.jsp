@@ -28,6 +28,7 @@
 	<script src="<c:url value="/js"/>/star-rating.min.js"></script>	
 		
 	<script src="<c:url value="/js"/>/ea-form-validation.js"></script>
+	<script src="<c:url value="/js"/>/ea-insert.js"></script> 
 	
 	<script>
 		// funziona che notifica che questa entità è da segnare REPORTED
@@ -108,39 +109,42 @@
 						</div>
 						<div class="modal-body">
 							<!-- action deve puntare alla servlet che gestisce l'inserimento della valutazione -->
-							<form name='classEvaluationForm' onSubmit="return xEvaluationFormValidation();" method="post" action="#">
+							<form name='classEvaluationForm' method="post" action="class/evaluations">
 								<div class="col-md-6 text-center">Teaching Quality:</div>
 								<div class="col-md-6 text-center">
-									<input id="teachingQuality" class="rating" data-size="sm" data-min="0" data-max="5" data-step="1" data-show-clear="false" data-show-caption="false">
+									<input id="teachingQuality" name="qtaInsegnamanto" class="rating" data-size="sm" data-min="0" data-max="5" data-step="1" data-show-clear="false" data-show-caption="false">
 								</div>
 								<br>
 								<br>
 								<div class="col-md-6 text-center">Schedule Compliance:</div>
 								<div class="col-md-6 text-center">
-									<input id="scheduleCompliance" class="rating" data-size="sm" data-min="0" data-max="5" data-step="1" data-show-clear="false" data-show-caption="false">
+									<input id="scheduleCompliance" name="rispettoDelleOre" class="rating" data-size="sm" data-min="0" data-max="5" data-step="1" data-show-clear="false" data-show-caption="false">
 								</div>
 								<br>
 								<br>
 								<div class="col-md-6 text-center">Difficulty:</div>
 								<div class="col-md-6 text-center">
-									<input id="difficulty" class="rating" data-size="sm" data-min="0" data-max="5" data-step="1" data-show-clear="false" data-show-caption="false">
+									<input id="difficulty" name="difficolta" class="rating" data-size="sm" data-min="0" data-max="5" data-step="1" data-show-clear="false" data-show-caption="false">
 								</div>
 								<br>
 								<br>
 								<div class="col-md-6 text-center">Interest:</div>
 								<div class="col-md-6 text-center">
-									<input id="interest" class="rating" data-size="sm" data-min="0" data-max="5" data-step="1" data-show-clear="false" data-show-caption="false">
+									<input id="interest" name="interesse" class="rating" data-size="sm" data-min="0" data-max="5" data-step="1" data-show-clear="false" data-show-caption="false">
 								</div>
 								<br>
 								<br><br>								
 								<div class="input-group insert_new_input_group">
-									<span class="input-group-addon insert_new_input">Comment</span> <textarea rows="2" class="form-control" name="comment" id="comment" placeholder="Insert a general comment about the city."></textarea>
+									<span class="input-group-addon insert_new_input">Comment</span> <textarea name="commento" rows="2" class="form-control" name="comment" id="comment" placeholder="Insert a general comment about the city."></textarea>
 								</div>
 								<br>
 								<div class="modal-footer">
 									<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 									<input type="submit" value="Save!" class="btn btn-primary pull-right">
 								</div>
+								
+								<!-- Hidden params -->
+								<input type="hidden" name="idInsegnamento" value='<c:out value="${classBean.id}"/>' /> 
 							</form>
 						</div>
 					</div>
@@ -159,9 +163,9 @@
 						<div class="modal-body">
 							<!-- action deve puntare alla servlet che gestisce la modifica dell'entità -->
 							<!-- notare che ogni input deve avere il campo value settato a quanto è presente nel DB -->
-							<form name='classEditForm' onSubmit="return xEditFormValidation();" method="post" action="#">	
+							<form name='classEditForm' method="post" action='<c:url value="/class"/>'>	
 								<div class="input-group insert_new_input_group">
-									<span class="input-group-addon insert_new_input">Name*</span> <input type="text" class="form-control" name="name" id="name" value="<c:out value="${classBean.nome}"/>">
+									<span class="input-group-addon insert_new_input">Name*</span> <input type="text" class="form-control" name="nome" id="name" value="<c:out value="${classBean.nome}"/>">
 								</div>
 								<br>
 								<div class="input-group insert_new_input_group">
@@ -170,6 +174,7 @@
 										<c:forEach var="prof" items='${professors}' varStatus="status">
 											<input type="text" class="form-control insert_new_multiple_input" name="professorName" id="professorName" value="<c:out value="${prof.nome}"/>">
 											<input type="text" class="form-control insert_new_multiple_input" name="professorSurname" id="professorSurname" value="<c:out value="${prof.cognome}"/>">
+<%-- 											<input type="hidden" name="professorId[]" value='<c:out value="${prof.id}"/>' /> --%>
 											<c:if test="${status.first}">
 												<input class="insert_new_multiple_button btn btn-primary" type="button" value="Add Row" onclick="addRow('profRow', 'professorName', 'professorSurname');" />
 											</c:if>
@@ -180,7 +185,7 @@
 								<div class="row text-center">
 									<span></span>
 									<span class="input-group-addon insert_new_select_label_inline">Select the class' area*</span>
-									<select class="selectpicker text-left" id="area" name="area">
+									<select class="selectpicker text-left" id="area" name="nomeArea">
 											<c:forEach var="areaDomain" items='${areaDomain}'>
 											<option value="${areaDomain.nome}" 
 												<c:if test="${areaDomain.nome == classBean.nomeArea}">selected</c:if>
@@ -191,13 +196,13 @@
 								</div>
 								<br>
 								<div class="input-group insert_new_input_group">
-									<span class="input-group-addon insert_new_input">University*</span> <input id="university" class="form-control" name="university" value="<c:out value="${classBean.nomeUniversita}"/>">
+									<span class="input-group-addon insert_new_input">University*</span> <input id="nomeUniversita" class="form-control" name="nomeUniversita" value="<c:out value="${classBean.nomeUniversita}"/>">
 								</div>
 								<br>
 								<div class="row text-center">
 									<span></span>
 									<span class="input-group-addon insert_new_select_label_inline">Select the class' language*</span>
-									<select class="selectpicker text-left" id="language" name="language">
+									<select class="selectpicker text-left" id="language" name="nomeLingua">
 										<c:forEach var="languageDomain" items='${languageDomain}'>
 											<option value="${languageDomain.sigla}" 
 												<c:if test="${languageDomain.sigla == classBean.nomeLingua}">selected</c:if>
@@ -209,19 +214,19 @@
 								<br>
 								<div class="input-group insert_new_input_group text-center">
 									<div class="input-group insert_new_input_group">
-										<span class="input-group-addon insert_new_input">Credits*</span> <input type="text" class="form-control" name="credits" id="credits" value="<c:out value="${classBean.crediti}"/>">
+										<span class="input-group-addon insert_new_input">Credits*</span> <input type="text" class="form-control" name="crediti" id="credits" value="<c:out value="${classBean.crediti}"/>">
 									</div>
 								</div>
 								<br>
 								<div class="input-group insert_new_input_group text-center">
 									<div class="input-group insert_new_input_group">
-										<span class="input-group-addon insert_new_input">Year*</span> <input type="text" class="form-control" name="year" id="year" value="<c:out value="${classBean.annoCorso}"/>">
+										<span class="input-group-addon insert_new_input">Year*</span> <input type="text" class="form-control" name="annoCorso" id="year" value="<c:out value="${classBean.annoCorso}"/>">
 									</div>
 								</div>
 								<br>
 								<div class="input-group insert_new_input_group text-center">
 									<div class="input-group insert_new_input_group">
-										<span class="input-group-addon insert_new_input">Semester*</span> <input type="text" class="form-control" name="semester" id="semester" value="<c:out value="${classBean.periodoErogazione}"/>">
+										<span class="input-group-addon insert_new_input">Semester*</span> <input type="text" class="form-control" name="periodoErogazione" id="semester" value="<c:out value="${classBean.periodoErogazione}"/>">
 									</div>
 								</div>
 								<br>
@@ -229,12 +234,17 @@
 									<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 									<input type="submit" value="Save your changes" class="btn btn-primary pull-right">
 								</div>
+								
+								<!-- Hidden params -->
+								<input type="hidden" name="operation" value="edit"/>
+								<input type="hidden" name="id" value='<c:out value="${classBean.id}"/>' />
+								
 							</form>
 						</div>
 					</div>
 				</div>
 			</div>
-			<!-- fine Form di valutazione a comparsa-->
+			<!-- fine Form di edit a comparsa-->
 			<c:choose>
 				<c:when test="${fn:length(evaluations) == 0}">
 					<div class="row text-center">

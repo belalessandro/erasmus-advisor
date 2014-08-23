@@ -52,7 +52,5 @@ public class ValutazioneCittaDatabase {
 				val.getCommento()
 				);
 	}
-	
-	
 
 }

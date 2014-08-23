@@ -4,6 +4,7 @@
 package it.unipd.dei.bding.erasmusadvisor.servlets;
 
 import it.unipd.dei.bding.erasmusadvisor.beans.LinguaBean;
+import it.unipd.dei.bding.erasmusadvisor.beans.LinguaCittaBean;
 import it.unipd.dei.bding.erasmusadvisor.database.CittaDatabase;
 import it.unipd.dei.bding.erasmusadvisor.database.GetLinguaValues;
 import it.unipd.dei.bding.erasmusadvisor.resources.City;
@@ -14,6 +15,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -167,15 +169,52 @@ public class CityServlet extends AbstractDatabaseServlet
 			
 			String[] languages = req.getParameterValues("language[]");
 			
-			
-			
-				
 			// edit the entity
 			try {
 				// starting database operations
 				conn = DS.getConnection();
+				
+				ArrayList<LinguaBean> linguaDomainList = (ArrayList<LinguaBean>) new GetLinguaValues().getLinguaDomain(conn);
+				ArrayList<LinguaCittaBean> linguaCittaBeanList = new ArrayList<LinguaCittaBean>();
+				
+				// populate the bean
+				int k = 0;
+				int i = 0;
+				PrintWriter w = resp.getWriter();
+//				w.println("<html>");
+//				w.println("<body>");
+				while(i < linguaDomainList.size() && k < languages.length)
+				{
+					
+					
+					// represents "sigla"
+					LinguaBean current = linguaDomainList.get(i);
+					if(languages[k].equals(current.getSigla()))
+					{
+//						w.println("<h2>Current = " +  current.getNome() + "</h2>");
+						LinguaCittaBean linguaCittaBean = new LinguaCittaBean();
+						linguaCittaBean.setNomeCitta(new_name);
+						linguaCittaBean.setSiglaLingua(current.getSigla());
+						linguaCittaBean.setStatoCitta(new_country);
+						
+						linguaCittaBeanList.add(linguaCittaBean);
+						k++;
+						
+						// Do again the search for the next element
+						i = 0;
+					}
+					
+					i++;
+				}
+				
+
+//				w.println("</body>");
+//				w.println("</html>");
+//				w.flush();
+//				w.close();
 				// n = # of row updated
-				int n = new CittaDatabase().editCity(conn, new_name, new_country, old_name, old_country);
+				
+				int n = new CittaDatabase().editCity(conn, new_name, new_country, old_name, old_country, linguaCittaBeanList);
 				DbUtils.close(conn);
 				
 				if(n == 1)

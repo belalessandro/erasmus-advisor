@@ -111,5 +111,26 @@ public class InsegnamentoDatabase
 		// Returns the results
 		return new Teaching(insegnamento, listaValutazioni, professori, lingua);
 	}
+	
+	public static int updateInsegnamento(Connection con, InsegnamentoBean insegnamentoBean) throws SQLException
+	{
+//		UPDATE Insegnamento SET nome='Analisi 2', crediti=12, NomeUniversita='Imperial College London', periodoerogazione=2, stato='NOT VERIFIED',annocorso=2,nomearea='Mathematics',nomelingua='eng' where id=1;
+		StringBuilder sql = new StringBuilder()
+			.append("UPDATE Insegnamento SET Nome = ?, Crediti = ?, NomeUniversita= ?,")
+			.append("PeriodoErogazione = ?, Stato = 'NOT VERIFIED', AnnoCorso = ?, NomeArea = ?, NomeLingua = ? WHERE Id = ?;");
+		
+		QueryRunner run = new QueryRunner();
+//		ResultSetHandler<InsegnamentoBean> rsh = new BeanHandler(InsegnamentoBean.class);
+		
+		return run.update(con, sql.toString(), 
+				insegnamentoBean.getNome(),
+				insegnamentoBean.getCrediti(), 
+				insegnamentoBean.getNomeUniversita(),
+				insegnamentoBean.getPeriodoErogazione(),
+				insegnamentoBean.getAnnoCorso(),
+				insegnamentoBean.getNomeArea(),
+				insegnamentoBean.getNomeLingua(),
+				insegnamentoBean.getId());		
+	}
 
 }
