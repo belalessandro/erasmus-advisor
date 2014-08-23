@@ -125,7 +125,7 @@ public class ArgomentoTesiDatabase {
 		
 		String statement2 = "SELECT V.NomeUtenteStudente, "
 				+ "V.DataInserimento, V.Commento, V.ImpegnoNecessario, "
-				+ "V.InteresseArgomento, V.DiponibilitaRelatore, V.Soddisfazione "
+				+ "V.InteresseArgomento, V.DisponibilitaRelatore, V.Soddisfazione "
 				+ "FROM ArgomentoTesi AS A "
 				+ "INNER JOIN ValutazioneTesi AS V ON A.id = V.idArgomentoTesi "
 				+ "WHERE A.Nome = ?";

@@ -391,19 +391,19 @@
 								<span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star-empty"></span> <br> 
 							</c:if> 
 							
-							<c:if test="${eval.diponibilitaRelatore == 1}">
+							<c:if test="${eval.disponibilitaRelatore == 1}">
 								<span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star-empty"></span> <span class="glyphicon glyphicon-star-empty"></span> <span class="glyphicon glyphicon-star-empty"></span> <span class="glyphicon glyphicon-star-empty"></span> <br> 
 							</c:if>  
-							<c:if test="${eval.diponibilitaRelatore == 2}">
+							<c:if test="${eval.disponibilitaRelatore == 2}">
 								<span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star-empty"></span> <span class="glyphicon glyphicon-star-empty"></span> <span class="glyphicon glyphicon-star-empty"></span> <br> 
 							</c:if>  
-							<c:if test="${eval.diponibilitaRelatore == 3}">
+							<c:if test="${eval.disponibilitaRelatore == 3}">
 								<span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star-empty"></span> <span class="glyphicon glyphicon-star-empty"></span> <br> 
 							</c:if>  
-							<c:if test="${eval.diponibilitaRelatore == 4}">
+							<c:if test="${eval.disponibilitaRelatore == 4}">
 								<span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <br> 
 							</c:if>  
-							<c:if test="${eval.diponibilitaRelatore == 5}">
+							<c:if test="${eval.disponibilitaRelatore == 5}">
 								<span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star-empty"></span> <br> 
 							</c:if> 
 							
