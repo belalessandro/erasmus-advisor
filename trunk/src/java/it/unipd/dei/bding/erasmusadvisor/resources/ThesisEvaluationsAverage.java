@@ -31,7 +31,7 @@ public class ThesisEvaluationsAverage implements Serializable
 			{
 				sum[0] = sum[0] + val.getImpegnoNecessario();
 				sum[1] = sum[1] + val.getInteresseArgomento();
-				sum[2] = sum[2] + val.getDiponibilitaRelatore();
+				sum[2] = sum[2] + val.getDisponibilitaRelatore();
 				sum[3] = sum[3] + val.getSoddisfazione();
 			}
 			effortNeeded = Math.round(sum[0]/list.size());

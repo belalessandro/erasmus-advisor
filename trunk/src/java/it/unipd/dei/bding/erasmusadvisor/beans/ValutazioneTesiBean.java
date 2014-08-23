@@ -39,7 +39,7 @@ public class ValutazioneTesiBean implements Serializable {
 	/**
 	 *
 	 */
-	private int diponibilitaRelatore;
+	private int disponibilitaRelatore;
 
 	/**
 	 *
@@ -134,21 +134,21 @@ public class ValutazioneTesiBean implements Serializable {
 	}
 
 	/**
-	 * Returns the field diponibilitaRelatore.
+	 * Returns the field disponibilitaRelatore.
 	 *
-	 * @return the value of diponibilitaRelatore
+	 * @return the value of disponibilitaRelatore
 	 */
-	public int getDiponibilitaRelatore() {
-		return diponibilitaRelatore;
+	public int getDisponibilitaRelatore() {
+		return disponibilitaRelatore;
 	}
 
 	/**
-	 * Sets the field diponibilitaRelatore
+	 * Sets the field disponibilitaRelatore
 	 *
-	 * @param diponibilitaRelatore The value to set
+	 * @param disponibilitaRelatore The value to set
 	 */
-	public void setDiponibilitaRelatore(int diponibilitaRelatore) {
-		this.diponibilitaRelatore = diponibilitaRelatore;
+	public void setDisponibilitaRelatore(int disponibilitaRelatore) {
+		this.disponibilitaRelatore = disponibilitaRelatore;
 	}
 
 	/**
