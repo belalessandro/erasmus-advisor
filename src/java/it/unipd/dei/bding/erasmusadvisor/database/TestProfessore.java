@@ -24,12 +24,12 @@ public class TestProfessore {
 		/**
 		 * The username for accessing the database
 		 */
-		private static final String USER = "postgres";
+		private static final String USER = "mauro";
 
 		/**
 		 * The password for accessing the database
 		 */
-		private static final String PASSWORD = "postgres";
+		private static final String PASSWORD = "";
 		
 		public static void main(String[] args) {
 			
@@ -54,6 +54,10 @@ public class TestProfessore {
 			//il nome dell'uni di appartenenza trova tesi o altro fatto da lui torna l'id originale
 			//altrimenti crea un nuovo professore e torna l'id appena creato
 			int id = ProfessoreDatabase.selectOrInsertProfessore(con, "Luca", "Pizzul","Universitat de Barcelona- Main Site");
+			System.out.println(id);
+			id = ProfessoreDatabase.selectOrInsertProfessore(con, "asd", "asda", "Universitat de Barcelona- Main Site");
+			System.out.println(id);
+			id = ProfessoreDatabase.selectOrInsertProfessore(con, "asd", "asda", "Universitat de Barcelona- Main Site");
 			System.out.println(id);
 			
 			

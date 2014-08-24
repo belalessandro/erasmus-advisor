@@ -26,7 +26,7 @@
 	<script src="<c:url value="/js"/>/bootstrap-select.js"></script>
 	<script src="<c:url value="/js"/>/bootstrap.min.js"></script>	
 	<script src="<c:url value="/js"/>/star-rating.min.js"></script>	
-		
+	<script src="//code.jquery.com/ui/1.11.1/jquery-ui.js"></script>
 	<script src="<c:url value="/js"/>/ea-form-validation.js"></script>
 	<script src="<c:url value="/js"/>/ea-insert.js"></script> 
 	
@@ -50,6 +50,29 @@
 		        style: 'btn-default',
 		        size: false
 		    });
+		});
+		
+		// gestione autocompletamento
+		// TODO: mauro: l'autocompletamento funziona ma non si vede il menu di scelta dell'universita
+		$(function() {
+			var cache = {};
+			$("#universityNames" ).autocomplete({
+						minLength : 2,
+						source : function(request, response) {
+							var term = request.term;
+							if (term in cache) {
+								response(cache[term]);
+								return;
+							}
+							$.getJSON("<c:url value="/university/list"/>", request,
+									function(data, status, xhr) {
+										xhr.setRequestHeader("X-Requested-With",
+												"XMLHttpRequest");
+										cache[term] = data;
+										response(data);
+									});
+						}
+					});
 		});
 	</script>
 </head>
@@ -98,6 +121,13 @@
 					</ul>
 				</div>
 			</div>
+			<br>
+			<c:if test="${!empty param.edited && param.edited == 'success'}">
+				<div class="alert alert-success alert-dismissible" role="alert" >
+				  <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+				  City Successfully Edited!
+				</div>
+			</c:if>
 			
 			<!--Form di valutazione a comparsa-->
 			<div class="modal fade" id="evaluateForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false">
@@ -196,7 +226,7 @@
 								</div>
 								<br>
 								<div class="input-group insert_new_input_group">
-									<span class="input-group-addon insert_new_input">University*</span> <input id="nomeUniversita" class="form-control" name="nomeUniversita" value="<c:out value="${classBean.nomeUniversita}"/>">
+									<span class="input-group-addon insert_new_input">University*</span> <input id="universityNames" class="form-control" name="nomeUniversita" value="<c:out value="${classBean.nomeUniversita}"/>">
 								</div>
 								<br>
 								<div class="row text-center">

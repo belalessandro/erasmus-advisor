@@ -3,21 +3,43 @@
  */
 package it.unipd.dei.bding.erasmusadvisor.servlets;
 
+
+import it.unipd.dei.bding.erasmusadvisor.beans.BeanUtilities;
 import it.unipd.dei.bding.erasmusadvisor.beans.CertificatiLinguisticiBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.CorsoDiLaureaBean;
+import it.unipd.dei.bding.erasmusadvisor.beans.DocumentazioneBean;
+import it.unipd.dei.bding.erasmusadvisor.beans.FlussoBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.InsegnamentoBean;
+import it.unipd.dei.bding.erasmusadvisor.beans.OrigineBean;
 import it.unipd.dei.bding.erasmusadvisor.database.CorsoDiLaureaDatabase;
+import it.unipd.dei.bding.erasmusadvisor.database.DocumentazioneDatabase;
 import it.unipd.dei.bding.erasmusadvisor.database.FlussoDatabase;
 import it.unipd.dei.bding.erasmusadvisor.database.GetCertificatiLinguisticiValues;
 import it.unipd.dei.bding.erasmusadvisor.database.InteresseDatabase;
+import it.unipd.dei.bding.erasmusadvisor.database.OrigineDatabase;
 import it.unipd.dei.bding.erasmusadvisor.database.RiconoscimentoDatabase;
 import it.unipd.dei.bding.erasmusadvisor.resources.Flow;
 import it.unipd.dei.bding.erasmusadvisor.resources.FlowEvaluationAverage;
 import it.unipd.dei.bding.erasmusadvisor.resources.LoggedUser;
 import it.unipd.dei.bding.erasmusadvisor.resources.Message;
 import it.unipd.dei.bding.erasmusadvisor.resources.UserType;
+import it.unipd.dei.bding.erasmusadvisor.servlets.AbstractDatabaseServlet;
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
@@ -26,84 +48,13 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.dbutils.DbUtils;
+
 /**
  * @author Luca
  *
  */
 public class FlowServlet extends AbstractDatabaseServlet {
-//
-//	private static final long serialVersionUID = -8697374672940193755L;
-//
-//	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
-//			throws ServletException, IOException {
-//		
-//		String id = req.getParameter("id");
-//
-//		if (id != null && !id.isEmpty()) {
-//			FlussoBean f= new FlussoBean();// GET Flusso.lookupBookById(id);
-//			req.setAttribute("book", book);
-//			req.setAttribute("bookPubDate", dateFormat.format(book.getPubDate()));
-//		}
-//
-//		/* Redirect to book-form. */
-//		getServletContext().getRequestDispatcher("/WEB-INF/pages/book-form.jsp").forward(
-//				request, response);
-//
-//	}
-//	
-//	@Override
-//	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
-//			throws ServletException, IOException {
-//		
-//		// TODO: DA SESSIONE
-//		LoggedUser lu = new LoggedUser(LoggedUser.AUTH_FLOWRESP, "erick.burn"); 
-//		
-//
-//		String idFlusso = req.getParameter("idFlow");
-//		if (idFlusso == null || idFlusso.isEmpty()) {
-//			bookRepo.addBook(title, description, price, pubDate);
-//		} else {
-//			bookRepo.updateBook(id, title, description, price, pubDate);
-//		}
-//
-//		response.sendRedirect(request.getContextPath() + "/book/");
-//	}
-
-	/**
-	 * Insert or update the flow sent with a POST form
-	 */
-	@Override
-	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
-			throws ServletException, IOException {
-		
-		// TODO: DA SESSIONE
-		LoggedUser lu = new LoggedUser(UserType.RESPONSABILE, "erick.burn"); 
-		
-
-		String operation = req.getParameter("operation");
-		if (operation == null || operation.isEmpty() || !lu.isFlowResp()) {
-			/* Error or not authorized. */
-			Message m = new Message("Not authorized or operation null", "", "");
-			req.setAttribute("message", m);
-			getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(req, resp);
-			return;
-		} else if (operation.equals("insert") ) {
-			/*
-			 * Insert a new University 
-			 */
-			/* Redirect to existing servlet for Insert flow...... TODO spostare qui */
-			getServletContext().getRequestDispatcher("/insert-flow").forward(
-					req, resp);
-			return;
-		} else if (operation.equals("update") ) {
-			/*
-			 * Updates an existing University 
-			 */
-			//bookRepo.updateBook(id, title, description, price, pubDate);
-		}
-
-		resp.sendRedirect(req.getParameter("returnTo"));
-	}
 	
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException
@@ -125,7 +76,7 @@ public class FlowServlet extends AbstractDatabaseServlet {
 		Flow results = null;
 		Message m = null;
 		List<CertificatiLinguisticiBean> certificatesDomain = null;
-		List<CorsoDiLaureaBean> possibileCourses = null;
+		List<CorsoDiLaureaBean> possibleCourses = null;
 		List<InsegnamentoBean> recognisedClasses = null;
 		long interests = 0;
 
@@ -136,7 +87,7 @@ public class FlowServlet extends AbstractDatabaseServlet {
 			conn = DS.getConnection();
 			results = FlussoDatabase.getFlusso(DS, ID);
 			certificatesDomain = GetCertificatiLinguisticiValues.getCertificatiLinguisticiDomain(conn);
-			possibileCourses = CorsoDiLaureaDatabase.getPossibleCourses(conn, results.getResponsabile());
+			possibleCourses = CorsoDiLaureaDatabase.getPossibleCourses(conn, results.getResponsabile());
 			interests = InteresseDatabase.getCountInteresseByFlusso(conn, ID);
 			recognisedClasses = RiconoscimentoDatabase.getInsegnamentiRiconosciuti(conn, ID);
 		} 
@@ -165,7 +116,7 @@ public class FlowServlet extends AbstractDatabaseServlet {
 			req.setAttribute("recognisedClasses", recognisedClasses);
 
 			req.setAttribute("certificatesDomain", certificatesDomain);
-			req.setAttribute("possibileCourses", possibileCourses);
+			req.setAttribute("possibleCourses", possibleCourses);
 			req.setAttribute("evaluationsAvg", new FlowEvaluationAverage(results.getListaValutazioni()));
 			
 			getServletContext().getRequestDispatcher("/jsp/show_flow.jsp").forward(req, resp);
@@ -176,5 +127,144 @@ public class FlowServlet extends AbstractDatabaseServlet {
 			getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(req, resp);
 		}
 
+
+	}
+
+	
+	/**
+	 * Insert or update the flow sent with a POST form
+	 */
+	@Override
+	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
+			throws ServletException, IOException {
+		
+		// TODO: DA SESSIONE
+		LoggedUser lu = new LoggedUser(UserType.RESPONSABILE, "erick.burn"); 
+		
+		// required fields
+		Message m = null;
+		Connection con = null;
+		
+		// get the operation
+		String operation = req.getParameter("operation");
+		
+		if (operation == null || operation.isEmpty() || !lu.isFlowResp()) {
+			
+			// Error
+			m = new Message("Not authorized or operation null", "", "");
+			req.setAttribute("message", m);
+			getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(req, resp);
+			return;
+			
+		} 
+		else if (operation.equals("edit") ) {
+		
+			// Populate beans
+			FlussoBean flussoBean = new FlussoBean();
+			BeanUtilities.populateBean(flussoBean, req);
+			flussoBean.setRespFlusso(lu.getUser());
+			
+			// get required parameters
+			String[] origins = req.getParameterValues("origins[]");
+			String[] certificates = req.getParameterValues("certificates[]");
+			
+//			PrintWriter w = resp.getWriter();
+//			w.println("<html>");
+//			w.println("<body>");
+//			w.println("<h2>" + origins.length + "</h2>");
+//			w.println("<h2>" + certificates.length + "</h2>");
+//			for(int i = 0; i < origins.length; i++)
+//				w.println("<h2>origins[" + i + "] = " + origins[i] + "</h2>");
+			
+			
+			String[] certificatesName = new String[certificates.length];
+			String[] certificatesLevel = new String[certificates.length];
+			String[][] tmp = new String[certificates.length][];
+			
+			// split certificates values in names and levels
+			for(int i = 0; i < certificates.length; i++)
+				tmp[i] = certificates[i].trim().split("-");
+			
+			// assigning to appropriate variables
+			for(int i = 0; i < certificates.length; i++)
+			{
+				certificatesName[i] = tmp[i][0];
+				certificatesLevel[i] = tmp[i][1];		
+			}
+//			for(int i = 0; i < certificatesName.length; i++)
+//				w.println("<h2>certificatesName[" + i + "] = " + certificatesName[i] + "</h2>");
+//			
+//			for(int i = 0; i < certificatesLevel.length; i++)
+//				w.println("<h2>certificatesLevel[" + i + "] = " + certificatesLevel[i] + "</h2>");
+//			w.println("</body>");
+//			w.println("</html>");
+//			w.flush();
+//			w.close();
+			
+			
+			try {
+				con = DS.getConnection();
+				
+				// Delete Origine
+				OrigineDatabase.deleteOrigineByFlowId(con, flussoBean.getId());
+				
+				
+				// Delete Documentazione relative to Flusso
+				DocumentazioneDatabase.deleteDocumentazioneByFlowId(con, flussoBean.getId());
+				
+				// update flusso
+				FlussoDatabase.createFlusso(con, flussoBean);
+				
+				
+				// insert new origine
+				OrigineBean ob = new OrigineBean();
+				if(origins != null && origins.length > 0)
+				{
+					for(int i = 0; i < origins.length; i++)
+					{
+						ob.setIdCorso(Integer.parseInt(origins[i]));
+						ob.setIdFlusso(flussoBean.getId());
+						OrigineDatabase.createOrigine(con, ob);
+					}	
+				}
+				
+				// insert new documentazione
+				DocumentazioneBean db = new DocumentazioneBean();
+				if(certificates != null && certificates.length > 0)
+				{
+					for(int i = 0; i < certificates.length; i++)
+					{
+						db.setIdFlusso(flussoBean.getId());
+						db.setNomeCertificato(certificatesName[i]);
+						db.setLivelloCertificato(certificatesLevel[i]);
+						
+						DocumentazioneDatabase.createDocumentazione(con, db);
+					}
+				}
+				
+				DbUtils.close(con);
+				
+				
+				// Creating response path and redirect to the new page
+				StringBuilder builder = new StringBuilder()
+				.append("/erasmus-advisor/flow?id=")
+				.append(flussoBean.getId())
+				.append("&edited=success");
+				
+				resp.sendRedirect(builder.toString());
+				
+			} catch (SQLException e) {
+				// Error management
+				m = new Message("Error while editing " + flussoBean.getId() + " instance.","XXX", e.getMessage());
+				req.setAttribute("message", m);
+				
+				getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(req, resp); // ERROR PAGE
+				return;
+			}
+			finally {
+				DbUtils.closeQuietly(con);
+			}
+			
+		}
 	}
 }

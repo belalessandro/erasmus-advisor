@@ -8,21 +8,20 @@ import it.unipd.dei.bding.erasmusadvisor.database.GetLinguaValues;
 import it.unipd.dei.bding.erasmusadvisor.database.InsegnamentoDatabase;
 import it.unipd.dei.bding.erasmusadvisor.database.ProfessoreDatabase;
 import it.unipd.dei.bding.erasmusadvisor.database.SvolgimentoDatabase;
+import it.unipd.dei.bding.erasmusadvisor.resources.LoggedUser;
 import it.unipd.dei.bding.erasmusadvisor.resources.TeachingEvaluationAverage;
 import it.unipd.dei.bding.erasmusadvisor.resources.Message;
 import it.unipd.dei.bding.erasmusadvisor.resources.Teaching;
+import it.unipd.dei.bding.erasmusadvisor.resources.UserType;
 import it.unipd.dei.bding.erasmusadvisor.beans.AreaBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.BeanUtilities;
 import it.unipd.dei.bding.erasmusadvisor.beans.InsegnamentoBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.LinguaBean;
-import it.unipd.dei.bding.erasmusadvisor.beans.ProfessoreBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.SvolgimentoBean;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -38,6 +37,18 @@ import org.apache.commons.dbutils.DbUtils;
  */
 public class ClassServlet extends AbstractDatabaseServlet 
 {
+	/**
+	 * Default Serial version UID 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	/**
+	 * Provides a class visualization and list of evaluations.
+	 * @param req request by the client
+	 * @param resp response to the client 
+	 * @throws ServletException
+	 * @throws IOException
+	 */
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException
 	{
@@ -107,9 +118,19 @@ public class ClassServlet extends AbstractDatabaseServlet
 		}
 	}
 	
+	/**
+	 * Manage edit class requests.
+	 * @param req request by the client
+	 * @param resp response to the client
+	 * @throws ServletException
+	 * @throws IOException
+	 */
 	protected void  doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException 
 	{
+		// TODO: DA SESSIONE
+		LoggedUser lu = new LoggedUser(UserType.RESPONSABILE, "erick.burn"); 
+		
 		String operation = req.getParameter("operation");
 		
 		// database required fields
@@ -121,84 +142,49 @@ public class ClassServlet extends AbstractDatabaseServlet
 			// Populate beans
 			InsegnamentoBean insegnamentoBean = new InsegnamentoBean();
 			BeanUtilities.populateBean(insegnamentoBean, req);
-			
-			ArrayList<ProfessoreBean> professoreBeanList = new ArrayList<ProfessoreBean>();			
+						
 			String[] professorName = req.getParameterValues("professorName");
 			String[] professorSurname = req.getParameterValues("professorSurname");
-			PrintWriter w = resp.getWriter();
-			
-			// remove old class from Svolgimento
-			w.println("<html>");
-			w.println("<body>");
-			ProfessoreBean pb = new ProfessoreBean();
-			for(int i = 0; i < professorName.length; i++)
-			{
-				pb.setNome(professorName[i]);
-				pb.setCognome(professorSurname[i]);
-				
-				professoreBeanList.add(pb);
-				w.println("<h2>Delete " + professorName[i]+ " rows</h2>");
-			}
 			
 			try {
 				con = DS.getConnection();
 				
+				// remove old class from Svolgimento
+				SvolgimentoDatabase.deleteSvolgimentoByClassId(con, insegnamentoBean.getId());
 				
-				int deleted = SvolgimentoDatabase.deleteSvolgimentoByClassId(con, insegnamentoBean.getId());
-				w.println("<h2>Delete " + deleted + " rows</h2>");
 				
 				// update the class
-				int value = InsegnamentoDatabase.updateInsegnamento(con, insegnamentoBean);
-				if(value == 1)
-					w.println("<h2>Insegnamento successfully updated.</h2>");
-				
+				InsegnamentoDatabase.updateInsegnamento(con, insegnamentoBean);
 				
 				// check if the professor still existing, otherwise insert the new professor 
 				// and then insert the corresponding row in Svolgimento
 				int id = 0;
 				SvolgimentoBean svolgimentoBean = new SvolgimentoBean();
 				
-				for(int i = 0; i < professoreBeanList.size(); i++)
-				{
-					id = ProfessoreDatabase.selectOrInsertProfessore(con,
-							professoreBeanList.get(i).getNome(),
-							professoreBeanList.get(i).getCognome(),
-							insegnamentoBean.getNomeUniversita());
-					
-					svolgimentoBean.setIdInsegnamento(insegnamentoBean.getId());
-					svolgimentoBean.setIdProfessore(id);
-					
-					SvolgimentoDatabase.createSvolgimento(con, svolgimentoBean);
+				for(int i = 0; i < professorName.length; i++)
+				{	
+					if(!professorName[i].trim().equals("") && !professorSurname[i].trim().equals(""))
+					{
+						id = ProfessoreDatabase.selectOrInsertProfessore(con,
+								professorName[i],
+								professorSurname[i],
+								insegnamentoBean.getNomeUniversita());
+						
+						svolgimentoBean.setIdInsegnamento(insegnamentoBean.getId());
+						svolgimentoBean.setIdProfessore(id);
+						
+						SvolgimentoDatabase.createSvolgimento(con, svolgimentoBean);
+					}
 				}
 				
-//				for(ProfessoreBean profBean : professoreBeanList)
-//				{
-//					id = ProfessoreDatabase.selectOrInsertProfessore(
-//							con, 
-//							profBean.getNome(), 
-//							profBean.getCognome(), 
-//							insegnamentoBean.getNomeUniversita());
-//					
-//					svolgimentoBean.setIdInsegnamento(insegnamentoBean.getId());
-//					svolgimentoBean.setIdProfessore(id);
-//					
-//					SvolgimentoDatabase.createSvolgimento(con, svolgimentoBean);
-//				}
-				w.println("<h2> " + professorName.length +"</h2>");
-				w.println("<h2> " + professoreBeanList.get(0).getNome() +"</h2>");
-				w.println("<h2> " + professoreBeanList.get(1).getNome() +"</h2>");
-				
-				w.println("</body>");
-				w.println("</html>");
-				w.flush();
-				w.close();
-				
+				// closing the connection
 				DbUtils.close(con);
 				
 				// Creating response path and redirect to the new page
 				StringBuilder builder = new StringBuilder()
 				.append("/erasmus-advisor/class?id=")
-				.append(insegnamentoBean.getId());
+				.append(insegnamentoBean.getId())
+				.append("&edited=success");
 				
 				resp.sendRedirect(builder.toString());
 				
@@ -210,7 +196,8 @@ public class ClassServlet extends AbstractDatabaseServlet
 				getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(req, resp); // ERROR PAGE
 				return;
 			} finally {
-			} 
+				DbUtils.closeQuietly(con);
+			}
 		}
 		
 	}

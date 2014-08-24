@@ -125,6 +125,14 @@
 					</ul>
 				</div>
 			</div>
+			<!-- Notifica di avvenuta modifica del flusso -->
+			<br>
+			<c:if test="${!empty param.edited && param.edited == 'success'}">
+				<div class="alert alert-success alert-dismissible" role="alert" >
+				  <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+				  City Successfully Edited!
+				</div>
+			</c:if>
 			
 			<!--Form di valutazione a comparsa-->
 			<div class="modal fade" id="evaluateForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false">
@@ -136,39 +144,43 @@
 						</div>
 						<div class="modal-body">
 							<!-- action deve puntare alla servlet che gestisce l'inserimento della valutazione -->
-							<form name='flowEvaluationForm' onSubmit="return xEvaluationFormValidation();" method="post" action="#">
+							<form name='flowEvaluationForm' method="post" action='<c:url value="/flow/evaluations"/>' >
 								<div class="col-md-6 text-center">Gratification:</div>
 								<div class="col-md-6 text-center">
-									<input id="costOfLife" class="rating" data-size="sm" data-min="0" data-max="5" data-step="1" data-show-clear="false" data-show-caption="false">
+									<input id="gratification" name="soddEsperienza" class="rating" data-size="sm" data-min="0" data-max="5" data-step="1" data-show-clear="false" data-show-caption="false">
 								</div>
 								<br>
 								<br>
 								<div class="col-md-6 text-center">Academic Fulfillment:</div>
 								<div class="col-md-6 text-center">
-									<input id="houseAvailability" class="rating" data-size="sm" data-min="0" data-max="5" data-step="1" data-show-clear="false" data-show-caption="false">
+									<input id="academicFulfillment" name="soddAccademica"  class="rating" data-size="sm" data-min="0" data-max="5" data-step="1" data-show-clear="false" data-show-caption="false">
 								</div>
 								<br>
 								<br>
 								<div class="col-md-6 text-center">Didactics:</div>
 								<div class="col-md-6 text-center">
-									<input id="liveability" class="rating" data-size="sm" data-min="0" data-max="5" data-step="1" data-show-clear="false" data-show-caption="false">
+									<input id="didactics" name="didattica"  class="rating" data-size="sm" data-min="0" data-max="5" data-step="1" data-show-clear="false" data-show-caption="false">
 								</div>
 								<br>
 								<br>
 								<div class="col-md-6 text-center">Manager Evaluation:</div>
 								<div class="col-md-6 text-center">
-									<input id="socialLife" class="rating" data-size="sm" data-min="0" data-max="5" data-step="1" data-show-clear="false" data-show-caption="false">
+									<input id="managerEvaluation" name="valutazioneResponsabile"  class="rating" data-size="sm" data-min="0" data-max="5" data-step="1" data-show-clear="false" data-show-caption="false">
 								</div>
 								<br>
 								<br><br>								
 								<div class="input-group insert_new_input_group">
-									<span class="input-group-addon insert_new_input">Comment</span> <textarea rows="2" class="form-control" name="comment" id="comment" placeholder="Insert a general comment about the city."></textarea>
+									<span class="input-group-addon insert_new_input">Comment</span> <textarea rows="2" class="form-control" name="commento" id="comment" placeholder="Insert a general comment about the city."></textarea>
 								</div>
 								<br>
 								<div class="modal-footer">
 									<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 									<input type="submit" value="Save!" class="btn btn-primary pull-right">
 								</div>
+								
+								<!-- hidden params -->
+								<input type="hidden" name="idFlusso" value="<c:out value="${flow.id}"/>" />
+								
 							</form>
 						</div>
 					</div>
@@ -185,36 +197,35 @@
 							<h4 class="modal-title" id="myModalLabel">Edit <b><c:out value="${flow.id}"/></b></h4>
 						</div>
 						<div class="modal-body">
-							<!-- action deve puntare alla servlet che gestisce la modifica dell'entità -->
-							<!-- notare che ogni input deve avere il campo value settato a quanto è presente nel DB -->
-							<form name='flowEditForm' onSubmit="return xEditFormValidation();" method="post" action="#">
+							
+							<form name='flowEditForm'  method="post" action="<c:url value="/flow" />" >
 								<div class="input-group insert_new_input_group">
-									<span class="input-group-addon insert_new_input">ID*</span> <input type="text" class="form-control" name="name" id="name" value="<c:out value="${flow.id}"/>">
+									<span class="input-group-addon insert_new_input">ID*</span> <input type="text" class="form-control" name="id" id="name" value="<c:out value="${flow.id}"/>">
 								</div>
 								<br>
 								<div class="row text-center">
 									<span></span>
 									<span class="input-group-addon insert_new_select_label_inline">Insert the flow's starting degree courses*</span>
-									<select class="selectpicker text-left" multiple id="origin" name="origin[]">
-										<c:forEach var="possibileCourses" items='${possibileCourses}'>
+									<select class="selectpicker text-left" multiple id="origin" name="origins[]">
+										<c:forEach var="possibleCourses" items='${possibleCourses}'>
 											<option value="${possibleCourses.id}" 
 												<c:forEach var="origins" items='${origins}' >
-												<c:if test="${possibileCourses.id == origins.id}">selected</c:if>
+												<c:if test="${possibleCourses.id == origins.id}">selected</c:if>
 												</c:forEach>
 											>
-											${possibileCourses.nome} (${possibileCourses.livello})</option>
+											${possibleCourses.nome} (${possibleCourses.livello})</option>
 										</c:forEach>
 				    				</select> 
 								</div>
 								<br>
 								<div class="input-group insert_new_input_group">
-									<span class="input-group-addon insert_new_input">Destination*</span> <input id="university" class="form-control" name="university" value="<c:out value="${flow.destinazione}"/>">
+									<span class="input-group-addon insert_new_input">Destination*</span> <input id="university" class="form-control" name="destinazione" value="<c:out value="${flow.destinazione}"/>">
 								</div>
 								<br>
 								<div class="row text-center">
 									<span></span>
 									<span class="input-group-addon insert_new_select_label_inline">Insert the flow's Language Certifications*</span>
-									<select class="selectpicker text-left" multiple id="certificate" name="certificate[]">
+									<select class="selectpicker text-left" multiple id="certificate" name="certificates[]">
 										<c:forEach var="certificatesDomain" items='${certificatesDomain}'>
 											<option value="${certificatesDomain.nomeLingua} - ${certificatesDomain.livello}" 
 												<c:forEach var="certificates" items='${certificates}' >
@@ -228,24 +239,27 @@
 								<br>
 								<div class="input-group insert_new_input_group">
 									<div class="input-group insert_new_input_group_small">
-										<span class="input-group-addon insert_new_input">Available positions*</span> <input type="text" class="form-control" name="seats" id="seats" value="<c:out value="${flow.postiDisponibili}"/>">
+										<span class="input-group-addon insert_new_input">Available positions*</span> <input type="text" class="form-control" name="postiDisponibili" id="seats" value="<c:out value="${flow.postiDisponibili}"/>">
 									</div>
 								</div>
 								<br>
 								<div class="input-group insert_new_input_group">
 									<div class="input-group insert_new_input_group_small">
-										<span class="input-group-addon insert_new_input">Length (months)*</span> <input type="text" class="form-control" name="length" id="length" value="<c:out value="${flow.durata}"/>">
+										<span class="input-group-addon insert_new_input">Length (months)*</span> <input type="text" class="form-control" name="durata" id="length" value="<c:out value="${flow.durata}"/>">
 									</div>
 								</div>
 								<br>
 								<div class="input-group insert_new_input_group">
-									<span class="input-group-addon insert_new_input">Details</span> <textarea rows="2" class="form-control" name="details" id="details"></textarea>
+									<span class="input-group-addon insert_new_input">Details</span> <textarea rows="2" class="form-control" name="dettagli" id="details"></textarea>
 								</div>
 								<br>
 								<div class="modal-footer">
 									<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 									<input type="submit" value="Save your changes" class="btn btn-primary pull-right">
 								</div>
+								
+								<!-- hidden params -->
+								<input type="hidden" name="operation" value="edit" />
 							</form>
 						</div>
 					</div>
