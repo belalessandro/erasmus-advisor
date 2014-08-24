@@ -56,4 +56,20 @@ public class DocumentazioneDatabase {
 		}
 	}
 
+	/**
+	 * Deletes all Documentazione's instaces with the flow id given.
+	 * 
+	 * @param con connection to the database
+	 * @param flowId flow id
+	 * @return number of instances deleted
+	 * @throws SQLException
+	 */
+	public static int  deleteDocumentazioneByFlowId(Connection con, String flowId) throws SQLException {
+		final String sql = "DELETE FROM Documentazione WHERE idFlusso = ?;";
+		QueryRunner run = new QueryRunner();
+		
+		return run.update(con, sql, flowId);
+		
+	}
+
 }

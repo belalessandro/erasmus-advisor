@@ -7,6 +7,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 import org.apache.commons.dbutils.DbUtils;
+import org.apache.commons.dbutils.QueryRunner;
 
 /**
  * Database operations about Origine
@@ -41,6 +42,22 @@ public class OrigineDatabase {
 		} finally {
 			DbUtils.closeQuietly(pstmt);
 		}
+	}
+	
+	/**
+	 * Delete origine instances by flow id.
+	 * @param con connection to the database
+	 * @param flowId flow id
+	 * @return number of rows deleted
+	 * @throws SQLException
+	 */
+	public static int deleteOrigineByFlowId(Connection con, String flowId) throws SQLException
+	{
+		final String sql = "DELETE FROM Origine WHERE idFlusso = ?;";
+		QueryRunner run = new QueryRunner();
+		
+		return run.update(con, sql, flowId);
+		
 	}
 
 }
