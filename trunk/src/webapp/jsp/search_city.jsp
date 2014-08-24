@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!-- i risultati della ricerca sono visualizzati in Ajax -->
 
@@ -10,14 +11,14 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	
-	<link href="../css/ea-main.css" rel="stylesheet">
-	<link href="../css/bootstrap.min.css" rel="stylesheet">
-	<link href="../fonts/font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet">
+	<link href="<c:url value="/css"/>/ea-main.css" rel="stylesheet">
+	<link href="<c:url value="/css"/>/bootstrap.min.css" rel="stylesheet">
+	<link href="<c:url value="/fonts"/>/font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet">
 	
-	<script src="../js/jquery.min.js"></script>
-	<script src="../js/bootstrap.min.js"></script>
-	<script src="../js/jquery.tablesorter.min.js"></script>
-	<link href="../css/tablesorter/style.css" rel="stylesheet"> 
+	<script src="<c:url value="/js"/>/jquery.min.js"></script>
+	<script src="<c:url value="/js"/>/bootstrap.min.js"></script>
+	<script src="<c:url value="/js"/>/jquery.tablesorter.min.js"></script>
+	<link href="<c:url value="/css"/>/tablesorter/style.css" rel="stylesheet"> 
 	<script>
 		// variabili che contengono i valori selezionati nei dropdown
 		// usate nella chiamata per effettuare la ricerca vera e propria
@@ -38,7 +39,7 @@
 			}
 		}
 		// aggiorna l'etichetta mostrata dai dropdown e salva il valore selezionato
-		$(document).on('click', '.dropdown-menu li a', function () {
+		$(document).on('click', '.dropdown-menu li span', function () {
 			var selText = $(this).text();
 			var elem = $(this).parents('.btn-group').children('.dropdown-toggle').attr('id');
 			if (elem === 'dropCountry')
@@ -73,19 +74,15 @@
 		<div class="col-md-9 general_main_border">
 			<h2 class="text-center">Search a City</h2>
 			<br>
-			<!-- ho messo tanto amore nel fare questo form usando componenti di bootstrap standard
-			non scartatelo a priori. I nomi vanno caricate in modo dinamico. -->
 			<div class="col-md-4 text-center">
 				<div class="btn-group">
 					<button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" id="dropCountry">
 						Select a Country <span class="caret"></span>
 					</button>
 					<ul class="dropdown-menu search_scrollable_menu text-left">
-						<li><a href="#" target="_blank">Country1</a></li>
-						<li><a href="#" target="_blank">Country2</a></li>
-						<li><a href="#" target="_blank">Country2</a></li>
-						<li><a href="#" target="_blank">Country4</a></li>
-						<li><a href="#" target="_blank">Country5</a></li>
+						<c:forEach var="country" items='${countries}'>
+							<li><span>${country}</span></li>
+						</c:forEach>
 					</ul>
 				</div>
 			</div>
@@ -95,11 +92,9 @@
 						Select a Language <span class="caret"></span>
 					</button>
 					<ul class="dropdown-menu search_scrollable_menu text-left">
-						<li><a href="#" target="_blank">Language1</a></li>
-						<li><a href="#" target="_blank">Language2</a></li>
-						<li><a href="#" target="_blank">Language3</a></li>
-						<li><a href="#" target="_blank">Language4</a></li>
-						<li><a href="#" target="_blank">Language5</a></li>
+						<c:forEach var="languageDomain" items='${languageDomain}'>
+							<li><span>${languageDomain.nome}</span></li>
+						</c:forEach>
 					</ul>
 				</div>
 			</div>
@@ -139,11 +134,6 @@
 					</tr>
 				</tbody>
 			</table>
-			<!-- da usare solo se si sceglie di non visualizzare tutti i risultati nella pagina
-			<ul class="pager">
-				<li class="next"><a href="#" target="_blank">Show more &darr;</a></li>
-			</ul>
-			 -->
 		</div>
 	</div>	
 	<!-- footer -->

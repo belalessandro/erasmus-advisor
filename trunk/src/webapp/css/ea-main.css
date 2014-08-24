@@ -39,6 +39,26 @@
 	margin-top: 4px !important;
 }
 
+/**/
+
+.dropdown-menu > li > span {
+  display: block;
+  padding: 3px 20px;
+  clear: both;
+  font-weight: normal;
+  line-height: 1.42857143;
+  color: #333;
+  white-space: nowrap;
+  cursor: pointer;
+}
+.dropdown-menu > li > span:hover,
+.dropdown-menu > li > span:focus {
+  color: #262626;
+  text-decoration: none;
+  background-color: #f5f5f5;
+  cursor: pointer;
+}
+
 /* general layout */
 
 .general_main_border

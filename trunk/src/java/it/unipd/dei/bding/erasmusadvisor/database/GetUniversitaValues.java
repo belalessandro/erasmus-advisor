@@ -28,9 +28,9 @@ public class GetUniversitaValues
 	 * @return a list of university names
 	 * @throws SQLException If an error occurs running the SQL query.
 	 */
-	public static List<UniversitaBean> getAreaDomain(Connection conn) throws SQLException
+	public static List<UniversitaBean> getDomain(Connection conn) throws SQLException
 	{
-		final String statement = "SELECT Nome FROM Universita"; 
+		final String statement = "SELECT Nome FROM Universita ORDER BY Nome"; 
 		
 		QueryRunner run = new QueryRunner();
 		
@@ -48,7 +48,7 @@ public class GetUniversitaValues
 	 * @return a list of university names
 	 * @throws SQLException If an error occurs running the SQL query.
 	 */
-	public static List<UniversitaBean> getAreaDomainStartingWith(Connection conn, String with) throws SQLException
+	public static List<UniversitaBean> getDomainStartingWith(Connection conn, String with) throws SQLException
 	{
 		final String statement = "SELECT Nome FROM Universita "
 				+ "WHERE lower(Nome) LIKE lower(?)"; 

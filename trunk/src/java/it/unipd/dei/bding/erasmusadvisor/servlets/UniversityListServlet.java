@@ -1,7 +1,15 @@
 package it.unipd.dei.bding.erasmusadvisor.servlets;
 
+import it.unipd.dei.bding.erasmusadvisor.beans.AreaBean;
+import it.unipd.dei.bding.erasmusadvisor.beans.CittaBean;
+import it.unipd.dei.bding.erasmusadvisor.beans.LinguaBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.UniversitaBean;
+import it.unipd.dei.bding.erasmusadvisor.database.CittaDatabase;
+import it.unipd.dei.bding.erasmusadvisor.database.GetAreaValues;
+import it.unipd.dei.bding.erasmusadvisor.database.GetLinguaValues;
 import it.unipd.dei.bding.erasmusadvisor.database.GetUniversitaValues;
+import it.unipd.dei.bding.erasmusadvisor.resources.CountryCityListBean;
+import it.unipd.dei.bding.erasmusadvisor.resources.Message;
 import it.unipd.dei.bding.erasmusadvisor.resources.University;
 
 import java.io.IOException;
@@ -26,7 +34,7 @@ import org.apache.commons.dbutils.DbUtils;
  * Servlet for getting lists of university
  * 
  * Mapped to /university/list
- * @author Alessandro
+ * @author Alessandro, Luca
  *
  */
 public class UniversityListServlet extends AbstractDatabaseServlet {
@@ -91,9 +99,9 @@ public class UniversityListServlet extends AbstractDatabaseServlet {
 				conn = DS.getConnection();
 				
 				if (startingWith != null && !startingWith.isEmpty())
-					nameList = GetUniversitaValues.getAreaDomainStartingWith(conn, startingWith);
+					nameList = GetUniversitaValues.getDomainStartingWith(conn, startingWith);
 				else 
-					nameList = GetUniversitaValues.getAreaDomain(conn);
+					nameList = GetUniversitaValues.getDomain(conn);
 				
 			} catch (SQLException e) {
 				// Do nothing..
@@ -111,10 +119,36 @@ public class UniversityListServlet extends AbstractDatabaseServlet {
 				jsonWriter.close();
 			}
 
-		} else { /* NO OPERATION */
+		}
+		else { /* NO OPERATION */
 			
 			/* Redirect to the Search JSP page */
-			resp.sendRedirect(req.getContextPath() + "/jsp/search_university.jsp");
+
+			List<CittaBean> cities = null;
+			Connection conn = null;
+			Message m = null;
+			
+			try {
+				conn = DS.getConnection();
+				cities = CittaDatabase.getAllSortByCountry(conn);
+			} 
+			catch (SQLException ex) {
+				m = new Message("Error while getting the search page.", "XXX", ex.getMessage());
+			} 
+			finally {
+				DbUtils.closeQuietly(conn); // always closes the connection 
+			}
+	
+			if (m == null)
+			{
+				req.setAttribute("cities", (new CountryCityListBean()).initialize(cities));
+				getServletContext().getRequestDispatcher("/jsp/search_university.jsp").forward(req, resp);
+			}
+			else
+			{
+				req.setAttribute("message", m);
+				getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(req, resp);
+			}
 		}
 
 	}
