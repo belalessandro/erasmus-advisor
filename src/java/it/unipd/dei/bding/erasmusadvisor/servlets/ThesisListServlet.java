@@ -3,8 +3,14 @@
  */
 package it.unipd.dei.bding.erasmusadvisor.servlets;
 
+import it.unipd.dei.bding.erasmusadvisor.beans.AreaBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.ArgomentoTesiBean;
+import it.unipd.dei.bding.erasmusadvisor.beans.LinguaBean;
+import it.unipd.dei.bding.erasmusadvisor.beans.UniversitaBean;
 import it.unipd.dei.bding.erasmusadvisor.database.ArgomentoTesiDatabase;
+import it.unipd.dei.bding.erasmusadvisor.database.GetAreaValues;
+import it.unipd.dei.bding.erasmusadvisor.database.GetLinguaValues;
+import it.unipd.dei.bding.erasmusadvisor.database.GetUniversitaValues;
 import it.unipd.dei.bding.erasmusadvisor.resources.Message;
 import it.unipd.dei.bding.erasmusadvisor.resources.Thesis;
 
@@ -22,73 +28,56 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.dbutils.DbUtils;
 
 /**
- * @author Nicola
+ * @author Luca
  *
  */
-public class ThesisListServlet extends AbstractDatabaseServlet {
+public class ThesisListServlet extends AbstractDatabaseServlet 
+{
 	
 	private static final long serialVersionUID = 24559389234503855L;
 	
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
-			throws ServletException, IOException {
-		
-		String univName = req.getParameter("univName");
-		String area =req.getParameter("area");
-
-		if (univName == null || univName.isEmpty() || area == null || area.isEmpty()) {
-			/* Redirect to search form. */
-			getServletContext().getRequestDispatcher("/jsp/search_thesis.jsp").forward(
-					req, resp);
+			throws ServletException, IOException 
+	{
+		String operation = req.getParameter("operation");
+		if (operation != null && !operation.isEmpty()
+				&& operation.equals("search")) {
+	
 		}
-			List<ArgomentoTesiBean> results = null;
+		else { 
+			/* Redirect to the Search JSP page */
+			
+			List<LinguaBean> languageDomain = null;
+			List<AreaBean> areaDomain = null;
+			List<UniversitaBean> universities = null;
+			Connection conn = null;
 			Message m = null;
 			
-			// database connection
-			Connection conn = null;		
 			try {
 				conn = DS.getConnection();
-				results = ArgomentoTesiDatabase.searchArgomentoTesiBy(conn, univName, area);
-				DbUtils.close(conn);
-				
-				
-				
-			} catch (SQLException ex) {
-				m = new Message("Error while getting the university.",
-						"XXX", ex.getMessage());
-			} finally {
-				DbUtils.closeQuietly(conn);
+				languageDomain = GetLinguaValues.getLinguaDomain(conn);
+				areaDomain = GetAreaValues.getAreaDomain(conn);
+				universities = GetUniversitaValues.getDomain(conn);
+			} 
+			catch (SQLException ex) {
+				m = new Message("Error while getting the search page.", "XXX", ex.getMessage());
+			} 
+			finally {
+				DbUtils.closeQuietly(conn); // always closes the connection 
 			}
-		
-		/*if ("XMLHttpRequest".equals(req.getHeader("X-Requested-With"))) {
-			// Handle Ajax response (e.g. return JSON data object).
-
-			resp.setContentType("application/json");
-			if (results != null) {
-				 NOT IMPLEMENTED YET 
-				JsonWriter jsonWriter = Json.createWriter(resp.getWriter());
-				jsonWriter.writeObject(convertToJson(results));
-				jsonWriter.close();
+	
+			if (m == null)
+			{
+				req.setAttribute("languageDomain", languageDomain);
+				req.setAttribute("areaDomain", areaDomain);
+				req.setAttribute("universities", universities);
+				getServletContext().getRequestDispatcher("/jsp/search_thesis.jsp").forward(req, resp);
 			}
-
-		} else {
-			// Handle normal response (e.g. forward and/or set message as attribute).
-
-			if (m == null && results != null) {
-				*//** 
-				 * Show results to the JSP page. 
-				 *
-				 *//*
-				req.setAttribute("university", results.getUniversita());
-				req.setAttribute("evaluations", results.getListaValutazioni());
-
-				getServletContext().getRequestDispatcher("/jsp/show_thesis.jsp").forward(
-						req, resp);
-				
-			} else { // Error page
+			else
+			{
 				req.setAttribute("message", m);
-				getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(
-						req, resp);
+				getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(req, resp);
 			}
-		}*/	
+		}
 	}
 }

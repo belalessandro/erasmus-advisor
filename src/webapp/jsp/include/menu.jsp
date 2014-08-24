@@ -41,11 +41,11 @@
 	<div class="menu_normal"><a href="#"><i class="fa fa-user fa-fw"></i>My Comments</a></div>
 	<br>
 	<div class="menu_title"><i class="fa fa-search fa-fw"></i>SEARCH</div>
-	<div class="menu_normal"><a href="<c:url value="/jsp"/>/search_flow.jsp"><i class="fa fa-arrow-right fa-fw"></i>Flows</a></div>
-	<div class="menu_normal"><a href="<c:url value="/jsp"/>/search_city.jsp"><i class="fa fa-arrow-right fa-fw"></i>Cities</a></div>
-	<div class="menu_normal"><a href="<c:url value="/jsp"/>/search_university.jsp"><i class="fa fa-arrow-right fa-fw"></i>Universities</a></div>
-	<div class="menu_normal"><a href="<c:url value="/jsp"/>/search_class.jsp"><i class="fa fa-arrow-right fa-fw"></i>Classes</a></div>
-	<div class="menu_normal"><a href="<c:url value="/jsp"/>/search_thesis.jsp"><i class="fa fa-arrow-right fa-fw"></i>Theses</a></div>
+	<div class="menu_normal"><a href="<c:url value="/flow/list"/>"><i class="fa fa-arrow-right fa-fw"></i>Flows</a></div>
+	<div class="menu_normal"><a href="<c:url value="/city/list"/>"><i class="fa fa-arrow-right fa-fw"></i>Cities</a></div>
+	<div class="menu_normal"><a href="<c:url value="/university/list"/>"><i class="fa fa-arrow-right fa-fw"></i>Universities</a></div>
+	<div class="menu_normal"><a href="<c:url value="/class/list"/>"><i class="fa fa-arrow-right fa-fw"></i>Classes</a></div>
+	<div class="menu_normal"><a href="<c:url value="/thesis/list"/>"><i class="fa fa-arrow-right fa-fw"></i>Theses</a></div>
 	<br>
 	<div class="menu_title"><i class="fa fa-search fa-fw"></i>INSERT</div>
 	<div class="menu_normal"><a href="<c:url value="/flow/insert"/>"><i class="fa fa-arrow-right fa-fw"></i>Insert a new Flow</a></div>

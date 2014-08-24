@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!-- i risultati della ricerca sono visualizzati in Ajax -->
 
@@ -10,14 +11,14 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	
-	<link href="../css/ea-main.css" rel="stylesheet">
-	<link href="../css/bootstrap.min.css" rel="stylesheet">
-	<link href="../fonts/font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet">
+	<link href="<c:url value="/css"/>/ea-main.css" rel="stylesheet">
+	<link href="<c:url value="/css"/>/bootstrap.min.css" rel="stylesheet">
+	<link href="<c:url value="/fonts"/>/font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet">
 	
-	<script src="../js/jquery.min.js"></script>
-	<script src="../js/bootstrap.min.js"></script>
-	<script src="../js/jquery.tablesorter.min.js"></script>
-	<link href="../css/tablesorter/style.css" rel="stylesheet"> 
+	<script src="<c:url value="/js"/>/jquery.min.js"></script>
+	<script src="<c:url value="/js"/>/bootstrap.min.js"></script>
+	<script src="<c:url value="/js"/>/jquery.tablesorter.min.js"></script>
+	<link href="<c:url value="/css"/>/tablesorter/style.css" rel="stylesheet"> 
 	<script>
 		// variabili che contengono i valori selezionati nei dropdown
 		// usate nella chiamata per effettuare la ricerca vera e propria
@@ -55,7 +56,7 @@
 			} 
 		}
 		// aggiorna l'etichetta mostrata dai dropdown e salva il valore selezionato
-		$(document).on('click', '.dropdown-menu li a', function () {
+		$(document).on('click', '.dropdown-menu li span', function () {
 			var selText = $(this).text();
 			var elem = $(this).parents('.btn-group').children('.dropdown-toggle').attr('id');
 			if (elem === 'dropArea')
@@ -105,21 +106,17 @@
 		<div class="col-md-9 general_main_border">
 			<h2 class="text-center">Search a Class</h2>
 			<br>
-			<!-- ho messo tanto amore nel fare questo form usando componenti di bootstrap standard
-			non scartatelo a priori. I nomi delle aree e delle università vanno caricate in modo dinamico. 
-			Notare che potrebbe essere meglio inserire un altro dropdown che ad esempio permetta di selezionare 
-			lo stato in cui si trova l'università e da lì, tramite Ajax, aggiornare l'altro.-->
+			<!--  Notare che potrebbe essere meglio inserire un altro dropdown che ad esempio permetta di selezionare 
+			lo stato in cui si trova l'università e da lì aggiornare l'altro.-->
 			<div class="col-md-4 text-center">
 				<div class="btn-group">
 					<button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" id="dropArea">
 						Select an Area <span class="caret"></span>
 					</button>
 					<ul class="dropdown-menu search_scrollable_menu text-left">
-						<li><a href="#" target="_blank">Area1</a></li>
-						<li><a href="#" target="_blank">Area2</a></li>
-						<li><a href="#" target="_blank">Area3</a></li>
-						<li><a href="#" target="_blank">Area4</a></li>
-						<li><a href="#" target="_blank">Area5</a></li>
+						<c:forEach var="areaDomain" items='${areaDomain}'>
+							<li><span>${areaDomain.nome}</span></li>
+						</c:forEach>
 					</ul>
 				</div>
 			</div>
@@ -129,11 +126,9 @@
 						Select a University <span class="caret"></span>
 					</button>
 					<ul class="dropdown-menu search_scrollable_menu text-left">
-						<li><a href="#" target="_blank">University1</a></li>
-						<li><a href="#" target="_blank">University2</a></li>
-						<li><a href="#" target="_blank">University3</a></li>
-						<li><a href="#" target="_blank">University4</a></li>
-						<li><a href="#" target="_blank">University5</a></li>
+						<c:forEach var="uni" items='${universities}'>
+							<li><span>${uni.nome}</span></li>
+						</c:forEach>
 					</ul>
 				</div>
 			</div>
@@ -153,23 +148,23 @@
 							Select a Year <span class="caret"></span>
 						</button>
 						<ul class="dropdown-menu search_scrollable_menu text-left">
-							<li><a href="#" target="_blank">1</a></li>
-							<li><a href="#" target="_blank">2</a></li>
-							<li><a href="#" target="_blank">3</a></li>
-							<li><a href="#" target="_blank">4</a></li>
-							<li><a href="#" target="_blank">5</a></li>
-							<li><a href="#" target="_blank">6</a></li>
+							<li><span>1</span></li>
+							<li><span>2</span></li>
+							<li><span>3</span></li>
+							<li><span>4</span></li>
+							<li><span>5</span></li>
+							<li><span>6</span></li>
 						</ul>
 					</div>
 				</div>
 				<div class="col-md-4 text-center" >
 					<div class="btn-group">
 						<button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" id="dropSemester">
-							Select a Semester <span class="caret"></span>
+							Select a Period <span class="caret"></span>
 						</button>
 						<ul class="dropdown-menu search_scrollable_menu text-left">
-							<li><a href="#" target="_blank">1</a></li>
-							<li><a href="#" target="_blank">2</a></li>
+							<li><span>1</span></li>
+							<li><span>2</span></li>
 						</ul>
 					</div>
 				</div>
@@ -179,9 +174,9 @@
 							Select a Language <span class="caret"></span>
 						</button>
 						<ul class="dropdown-menu search_scrollable_menu text-left">
-							<li><a href="#" target="_blank">Italian</a></li>
-							<li><a href="#" target="_blank">Spanish</a></li>
-							<li><a href="#" target="_blank">English</a></li>
+							<c:forEach var="languageDomain" items='${languageDomain}'>
+								<li><span>${languageDomain.nome}</span></li>
+							</c:forEach>
 						</ul>
 					</div>
 				</div>
@@ -192,29 +187,6 @@
 			<h5>Results for <strong>Mathematics</strong> in <strong>Università agli Studi di Padova</strong>.</h5>
 			<br>
 			<table class="table table-bordered table-hover table-striped tablesorter" id="resultTable">
-<!-- 		rimossi i filtri, non si possono avere due thead sennò il tablesorter va in casino
-			al limite si possono reinserire sotto o in un'altra posizione
-			<thead>
-					<tr>
-						<th>
-							<div class="input-group input-group-md">
-								<input type="text" class="form-control" placeholder="Filter by Name"> 
-								<span class="input-group-btn">
-									<button class="btn btn-default" type="button"><span class="glyphicon glyphicon-search"></span></button>
-								</span>
-							</div>
-						</th>
-						<th></th><th></th><th></th><th></th>
-						<th>
-							<div class="input-group input-group-md">
-								<input type="text" class="form-control" placeholder="Filter by Professor"> 
-								<span class="input-group-btn">
-									<button class="btn btn-default" type="button"><span class="glyphicon glyphicon-search"></span></button>
-								</span>
-							</div>
-						</th>
-					</tr>
-				</thead> -->
 				<thead>
 					<tr>
 						<th>Name</th>
@@ -261,11 +233,6 @@
 					</tr>
 				</tbody>
 			</table>
-			<!-- da usare solo se si sceglie di non visualizzare tutti i risultati nella pagina
-			<ul class="pager">
-				<li class="next"><a href="#" target="_blank">Show more &darr;</a></li>
-			</ul>
-			 -->
 		</div>
 	</div>	
 	<!-- footer -->
