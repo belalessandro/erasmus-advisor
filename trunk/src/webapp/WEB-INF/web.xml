@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <web-app id="ErasmusAdvisor" version="2.5" xmlns="http://java.sun.com/xml/ns/javaee"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
     
-	<display-name>Erasmus Advisor</display-name>
+        <display-name>Erasmus Advisor</display-name>
     <description>
         Erasmus Advisor is a web application that holds information about Erasmus and Erasmus
         students, by showing flows, universities and interesting stuffs regarding
         an Erasmus trip.
     </description>
 
-	<!-- Home Page -->
-	<welcome-file-list>
-		<welcome-file>jsp/home.jsp</welcome-file>
-	</welcome-file-list>
+        <!-- Home Page -->
+        <welcome-file-list>
+                <welcome-file>jsp/home.jsp</welcome-file>
+        </welcome-file-list>
     
     <!-- Make available connection's pool to the application web -->
     <resource-ref>
@@ -25,87 +25,87 @@
     </resource-ref>
     
     <!-- HTTP error codes (one per error page) -->
-	<error-page>
-		<error-code>404</error-code>
-		<location>/jsp/error.jsp</location>
-	</error-page>
+        <error-page>
+                <error-code>404</error-code>
+                <location>/jsp/error.jsp</location>
+        </error-page>
     
     <!-- Servlet list. Remember to keep servlet and servlet-mapping combined -->
-	<servlet>
-		<servlet-name>SignInServlet</servlet-name>
-		<servlet-class>it.unipd.dei.bding.erasmusadvisor.servlets.SignInServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>SignInServlet</servlet-name>
-		<url-pattern>/sign-in</url-pattern>
-	</servlet-mapping>
+        <servlet>
+                <servlet-name>SignInServlet</servlet-name>
+                <servlet-class>it.unipd.dei.bding.erasmusadvisor.servlets.SignInServlet</servlet-class>
+        </servlet>
+        <servlet-mapping>
+                <servlet-name>SignInServlet</servlet-name>
+                <url-pattern>/sign-in</url-pattern>
+        </servlet-mapping>
     
-	<!-- 
-	<servlet>
-		<servlet-name>LogInServlet</servlet-name>
-		<servlet-class>it.unipd.dei.bding.erasmusadvisor.servlets.LogInServlet</servlet-class>
-	</servlet>
-	
-	<servlet-mapping>
-		<servlet-name>LogInServlet</servlet-name>
-		<url-pattern>/login</url-pattern>
-	</servlet-mapping>
-	-->
-	
-	<servlet>
-		<servlet-name>FlowServlet</servlet-name>
-		<servlet-class>it.unipd.dei.bding.erasmusadvisor.servlets.FlowServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>FlowServlet</servlet-name>
-		<url-pattern>/flow</url-pattern>
-	</servlet-mapping>
-	
-	<servlet>
-		<servlet-name>CityServlet</servlet-name>
-		<servlet-class>it.unipd.dei.bding.erasmusadvisor.servlets.CityServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>CityServlet</servlet-name>
-		<url-pattern>/city</url-pattern>
-	</servlet-mapping>
-	
-	<servlet>
-		<servlet-name>CityEvaluationsServlet</servlet-name>
-		<servlet-class>it.unipd.dei.bding.erasmusadvisor.servlets.CityEvaluationsServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>CityEvaluationsServlet</servlet-name>
-		<url-pattern>/city/evaluations</url-pattern>
-	</servlet-mapping>
-	
-	<servlet>
-		<servlet-name>ClassServlet</servlet-name>
-		<servlet-class>it.unipd.dei.bding.erasmusadvisor.servlets.ClassServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>ClassServlet</servlet-name>
-		<url-pattern>/class</url-pattern>
-	</servlet-mapping>
-	
-	<servlet>
-		<servlet-name>ThesisServlet</servlet-name>
-		<servlet-class>it.unipd.dei.bding.erasmusadvisor.servlets.ThesisServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>ThesisServlet</servlet-name>
-		<url-pattern>/thesis</url-pattern>
-	</servlet-mapping>
-	
-	<servlet>
-		<servlet-name>UniversityServlet</servlet-name>
-		<servlet-class>it.unipd.dei.bding.erasmusadvisor.servlets.UniversityServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>UniversityServlet</servlet-name>
-		<url-pattern>/university</url-pattern>
-	</servlet-mapping>
-	
+        <!-- 
+        <servlet>
+                <servlet-name>LogInServlet</servlet-name>
+                <servlet-class>it.unipd.dei.bding.erasmusadvisor.servlets.LogInServlet</servlet-class>
+        </servlet>
+        
+        <servlet-mapping>
+                <servlet-name>LogInServlet</servlet-name>
+                <url-pattern>/login</url-pattern>
+        </servlet-mapping>
+        -->
+        
+        <servlet>
+                <servlet-name>FlowServlet</servlet-name>
+                <servlet-class>it.unipd.dei.bding.erasmusadvisor.servlets.FlowServlet</servlet-class>
+        </servlet>
+        <servlet-mapping>
+                <servlet-name>FlowServlet</servlet-name>
+                <url-pattern>/flow</url-pattern>
+        </servlet-mapping>
+        
+        <servlet>
+                <servlet-name>CityServlet</servlet-name>
+                <servlet-class>it.unipd.dei.bding.erasmusadvisor.servlets.CityServlet</servlet-class>
+        </servlet>
+        <servlet-mapping>
+                <servlet-name>CityServlet</servlet-name>
+                <url-pattern>/city</url-pattern>
+        </servlet-mapping>
+        
+        <servlet>
+                <servlet-name>CityEvaluationsServlet</servlet-name>
+                <servlet-class>it.unipd.dei.bding.erasmusadvisor.servlets.CityEvaluationsServlet</servlet-class>
+        </servlet>
+        <servlet-mapping>
+                <servlet-name>CityEvaluationsServlet</servlet-name>
+                <url-pattern>/city/evaluations</url-pattern>
+        </servlet-mapping>
+        
+        <servlet>
+                <servlet-name>ClassServlet</servlet-name>
+                <servlet-class>it.unipd.dei.bding.erasmusadvisor.servlets.ClassServlet</servlet-class>
+        </servlet>
+        <servlet-mapping>
+                <servlet-name>ClassServlet</servlet-name>
+                <url-pattern>/class</url-pattern>
+        </servlet-mapping>
+        
+        <servlet>
+                <servlet-name>ThesisServlet</servlet-name>
+                <servlet-class>it.unipd.dei.bding.erasmusadvisor.servlets.ThesisServlet</servlet-class>
+        </servlet>
+        <servlet-mapping>
+                <servlet-name>ThesisServlet</servlet-name>
+                <url-pattern>/thesis</url-pattern>
+        </servlet-mapping>
+        
+        <servlet>
+                <servlet-name>UniversityServlet</servlet-name>
+                <servlet-class>it.unipd.dei.bding.erasmusadvisor.servlets.UniversityServlet</servlet-class>
+        </servlet>
+        <servlet-mapping>
+                <servlet-name>UniversityServlet</servlet-name>
+                <url-pattern>/university</url-pattern>
+        </servlet-mapping>
+        
     <!-- mauro: servlet per la gestione delle valutazioni da parte di studente -->
     <servlet>
         <servlet-name>StudentEvaluateServlet</servlet-name>
@@ -117,154 +117,154 @@
     </servlet-mapping>
         
     <servlet>
-		<servlet-name>InsertUniversityServlet</servlet-name>
-		<servlet-class>it.unipd.dei.bding.erasmusadvisor.servlets.InsertUniversityServlet</servlet-class>
-	</servlet>
-	<servlet-mapping> 
-		<servlet-name>InsertUniversityServlet</servlet-name>
-		<url-pattern>/university/insert</url-pattern>
-	</servlet-mapping>
+                <servlet-name>InsertUniversityServlet</servlet-name>
+                <servlet-class>it.unipd.dei.bding.erasmusadvisor.servlets.InsertUniversityServlet</servlet-class>
+        </servlet>
+        <servlet-mapping> 
+                <servlet-name>InsertUniversityServlet</servlet-name>
+                <url-pattern>/university/insert</url-pattern>
+        </servlet-mapping>
     
     <servlet>
-		<servlet-name>InsertCourseServlet</servlet-name>
-		<servlet-class>it.unipd.dei.bding.erasmusadvisor.servlets.InsertCourseServlet</servlet-class>
-	</servlet>
-	<servlet-mapping> 
-		<servlet-name>InsertCourseServlet</servlet-name>
-		<url-pattern>/course/insert</url-pattern>
-	</servlet-mapping>
+                <servlet-name>InsertCourseServlet</servlet-name>
+                <servlet-class>it.unipd.dei.bding.erasmusadvisor.servlets.InsertCourseServlet</servlet-class>
+        </servlet>
+        <servlet-mapping> 
+                <servlet-name>InsertCourseServlet</servlet-name>
+                <url-pattern>/course/insert</url-pattern>
+        </servlet-mapping>
 
-	<servlet>
-		<servlet-name>InsertClassServlet</servlet-name>
-		<servlet-class>it.unipd.dei.bding.erasmusadvisor.servlets.InsertClassServlet</servlet-class>
-	</servlet>
-	<servlet-mapping> 
-		<servlet-name>InsertClassServlet</servlet-name>
-		<url-pattern>/class/insert</url-pattern>
-	</servlet-mapping>
+        <servlet>
+                <servlet-name>InsertClassServlet</servlet-name>
+                <servlet-class>it.unipd.dei.bding.erasmusadvisor.servlets.InsertClassServlet</servlet-class>
+        </servlet>
+        <servlet-mapping> 
+                <servlet-name>InsertClassServlet</servlet-name>
+                <url-pattern>/class/insert</url-pattern>
+        </servlet-mapping>
 
-	<servlet>
-		<servlet-name>InsertThesisServlet</servlet-name>
-		<servlet-class>it.unipd.dei.bding.erasmusadvisor.servlets.InsertThesisServlet</servlet-class>
-	</servlet>
-	<servlet-mapping> 
-		<servlet-name>InsertThesisServlet</servlet-name>
-		<url-pattern>/thesis/insert</url-pattern>
-	</servlet-mapping>
+        <servlet>
+                <servlet-name>InsertThesisServlet</servlet-name>
+                <servlet-class>it.unipd.dei.bding.erasmusadvisor.servlets.InsertThesisServlet</servlet-class>
+        </servlet>
+        <servlet-mapping> 
+                <servlet-name>InsertThesisServlet</servlet-name>
+                <url-pattern>/thesis/insert</url-pattern>
+        </servlet-mapping>
 
-	<servlet>
-		<servlet-name>InsertFlowServlet</servlet-name>
-		<servlet-class>it.unipd.dei.bding.erasmusadvisor.servlets.InsertFlowServlet</servlet-class>
-	</servlet>
-	<servlet-mapping> 
-		<servlet-name>InsertFlowServlet</servlet-name>
-		<url-pattern>/flow/insert</url-pattern>
-	</servlet-mapping>
+        <servlet>
+                <servlet-name>InsertFlowServlet</servlet-name>
+                <servlet-class>it.unipd.dei.bding.erasmusadvisor.servlets.InsertFlowServlet</servlet-class>
+        </servlet>
+        <servlet-mapping> 
+                <servlet-name>InsertFlowServlet</servlet-name>
+                <url-pattern>/flow/insert</url-pattern>
+        </servlet-mapping>
 
-	<servlet>
-		<servlet-name>InsertCityServlet</servlet-name>
-		<servlet-class>it.unipd.dei.bding.erasmusadvisor.servlets.InsertCityServlet</servlet-class>
-	</servlet>
-	<servlet-mapping> 
-		<servlet-name>InsertCityServlet</servlet-name>
-		<url-pattern>/city/insert</url-pattern>
-	</servlet-mapping>  
-	
-	<servlet>
-		<servlet-name>UniversityListServlet</servlet-name>
-		<servlet-class>it.unipd.dei.bding.erasmusadvisor.servlets.UniversityListServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>UniversityListServlet</servlet-name>
-		<url-pattern>/university/list</url-pattern>
-	</servlet-mapping>
-	
-	<servlet>
-		<servlet-name>CityListServlet</servlet-name>
-		<servlet-class>it.unipd.dei.bding.erasmusadvisor.servlets.CityListServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>CityListServlet</servlet-name>
-		<url-pattern>/city/list</url-pattern>
-	</servlet-mapping>
-	
-	<servlet>
-		<servlet-name>ClassListServlet</servlet-name>
-		<servlet-class>it.unipd.dei.bding.erasmusadvisor.servlets.ClassListServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>ClassListServlet</servlet-name>
-		<url-pattern>/class/list</url-pattern>
-	</servlet-mapping>
-	
-	<servlet>
-		<servlet-name>ThesisListServlet</servlet-name>
-		<servlet-class>it.unipd.dei.bding.erasmusadvisor.servlets.ThesisListServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>ThesisListServlet</servlet-name>
-		<url-pattern>/thesis/list</url-pattern>
-	</servlet-mapping>
-	
-	<servlet>
-		<servlet-name>FlowListServlet</servlet-name>
-		<servlet-class>it.unipd.dei.bding.erasmusadvisor.servlets.FlowListServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>FlowListServlet</servlet-name>
-		<url-pattern>/flow/list</url-pattern>
-	</servlet-mapping>
+        <servlet>
+                <servlet-name>InsertCityServlet</servlet-name>
+                <servlet-class>it.unipd.dei.bding.erasmusadvisor.servlets.InsertCityServlet</servlet-class>
+        </servlet>
+        <servlet-mapping> 
+                <servlet-name>InsertCityServlet</servlet-name>
+                <url-pattern>/city/insert</url-pattern>
+        </servlet-mapping>  
+        
+        <servlet>
+                <servlet-name>UniversityListServlet</servlet-name>
+                <servlet-class>it.unipd.dei.bding.erasmusadvisor.servlets.UniversityListServlet</servlet-class>
+        </servlet>
+        <servlet-mapping>
+                <servlet-name>UniversityListServlet</servlet-name>
+                <url-pattern>/university/list</url-pattern>
+        </servlet-mapping>
+        
+        <servlet>
+                <servlet-name>CityListServlet</servlet-name>
+                <servlet-class>it.unipd.dei.bding.erasmusadvisor.servlets.CityListServlet</servlet-class>
+        </servlet>
+        <servlet-mapping>
+                <servlet-name>CityListServlet</servlet-name>
+                <url-pattern>/city/list</url-pattern>
+        </servlet-mapping>
+        
+        <servlet>
+                <servlet-name>ClassListServlet</servlet-name>
+                <servlet-class>it.unipd.dei.bding.erasmusadvisor.servlets.ClassListServlet</servlet-class>
+        </servlet>
+        <servlet-mapping>
+                <servlet-name>ClassListServlet</servlet-name>
+                <url-pattern>/class/list</url-pattern>
+        </servlet-mapping>
+        
+        <servlet>
+                <servlet-name>ThesisListServlet</servlet-name>
+                <servlet-class>it.unipd.dei.bding.erasmusadvisor.servlets.ThesisListServlet</servlet-class>
+        </servlet>
+        <servlet-mapping>
+                <servlet-name>ThesisListServlet</servlet-name>
+                <url-pattern>/thesis/list</url-pattern>
+        </servlet-mapping>
+        
+        <servlet>
+                <servlet-name>FlowListServlet</servlet-name>
+                <servlet-class>it.unipd.dei.bding.erasmusadvisor.servlets.FlowListServlet</servlet-class>
+        </servlet>
+        <servlet-mapping>
+                <servlet-name>FlowListServlet</servlet-name>
+                <url-pattern>/flow/list</url-pattern>
+        </servlet-mapping>
 </web-app>
 
 <!--
-	############### Notes ###############
-		
-	###### Custom Error Pages
-	It may be useful to include some custom error pages.
-	
-	### HTTP error codes (one per error page)
-	<error-page>
-		<error-code>404</error-code>
-		<location>/jsp/NotFound.jsp</location>
-	</error-page>
-	
-	### servlet exceptions
-	<error-page>
-		<exception-type>java.lang.Throwable</exception-type>
-		<location>/jsp/error.jsp</location>
-	</error-page>
-	
-	###### Direct Access Restriction
-	This code should be tested, but it should forbid direct access to files
-	in selected folders.
-	
-	<security-constraint>
-	    <display-name>Restrict direct access to certain folders</display-name>
-	    <web-resource-collection>
-	        <web-resource-name>Restricted folders</web-resource-name>
-	        <url-pattern>/css/*</url-pattern>
-	        <url-pattern>/fonts/*</url-pattern>
-	        <url-pattern>/img/*</url-pattern>
-	    </web-resource-collection>
-	    <auth-constraint />
-	</security-constraint>
-	
-	###### Used with servlets 
-	  
-	## Declaration
-	<servlet>
-		<servlet-name>HelloWorldPost</servlet-name>
-		<servlet-class>it.unipd.dei.bding.HelloWorldPostServlet</servlet-class>
-	</servlet>
-	
- 	## Mapping between servlets and URIs 
-	<servlet-mapping>
-		<servlet-name>HelloWorldPost</servlet-name>
-		<url-pattern>/helloworld</url-pattern>
-	</servlet-mapping>
-	<servlet-mapping>
-		<servlet-name>HelloWorldPost</servlet-name>
-		<url-pattern>/ciao</url-pattern>
-	</servlet-mapping>
+        ############### Notes ###############
+                
+        ###### Custom Error Pages
+        It may be useful to include some custom error pages.
+        
+        ### HTTP error codes (one per error page)
+        <error-page>
+                <error-code>404</error-code>
+                <location>/jsp/NotFound.jsp</location>
+        </error-page>
+        
+        ### servlet exceptions
+        <error-page>
+                <exception-type>java.lang.Throwable</exception-type>
+                <location>/jsp/error.jsp</location>
+        </error-page>
+        
+        ###### Direct Access Restriction
+        This code should be tested, but it should forbid direct access to files
+        in selected folders.
+        
+        <security-constraint>
+            <display-name>Restrict direct access to certain folders</display-name>
+            <web-resource-collection>
+                <web-resource-name>Restricted folders</web-resource-name>
+                <url-pattern>/css/*</url-pattern>
+                <url-pattern>/fonts/*</url-pattern>
+                <url-pattern>/img/*</url-pattern>
+            </web-resource-collection>
+            <auth-constraint />
+        </security-constraint>
+        
+        ###### Used with servlets 
+          
+        ## Declaration
+        <servlet>
+                <servlet-name>HelloWorldPost</servlet-name>
+                <servlet-class>it.unipd.dei.bding.HelloWorldPostServlet</servlet-class>
+        </servlet>
+        
+        ## Mapping between servlets and URIs 
+        <servlet-mapping>
+                <servlet-name>HelloWorldPost</servlet-name>
+                <url-pattern>/helloworld</url-pattern>
+        </servlet-mapping>
+        <servlet-mapping>
+                <servlet-name>HelloWorldPost</servlet-name>
+                <url-pattern>/ciao</url-pattern>
+        </servlet-mapping>
 --> 
-		
+       
