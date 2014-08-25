@@ -63,8 +63,9 @@ public class SignInServlet extends AbstractDatabaseServlet {
 		request.setAttribute("message", m);
 		
 		if (m == null) {
-			// forwards the control to the user_profile JSP
-			request.getRequestDispatcher("/jsp/user_profile.jsp").forward(request, response);
+			// forwards the control to the index JSP
+			// luca: cambiato da user_profile a index.jsp
+			request.getRequestDispatcher("/jsp/index.jsp").forward(request, response);
 		} else {
 			// come back to sign_in JSP
 			request.getRequestDispatcher("/jsp/sign_in.jsp").forward(request, response);
