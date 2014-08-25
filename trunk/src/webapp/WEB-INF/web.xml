@@ -214,6 +214,14 @@
                 <servlet-name>FlowListServlet</servlet-name>
                 <url-pattern>/flow/list</url-pattern>
         </servlet-mapping>
+        <servlet>
+                <servlet-name>CourseListServlet</servlet-name>
+                <servlet-class>it.unipd.dei.bding.erasmusadvisor.servlets.CourseListServlet</servlet-class>
+        </servlet>
+        <servlet-mapping>
+                <servlet-name>CourseListServlet</servlet-name>
+                <url-pattern>/course/list</url-pattern>
+        </servlet-mapping>
 </web-app>
 
 <!--

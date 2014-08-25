@@ -24,6 +24,60 @@
 	<script src="<c:url value="/js"/>/jquery-ui-1.10.4.custom.js"></script>
 	<script src="<c:url value="/js"/>/bootstrap-datepicker.js"></script>
 	<script src="<c:url value="/js"/>/ea-basic.js"></script>	
+	
+	<!-- Autocomplete Universities -->
+	<script src="//code.jquery.com/ui/1.11.1/jquery-ui.js"></script>	
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css">
+	<style>
+	.ui-autocomplete-loading {
+	background: white url("<c:url value="/img"/>/ui-anim_basic_16x16.gif") right center no-repeat;
+	}
+	</style>
+	<script>
+	$(function() {
+		var cache = {};
+		$("#universityNames" ).autocomplete({
+					minLength : 2,
+					source : function(request, response) {
+						var term = request.term;
+						if (term in cache) {
+							response(cache[term]);
+							return;
+						}
+						$.getJSON("<c:url value="/university/list"/>", request,
+								function(data, status, xhr) {
+									xhr.setRequestHeader("X-Requested-With",
+											"XMLHttpRequest");
+									cache[term] = data;
+									response(data);
+								});
+					}
+				});
+	});
+	</script>
+	<script>
+	$(function() {
+		var cache = {};
+		$("#corsoNames" ).autocomplete({
+					minLength : 2,
+					source : function(request, response) {
+						var term = request.term;
+						if (term in cache) {
+							response(cache[term]);
+							return;
+						}
+						$.getJSON("<c:url value="/course/list"/>", request,
+								function(data, status, xhr) {
+									xhr.setRequestHeader("X-Requested-With",
+											"XMLHttpRequest");
+									cache[term] = data;
+									response(data);
+								});
+					}
+				});
+	});
+	</script>
+	
 </head>
 
 <body>
@@ -64,11 +118,11 @@
 					</div>
 					<br>
 					<div class="input-group sign_in_input_group">
-						<span class="input-group-addon sign_in_input">University</span> <input id="university" class="form-control" name="university" title="Type a letter for suggestions." placeholder="Insert your University">
+						<span class="input-group-addon sign_in_input">University</span><input id="universityNames" class="form-control" name="university" title="type &quot;a&quot;" placeholder="Insert the University"/>
 					</div>
 					<br>
 					<div class="input-group sign_in_input_group">
-						<span class="input-group-addon sign_in_input">Degree Course</span> <input id="degree" class="form-control" name="degree" title="Type a letter for suggestions." placeholder="Insert your Degree Course">
+						<span class="input-group-addon sign_in_input">Degree Course</span> <input id="corsoNames" class="form-control" name="degree" title="type &quot;a&quot;" placeholder="Insert your Degree Course"/>
 					</div>
 					<br>
 					<div class="row">
