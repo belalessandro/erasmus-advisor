@@ -129,7 +129,7 @@
 		<servlet-name>ThesisServlet</servlet-name>
 		<url-pattern>/thesis</url-pattern>
 	</servlet-mapping>
-
+	
 	<servlet>
 		<servlet-name>UniversityServlet</servlet-name>
 		<servlet-class>it.unipd.dei.bding.erasmusadvisor.servlets.UniversityServlet</servlet-class>
@@ -147,6 +147,30 @@
 	<servlet-mapping>
 		<servlet-name>CityEvaluationsServlet</servlet-name>
 		<url-pattern>/city/evaluations</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>ClassEvaluationsServlet</servlet-name>
+		<servlet-class>it.unipd.dei.bding.erasmusadvisor.servlets.ClassEvaluationsServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ClassEvaluationsServlet</servlet-name>
+		<url-pattern>/class/evaluations</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>FlowEvaluationsServlet</servlet-name>
+		<servlet-class>it.unipd.dei.bding.erasmusadvisor.servlets.FlowEvaluationsServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>FlowEvaluationsServlet</servlet-name>
+		<url-pattern>/flow/evaluations</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>ThesisEvaluationsServlet</servlet-name>
+		<servlet-class>it.unipd.dei.bding.erasmusadvisor.servlets.ThesisEvaluationsServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ThesisEvaluationsServlet</servlet-name>
+		<url-pattern>/thesis/evaluations</url-pattern>
 	</servlet-mapping>
 
 	<!-- entity insertion servlets -->

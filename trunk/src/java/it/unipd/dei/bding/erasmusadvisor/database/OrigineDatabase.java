@@ -5,9 +5,12 @@ import it.unipd.dei.bding.erasmusadvisor.beans.OrigineBean;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.List;
 
 import org.apache.commons.dbutils.DbUtils;
 import org.apache.commons.dbutils.QueryRunner;
+import org.apache.commons.dbutils.ResultSetHandler;
+import org.apache.commons.dbutils.handlers.BeanHandler;
 
 /**
  * Database operations about Origine
@@ -58,6 +61,22 @@ public class OrigineDatabase {
 		
 		return run.update(con, sql, flowId);
 		
+	}
+
+	/**
+	 * Return flow's origins
+	 * @param conn connection to the database
+	 * @param id id of the flow
+	 * @return a list of OrigineBean objects
+	 * @throws SQLException 
+	 */
+	public static List<OrigineBean> getOriginsByFlowId(Connection conn, String id) throws SQLException {
+		final String sql = "SELECT * FROM Origine WHERE idFlusso = ?;";
+		QueryRunner run = new QueryRunner();
+		
+		ResultSetHandler<List<OrigineBean>> rsh = new BeanHandler(OrigineBean.class);
+		
+		return run.query(conn, sql, rsh,id);
 	}
 
 }

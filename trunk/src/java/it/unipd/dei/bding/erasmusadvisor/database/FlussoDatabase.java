@@ -71,7 +71,7 @@ public class FlussoDatabase
 		final String statement1 = "SELECT * FROM Flusso WHERE ID = ?";
 		final String statement2 = "SELECT * FROM ValutazioneFlusso WHERE IdFlusso = ?";
 		final String statement3 = "SELECT * FROM ResponsabileFlusso WHERE NomeUtente = ?";
-		final String statement4 = "SELECT C.Nome, C.Livello, C.NomeUniversita FROM CorsoDiLaurea AS C "
+		final String statement4 = "SELECT C.Id, C.Nome, C.Livello, C.NomeUniversita FROM CorsoDiLaurea AS C "
 				+ "INNER JOIN Origine AS O ON C.Id = o.idcorso WHERE O.idflusso = ?";
 		final String statement5 = "SELECT C.nomelingua, C.livello FROM Certificatilinguistici AS C "
 				+ "INNER JOIN documentazione AS D ON C.nomelingua = d.nomecertificato AND c.livello = d.livellocertificato "

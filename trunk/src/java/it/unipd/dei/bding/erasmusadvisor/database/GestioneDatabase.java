@@ -56,4 +56,23 @@ public class GestioneDatabase {
 		}
 	}
 
+	/**
+	 * Delete Gestione instances by the thesis given.
+	 * 
+	 * @param con connection to the database
+	 * @param idThesis id of the thesis
+	 * @return number of instances deleted
+	 * @throws SQLException
+	 */
+	public static int  deleteGestioneByThesisId(Connection con, int idThesis) throws SQLException 
+	{
+		final String  sql = "DELETE FROM Gestione WHERE idargomentotesi = ?;";
+		
+		QueryRunner run = new QueryRunner();
+		
+		
+		return run.update(con, sql, idThesis);
+		
+	}
+
 }

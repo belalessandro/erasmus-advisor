@@ -15,8 +15,13 @@ import it.unipd.dei.bding.erasmusadvisor.database.ArgomentoTesiDatabase;
 import it.unipd.dei.bding.erasmusadvisor.database.CreateDocumentazioneDatabase;
 import it.unipd.dei.bding.erasmusadvisor.database.CreateFlussoDatabase;
 import it.unipd.dei.bding.erasmusadvisor.database.CreateOrigineDatabase;
+import it.unipd.dei.bding.erasmusadvisor.database.EstensioneDatabase;
+import it.unipd.dei.bding.erasmusadvisor.database.GestioneDatabase;
 import it.unipd.dei.bding.erasmusadvisor.database.GetAreaValues;
 import it.unipd.dei.bding.erasmusadvisor.database.GetLinguaValues;
+import it.unipd.dei.bding.erasmusadvisor.database.LinguaTesiDatabase;
+import it.unipd.dei.bding.erasmusadvisor.database.ProfessoreDatabase;
+import it.unipd.dei.bding.erasmusadvisor.database.SvolgimentoDatabase;
 import it.unipd.dei.bding.erasmusadvisor.database.UniversitaDatabase;
 import it.unipd.dei.bding.erasmusadvisor.resources.LoggedUser;
 import it.unipd.dei.bding.erasmusadvisor.resources.Message;
@@ -26,6 +31,7 @@ import it.unipd.dei.bding.erasmusadvisor.resources.University;
 import it.unipd.dei.bding.erasmusadvisor.resources.UserType;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
@@ -84,7 +90,7 @@ public class ThesisServlet extends AbstractDatabaseServlet {
 			DbUtils.close(conn);
 		} 
 		catch (SQLException ex) {
-			m = new Message("Error while getting the university.","XXX", ex.getMessage());
+			m = new Message("Error while getting the thesis.","XXX", ex.getMessage());
 		} 
 		finally {
 			DbUtils.closeQuietly(conn);
@@ -94,7 +100,6 @@ public class ThesisServlet extends AbstractDatabaseServlet {
 		 *  Send the university model to the appropriate output (Ajax or normal)
 		 *
 		 */
-		
 		if ("XMLHttpRequest".equals(req.getHeader("X-Requested-With"))) 
 		{
 			// Handle Ajax response (e.g. return JSON data object).
@@ -105,7 +110,6 @@ public class ThesisServlet extends AbstractDatabaseServlet {
 				jsonWriter.writeObject(convertToJson(results));
 				jsonWriter.close();
 			}
-
 		} 
 		else {
 			// Handle normal response (e.g. forward and/or set message as attribute).
@@ -143,7 +147,13 @@ public class ThesisServlet extends AbstractDatabaseServlet {
 			throws ServletException, IOException {
 
 		LoggedUser lu = new LoggedUser(UserType.RESPONSABILE, "erick.burn");
+		
+		// data models, connection
+		Message m = null;
+		Connection conn = null;
+		
 		String operation = req.getParameter("operation");
+		
 		if (operation == null || operation.isEmpty() || !lu.isFlowResp()) {
 			/* Error or not authorized. */
 			getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(req, resp);
@@ -156,9 +166,7 @@ public class ThesisServlet extends AbstractDatabaseServlet {
 			EstensioneBean[] e = null;
 			LinguaTesiBean[] l = null;
 			
-			// data models, connection
-			Message m = null;
-			Connection conn = null;
+			
 			
 			// Populate bean from the FORM submitted
 			BeanUtilities.populateBean(a, req);
@@ -231,13 +239,108 @@ public class ThesisServlet extends AbstractDatabaseServlet {
 		}
 			
 		} else if (operation.equals("update") ) {
-			/*
-			 * Updates an existing University 
-			 */
-			//bookRepo.updateBook(id, title, description, price, pubDate);
+			
+			ArgomentoTesiBean argomento = new ArgomentoTesiBean();
+			BeanUtilities.populateBean(argomento, req);
+			
+			// set checkbox values
+			String triennale = req.getParameter("triennale");
+			String magistrale = req.getParameter("magistrale");
+			if(triennale == null)
+				argomento.setTriennale(false);
+			else
+				argomento.setTriennale(true);
+			
+			if(magistrale == null)
+				argomento.setMagistrale(false);
+			else
+				argomento.setMagistrale(true);
+				
+			
+			String language = req.getParameter("language");
+			String area = req.getParameter("area");
+			
+			
+			
+			String[] professorName = req.getParameterValues("professorName");
+			String[] professorSurname = req.getParameterValues("professorSurname");
+		
+			try {
+				conn  = DS.getConnection();
+				
+				// remove old thesis from gestione
+				GestioneDatabase.deleteGestioneByThesisId(conn, argomento.getId());
+				
+				// remove old thesis language
+				LinguaTesiDatabase.deleteLinguaTesi(conn, argomento.getId());
+				
+				// remove old thesis area
+				EstensioneDatabase.deleteEstensione(conn, argomento.getId());
+				
+				// update the thesis
+				ArgomentoTesiDatabase.updateArgomentoTesi(conn, argomento);
+				
+				// insert the language
+				LinguaTesiBean linguaTesi = new LinguaTesiBean();
+				linguaTesi.setIdArgomentoTesi(argomento.getId());
+				linguaTesi.setSiglaLingua(language);
+				
+				LinguaTesiDatabase.createLinguaTesi(conn, linguaTesi);
+
+				
+				// insert the area
+				EstensioneBean estensione = new EstensioneBean();
+				estensione.setIdArgomentoTesi(argomento.getId());
+				estensione.setArea(area);
+				
+				EstensioneDatabase.createEstensione(conn, estensione);
+				
+				// check if the professor still existing, otherwise insert the new professor 
+				// and then insert the corresponding row into Gestione
+				int idProfessore = 0;
+				GestioneBean gestioneBean = new GestioneBean();
+				
+				for(int i = 0; i < professorName.length; i++)
+				{
+					if(!professorName[i].trim().equals("") && !professorSurname[i].trim().equals(""))
+					{
+						idProfessore = ProfessoreDatabase.selectOrInsertProfessore(conn, 
+								professorName[i], 
+								professorSurname[i], 
+								argomento.getNomeUniversita());
+						
+						gestioneBean.setIdArgomentoTesi(argomento.getId());
+						gestioneBean.setIdProfessore(idProfessore);
+						
+						GestioneDatabase.createGestione(conn, gestioneBean);	
+					}
+				}
+				
+				// closing the connection
+				DbUtils.close(conn);
+				
+				// Creating response path and redirect to the new page
+				StringBuilder builder = new StringBuilder()
+				.append("/erasmus-advisor/thesis?id=")
+				.append(argomento.getId())
+				.append("&edited=success");
+				
+				resp.sendRedirect(builder.toString());
+				
+			} catch (SQLException e) {
+				// Error management
+				m = new Message("Error while editing " + argomento.getNome() + " instance.","XXX", e.getMessage());
+				req.setAttribute("message", m);
+				
+				getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(req, resp); // ERROR PAGE
+				return;
+			} finally {
+				DbUtils.closeQuietly(conn);
+			}
+
 		}
 
-		resp.sendRedirect(req.getParameter("returnTo"));
+//		resp.sendRedirect(req.getParameter("returnTo"));
 	}
 	
 	private JsonObject convertToJson(Thesis tesi) {

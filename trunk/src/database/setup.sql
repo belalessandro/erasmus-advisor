@@ -4,8 +4,8 @@
 
 
 \c postgres
-drop database "erasmusadvisor";
-create database "erasmusadvisor";
+DROP database "erasmusadvisor";
+CREATE  database "erasmusadvisor" WITH ENCODING = UTF8;
 \c erasmusadvisor;
 \ir 'create.sql';   
 \ir 'triggers.sql'; 
