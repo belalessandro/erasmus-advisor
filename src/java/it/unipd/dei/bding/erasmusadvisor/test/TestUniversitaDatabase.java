@@ -1,18 +1,10 @@
-package it.unipd.dei.bding.erasmusadvisor.database;
+package it.unipd.dei.bding.erasmusadvisor.test;
 
-import it.unipd.dei.bding.erasmusadvisor.beans.ArgomentoTesiBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.CittaBean;
-import it.unipd.dei.bding.erasmusadvisor.beans.DocumentazioneBean;
-import it.unipd.dei.bding.erasmusadvisor.beans.FlussoBean;
-import it.unipd.dei.bding.erasmusadvisor.beans.GestioneBean;
-import it.unipd.dei.bding.erasmusadvisor.beans.InsegnamentoBean;
-import it.unipd.dei.bding.erasmusadvisor.beans.LinguaCittaBean;
-import it.unipd.dei.bding.erasmusadvisor.beans.LinguaTesiBean;
-import it.unipd.dei.bding.erasmusadvisor.beans.OrigineBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.ProfessoreBean;
-import it.unipd.dei.bding.erasmusadvisor.beans.SvolgimentoBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.UniversitaBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.ValutazioneUniversitaBean;
+import it.unipd.dei.bding.erasmusadvisor.database.InsegnamentoDatabase;
 
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -23,7 +15,7 @@ import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.dbutils.DbUtils;
 import org.apache.tomcat.jdbc.pool.DataSource;
 
-public class TestArgomentoTesiDatabase {
+public class TestUniversitaDatabase {
 
 
 	private static final String DRIVER = "org.postgresql.Driver";
@@ -54,37 +46,23 @@ public class TestArgomentoTesiDatabase {
 		}
 
 
-		ArgomentoTesiBean argom = new ArgomentoTesiBean();
-		
-		// populate..
-		argom.setNome("UnArgomentoDiTEsi");
-		argom.setMagistrale(true);
-		argom.setNomeUniversita("University of Cambridge");
-		argom.setStato("NOT VERIFIED");
-		
+
 		try {
 			con = DriverManager.getConnection(DATABASE, USER, PASSWORD); // UNICA CONNESSIONE
-			con.setAutoCommit(false);
+
 			
-			// insert test
-//			DocumentazioneDatabase.createDocumentazione(con, documentazioneBean);
-//			FlussoDatabase.createFlusso(con, flussoBean);
-//			GestioneDatabase.createGestione(con, gestioneBean);
-			int ret = ArgomentoTesiDatabase.createArgomentoTesi(con, argom);
-//			LinguaCittaDatabase.createLinguaCitta(con, linguaCittaBean);
-//			LinguaTesiDatabase.createLinguaTesi(con, linguaTesiBean);
-//			OrigineDatabase.createOrigine(con, origineBean);
-//			SvolgimentoDatabase.createSvolgimento(con, svolgimentoBean);
+			it.unipd.dei.bding.erasmusadvisor.resources.Teaching c = InsegnamentoDatabase.getInsegnamento(con, 1);
 			
-			System.out.println(ret);
-//			if (c.getInsegnamento() != null) {
-//				try { 
-//					String s = BeanUtils.describe(c.getInsegnamento()).toString();
-//					for ( ProfessoreBean v : c.getProfessori())
-//						s += "\n" + BeanUtils.describe(v).toString();
-//					System.out.println(s);
-//				} catch (Exception e) {}
-//			}
+			DbUtils.close(con);
+
+			if (c.getInsegnamento() != null) {
+				try { 
+					String s = BeanUtils.describe(c.getInsegnamento()).toString();
+					for ( ProfessoreBean v : c.getProfessori())
+						s += "\n" + BeanUtils.describe(v).toString();
+					System.out.println(s);
+				} catch (Exception e) {}
+			}
 		} catch (SQLException e) {
 //			// If there is any error.
 //			if (con != null)

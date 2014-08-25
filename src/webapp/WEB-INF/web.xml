@@ -35,7 +35,7 @@
 	<!-- ELIMINARE!! PROVA -->
     	<servlet>
                 <servlet-name>Prova</servlet-name>
-                <servlet-class>it.unipd.dei.bding.erasmusadvisor.servlets.Prova</servlet-class>
+                <servlet-class>it.unipd.dei.bding.erasmusadvisor.test.Prova</servlet-class>
         </servlet>
         <servlet-mapping>
                 <servlet-name>Prova</servlet-name>

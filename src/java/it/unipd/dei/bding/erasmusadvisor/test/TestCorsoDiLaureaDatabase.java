@@ -1,9 +1,19 @@
-package it.unipd.dei.bding.erasmusadvisor.database;
+package it.unipd.dei.bding.erasmusadvisor.test;
 
 import it.unipd.dei.bding.erasmusadvisor.beans.CittaBean;
+import it.unipd.dei.bding.erasmusadvisor.beans.CorsoDiLaureaBean;
+import it.unipd.dei.bding.erasmusadvisor.beans.DocumentazioneBean;
+import it.unipd.dei.bding.erasmusadvisor.beans.FlussoBean;
+import it.unipd.dei.bding.erasmusadvisor.beans.GestioneBean;
+import it.unipd.dei.bding.erasmusadvisor.beans.InsegnamentoBean;
+import it.unipd.dei.bding.erasmusadvisor.beans.LinguaCittaBean;
+import it.unipd.dei.bding.erasmusadvisor.beans.LinguaTesiBean;
+import it.unipd.dei.bding.erasmusadvisor.beans.OrigineBean;
+import it.unipd.dei.bding.erasmusadvisor.beans.ProfessoreBean;
+import it.unipd.dei.bding.erasmusadvisor.beans.SvolgimentoBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.UniversitaBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.ValutazioneUniversitaBean;
-import it.unipd.dei.bding.erasmusadvisor.resources.University;
+import it.unipd.dei.bding.erasmusadvisor.database.CorsoDiLaureaDatabase;
 
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -14,7 +24,7 @@ import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.dbutils.DbUtils;
 import org.apache.tomcat.jdbc.pool.DataSource;
 
-public class TestInsegnamentoDatabase {
+public class TestCorsoDiLaureaDatabase {
 
 
 	private static final String DRIVER = "org.postgresql.Driver";
@@ -45,35 +55,36 @@ public class TestInsegnamentoDatabase {
 		}
 
 
-		CittaBean beanC = new CittaBean();
-		beanC.setNome("Bagdad");
-		beanC.setStato("Iraq");
-
+		CorsoDiLaureaBean corso = new CorsoDiLaureaBean();
+		
+		// populate..
+		corso.setNome("Ing.dell'Informazione");
+		corso.setNomeUniversita("University of Cambridge");
+		corso.setLivello("GRADUATE");
+		
 		try {
 			con = DriverManager.getConnection(DATABASE, USER, PASSWORD); // UNICA CONNESSIONE
-
-			con.setAutoCommit(false); // UNICA TRANSAZIONE
+			con.setAutoCommit(false);
 			
+			// insert test
+//			DocumentazioneDatabase.createDocumentazione(con, documentazioneBean);
+//			FlussoDatabase.createFlusso(con, flussoBean);
+//			GestioneDatabase.createGestione(con, gestioneBean);
+			int ret = CorsoDiLaureaDatabase.createCorsoDiLaurea(con, corso);
+//			LinguaCittaDatabase.createLinguaCitta(con, linguaCittaBean);
+//			LinguaTesiDatabase.createLinguaTesi(con, linguaTesiBean);
+//			OrigineDatabase.createOrigine(con, origineBean);
+//			SvolgimentoDatabase.createSvolgimento(con, svolgimentoBean);
 			
-			//CittaDatabase.createCitta(con, beanC); // Inserisco qualcosa
-			
-			University u = UniversitaDatabase.searchUniversityModelByName(con, "Universitat de Barcelona- Main Site");
-			// VEDI http://docs.oracle.com/javase/tutorial/jdbc/basics/transactions.html
-
-			UniversitaBean updated = u.getUniversita();
-			updated.setLink("CIAOAOOOOO");
-			UniversitaDatabase.updateUniversita(con, updated);
-			
-			DbUtils.commitAndClose(con); // COMMITTA 
-
-			if (u.getUniversita() != null) {
-				try { 
-					String s = BeanUtils.describe(u.getUniversita()).toString();
-					for ( ValutazioneUniversitaBean v : u.getListaValutazioni())
-						s += "\n" + BeanUtils.describe(v).toString();
-					System.out.println(s);
-				} catch (Exception e) {}
-			}
+			System.out.println(ret);
+//			if (c.getInsegnamento() != null) {
+//				try { 
+//					String s = BeanUtils.describe(c.getInsegnamento()).toString();
+//					for ( ProfessoreBean v : c.getProfessori())
+//						s += "\n" + BeanUtils.describe(v).toString();
+//					System.out.println(s);
+//				} catch (Exception e) {}
+//			}
 		} catch (SQLException e) {
 //			// If there is any error.
 //			if (con != null)

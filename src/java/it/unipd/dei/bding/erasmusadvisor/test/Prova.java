@@ -1,4 +1,4 @@
-package it.unipd.dei.bding.erasmusadvisor.servlets;
+package it.unipd.dei.bding.erasmusadvisor.test;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
