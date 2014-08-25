@@ -30,6 +30,17 @@
 		<location>/jsp/error.jsp</location>
 	</error-page>
 
+	<!-- FILTERS -->
+	<!-- Encoding UTF-8 Filter -->
+	<filter>
+		<filter-name>encodingFilter</filter-name>
+		<filter-class>it.unipd.dei.bding.erasmusadvisor.servlets.filters.CharacterEncodingFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>encodingFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping> 
+
 	<!-- Servlet list. Remember to keep servlet and servlet-mapping combined -->
 	
 	<!-- ELIMINARE!! PROVA -->
