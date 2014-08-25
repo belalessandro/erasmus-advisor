@@ -29,7 +29,17 @@
                 <error-code>404</error-code>
                 <location>/jsp/error.jsp</location>
         </error-page>
-    
+        
+        <!-- ELIMINARE!! PROVA -->
+    	<servlet>
+                <servlet-name>Prova</servlet-name>
+                <servlet-class>it.unipd.dei.bding.erasmusadvisor.servlets.Prova</servlet-class>
+        </servlet>
+        <servlet-mapping>
+                <servlet-name>Prova</servlet-name>
+                <url-pattern>/HelloServlet</url-pattern>
+        </servlet-mapping>
+        
     <!-- Servlet list. Remember to keep servlet and servlet-mapping combined -->
         <servlet>
                 <servlet-name>SignInServlet</servlet-name>
