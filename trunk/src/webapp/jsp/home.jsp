@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!-- luca:
 	notare che la pagina iniziale si trova in un limbo che non sono riuscito a capire
@@ -66,7 +67,7 @@
 			</div>
 			<div class="navbar-collapse collapse">
 				<!-- action deve puntare alla servlet che gestisce la registrazione -->
-				<form class="navbar-form navbar-right" method="post" action="#">
+				<form class="navbar-form navbar-right" method="post" action="<c:url value="/login"/>">
 					<div class="form-group"><input type="text" placeholder="Email" class="form-control"></div>
 					<div class="form-group"><input type="password" placeholder="Password" class="form-control"></div>
 					<button type="submit" class="btn btn-primary">Login</button>
@@ -80,7 +81,7 @@
 			<h1>Erasmus Advisor</h1>
 			<h4>Plan your Erasmus experience and share your evaluations.</h4>
 			<br>
-			<a href="jsp/sign_in.jsp" class="btn btn-primary">Sign in</a>
+			<a href="<c:url value="/signin"/>" class="btn btn-primary">Sign in</a>
 			<a href="jsp/index.jsp" class="btn btn-primary">Test to index</a>
 			<br>
 			<br>

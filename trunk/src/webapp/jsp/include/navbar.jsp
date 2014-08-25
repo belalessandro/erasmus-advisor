@@ -2,9 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!--
-	Notifications	>	notifications_coordinator o notifications_flow_manager
-						(notare come nella seconda bisogna includere anche 
-						i dati della prima, da specifiche)
+	Notifications	>	notifications
 
 	Account			>	user_profile
 
@@ -23,8 +21,8 @@
 		<!-- nella pagina di sign in non si vedono le voci di menù -->
 		<c:if test="${param.pageName != 'sign_in'}">
 			<li><a href="<c:url value="/jsp"/>/notifications.jsp">Notifications</a></li>
-			<li><a href="<c:url value="/jsp"/>/user_profile.jsp">Account</a></li>
-			<li><a href="#"><span class="fa fa-sign-out fa-fw"></span>Logout</a></li>
+			<li><a href="<c:url value="/student/profile"/>">Account</a></li>
+			<li><a href="<c:url value="/logout"/>"><span class="fa fa-sign-out fa-fw"></span>Logout</a></li>
 		</c:if>
 	</ul>
 </div>
