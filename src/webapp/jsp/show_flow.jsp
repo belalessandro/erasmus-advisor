@@ -1,4 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+
+<%@ page import="java.io.PrintWriter" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
@@ -134,6 +136,7 @@
 				</div>
 			</c:if>
 			
+			
 			<!--Form di valutazione a comparsa-->
 			<div class="modal fade" id="evaluateForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false">
 				<div class="modal-dialog">
@@ -198,7 +201,7 @@
 						</div>
 						<div class="modal-body">
 							
-							<form name='flowEditForm'  method="post" action="<c:url value="/flow" />" >
+							<form name='flowEditForm'  method="post"  action="<c:url value="/flow"/>" >
 								<div class="input-group insert_new_input_group">
 									<span class="input-group-addon insert_new_input">ID*</span> <input type="text" class="form-control" name="id" id="name" value="<c:out value="${flow.id}"/>">
 								</div>
@@ -207,13 +210,13 @@
 									<span></span>
 									<span class="input-group-addon insert_new_select_label_inline">Insert the flow's starting degree courses*</span>
 									<select class="selectpicker text-left" multiple id="origin" name="origins[]">
-										<c:forEach var="possibleCourses" items='${possibleCourses}'>
-											<option value="${possibleCourses.id}" 
-												<c:forEach var="origins" items='${origins}' >
-												<c:if test="${possibleCourses.id == origins.id}">selected</c:if>
+										<c:forEach var="possibleCourse" items='${possibleCourses}'>
+											<option value="${possibleCourse.id}" 
+												<c:forEach var="origin" items='${origins}' >
+												<c:if test="${origin.id == possibleCourse.id }">selected</c:if>
 												</c:forEach>
 											>
-											${possibleCourses.nome} (${possibleCourses.livello})</option>
+											${possibleCourse.nome} (${possibleCourse.livello})</option>
 										</c:forEach>
 				    				</select> 
 								</div>
@@ -250,7 +253,7 @@
 								</div>
 								<br>
 								<div class="input-group insert_new_input_group">
-									<span class="input-group-addon insert_new_input">Details</span> <textarea rows="2" class="form-control" name="dettagli" id="details"></textarea>
+									<span class="input-group-addon insert_new_input">Details</span> <textarea rows="2" class="form-control" name="dettagli" id="details">${flow.dettagli}</textarea>
 								</div>
 								<br>
 								<div class="modal-footer">

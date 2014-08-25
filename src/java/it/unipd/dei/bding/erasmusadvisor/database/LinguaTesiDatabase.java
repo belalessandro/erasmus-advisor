@@ -7,6 +7,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 import org.apache.commons.dbutils.DbUtils;
+import org.apache.commons.dbutils.QueryRunner;
 
 /**
  * Database operations about LinguaTesi
@@ -41,6 +42,25 @@ public class LinguaTesiDatabase {
 		} finally {
 			DbUtils.closeQuietly(pstmt);
 		}
+	}
+
+	/**
+	 * Delete Lingua Tesi instances by the thesis id given.
+	 * 
+	 * @param con connection to the database
+	 * @param idArgomentoTesi id of the thesis
+	 * @return number of row deleted
+	 * @throws SQLException
+	 */
+	public static int  deleteLinguaTesi(Connection con, int idArgomentoTesi) throws SQLException 
+	{
+		final String sql = "DELETE FROM LinguaTesi WHERE idargomentotesi = ?;";
+		QueryRunner run = new QueryRunner();
+		
+		return run.update(con, sql, idArgomentoTesi);
+		
+		
+		
 	}
 
 }

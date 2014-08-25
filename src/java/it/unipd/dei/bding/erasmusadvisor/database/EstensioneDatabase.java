@@ -41,18 +41,13 @@ public class EstensioneDatabase {
 		/**
 		 * The SQL insert statement
 		 */
-		String insertStmt = "INSERT INTO Estensione (idArgomentoTesi, area) "
-				+ "VALUES (?, ?)";
+		final String sql = "INSERT INTO Estensione (idArgomentoTesi, Area) VALUES (?, ?);";
 		
-		PreparedStatement pstmt = null;
-		try {
-			pstmt = con.prepareStatement(insertStmt);
-			pstmt.setInt(0, est.getIdArgomentoTesi());
-			pstmt.setString(1, est.getArea());
-			pstmt.execute();
-		} finally {
-			DbUtils.closeQuietly(pstmt);
-		}
+		QueryRunner run = new QueryRunner();
+		
+		ResultSetHandler<EstensioneBean> rsh = new BeanHandler<EstensioneBean>(EstensioneBean.class);
+		
+		run.insert(con, sql, rsh, est.getIdArgomentoTesi(), est.getArea());
 	}
 	
 	/**
@@ -86,12 +81,12 @@ public class EstensioneDatabase {
 	* @return the number of rows affected	
 	* @throws SQLException if any error occurs 
 	*/
-	public static int deleteEstensione(Connection con, String idArgomentoTesi) throws SQLException 
+	public static int deleteEstensione(Connection con, int idArgomentoTesi) throws SQLException 
 	{
 		/**
 		 * The SQL delete statement
 		 */
-		String statement = "DELETE From Estensione WHERE idArgomentoTesi = ?";
+		String statement = "DELETE FROM Estensione WHERE idArgomentoTesi = ?;";
 		
 		QueryRunner run = new QueryRunner();
 		return run.update(con, statement, idArgomentoTesi);	

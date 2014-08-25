@@ -38,10 +38,14 @@ import it.unipd.dei.bding.erasmusadvisor.servlets.AbstractDatabaseServlet;
 
 
 
+
+
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.URLDecoder;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.Enumeration;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -114,7 +118,6 @@ public class FlowServlet extends AbstractDatabaseServlet {
 			req.setAttribute("certificates", results.getCertificati());
 			req.setAttribute("interests", interests);
 			req.setAttribute("recognisedClasses", recognisedClasses);
-
 			req.setAttribute("certificatesDomain", certificatesDomain);
 			req.setAttribute("possibleCourses", possibleCourses);
 			req.setAttribute("evaluationsAvg", new FlowEvaluationAverage(results.getListaValutazioni()));
@@ -126,8 +129,6 @@ public class FlowServlet extends AbstractDatabaseServlet {
 			req.setAttribute("message", m);
 			getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(req, resp);
 		}
-
-
 	}
 
 	
@@ -137,9 +138,11 @@ public class FlowServlet extends AbstractDatabaseServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
+//		req.setCharacterEncoding("UTF-8");
+//		resp.setCharacterEncoding("UTF-8");
 		
 		// TODO: DA SESSIONE
-		LoggedUser lu = new LoggedUser(UserType.RESPONSABILE, "erick.burn"); 
+		LoggedUser lu = new LoggedUser(UserType.RESPONSABILE, "pilu"); 
 		
 		// required fields
 		Message m = null;
@@ -160,28 +163,25 @@ public class FlowServlet extends AbstractDatabaseServlet {
 		else if (operation.equals("edit") ) {
 		
 			// Populate beans
-			req.setCharacterEncoding("UTF-8");
 			FlussoBean flussoBean = new FlussoBean();
 			BeanUtilities.populateBean(flussoBean, req);
 			flussoBean.setRespFlusso(lu.getUser());
 			flussoBean.setDestinazione(req.getParameter("destinazione"));
 			flussoBean.setDurata(Integer.parseInt(req.getParameter("durata")));
-			
+			flussoBean.setPostiDisponibili(Integer.parseInt(req.getParameter("postiDisponibili")));
+			flussoBean.setDettagli(req.getParameter("dettagli"));
 			String old_id = req.getParameter("old_id");
 			
 			// get required parameters
 			String[] origins = req.getParameterValues("origins[]");
 			String[] certificates = req.getParameterValues("certificates[]");
-			
-			
-			
 			String[] certificatesName = new String[certificates.length];
 			String[] certificatesLevel = new String[certificates.length];
 			String[][] tmp = new String[certificates.length][];
 			
 			// split certificates values in names and levels
 			for(int i = 0; i < certificates.length; i++)
-				tmp[i] = certificates[i].trim().split("-");
+				tmp[i] = certificates[i].split("-");
 			
 			// assigning to appropriate variables
 			for(int i = 0; i < certificates.length; i++)
@@ -189,38 +189,22 @@ public class FlowServlet extends AbstractDatabaseServlet {
 				certificatesName[i] = tmp[i][0].trim();
 				certificatesLevel[i] = tmp[i][1].trim();		
 			}
-//
-//			PrintWriter w = resp.getWriter();
-			resp.setContentType("text/html; charset=UTF-8");
-			resp.setCharacterEncoding("UTF-8");
-			
-//			w.println("<html>");
-//			w.println("<head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\"></head>");
-//			w.println("<body>");
-//			w.println("<h2>character encoding = " + req.getCharacterEncoding() + "</h2>");
-//			w.println("<h2>getContentType = " + req.getContentType() + "</h2>");
-//			w.println("<h2>destinazione = " + flussoBean.getDestinazione() + "</h2>");
-//			w.println("</body>");
-//			w.println("</html>");
-//			w.flush();
-//			w.close();
-			
+
 			
 			try {
 				con = DS.getConnection();
 				
-				// Delete Origine
+				// delete origin course
 				OrigineDatabase.deleteOrigineByFlowId(con, flussoBean.getId());
 				
 				
-				// Delete Documentazione relative to Flusso
+				// delete doc relative to the flow
 				DocumentazioneDatabase.deleteDocumentazioneByFlowId(con, flussoBean.getId());
 				
 				// update flusso
 				FlussoDatabase.updateFlusso(con, flussoBean, old_id);
 				
-				
-				// insert new origine
+				// insert new origin courses
 				OrigineBean ob = new OrigineBean();
 				if(origins != null && origins.length > 0)
 				{
@@ -232,7 +216,7 @@ public class FlowServlet extends AbstractDatabaseServlet {
 					}	
 				}
 				
-				// insert new documentazione
+				// insert new documentation
 				DocumentazioneBean db = new DocumentazioneBean();
 				if(certificates != null && certificates.length > 0)
 				{
@@ -248,8 +232,7 @@ public class FlowServlet extends AbstractDatabaseServlet {
 				
 				DbUtils.close(con);
 				
-				
-				// Creating response path and redirect to the new page
+				// creating response path and redirect to the new page
 				StringBuilder builder = new StringBuilder()
 				.append("/erasmus-advisor/flow?id=")
 				.append(flussoBean.getId())

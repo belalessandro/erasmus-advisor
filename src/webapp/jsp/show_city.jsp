@@ -149,7 +149,7 @@
 							<!-- notare che ogni input deve avere il campo value settato a quanto è presente nel DB -->
 							<form name='cityEditForm' method="post" action="<c:url value="/city"/> ">
 								<div class="input-group insert_new_input_group">
-									<span class="input-group-addon insert_new_input">Name*</span> <input type="text" class="form-control" id="name" name="new_name" value="<c:out value="${city.nome}"/> ">
+									<span class="input-group-addon insert_new_input">Name*</span> <input type="text" class="form-control" id="name" name="new_name" value="<c:out value="${city.nome}"/>" >
 								</div>
 								<br>
 								<div class="input-group insert_new_input_group">

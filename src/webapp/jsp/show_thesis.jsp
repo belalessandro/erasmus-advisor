@@ -26,8 +26,10 @@
 	<script src="<c:url value="/js"/>/bootstrap-select.js"></script>
 	<script src="<c:url value="/js"/>/bootstrap.min.js"></script>	
 	<script src="<c:url value="/js"/>/star-rating.min.js"></script>	
-	
+	<script src="//code.jquery.com/ui/1.11.1/jquery-ui.js"></script>
 	<script src="<c:url value="/js"/>/ea-form-validation.js"></script>
+	<script src="<c:url value="/js"/>/ea-insert.js"></script> 
+	
 	
 	<script>
 		// funziona che notifica che questa entità è da segnare REPORTED
@@ -121,6 +123,15 @@
 				</div>
 			</div>
 			
+			<!-- Avviso di avvenuta modifica dell'entita -->
+			<br>
+			<c:if test="${!empty param.edited && param.edited == 'success'}">
+				<div class="alert alert-success alert-dismissible" role="alert" >
+				  <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+				  City Successfully Edited!
+				</div>
+			</c:if>
+			
 			<!--Form di valutazione a comparsa-->
 			<div class="modal fade" id="evaluateForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false">
 				<div class="modal-dialog">
@@ -131,39 +142,42 @@
 						</div>
 						<div class="modal-body">
 							<!-- action deve puntare alla servlet che gestisce l'inserimento della valutazione -->
-							<form name='thesisEvaluationForm' onSubmit="return xEvaluationFormValidation();" method="post" action="#">
+							<form name='thesisEvaluationForm' method="post" action="<c:url value="/thesis/evaluations"/>">
 								<div class="col-md-6 text-center">Effort Needed:</div>
 								<div class="col-md-6 text-center">
-									<input id="effortNeeded" class="rating" data-size="sm" data-min="0" data-max="5" data-step="1" data-show-clear="false" data-show-caption="false">
+									<input id="effortNeeded" name="impegnoNecessario" class="rating" data-size="sm" data-min="0" data-max="5" data-step="1" data-show-clear="false" data-show-caption="false">
 								</div>
 								<br>
 								<br>
 								<div class="col-md-6 text-center">Subject Appeal:</div>
 								<div class="col-md-6 text-center">
-									<input id="subjectAppeal" class="rating" data-size="sm" data-min="0" data-max="5" data-step="1" data-show-clear="false" data-show-caption="false">
+									<input id="subjectAppeal" name="interesseArgomento" class="rating" data-size="sm" data-min="0" data-max="5" data-step="1" data-show-clear="false" data-show-caption="false">
 								</div>
 								<br>
 								<br>
 								<div class="col-md-6 text-center">Supervisor Availability:</div>
 								<div class="col-md-6 text-center">
-									<input id="supervisorAvailability" class="rating" data-size="sm" data-min="0" data-max="5" data-step="1" data-show-clear="false" data-show-caption="false">
+									<input id="supervisorAvailability" name="disponibilitaRelatore" class="rating" data-size="sm" data-min="0" data-max="5" data-step="1" data-show-clear="false" data-show-caption="false">
 								</div>
 								<br>
 								<br>
 								<div class="col-md-6 text-center">Satisfaction:</div>
 								<div class="col-md-6 text-center">
-									<input id="satisfaction" class="rating" data-size="sm" data-min="0" data-max="5" data-step="1" data-show-clear="false" data-show-caption="false">
+									<input id="satisfaction" name="soddisfazione" class="rating" data-size="sm" data-min="0" data-max="5" data-step="1" data-show-clear="false" data-show-caption="false">
 								</div>
 								<br>
 								<br><br>								
 								<div class="input-group insert_new_input_group">
-									<span class="input-group-addon insert_new_input">Comment</span> <textarea rows="2" class="form-control" name="comment" id="comment" placeholder="Insert a general comment about the city."></textarea>
+									<span class="input-group-addon insert_new_input">Comment</span> <textarea rows="2"  class="form-control" name="commento" id="comment" placeholder="Insert a general comment about the city."></textarea>
 								</div>
 								<br>
 								<div class="modal-footer">
 									<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 									<input type="submit" value="Save!" class="btn btn-primary pull-right">
 								</div>
+								
+								<!--  hidden params -->
+								<input type="hidden" name="idArgomentoTesi" value="<c:out value="${thesis.id}"/>" />
 							</form>
 						</div>
 					</div>
@@ -182,9 +196,9 @@
 						<div class="modal-body">
 							<!-- action deve puntare alla servlet che gestisce la modifica dell'entità -->
 							<!-- notare che ogni input deve avere il campo value settato a quanto è presente nel DB -->
-							<form name='thesisEditForm' onSubmit="return xEditFormValidation();" method="post" action="#">	
+							<form name='thesisEditForm' method="post" action="<c:url value="/thesis"/>">	
 								<div class="input-group insert_new_input_group">
-									<span class="input-group-addon insert_new_input">Name*</span> <input type="text" class="form-control" name="name" id="name" value="<c:out value="${thesis.nome}"/>">
+									<span class="input-group-addon insert_new_input">Name*</span> <input type="text" class="form-control" name="nome" id="name" value="<c:out value="${thesis.nome}"/>">
 								</div>
 								<br>
 								<div class="input-group insert_new_input_group">
@@ -201,7 +215,7 @@
 								</div>
 								<br>
 								<div class="input-group insert_new_input_group">
-									<span class="input-group-addon insert_new_input">University*</span> <input id="university" class="form-control" name="university" value="<c:out value="${thesis.nomeUniversita}"/>">
+									<span class="input-group-addon insert_new_input">University*</span> <input id="university" class="form-control" name="nomeUniversita" value="<c:out value="${thesis.nomeUniversita}"/>">
 								</div>
 								<br>
 								<div class="row text-center">
@@ -221,8 +235,8 @@
 								<br>
 								<div class="row text-center">
 									<span></span>
-									<span class="input-group-addon insert_new_select_label_inline">Select the thesis' language*</span>
-									<select class="selectpicker text-left" id="language" name="language">
+									<span class="input-group-addon insert_new_select_label_inline">Select the thesis' area*</span>
+									<select class="selectpicker text-left" id="language" name="area">
 										<c:forEach var="areaDomain" items='${areaDomain}'>
 											<option value="${areaDomain.nome}" 
 												<c:forEach var="area" items='${areas}' >
@@ -239,16 +253,22 @@
 									Choose the thesis' availability (one or both):
 								</div>
 								<div class="col-md-4">
-									<input type="checkbox" id="undergraduate" name="undergraduate" value="undergraduate" <c:if test="${thesis.triennale}">checked</c:if>> Undergraduate
+									<input type="checkbox" id="undergraduate" name="triennale" value="undergraduate" <c:if test="${thesis.triennale}">checked</c:if>> Undergraduate
 								</div>
 								<div class="col-md-4">
-									<input type="checkbox" id="graduate" name="graduate" value="graduate" <c:if test="${thesis.magistrale}">checked</c:if>> Graduate
+									<input type="checkbox" id="graduate" name="magistrale" value="graduate" <c:if test="${thesis.magistrale}">checked</c:if>> Graduate
 								</div>
 								<br>
 								<div class="modal-footer">
 									<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 									<input type="submit" value="Save your changes" class="btn btn-primary pull-right">
 								</div>
+								
+								<!-- hidden params -->
+								<input type="hidden" name="operation" value="update" />
+								<input type="hidden" name="id" value="<c:out value="${thesis.id}"/>" />
+								<input type="hidden" name="stato" value="<c:out value="${thesis.stato}"/>" />
+								
 							</form>
 						</div>
 					</div>

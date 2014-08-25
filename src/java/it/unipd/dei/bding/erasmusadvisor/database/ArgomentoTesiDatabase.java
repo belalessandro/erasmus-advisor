@@ -2,6 +2,7 @@ package it.unipd.dei.bding.erasmusadvisor.database;
 
 import it.unipd.dei.bding.erasmusadvisor.beans.AreaBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.ArgomentoTesiBean;
+import it.unipd.dei.bding.erasmusadvisor.beans.EstensioneBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.LinguaBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.ProfessoreBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.ValutazioneTesiBean;
@@ -83,13 +84,18 @@ public class ArgomentoTesiDatabase {
 		/**
 		 * The SQL update statement
 		 */
-		String updateStmt = "UPDATE ArgomentoTesi SET triennale = ?, magistrale = ?, stato = ? "
-				+ " WHERE nome = ? AND nomeUniversita = ?";
+		String updateStmt = "UPDATE ArgomentoTesi SET nome = ?, nomeUniversita = ?, triennale = ?, magistrale = ?, stato = CAST(? AS stato) "
+				+ " WHERE id = ?";
 		
 		QueryRunner run = new QueryRunner( );
 		
-	    return run.update(con, updateStmt, arg.isTriennale(), arg.isMagistrale(),
-	    		arg.getStato(), arg.getNome(), arg.getNomeUniversita());
+	    return run.update(con, updateStmt, 
+	    		arg.getNome(),
+	    		arg.getNomeUniversita(),
+	    		arg.isTriennale(),
+	    		arg.isMagistrale(),
+	    		arg.getStato(),
+	    		arg.getId());
 	}
 	
 	/**
@@ -187,7 +193,7 @@ public class ArgomentoTesiDatabase {
 		final String statement2 = "SELECT L.Sigla, L.Nome FROM Lingua AS L INNER JOIN LinguaTesi AS T ON L.Sigla = T.SiglaLingua WHERE idargomentotesi = CAST (? AS INTEGER)";
 		final String statement3 = "SELECT * FROM ValutazioneTesi WHERE idargomentotesi = CAST (? AS INTEGER)";
 		final String statement4 = "SELECT P.Nome, P.Cognome FROM Professore AS P INNER JOIN Gestione AS G ON P.ID = G.IdProfessore WHERE G.idargomentotesi = CAST (? AS INTEGER)";
-		final String statement5 = "SELECT area FROM Estensione WHERE idargomentotesi = CAST (? AS INTEGER)";
+		final String statement5 = "SELECT area AS nome FROM Estensione WHERE idargomentotesi = CAST (? AS INTEGER);";
 		
 		ArgomentoTesiBean tesi = new ArgomentoTesiBean();
 		List<LinguaBean> lingue = null;
