@@ -26,6 +26,33 @@ import javax.servlet.http.HttpServletResponse;
 public class SignInServlet extends AbstractDatabaseServlet {
 	
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException 
+	{
+		// luca: il get restituisce il form, il post processa il sign in
+		// non facciamo porcherie con doPost che chiam il doGet
+		request.getRequestDispatcher("/jsp/sign_in.jsp").forward(request, response);
+		
+	}
+		
+	private String hashPassword(String password, String salt){
+		MessageDigest digest;
+		try {
+			digest = MessageDigest.getInstance("SHA-256");
+			String salted = password + salt;
+			try {
+				byte[] hash = digest.digest(salted.getBytes("UTF-8"));
+				return new String(hash, "UTF-8");
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+				throw new IllegalStateException();
+			}
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+			throw new IllegalStateException();
+		}
+	}
+
+	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
 
@@ -53,7 +80,7 @@ public class SignInServlet extends AbstractDatabaseServlet {
 				m = new Message("Cannot create the student account: name " + s.getNomeUtente() + " already exists.", 
 						"E300", ex.getMessage());
 			} else {
-				m = new Message("Cannot create the employee: unexpected error while accessing the database.", 
+				m = new Message("Cannot create the student: unexpected error while accessing the database.", 
 						"E200", ex.getMessage());
 			}
 		}
@@ -70,30 +97,5 @@ public class SignInServlet extends AbstractDatabaseServlet {
 			// come back to sign_in JSP
 			request.getRequestDispatcher("/jsp/sign_in.jsp").forward(request, response);
 		}
-			
-		
-	}
-		
-	private String hashPassword(String password, String salt){
-		MessageDigest digest;
-		try {
-			digest = MessageDigest.getInstance("SHA-256");
-			String salted = password + salt;
-			try {
-				byte[] hash = digest.digest(salted.getBytes("UTF-8"));
-				return new String(hash, "UTF-8");
-			} catch (UnsupportedEncodingException e) {
-				e.printStackTrace();
-				throw new IllegalStateException();
-			}
-		} catch (NoSuchAlgorithmException e) {
-			e.printStackTrace();
-			throw new IllegalStateException();
-		}
-	}
-
-	public void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		doGet(request, response);
 	}
 }
