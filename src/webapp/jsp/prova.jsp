@@ -8,7 +8,7 @@
 <title>My first JSP</title>
 </head>
 <body>
-	<form action="<c:url value="/HelloServlet"/>">
+	<form action="<c:url value="/HelloServlet"/>" accept-charset="UTF-8">
 		Please enter a color <br> <input type="text" name="color"
 			size="20px"> <input type="submit" value="submit">
 	</form>
