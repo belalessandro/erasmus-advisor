@@ -79,21 +79,22 @@
 			<br>
 			<!-- action deve puntare alla servlet che gestisce la registrazione -->
 			<!-- lingua mostra solo le opzioni consentite -->
-			<form name='insert_city' method="post" action="#" onSubmit="return insertCityFormValidation();"> 
+			<form name='insert_city' method="post" action="<c:url value="/city"/>" onSubmit="return insertCityFormValidation();"> 
+				<input type="hidden" name="operation" value="insert">
 				<div align="center">
 					<div class="input-group insert_new_input_group">
-						<span class="input-group-addon insert_new_input">Name*</span> <input type="text" class="form-control" name="name" id="name" placeholder="Insert the city's name">
+						<span class="input-group-addon insert_new_input">Name*</span> <input type="text" class="form-control" name="Nome" id="name" placeholder="Insert the city's name">
 					</div>
 					<br>
 					<div class="input-group insert_new_input_group">
 						<span class="input-group-addon insert_new_input">Country*</span> 
-						<input id="countryNames" class="form-control" name="country" title="type &quot;a&quot;" placeholder="Insert the city's country"/>
+						<input id="countryNames" class="form-control" name="Stato" title="type &quot;a&quot;" placeholder="Insert the city's country"/>
 					</div>
 					<br>
 					<div class="row">
 						<span></span>
 						<span class="input-group-addon insert_new_select_label_inline">Select the languages spoken in the city*</span>
-						<select class="selectpicker text-left" multiple id="language" name="language[]">
+						<select class="selectpicker text-left" multiple id="language" name="LinguaCitta[]">
 							<c:forEach var="languageDomain" items='${languageDomain}'>
 								<option value="${languageDomain.sigla}" >${languageDomain.nome}</option>
 							</c:forEach>

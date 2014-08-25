@@ -3,10 +3,13 @@
  */
 package it.unipd.dei.bding.erasmusadvisor.servlets;
 
+import it.unipd.dei.bding.erasmusadvisor.beans.BeanUtilities;
+import it.unipd.dei.bding.erasmusadvisor.beans.CittaBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.LinguaBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.LinguaCittaBean;
 import it.unipd.dei.bding.erasmusadvisor.database.CittaDatabase;
 import it.unipd.dei.bding.erasmusadvisor.database.GetLinguaValues;
+import it.unipd.dei.bding.erasmusadvisor.database.LinguaCittaDatabase;
 import it.unipd.dei.bding.erasmusadvisor.resources.City;
 import it.unipd.dei.bding.erasmusadvisor.resources.CityEvaluationsAverage;
 import it.unipd.dei.bding.erasmusadvisor.resources.Message;
@@ -48,7 +51,10 @@ public class CityServlet extends AbstractDatabaseServlet
 	 *   		-> Se operazione è "insert" inserisce l'interesse collegato allo studente loggato e IdFlusso come parametro
 	 *   		-> Se operazione è "edit"   edita l'entita citta (deve comparire solo con coordinatore)
 	 */
-	
+	private static final String INSERT = "insert";
+    private static final String EDIT = "edit";
+    private static final String DELETE = "delete";
+    
 	/**
 	 * Get the details of a specific city or redirects to the insert page
 	 */
@@ -116,8 +122,20 @@ public class CityServlet extends AbstractDatabaseServlet
 		Connection conn = null;
 		Message m = null;
 		
-		if (operation.equals("delete"))
+		if (operation.equals(INSERT))
 		{
+			/**
+			 * INSERT OPERATION
+			 */
+			
+			insert(req, resp);
+		
+		} 
+		else if (operation.equals(DELETE))
+		{
+			/**
+			 * DELETE OPERATION
+			 */
 			// mauro: spostato qui perché così separiamo bene i parametri di delete e edit
 			String city = req.getParameter("city");
 			String country = req.getParameter("country");
@@ -157,8 +175,11 @@ public class CityServlet extends AbstractDatabaseServlet
 				// An error maybe?
 			}
 		}
-		else if(operation.equals("edit")) 
+		else if(operation.equals(EDIT)) 
 		{
+			/**
+			 * EDIT OPERATION
+			 */
 			// TODO: Check user is type coordinator
 			
 			// get parameters
@@ -252,5 +273,98 @@ public class CityServlet extends AbstractDatabaseServlet
 				}
 			}
 	}
+	
+	/**
+	 * Handle logic for insert operation...
+	 * @param request
+	 * @param response
+	 */
+	private void insert(HttpServletRequest request, HttpServletResponse response) 
+			throws ServletException, IOException  {
+		// the connection to database
+		Connection conn = null;
+		
+		// entity beans
+		CittaBean cittaBean = new CittaBean();
+		List<LinguaCittaBean> linguaCittaBeanList = new ArrayList<LinguaCittaBean>();
+		
+		// models
+		Message m = null;
+		
+		// Incoming FORM parameters
+		String city = request.getParameter("Nome");
+		String country = request.getParameter("Stato");
+		String[] siglaLingua = request.getParameterValues("LinguaCitta[]");
+		
+//		// Auto-populate beans with incoming FORM fields
+//		BeanUtilities.populateBean(citta, request);
+//		BeanUtilities.populateBean(linguaCittaList, request.getParameterMap());
+		
+		// Populating beans
+		cittaBean.setNome(city);
+		cittaBean.setStato(country);
+		
+		for(int i=0;i<siglaLingua.length;i++)
+		{
+			LinguaCittaBean l = new LinguaCittaBean(); 
+			l.setNomeCitta(city);
+			l.setStatoCitta(country);
+			l.setSiglaLingua(siglaLingua[i]);
+			linguaCittaBeanList.add(l);
+		}
+
+		/**
+		 * Insert to database
+		 */
+		try {
+			conn = DS.getConnection();
+			conn.setAutoCommit(false); // BEGIN TRANSACTION
+			
+			CittaDatabase.createCitta(conn, cittaBean);
+			for (LinguaCittaBean l : linguaCittaBeanList) {
+				LinguaCittaDatabase.createLinguaCitta(conn, l);
+			}
+			
+			DbUtils.commitAndClose(conn); // COMMIT
+		} catch (SQLException e) {
+			DbUtils.rollbackAndCloseQuietly(conn); // ROLLBACK
+			m = new Message("Error while inserting a new city.", "XXX", e.getMessage());
+			request.setAttribute("message", m);
+			errorForward(request, response);
+			return;
+		}
+		finally {
+			DbUtils.closeQuietly(conn); // *always* closes DB connection
+		}
+		
+		
+		// Success!
+		// Creating response path
+		StringBuilder builder = new StringBuilder()
+			.append("/erasmus-advisor/city?name=")
+			.append(city)
+			.append("&country=")
+			.append(country);
+		response.sendRedirect(builder.toString());	
+    }
+
+    private void delete(HttpServletRequest request, HttpServletResponse response) {
+        //handle logic for delete operation...
+    }
+    
+    private void edit(HttpServletRequest request, HttpServletResponse response) {
+        //handle logic for edit operation...
+    }
+
+    private void errorForward(HttpServletRequest request, HttpServletResponse response) 
+    		throws ServletException, IOException  {
+    	// Error management
+        	
+    	//Message m = new Message("Error while updating the city.","XXX", "");
+    	//request.setAttribute("message", m);
+    		
+    	getServletContext().getRequestDispatcher("/jsp/error.jsp")
+    		.forward(request, response); // ERROR PAGE
+    }
 }
 
