@@ -222,6 +222,14 @@
                 <servlet-name>CourseListServlet</servlet-name>
                 <url-pattern>/course/list</url-pattern>
         </servlet-mapping>
+        <servlet>
+                <servlet-name>CountryListServlet</servlet-name>
+                <servlet-class>it.unipd.dei.bding.erasmusadvisor.servlets.CountryListServlet</servlet-class>
+        </servlet>
+        <servlet-mapping>
+                <servlet-name>CountryListServlet</servlet-name>
+                <url-pattern>/country/list</url-pattern>
+        </servlet-mapping>
 </web-app>
 
 <!--

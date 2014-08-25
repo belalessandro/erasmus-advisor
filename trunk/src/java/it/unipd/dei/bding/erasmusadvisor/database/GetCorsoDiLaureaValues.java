@@ -11,7 +11,7 @@ import org.apache.commons.dbutils.handlers.BeanListHandler;
 
 /**
  * Get the values of the domain of CorsoDiLaurea
- * @author Ale
+ * @author Nicola
  *
  */
 
