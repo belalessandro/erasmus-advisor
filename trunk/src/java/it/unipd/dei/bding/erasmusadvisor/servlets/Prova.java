@@ -13,12 +13,13 @@ public class Prova extends HttpServlet {
 			HttpServletResponse response) throws ServletException, IOException {
 		// reading the user input
 		request.setCharacterEncoding("UTF-8");
+		response.setCharacterEncoding("UTF-8");
 		String color = request.getParameter("color");
 		PrintWriter out = response.getWriter();
 		out.println("<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">\n"
 				+ "<html> \n"
 				+ "<head> \n"
-				+ "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=ISO-8859-1\"> \n"
+				+ "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\"> \n"
 				+ "<title> My first jsp </title> \n"
 				+ "</head> \n"
 				+ "<body> \n"
