@@ -112,5 +112,32 @@ public class FlussoDatabase
 		// Returns the results
 		return new Flow(flow, responsabile, corsiOrigine, certificati, listaValutazioni);
 	}
+	
+	/**
+	 * Update the flow with the id given.
+	 * 
+	 * @param con connection to the database
+	 * @param flusso flow bean
+	 * @param old_id id of the flow to modify
+	 * @throws SQLException 
+	 */
+	public static void updateFlusso(Connection con, FlussoBean flusso, String old_id) throws SQLException
+	{
+		final StringBuilder sql = new StringBuilder()
+			.append("UPDATE Flusso SET id = ?, destinazione = ?, respflusso = ?, postidisponibili = ?,")
+			.append("attivo = ?, durata = ?, dettagli = ? WHERE id = ?;");
+		
+		QueryRunner run = new QueryRunner();
+		
+		run.update(con, sql.toString(),
+				flusso.getId(),
+				flusso.getDestinazione(),
+				flusso.getRespFlusso(),
+				flusso.getPostiDisponibili(),
+				flusso.isAttivo(),
+				flusso.getDurata(),
+				flusso.getDettagli(),
+				old_id);
+	}
 
 }
