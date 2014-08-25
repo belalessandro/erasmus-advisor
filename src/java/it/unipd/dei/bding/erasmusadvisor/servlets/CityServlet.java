@@ -117,12 +117,20 @@ public class CityServlet extends AbstractDatabaseServlet
 			throws ServletException, IOException 
 	{
 		String operation = req.getParameter("operation");
-			
+		
 		// the connection to database
 		Connection conn = null;
 		Message m = null;
 		
-		if (operation.equals(INSERT))
+		if (operation == null || operation.isEmpty() /*|| !lu.isFlowResp()*/) {
+			// Error
+			m = new Message("Not authorized or operation null", "", "");
+			req.setAttribute("message", m);
+			errorForward(req, resp);
+			return;
+			
+		} 
+		else if (operation.equals(INSERT))
 		{
 			/**
 			 * INSERT OPERATION
