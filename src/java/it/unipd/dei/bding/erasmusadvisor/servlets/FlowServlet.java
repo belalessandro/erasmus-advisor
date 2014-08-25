@@ -160,21 +160,19 @@ public class FlowServlet extends AbstractDatabaseServlet {
 		else if (operation.equals("edit") ) {
 		
 			// Populate beans
+			req.setCharacterEncoding("UTF-8");
 			FlussoBean flussoBean = new FlussoBean();
 			BeanUtilities.populateBean(flussoBean, req);
 			flussoBean.setRespFlusso(lu.getUser());
+			flussoBean.setDestinazione(req.getParameter("destinazione"));
+			flussoBean.setDurata(Integer.parseInt(req.getParameter("durata")));
+			
+			String old_id = req.getParameter("old_id");
 			
 			// get required parameters
 			String[] origins = req.getParameterValues("origins[]");
 			String[] certificates = req.getParameterValues("certificates[]");
 			
-//			PrintWriter w = resp.getWriter();
-//			w.println("<html>");
-//			w.println("<body>");
-//			w.println("<h2>" + origins.length + "</h2>");
-//			w.println("<h2>" + certificates.length + "</h2>");
-//			for(int i = 0; i < origins.length; i++)
-//				w.println("<h2>origins[" + i + "] = " + origins[i] + "</h2>");
 			
 			
 			String[] certificatesName = new String[certificates.length];
@@ -188,14 +186,20 @@ public class FlowServlet extends AbstractDatabaseServlet {
 			// assigning to appropriate variables
 			for(int i = 0; i < certificates.length; i++)
 			{
-				certificatesName[i] = tmp[i][0];
-				certificatesLevel[i] = tmp[i][1];		
+				certificatesName[i] = tmp[i][0].trim();
+				certificatesLevel[i] = tmp[i][1].trim();		
 			}
-//			for(int i = 0; i < certificatesName.length; i++)
-//				w.println("<h2>certificatesName[" + i + "] = " + certificatesName[i] + "</h2>");
-//			
-//			for(int i = 0; i < certificatesLevel.length; i++)
-//				w.println("<h2>certificatesLevel[" + i + "] = " + certificatesLevel[i] + "</h2>");
+//
+//			PrintWriter w = resp.getWriter();
+			resp.setContentType("text/html; charset=UTF-8");
+			resp.setCharacterEncoding("UTF-8");
+			
+//			w.println("<html>");
+//			w.println("<head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\"></head>");
+//			w.println("<body>");
+//			w.println("<h2>character encoding = " + req.getCharacterEncoding() + "</h2>");
+//			w.println("<h2>getContentType = " + req.getContentType() + "</h2>");
+//			w.println("<h2>destinazione = " + flussoBean.getDestinazione() + "</h2>");
 //			w.println("</body>");
 //			w.println("</html>");
 //			w.flush();
@@ -213,7 +217,7 @@ public class FlowServlet extends AbstractDatabaseServlet {
 				DocumentazioneDatabase.deleteDocumentazioneByFlowId(con, flussoBean.getId());
 				
 				// update flusso
-				FlussoDatabase.createFlusso(con, flussoBean);
+				FlussoDatabase.updateFlusso(con, flussoBean, old_id);
 				
 				
 				// insert new origine
@@ -255,7 +259,7 @@ public class FlowServlet extends AbstractDatabaseServlet {
 				
 			} catch (SQLException e) {
 				// Error management
-				m = new Message("Error while editing " + flussoBean.getId() + " instance.","XXX", e.getMessage());
+				m = new Message("Error while editing " + flussoBean.getId() + " " + flussoBean.getDestinazione() + " instance.","XXX", e.getMessage());
 				req.setAttribute("message", m);
 				
 				getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(req, resp); // ERROR PAGE
