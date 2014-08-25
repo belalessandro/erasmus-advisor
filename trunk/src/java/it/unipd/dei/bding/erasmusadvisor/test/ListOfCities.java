@@ -1,4 +1,4 @@
-package it.unipd.dei.bding.erasmusadvisor.database;
+package it.unipd.dei.bding.erasmusadvisor.test;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

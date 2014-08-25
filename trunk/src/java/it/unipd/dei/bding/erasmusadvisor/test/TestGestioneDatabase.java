@@ -1,7 +1,6 @@
-package it.unipd.dei.bding.erasmusadvisor.database;
+package it.unipd.dei.bding.erasmusadvisor.test;
 
 import it.unipd.dei.bding.erasmusadvisor.beans.CittaBean;
-import it.unipd.dei.bding.erasmusadvisor.beans.CorsoDiLaureaBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.DocumentazioneBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.FlussoBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.GestioneBean;
@@ -13,6 +12,7 @@ import it.unipd.dei.bding.erasmusadvisor.beans.ProfessoreBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.SvolgimentoBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.UniversitaBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.ValutazioneUniversitaBean;
+import it.unipd.dei.bding.erasmusadvisor.database.InsegnamentoDatabase;
 
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -23,7 +23,7 @@ import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.dbutils.DbUtils;
 import org.apache.tomcat.jdbc.pool.DataSource;
 
-public class TestCorsoDiLaureaDatabase {
+public class TestGestioneDatabase {
 
 
 	private static final String DRIVER = "org.postgresql.Driver";
@@ -54,12 +54,24 @@ public class TestCorsoDiLaureaDatabase {
 		}
 
 
-		CorsoDiLaureaBean corso = new CorsoDiLaureaBean();
+//		DocumentazioneBean documentazioneBean = new DocumentazioneBean();
+//		FlussoBean flussoBean = new FlussoBean();
+//		GestioneBean gestioneBean = new GestioneBean();
+		InsegnamentoBean insegnamentoBean = new InsegnamentoBean();
+//		LinguaCittaBean linguaCittaBean = new LinguaCittaBean();
+//		LinguaTesiBean linguaTesiBean = new LinguaTesiBean();
+//		OrigineBean origineBean = new OrigineBean();
+//		SvolgimentoBean svolgimentoBean = new SvolgimentoBean();
 		
 		// populate..
-		corso.setNome("Ing.dell'Informazione");
-		corso.setNomeUniversita("University of Cambridge");
-		corso.setLivello("GRADUATE");
+		insegnamentoBean.setNome("Analisi3");
+		insegnamentoBean.setCrediti(9);
+		insegnamentoBean.setNomeUniversita("University of Cambridge");
+		insegnamentoBean.setPeriodoErogazione(1);
+		insegnamentoBean.setStato("NOT VERIFIED");
+		insegnamentoBean.setAnnoCorso(4);
+		insegnamentoBean.setNomeArea("Mathematics");
+		insegnamentoBean.setNomeLingua("eng");
 		
 		try {
 			con = DriverManager.getConnection(DATABASE, USER, PASSWORD); // UNICA CONNESSIONE
@@ -69,7 +81,7 @@ public class TestCorsoDiLaureaDatabase {
 //			DocumentazioneDatabase.createDocumentazione(con, documentazioneBean);
 //			FlussoDatabase.createFlusso(con, flussoBean);
 //			GestioneDatabase.createGestione(con, gestioneBean);
-			int ret = CorsoDiLaureaDatabase.createCorsoDiLaurea(con, corso);
+			int ret = InsegnamentoDatabase.createInsegnamento(con, insegnamentoBean);
 //			LinguaCittaDatabase.createLinguaCitta(con, linguaCittaBean);
 //			LinguaTesiDatabase.createLinguaTesi(con, linguaTesiBean);
 //			OrigineDatabase.createOrigine(con, origineBean);

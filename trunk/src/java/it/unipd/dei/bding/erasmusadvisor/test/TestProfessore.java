@@ -1,7 +1,8 @@
-package it.unipd.dei.bding.erasmusadvisor.database;
+package it.unipd.dei.bding.erasmusadvisor.test;
 
 import it.unipd.dei.bding.erasmusadvisor.beans.ArgomentoTesiBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.StudenteBean;
+import it.unipd.dei.bding.erasmusadvisor.database.ProfessoreDatabase;
 import it.unipd.dei.bding.erasmusadvisor.resources.Thesis;
 
 import java.sql.Connection;
