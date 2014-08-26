@@ -132,56 +132,11 @@ public class CityServlet extends AbstractDatabaseServlet
 		} 
 		else if (operation.equals(INSERT))
 		{
-			/**
-			 * INSERT OPERATION
-			 */
-			
 			insert(req, resp);
-		
 		} 
 		else if (operation.equals(DELETE))
 		{
-			/**
-			 * DELETE OPERATION
-			 */
-			// mauro: spostato qui perché così separiamo bene i parametri di delete e edit
-			String city = req.getParameter("city");
-			String country = req.getParameter("country");
-			
-			
-			
-			if (city != null && ! city.isEmpty() && country != null && ! country.isEmpty()) 
-			{
-				int results;
-				try {
-					conn = DS.getConnection();
-					results = new CittaDatabase().deleteCity(conn, city, country);
-					// bisogna passare anche un parametro deletedEntity con valore
-					// city + " (" + country + ")"
-					
-					if (results > 0 )
-					{
-						System.out.println("si");
-						resp.setContentType("application/json");  
-				        PrintWriter out = resp.getWriter();
-				        out.println("{");
-				        out.println("\"url\": \"/entity_deleted.jsp\"");
-				        out.println("}");
-				        out.close();
-					}
-					
-				} 
-				catch (SQLException e) {
-					// TODO CATTURARE GLI ERRORI OPPORTUNAMENTE (usare redirect/message..)
-					e.printStackTrace();
-				}
-				finally {
-					DbUtils.closeQuietly(conn); // always closes the connection 
-				}
-			} 
-			else {
-				// An error maybe?
-			}
+			delete(req, resp);
 		}
 		else if(operation.equals(EDIT)) 
 		{
@@ -203,7 +158,7 @@ public class CityServlet extends AbstractDatabaseServlet
 				// starting database operations
 				conn = DS.getConnection();
 				
-				ArrayList<LinguaBean> linguaDomainList = (ArrayList<LinguaBean>) new GetLinguaValues().getLinguaDomain(conn);
+				ArrayList<LinguaBean> linguaDomainList = (ArrayList<LinguaBean>) GetLinguaValues.getLinguaDomain(conn);
 				ArrayList<LinguaCittaBean> linguaCittaBeanList = new ArrayList<LinguaCittaBean>();
 				
 				// populate the bean
@@ -212,8 +167,6 @@ public class CityServlet extends AbstractDatabaseServlet
 
 				while(i < linguaDomainList.size() && k < languages.length)
 				{
-					
-					
 					// represents "sigla"
 					LinguaBean current = linguaDomainList.get(i);
 					if(languages[k].equals(current.getSigla()))
@@ -260,17 +213,21 @@ public class CityServlet extends AbstractDatabaseServlet
 				}
 					
 					
-				} catch (SQLException e) {
-					// Error management
-					m = new Message("Error while submitting evaluations.","XXX", e.getMessage());
-					req.setAttribute("message", m);
-					
-					getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(req, resp); // ERROR PAGE
-					return;
-				} finally {
-					DbUtils.closeQuietly(conn);
-				}
+			} 
+			catch (SQLException e) 
+			{
+				// Error management
+				m = new Message("Error while submitting evaluations.","XXX", e.getMessage());
+				req.setAttribute("message", m);
+				
+				getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(req, resp); // ERROR PAGE
+				return;
+			} 
+			finally 
+			{
+				DbUtils.closeQuietly(conn);
 			}
+		}
 	}
 	
 	/**
@@ -350,8 +307,44 @@ public class CityServlet extends AbstractDatabaseServlet
 		response.sendRedirect(builder.toString());	
     }
 
-    private void delete(HttpServletRequest request, HttpServletResponse response) {
-        //handle logic for delete operation...
+    private void delete(HttpServletRequest req, HttpServletResponse resp) 
+    		throws ServletException, IOException 
+    {
+
+		Connection conn = null;
+		Message m = null;
+		
+		String city = req.getParameter("city");
+		String country = req.getParameter("country");
+		
+		if (city != null && ! city.isEmpty() && country != null && ! country.isEmpty()) 
+		{
+			int results;
+			try {
+				conn = DS.getConnection();
+				results = CittaDatabase.deleteCity(conn, city, country);				
+				if (results > 0 )
+				{
+					String deletedEntity = city + " (" + country + ")";
+					req.setAttribute("deletedEntity", deletedEntity);
+					getServletContext().getRequestDispatcher("/jsp/entity_deleted.jsp").forward(req, resp); // ERROR PAGE
+				}
+				
+			} 
+			catch (SQLException e)
+			{
+
+				m = new Message("Error while deleting the city.", "XXX", e.getMessage());
+				req.setAttribute("message", m);
+				getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(req, resp);
+			}
+			finally {
+				DbUtils.closeQuietly(conn); // always closes the connection 
+			}
+		} 
+		else {
+			// An error maybe?
+		}
     }
     
     private void edit(HttpServletRequest request, HttpServletResponse response) {
