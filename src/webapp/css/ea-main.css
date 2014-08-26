@@ -39,7 +39,7 @@
 	margin-top: 4px !important;
 }
 
-/**/
+/*nei dropdown che usano gli span invece che gli a*/
 
 .dropdown-menu > li > span {
   display: block;
@@ -94,12 +94,6 @@ div.foot
     margin-top:20px !important;
 }
 
-/* general layout - dunno where used */
-
-div.regForm
-{
-	background: #ddd;
-}
 li.menu 
 {
 	list-style: none;

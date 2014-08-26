@@ -31,36 +31,40 @@
 	});
 	</script>
 	
-	<!-- Autocomplete Universities -->
-	<script src="//code.jquery.com/ui/1.11.1/jquery-ui.js"></script>	
+	<!-- Autocompletamento Universities -->
+	<script src="<c:url value="/js"/>/jquery-ui-1.10.4.custom.min.js"></script>
 	<link rel="stylesheet" href="//code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css">
 	<style>
-	.ui-autocomplete-loading {
-	background: white url("<c:url value="/img"/>/ui-anim_basic_16x16.gif") right center no-repeat;
-	}
+		.ui-autocomplete-loading {
+			background: white url("<c:url value="/img"/>/ui-anim_basic_16x16.gif") right center no-repeat;
+		}
 	</style>
-	
 	<script>
-	$(function() {
-		var cache = {};
-		$("#universityNames" ).autocomplete({
+		$(function() {
+			var cache = {};
+			$("#universityNames").autocomplete(
+				{
 					minLength : 2,
-					source : function(request, response) {
+					source : function(request, response)
+					{
 						var term = request.term;
-						if (term in cache) {
+						if (term in cache) 
+						{
 							response(cache[term]);
 							return;
 						}
-						$.getJSON("<c:url value="/university/list"/>", request,
-								function(data, status, xhr) {
-									xhr.setRequestHeader("X-Requested-With",
-											"XMLHttpRequest");
-									cache[term] = data;
-									response(data);
-								});
+						$.getJSON("<c:url value="/university/list"/>", request, 
+							function(data, status, xhr) 
+							{
+								xhr.setRequestHeader(
+										"X-Requested-With",
+										"XMLHttpRequest");
+								cache[term] = data;
+								response(data);
+							});
 					}
 				});
-	});
+		});
 	</script>
 </head>
 
