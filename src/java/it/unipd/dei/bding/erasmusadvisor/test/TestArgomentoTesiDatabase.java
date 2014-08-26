@@ -34,12 +34,12 @@ public class TestArgomentoTesiDatabase {
 	/**
 	 * The username for accessing the database
 	 */
-	private static final String USER = "EATeam";
+	private static final String USER = "postgres";
 
 	/**
 	 * The password for accessing the database
 	 */
-	private static final String PASSWORD = "EATeam";
+	private static final String PASSWORD = "postgres";
 
 	public static void main(String[] args) {
 
@@ -55,29 +55,30 @@ public class TestArgomentoTesiDatabase {
 		}
 
 
-		ArgomentoTesiBean argom = new ArgomentoTesiBean();
+		/*ArgomentoTesiBean argom = new ArgomentoTesiBean();
 		
 		// populate..
 		argom.setNome("UnArgomentoDiTEsi");
 		argom.setMagistrale(true);
 		argom.setNomeUniversita("University of Cambridge");
-		argom.setStato("NOT VERIFIED");
+		argom.setStato("NOT VERIFIED");*/
 		
 		try {
 			con = DriverManager.getConnection(DATABASE, USER, PASSWORD); // UNICA CONNESSIONE
 			con.setAutoCommit(false);
+			ArgomentoTesiDatabase.searchArgomentoTesiBy(con, "Universitat de Barcelona- Main Site", "Mathematics");
 			
 			// insert test
 //			DocumentazioneDatabase.createDocumentazione(con, documentazioneBean);
 //			FlussoDatabase.createFlusso(con, flussoBean);
 //			GestioneDatabase.createGestione(con, gestioneBean);
-			int ret = ArgomentoTesiDatabase.createArgomentoTesi(con, argom);
+//			int ret = ArgomentoTesiDatabase.createArgomentoTesi(con, argom);
 //			LinguaCittaDatabase.createLinguaCitta(con, linguaCittaBean);
 //			LinguaTesiDatabase.createLinguaTesi(con, linguaTesiBean);
 //			OrigineDatabase.createOrigine(con, origineBean);
 //			SvolgimentoDatabase.createSvolgimento(con, svolgimentoBean);
 			
-			System.out.println(ret);
+//			System.out.println(ret);
 //			if (c.getInsegnamento() != null) {
 //				try { 
 //					String s = BeanUtils.describe(c.getInsegnamento()).toString();
