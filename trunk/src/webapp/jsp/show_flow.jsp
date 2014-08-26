@@ -120,7 +120,7 @@
 						<li class="active"><span onClick="removeInterest();">Remove interest</span></li>
 						<li class="active"><span data-toggle="modal" data-target="#editForm">Edit</span></li>
 						<li class="active">
-							<form method="post" action="#">
+							<form method="post" action="<c:url value="/flow"/>">
                                 <input type="hidden" name="operation" value="delete"/>
                                 <input type="hidden" name="id" value="${flow.id}"/>
 								<input type="submit" value="Delete" class="btn btn-primary entity_nav_button">

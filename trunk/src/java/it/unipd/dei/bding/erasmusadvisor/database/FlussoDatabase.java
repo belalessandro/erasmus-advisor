@@ -139,5 +139,21 @@ public class FlussoDatabase
 				flusso.getDettagli(),
 				old_id);
 	}
+	
+
+	/**
+	 * Delete a Flusso (Flow) from the database.
+	 * @param conn A connection to the database
+	 * @param id The id of the flow to delete
+	 * @return The number of rows affected: zero means an id that do not correspond to any flow.
+	 * @throws SQLException If an error occurs.
+	 */
+	public static int deleteFlusso(Connection conn, String id) throws SQLException
+	{
+		final String statement = "DELETE FROM Flusso WHERE Id = ?";
+		
+		QueryRunner run = new QueryRunner();
+		return run.update(conn, statement, id);
+	}
 
 }

@@ -41,6 +41,8 @@ import org.apache.commons.dbutils.DbUtils;
  *
  */
 public class FlowServlet extends AbstractDatabaseServlet {
+
+	private static final long serialVersionUID = 6073649577892013101L;
 	/**
 	 * Operation constants
 	 */
@@ -139,26 +141,24 @@ public class FlowServlet extends AbstractDatabaseServlet {
 		// get the operation
 		String operation = req.getParameter("operation");
 		
-		if (operation == null || operation.isEmpty() || !lu.isFlowResp()) {
-			
+		if (operation == null || operation.isEmpty() || !lu.isFlowResp()) 
+		{
 			// Error
 			m = new Message("Not authorized or operation null", "", "");
 			req.setAttribute("message", m);
 			errorForward(req, resp);
 			return;
-			
+		} 
+		else if (operation.equals(DELETE))
+		{		
+			delete(req, resp);
 		} 
 		else if (operation.equals(INSERT))
-		{
-			/**
-			 * INSERT OPERATION
-			 */
-			
+		{		
 			insert(req, resp);
-		
 		} 
-		else if (operation.equals("edit") ) {
-		
+		else if (operation.equals(EDIT) ) 
+		{
 			// Populate beans
 			FlussoBean flussoBean = new FlussoBean();
 			BeanUtilities.populateBean(flussoBean, req);
@@ -353,10 +353,44 @@ public class FlowServlet extends AbstractDatabaseServlet {
 		response.sendRedirect(builder.toString());	
     }
 
-    private void delete(HttpServletRequest request, HttpServletResponse response) {
-        //handle logic for delete operation...
+
+    private void delete(HttpServletRequest req, HttpServletResponse resp) 
+    		throws ServletException, IOException 
+    {
+
+		Connection conn = null;
+		Message m = null;
+		
+		String id = req.getParameter("id");
+		
+		if (id != null && !id.isEmpty()) 
+		{
+			int results;
+			try {
+				conn = DS.getConnection();
+				results = FlussoDatabase.deleteFlusso(conn, id);				
+				if (results > 0 )
+				{
+					String deletedEntity = id;
+					req.setAttribute("deletedEntity", deletedEntity);
+					getServletContext().getRequestDispatcher("/jsp/entity_deleted.jsp").forward(req, resp);
+				}
+				
+			} 
+			catch (SQLException e)
+			{
+				m = new Message("Error while deleting the flow.", "", e.getMessage());
+				req.setAttribute("message", m);
+				getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(req, resp);
+			}
+			finally {
+				DbUtils.closeQuietly(conn); // always closes the connection 
+			}
+		} 
+		else {
+			// An error maybe?
+		}
     }
-    
     private void edit(HttpServletRequest request, HttpServletResponse response) {
         //handle logic for edit operation...
     }

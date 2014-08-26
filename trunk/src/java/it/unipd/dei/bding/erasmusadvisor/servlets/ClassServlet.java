@@ -3,12 +3,9 @@
  */
 package it.unipd.dei.bding.erasmusadvisor.servlets;
 
-import it.unipd.dei.bding.erasmusadvisor.database.DocumentazioneDatabase;
-import it.unipd.dei.bding.erasmusadvisor.database.FlussoDatabase;
 import it.unipd.dei.bding.erasmusadvisor.database.GetAreaValues;
 import it.unipd.dei.bding.erasmusadvisor.database.GetLinguaValues;
 import it.unipd.dei.bding.erasmusadvisor.database.InsegnamentoDatabase;
-import it.unipd.dei.bding.erasmusadvisor.database.OrigineDatabase;
 import it.unipd.dei.bding.erasmusadvisor.database.ProfessoreDatabase;
 import it.unipd.dei.bding.erasmusadvisor.database.SvolgimentoDatabase;
 import it.unipd.dei.bding.erasmusadvisor.resources.LoggedUser;
@@ -18,26 +15,19 @@ import it.unipd.dei.bding.erasmusadvisor.resources.Teaching;
 import it.unipd.dei.bding.erasmusadvisor.resources.UserType;
 import it.unipd.dei.bding.erasmusadvisor.beans.AreaBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.BeanUtilities;
-import it.unipd.dei.bding.erasmusadvisor.beans.DocumentazioneBean;
-import it.unipd.dei.bding.erasmusadvisor.beans.FlussoBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.InsegnamentoBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.LinguaBean;
-import it.unipd.dei.bding.erasmusadvisor.beans.OrigineBean;
-import it.unipd.dei.bding.erasmusadvisor.beans.ProfessoreBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.SvolgimentoBean;
 
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.swing.text.Utilities;
 
-import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.dbutils.DbUtils;
 
 
@@ -54,9 +44,6 @@ public class ClassServlet extends AbstractDatabaseServlet
     private static final String EDIT = "edit";
     private static final String DELETE = "delete";
     
-	/**
-	 * Default Serial version UID 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -154,30 +141,24 @@ public class ClassServlet extends AbstractDatabaseServlet
 		Connection con = null;
 		Message m = null;
 		
-		if (operation == null || operation.isEmpty() || !lu.isFlowResp()) {
-			
+		if (operation == null || operation.isEmpty() || !lu.isFlowResp()) 
+		{
 			// Error
 			m = new Message("Not authorized or operation null", "", "");
 			req.setAttribute("message", m);
 			errorForward(req, resp);
 			return;
-			
 		} 
 		else if (operation.equals(INSERT))
-		{
-			/**
-			 * INSERT OPERATION
-			 */
-			
+		{	
 			insert(req, resp);
-		
+		} 
+		else if (operation.equals(DELETE))
+		{
+			delete(req, resp);
 		} 
 		else if(operation.equals(EDIT))
-		{
-			/**
-			 * EDIT OPERATION
-			 */
-			
+		{			
 			// Populate beans
 			InsegnamentoBean insegnamentoBean = new InsegnamentoBean();
 			BeanUtilities.populateBean(insegnamentoBean, req);
@@ -343,8 +324,43 @@ public class ClassServlet extends AbstractDatabaseServlet
 		response.sendRedirect(builder.toString());	
     }
 
-    private void delete(HttpServletRequest request, HttpServletResponse response) {
-        //handle logic for delete operation...
+    private void delete(HttpServletRequest req, HttpServletResponse resp) 
+    		throws ServletException, IOException 
+    {
+
+		Connection conn = null;
+		Message m = null;
+		
+		String id = req.getParameter("id");
+		String name = req.getParameter("name"); // name serve solo per la visualizzazione in entity_deleted
+		
+		if (id != null && !id.isEmpty() && name != null && !name.isEmpty()) 
+		{
+			int results;
+			try {
+				conn = DS.getConnection();
+				results = InsegnamentoDatabase.deleteInsegnamento(conn, Integer.parseInt(id));				
+				if (results > 0 )
+				{
+					String deletedEntity = name;
+					req.setAttribute("deletedEntity", deletedEntity);
+					getServletContext().getRequestDispatcher("/jsp/entity_deleted.jsp").forward(req, resp);
+				}
+				
+			} 
+			catch (SQLException e)
+			{
+				m = new Message("Error while deleting the class.", "", e.getMessage());
+				req.setAttribute("message", m);
+				getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(req, resp);
+			}
+			finally {
+				DbUtils.closeQuietly(conn); // always closes the connection 
+			}
+		} 
+		else {
+			// An error maybe?
+		}
     }
     
     private void edit(HttpServletRequest request, HttpServletResponse response) {
