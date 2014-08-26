@@ -28,8 +28,8 @@
 	    });
 	});
 	</script>
-<!-- Autocomplete Countries -->
-	<script src="//code.jquery.com/ui/1.11.1/jquery-ui.js"></script>	
+	<!-- Autocomplete Countries -->
+	<script src="<c:url value="/js"/>/jquery-ui-1.10.4.custom.min.js"></script>
 	<link rel="stylesheet" href="//code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css">
 	<style>
 	.ui-autocomplete-loading {
@@ -40,7 +40,7 @@
 	<script>
 	$(function() {
 		var cache = {};
-		$("#countryNames" ).autocomplete({
+		$("#country").autocomplete({
 					minLength : 0,
 					source : function(request, response) {
 						var term = request.term;
@@ -88,7 +88,7 @@
 					<br>
 					<div class="input-group insert_new_input_group">
 						<span class="input-group-addon insert_new_input">Country*</span> 
-						<input id="countryNames" class="form-control" name="Stato" title="type &quot;a&quot;" placeholder="Insert the city's country"/>
+						<input id="country" class="form-control" name="Stato" title="Type the first letters for suggestions" placeholder="Insert the city's country"/>
 					</div>
 					<br>
 					<div class="row">
