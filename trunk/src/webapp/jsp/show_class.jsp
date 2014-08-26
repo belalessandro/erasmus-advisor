@@ -75,6 +75,12 @@
 			    // splash! and nothing happens
 			} 
 	    }
+		// funziona che aggiunge che questo corso è riconosciuto per il flusso
+		// da fare con ajax
+	    function acknowledge()
+	    {
+	    	alert(document.getElementById("ackFlow").value);
+	    }
 		// inizializza i select avanzati
 		$(document).ready(function() {
 		    $('.selectpicker').selectpicker({
@@ -121,6 +127,7 @@
 						edit e delete solo da reponsabili di flusso e coordinatori erasmus -->
 					<ul class="nav nav-stacked pull-right">
 						<li class="active"><span data-toggle="modal" data-target="#evaluateForm">Evaluate</span></li>
+						<li class="active"><span data-toggle="modal" data-target="#acknowledgeForm">Acknowledge</span></li>
 						<li class="active"><span onClick="report();">Report</span></li>
 						<li class="active"><span data-toggle="modal" data-target="#editForm">Edit</span></li>
 						<li class="active">
@@ -135,6 +142,35 @@
 				</div>
 			</div>
 			<br>
+			<!--Form di riconoscimento a comparsa-->
+			<div class="modal fade" id="acknowledgeForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+							<h4 class="modal-title" id="myModalLabel">Select a flow that acknowledge <b><c:out value="${classBean.nome}"/></b></h4>
+						</div>
+						<div class="modal-body">
+							<div class="row text-center">
+								<span></span>
+								<span class="input-group-addon insert_new_select_label_inline">Select the flow</span>
+								<select class="selectpicker text-left" id="ackFlow" name="ackFlow">
+									<c:forEach var="flow" items='${flows}'>
+										<option value="${flow.idFlusso}">
+										${flow.idFlusso}</option>
+									</c:forEach>					
+			    				</select>
+							</div>
+							<br>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+								<input type="button" value="Save!" class="btn btn-primary pull-right" data-dismiss="modal" onclick="acknowledge();">
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>			
+			<!--fine form di riconoscimento a comparsa-->
 			
 			<!--Form di valutazione a comparsa-->
 			<div class="modal fade" id="evaluateForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false">

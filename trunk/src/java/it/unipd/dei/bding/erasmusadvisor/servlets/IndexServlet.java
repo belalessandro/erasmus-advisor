@@ -1,12 +1,5 @@
 package it.unipd.dei.bding.erasmusadvisor.servlets;
 
-import it.unipd.dei.bding.erasmusadvisor.beans.AreaBean;
-import it.unipd.dei.bding.erasmusadvisor.beans.InteresseBean;
-import it.unipd.dei.bding.erasmusadvisor.beans.LinguaBean;
-import it.unipd.dei.bding.erasmusadvisor.beans.UniversitaBean;
-import it.unipd.dei.bding.erasmusadvisor.database.GetAreaValues;
-import it.unipd.dei.bding.erasmusadvisor.database.GetLinguaValues;
-import it.unipd.dei.bding.erasmusadvisor.database.GetUniversitaValues;
 import it.unipd.dei.bding.erasmusadvisor.database.InteresseDatabase;
 import it.unipd.dei.bding.erasmusadvisor.resources.InterestBean;
 import it.unipd.dei.bding.erasmusadvisor.resources.LoggedUser;

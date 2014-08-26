@@ -283,12 +283,12 @@
 			<c:choose>
 				<c:when test="${fn:length(recognisedClasses) == 0}">
 					<div class="row text-center">
-					<h4>There are no recognised classes for <b><c:out value="${flow.id}"/></b>.</h4>
+					<h4>There are no acknowledged classes for <b><c:out value="${flow.id}"/></b>.</h4>
 					</div>
 				</c:when>
 				<c:otherwise>	
 					<table class="table table-bordered table-hover table-striped tablesorter" id="resultTable">
-						<caption><h4>Recognised classes for this flow</h4></caption>
+						<caption><h4>Acknowledged classes for this flow</h4></caption>
 						<thead>
 							<tr>
 								<th>Name</th>

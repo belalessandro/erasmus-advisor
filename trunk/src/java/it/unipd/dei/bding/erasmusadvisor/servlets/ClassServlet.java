@@ -6,6 +6,7 @@ package it.unipd.dei.bding.erasmusadvisor.servlets;
 import it.unipd.dei.bding.erasmusadvisor.database.GetAreaValues;
 import it.unipd.dei.bding.erasmusadvisor.database.GetLinguaValues;
 import it.unipd.dei.bding.erasmusadvisor.database.InsegnamentoDatabase;
+import it.unipd.dei.bding.erasmusadvisor.database.PartecipazioneDatabase;
 import it.unipd.dei.bding.erasmusadvisor.database.ProfessoreDatabase;
 import it.unipd.dei.bding.erasmusadvisor.database.SvolgimentoDatabase;
 import it.unipd.dei.bding.erasmusadvisor.resources.LoggedUser;
@@ -17,6 +18,7 @@ import it.unipd.dei.bding.erasmusadvisor.beans.AreaBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.BeanUtilities;
 import it.unipd.dei.bding.erasmusadvisor.beans.InsegnamentoBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.LinguaBean;
+import it.unipd.dei.bding.erasmusadvisor.beans.PartecipazioneBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.SvolgimentoBean;
 
 import java.io.IOException;
@@ -69,21 +71,26 @@ public class ClassServlet extends AbstractDatabaseServlet
 		 *  Gets the university model from the database
 		 */
 		
+
+		// TODO: DA SESSIONE
+		LoggedUser lu = new LoggedUser(UserType.STUDENTE, "user"); 
+		
 		// model
 		Teaching results = null;
 		Message m = null;
 		List<LinguaBean> languageDomain = null;
 		List<AreaBean> areaDomain = null;
+		List<PartecipazioneBean> flows = null;
 		
 		// database connection
 		Connection conn = null;
-
 					
 		try {
 			conn = DS.getConnection();
 			results = InsegnamentoDatabase.getInsegnamento(conn, Integer.parseInt(ID));
 			languageDomain = GetLinguaValues.getLinguaDomain(conn);
 			areaDomain = GetAreaValues.getAreaDomain(conn);
+			flows = PartecipazioneDatabase.getFlows(conn, lu.getUser());
 		} 
 		catch (SQLException ex) {
 			m = new Message("Error while getting the class.", "XXX", ex.getMessage());
@@ -109,6 +116,8 @@ public class ClassServlet extends AbstractDatabaseServlet
 			req.setAttribute("evaluations", results.getValutazioni());
 			req.setAttribute("professors", results.getProfessori());
 
+			req.setAttribute("flows", flows);
+			
 			req.setAttribute("languageDomain", languageDomain);
 			req.setAttribute("areaDomain", areaDomain);
 			req.setAttribute("evaluationsAvg", new TeachingEvaluationAverage(results.getValutazioni()));
