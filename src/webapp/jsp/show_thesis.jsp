@@ -2,10 +2,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
-<!-- 
-	manca la servlet per il delete, il report, l'update e la valutazione
- -->
-
 <!DOCTYPE html>
 <html>
 <head>

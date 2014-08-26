@@ -3,10 +3,6 @@
 <%@ page import="java.io.PrintWriter" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-
-<!-- 
-	manca la servlet per il delete, l'update e la valutazione
- -->
  
 <!DOCTYPE html>
 <html>
@@ -129,7 +125,6 @@
 					</ul>
 				</div>
 			</div>
-			
 			
 			<!--Form di valutazione a comparsa-->
 			<div class="modal fade" id="evaluateForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false">
