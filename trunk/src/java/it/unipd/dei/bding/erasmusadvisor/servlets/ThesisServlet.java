@@ -21,6 +21,7 @@ import it.unipd.dei.bding.erasmusadvisor.resources.ThesisEvaluationsAverage;
 import it.unipd.dei.bding.erasmusadvisor.resources.UserType;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -354,8 +355,7 @@ public class ThesisServlet extends AbstractDatabaseServlet {
     }
     
     private void edit(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
-		// handle logic for edit operation...
-
+		
     	// data models, connection
     	Message m = null;
     	Connection conn = null;
@@ -376,40 +376,47 @@ public class ThesisServlet extends AbstractDatabaseServlet {
 		else
 			argomento.setMagistrale(true);
 
-		String language = req.getParameter("language");
-		String area = req.getParameter("area");
+		String[] languages = req.getParameterValues("language");
+		String[] areas = req.getParameterValues("area");
 
 		String[] professorName = req.getParameterValues("professorName");
 		String[] professorSurname = req.getParameterValues("professorSurname");
-
+		
 		try {
 			conn = DS.getConnection();
 
 			// remove old thesis from gestione
 			GestioneDatabase.deleteGestioneByThesisId(conn, argomento.getId());
 
-			// remove old thesis language
+			// remove old thesis languages
 			LinguaTesiDatabase.deleteLinguaTesi(conn, argomento.getId());
 
-			// remove old thesis area
+			// remove old thesis areas
 			EstensioneDatabase.deleteEstensione(conn, argomento.getId());
 
 			// update the thesis
 			ArgomentoTesiDatabase.updateArgomentoTesi(conn, argomento);
 
-			// insert the language
+			// insert languages
 			LinguaTesiBean linguaTesi = new LinguaTesiBean();
-			linguaTesi.setIdArgomentoTesi(argomento.getId());
-			linguaTesi.setSiglaLingua(language);
+			
+			for(int i = 0; i < languages.length; i++)
+			{
+				linguaTesi.setIdArgomentoTesi(argomento.getId());
+				linguaTesi.setSiglaLingua(languages[i]);
+				
+				LinguaTesiDatabase.createLinguaTesi(conn, linguaTesi);
+			}
 
-			LinguaTesiDatabase.createLinguaTesi(conn, linguaTesi);
-
-			// insert the area
+			// insert  areas
 			EstensioneBean estensione = new EstensioneBean();
-			estensione.setIdArgomentoTesi(argomento.getId());
-			estensione.setArea(area);
-
-			EstensioneDatabase.createEstensione(conn, estensione);
+			for(int i = 0; i < areas.length; i++)
+			{
+				estensione.setIdArgomentoTesi(argomento.getId());
+				estensione.setArea(areas[i]);
+				
+				EstensioneDatabase.createEstensione(conn, estensione);	
+			}
 
 			// check if the professor still existing, otherwise insert the new
 			// professor
