@@ -1,6 +1,7 @@
 // contains functions used for the validation of forms through the website
 // 
-// note that functions depend on html elements' name, so they have to be consistent
+// note that functions depend on html elements' ID and, in some cases, 
+// on HTML elements' name, so they have to be consistent
 
 // function called from the forms
 function signInFormValidation()  
@@ -92,37 +93,6 @@ function insertCityFormValidation()
 	return false;
 }
 
-function insertClassFormValidation()
-{
-	var name = document.insert_class.name;
-	var uni = document.insert_class.university;
-	var cfu = document.insert_class.credits;
-	var year = document.insert_class.year;
-	var semester = document.insert_class.semester;
-	var lang = document.insert_class.language;
-	var area = document.insert_class.area;
-	
-	var profName = document.getElementsByName("professorName");
-	var profSur = document.getElementsByName("professorSurname");
-
-	alert('Luca correggi il signInFormValidation()'); // TODO
-	
-	if (select_validate(lang) && select_validate(area))
-	{
-		if(string_validation(name) && professor_validation(profName, profSur))
-		{
-			if (natural_validation(cfu) && string_validation(uni))
-			{
-				if (semester_validation(semester) && year_validation(year))
-				{
-					return true; // ale: workaround
-				}
-			}
-		}
-	}
-	return false;
-}
-
 function insertCourseFormValidation()
 {
 	var name = document.insert_course.name;
@@ -140,10 +110,43 @@ function insertCourseFormValidation()
 	return false;
 }
 
+function insertClassFormValidation()
+{
+	var name = document.insert_class.name;
+	var uni = document.insert_class.universityNames;
+	var cfu = document.insert_class.credits;
+	var year = document.insert_class.year;
+	var semester = document.insert_class.semester;
+	var lang = document.insert_class.language;
+	var area = document.insert_class.area;
+
+	var profName = document.getElementsByName("professorName");
+	var profSur = document.getElementsByName("professorSurname");
+	
+	
+	if(string_validation(name))
+	{
+		if (professor_validation(profName) && professor_validation(profSur))
+		{
+			if (select_validate(lang) && select_validate(area))
+			{
+				if (natural_validation(cfu) && string_validation(uni))
+				{
+					if (semester_validation(semester) && year_validation(year))
+					{
+						return true;
+					}
+				}
+			}
+		}
+	}
+	return false;
+}
+
 function insertThesisFormValidation()
 {
 	var name = document.insert_thesis.name;
-	var uni = document.insert_thesis.university;
+	var uni = document.insert_thesis.universityNames;
 	var lang = document.insert_thesis.language;
 	var area = document.insert_thesis.area;
 	var undergraduate = document.insert_thesis.undergraduate;
@@ -152,16 +155,16 @@ function insertThesisFormValidation()
 	var profName = document.getElementsByName("professorName");
 	var profSur = document.getElementsByName("professorSurname");
 	
-	alert('Luca sistema validation js!!');
-	return true;
-	
-	if (multiselect_validate(lang) && multiselect_validate(area))
+	if(string_validation(name))
 	{
-		if(string_validation(name) && professor_validation(profName, profSur))
+		if (professor_validation(profName) && professor_validation(profSur))
 		{
-			if (checkbox_one_or_both_validation(undergraduate, graduate) && string_validation(uni))
+			if (multiselect_validate(lang) && multiselect_validate(area))
 			{
-				return true;
+				if (checkbox_one_or_both_validation(undergraduate, graduate) && string_validation(uni))
+				{
+					return true;
+				}
 			}
 		}
 	}
@@ -189,17 +192,6 @@ function insertUniversityFormValidation()
 	return false;
 }
 
-// non va e non serve
-/*function xEvaluationFormValidation()
-{
-	var rat1 = parseInt(document.evalutationForm.rating1.value);
-	var rat2 = parseInt(document.evalutationForm.rating2.value);
-	var rat3 = parseInt(document.evalutationForm.rating3.value);
-	var rat4 = parseInt(document.evalutationForm.rating4.value);
-	
-	return true;
-}*/
-
 // mauro: Questo va e potrebbe servire per la validazione della valutazione 
 /*$(document).ready(function() {
 	$("#cityEvaluationForm").submit(function(event) {
@@ -212,27 +204,19 @@ function insertUniversityFormValidation()
 
 // validate the single elements
 
-//profName e profSur sono array
-function professor_validation(profName, profSur)
+//profName è array
+function professor_validation(profName)
 {
 	var flag = true;
 	for (var i = 0; i < profName.length; i++) 
 	{
 		if (string_validation(profName[i]) == false)
 		{
-			flag = true;
+			flag = false;
 			break;
 		}
 	}
-	for (var j = 0; j < profSur.length; j++)
-	{
-		if (string_validation(profSur[j]) == false)
-		{
-			flag = true;
-			break;
-		}
-	}
-	if (flag == false)
+	if (flag == true)
 		return true;
 	else
 		return false;
@@ -263,8 +247,8 @@ function semester_validation(sem)
 
 function year_validation(year)
 {
-	var value = parseInt(year.value);
-	if (value <0 || value > 6)
+	var value = parseInt(year.value) || 0;
+	if (value <= 0 || value > 6)
 	{
 		alert("Year accept only values in the range from 1 to 6.");  
 		year.focus();
@@ -300,8 +284,12 @@ function multiselect_validate(select)
 
 function string_validation(s)
 {
-	var s_len = s.value.length
-	if (s_len == 0)
+	if (s === undefined)
+	{
+		alert("You have to complete all the required fields.");  
+		return false;
+	}
+	else if (s.value.length == 0)
 	{
 		alert("You have to complete all the required fields.");  
 		s.focus();  
@@ -312,7 +300,7 @@ function string_validation(s)
 
 function natural_validation(n)
 {
-	var value = parseInt(n.value);
+	var value = parseInt(n.value) || 0;
 	var n_length = n.length;
 	if (n_length == 0 || value <=0)
 	{
