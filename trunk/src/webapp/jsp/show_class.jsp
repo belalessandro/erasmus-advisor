@@ -2,10 +2,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
-<!-- 
-	manca la servlet per il delete, il report, l'update e la valutazione
- -->
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -85,29 +81,6 @@
 		        style: 'btn-default',
 		        size: false
 		    });
-		});
-		
-		// gestione autocompletamento
-		// TODO: mauro: l'autocompletamento funziona ma non si vede il menu di scelta dell'universita
-		$(function() {
-			var cache = {};
-			$("#universityNames" ).autocomplete({
-						minLength : 2,
-						source : function(request, response) {
-							var term = request.term;
-							if (term in cache) {
-								response(cache[term]);
-								return;
-							}
-							$.getJSON("<c:url value="/university/list"/>", request,
-									function(data, status, xhr) {
-										xhr.setRequestHeader("X-Requested-With",
-												"XMLHttpRequest");
-										cache[term] = data;
-										response(data);
-									});
-						}
-					});
 		});
 	</script>
 </head>
@@ -238,7 +211,6 @@
 										<c:forEach var="prof" items='${professors}' varStatus="status">
 											<input type="text" class="form-control insert_new_multiple_input" name="professorName" id="professorName" value="<c:out value="${prof.nome}"/>">
 											<input type="text" class="form-control insert_new_multiple_input" name="professorSurname" id="professorSurname" value="<c:out value="${prof.cognome}"/>">
-<%-- 											<input type="hidden" name="professorId[]" value='<c:out value="${prof.id}"/>' /> --%>
 											<c:if test="${status.first}">
 												<input class="insert_new_multiple_button btn btn-primary" type="button" value="Add Row" onclick="addRow('profRow', 'professorName', 'professorSurname');" />
 											</c:if>
