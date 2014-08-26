@@ -163,13 +163,14 @@ public class ArgomentoTesiDatabase {
 		/**
 		 * The SQL statements to be executed
 		 */
-		
+		//List<Thesis> thesesList;
 		String statement = "SELECT A.Nome, A.NomeUniversita, A.Triennale, A.Magistrale, A.Stato "
-				+ "FROM ArgomentoTesi AS A INNER JOIN Estensione AS E ON A.id=E.idArgomentoTesi"
+				+ "FROM ArgomentoTesi AS A INNER JOIN Estensione AS E ON A.id=E.idArgomentoTesi "
 				+ "WHERE A.NomeUniversita = ? AND E.Area = ?";
 
 		// Entity Bean
 		List<ArgomentoTesiBean> argList = null;
+		
 		
 		// Gets the theses
 		QueryRunner run = new QueryRunner();

@@ -15,9 +15,10 @@
 	<link href="<c:url value="/css"/>/bootstrap.min.css" rel="stylesheet">
 	<link href="<c:url value="/fonts"/>/font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet">
 	
-	<script src="<c:url value="/js"/>/jquery.min.js"></script>
-	<script src="<c:url value="/js"/>/bootstrap.min.js"></script>
+<%-- 	<script src="<c:url value="/js"/>/jquery.min.js"></script> --%>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 	<script src="<c:url value="/js"/>/jquery.tablesorter.min.js"></script>
+	<script src="<c:url value="/js"/>/bootstrap.min.js"></script>
 	<link href="<c:url value="/css"/>/tablesorter/style.css" rel="stylesheet"> 
 	<script>
 		// variabili che contengono i valori selezionati nei dropdown
@@ -26,14 +27,15 @@
 		var universityDropValue;
 		var levelDropValue;
 		var languageDropValue;
-		
+		var operation = 'search';
 		// da questa funzione si fa partire la ricerca
 		function doSearch()
 		{
 			if (document.getElementById("sidebar").style.display=="none")
 			{ 
 				// ricerca avanzata disabilitata
-				alert('area ' + areaDropValue + ' university ' + universityDropValue);
+				 alert('area ' + areaDropValue + ' university ' + universityDropValue); 
+				
 			} 
 			else
 			{
@@ -52,6 +54,12 @@
 			{
 				document.getElementById("sidebar").style.display="none";
 			} 
+		}
+		function doParameter()
+		{
+			document.getElementById("area").value = areaDropValue;
+			document.getElementById("university").value = universityDropValue;
+			
 		}
 		// aggiorna l'etichetta mostrata dai dropdown e salva il valore selezionato
 		$(document).on('click', '.dropdown-menu li span', function () {
@@ -101,9 +109,11 @@
 			<br>
 			<!-- Notare che potrebbe essere meglio inserire un altro dropdown che ad esempio permetta di selezionare 
 			lo stato in cui si trova l'università e da lì aggiornare l'altro.-->
+			<form method="get" action="<c:url value="/thesis/list"/>" enctype="plain/text">
+			<input name="operation" type="hidden" value="search" />
 			<div class="col-md-4 text-center">
 				<div class="btn-group">
-					<button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" id="dropArea">
+					<button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" id="dropArea" name="dropArea">
 						Select an Area <span class="caret"></span>
 					</button>
 					<ul class="dropdown-menu search_scrollable_menu text-left">
@@ -113,9 +123,10 @@
 					</ul>
 				</div>
 			</div>
+			<input name="area" type="hidden" id="area"/>
 			<div class="col-md-4 text-center" >
 				<div class="btn-group">
-					<button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" id="dropUniversity">
+					<button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" id="dropUniversity" name="idUniversity">
 						Select a University <span class="caret"></span>
 					</button>
 					<ul class="dropdown-menu search_scrollable_menu text-left">
@@ -125,8 +136,9 @@
 					</ul>
 				</div>
 			</div>
+			<input name="university" type="hidden" id="university"/>
 			<div class="col-md-4 text-center">
-				<button class="btn btn-primary" onclick="doSearch()"><span class="fa fa-search fa-fw"></span> Search</button>
+				<button class="btn btn-primary" type="submit" onClick="doParameter()"><span class="fa fa-search fa-fw"></span> Search</button>
 			</div>
 			<br><br><br>
 			<!-- Ricerca Avanzata-->
@@ -137,7 +149,7 @@
 			<div id="sidebar" style="display:none">
 				<div class="col-md-6 text-center" >
 					<div class="btn-group">
-						<button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" id="dropLevel">
+						<button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" id="dropLevel" name="dropLevel" value="ciao">
 							Select a Level <span class="caret"></span>
 						</button>
 						<ul class="dropdown-menu search_scrollable_menu text-left">
@@ -148,7 +160,7 @@
 				</div>
 				<div class="col-md-6 text-center" >
 					<div class="btn-group">
-						<button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" id="dropLanguage">
+						<button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" id="dropLanguage" name="dropLanguage">
 							Select a Language <span class="caret"></span>
 						</button>
 						<ul class="dropdown-menu search_scrollable_menu text-left">
@@ -159,53 +171,41 @@
 					</div>
 				</div>
 			</div>
+			</form>
 			<!-- fine Ricerca Avanzata -->
 			<br><br><br>
 			<!-- frase da da creare dinamicamente -->
-			<h5>Results for <strong>Mathematics</strong> in <strong>Università agli Studi di Padova</strong>.</h5>
+			<c:if test='${not empty theses}'>
+			<h5>Results for <strong>${areaSearch}</strong> in <strong>${universitySearch}</strong>.</h5>
 			<br>
 			<table class="table table-bordered table-hover table-striped tablesorter" id="resultTable">
 				<thead>
 					<tr>
 						<th>Name</th>
-						<th>Other Areas</th>
 						<th>Level</th>
-						<th>Languages</th>
-						<th>Professors</th>
+						<th>Undergraduate</th>
+						<th>Graduate</th>
+						<th>State</th> 
 					</tr>
 				</thead>
 				<tbody>
-				<!-- risultati da creare dinamicamente -->
+					<c:forEach var="thesis" items="${theses}">
 					<tr>
-						<td><a href="#" target="_blank">Counting up to ten.</a></td>
-						<td></td>
-						<td>Undergraduate</td>
-						<td>Italian, English</td>
-						<td>Matteo Novaga</td>
+						<td><c:out value="${thesis.nome}"/></td>
+						<c:choose>
+							<c:when test="${not thesis.triennale}"><td>No</td></c:when>
+							<c:otherwise test="${thesis.triennale}"><td>Yes</td></c:otherwise>
+						</c:choose>
+						<c:choose>
+							<c:when test="${not thesis.magistrale}"><td>No</td></c:when>
+							<c:when test="${thesis.magistrale}"><td>Yes</td></c:when>
+						</c:choose>
+						<td><c:out value="${thesis.stato}"/></td>
 					</tr>
-					<tr>
-						<td><a href="#" target="_blank">Counting up to a hundred.</a></td>
-						<td>Philosophy and ethics, Statistics</td>
-						<td>Graduate</td>
-						<td>Italian</td>
-						<td>Matteo Novaga</td>
-					</tr>
-					<tr>
-						<td><a href="#" target="_blank">Algebraic properties of n-dimensional spaces.</a></td>
-						<td></td>
-						<td>Undergraduate</td>
-						<td>Italian, English</td>
-						<td>Pietro de Petris, Alvaro Azzolini</td>
-					</tr>
-					<tr>
-						<td><a href="#" target="_blank">The sum of all fears.</a></td>
-						<td>Statistics</td>
-						<td>Undergraduate</td>
-						<td>English</td>
-						<td>Alberico degli Uberti</td>
-					</tr>
+					</c:forEach>
 				</tbody>
 			</table>
+			</c:if>
 		</div>
 	</div>	
 	<!-- footer -->
