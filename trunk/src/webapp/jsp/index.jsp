@@ -14,14 +14,17 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	
 	<!-- CSS -->
-	<link href="../css/ea-main.css" rel="stylesheet">
-	<link href="../css/bootstrap.min.css" rel="stylesheet">
-	<link href="../fonts/font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet">
+	<link href="<c:url value="/css"/>/ea-main.css" rel="stylesheet">
+	<link href="<c:url value="/css"/>/bootstrap.min.css" rel="stylesheet">
+	<link href="<c:url value="/fonts"/>/font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet">
 		
 	<!-- Javascript -->
-	<script src="../js/bootstrap.min.js"></script>
+	<script src="<c:url value="/js"/>/bootstrap.min.js"></script>
 	
 	<script>
+		// funzione che elimina l'interesse dal DB, da fare in Ajax
+		// l'unico modo per salvare i paramentri, a meno di non fare un form, 
+		// è di inserirli nell'Id delimitati in qualche modo
 		function removeInterest(id)
 		{
 			alert(id);
@@ -45,8 +48,6 @@
 			Sotto, da specifiche, ci vanno gli interessi espressi dall'utente]
 			<br>
 			<br>
-			<!-- Notare che cliccando sul tasto remove si deve togliere l'interesse dal DB
-				ossia bisogna usare Ajax -->
 			<div class="panel panel-default">
 				<!-- Default panel contents -->
 				<div class="col-sm-1 column"></div>
@@ -57,8 +58,8 @@
 						</div>
 					</c:when>
 					<c:otherwise>	
-					<div class="panel-heading">
-						<strong>You have express interest for the following flows.</strong>
+					<div class="panel-heading text-center">
+						<strong>You have express interest for the flows</strong>
 					</div>
 					<table class="table">
 						<thead>
@@ -70,17 +71,19 @@
 							</tr>
 						</thead>
 						<tbody>
-							<tr>
-								<td><a href="<c:url value="/flow"/>?id=${interests.flowID}" target="_blank">${interests.flowID}</a></td>
-								<td><a href="<c:url value="/university"/>?name=${interests.universityName}" target="_blank">${interests.universityName}</a></td>
-								<td><a href="<c:url value="/city"/>?name=${interests.cityName}&country=${interests.countryName}" target="_blank">${interests.cityName} (${interests.countryName})</a></td>
-								<td align="center">
-									<button type="button" class="btn btn-default btn-xs" onclick="removeInterest(this.id);"
-									id="${interests.flowID}&${interests.userName}">
-										<span class="glyphicon glyphicon glyphicon-remove"></span>
-									</button>
-								</td>
-							</tr>
+							<c:forEach var="interest" items='${interests}' varStatus="status">
+								<tr>
+									<td><a href="<c:url value="/flow"/>?id=${interest.flowID}" target="_blank">${interest.flowID}</a></td>
+									<td><a href="<c:url value="/university"/>?name=${interest.universityName}" target="_blank">${interest.universityName}</a></td>
+									<td><a href="<c:url value="/city"/>?name=${interest.cityName}&country=${interest.countryName}" target="_blank">${interest.cityName} (${interest.countryName})</a></td>
+									<td align="center">
+										<button type="button" class="btn btn-default btn-xs" onclick="removeInterest(this.id);"
+										id="${interest.flowID}&${interest.userName}">
+											<span class="glyphicon glyphicon glyphicon-remove"></span>
+										</button>
+									</td>
+								</tr>
+							</c:forEach>		
 						</tbody>
 					</table>
 					</c:otherwise>
