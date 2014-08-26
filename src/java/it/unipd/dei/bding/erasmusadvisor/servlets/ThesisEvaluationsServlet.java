@@ -62,7 +62,7 @@ public class ThesisEvaluationsServlet extends AbstractDatabaseServlet
 			
 			// Creating response path
 			StringBuilder builder = new StringBuilder()
-				.append("/erasmus-advisor/city?id=")
+				.append("/erasmus-advisor/thesis?id=")
 				.append(val.getIdArgomentoTesi());
 		
 			resp.sendRedirect(builder.toString());
