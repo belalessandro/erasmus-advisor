@@ -13,6 +13,8 @@ import java.util.List;
  */
 public class UniversityEvaluationsAverage implements Serializable
 {
+	private static final long serialVersionUID = 3354783428157891794L;
+	
 	int urbanLocation = 0;
 	int erasmusEvents = 0;
 	int teachingsQuality = 0;

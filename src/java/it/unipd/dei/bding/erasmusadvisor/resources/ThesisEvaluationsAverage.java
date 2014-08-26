@@ -12,6 +12,8 @@ import java.util.List;
  */
 public class ThesisEvaluationsAverage implements Serializable
 {
+	private static final long serialVersionUID = -7035349945045163292L;
+	
 	int effortNeeded = 0;
 	int subjectAppeal = 0;
 	int supervisorAvailability = 0;

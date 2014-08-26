@@ -12,6 +12,8 @@ import java.util.List;
  */
 public class TeachingEvaluationAverage implements Serializable
 {
+	private static final long serialVersionUID = 2213626411169679819L;
+	
 	int teachingQuality = 0;
 	int scheduleCompliance = 0;
 	int difficulty = 0;
