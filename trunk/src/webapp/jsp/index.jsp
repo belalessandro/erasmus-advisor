@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <!-- questa è la pagina che appare quando si è completato il login
 	la home è solo l'interfaccia verso l'esterno -->
@@ -19,6 +20,13 @@
 		
 	<!-- Javascript -->
 	<script src="../js/bootstrap.min.js"></script>
+	
+	<script>
+		function removeInterest(id)
+		{
+			alert(id);
+		}
+	</script>
 </head>
 <body>
 	<div class="container">
@@ -37,67 +45,46 @@
 			Sotto, da specifiche, ci vanno gli interessi espressi dall'utente]
 			<br>
 			<br>
-			<!-- Da generare in JSP -->
 			<!-- Notare che cliccando sul tasto remove si deve togliere l'interesse dal DB
 				ossia bisogna usare Ajax -->
 			<div class="panel panel-default">
 				<!-- Default panel contents -->
 				<div class="col-sm-1 column"></div>
-				<div class="panel-heading">
-					<strong>You have express interest for the following flows.</strong>
-				</div>
-				<table class="table">
-					<thead>
-						<tr>
-							<th>Flow ID</th>
-							<th>Target University</th>
-							<th>Target City</th>
-							<th class="index_table_col_remove" align="center">Remove</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<td><a href="#" target="_blank">EN985</a></td>
-							<td><a href="#" target="_blank">Aberdeen University</a></td>
-							<td><a href="#" target="_blank">Aberdeen</a></td>
-							<td align="center">
-								<button type="button" class="btn btn-default btn-xs">
-									<span class="glyphicon glyphicon glyphicon-remove"></span>
-								</button>
-							</td>
-						</tr>
-						<tr>
-							<td><a href="#" target="_blank">OS025</a></td>
-							<td><a href="#" target="_blank">Universitat fur Bodenkultur Wien</a></td>
-							<td><a href="#" target="_blank">Wien</a></td>
-							<td align="center">
-								<button type="button" class="btn btn-default btn-xs">
-									<span class="glyphicon glyphicon glyphicon-remove"></span>
-								</button>
-							</td>
-						</tr>
-						<tr>
-							<td><a href="#" target="_blank">FR7785</a></td>
-							<td><a href="#" target="_blank">Haute Ecole Léonard de Vinci- ECAM</a></td>
-							<td><a href="#" target="_blank">Paris</a></td>
-							<td align="center">
-								<button type="button" class="btn btn-default btn-xs">
-									<span class="glyphicon glyphicon glyphicon-remove"></span>
-								</button>
-							</td>
-						</tr>
-						<tr>
-							<td><a href="#" target="_blank">ES153</a></td>
-							<td><a href="#" target="_blank">Universidad de Alcala'</a></td>
-							<td><a href="#" target="_blank">Alcalá de Henares</a></td>
-							<td align="center">
-								<button type="button" class="btn btn-default btn-xs">
-									<span class="glyphicon glyphicon glyphicon-remove"></span>
-								</button>
-							</td>
-						</tr>
-					</tbody>
-				</table>
+				<c:choose>
+					<c:when test="${fn:length(interests) == 0}">
+						<div class="row text-center">
+							<h4>You have not express interest for any flow yet.</h4>
+						</div>
+					</c:when>
+					<c:otherwise>	
+					<div class="panel-heading">
+						<strong>You have express interest for the following flows.</strong>
+					</div>
+					<table class="table">
+						<thead>
+							<tr>
+								<th>Flow ID</th>
+								<th>Target University</th>
+								<th>Target City</th>
+								<th class="index_table_col_remove" align="center">Remove</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td><a href="<c:url value="/flow"/>?id=${interests.flowID}" target="_blank">${interests.flowID}</a></td>
+								<td><a href="<c:url value="/university"/>?name=${interests.universityName}" target="_blank">${interests.universityName}</a></td>
+								<td><a href="<c:url value="/city"/>?name=${interests.cityName}&country=${interests.countryName}" target="_blank">${interests.cityName} (${interests.countryName})</a></td>
+								<td align="center">
+									<button type="button" class="btn btn-default btn-xs" onclick="removeInterest(this.id);"
+									id="${interests.flowID}&${interests.userName}">
+										<span class="glyphicon glyphicon glyphicon-remove"></span>
+									</button>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+					</c:otherwise>
+				</c:choose>
 			</div>
 		</div>	
 	</div>
