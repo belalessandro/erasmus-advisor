@@ -182,6 +182,16 @@
 		<url-pattern>/thesis/evaluations</url-pattern>
 	</servlet-mapping>
 
+	<servlet>
+		<servlet-name>UniversityEvaluationsServlet</servlet-name>
+		<servlet-class>it.unipd.dei.bding.erasmusadvisor.servlets.UniversityEvaluationsServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>UniversityEvaluationsServlet</servlet-name>
+		<url-pattern>/university/evaluations</url-pattern>
+	</servlet-mapping>
+	
+	
 	<!-- entity insertion servlets -->
 	<servlet>
 		<servlet-name>InsertUniversityServlet</servlet-name>

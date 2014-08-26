@@ -209,9 +209,7 @@ public class CityServlet extends AbstractDatabaseServlet
 				// populate the bean
 				int k = 0;
 				int i = 0;
-				PrintWriter w = resp.getWriter();
-//				w.println("<html>");
-//				w.println("<body>");
+
 				while(i < linguaDomainList.size() && k < languages.length)
 				{
 					
@@ -220,7 +218,6 @@ public class CityServlet extends AbstractDatabaseServlet
 					LinguaBean current = linguaDomainList.get(i);
 					if(languages[k].equals(current.getSigla()))
 					{
-//						w.println("<h2>Current = " +  current.getNome() + "</h2>");
 						LinguaCittaBean linguaCittaBean = new LinguaCittaBean();
 						linguaCittaBean.setNomeCitta(new_name);
 						linguaCittaBean.setSiglaLingua(current.getSigla());
@@ -236,13 +233,7 @@ public class CityServlet extends AbstractDatabaseServlet
 					i++;
 				}
 				
-
-//				w.println("</body>");
-//				w.println("</html>");
-//				w.flush();
-//				w.close();
 				// n = # of row updated
-				
 				int n = new CittaDatabase().editCity(conn, new_name, new_country, old_name, old_country, linguaCittaBeanList);
 				DbUtils.close(conn);
 				
@@ -256,7 +247,7 @@ public class CityServlet extends AbstractDatabaseServlet
 						.append("&country=")
 						.append(new_country)
 						.append("&edited=success");
-						resp.sendRedirect(builder.toString());	
+					resp.sendRedirect(builder.toString());	
 				}
 				else
 				{

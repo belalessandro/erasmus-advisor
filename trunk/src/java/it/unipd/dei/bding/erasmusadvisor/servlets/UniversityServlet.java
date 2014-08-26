@@ -17,6 +17,8 @@ import it.unipd.dei.bding.erasmusadvisor.resources.UniversityEvaluationsAverage;
 import it.unipd.dei.bding.erasmusadvisor.resources.UserType;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -138,12 +140,16 @@ public class UniversityServlet extends AbstractDatabaseServlet {
 		
 		// TODO: DA SESSIONE
 		LoggedUser lu = new LoggedUser(UserType.RESPONSABILE, "erick.burn"); 
-
+		
+		// Required  fields
+		Message m = null;
+		
 		String operation = req.getParameter("operation");
+		
 		if (operation == null || operation.isEmpty() || !lu.isFlowResp()) {
 			
 			// Error
-			Message m = new Message("Not authorized or operation null", "", "");
+			m = new Message("Not authorized or operation null", "", "");
 			req.setAttribute("message", m);
 			errorForward(req, resp);
 			return;
@@ -157,14 +163,10 @@ public class UniversityServlet extends AbstractDatabaseServlet {
 			
 			insert(req, resp);
 		
-		} else if (operation.equals("update") ) {
-			/**
-			 * Updates an existing University 
-			 */
-			//UniversitaDatabase.updateUniversita(conn, uni);
+		} else if (operation.equals("update")) 
+		{
+			edit(req, resp);
 		}
-		
-		//resp.sendRedirect(req.getParameter("returnTo"));
 	}
 
 
@@ -199,6 +201,7 @@ public class UniversityServlet extends AbstractDatabaseServlet {
 			UniversitaDatabase.createUniversita(conn, uni);
 			
 			DbUtils.commitAndClose(conn); // COMMIT
+			
 		} catch (SQLException e) {
 			DbUtils.rollbackAndCloseQuietly(conn); // ROLLBACK
 			m = new Message("Error while inserting a new university.", "XXX", e.getMessage());
@@ -224,8 +227,47 @@ public class UniversityServlet extends AbstractDatabaseServlet {
         //handle logic for delete operation...
     }
     
-    private void edit(HttpServletRequest request, HttpServletResponse response) {
-        //handle logic for edit operation...
+    private void edit(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
+    {
+    	
+		// TODO: check the user is type coordinator
+    	Connection con = null;
+    	Message m = null;
+    	
+		// get the parameters
+		UniversitaBean universita = new UniversitaBean();
+		BeanUtilities.populateBean(universita, request);
+		
+		String hasResidence = request.getParameter("presenzaAlloggi");
+		if(hasResidence == null)
+			universita.setPresenzaAlloggi(false);
+		else
+			universita.setPresenzaAlloggi(true);
+	
+		try {
+			con = DS.getConnection();
+			
+			// edit the university
+			UniversitaDatabase.updateUniversita(con, universita);
+			
+			DbUtils.close(con);
+			
+			// Creating response path
+			StringBuilder builder = new StringBuilder()
+					.append(request.getContextPath())
+					.append("/university?name=")
+					.append(URLEncoder.encode(universita.getNome(), "utf-8"))
+					.append("&edited=success");
+			response.sendRedirect(builder.toString());
+				
+		} catch (SQLException e) {
+			m = new Message("Error while editing a new university.", "XXX", e.getMessage());
+			request.setAttribute("message", m);
+			errorForward(request, response);
+			return;
+		} finally {
+			DbUtils.closeQuietly(con);
+		}
     }
 
     private void errorForward(HttpServletRequest request, HttpServletResponse response) 

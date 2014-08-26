@@ -65,6 +65,14 @@
 					</ul>
 				</div>
 			</div>
+			<!-- Showed when successfully edited -->
+			<br>
+			<c:if test="${!empty param.edited && param.edited == 'success'}">
+				<div class="alert alert-success alert-dismissible" role="alert" >
+				  <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+				  City Successfully Edited!
+				</div>
+			</c:if>
 			
 			<!--Form di valutazione a comparsa-->
 			<div class="modal fade" id="evaluateForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false">
@@ -76,28 +84,28 @@
 						</div>
 						<div class="modal-body">
 							<!-- action deve puntare alla servlet che gestisce l'inserimento della valutazione -->
-							<form name='universityEvaluationForm' onSubmit="return xEvaluationFormValidation();" method="post" action="<c:url value="/student/evaluate"/>">
+							<form name='universityEvaluationForm' method="post" action="<c:url value="/university/evaluations"/>">
 								<div class="col-md-6 text-center">Urban Location:</div>
 								<div class="col-md-6 text-center">
-									<input id="urbanLocation" name="costoDellaVita" class="rating" data-size="sm" data-min="0" data-max="5" data-step="1" data-show-clear="false" data-show-caption="false">
+									<input id="urbanLocation" name="collocazioneUrbana" class="rating" data-size="sm" data-min="0" data-max="5" data-step="1" data-show-clear="false" data-show-caption="false">
 								</div>
 								<br>
 								<br>
 								<div class="col-md-6 text-center">Erasmus Events:</div>
 								<div class="col-md-6 text-center">
-									<input id="erasmusEvents" name="disponibilitaAlloggi" class="rating" data-size="sm" data-min="0" data-max="5" data-step="1" data-show-clear="false" data-show-caption="false">
+									<input id="erasmusEvents" name="iniziativeErasmus" class="rating" data-size="sm" data-min="0" data-max="5" data-step="1" data-show-clear="false" data-show-caption="false">
 								</div>
 								<br>
 								<br>
 								<div class="col-md-6 text-center">Teachings Quality:</div>
 								<div class="col-md-6 text-center">
-									<input id="teachingsQuality" name="vivibilitaUrbana" class="rating" data-size="sm" data-min="0" data-max="5" data-step="1" data-show-clear="false" data-show-caption="false">
+									<input id="teachingsQuality" name="qtaInsegnamenti" class="rating" data-size="sm" data-min="0" data-max="5" data-step="1" data-show-clear="false" data-show-caption="false">
 								</div>
 								<br>
 								<br>
 								<div class="col-md-6 text-center">Classroom Quality:</div>
 								<div class="col-md-6 text-center">
-									<input id="classroomQuality" name="vitaSociale" class="rating" data-size="sm" data-min="0" data-max="5" data-step="1" data-show-clear="false" data-show-caption="false">
+									<input id="classroomQuality" name="qtaAule" class="rating" data-size="sm" data-min="0" data-max="5" data-step="1" data-show-clear="false" data-show-caption="false">
 								</div>
 								<br>
 								<br><br>								
@@ -108,7 +116,11 @@
 								<div class="modal-footer">
 									<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 									<input type="submit" value="Save!" class="btn btn-primary pull-right">
-								</div>                               
+								</div>
+								
+								<!-- hidden params -->
+								<input type="hidden" name="nomeUniversita" value="<c:out value="${university.nome}"/>"/>
+								                               
 							</form>
 						</div>
 					</div>
@@ -127,7 +139,7 @@
 						<div class="modal-body">
 							<!-- action deve puntare alla servlet che gestisce la modifica dell'entità -->
 							<!-- notare che ogni input deve avere il campo value settato a quanto è presente nel DB -->
-							<form name='universityEditForm' onSubmit="return xEditFormValidation();" method="post" action="">
+							<form name='universityEditForm'  method="post" action="<c:url value="/university"/>">
 								<div class="input-group insert_new_input_group">
 									<span class="input-group-addon insert_new_input">Name*</span> <input type="text" class="form-control" name="nome" id="name" value="<c:out value="${university.nome}"/>">
 								</div>
@@ -155,12 +167,15 @@
 									<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 									<input type="submit" value="Save your changes" class="btn btn-primary pull-right">
 								</div>
+								
+								<!-- hidden params -->
+								<input type="hidden" name="operation" value="update"/>
 							</form>
 						</div>
 					</div>
 				</div>
 			</div>
-			<!-- fine Form di valutazione a comparsa-->
+			<!-- fine Form di edit a comparsa-->
 			<c:choose>
 				<c:when test="${fn:length(evaluations) == 0}">
 					<div class="row text-center">
