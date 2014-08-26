@@ -10,26 +10,28 @@
 	<meta charset="utf-8">
 	
 	<!-- CSS -->
-	<link href="../css/ea-main.css" rel="stylesheet">
-	<link href="../css/bootstrap.min.css" rel="stylesheet">
+	<link href="<c:url value="/css"/>/ea-main.css" rel="stylesheet">
+	<link href="<c:url value="/css"/>/bootstrap.min.css" rel="stylesheet">
 		
 	<!-- Javascript -->
-	<script src="../js/bootstrap.min.js"></script>
+	<script src="<c:url value="/js"/>/bootstrap.min.js"></script>
 </head>
 <body>
 	<div class="container">
 		<!-- barra di navigazione -->
 		<jsp:include page="/jsp/include/navbar.jsp"/>
+		<!-- menu -->
+		<jsp:include page="/jsp/include/menu.jsp">
+			<jsp:param name="pageName" value="deletedEntity"/>
+		</jsp:include>
 
 		<!-- corpo della pagina -->
-		<div class ="col-md-2"></div>
-		<div class="col-md-8">
+		<div class="col-md-9 general_main_border">
 			<h2 align="center">Entity Deleted</h2>
 			<br>
 			<p align="center">You have successfully deleted <b><c:out value="${deletedEntity}"/></b> from the database.</p>
 			<br>
 		</div>
-		<div class ="col-md-2"></div>
 	</div>
 	<!-- footer -->
 	<jsp:include page="/jsp/include/footer.jsp" />

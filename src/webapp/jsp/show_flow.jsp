@@ -85,26 +85,25 @@
 
 		<!-- corpo della pagina -->
 		<div class="col-md-9 general_main_border">
+			<!-- Notifica di avvenuta modifica del flusso -->
+			<c:if test="${!empty param.edited && param.edited == 'success'}">
+				<div class="alert alert-success alert-dismissible" role="alert" >
+				  <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+				  <h4 class="text-center">Flow Successfully Edited!</h4>
+				</div>
+			</c:if>
 			<div class="entity_details">
 				<div class="entity_details_text">
 					<h2><c:out value="${flow.id}"/></h2> 
 					<p>
 						Destination: <a href="<c:url value="/university"/>?name=${fn:replace(flow.destinazione, ' ', '+')}" target="_blank">${flow.destinazione}</a><br>
 						Starting degree courses:
-						<c:forEach var="orig" items='${origins}' varStatus="status">
-							${orig.nome} (${orig.livello})
-							<c:if test="${!status.last}">, </c:if>
-							<c:if test="${status.last}">.</c:if>
-						</c:forEach><br>
+						<c:forEach var="orig" items='${origins}' varStatus="status">${orig.nome} (${orig.livello})<c:if test="${!status.last}">, </c:if><c:if test="${status.last}">.</c:if></c:forEach><br>
 						Flow Manager: <c:out value="${manager.nome}"/> <c:out value="${manager.cognome}"/><br> 
 						Available positions: <c:out value="${flow.postiDisponibili}"/> <br> 
 						Length (months): <c:out value="${flow.durata}"/> <br> 
 						Required language certifications:
-						<c:forEach var="certificates" items='${certificates}' varStatus="status">
-							${certificates.nomeLingua} - ${certificates.livello}
-							<c:if test="${!status.last}">, </c:if>
-							<c:if test="${status.last}">.</c:if>
-						</c:forEach><br>
+						<c:forEach var="certificates" items='${certificates}' varStatus="status">${certificates.nomeLingua} - ${certificates.livello}<c:if test="${!status.last}">, </c:if><c:if test="${status.last}">.</c:if></c:forEach><br>
 						<c:if test="${not empty flow.dettagli}">Details: <c:out value="${flow.dettagli}"/> <br></c:if>
 						<c:choose><c:when test="${flow.attivo}">Is </c:when><c:otherwise>Not </c:otherwise></c:choose>Active 
 						(Last Modification: <c:out value="${flow.dataUltimaModifica}"/>) <br>  
@@ -113,28 +112,23 @@
 				</div>
 				<div class="entity_details_text">
 					<!-- evalutate visibile solo da studente
-						show interest solo da studente, se ha espresso interesse diventa remove interest
+						show/remove interest solo da studente, se ha espresso interesse diventa remove interest
 						edit e delete solo da reponsabili di flusso e coordinatori erasmus -->
 					<ul class="nav nav-stacked pull-right">
 						<li class="active"><span data-toggle="modal" data-target="#evaluateForm">Evaluate</span></li>
 						<li class="active"><span onClick="showInterest();">Show interest</span></li>
+						<li class="active"><span onClick="removeInterest();">Remove interest</span></li>
 						<li class="active"><span data-toggle="modal" data-target="#editForm">Edit</span></li>
 						<li class="active">
 							<form method="post" action="#">
+                                <input type="hidden" name="operation" value="delete"/>
+                                <input type="hidden" name="id" value="${flow.id}"/>
 								<input type="submit" value="Delete" class="btn btn-primary entity_nav_button">
 							</form>
 						</li>
 					</ul>
 				</div>
 			</div>
-			<!-- Notifica di avvenuta modifica del flusso -->
-			<br>
-			<c:if test="${!empty param.edited && param.edited == 'success'}">
-				<div class="alert alert-success alert-dismissible" role="alert" >
-				  <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-				  City Successfully Edited!
-				</div>
-			</c:if>
 			
 			
 			<!--Form di valutazione a comparsa-->

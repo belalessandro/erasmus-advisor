@@ -45,17 +45,22 @@
 
 		<!-- corpo della pagina -->
 		<div class="col-md-9 general_main_border">
+		
+			<!-- Showed when successfully edited -->
+			<c:if test="${!empty param.edited && param.edited == 'success'}">
+				<div class="alert alert-success alert-dismissible" role="alert" >
+				  <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+				  <h4 class="text-center">City Successfully Edited!</h4>
+				</div>
+			</c:if>
+			
 			<div class="entity_details">
 				<div class="entity_details_text">
 					<h2><c:out value="${city.nome}"/></h2> 
 					<p>
 						Country: <c:out value="${city.stato}"/> <br> 
 						Spoken Languages:
-						<c:forEach var="lingua" items='${languages}' varStatus="status">
-							${lingua.nome}
-							<c:if test="${!status.last}">, </c:if>
-							<c:if test="${status.last}">.</c:if>
-						</c:forEach>
+						<c:forEach var="lingua" items='${languages}' varStatus="status">${lingua.nome}<c:if test="${!status.last}">, </c:if><c:if test="${status.last}">.</c:if></c:forEach>
 						<br>
 					</p>
 				</div>
@@ -66,22 +71,17 @@
 						<li class="active"><span data-toggle="modal" data-target="#evaluateForm">Evaluate</span></li>
 						<li class="active"><span data-toggle="modal" data-target="#editForm">Edit</span></li>
 						<li class="active">
-							<form method="post" action="#">
+							<form method="post" action="<c:url value="/city"/>">
+                                <input type="hidden" name="operation" value="delete"/>
+                                <input type="hidden" name="city" value="${city.nome}"/>
+                                <input type="hidden" name="country" value="${city.stato}"/>
 								<input type="submit" value="Delete" class="btn btn-primary entity_nav_button">
 							</form>
 						</li>
 					</ul>
 				</div>
 			</div>
-			<br>
-			<!-- Showed when successfully edited -->
-			<c:if test="${!empty param.edited && param.edited == 'success'}">
-				<div class="alert alert-success alert-dismissible" role="alert" >
-				  <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-				  City Successfully Edited!
-				</div>
-			</c:if>
-			
+			<br>			
 			<!--Form di valutazione a comparsa-->
 			<div class="modal fade" id="evaluateForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false">
 				<div class="modal-dialog">
@@ -185,11 +185,12 @@
 					</div>
 				</div>
 			</div>
-			<!-- fine Form di valutazione a comparsa-->
+			<!-- fine Form di valutazione a comparsa-->	
+			<br>	
 			<c:choose>
 				<c:when test="${fn:length(evaluations) == 0}">
 					<div class="row text-center">
-					<h3>There are no evaluations for <b><c:out value="${city.nome}"/></b>.</h3>
+					<h4>There are no evaluations for <b><c:out value="${city.nome}"/></b>.</h4>
 					</div>
 				</c:when>
 				<c:otherwise>
@@ -199,10 +200,10 @@
 						<div style="text-align: center">
 							<c:choose>
 								<c:when test="${fn:length(evaluations) == 1}">
-									<h3>There is <b>1</b> evaluation</h3>
+									<h4>There is <b>1</b> evaluation</h4>
 								</c:when>
 								<c:otherwise>
-									<h3>There are <b><c:out value="${fn:length(evaluations)}"></c:out></b> evaluations</h3>
+									<h4>There are <b><c:out value="${fn:length(evaluations)}"></c:out></b> evaluations</h4>
 								</c:otherwise>
 							</c:choose>
 							<div class="col-xs-3 col-sm-3 col-md-3">

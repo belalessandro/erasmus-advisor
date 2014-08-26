@@ -64,33 +64,29 @@
 		</jsp:include>
 
 		<!-- corpo della pagina -->
-		<!-- di fatto tutta questa pagina è generata con JSP -->
 		<div class="col-md-9 general_main_border">
+		
+			<!-- Avviso di avvenuta modifica dell'entita -->
+			<c:if test="${!empty param.edited && param.edited == 'success'}">
+				<div class="alert alert-success alert-dismissible" role="alert" >
+				  <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+				  <h4 class="text-center">Thesis Successfully Edited!</h4>
+				</div>
+			</c:if>
+			
 			<div class="entity_details">
 				<div class="entity_details_text">
 					<h2><c:out value="${thesis.nome}"/></h2> 
 					<p>
 						University:	<a href="<c:url value="/university"/>?name=${fn:replace(thesis.nomeUniversita, ' ', '+')}" target="_blank">${thesis.nomeUniversita}</a><br> 
 						Areas: 
-						<c:forEach var="area" items='${areas}' varStatus="status">
-							${area.nome}
-							<c:if test="${!status.last}">, </c:if>
-							<c:if test="${status.last}">.</c:if>
-						</c:forEach>
+						<c:forEach var="area" items='${areas}' varStatus="status">${area.nome}<c:if test="${!status.last}">, </c:if><c:if test="${status.last}">.</c:if></c:forEach>
 						<br>
 						Languages: 
-						<c:forEach var="lang" items='${languages}' varStatus="status">
-							${lang.nome}
-							<c:if test="${!status.last}">, </c:if>
-							<c:if test="${status.last}">.</c:if>
-						</c:forEach>
+						<c:forEach var="lang" items='${languages}' varStatus="status">${lang.nome}<c:if test="${!status.last}">, </c:if><c:if test="${status.last}">.</c:if></c:forEach>
 						<br>											
 						Supervised by:
-						<c:forEach var="prof" items='${professors}' varStatus="status">
-							${prof.nome} ${prof.cognome}
-							<c:if test="${!status.last}">, </c:if>
-							<c:if test="${status.last}">.</c:if>
-						</c:forEach>
+						<c:forEach var="prof" items='${professors}' varStatus="status">${prof.nome} ${prof.cognome}<c:if test="${!status.last}">, </c:if><c:if test="${status.last}">.</c:if></c:forEach>
 						<br>
 						Avaible for 
 						<c:choose>
@@ -116,21 +112,14 @@
 						<li class="active"><span data-toggle="modal" data-target="#editForm">Edit</span></li>
 						<li class="active">
 							<form method="post" action="#">
+                                <input type="hidden" name="operation" value="delete"/>
+                                <input type="hidden" name="id" value="${thesis.id}"/>
 								<input type="submit" value="Delete" class="btn btn-primary entity_nav_button">
 							</form>
 						</li>
 					</ul>
 				</div>
 			</div>
-			
-			<!-- Avviso di avvenuta modifica dell'entita -->
-			<br>
-			<c:if test="${!empty param.edited && param.edited == 'success'}">
-				<div class="alert alert-success alert-dismissible" role="alert" >
-				  <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-				  City Successfully Edited!
-				</div>
-			</c:if>
 			
 			<!--Form di valutazione a comparsa-->
 			<div class="modal fade" id="evaluateForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false">
@@ -274,11 +263,12 @@
 					</div>
 				</div>
 			</div>
-			<!-- fine Form di valutazione a comparsa-->
+			<!-- fine Form di valutazione a comparsa-->	
+			<br>	
 			<c:choose>
 				<c:when test="${fn:length(evaluations) == 0}">
 					<div class="row text-center">
-					<h3>There are no evaluations for <b><c:out value="${thesis.nome}"/></b>.</h3>
+					<h4>There are no evaluations for <b><c:out value="${thesis.nome}"/></b>.</h4>
 					</div>
 				</c:when>
 				<c:otherwise>
@@ -288,10 +278,10 @@
 						<div style="text-align: center">
 							<c:choose>
 								<c:when test="${fn:length(evaluations) == 1}">
-									<h3>There is <b>1</b> evaluation</h3>
+									<h4>There is <b>1</b> evaluation</h4>
 								</c:when>
 								<c:otherwise>
-									<h3>There are <b><c:out value="${fn:length(evaluations)}"></c:out></b> evaluations</h3>
+									<h4>There are <b><c:out value="${fn:length(evaluations)}"></c:out></b> evaluations</h4>
 								</c:otherwise>
 							</c:choose>
 							<div class="col-xs-3 col-sm-3 col-md-3">
