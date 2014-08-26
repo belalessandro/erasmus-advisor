@@ -192,13 +192,14 @@
 					<c:forEach var="thesis" items="${theses}">
 					<tr>
 						<td><c:out value="${thesis.nome}"/></td>
+						<td><c:out value="${thesis.nomeUniversita}"/></td>
 						<c:choose>
 							<c:when test="${not thesis.triennale}"><td>No</td></c:when>
-							<c:otherwise test="${thesis.triennale}"><td>Yes</td></c:otherwise>
+							<c:otherwise><td>Yes</td></c:otherwise>
 						</c:choose>
 						<c:choose>
 							<c:when test="${not thesis.magistrale}"><td>No</td></c:when>
-							<c:when test="${thesis.magistrale}"><td>Yes</td></c:when>
+							<c:otherwise><td>Yes</td></c:otherwise>
 						</c:choose>
 						<td><c:out value="${thesis.stato}"/></td>
 					</tr>
