@@ -72,8 +72,8 @@
 					<p>
 						University:	<a href="<c:url value="/university"/>?name=${fn:replace(thesis.nomeUniversita, ' ', '+')}" target="_blank">${thesis.nomeUniversita}</a><br> 
 						Areas: 
-						<c:forEach var="areas" items='${areas}' varStatus="status">
-							${areas.nome}
+						<c:forEach var="area" items='${areas}' varStatus="status">
+							${area.nome}
 							<c:if test="${!status.last}">, </c:if>
 							<c:if test="${status.last}">.</c:if>
 						</c:forEach>

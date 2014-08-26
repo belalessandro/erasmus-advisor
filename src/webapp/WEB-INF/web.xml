@@ -113,6 +113,15 @@
 	</servlet-mapping>
 
 	<servlet>
+		<servlet-name>CourseServlet</servlet-name>
+		<servlet-class>it.unipd.dei.bding.erasmusadvisor.servlets.CourseServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>CourseServlet</servlet-name>
+		<url-pattern>/course</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
 		<servlet-name>ClassServlet</servlet-name>
 		<servlet-class>it.unipd.dei.bding.erasmusadvisor.servlets.ClassServlet</servlet-class>
 	</servlet>

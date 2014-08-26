@@ -1,7 +1,13 @@
 package it.unipd.dei.bding.erasmusadvisor.servlets;
 
 import it.unipd.dei.bding.erasmusadvisor.beans.BeanUtilities;
+import it.unipd.dei.bding.erasmusadvisor.beans.DocumentazioneBean;
+import it.unipd.dei.bding.erasmusadvisor.beans.FlussoBean;
+import it.unipd.dei.bding.erasmusadvisor.beans.OrigineBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.UniversitaBean;
+import it.unipd.dei.bding.erasmusadvisor.database.DocumentazioneDatabase;
+import it.unipd.dei.bding.erasmusadvisor.database.FlussoDatabase;
+import it.unipd.dei.bding.erasmusadvisor.database.OrigineDatabase;
 import it.unipd.dei.bding.erasmusadvisor.database.UniversitaDatabase;
 import it.unipd.dei.bding.erasmusadvisor.resources.FlowEvaluationAverage;
 import it.unipd.dei.bding.erasmusadvisor.resources.LoggedUser;
@@ -11,8 +17,11 @@ import it.unipd.dei.bding.erasmusadvisor.resources.UniversityEvaluationsAverage;
 import it.unipd.dei.bding.erasmusadvisor.resources.UserType;
 
 import java.io.IOException;
+import java.net.URLEncoder;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.json.Json;
 import javax.json.JsonObject;
@@ -30,8 +39,15 @@ import org.apache.commons.dbutils.DbUtils;
  *
  */
 public class UniversityServlet extends AbstractDatabaseServlet {
+	/**
+	 * Operation constants
+	 */
+	private static final String INSERT = "insert";
+    private static final String EDIT = "edit";
+    private static final String DELETE = "delete";
 
 	private static final long serialVersionUID = 1462509389265503855L;
+	
 
 	/**
 	 * Get the details of a specific university
@@ -125,40 +141,22 @@ public class UniversityServlet extends AbstractDatabaseServlet {
 
 		String operation = req.getParameter("operation");
 		if (operation == null || operation.isEmpty() || !lu.isFlowResp()) {
-			/* Error or not authorized. */
-			getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(req, resp);
+			
+			// Error
+			Message m = new Message("Not authorized or operation null", "", "");
+			req.setAttribute("message", m);
+			errorForward(req, resp);
 			return;
-		} else if (operation.equals("insert") ) {
+			
+		} 
+		else if (operation.equals(INSERT))
+		{
 			/**
-			 * Insert a new University 
+			 * INSERT OPERATION
 			 */
 			
-			// bean, model and database connection
-			UniversitaBean uni = new UniversitaBean(); 
-			Message m = null;
-			Connection conn = null;
-			
-			// Populate bean from the FORM submitted
-			BeanUtilities.populateBean(uni, req);
-			
-			try {
-				// Start of database operation
-				conn = DS.getConnection();
-				UniversitaDatabase.createUniversita(conn, uni);
-				DbUtils.close(conn);
-				// End of database operation
-				
-			} catch (SQLException ex) {
-				m = new Message("Error while inserting the university.",
-						"XXX", ex.getMessage());
-				req.setAttribute("message", m);
-				getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(
-					req, resp); // ERROR PAGE
-				return;
-			} finally {
-				DbUtils.closeQuietly(conn);
-			}
-			
+			insert(req, resp);
+		
 		} else if (operation.equals("update") ) {
 			/**
 			 * Updates an existing University 
@@ -166,9 +164,82 @@ public class UniversityServlet extends AbstractDatabaseServlet {
 			//UniversitaDatabase.updateUniversita(conn, uni);
 		}
 		
-		resp.sendRedirect(req.getParameter("returnTo"));
+		//resp.sendRedirect(req.getParameter("returnTo"));
 	}
 
+
+	/**
+	 * Handle logic for insert operation...
+	 * @param request
+	 * @param response
+	 */
+	private void insert(HttpServletRequest request, HttpServletResponse response) 
+			throws ServletException, IOException  {
+		
+		// database connection
+		Connection conn = null;
+		
+		// entity beans
+		UniversitaBean uni = new UniversitaBean(); 
+		
+		// model
+		Message m = null;
+		
+		// Auto-Populate beans from the FORM submitted
+		BeanUtilities.populateBean(uni, request);
+		uni.setNome(request.getParameter("nome"));
+
+		/**
+		 * Insert to database
+		 */
+		try {
+			conn = DS.getConnection();
+			conn.setAutoCommit(false); // BEGIN TRANSACTION
+			
+			UniversitaDatabase.createUniversita(conn, uni);
+			
+			DbUtils.commitAndClose(conn); // COMMIT
+		} catch (SQLException e) {
+			DbUtils.rollbackAndCloseQuietly(conn); // ROLLBACK
+			m = new Message("Error while inserting a new university.", "XXX", e.getMessage());
+			request.setAttribute("message", m);
+			errorForward(request, response);
+			return;
+		}
+		finally {
+			DbUtils.closeQuietly(conn); // *always* closes DB connection
+		}
+		
+		
+		// Success!
+		// Creating response path
+		StringBuilder builder = new StringBuilder()
+				.append(request.getContextPath())
+				.append("/university?name=")
+				.append(URLEncoder.encode(uni.getNome(), "utf-8"));
+		response.sendRedirect(builder.toString());
+    }
+
+    private void delete(HttpServletRequest request, HttpServletResponse response) {
+        //handle logic for delete operation...
+    }
+    
+    private void edit(HttpServletRequest request, HttpServletResponse response) {
+        //handle logic for edit operation...
+    }
+
+    private void errorForward(HttpServletRequest request, HttpServletResponse response) 
+    		throws ServletException, IOException  {
+    	// Error management
+        	
+    	//Message m = new Message("Error while updating the city.","XXX", "");
+    	//request.setAttribute("message", m);
+    		
+    	getServletContext().getRequestDispatcher("/jsp/error.jsp")
+    		.forward(request, response); // ERROR PAGE
+    }
+	
+	
 	private JsonObject convertToJson(University uni) {
 		/* NOT IMPLEMENTED YET */
 		JsonObject json = Json.createObjectBuilder()

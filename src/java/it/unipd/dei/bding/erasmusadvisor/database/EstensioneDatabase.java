@@ -41,13 +41,17 @@ public class EstensioneDatabase {
 		/**
 		 * The SQL insert statement
 		 */
-		final String sql = "INSERT INTO Estensione (idArgomentoTesi, Area) VALUES (?, ?);";
+		final String insertStmt = "INSERT INTO Estensione (idArgomentoTesi, Area) VALUES (?, ?);";
 		
-		QueryRunner run = new QueryRunner();
-		
-		ResultSetHandler<EstensioneBean> rsh = new BeanHandler<EstensioneBean>(EstensioneBean.class);
-		
-		run.insert(con, sql, rsh, est.getIdArgomentoTesi(), est.getArea());
+		PreparedStatement pstmt = null;
+		try {
+			pstmt = con.prepareStatement(insertStmt);
+			pstmt.setInt(1, est.getIdArgomentoTesi());
+			pstmt.setString(2, est.getArea());
+			pstmt.execute();
+		} finally {
+			DbUtils.closeQuietly(pstmt);
+		}
 	}
 	
 	/**

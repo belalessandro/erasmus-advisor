@@ -10,6 +10,7 @@ import it.unipd.dei.bding.erasmusadvisor.beans.LinguaCittaBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.LinguaTesiBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.OrigineBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.ProfessoreBean;
+import it.unipd.dei.bding.erasmusadvisor.beans.ResponsabileFlussoBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.SvolgimentoBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.UniversitaBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.ValutazioneUniversitaBean;
@@ -19,6 +20,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.util.List;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.dbutils.DbUtils;
@@ -70,13 +72,16 @@ public class TestCorsoDiLaureaDatabase {
 //			DocumentazioneDatabase.createDocumentazione(con, documentazioneBean);
 //			FlussoDatabase.createFlusso(con, flussoBean);
 //			GestioneDatabase.createGestione(con, gestioneBean);
-			int ret = CorsoDiLaureaDatabase.createCorsoDiLaurea(con, corso);
+			//int ret = CorsoDiLaureaDatabase.createCorsoDiLaurea(con, corso);
+			ResponsabileFlussoBean r = new ResponsabileFlussoBean();
+			r.setNomeUniversita("University of Copenhagen");
+			List<CorsoDiLaureaBean> list = CorsoDiLaureaDatabase.getPossibleCourses(con, r);
 //			LinguaCittaDatabase.createLinguaCitta(con, linguaCittaBean);
 //			LinguaTesiDatabase.createLinguaTesi(con, linguaTesiBean);
 //			OrigineDatabase.createOrigine(con, origineBean);
 //			SvolgimentoDatabase.createSvolgimento(con, svolgimentoBean);
-			
-			System.out.println(ret);
+			for (CorsoDiLaureaBean l : list)
+				System.out.println(l.getId() + " " + l.getNome());
 //			if (c.getInsegnamento() != null) {
 //				try { 
 //					String s = BeanUtils.describe(c.getInsegnamento()).toString();

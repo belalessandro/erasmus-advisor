@@ -3,9 +3,12 @@
  */
 package it.unipd.dei.bding.erasmusadvisor.servlets;
 
+import it.unipd.dei.bding.erasmusadvisor.database.DocumentazioneDatabase;
+import it.unipd.dei.bding.erasmusadvisor.database.FlussoDatabase;
 import it.unipd.dei.bding.erasmusadvisor.database.GetAreaValues;
 import it.unipd.dei.bding.erasmusadvisor.database.GetLinguaValues;
 import it.unipd.dei.bding.erasmusadvisor.database.InsegnamentoDatabase;
+import it.unipd.dei.bding.erasmusadvisor.database.OrigineDatabase;
 import it.unipd.dei.bding.erasmusadvisor.database.ProfessoreDatabase;
 import it.unipd.dei.bding.erasmusadvisor.database.SvolgimentoDatabase;
 import it.unipd.dei.bding.erasmusadvisor.resources.LoggedUser;
@@ -15,19 +18,26 @@ import it.unipd.dei.bding.erasmusadvisor.resources.Teaching;
 import it.unipd.dei.bding.erasmusadvisor.resources.UserType;
 import it.unipd.dei.bding.erasmusadvisor.beans.AreaBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.BeanUtilities;
+import it.unipd.dei.bding.erasmusadvisor.beans.DocumentazioneBean;
+import it.unipd.dei.bding.erasmusadvisor.beans.FlussoBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.InsegnamentoBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.LinguaBean;
+import it.unipd.dei.bding.erasmusadvisor.beans.OrigineBean;
+import it.unipd.dei.bding.erasmusadvisor.beans.ProfessoreBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.SvolgimentoBean;
 
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.swing.text.Utilities;
 
+import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.dbutils.DbUtils;
 
 
@@ -37,6 +47,13 @@ import org.apache.commons.dbutils.DbUtils;
  */
 public class ClassServlet extends AbstractDatabaseServlet 
 {
+	/**
+	 * Operation constants
+	 */
+	private static final String INSERT = "insert";
+    private static final String EDIT = "edit";
+    private static final String DELETE = "delete";
+    
 	/**
 	 * Default Serial version UID 
 	 */
@@ -137,11 +154,36 @@ public class ClassServlet extends AbstractDatabaseServlet
 		Connection con = null;
 		Message m = null;
 		
-		if(operation.equals("edit"))
+		if (operation == null || operation.isEmpty() || !lu.isFlowResp()) {
+			
+			// Error
+			m = new Message("Not authorized or operation null", "", "");
+			req.setAttribute("message", m);
+			errorForward(req, resp);
+			return;
+			
+		} 
+		else if (operation.equals(INSERT))
 		{
+			/**
+			 * INSERT OPERATION
+			 */
+			
+			insert(req, resp);
+		
+		} 
+		else if(operation.equals(EDIT))
+		{
+			/**
+			 * EDIT OPERATION
+			 */
+			
 			// Populate beans
 			InsegnamentoBean insegnamentoBean = new InsegnamentoBean();
 			BeanUtilities.populateBean(insegnamentoBean, req);
+			// TODO ale: se e' resp. flusso bisogna impostare lo stato verified
+			// altrimenti NOT VERIFIED!!
+			// insegnamentoBean.setStato("NOT VERIFIED"); // Setting status
 						
 			String[] professorName = req.getParameterValues("professorName");
 			String[] professorSurname = req.getParameterValues("professorSurname");
@@ -201,6 +243,123 @@ public class ClassServlet extends AbstractDatabaseServlet
 		}
 		
 	}
-	
+
+
+	/**
+	 * Handle logic for insert operation...
+	 * @param request
+	 * @param response
+	 */
+	private void insert(HttpServletRequest request, HttpServletResponse response) 
+			throws ServletException, IOException  {
+		
+		// TODO: DA SESSIONE
+		LoggedUser lu = new LoggedUser(UserType.RESPONSABILE, "erick.burn"); 
+
+		
+		// the connection to database
+		Connection conn = null;
+		
+		// entity beans
+		InsegnamentoBean insegnamentoBean =  new InsegnamentoBean();
+		//List<SvolgimentoBean> svolgimentoBean = new ArrayList<SvolgimentoBean>();
+		
+		// models
+		Message m = null;
+		
+		// Populating beans from FORM parameters
+		//BeanUtilities.populateBean(insegnamentoBean, request); // automatic
+		
+		insegnamentoBean.setNome(request.getParameter("Nome"));
+		insegnamentoBean.setCrediti(Integer.parseInt(request.getParameter("Crediti")));
+		insegnamentoBean.setNomeUniversita(request.getParameter("NomeUniversita"));
+		insegnamentoBean.setPeriodoErogazione(Integer.parseInt(request.getParameter("PeriodoErogazione")));
+		insegnamentoBean.setAnnoCorso(Integer.parseInt(request.getParameter("AnnoCorso")));
+		insegnamentoBean.setNomeArea(request.getParameter("NomeArea"));
+		insegnamentoBean.setNomeLingua(request.getParameter("NomeLingua"));
+		
+		insegnamentoBean.setStato("NOT VERIFIED"); // Setting status
+		// TODO: in base all'autorhization
+		
+		String[] profNames = request.getParameterValues("professorName");
+		String[] profSurnames = request.getParameterValues("professorSurname");
+		
+
+		/**
+		 * Insert to database
+		 */
+		try {
+			conn = DS.getConnection();
+			conn.setAutoCommit(false); // BEGIN TRANSACTION
+			
+			int idInsegnamento = InsegnamentoDatabase.createInsegnamento(conn, insegnamentoBean);
+
+			if (profNames != null && profSurnames != null && profNames.length == profSurnames.length) {
+				for (int j=0; j<profNames.length; j++) {
+					String nome = profNames[j];
+					String cognome = profSurnames[j];
+					String universita = insegnamentoBean.getNomeUniversita();
+					
+					if (nome != null && cognome != null && !nome.isEmpty() && !cognome.isEmpty() 
+							&& universita != null) {
+						nome = nome.trim();
+						cognome = cognome.trim();
+						
+						// Select or insert professor
+						int idProfessore = ProfessoreDatabase
+								.selectOrInsertProfessore(conn, nome, cognome, universita);
+						
+						// Create the relation between professor and class
+						SvolgimentoBean s = new SvolgimentoBean();
+						s.setIdProfessore(idProfessore);
+						s.setIdInsegnamento(idInsegnamento);
+						SvolgimentoDatabase.createSvolgimento(conn, s);
+					}
+				}
+			}
+			
+			DbUtils.commitAndClose(conn); // COMMIT
+			
+			insegnamentoBean.setId(idInsegnamento);
+		} catch (SQLException e) {
+			DbUtils.rollbackAndCloseQuietly(conn); // ROLLBACK
+			
+			m = new Message("Error while inserting a new class.", "XXX", e.getMessage());
+			request.setAttribute("message", m);
+			errorForward(request, response);
+			return;
+		} 
+		finally {
+			DbUtils.closeQuietly(conn); // *always* closes DB connection
+		}
+		
+		
+		// Success!
+		// Creating response path
+		StringBuilder builder = new StringBuilder()
+			.append(request.getContextPath())
+			.append("/class?id=")
+			.append(insegnamentoBean.getId());
+		response.sendRedirect(builder.toString());	
+    }
+
+    private void delete(HttpServletRequest request, HttpServletResponse response) {
+        //handle logic for delete operation...
+    }
+    
+    private void edit(HttpServletRequest request, HttpServletResponse response) {
+        //handle logic for edit operation...
+    }
+
+    private void errorForward(HttpServletRequest request, HttpServletResponse response) 
+    		throws ServletException, IOException  {
+    	// Error management
+        	
+    	//Message m = new Message("Error while updating the city.","XXX", "");
+    	//request.setAttribute("message", m);
+    		
+    	getServletContext().getRequestDispatcher("/jsp/error.jsp")
+    		.forward(request, response); // ERROR PAGE
+    }
 	
 }

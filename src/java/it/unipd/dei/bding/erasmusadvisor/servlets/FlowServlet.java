@@ -23,29 +23,11 @@ import it.unipd.dei.bding.erasmusadvisor.resources.FlowEvaluationAverage;
 import it.unipd.dei.bding.erasmusadvisor.resources.LoggedUser;
 import it.unipd.dei.bding.erasmusadvisor.resources.Message;
 import it.unipd.dei.bding.erasmusadvisor.resources.UserType;
-import it.unipd.dei.bding.erasmusadvisor.servlets.AbstractDatabaseServlet;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.net.URLDecoder;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.Enumeration;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -59,6 +41,12 @@ import org.apache.commons.dbutils.DbUtils;
  *
  */
 public class FlowServlet extends AbstractDatabaseServlet {
+	/**
+	 * Operation constants
+	 */
+	private static final String INSERT = "insert";
+    private static final String EDIT = "edit";
+    private static final String DELETE = "delete";
 	
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException
@@ -156,9 +144,18 @@ public class FlowServlet extends AbstractDatabaseServlet {
 			// Error
 			m = new Message("Not authorized or operation null", "", "");
 			req.setAttribute("message", m);
-			getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(req, resp);
+			errorForward(req, resp);
 			return;
 			
+		} 
+		else if (operation.equals(INSERT))
+		{
+			/**
+			 * INSERT OPERATION
+			 */
+			
+			insert(req, resp);
+		
 		} 
 		else if (operation.equals("edit") ) {
 		
@@ -254,4 +251,124 @@ public class FlowServlet extends AbstractDatabaseServlet {
 			
 		}
 	}
+	
+
+	/**
+	 * Handle logic for insert operation...
+	 * @param request
+	 * @param response
+	 */
+	private void insert(HttpServletRequest request, HttpServletResponse response) 
+			throws ServletException, IOException  {
+		
+		// TODO: DA SESSIONE
+		LoggedUser lu = new LoggedUser(UserType.RESPONSABILE, "erick.burn"); 
+
+		
+		// the connection to database
+		Connection conn = null;
+		
+		// entity beans
+		FlussoBean flussoBean  = null;
+		List<DocumentazioneBean> documentazioneBeanList = new ArrayList<DocumentazioneBean>();
+		List<OrigineBean> origineBeanList = new ArrayList<OrigineBean>();
+		
+		
+		// models
+		Message m = null;
+		
+		// Populating beans from FORM parameters
+		flussoBean = new FlussoBean();
+		flussoBean.setId(request.getParameter("name"));
+		flussoBean.setDestinazione(request.getParameter("university"));
+		flussoBean.setPostiDisponibili(Integer.parseInt(request.getParameter("seats")));
+		flussoBean.setDurata(Integer.parseInt(request.getParameter("length")));
+		flussoBean.setDettagli(request.getParameter("details"));
+		
+		// Additional settings for the bean
+		flussoBean.setRespFlusso(lu.getUser());
+		flussoBean.setAttivo(false); // TODO: in base a chi lo inserisce 
+		
+		String[] paramCert = request.getParameterValues("certificate[]");
+		if (paramCert != null) {
+			for (int j=0; j<paramCert.length; j++) {
+				DocumentazioneBean d = new DocumentazioneBean();
+						
+				String nomeCertificato = paramCert[j].split("-")[0].trim(); // "ITA - B2" -> ITA
+				String livelloCertificato = paramCert[j].split("-")[1].trim(); // "ITA - B2" -> B2
+
+				d.setNomeCertificato(nomeCertificato);
+				d.setLivelloCertificato(livelloCertificato);
+				d.setIdFlusso(flussoBean.getId());
+				
+				documentazioneBeanList.add(d);
+			}
+		}
+		
+		String[] paramOrigin = request.getParameterValues("origin[]");
+		if (paramOrigin != null) {
+			for (int i=0; i<paramOrigin.length; i++) {
+				OrigineBean o = new OrigineBean();
+				o.setIdCorso(Integer.parseInt(paramOrigin[i]));
+				o.setIdFlusso(flussoBean.getId());
+				
+				origineBeanList.add(o);
+			}
+		}
+
+		/**
+		 * Insert to database
+		 */
+		try {
+			conn = DS.getConnection();
+			conn.setAutoCommit(false); // BEGIN TRANSACTION
+			
+			FlussoDatabase.createFlusso(conn, flussoBean);
+			for (DocumentazioneBean d : documentazioneBeanList) {
+				DocumentazioneDatabase.createDocumentazione(conn, d);
+			}
+			for (OrigineBean o : origineBeanList) {
+				OrigineDatabase.createOrigine(conn, o);
+			}
+			
+			DbUtils.commitAndClose(conn); // COMMIT
+		} catch (SQLException e) {
+			DbUtils.rollbackAndCloseQuietly(conn); // ROLLBACK
+			m = new Message("Error while inserting a new flow.", "XXX", e.getMessage());
+			request.setAttribute("message", m);
+			errorForward(request, response);
+			return;
+		}
+		finally {
+			DbUtils.closeQuietly(conn); // *always* closes DB connection
+		}
+		
+		
+		// Success!
+		// Creating response path
+		StringBuilder builder = new StringBuilder()
+			.append(request.getContextPath())
+			.append("/flow?id=")
+			.append(flussoBean.getId());
+		response.sendRedirect(builder.toString());	
+    }
+
+    private void delete(HttpServletRequest request, HttpServletResponse response) {
+        //handle logic for delete operation...
+    }
+    
+    private void edit(HttpServletRequest request, HttpServletResponse response) {
+        //handle logic for edit operation...
+    }
+
+    private void errorForward(HttpServletRequest request, HttpServletResponse response) 
+    		throws ServletException, IOException  {
+    	// Error management
+        	
+    	//Message m = new Message("Error while updating the city.","XXX", "");
+    	//request.setAttribute("message", m);
+    		
+    	getServletContext().getRequestDispatcher("/jsp/error.jsp")
+    		.forward(request, response); // ERROR PAGE
+    }
 }

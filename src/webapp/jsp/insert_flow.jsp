@@ -95,9 +95,9 @@
 						<span></span>
 						<span class="input-group-addon insert_new_select_label_inline">Insert the flow's starting degree courses*</span>
 						<select class="selectpicker text-left" multiple id="origin" name="origin[]">
-							<c:forEach var="possibileCourses" items='${possibileCourses}'>
+							<c:forEach var="possibleCourses" items='${possibleCourses}'>
 								<option value="${possibleCourses.id}" >
-								${possibileCourses.nome} (${possibileCourses.livello})</option>
+								${possibleCourses.nome} (${possibleCourses.livello})</option>
 							</c:forEach>
 	    				</select> 
 					</div>

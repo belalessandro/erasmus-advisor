@@ -5,9 +5,9 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8">
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>Insert a new university</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	
 	<link href="../css/ea-main.css" rel="stylesheet">
 	<link href="../css/bootstrap.min.css" rel="stylesheet">
@@ -89,7 +89,7 @@
 			<br>
 			<!-- action deve puntare alla servlet che gestisce la registrazione -->
 			<!-- lingua mostra solo le opzioni consentite -->
-			<form name='insert_university' method="post" action="<c:url value="/university"/>" onSubmit="return insertUniversityFormValidation();">
+			<form name='insert_university' method="post" action="<c:url value="/university"/>" accept-charset="UTF-8" onSubmit="return insertUniversityFormValidation();">
 				<input type="hidden" name="operation" value="insert">
 				<div align="center">
 					<div class="input-group insert_new_input_group">

@@ -78,7 +78,8 @@
 			<br>
 			<!-- action deve puntare alla servlet che gestisce la registrazione -->
 			<!-- lingua mostra solo le opzioni consentite -->
-			<form name='insert_course' method="post" action="#" onSubmit="return insertCourseFormValidation();"> 
+			<form name='insert_course' method="post" action="<c:url value="/course"/>" onSubmit="return insertCourseFormValidation();"> 
+				<input type="hidden" name="operation" value="insert">
 				<div align="center">
 					<div class="input-group insert_new_input_group">
 						<span class="input-group-addon insert_new_input">Name*</span> <input type="text" class="form-control" name="name" id="name" placeholder="Insert the course's name">

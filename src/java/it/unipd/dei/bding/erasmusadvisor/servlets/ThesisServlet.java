@@ -7,10 +7,14 @@ import it.unipd.dei.bding.erasmusadvisor.beans.DocumentazioneBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.EstensioneBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.FlussoBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.GestioneBean;
+import it.unipd.dei.bding.erasmusadvisor.beans.InsegnamentoBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.LinguaBean;
+import it.unipd.dei.bding.erasmusadvisor.beans.LinguaCittaBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.LinguaTesiBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.OrigineBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.ProfessoreBean;
+import it.unipd.dei.bding.erasmusadvisor.beans.SpecializzazioneBean;
+import it.unipd.dei.bding.erasmusadvisor.beans.SvolgimentoBean;
 import it.unipd.dei.bding.erasmusadvisor.database.ArgomentoTesiDatabase;
 import it.unipd.dei.bding.erasmusadvisor.database.CreateDocumentazioneDatabase;
 import it.unipd.dei.bding.erasmusadvisor.database.CreateFlussoDatabase;
@@ -19,8 +23,11 @@ import it.unipd.dei.bding.erasmusadvisor.database.EstensioneDatabase;
 import it.unipd.dei.bding.erasmusadvisor.database.GestioneDatabase;
 import it.unipd.dei.bding.erasmusadvisor.database.GetAreaValues;
 import it.unipd.dei.bding.erasmusadvisor.database.GetLinguaValues;
+import it.unipd.dei.bding.erasmusadvisor.database.InsegnamentoDatabase;
+import it.unipd.dei.bding.erasmusadvisor.database.LinguaCittaDatabase;
 import it.unipd.dei.bding.erasmusadvisor.database.LinguaTesiDatabase;
 import it.unipd.dei.bding.erasmusadvisor.database.ProfessoreDatabase;
+import it.unipd.dei.bding.erasmusadvisor.database.SpecializzazioneDatabase;
 import it.unipd.dei.bding.erasmusadvisor.database.SvolgimentoDatabase;
 import it.unipd.dei.bding.erasmusadvisor.database.UniversitaDatabase;
 import it.unipd.dei.bding.erasmusadvisor.resources.LoggedUser;
@@ -31,9 +38,9 @@ import it.unipd.dei.bding.erasmusadvisor.resources.University;
 import it.unipd.dei.bding.erasmusadvisor.resources.UserType;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.json.Json;
@@ -51,6 +58,12 @@ import org.apache.commons.dbutils.DbUtils;
  *
  */
 public class ThesisServlet extends AbstractDatabaseServlet {
+	/**
+	 * Operation constants
+	 */
+	private static final String INSERT = "insert";
+    private static final String EDIT = "edit";
+    private static final String DELETE = "delete";
 
 	private static final long serialVersionUID = 77657689265503855L;
 
@@ -90,7 +103,7 @@ public class ThesisServlet extends AbstractDatabaseServlet {
 			DbUtils.close(conn);
 		} 
 		catch (SQLException ex) {
-			m = new Message("Error while getting the thesis.","XXX", ex.getMessage());
+			m = new Message("Error while getting the university.","XXX", ex.getMessage());
 		} 
 		finally {
 			DbUtils.closeQuietly(conn);
@@ -100,6 +113,7 @@ public class ThesisServlet extends AbstractDatabaseServlet {
 		 *  Send the university model to the appropriate output (Ajax or normal)
 		 *
 		 */
+		
 		if ("XMLHttpRequest".equals(req.getHeader("X-Requested-With"))) 
 		{
 			// Handle Ajax response (e.g. return JSON data object).
@@ -110,6 +124,7 @@ public class ThesisServlet extends AbstractDatabaseServlet {
 				jsonWriter.writeObject(convertToJson(results));
 				jsonWriter.close();
 			}
+
 		} 
 		else {
 			// Handle normal response (e.g. forward and/or set message as attribute).
@@ -147,201 +162,191 @@ public class ThesisServlet extends AbstractDatabaseServlet {
 			throws ServletException, IOException {
 
 		LoggedUser lu = new LoggedUser(UserType.RESPONSABILE, "erick.burn");
-		
-		// data models, connection
-		Message m = null;
-		Connection conn = null;
-		
 		String operation = req.getParameter("operation");
-		
 		if (operation == null || operation.isEmpty() || !lu.isFlowResp()) {
 			/* Error or not authorized. */
 			getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(req, resp);
 			return;
 		} else if (operation.equals("insert") ) {
-			// entity beans
-			ArgomentoTesiBean a  =  new ArgomentoTesiBean();
-			ProfessoreBean[] p = null;
-			GestioneBean[] g  = null;
-			EstensioneBean[] e = null;
-			LinguaTesiBean[] l = null;
 			
+			/**
+			 * INSERT OPERATION
+			 */
 			
-			
-			// Populate bean from the FORM submitted
-			BeanUtilities.populateBean(a, req);
-			
-			try {
-				// Start of database operation
-				conn = DS.getConnection();
-				int idTesi= ArgomentoTesiDatabase.createArgomentoTesi(conn, a);
-				
-				/*String[] paramProf = req.getParameterValues("professori[]");
-				if (paramProf != null) {
-					p = new ProfessoreBean[paramProf.length];
-					g = new GestioneBean[paramProf.length];
-					for (int j=0; j<paramProf.length; j++) {
-						p[j] = new ProfessoreBean();
-								
-						String nomeProf = paramProf[j].split(" ")[0];
-						String cognomeProf = paramProf[j].split(" ")[1]; 
-						
-						p[j].setNome(nomeProf);
-						p[j].setCognome(cognomeProf);
-						int idProf = ProfessoreDatabase.createProfessore(conn, p[j]); 
-						
-						g[j].setIdArgomentoTesi(idTesi);
-						g[j].setIdProfessore(idProf);
-						GestioneDatabase.createGestione(conn, g[j]);
-					}
-				}
-				
-				String[] paramEst = req.getParameterValues("aree[]");
-				if (paramProf != null) {
-					e = new EstensioneBean[paramEst.length];
-					for (int j=0; j<paramEst.length; j++) {
-						e[j] = new EstensioneBean();
-								
-						String area = paramEst[j];
-						
-						e[j].setIdArgomentoTesi(idTesi);
-						e[j].setArea(area);
-						
-						EstensioneDatabase.createEstensione(conn, p[j]);
-					}
-				}
-				
-				String[] paramLingue = req.getParameterValues("lingue[]");
-				if (paramLingue != null) {
-					l = new LinguaTesiBean[paramLingue.length];
-					for (int i=0; i<paramLingue.length; i++) {
-						l[i] = new LinguaTesiBean();
-						String sigla = paramLingue[i];
-						l[i].setSiglaLingua(sigla);
-						l[i].setIdArgomentoTesi(idTesi);
-
-						LinguaTesiDatabase.createLingua(conn, l[i]);
-					}
-				}*/
-				
-				DbUtils.close(conn);
-				// End of database operation
-				
-		} catch (SQLException ex) {
-			m = new Message("Error while inserting the Thesis.",
-					"XXX", ex.getMessage());
-			req.setAttribute("message", m);
-			getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(
-				req, resp); // ERROR PAGE
-			return;
-		} finally {
-			DbUtils.closeQuietly(conn);
-		}
+			insert(req, resp);
 			
 		} else if (operation.equals("update") ) {
-			
-			ArgomentoTesiBean argomento = new ArgomentoTesiBean();
-			BeanUtilities.populateBean(argomento, req);
-			
-			// set checkbox values
-			String triennale = req.getParameter("triennale");
-			String magistrale = req.getParameter("magistrale");
-			if(triennale == null)
-				argomento.setTriennale(false);
-			else
-				argomento.setTriennale(true);
-			
-			if(magistrale == null)
-				argomento.setMagistrale(false);
-			else
-				argomento.setMagistrale(true);
-				
-			
-			String language = req.getParameter("language");
-			String area = req.getParameter("area");
-			
-			
-			
-			String[] professorName = req.getParameterValues("professorName");
-			String[] professorSurname = req.getParameterValues("professorSurname");
+			/*
+			 * Updates an existing University 
+			 */
+			//bookRepo.updateBook(id, title, description, price, pubDate);
+		} else {
+			// operation not supported..
+		}
+	}
+
+
+	/**
+	 * Handle logic for insert operation...
+	 * @param request
+	 * @param response
+	 */
+	private void insert(HttpServletRequest request, HttpServletResponse response) 
+			throws ServletException, IOException  {
 		
-			try {
-				conn  = DS.getConnection();
-				
-				// remove old thesis from gestione
-				GestioneDatabase.deleteGestioneByThesisId(conn, argomento.getId());
-				
-				// remove old thesis language
-				LinguaTesiDatabase.deleteLinguaTesi(conn, argomento.getId());
-				
-				// remove old thesis area
-				EstensioneDatabase.deleteEstensione(conn, argomento.getId());
-				
-				// update the thesis
-				ArgomentoTesiDatabase.updateArgomentoTesi(conn, argomento);
-				
-				// insert the language
-				LinguaTesiBean linguaTesi = new LinguaTesiBean();
-				linguaTesi.setIdArgomentoTesi(argomento.getId());
-				linguaTesi.setSiglaLingua(language);
-				
-				LinguaTesiDatabase.createLinguaTesi(conn, linguaTesi);
+		// TODO: DA SESSIONE
+		LoggedUser lu = new LoggedUser(UserType.RESPONSABILE, "erick.burn"); 
 
-				
-				// insert the area
-				EstensioneBean estensione = new EstensioneBean();
-				estensione.setIdArgomentoTesi(argomento.getId());
-				estensione.setArea(area);
-				
-				EstensioneDatabase.createEstensione(conn, estensione);
-				
-				// check if the professor still existing, otherwise insert the new professor 
-				// and then insert the corresponding row into Gestione
-				int idProfessore = 0;
-				GestioneBean gestioneBean = new GestioneBean();
-				
-				for(int i = 0; i < professorName.length; i++)
-				{
-					if(!professorName[i].trim().equals("") && !professorSurname[i].trim().equals(""))
-					{
-						idProfessore = ProfessoreDatabase.selectOrInsertProfessore(conn, 
-								professorName[i], 
-								professorSurname[i], 
-								argomento.getNomeUniversita());
-						
-						gestioneBean.setIdArgomentoTesi(argomento.getId());
-						gestioneBean.setIdProfessore(idProfessore);
-						
-						GestioneDatabase.createGestione(conn, gestioneBean);	
-					}
-				}
-				
-				// closing the connection
-				DbUtils.close(conn);
-				
-				// Creating response path and redirect to the new page
-				StringBuilder builder = new StringBuilder()
-				.append("/erasmus-advisor/thesis?id=")
-				.append(argomento.getId())
-				.append("&edited=success");
-				
-				resp.sendRedirect(builder.toString());
-				
-			} catch (SQLException e) {
-				// Error management
-				m = new Message("Error while editing " + argomento.getNome() + " instance.","XXX", e.getMessage());
-				req.setAttribute("message", m);
-				
-				getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(req, resp); // ERROR PAGE
-				return;
-			} finally {
-				DbUtils.closeQuietly(conn);
+		
+		// the connection to database
+		Connection conn = null;
+		
+		// entity beans
+		ArgomentoTesiBean argomentoTesiBean  =  new ArgomentoTesiBean();
+		List<EstensioneBean> estensioneBeanList = new ArrayList<EstensioneBean>();
+		List<LinguaTesiBean> linguaTesiBeanList = new ArrayList<LinguaTesiBean>();
+		
+		// models
+		Message m = null;
+		
+		/**
+		 * Beans population
+		 */
+		
+		// Populating beans with the FORM submitted
+		argomentoTesiBean.setNome(request.getParameter("Nome"));
+		argomentoTesiBean.setNomeUniversita(request.getParameter("NomeUniversita"));
+		argomentoTesiBean.setTriennale(Boolean.parseBoolean(request.getParameter("Triennale")));
+		argomentoTesiBean.setMagistrale(Boolean.parseBoolean(request.getParameter("Magistrale")));
+		
+		// Setting additional fields 
+		argomentoTesiBean.setStato("NOT VERIFIED"); // Setting status 
+		//TODO: in base all'authorization
+		
+		// Getting professors from the FORM submitted
+		String[] profNames = request.getParameterValues("professorName");
+		String[] profSurnames = request.getParameterValues("professorSurname");
+		
+		// Getting areas from the FORM submitted
+		String[] aree = request.getParameterValues("area[]");
+		if (aree != null) {
+			for (int j=0; j<aree.length; j++) {
+				EstensioneBean s = new EstensioneBean();
+				s.setArea(aree[j]);
+				estensioneBeanList.add(s);
 			}
-
+		}
+		
+		// Getting languages from the FORM submitted
+		String[] siglaLingua = request.getParameterValues("language[]");
+		if (siglaLingua != null) {
+			for(int i=0;i<siglaLingua.length;i++)
+			{
+				LinguaTesiBean l = new LinguaTesiBean(); 
+				l.setSiglaLingua(siglaLingua[i]);
+				linguaTesiBeanList.add(l);
+			}
 		}
 
-//		resp.sendRedirect(req.getParameter("returnTo"));
-	}
+		/**
+		 * Insert to database
+		 */
+		try {
+			conn = DS.getConnection();
+			conn.setAutoCommit(false); // BEGIN TRANSACTION
+			
+			/**
+			 * -> ArgomentoTesi
+			 */
+			int idTesi= ArgomentoTesiDatabase.createArgomentoTesi(conn, argomentoTesiBean);
+			
+			/**
+			 * -> Gestione
+			 */
+			if (profNames != null && profSurnames != null && profNames.length == profSurnames.length) {
+				for (int j=0; j<profNames.length; j++) {
+					String nome = profNames[j];
+					String cognome = profSurnames[j];
+					String universita = argomentoTesiBean.getNomeUniversita();
+					
+					if (nome != null && cognome != null && !nome.isEmpty() && !cognome.isEmpty() 
+							&& universita != null) {
+						nome = nome.trim();
+						cognome = cognome.trim();
+						
+						// Select or insert professor
+						int idProfessore = ProfessoreDatabase
+								.selectOrInsertProfessore(conn, nome, cognome, universita);
+						
+
+						// Create the relation between professor and thesis
+						GestioneBean g = new GestioneBean();
+						g.setIdProfessore(idProfessore);
+						g.setIdArgomentoTesi(idTesi);  // Setting foreign key 
+						GestioneDatabase.createGestione(conn, g);
+					}
+				}
+			}
+			
+			/**
+			 * -> Estensione
+			 */
+			for (EstensioneBean e : estensioneBeanList) {
+				e.setIdArgomentoTesi(idTesi); // Setting foreign key for IdArgomentoTesi
+				EstensioneDatabase.createEstensione(conn, e); 
+			}
+			
+			/**
+			 * -> LinguaTesi
+			 */
+			for (LinguaTesiBean l : linguaTesiBeanList) {
+				l.setIdArgomentoTesi(idTesi);  // Setting foreign key for IdArgomentoTesi
+				LinguaTesiDatabase.createLinguaTesi(conn, l);
+			}
+			
+			DbUtils.commitAndClose(conn); // COMMIT
+			
+			argomentoTesiBean.setId(idTesi);
+		} catch (SQLException e) {
+			DbUtils.rollbackAndCloseQuietly(conn); // ROLLBACK
+			
+			m = new Message("Error while inserting a new thesis.", "XXX", e.getMessage());
+			request.setAttribute("message", m);
+			errorForward(request, response);
+			return;
+		} 
+		finally {
+			DbUtils.closeQuietly(conn); // *always* closes DB connection
+		}
+		
+		
+		// Success!
+		// Creating response path
+		StringBuilder builder = new StringBuilder()
+			.append(request.getContextPath())
+			.append("/thesis?id=")
+			.append(argomentoTesiBean.getId());
+		response.sendRedirect(builder.toString());	
+    }
+
+    private void delete(HttpServletRequest request, HttpServletResponse response) {
+        //handle logic for delete operation...
+    }
+    
+    private void edit(HttpServletRequest request, HttpServletResponse response) {
+        //handle logic for edit operation...
+    }
+
+    private void errorForward(HttpServletRequest request, HttpServletResponse response) 
+    		throws ServletException, IOException  {
+    	// Error management
+        	
+    	//Message m = new Message("Error while updating the city.","XXX", "");
+    	//request.setAttribute("message", m);
+    		
+    	getServletContext().getRequestDispatcher("/jsp/error.jsp")
+    		.forward(request, response); // ERROR PAGE
+    }
 	
 	private JsonObject convertToJson(Thesis tesi) {
 		/* NOT IMPLEMENTED YET */

@@ -70,11 +70,11 @@ public class CorsoDiLaureaDatabase  {
 		
 		QueryRunner run = new QueryRunner();
 		
-		List<CorsoDiLaureaBean> lingue = null;
+		List<CorsoDiLaureaBean> list = null;
 		
 		ResultSetHandler<List<CorsoDiLaureaBean>> h1 = new BeanListHandler<CorsoDiLaureaBean>(CorsoDiLaureaBean.class);
-		lingue = run.query(conn, statement, h1, manager.getNomeUniversita());
+		list = run.query(conn, statement, h1, manager.getNomeUniversita());
 				
-		return lingue;
+		return list;
 	}
 }
