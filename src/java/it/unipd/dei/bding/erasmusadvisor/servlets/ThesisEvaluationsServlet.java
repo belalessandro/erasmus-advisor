@@ -36,7 +36,7 @@ public class ThesisEvaluationsServlet extends AbstractDatabaseServlet
 			throws ServletException, IOException { }
 	
 	/**
-	 * Insert the new city evaluation into the database
+	 * Insert the new thesis evaluation into the database
 	 */
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {

@@ -149,7 +149,6 @@ public class ThesisServlet extends AbstractDatabaseServlet {
 				getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(req, resp);
 			}
 		}
-
 	}
 	
 	/**
