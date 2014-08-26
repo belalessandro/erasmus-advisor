@@ -44,9 +44,11 @@ public class InsegnamentoDatabase
 		/**
 		 * The SQL insert statement
 		 */
-		String insertStmt = "INSERT INTO Insegnamento (id, nome, crediti, nomeUniversita, "
-				+ "periodoErogazione, stato, annoCorso, nomeArea, nomeLingua) "
-				+ "VALUES (DEFAULT, ?, ?, ?, ?, CAST(? AS stato), ?, ?, ?) "
+		String insertStmt = 
+				"INSERT INTO Insegnamento (id, nome, crediti, nomeUniversita, "
+					+ "periodoErogazione, stato, annoCorso, nomeArea, nomeLingua) "
+				+ "VALUES (DEFAULT, ?, ?, ?, CAST(? AS semestre), CAST(? AS stato), "
+					+ "CAST(? AS annoaccademico), ?, ?) "
 				+ "RETURNING Id";
 		
 		PreparedStatement pstmt = null;
@@ -101,11 +103,13 @@ public class InsegnamentoDatabase
 		lingua = run.query(conn, statement2, h2, insegnamento.getNomeLingua());
 		
 		// Gets the evaluations
-		ResultSetHandler<List<ValutazioneInsegnamentoBean>> h3 = new BeanListHandler<ValutazioneInsegnamentoBean>(ValutazioneInsegnamentoBean.class);
+		ResultSetHandler<List<ValutazioneInsegnamentoBean>> h3 = 
+				new BeanListHandler<ValutazioneInsegnamentoBean>(ValutazioneInsegnamentoBean.class);
 		listaValutazioni = run.query(conn, statement3, h3, ID);
 		
 		// Gets the profs
-		ResultSetHandler<List<ProfessoreBean>> h4 = new BeanListHandler<ProfessoreBean>(ProfessoreBean.class);
+		ResultSetHandler<List<ProfessoreBean>> h4 = 
+				new BeanListHandler<ProfessoreBean>(ProfessoreBean.class);
 		professori = run.query(conn, statement4, h4, ID);
 		
 		// Returns the results

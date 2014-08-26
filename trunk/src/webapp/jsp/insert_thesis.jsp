@@ -82,10 +82,11 @@
 			<!-- action deve puntare alla servlet che gestisce la registrazione -->
 			<!-- università con autocomplemento, università mostra solo le opzioni consentite -->
 			<!-- opzioni di area e lingua passate via JSP -->
-			<form name='insert_thesis' method="post" action="#" onSubmit="return insertThesisFormValidation();"> 
+			<form name='insert_thesis' method="post" action="<c:url value="/thesis"/>" onSubmit="return insertThesisFormValidation();"> 
+				<input type="hidden" name="operation" value="insert">
 				<div align="center">
 					<div class="input-group insert_new_input_group">
-						<span class="input-group-addon insert_new_input">Name*</span> <input type="text" class="form-control" name="name" id="name" placeholder="Insert the thesis' title">
+						<span class="input-group-addon insert_new_input">Name*</span> <input type="text" class="form-control" name="Nome" id="name" placeholder="Insert the thesis' title">
 					</div>
 					<br>
 					<div class="input-group insert_new_input_group">
@@ -99,7 +100,7 @@
 					<br>
 					<div class="input-group insert_new_input_group">
 						<span class="input-group-addon insert_new_input">University*</span> 
-						<input id="universityNames" class="form-control" name="university" title="type &quot;a&quot;" placeholder="Insert the University"/>
+						<input id="universityNames" class="form-control" name="NomeUniversita" title="type &quot;a&quot;" placeholder="Insert the University"/>
 					</div>
 					<br>
 					<div class="row">
@@ -126,10 +127,10 @@
 						Choose the thesis' availability (one or both):
 					</div>
 					<div class="col-md-4">
-						<input type="checkbox" id="undergraduate" name="undergraduate" value="undergraduate"> Undergraduate
+						<input type="checkbox" id="undergraduate" name="Triennale" value="undergraduate"> Undergraduate
 					</div>
 					<div class="col-md-4">
-						<input type="checkbox" id="graduate" name="graduate" value="graduate"> Graduate
+						<input type="checkbox" id="graduate" name="Magistrale" value="graduate"> Graduate
 					</div>
 					<br>
 					<br>

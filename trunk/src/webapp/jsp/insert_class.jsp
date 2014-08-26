@@ -80,10 +80,11 @@
 			<br>
 			<!-- action deve puntare alla servlet che gestisce la registrazione -->
 			<!-- area e università con autocomplemento, università mostra solo le opzioni consentite -->
-			<form name='insert_class' method="post" action="#" onSubmit="return insertClassFormValidation();"> 
+			<form name='insert_class' method="post" action="<c:url value="/class"/>" onSubmit="return insertClassFormValidation();"> 
+				<input type="hidden" name="operation" value="insert">
 				<div align="center">
 					<div class="input-group insert_new_input_group">
-						<span class="input-group-addon insert_new_input">Name*</span> <input type="text" class="form-control" name="name" id="name" placeholder="Insert the class's name">
+						<span class="input-group-addon insert_new_input">Name*</span> <input type="text" class="form-control" name="Nome" id="name" placeholder="Insert the class's name">
 					</div>
 					<br>
 					<div class="input-group insert_new_input_group">
@@ -98,7 +99,7 @@
 					<div class="row">
 						<span></span>
 						<span class="input-group-addon insert_new_select_label_inline">Select the class' area*</span>
-						<select class="selectpicker text-left" id="area" name="area">
+						<select class="selectpicker text-left" id="area" name="NomeArea">
 	    					<option disabled selected>Nothing Selected</option> <!-- serve per la corretta validazione -->
 							<c:forEach var="areaDomain" items='${areaDomain}'>
 								<option value="${areaDomain.nome}" >${areaDomain.nome}</option>
@@ -107,13 +108,13 @@
 					</div>
 					<br>
 					<div class="input-group insert_new_input_group">
-						<span class="input-group-addon insert_new_input">University*</span> <input id="universityNames" class="form-control" name="university" title="type &quot;a&quot;" placeholder="Insert the University"/>
+						<span class="input-group-addon insert_new_input">University*</span> <input id="universityNames" class="form-control" name="NomeUniversita" title="type &quot;a&quot;" placeholder="Insert the University"/>
 					</div>
 					<br>
 					<div class="row">
 						<span></span>
 						<span class="input-group-addon insert_new_select_label_inline">Select the class' language*</span>
-						<select class="selectpicker text-left" id="language" name="language">
+						<select class="selectpicker text-left" id="language" name="NomeLingua">
 	    					<option disabled selected>Nothing Selected</option> <!-- serve per la corretta validazione -->
 							<c:forEach var="languageDomain" items='${languageDomain}'>
 								<option value="${languageDomain.sigla}" >${languageDomain.nome}</option>
@@ -123,17 +124,17 @@
 					<br>
 					<div class="col-md-4">
 						<div class="input-group insert_new_input_group">
-							<span class="input-group-addon insert_new_input_small">Credits*</span> <input type="text" class="form-control" name="credits" id="credits" placeholder="">
+							<span class="input-group-addon insert_new_input_small">Credits*</span> <input type="text" class="form-control" name="Crediti" id="credits" placeholder="">
 						</div>
 					</div>
 					<div class="col-md-4">
 						<div class="input-group insert_new_input_group">
-							<span class="input-group-addon insert_new_input_small">Year*</span> <input type="text" class="form-control" name="year" id="year" placeholder="">
+							<span class="input-group-addon insert_new_input_small">Year*</span> <input type="text" class="form-control" name="AnnoCorso" id="year" placeholder="">
 						</div>
 					</div>
 					<div class="col-md-4">
 						<div class="input-group insert_new_input_group">
-							<span class="input-group-addon insert_new_input_small">Semester*</span> <input type="text" class="form-control" name="semester" id="semester" placeholder="">
+							<span class="input-group-addon insert_new_input_small">Semester*</span> <input type="text" class="form-control" name="PeriodoErogazione" id="semester" placeholder="">
 						</div>
 					</div>
 					<br>

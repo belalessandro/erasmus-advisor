@@ -1,8 +1,10 @@
 package it.unipd.dei.bding.erasmusadvisor.test;
 
 import it.unipd.dei.bding.erasmusadvisor.beans.CittaBean;
+import it.unipd.dei.bding.erasmusadvisor.beans.InsegnamentoBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.UniversitaBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.ValutazioneUniversitaBean;
+import it.unipd.dei.bding.erasmusadvisor.database.InsegnamentoDatabase;
 import it.unipd.dei.bding.erasmusadvisor.database.UniversitaDatabase;
 import it.unipd.dei.bding.erasmusadvisor.resources.University;
 
@@ -46,35 +48,27 @@ public class TestInsegnamentoDatabase {
 		}
 
 
-		CittaBean beanC = new CittaBean();
-		beanC.setNome("Bagdad");
-		beanC.setStato("Iraq");
+		InsegnamentoBean insegnamentoBean = new InsegnamentoBean();
+		insegnamentoBean.setNome("Analisi 3");
+		insegnamentoBean.setCrediti(9);
+		insegnamentoBean.setNomeUniversita("University of Cambridge");
+		insegnamentoBean.setPeriodoErogazione(1);
+		insegnamentoBean.setStato("NOT VERIFIED");
+		insegnamentoBean.setAnnoCorso(4);
+		insegnamentoBean.setNomeArea("Mathematics");
+		insegnamentoBean.setNomeLingua("eng");
+		
 
 		try {
 			con = DriverManager.getConnection(DATABASE, USER, PASSWORD); // UNICA CONNESSIONE
 
 			con.setAutoCommit(false); // UNICA TRANSAZIONE
 			
+			InsegnamentoDatabase.createInsegnamento(con, insegnamentoBean);
 			
-			//CittaDatabase.createCitta(con, beanC); // Inserisco qualcosa
-			
-			University u = UniversitaDatabase.searchUniversityModelByName(con, "Universitat de Barcelona- Main Site");
-			// VEDI http://docs.oracle.com/javase/tutorial/jdbc/basics/transactions.html
-
-			UniversitaBean updated = u.getUniversita();
-			updated.setLink("CIAOAOOOOO");
-			UniversitaDatabase.updateUniversita(con, updated);
 			
 			DbUtils.commitAndClose(con); // COMMITTA 
 
-			if (u.getUniversita() != null) {
-				try { 
-					String s = BeanUtils.describe(u.getUniversita()).toString();
-					for ( ValutazioneUniversitaBean v : u.getListaValutazioni())
-						s += "\n" + BeanUtils.describe(v).toString();
-					System.out.println(s);
-				} catch (Exception e) {}
-			}
 		} catch (SQLException e) {
 //			// If there is any error.
 //			if (con != null)

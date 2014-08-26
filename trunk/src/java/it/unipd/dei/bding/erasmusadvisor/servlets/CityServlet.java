@@ -312,13 +312,15 @@ public class CityServlet extends AbstractDatabaseServlet
 		cittaBean.setNome(city);
 		cittaBean.setStato(country);
 		
-		for(int i=0;i<siglaLingua.length;i++)
-		{
-			LinguaCittaBean l = new LinguaCittaBean(); 
-			l.setNomeCitta(city);
-			l.setStatoCitta(country);
-			l.setSiglaLingua(siglaLingua[i]);
-			linguaCittaBeanList.add(l);
+		if (siglaLingua != null) {
+			for(int i=0;i<siglaLingua.length;i++)
+			{
+				LinguaCittaBean l = new LinguaCittaBean(); 
+				l.setNomeCitta(city);
+				l.setStatoCitta(country);
+				l.setSiglaLingua(siglaLingua[i]);
+				linguaCittaBeanList.add(l);
+			}
 		}
 
 		/**
@@ -349,7 +351,8 @@ public class CityServlet extends AbstractDatabaseServlet
 		// Success!
 		// Creating response path
 		StringBuilder builder = new StringBuilder()
-			.append("/erasmus-advisor/city?name=")
+			.append(request.getContextPath())
+			.append("/city?name=")
 			.append(city)
 			.append("&country=")
 			.append(country);

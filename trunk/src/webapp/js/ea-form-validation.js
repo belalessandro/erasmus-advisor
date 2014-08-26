@@ -104,6 +104,8 @@ function insertClassFormValidation()
 	
 	var profName = document.getElementsByName("professorName");
 	var profSur = document.getElementsByName("professorSurname");
+
+	alert('Luca correggi il signInFormValidation()'); // TODO
 	
 	if (select_validate(lang) && select_validate(area))
 	{
@@ -113,6 +115,7 @@ function insertClassFormValidation()
 			{
 				if (semester_validation(semester) && year_validation(year))
 				{
+					return true; // ale: workaround
 				}
 			}
 		}
@@ -148,6 +151,9 @@ function insertThesisFormValidation()
 	
 	var profName = document.getElementsByName("professorName");
 	var profSur = document.getElementsByName("professorSurname");
+	
+	alert('Luca sistema validation js!!');
+	return true;
 	
 	if (multiselect_validate(lang) && multiselect_validate(area))
 	{
