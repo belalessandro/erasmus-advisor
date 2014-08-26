@@ -1,6 +1,5 @@
 package it.unipd.dei.bding.erasmusadvisor.database;
 
-import it.unipd.dei.bding.erasmusadvisor.beans.LinguaTesiBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.SvolgimentoBean;
 
 import java.sql.Connection;

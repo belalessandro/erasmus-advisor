@@ -12,6 +12,8 @@ import java.util.List;
  */
 public class CityEvaluationsAverage implements Serializable
 {
+	private static final long serialVersionUID = 5142021491938552897L;
+	
 	int costOfLife = 0;
 	int houseAvailability = 0;
 	int liveability = 0;

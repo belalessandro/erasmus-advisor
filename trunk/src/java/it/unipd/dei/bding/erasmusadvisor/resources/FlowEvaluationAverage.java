@@ -12,6 +12,8 @@ import java.util.List;
  */
 public class FlowEvaluationAverage implements Serializable
 {
+	private static final long serialVersionUID = -6537613055867808200L;
+	
 	int gratification = 0;
 	int academicFulfillment = 0;
 	int didactics = 0;
