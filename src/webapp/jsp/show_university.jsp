@@ -64,7 +64,7 @@
 						<li class="active"><span data-toggle="modal" data-target="#evaluateForm">Evaluate</span></li>
 						<li class="active"><span data-toggle="modal" data-target="#editForm">Edit</span></li>
 						<li class="active">
-							<form method="post" action="#">
+							<form method="post" action="<c:url value="/university"/>">
                                 <input type="hidden" name="operation" value="delete"/>
                                 <input type="hidden" name="name" value="${university.nome}"/>
 								<input type="submit" value="Delete" class="btn btn-primary entity_nav_button">

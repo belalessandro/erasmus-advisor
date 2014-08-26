@@ -1,15 +1,8 @@
 package it.unipd.dei.bding.erasmusadvisor.servlets;
 
 import it.unipd.dei.bding.erasmusadvisor.beans.BeanUtilities;
-import it.unipd.dei.bding.erasmusadvisor.beans.DocumentazioneBean;
-import it.unipd.dei.bding.erasmusadvisor.beans.FlussoBean;
-import it.unipd.dei.bding.erasmusadvisor.beans.OrigineBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.UniversitaBean;
-import it.unipd.dei.bding.erasmusadvisor.database.DocumentazioneDatabase;
-import it.unipd.dei.bding.erasmusadvisor.database.FlussoDatabase;
-import it.unipd.dei.bding.erasmusadvisor.database.OrigineDatabase;
 import it.unipd.dei.bding.erasmusadvisor.database.UniversitaDatabase;
-import it.unipd.dei.bding.erasmusadvisor.resources.FlowEvaluationAverage;
 import it.unipd.dei.bding.erasmusadvisor.resources.LoggedUser;
 import it.unipd.dei.bding.erasmusadvisor.resources.Message;
 import it.unipd.dei.bding.erasmusadvisor.resources.University;
@@ -17,13 +10,9 @@ import it.unipd.dei.bding.erasmusadvisor.resources.UniversityEvaluationsAverage;
 import it.unipd.dei.bding.erasmusadvisor.resources.UserType;
 
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.json.Json;
 import javax.json.JsonObject;
@@ -32,7 +21,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.dbutils.DbUtils;
 
 /**
@@ -156,14 +144,15 @@ public class UniversityServlet extends AbstractDatabaseServlet {
 			
 		} 
 		else if (operation.equals(INSERT))
-		{
-			/**
-			 * INSERT OPERATION
-			 */
-			
+		{			
 			insert(req, resp);
+		}
+		else if (operation.equals(DELETE))
+		{			
+			delete(req, resp);
 		
-		} else if (operation.equals("update")) 
+		}
+		else if (operation.equals("update")) 
 		{
 			edit(req, resp);
 		}
@@ -223,8 +212,43 @@ public class UniversityServlet extends AbstractDatabaseServlet {
 		response.sendRedirect(builder.toString());
     }
 
-    private void delete(HttpServletRequest request, HttpServletResponse response) {
-        //handle logic for delete operation...
+
+    private void delete(HttpServletRequest req, HttpServletResponse resp) 
+    		throws ServletException, IOException 
+    {
+
+		Connection conn = null;
+		Message m = null;
+		
+		String name = req.getParameter("name"); 
+		
+		if (name != null && !name.isEmpty()) 
+		{
+			int results;
+			try {
+				conn = DS.getConnection();
+				results = UniversitaDatabase.deleteUniversita(conn, name);				
+				if (results > 0 )
+				{
+					String deletedEntity = name;
+					req.setAttribute("deletedEntity", deletedEntity);
+					getServletContext().getRequestDispatcher("/jsp/entity_deleted.jsp").forward(req, resp);
+				}
+				
+			} 
+			catch (SQLException e)
+			{
+				m = new Message("Error while deleting the university.", "", e.getMessage());
+				req.setAttribute("message", m);
+				getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(req, resp);
+			}
+			finally {
+				DbUtils.closeQuietly(conn); // always closes the connection 
+			}
+		} 
+		else {
+			// An error maybe?
+		}
     }
     
     private void edit(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 

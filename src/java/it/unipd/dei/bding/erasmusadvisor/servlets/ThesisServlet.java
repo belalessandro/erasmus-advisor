@@ -3,38 +3,21 @@ package it.unipd.dei.bding.erasmusadvisor.servlets;
 import it.unipd.dei.bding.erasmusadvisor.beans.AreaBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.ArgomentoTesiBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.BeanUtilities;
-import it.unipd.dei.bding.erasmusadvisor.beans.DocumentazioneBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.EstensioneBean;
-import it.unipd.dei.bding.erasmusadvisor.beans.FlussoBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.GestioneBean;
-import it.unipd.dei.bding.erasmusadvisor.beans.InsegnamentoBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.LinguaBean;
-import it.unipd.dei.bding.erasmusadvisor.beans.LinguaCittaBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.LinguaTesiBean;
-import it.unipd.dei.bding.erasmusadvisor.beans.OrigineBean;
-import it.unipd.dei.bding.erasmusadvisor.beans.ProfessoreBean;
-import it.unipd.dei.bding.erasmusadvisor.beans.SpecializzazioneBean;
-import it.unipd.dei.bding.erasmusadvisor.beans.SvolgimentoBean;
 import it.unipd.dei.bding.erasmusadvisor.database.ArgomentoTesiDatabase;
-import it.unipd.dei.bding.erasmusadvisor.database.CreateDocumentazioneDatabase;
-import it.unipd.dei.bding.erasmusadvisor.database.CreateFlussoDatabase;
-import it.unipd.dei.bding.erasmusadvisor.database.CreateOrigineDatabase;
 import it.unipd.dei.bding.erasmusadvisor.database.EstensioneDatabase;
 import it.unipd.dei.bding.erasmusadvisor.database.GestioneDatabase;
 import it.unipd.dei.bding.erasmusadvisor.database.GetAreaValues;
 import it.unipd.dei.bding.erasmusadvisor.database.GetLinguaValues;
-import it.unipd.dei.bding.erasmusadvisor.database.InsegnamentoDatabase;
-import it.unipd.dei.bding.erasmusadvisor.database.LinguaCittaDatabase;
 import it.unipd.dei.bding.erasmusadvisor.database.LinguaTesiDatabase;
 import it.unipd.dei.bding.erasmusadvisor.database.ProfessoreDatabase;
-import it.unipd.dei.bding.erasmusadvisor.database.SpecializzazioneDatabase;
-import it.unipd.dei.bding.erasmusadvisor.database.SvolgimentoDatabase;
-import it.unipd.dei.bding.erasmusadvisor.database.UniversitaDatabase;
 import it.unipd.dei.bding.erasmusadvisor.resources.LoggedUser;
 import it.unipd.dei.bding.erasmusadvisor.resources.Message;
 import it.unipd.dei.bding.erasmusadvisor.resources.Thesis;
 import it.unipd.dei.bding.erasmusadvisor.resources.ThesisEvaluationsAverage;
-import it.unipd.dei.bding.erasmusadvisor.resources.University;
 import it.unipd.dei.bding.erasmusadvisor.resources.UserType;
 
 import java.io.IOException;
@@ -164,23 +147,20 @@ public class ThesisServlet extends AbstractDatabaseServlet {
 			/* Error or not authorized. */
 			getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(req, resp);
 			return;
-		} else if (operation.equals(INSERT) ) {
-			
-			/**
-			 * INSERT OPERATION
-			 */
-			
+		} 
+		else if (operation.equals(INSERT)) 
+		{		
 			insert(req, resp);
-			
-		} else if (operation.equals(UPDATE) ) {
-
-			/**
-			 * INSERT OPERATION
-			 */
-			
+		} 
+		else if (operation.equals(UPDATE)) 
+		{
 			edit(req, resp);
-			
-		} else {
+		} 
+		else if (operation.equals(DELETE)) 
+		{
+			delete(req, resp);
+		} 
+		else {
 			// operation not supported..
 		}
 	}
@@ -329,8 +309,44 @@ public class ThesisServlet extends AbstractDatabaseServlet {
 		response.sendRedirect(builder.toString());	
     }
 
-    private void delete(HttpServletRequest request, HttpServletResponse response) {
-        //handle logic for delete operation...
+
+    private void delete(HttpServletRequest req, HttpServletResponse resp) 
+    		throws ServletException, IOException 
+    {
+
+		Connection conn = null;
+		Message m = null;
+		
+		String id = req.getParameter("id");
+		String name = req.getParameter("name"); // name serve solo per la visualizzazione in entity_deleted
+		
+		if (id != null && !id.isEmpty() && name != null && !name.isEmpty()) 
+		{
+			int results;
+			try {
+				conn = DS.getConnection();
+				results = ArgomentoTesiDatabase.deleteArgomentoTesi(conn, Integer.parseInt(id));				
+				if (results > 0 )
+				{
+					String deletedEntity = name;
+					req.setAttribute("deletedEntity", deletedEntity);
+					getServletContext().getRequestDispatcher("/jsp/entity_deleted.jsp").forward(req, resp);
+				}
+				
+			} 
+			catch (SQLException e)
+			{
+				m = new Message("Error while deleting the thesis.", "", e.getMessage());
+				req.setAttribute("message", m);
+				getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(req, resp);
+			}
+			finally {
+				DbUtils.closeQuietly(conn); // always closes the connection 
+			}
+		} 
+		else {
+			// An error maybe?
+		}
     }
     
     private void edit(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {

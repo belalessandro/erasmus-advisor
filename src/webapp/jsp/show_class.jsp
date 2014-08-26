@@ -116,9 +116,10 @@
 						<li class="active"><span onClick="report();">Report</span></li>
 						<li class="active"><span data-toggle="modal" data-target="#editForm">Edit</span></li>
 						<li class="active">
-							<form method="post" action="#">
+							<form method="post" action="<c:url value="/class"/>">
                                 <input type="hidden" name="operation" value="delete"/>
                                 <input type="hidden" name="id" value="${classBean.id}"/>
+                                <input type="hidden" name="name" value="${classBean.nome}"/>
 								<input type="submit" value="Delete" class="btn btn-primary entity_nav_button">
 							</form>
 						</li>

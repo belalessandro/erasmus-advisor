@@ -85,22 +85,20 @@ public class UniversitaDatabase {
 	    		uni.getNomeCitta(), uni.getStatoCitta(), uni.getNome());
 	}
 	
+
 	/**
-	* Delete a Universita
-	* 
-	* @return the number of rows affected	
-	* @throws SQLException if any error occurs 
-	*/
-	public static int deleteUniversita(Connection con, String name) throws SQLException 
+	 * Delete a Universita (University) from the database.
+	 * @param conn A connection to the database
+	 * @param id The id of the university to delete
+	 * @return The number of rows affected: zero means an id that do not correspond to any university.
+	 * @throws SQLException If an error occurs.
+	 */
+	public static int deleteUniversita(Connection conn, String name) throws SQLException
 	{
-		/**
-		 * The SQL delete statement
-		 */
 		String statement = "DELETE From Universita WHERE nome = ?";
 		
 		QueryRunner run = new QueryRunner();
-		return run.update(con, statement, name);
-		
+		return run.update(conn, statement, name);
 	}
 	
 	/**

@@ -134,5 +134,20 @@ public class InsegnamentoDatabase
 				insegnamentoBean.getNomeLingua(),
 				insegnamentoBean.getId());		
 	}
+	
+	/**
+	 * Delete an Insegnamento (Teaching) from the database.
+	 * @param conn A connection to the database
+	 * @param id The id of the teaching to delete
+	 * @return The number of rows affected: zero means an id that do not correspond to any teaching.
+	 * @throws SQLException If an error occurs.
+	 */
+	public static int deleteInsegnamento(Connection conn, int id) throws SQLException
+	{
+		final String statement = "DELETE FROM Insegnamento WHERE Id = ?";
+		
+		QueryRunner run = new QueryRunner();
+		return run.update(conn, statement, id);
+	}
 
 }

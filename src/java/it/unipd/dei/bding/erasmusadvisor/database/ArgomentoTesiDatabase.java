@@ -97,24 +97,22 @@ public class ArgomentoTesiDatabase {
 	    		arg.getId());
 	}
 	
+
 	/**
-	* Delete a Thesis
-	* 
-	* @return the number of rows affected	
-	* @throws SQLException if any error occurs 
-	*/
-	public static int deleteArgomentoTesi(Connection con, String nome, String nomeUni) throws SQLException 
+	 * Delete an ArgomentoTesi (Thesis) from the database.
+	 * @param conn A connection to the database
+	 * @param id The id of the thesis to delete
+	 * @return The number of rows affected: zero means an id that do not correspond to any thesis.
+	 * @throws SQLException If an error occurs.
+	 */
+	public static int deleteArgomentoTesi(Connection conn, int id) throws SQLException
 	{
-		/**
-		 * The SQL delete statement
-		 */
-		String statement = "DELETE From ArgomentoTesi WHERE nome = ? AND nomeUniversita = ?";
+		final String statement = "DELETE FROM ArgomentoTesi WHERE Id = ?";
 		
 		QueryRunner run = new QueryRunner();
-		return run.update(con, statement, nome, nomeUni);
-		
+		return run.update(conn, statement, id);
 	}
-	
+		
 	
 	/**
 	 * Search a Thesis by name and fits into Thesis model   
