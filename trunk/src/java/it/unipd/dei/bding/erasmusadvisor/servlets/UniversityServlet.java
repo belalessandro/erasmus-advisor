@@ -271,12 +271,15 @@ public class UniversityServlet extends AbstractDatabaseServlet {
 			universita.setPresenzaAlloggi(false);
 		else
 			universita.setPresenzaAlloggi(true);
-	
+		
+		// Old name of the university
+		String old_name = request.getParameter("old_name");
+		
 		try {
 			con = DS.getConnection();
 			
 			// edit the university
-			UniversitaDatabase.updateUniversita(con, universita);
+			UniversitaDatabase.updateUniversita(con, universita, old_name);
 			
 			DbUtils.close(con);
 			
