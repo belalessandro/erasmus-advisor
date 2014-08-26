@@ -138,9 +138,7 @@ public class ThesisServlet extends AbstractDatabaseServlet {
 				req.setAttribute("areas", results.getAree());
 				req.setAttribute("languages", results.getLingue());
 				req.setAttribute("evaluations", results.getListaValutazioni());
-
 				req.setAttribute("evaluationsAvg", new ThesisEvaluationsAverage(results.getListaValutazioni()));
-
 				req.setAttribute("languageDomain", languageDomain);
 				req.setAttribute("areaDomain", areaDomain);
 
