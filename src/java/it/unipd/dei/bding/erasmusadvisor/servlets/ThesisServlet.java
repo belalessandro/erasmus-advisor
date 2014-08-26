@@ -194,10 +194,14 @@ public class ThesisServlet extends AbstractDatabaseServlet {
 		 */
 		
 		// Populating beans with the FORM submitted
-		argomentoTesiBean.setNome(request.getParameter("Nome"));
-		argomentoTesiBean.setNomeUniversita(request.getParameter("NomeUniversita"));
-		argomentoTesiBean.setTriennale(Boolean.parseBoolean(request.getParameter("Triennale")));
-		argomentoTesiBean.setMagistrale(Boolean.parseBoolean(request.getParameter("Magistrale")));
+		argomentoTesiBean.setNome(request.getParameter("nome"));
+		argomentoTesiBean.setNomeUniversita(request.getParameter("nomeUniversita"));
+		
+		// set check-box values
+		String triennale = request.getParameter("triennale");
+		String magistrale = request.getParameter("magistrale");
+		argomentoTesiBean.setTriennale(triennale == null ? false : true);
+		argomentoTesiBean.setMagistrale(magistrale == null ? false : true);
 		
 		// Setting additional fields 
 		argomentoTesiBean.setStato("NOT VERIFIED"); // Setting status 

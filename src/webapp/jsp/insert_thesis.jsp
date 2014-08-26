@@ -86,7 +86,7 @@
 				<input type="hidden" name="operation" value="insert">
 				<div align="center">
 					<div class="input-group insert_new_input_group">
-						<span class="input-group-addon insert_new_input">Name*</span> <input type="text" class="form-control" name="Nome" id="name" placeholder="Insert the thesis' title">
+						<span class="input-group-addon insert_new_input">Name*</span> <input type="text" class="form-control" name="nome" id="name" placeholder="Insert the thesis' title">
 					</div>
 					<br>
 					<div class="input-group insert_new_input_group">
@@ -100,7 +100,7 @@
 					<br>
 					<div class="input-group insert_new_input_group">
 						<span class="input-group-addon insert_new_input">University*</span> 
-						<input id="universityNames" class="form-control" name="NomeUniversita" title="type &quot;a&quot;" placeholder="Insert the University"/>
+						<input id="universityNames" class="form-control" name="nomeUniversita" title="type &quot;a&quot;" placeholder="Insert the University"/>
 					</div>
 					<br>
 					<div class="row">
@@ -127,10 +127,10 @@
 						Choose the thesis' availability (one or both):
 					</div>
 					<div class="col-md-4">
-						<input type="checkbox" id="undergraduate" name="Triennale" value="undergraduate"> Undergraduate
+						<input type="checkbox" id="undergraduate" name="triennale" value="undergraduate"> Undergraduate
 					</div>
 					<div class="col-md-4">
-						<input type="checkbox" id="graduate" name="Magistrale" value="graduate"> Graduate
+						<input type="checkbox" id="graduate" name="magistrale" value="graduate"> Graduate
 					</div>
 					<br>
 					<br>

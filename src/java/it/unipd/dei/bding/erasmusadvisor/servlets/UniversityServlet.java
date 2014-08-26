@@ -180,6 +180,10 @@ public class UniversityServlet extends AbstractDatabaseServlet {
 		BeanUtilities.populateBean(uni, request);
 		uni.setNome(request.getParameter("nome"));
 
+		// set check-box value
+		String alloggi = request.getParameter("presenzaAlloggi");
+		uni.setPresenzaAlloggi(alloggi == null ? false : true);
+		
 		/**
 		 * Insert to database
 		 */
