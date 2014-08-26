@@ -46,37 +46,28 @@ public class ThesisListServlet extends AbstractDatabaseServlet
 			throws ServletException, IOException 
 	{
 		String operation = req.getParameter("operation");
-		String ciao = req.getParameter("dropLevel");
+		Message m = null;
 		
+		// database connection
+		Connection conn = null;
+
 		if (operation != null && !operation.isEmpty()
 				&& operation.equals("search")) 
 		{
 			String area = req.getParameter("area");
 			String uni = req.getParameter("university");
-			FileOutputStream prova = new FileOutputStream("C:\\prova.txt");
-	          PrintStream scrivi = new PrintStream(prova);
-	          for(int i=0;i<10;i++)
-	          {
-	                scrivi.println("DENTRO"+operation+area+uni);
-	          }
 			// model
 			List<ArgomentoTesiBean> results = null;
-			Message m = null;
 			
-			// database connection
-			Connection conn = null;
-
 			try {
 
 				conn = DS.getConnection();
 				//results = ArgomentoTesiDatabase.searchArgomentoTesiBy(conn, uni, area);
 				results = ArgomentoTesiDatabase.searchArgomentoTesiBy(conn, uni, area);
-				scrivi.println("RES = "+results.toString());
 				
 			} catch (SQLException ex) {
 				m = new Message("Error while getting the university.",
 						"XXX", ex.getMessage());
-				scrivi.println("M = "+m.getErrorDetails());
 			} finally {
 				DbUtils.closeQuietly(conn);
 			}
@@ -95,24 +86,14 @@ public class ThesisListServlet extends AbstractDatabaseServlet
 				req.setAttribute("theses", results);
 				req.setAttribute("areaSearch",area);
 				req.setAttribute("universitySearch", uni);
-				getServletContext().getRequestDispatcher("/jsp/search_thesis.jsp").forward(req, resp);
 								
 			}
-			scrivi.println("out");
 		}
-		else { 
+			
 			 //Redirect to the Search JSP page 
-			FileOutputStream prova = new FileOutputStream("C:\\prova.txt");
-	          PrintStream scrivi = new PrintStream(prova);
-	          for(int i=0;i<10;i++)
-	          {
-	                scrivi.println("FUORI"+operation+ciao);
-	          }
 			List<LinguaBean> languageDomain = null;
 			List<AreaBean> areaDomain = null;
 			List<UniversitaBean> universities = null;
-			Connection conn = null;
-			Message m = null;
 			
 			try {
 				conn = DS.getConnection();
@@ -140,7 +121,6 @@ public class ThesisListServlet extends AbstractDatabaseServlet
 				getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(req, resp);
 			}
 		}
-	}
 	
 	/*protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException 
