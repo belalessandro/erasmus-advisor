@@ -16,19 +16,57 @@ function signInFormValidation()
 	var pwd2 = document.registration.password2; 
 	var regterm = document.registration.regTermRadioYes;
 	
-	if(userid_validation(uid,minUserIDLength,maxUserIDLength))  
-	{  
-		if(pwd_validation(pwd, pwd2,minPassLength,maxPassLength))  
+	var name = document.registration.name;
+	var surname = document.registration.surname;
+	var uni = document.registration.universityNames;
+	
+	var course = document.registration.corsoNames;
+	var startDate = document.registration.datepicker;
+	var endDate = document.registration.datepicker2;
+	
+	if (document.getElementById("typeStudent").checked)
+	{	
+		if(userid_validation(uid,minUserIDLength,maxUserIDLength))  
 		{  
-			if(email_validation(uemail))  
+			if(pwd_validation(pwd, pwd2,minPassLength,maxPassLength))  
 			{  
-				if(regterm_validation(regterm))
-				{
-					return true;
-				}
-			}   
+				if(email_validation(uemail) && regterm_validation(regterm))  
+				{  
+					if ((uni.value.length > 0 || course.value.length > 0) 
+							|| (startDate.value.length > 0 || endDate.value.length > 0))
+					{
+						if(string_validation(uni) && string_validation(course))
+						{
+							if (date_interval_validation(startDate, endDate))
+							{
+								return true;
+							}
+						}
+					}
+					else
+					{
+						return true;
+					}
+				}   
+			}  
 		}  
-	}  
+	}
+	else if (document.getElementById("typeManager").checked)
+	{
+		if(userid_validation(uid,minUserIDLength,maxUserIDLength))  
+		{  
+			if(pwd_validation(pwd, pwd2,minPassLength,maxPassLength))  
+			{  
+				if(email_validation(uemail) && regterm_validation(regterm))  
+				{  
+					if(string_validation(name) && (string_validation(surname) && string_validation(uni)))
+					{
+						return true;
+					}
+				}   
+			}  
+		}  
+	}
 	return false;  
 } 
 
@@ -220,6 +258,36 @@ function professor_validation(profName)
 		return true;
 	else
 		return false;
+}
+
+function date_interval_validation(startDate, endDate)
+{
+	try
+	{
+		var fromAr = startDate.value.split("/");
+		var toAr = endDate.value.split("/");
+		var from = new Date();
+		from.setFullYear(fromAr[2], fromAr[0], fromAr[1]);
+		var to = new Date();
+		to.setFullYear(toAr[2], toAr[0], toAr[1]);
+		
+		if (from < to)
+		{
+			return true;
+		}
+		else
+		{
+			alert("You have to insert a valid interval.");  
+			startDate.focus();
+			return false;
+		}
+	}
+	catch(err)
+	{
+		alert("You have to insert a valid interval.");  
+		startDate.focus();
+		return false;
+	}
 }
 
 function checkbox_one_or_both_validation(opt1, opt2)
