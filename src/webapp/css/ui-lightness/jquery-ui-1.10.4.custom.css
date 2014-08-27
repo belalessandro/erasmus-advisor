@@ -837,8 +837,9 @@ body .ui-tooltip {
 .ui-state-focus,
 .ui-widget-content .ui-state-focus,
 .ui-widget-header .ui-state-focus {
-	border: 1px solid #fbcb09;
-	/*background: #fdf5ce url("images/ui-bg_glass_100_fdf5ce_1x400.png") 50% 50% repeat-x;*/
+	/*background: #fdf5ce url("images/ui-bg_glass_100_fdf5ce_1x400.png") 50% 50% repeat-x;
+	border: 1px solid #fbcb09;*/
+	border: 1px solid 285e8e;
 	background: #66afe9;
 	font-weight: bold;
 	color: #c77405;
