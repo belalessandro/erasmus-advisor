@@ -5,6 +5,7 @@ import it.unipd.dei.bding.erasmusadvisor.database.StudenteDatabase;
 import it.unipd.dei.bding.erasmusadvisor.resources.LoggedUser;
 import it.unipd.dei.bding.erasmusadvisor.resources.Message;
 import it.unipd.dei.bding.erasmusadvisor.resources.Student;
+import it.unipd.dei.bding.erasmusadvisor.resources.UserType;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -41,13 +42,14 @@ public class StudentProfileServlet extends AbstractDatabaseServlet
 		Connection conn = null;
 		Message m = null;
 		Student stud = null;
-		
+		/* TODO
 		HttpSession session = req.getSession(false);
 		if (session == null)
 		{
 			getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(req, resp);
 		}
-		LoggedUser lu = (LoggedUser)req.getSession().getAttribute("loggedUser");
+		TODO LoggedUser lu = (LoggedUser)req.getSession().getAttribute("loggedUser");*/
+		LoggedUser lu = new LoggedUser(UserType.STUDENTE, "mario.rossi");
 		
 		try {
 			conn = DS.getConnection();
@@ -74,4 +76,7 @@ public class StudentProfileServlet extends AbstractDatabaseServlet
 			getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(req, resp);
 		}
 	}
+	
+	// TODO ale: attenzione che ci possono essere piu' iscrizioni, non una sola! o sbaglio?
+	// se uno dovesse cambiare, non deve perdere la precedente
 }
