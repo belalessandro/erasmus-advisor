@@ -46,7 +46,7 @@ public class FlussoDatabase
 		 */
 		String insertStmt = "INSERT INTO Flusso (id, destinazione, respFlusso, "
 				+ "postiDisponibili, attivo, dataUltimaModifica, durata, dettagli) "
-				+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+				+ "VALUES (?, ?, ?, ?, TRUE, CURRENT_DATE, ?, ?)";
 		
 		PreparedStatement pstmt = null;
 		try {
@@ -55,8 +55,8 @@ public class FlussoDatabase
 			pstmt.setString(2, flusso.getDestinazione());
 			pstmt.setString(3, flusso.getRespFlusso());
 			pstmt.setInt(4, flusso.getPostiDisponibili());
-			pstmt.setBoolean(5, flusso.isAttivo());
-			pstmt.setDate(6, flusso.getDataUltimaModifica());
+			//pstmt.setBoolean(5, flusso.isAttivo());
+			//pstmt.setDate(6, flusso.getDataUltimaModifica());
 			pstmt.setInt(7, flusso.getDurata());
 			pstmt.setString(8, flusso.getDettagli());
 			pstmt.execute();
