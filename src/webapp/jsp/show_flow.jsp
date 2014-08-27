@@ -20,11 +20,16 @@
 	<!-- componenti aggiuntivi -->
 	<link href="<c:url value="/css"/>/bootstrap-select.min.css" rel="stylesheet">
 	<link href="<c:url value="/css"/>/star-rating.css" rel="stylesheet">
+	<link href="<c:url value="/css"/>/datepicker3.css" rel="stylesheet">
+	<link href="<c:url value="/css"/>/ui-lightness/jquery-ui-1.10.4.custom.css" rel="stylesheet">
 	<script src="<c:url value="/js"/>/jquery.min.js"></script>
+	<script src="<c:url value="/js"/>/jquery-ui-1.10.4.custom.js"></script>
 	<script src="<c:url value="/js"/>/bootstrap-select.js"></script>
 	<script src="<c:url value="/js"/>/bootstrap.min.js"></script>	
 	<script src="<c:url value="/js"/>/star-rating.min.js"></script>	
 	<script src="<c:url value="/js"/>/jquery.tablesorter.min.js"></script>
+	<script src="<c:url value="/js"/>/ea-basic.js"></script>	
+	<script src="<c:url value="/js"/>/bootstrap-datepicker.js"></script>
 	<link href="<c:url value="/css"/>/tablesorter/style.css" rel="stylesheet"> 
 	
 	<script src="<c:url value="/js"/>/ea-form-validation.js"></script>
@@ -70,7 +75,11 @@
         });		
 		function formatInterest(numInterest)
 		{
-			if (numInterest == 1)
+			if (isNaN(numInterest))
+			{
+    			$('#number_of_interested_stud').html("Error with the interest operation, please reload this page");
+			}
+			else if (numInterest == 1)
 			{
     			$('#number_of_interested_stud').html("<b>One</b> student has expressed interest for this flow");
 			}
@@ -136,8 +145,9 @@
 						edit e delete solo da reponsabili di flusso e coordinatori erasmus -->
 					<ul class="nav nav-stacked pull-right">
 						<li class="active"><span data-toggle="modal" data-target="#evaluateForm">Evaluate</span></li>
-						<li class="active"><span id="flow_add_interest">Show interest</span></li>
+						<li class="active"><span id="flow_add_interest">Add interest</span></li>
 						<li class="active"><span id="flow_remove_interest" style="display: none !important;">Remove interest</span></li>
+						<li class="active"><span id="flow_add_partecipation" data-toggle="modal" data-target="#participationForm">Add participation</span></li>
 						<li class="active"><span data-toggle="modal" data-target="#editForm">Edit</span></li>
 						<li class="active">
 							<form method="post" action="<c:url value="/flow"/>">
@@ -283,6 +293,48 @@
 				</div>
 			</div>
 			<!-- fine Form di valutazione a comparsa-->		
+			
+			<!--Form di inserimento partecipazione -->
+			<div class="modal fade" id="participationForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+							<h4 class="modal-title" id="myModalLabel">Set the participation to <b><c:out value="${flow.id}"/></b></h4>
+						</div>
+						<div class="modal-body">
+							<form name='participationForm'  method="post"  action="<c:url value="/flow/participation"/>" >
+							
+					<div class="row">
+						<div class="col-lg-2"></div>
+						<div class="col-lg-8">
+							<div class="input-group sign_in_input_group">
+								<span class="input-group-addon sign_in_input_small">From</span><input type="text" class="form-control" id="datepicker" name="date_from" placeholder="dd/mm/yyyy">
+							</div>
+							<br>
+							<div class="input-group sign_in_input_group">
+								<span class="input-group-addon sign_in_input_small">To</span><input type="text" class="form-control" id="datepicker2" name="date_to" placeholder="dd/mm/yyyy">
+							</div>
+						</div>
+						<div class="col-lg-2"></div>
+					</div>
+								
+								<br>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+									<input type="submit" value="Add participation" class="btn btn-primary pull-right">
+								</div>
+								
+								<!-- hidden params -->
+								<input type="hidden" name="operation" value="insert" />
+								<input type="hidden" name="flowID" value="<c:out value="${flow.id}" />" />
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- fine Form di inserimento partecipazione-->	
+			
 			<br>	
 			<h4 align="center" id="number_of_interested_stud">
 			<c:choose>
