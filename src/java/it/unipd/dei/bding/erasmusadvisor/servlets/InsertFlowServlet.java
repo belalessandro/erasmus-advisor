@@ -2,20 +2,10 @@ package it.unipd.dei.bding.erasmusadvisor.servlets;
 
 import it.unipd.dei.bding.erasmusadvisor.beans.CertificatiLinguisticiBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.CorsoDiLaureaBean;
-import it.unipd.dei.bding.erasmusadvisor.beans.DocumentazioneBean;
-import it.unipd.dei.bding.erasmusadvisor.beans.FlussoBean;
-import it.unipd.dei.bding.erasmusadvisor.beans.LinguaBean;
-import it.unipd.dei.bding.erasmusadvisor.beans.OrigineBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.ResponsabileFlussoBean;
 import it.unipd.dei.bding.erasmusadvisor.database.CorsoDiLaureaDatabase;
-import it.unipd.dei.bding.erasmusadvisor.database.CreateDocumentazioneDatabase;
-import it.unipd.dei.bding.erasmusadvisor.database.CreateFlussoDatabase;
-import it.unipd.dei.bding.erasmusadvisor.database.CreateOrigineDatabase;
 import it.unipd.dei.bding.erasmusadvisor.database.GetCertificatiLinguisticiValues;
-import it.unipd.dei.bding.erasmusadvisor.database.GetLinguaValues;
-import it.unipd.dei.bding.erasmusadvisor.resources.LoggedUser;
 import it.unipd.dei.bding.erasmusadvisor.resources.Message;
-import it.unipd.dei.bding.erasmusadvisor.resources.UserType;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -87,65 +77,4 @@ public class InsertFlowServlet extends AbstractDatabaseServlet {
 			getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(req, resp);
 		}
 	}
-	
-	
-	
-	
-	
-	
-	// TODO SPOSTATA IN FlowServlet.doPost
-//	public void doPost(HttpServletRequest request, HttpServletResponse response)
-//			throws ServletException, IOException {
-//		
-//		if (!lu.isFlowResp()) { // Not authorized
-//			request.getRequestDispatcher("/login").forward(request, response);
-//			return;
-//		}
-//			
-//		// entity beans
-//		
-//		
-//		// data models
-//		Message m = null;
-//		
-//
-//		try{
-//			
-//			//String s = "";
-//			//if (true) throw new SQLException( request.getParameter("name"), "" );
-//			
-//			
-//			
-//			m = new Message("Flow " + f.getId() + " inserted successfully.");
-//			
-//			//new CreateStudenteDatabase(DS.getConnection(), s).createStudente(); 
-//			
-//		} catch (NumberFormatException ex) {
-//			m = new Message("Cannot create the flow. Invalid input parameters.", 
-//					"E100", ex.getMessage());
-//		} catch (SQLException ex) {
-//			if (ex.getSQLState().equals("23505")) {
-//				m = new Message("Cannot create the flow: id " + f.getId() + " already exists.", 
-//						"E300", ex.getMessage());
-//			} else {
-//				m = new Message("Cannot create the flow: unexpected error while accessing the database.", 
-//						"E200", ex.getMessage());
-//			}
-//		}
-//		
-//		
-//		if (!m.isError()) {
-//			// forwards the control to ....
-//			//request.getRequestDispatcher("/jsp/insert_flow.jsp").forward(request, response);
-//			request.getSession().setAttribute("message", m);
-//			response.sendRedirect("jsp/insert_flow.jsp?notify=success");
-//		} else { // ERROR
-//			// stores the message as a request attribute
-//			request.setAttribute("message", m);
-//			
-//			// come back to flow insertion JSP page
-//			request.getRequestDispatcher("/jsp/error.jsp").forward(request, response);
-//		}
-//			
-//	}
 }
