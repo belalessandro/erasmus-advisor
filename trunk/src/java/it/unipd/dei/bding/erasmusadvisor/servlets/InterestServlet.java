@@ -27,6 +27,9 @@ public class InterestServlet extends AbstractDatabaseServlet
 			throws ServletException, IOException 
 	{		
 		String operation = req.getParameter("operation");
+
+		// TODO bisogna usare la sessione per determinare l'utente, questo parametro non è necessario
+		String user = (new LoggedUser(UserType.STUDENTE, "user")).getUser();
 		
 		Connection conn = null;
 		Message m = null;
@@ -34,32 +37,38 @@ public class InterestServlet extends AbstractDatabaseServlet
 		if (operation.equals("delete"))
 		{
 			String flow = req.getParameter("flowID");
-			// TODO bisogna usare la sessione per determinare l'utente, questo parametro non è necessario
-			String user = req.getParameter("userName");
+			long updatedInterests = 0;
 			
-			int results;
+			int results = 0;
 			try {
 				conn = DS.getConnection();
 				results = InteresseDatabase.removeInterest(conn, flow, user);
+				updatedInterests = InteresseDatabase.getCountInteresseByFlusso(conn, flow);
 
-				if (results > 0)
-				{
-					return;
-				}
 			} 
 			catch (SQLException ex) 
 			{
-				// non mi piace...
+				m = new Message("Error while deleting your interest.", "", ex.getMessage());
 			} 
 			finally {
 				DbUtils.closeQuietly(conn); // always closes the connection 
+			}
+			
+			if (m == null && results > 0)
+			{
+				resp.setContentType("text/plain"); 
+				resp.setCharacterEncoding("UTF-8");
+				resp.getWriter().write(updatedInterests + "");
+			}
+			else
+			{
+				req.setAttribute("message", m);
+				getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(req, resp);
 			}
 		}
 		else if (operation.equals("insert"))
 		{
 			String flow = req.getParameter("flowID");
-			// TODO
-			String user = (new LoggedUser(UserType.STUDENTE, "user")).getUser();
 			long updatedInterests = 0;
 			
 			try {
@@ -69,7 +78,7 @@ public class InterestServlet extends AbstractDatabaseServlet
 			} 
 			catch (SQLException ex) 
 			{
-				m = new Message("Error while inserting you interest.", "", ex.getMessage());
+				m = new Message("Error while inserting your interest.", "", ex.getMessage());
 			} 
 			finally {
 				DbUtils.closeQuietly(conn); // always closes the connection 

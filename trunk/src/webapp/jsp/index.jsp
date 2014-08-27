@@ -25,14 +25,20 @@
 	<script>
 	// funzione per l'azione di eliminazione di un interesse
         $(document).ready(function() {                    
-            $('.index_button_remove').click(function() {   
-                var flow = $(this).attr("id");
-            	var user = "${interests[0].userName}";
-            	$.post('<c:url value="/interest"/>', 
-                		{ operation: "delete", flowID : flow, userName : user },
-                		function(responseText) { 
-                			$('#row-' + flow).remove();
-                		});
+            $('.index_button_remove').click(function() {  
+    	    	var r = confirm("Do you want to remove this flow from your interests?");
+    			if (r == true) 
+    			{ 
+	                var flow = $(this).attr("id");
+	            	$.post('<c:url value="/interest"/>', 
+	                		{ operation: "delete", flowID : flow},
+	                		function(responseText) { 
+	                			$('#row-' + flow).remove();
+	                		});
+    			} 
+    			else {
+    			    // splash! and nothing happens
+    			} 
             });
         });
 	</script>
