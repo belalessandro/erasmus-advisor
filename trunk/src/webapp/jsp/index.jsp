@@ -23,6 +23,7 @@
 	<script src="<c:url value="/js"/>/bootstrap.min.js"></script>
 	
 	<script>
+	// funzione per l'azione di eliminazione di un interesse
         $(document).ready(function() {                    
             $('.index_button_remove').click(function() {   
                 var flow = $(this).attr("id");

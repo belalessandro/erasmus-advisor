@@ -3,9 +3,11 @@ package it.unipd.dei.bding.erasmusadvisor.database;
 import it.unipd.dei.bding.erasmusadvisor.resources.InterestBean;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
 
+import org.apache.commons.dbutils.DbUtils;
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.ResultSetHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
@@ -53,5 +55,19 @@ public class InteresseDatabase
 		return run.update(conn, statement, flow, user);
 	}
 	
+	public static void addInterest(Connection conn, String flow, String user) throws SQLException
+	{
+		String insertStmt = "INSERT INTO Interesse (idflusso, nomeutentestudente) VALUES (?, ?)";
+		
+		PreparedStatement pstmt = null;
+		try {
+			pstmt = conn.prepareStatement(insertStmt);
+			pstmt.setString(1, flow);
+			pstmt.setString(2, user);
+			pstmt.execute();
+		} finally {
+			DbUtils.closeQuietly(pstmt);
+		}
+	}
 
 }
