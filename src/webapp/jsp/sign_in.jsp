@@ -80,6 +80,31 @@
 	});
 	</script>
 	
+	<script>
+	// gestisce i controlli visualizzati in base al tipo di account desiderato
+		function userTypeSelection()
+		{
+			document.registration.setAttribute("style", "display: inline;");
+			
+			if (document.getElementById("typeStudent").checked)
+			{
+				document.getElementById("form_degree_course").setAttribute("style", "display: table;");
+				document.getElementById("form_dates").setAttribute("style", "display: inline;");
+				
+				document.getElementById("form_name").setAttribute("style", "display: none;");
+				document.getElementById("form_surname").setAttribute("style", "display: none;");
+			}
+			else if (document.getElementById("typeManager").checked)
+			{
+				document.getElementById("form_name").setAttribute("style", "display: table;");
+				document.getElementById("form_surname").setAttribute("style", "display: table;");
+	
+				document.getElementById("form_degree_course").setAttribute("style", "display: none;");
+				document.getElementById("form_dates").setAttribute("style", "display: none;");
+			}
+		}
+	</script>
+	
 </head>
 
 <body>
@@ -96,13 +121,27 @@
 			
 			<h2 align="center">Registration Page</h2>
 			<br>
-			<p align="center">An * indicates a required field.</p>
-			<br>
 			<!-- display the message -->
     		<c:import url="/jsp/include/showMessage.jsp"/>
+			<div class="row text-center">
+				<hr>
+				<div class="col-md-4">
+					Select an account type:
+				</div>
+				<div class="col-md-4">
+					<input id="typeStudent" name="userType" type="radio" class="radio-btn" value="Student" onchange="userTypeSelection();"/> Student
+				</div>
+				<div class="col-md-4"> 
+					<input id="typeManager" name="userType" type="radio" class="radio-btn" value="Manager" onchange="userTypeSelection();"/> Flow Manager
+				</div>
+				<hr>
+			</div>
 			<!-- action deve puntare alla servlet che gestisce la registrazione -->
-			<form name='registration' onSubmit="return signInFormValidation();" action="<c:url value="/create-student"/>" method="post" action="#"> 
+			<form name='registration' onSubmit="return signInFormValidation();" action="<c:url value="/create-student"/>" method="post" style="display: none;"> 
 				<div align="center">
+					<br>
+					<p>An * indicates a required field.</p>
+					<br>
 					<div class="input-group sign_in_input_group">
 						<span class="input-group-addon sign_in_input">Username*</span> <input type="text" class="form-control" name="user" id="user" placeholder="Insert your username">
 					</div>
@@ -111,6 +150,18 @@
 						<span class="input-group-addon sign_in_input">E-mail*</span> <input type="text" class="form-control" name="email" id="email" placeholder="Example: mario.rossi@example.com">
 					</div>
 					<br>
+					<div id="form_name" class="sign_in_input_group">
+						<div class="input-group sign_in_input_group">
+							<span class="input-group-addon sign_in_input">Name*</span> <input type="text" class="form-control" name="name" id="name" placeholder="Insert your name">	
+						</div>
+						<br>
+					</div>
+					<div id="form_surname" class="sign_in_input_group">
+						<div class="input-group sign_in_input_group">
+							<span class="input-group-addon sign_in_input">Surname*</span> <input type="text" class="form-control" name="surname" id="surname" placeholder="Insert your surname">			
+						</div>
+						<br>
+					</div>
 					<div class="input-group sign_in_input_group">
 						<span class="input-group-addon sign_in_input">Password*</span> <input type="password" class="form-control" name="password" id="password" placeholder="Insert a password">
 					</div>
@@ -123,11 +174,13 @@
 						<span class="input-group-addon sign_in_input">University</span><input id="universityNames" class="form-control" name="university" title="type &quot;a&quot;" placeholder="Insert the University"/>
 					</div>
 					<br>
-					<div class="input-group sign_in_input_group">
-						<span class="input-group-addon sign_in_input">Degree Course</span> <input id="corsoNames" class="form-control" name="degree" title="type &quot;a&quot;" placeholder="Insert your Degree Course"/>
+					<div id="form_degree_course" class="sign_in_input_group">
+						<div class="input-group sign_in_input_group">
+							<span class="input-group-addon sign_in_input">Degree Course</span> <input id="corsoNames" class="form-control" name="degree" title="type &quot;a&quot;" placeholder="Insert your Degree Course"/>
+						</div>
+						<br>
 					</div>
-					<br>
-					<div class="row">
+					<div class="row" id="form_dates">
 						<div class="col-lg-5"></div>
 						<div class="col-lg-7">
 							<div class="input-group sign_in_input_group">
