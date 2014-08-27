@@ -25,8 +25,9 @@ public class LoginServlet extends AbstractDatabaseServlet {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	protected void doPost(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request,HttpServletResponse response) 
+			throws ServletException, IOException 
+	{
 		response.setContentType("text/html;charset=UTF-8");
 
 		String email = request.getParameter("email");
@@ -52,22 +53,32 @@ public class LoginServlet extends AbstractDatabaseServlet {
 						HttpSession session = request.getSession(true);
 						LoggedUser logged = new LoggedUser(user.getType(), user.getNomeUtente());
 						session.setAttribute("loggedUser", logged);
-						getServletContext().getRequestDispatcher(
-								"/jsp/index.jsp").forward(request, response);
+						
+						// luca: traferisce il controllo alla index
+						//getServletContext().getRequestDispatcher("/jsp/index.jsp").forward(request, response);
+						
+						StringBuilder builder = new StringBuilder()
+						.append("/erasmus-advisor/index");
+				
+						response.sendRedirect(builder.toString());
 						return;
 					}
-				} catch (IllegalStateException e) {
+				} 
+				catch (IllegalStateException e) {
 					m = new Message("Server error! Please contact an admin");
 				}
-			} else {
+			} 
+			else {
 
 			}
-		} catch (SQLException e) {
+		} 
+		catch (SQLException e) {
 			m = new Message("Email or password incorrect!");
 			request.setAttribute("message", m);
 			getServletContext().getRequestDispatcher("/jsp/home.jsp").forward(
 					request, response);
-		} finally {
+		} 
+		finally {
 			DbUtils.closeQuietly(conn);
 		}
 
