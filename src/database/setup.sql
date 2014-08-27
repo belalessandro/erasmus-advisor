@@ -7,6 +7,7 @@
 DROP database "erasmusadvisor";
 CREATE  database "erasmusadvisor" WITH ENCODING = 'UTF8';
 \c erasmusadvisor;
+\encoding UTF-8;
 \ir 'create.sql';   
 \ir 'triggers.sql'; 
 \ir 'indexes.sql';   
