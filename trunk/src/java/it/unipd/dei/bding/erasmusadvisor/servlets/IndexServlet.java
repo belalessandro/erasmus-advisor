@@ -50,13 +50,7 @@ public class IndexServlet extends AbstractDatabaseServlet
 		}
 
 		if (m == null)
-		{
-			for(InterestBean bean : interests)
-			{
-				System.out.println(bean.getCityName() + " " + bean.getCountryName() + " " + bean.getFlowID() 
-						+ " " + bean.getUniversityName() + " " +  bean.getUserName());
-			}
-			
+		{		
 			req.setAttribute("interests", interests);
 			getServletContext().getRequestDispatcher("/jsp/index.jsp").forward(req, resp);
 		}
