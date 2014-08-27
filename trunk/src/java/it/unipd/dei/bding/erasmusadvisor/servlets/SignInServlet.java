@@ -73,7 +73,7 @@ public class SignInServlet extends AbstractDatabaseServlet {
 			new CreateStudenteDatabase(DS.getConnection(), s).createStudente();
 			
 		} catch (NumberFormatException ex) {
-			m = new Message("Cannot create the student. Invalid input parameters: identifier, age, and salary must be integer.", 
+			m = new Message("Cannot create the student. Invalid input parameters.", 
 					"E100", ex.getMessage());
 		} catch (SQLException ex) {
 			if (ex.getSQLState().equals("23505")) {
@@ -86,15 +86,20 @@ public class SignInServlet extends AbstractDatabaseServlet {
 		}
 		
 		// stores the employee and the message as a request attribute
-		request.setAttribute("student", s);
-		request.setAttribute("message", m);
+		// request.setAttribute("student", s);
 		
 		if (m == null) {
 			// forwards the control to the index JSP
 			// luca: cambiato da user_profile a index.jsp
-			request.getRequestDispatcher("/jsp/index.jsp").forward(request, response);
-		} else {
+			//getServletContext().getRequestDispatcher("/jsp/index.jsp").forward(request, response);
+			
+			StringBuilder builder = new StringBuilder()
+			.append("/erasmus-advisor/index");
+			response.sendRedirect(builder.toString());
+		} 
+		else {
 			// come back to sign_in JSP
+			request.setAttribute("message", m);
 			request.getRequestDispatcher("/jsp/sign_in.jsp").forward(request, response);
 		}
 	}
