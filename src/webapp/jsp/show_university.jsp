@@ -20,7 +20,6 @@
 	<script src="<c:url value="/js"/>/jquery.min.js"></script>
 	<script src="<c:url value="/js"/>/bootstrap.min.js"></script>	
 	<script src="<c:url value="/js"/>/star-rating.min.js"></script>	
-	
 	<script src="<c:url value="/js"/>/ea-form-validation.js"></script>
 </head>
 <body>

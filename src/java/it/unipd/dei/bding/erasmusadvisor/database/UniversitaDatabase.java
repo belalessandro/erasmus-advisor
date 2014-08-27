@@ -70,19 +70,19 @@ public class UniversitaDatabase {
 	 * @throws SQLException
 	 *             if any error occurs while storing the Universita.
 	 */
-	public static int updateUniversita(Connection con, UniversitaBean uni)
+	public static int updateUniversita(Connection con, UniversitaBean uni, String old_name)
 			throws SQLException {
 		/**
 		 * The SQL update statement
 		 */
-		String updateStmt = "UPDATE Universita SET link = ?, posizioneClassifica = ?, "
+		String updateStmt = "UPDATE Universita SET nome = ?, link = ?, posizioneClassifica = ?, "
 				+ "presenzaAlloggi = ?, nomeCitta = ?, statoCitta = ?"
 				+ "WHERE nome = ?";
 		
 		QueryRunner run = new QueryRunner( );
 		
-	    return run.update(con, updateStmt, uni.getLink(), uni.getPosizioneClassifica(), uni.isPresenzaAlloggi(),
-	    		uni.getNomeCitta(), uni.getStatoCitta(), uni.getNome());
+	    return run.update(con, updateStmt, uni.getNome(), uni.getLink(), uni.getPosizioneClassifica(), uni.isPresenzaAlloggi(),
+	    		uni.getNomeCitta(), uni.getStatoCitta(), old_name);
 	}
 	
 
