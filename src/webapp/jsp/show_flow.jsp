@@ -30,8 +30,8 @@
 	<script src="<c:url value="/js"/>/ea-form-validation.js"></script>
 		
 	<script>
-		// funzione che notifica che questo flusso è di interesse per lo studente
         $(document).ready(function() { 
+    			// funzione che notifica che questo flusso è di interesse per lo studente
 	            $('#flow_add_interest').click(function() {  
 	    	    	var r = confirm("Do you want to add this flow to your interests?");
 	    			if (r == true) 
@@ -46,12 +46,28 @@
 		                		    document.getElementById("flow_remove_interest").setAttribute("style", "display: block;");
 		                	});
 	    			} 
-	    			else {
-	    			    // splash! and nothing happens
+	    			else {  // splash! and nothing happens
 	    			}      
 	            });
-        });
-		
+	    		// funziona che notifica che questo flusso non è più di interesse per lo studente
+	            $('#flow_remove_interest').click(function() {  
+	    	    	var r = confirm("Do you want to remove this flow from your interests?");
+	    			if (r == true) 
+	    			{               
+		                var flow = "<c:out value="${flow.id}"/>";
+		            	$.post('<c:url value="/interest"/>', 
+		                		{ operation: "delete", flowID : flow},
+		                		function(responseText) { 
+		                			var actualInterest = parseInt(responseText);
+		                			formatInterest(actualInterest);
+		                		    document.getElementById("flow_remove_interest").setAttribute("style", "display: none;");
+		                		    document.getElementById("flow_add_interest").setAttribute("style", "display: block;");
+		                	});
+	    			} 
+	    			else {  // splash! and nothing happens
+	    			}      
+	            });
+        });		
 		function formatInterest(numInterest)
 		{
 			if (numInterest == 1)
@@ -64,19 +80,6 @@
 			}
 		}
 		
-		// funziona che notifica che questo flusso non è più di interesse per lo studente
-		// da fare con ajax
-	    function removeInterest()
-	    {
-	    	var r = confirm("Do you want to remove this flow from your interests?");
-			if (r == true) 
-			{
-			    // procedere
-			} 
-			else {
-			    // splash! and nothing happens
-			} 
-	    }
 		// inizializza i select avanzati
 		$(document).ready(function() {
 		    $('.selectpicker').selectpicker({
