@@ -64,9 +64,12 @@ public class ParticipationServlet extends AbstractDatabaseServlet
 			
 			if (m == null)
 			{
-				//resp.setContentType("text/plain"); 
-				//resp.setCharacterEncoding("UTF-8");
-				//resp.getWriter().write(updatedInterests + "");
+				// Creating response path
+				StringBuilder builder = new StringBuilder()
+					.append("/erasmus-advisor/flow?id=")
+					.append(flow);
+			
+				resp.sendRedirect(builder.toString());
 			}
 			else
 			{
