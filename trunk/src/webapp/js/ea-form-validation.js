@@ -231,13 +231,37 @@ function insertUniversityFormValidation()
 }
 
 // mauro: Questo va e potrebbe servire per la validazione della valutazione 
-/*$(document).ready(function() {
-	$("#cityEvaluationForm").submit(function(event) {
-		  alert( "" );
-		  event.preventDefault();
-		});
-
-});*/
+//$(function() {
+//	var values = [];
+//	impostare <form id="evaluations" ...>
+//	$("#evaluations .rating").on('rating.change', function(event, value, caption) {
+//	    console.log(value);
+//	    console.log(caption);
+//	    
+//	    
+//	});
+//	
+//	
+//	$("#evaluations").submit(function(event) {
+////		alert("ciao stronzo!"); 
+//		event.preventDefault();
+//		
+//		ratings = $("#evaluations .rating");
+//		
+//		
+//		
+//	});
+//	
+//	
+//	
+//	$('#teachingsQuality').on('rating.change', function(event, value, caption) {
+//	    console.log(value);
+//	    console.log(caption);
+//	});
+//
+//});
+	
+	
 
 
 // validate the single elements

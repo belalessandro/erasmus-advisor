@@ -34,7 +34,24 @@
 		}
 	</style>
 	<script>
+		/*
+		*	Scripts
+		*/
 		$(function() {
+			
+			/*
+			*	Inizializza i select avanzati
+			*/
+			$(document).ready(function() {
+			    $('.selectpicker').selectpicker({
+			        style: 'btn-default',
+			        size: false
+			    });
+			});
+			
+			/*
+			*	Script per l'autocompletamento
+			*/
 			var cache = {};
 			$("#universityNames").autocomplete(
 				{
@@ -58,36 +75,53 @@
 							});
 					}
 				});
-		});
+			
+			/*
+			*	Script per la gestione del tasto report
+			*/
+			$("#report-yes").click(function() {
+				
+				// data to send
+				var jsonData = new Object();
+				jsonData.operation = "report";
+				jsonData.id = <c:out value="${classBean.id}"/>;
+				
+				// json object to send
+			    var jsonobj = JSON.stringify(jsonData);
+				
+			    $.ajax({
+			    	data : jsonobj,  
+					contentType : "application/json",
+					method : "POST",
+					url : "<c:url value='/class'/>",
+					success: function(data) { 
+						
+						if(data["report"] == "success")
+						{
+							// hide the button
+							$("#report-button").hide();
+							
+							// hide the window
+							$('#reportConfirmDialog').modal('hide');
+							
+							console.log("report: " + data["report"]);
+						}
+					},
+					error: function(data) {console.log("EA ERROR: failed to report the entity."); }
+			    }); // end ajax
+			}); // end click function report-yes
+		}); // end ready function jQuery
+		
+		
 	</script>
 	
 	<script>
-		// funziona che notifica che questa entità è da segnare REPORTED
-		// da fare con ajax
-	    function report()
-	    {
-	    	var r = confirm("Do you really want to report this class to the moderators?");
-			if (r == true) 
-			{
-			    // procedere con la cancellazione
-			} 
-			else {
-			    // splash! and nothing happens
-			} 
-	    }
 		// funziona che aggiunge che questo corso è riconosciuto per il flusso
 		// da fare con ajax
 	    function acknowledge()
 	    {
 	    	alert(document.getElementById("ackFlow").value);
 	    }
-		// inizializza i select avanzati
-		$(document).ready(function() {
-		    $('.selectpicker').selectpicker({
-		        style: 'btn-default',
-		        size: false
-		    });
-		});
 	</script>
 </head>
 <body>
@@ -128,7 +162,7 @@
 					<ul class="nav nav-stacked pull-right">
 						<li class="active"><span data-toggle="modal" data-target="#evaluateForm">Evaluate</span></li>
 						<li class="active"><span data-toggle="modal" data-target="#acknowledgeForm">Acknowledge</span></li>
-						<li class="active"><span onClick="report();">Report</span></li>
+						<li class="active" id="report-button"><span data-toggle="modal" data-target="#reportConfirmDialog">Report</span></li>
 						<li class="active"><span data-toggle="modal" data-target="#editForm">Edit</span></li>
 						<li class="active">
 							<form method="post" action="<c:url value="/class"/>">
@@ -141,6 +175,27 @@
 					</ul>
 				</div>
 			</div>
+			<!-- Finestra conferma Report a comparsa -->
+			<div class="modal fade" id="reportConfirmDialog">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+							<h4 class="modal-title">Report to Administrator</h4>
+						</div>
+						<div class="modal-body">
+							<p>
+							<span class="glyphicon glyphicon-exclamation-sign"></span>
+							Do you really want to report this class to moderators?
+							</p>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+							<button id="report-yes" type="button" class="btn btn-primary">Yes</button>
+						</div>
+					</div><!-- /.modal-content -->
+				</div><!-- /.modal-dialog -->
+			</div><!-- /.modal -->
 			<br>
 			<!--Form di riconoscimento a comparsa-->
 			<div class="modal fade" id="acknowledgeForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false">

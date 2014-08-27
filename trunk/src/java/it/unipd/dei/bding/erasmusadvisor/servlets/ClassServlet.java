@@ -3,6 +3,7 @@
  */
 package it.unipd.dei.bding.erasmusadvisor.servlets;
 
+import it.unipd.dei.bding.erasmusadvisor.database.ArgomentoTesiDatabase;
 import it.unipd.dei.bding.erasmusadvisor.database.GetAreaValues;
 import it.unipd.dei.bding.erasmusadvisor.database.GetLinguaValues;
 import it.unipd.dei.bding.erasmusadvisor.database.InsegnamentoDatabase;
@@ -22,10 +23,16 @@ import it.unipd.dei.bding.erasmusadvisor.beans.PartecipazioneBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.SvolgimentoBean;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 
+import javax.json.Json;
+import javax.json.JsonObject;
+import javax.json.JsonObjectBuilder;
+import javax.json.JsonReader;
+import javax.json.JsonWriter;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -45,6 +52,7 @@ public class ClassServlet extends AbstractDatabaseServlet
 	private static final String INSERT = "insert";
     private static final String EDIT = "edit";
     private static final String DELETE = "delete";
+    private static final String AJAX = "ajax";
     
 	private static final long serialVersionUID = 1L;
 
@@ -143,13 +151,14 @@ public class ClassServlet extends AbstractDatabaseServlet
 	{
 		// TODO: DA SESSIONE
 		LoggedUser lu = new LoggedUser(UserType.RESPONSABILE, "erick.burn"); 
-		
-		String operation = req.getParameter("operation");
-		
-		// database required fields
-		Connection con = null;
 		Message m = null;
+		String operation = null;
 		
+		if(req.getHeader("X-Requested-With") != null && req.getHeader("X-Requested-With").equals("XMLHttpRequest"))
+			operation = "ajax";
+		else
+			operation = req.getParameter("operation");
+	
 		if (operation == null || operation.isEmpty() || !lu.isFlowResp()) 
 		{
 			// Error
@@ -165,75 +174,68 @@ public class ClassServlet extends AbstractDatabaseServlet
 		else if (operation.equals(DELETE))
 		{
 			delete(req, resp);
-		} 
+		}
+		else if (operation.equals(AJAX))
+		{
+			report(req, resp);
+		}
 		else if(operation.equals(EDIT))
-		{			
-			// Populate beans
-			InsegnamentoBean insegnamentoBean = new InsegnamentoBean();
-			BeanUtilities.populateBean(insegnamentoBean, req);
-			// TODO ale: se e' resp. flusso bisogna impostare lo stato verified
-			// altrimenti NOT VERIFIED!!
-			// insegnamentoBean.setStato("NOT VERIFIED"); // Setting status
-						
-			String[] professorName = req.getParameterValues("professorName");
-			String[] professorSurname = req.getParameterValues("professorSurname");
+		{	
+			edit(req, resp);
 			
-			try {
-				con = DS.getConnection();
-				
-				// remove old class from Svolgimento
-				SvolgimentoDatabase.deleteSvolgimentoByClassId(con, insegnamentoBean.getId());
-				
-				
-				// update the class
-				InsegnamentoDatabase.updateInsegnamento(con, insegnamentoBean);
-				
-				// check if the professor still existing, otherwise insert the new professor 
-				// and then insert the corresponding row in Svolgimento
-				int id = 0;
-				SvolgimentoBean svolgimentoBean = new SvolgimentoBean();
-				
-				for(int i = 0; i < professorName.length; i++)
-				{	
-					if(!professorName[i].trim().equals("") && !professorSurname[i].trim().equals(""))
-					{
-						id = ProfessoreDatabase.selectOrInsertProfessore(con,
-								professorName[i],
-								professorSurname[i],
-								insegnamentoBean.getNomeUniversita());
-						
-						svolgimentoBean.setIdInsegnamento(insegnamentoBean.getId());
-						svolgimentoBean.setIdProfessore(id);
-						
-						SvolgimentoDatabase.createSvolgimento(con, svolgimentoBean);
-					}
-				}
-				
-				// closing the connection
-				DbUtils.close(con);
-				
-				// Creating response path and redirect to the new page
-				StringBuilder builder = new StringBuilder()
-				.append("/erasmus-advisor/class?id=")
-				.append(insegnamentoBean.getId())
-				.append("&edited=success");
-				
-				resp.sendRedirect(builder.toString());
-				
-			} catch (SQLException e) {
-				// Error management
-				m = new Message("Error while editing " + insegnamentoBean.getNome() + " instance.","XXX", e.getMessage());
-				req.setAttribute("message", m);
-				
-				getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(req, resp); // ERROR PAGE
-				return;
-			} finally {
-				DbUtils.closeQuietly(con);
-			}
 		}
 		
 	}
 
+	
+	/**
+	 * Handle the report for a class. 
+	 * 
+	 * @param request
+	 * @param response
+	 * @throws ServletException
+	 * @throws IOException
+	 */
+	private void report(HttpServletRequest request, HttpServletResponse response) 
+			throws ServletException, IOException {
+		
+		// get json object
+		response.setContentType("application/json");
+		JsonReader reader = Json.createReader(request.getInputStream());
+		JsonObject json = reader.readObject();
+		reader.close();
+		
+		// modify the instance into the database
+		Message m = null;
+		Connection con = null;
+		
+		try {
+			con = DS.getConnection();
+			
+			InsegnamentoDatabase.changeClassStatusToReported(con, json.getInt("id"));
+			
+			DbUtils.close(con);
+			
+		} catch (SQLException e) {
+			m = new Message("Error while reporting the thesis.", "XXX", e.getMessage());
+			request.setAttribute("message", m);
+			errorForward(request, response);
+			return;
+		} finally {
+			DbUtils.closeQuietly(con);
+		}
+		
+		// writing the json object to the page
+		JsonObjectBuilder builder = Json.createObjectBuilder();
+		
+		builder.add("report", "success");
+		JsonObject out = builder.build();
+		
+		JsonWriter writer = Json.createWriter(response.getOutputStream());
+		writer.writeObject(out);
+		writer.close();
+	}
+	
 
 	/**
 	 * Handle logic for insert operation...
@@ -372,9 +374,84 @@ public class ClassServlet extends AbstractDatabaseServlet
 		}
     }
     
-    private void edit(HttpServletRequest request, HttpServletResponse response) {
-        //handle logic for edit operation...
-    }
+    /**
+     * Handle an edit post request. It modifies an instance of entity ArgomentoTesi
+     * @param request
+     * @param response
+     * @throws IOException
+     * @throws ServletException
+     */
+    private void edit(HttpServletRequest request, HttpServletResponse response) 
+    		throws IOException, ServletException 
+    {
+    	// Populate beans
+		InsegnamentoBean insegnamentoBean = new InsegnamentoBean();
+		BeanUtilities.populateBean(insegnamentoBean, request);
+		
+		// TODO ale: se e' resp. flusso bisogna impostare lo stato verified
+		// altrimenti NOT VERIFIED!!
+		// insegnamentoBean.setStato("NOT VERIFIED"); // Setting status
+					
+		String[] professorName = request.getParameterValues("professorName");
+		String[] professorSurname = request.getParameterValues("professorSurname");
+		
+		// Required variables
+		Connection con = null;
+		Message m = null;
+		
+		try {
+			con = DS.getConnection();
+			
+			// remove old class from Svolgimento
+			SvolgimentoDatabase.deleteSvolgimentoByClassId(con, insegnamentoBean.getId());
+			
+			
+			// update the class
+			InsegnamentoDatabase.updateInsegnamento(con, insegnamentoBean);
+			
+			// check if the professor still existing, otherwise insert the new professor 
+			// and then insert the corresponding row in Svolgimento
+			int id = 0;
+			SvolgimentoBean svolgimentoBean = new SvolgimentoBean();
+			
+			for(int i = 0; i < professorName.length; i++)
+			{	
+				if(!professorName[i].trim().equals("") && !professorSurname[i].trim().equals(""))
+				{
+					id = ProfessoreDatabase.selectOrInsertProfessore(con,
+							professorName[i],
+							professorSurname[i],
+							insegnamentoBean.getNomeUniversita());
+					
+					svolgimentoBean.setIdInsegnamento(insegnamentoBean.getId());
+					svolgimentoBean.setIdProfessore(id);
+					
+					SvolgimentoDatabase.createSvolgimento(con, svolgimentoBean);
+				}
+			}
+			
+			// closing the connection
+			DbUtils.close(con);
+			
+			// Creating response path and redirect to the new page
+			StringBuilder builder = new StringBuilder()
+			.append("/erasmus-advisor/class?id=")
+			.append(insegnamentoBean.getId())
+			.append("&edited=success");
+			
+			response.sendRedirect(builder.toString());
+			
+		} catch (SQLException e) {
+			// Error management
+			m = new Message("Error while editing " + insegnamentoBean.getNome() + " instance.","XXX", e.getMessage());
+			request.setAttribute("message", m);
+			
+			getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(request, response); // ERROR PAGE
+			return;
+		} finally {
+			DbUtils.closeQuietly(con);
+		}
+	}
 
     private void errorForward(HttpServletRequest request, HttpServletResponse response) 
     		throws ServletException, IOException  {

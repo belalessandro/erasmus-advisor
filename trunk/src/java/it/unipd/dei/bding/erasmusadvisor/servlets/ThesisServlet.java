@@ -3,11 +3,13 @@ package it.unipd.dei.bding.erasmusadvisor.servlets;
 import it.unipd.dei.bding.erasmusadvisor.beans.AreaBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.ArgomentoTesiBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.BeanUtilities;
+import it.unipd.dei.bding.erasmusadvisor.beans.CittaBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.EstensioneBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.GestioneBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.LinguaBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.LinguaTesiBean;
 import it.unipd.dei.bding.erasmusadvisor.database.ArgomentoTesiDatabase;
+import it.unipd.dei.bding.erasmusadvisor.database.CittaDatabase;
 import it.unipd.dei.bding.erasmusadvisor.database.EstensioneDatabase;
 import it.unipd.dei.bding.erasmusadvisor.database.GestioneDatabase;
 import it.unipd.dei.bding.erasmusadvisor.database.GetAreaValues;
@@ -22,13 +24,17 @@ import it.unipd.dei.bding.erasmusadvisor.resources.UserType;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.StringReader;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.json.Json;
+import javax.json.JsonArray;
 import javax.json.JsonObject;
+import javax.json.JsonObjectBuilder;
+import javax.json.JsonReader;
 import javax.json.JsonWriter;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -48,6 +54,7 @@ public class ThesisServlet extends AbstractDatabaseServlet {
 	private static final String INSERT = "insert";
     private static final String UPDATE = "update";
     private static final String DELETE = "delete";
+    private static final String AJAX = "ajax";
 
 	private static final long serialVersionUID = 77657689265503855L;
 
@@ -97,7 +104,6 @@ public class ThesisServlet extends AbstractDatabaseServlet {
 		 *  Send the university model to the appropriate output (Ajax or normal)
 		 *
 		 */
-		
 		if ("XMLHttpRequest".equals(req.getHeader("X-Requested-With"))) 
 		{
 			// Handle Ajax response (e.g. return JSON data object).
@@ -108,8 +114,7 @@ public class ThesisServlet extends AbstractDatabaseServlet {
 				jsonWriter.writeObject(convertToJson(results));
 				jsonWriter.close();
 			}
-
-		} 
+		}
 		else {
 			// Handle normal response (e.g. forward and/or set message as attribute).
 			if (m == null && results != null) 
@@ -143,7 +148,15 @@ public class ThesisServlet extends AbstractDatabaseServlet {
 			throws ServletException, IOException {
 
 		LoggedUser lu = new LoggedUser(UserType.RESPONSABILE, "erick.burn");
-		String operation = req.getParameter("operation");
+		String operation = null;
+		
+		if(req.getHeader("X-Requested-With") != null && req.getHeader("X-Requested-With").equals("XMLHttpRequest"))
+			operation = "ajax";
+		else
+			operation = req.getParameter("operation");
+		
+		
+		
 		if (operation == null || operation.isEmpty() || !lu.isFlowResp()) {
 			/* Error or not authorized. */
 			getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(req, resp);
@@ -160,12 +173,62 @@ public class ThesisServlet extends AbstractDatabaseServlet {
 		else if (operation.equals(DELETE)) 
 		{
 			delete(req, resp);
-		} 
-		else {
-			// operation not supported..
 		}
+		else if (operation.equals(AJAX))
+		{
+			report(req, resp);
+		}
+		
 	}
 
+	/**
+	 * Handle the report for a thesis. 
+	 * 
+	 * @param request
+	 * @param response
+	 * @throws ServletException
+	 * @throws IOException
+	 */
+	private void report(HttpServletRequest request, HttpServletResponse response) 
+			throws ServletException, IOException {
+		
+		// get json object
+		response.setContentType("application/json");
+		JsonReader reader = Json.createReader(request.getInputStream());
+		JsonObject json = reader.readObject();
+		reader.close();
+		
+		
+		// modify the instance into the database
+		Message m = null;
+		Connection con = null;
+		
+		try {
+			con = DS.getConnection();
+			
+			ArgomentoTesiDatabase.changeThesisStatusToReported(con, json.getInt("id"));
+			
+			DbUtils.close(con);
+			
+		} catch (SQLException e) {
+			m = new Message("Error while reporting the thesis.", "XXX", e.getMessage());
+			request.setAttribute("message", m);
+			errorForward(request, response);
+			return;
+		} finally {
+			DbUtils.closeQuietly(con);
+		}
+		
+		// writing the json object to the page
+		JsonObjectBuilder builder = Json.createObjectBuilder();
+		
+		builder.add("report", "success");
+		JsonObject out = builder.build();
+		
+		JsonWriter writer = Json.createWriter(response.getOutputStream());
+		writer.writeObject(out);
+		writer.close();
+	}
 
 	/**
 	 * Handle logic for insert operation...
@@ -354,6 +417,14 @@ public class ThesisServlet extends AbstractDatabaseServlet {
 		}
     }
     
+    
+    /**
+     * Handle an edit post request. It modifies an instance of entity ArgomentoTesi 
+     * @param req
+     * @param resp
+     * @throws IOException
+     * @throws ServletException
+     */
     private void edit(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
 		
     	// data models, connection
@@ -362,7 +433,10 @@ public class ThesisServlet extends AbstractDatabaseServlet {
     	
 		ArgomentoTesiBean argomento = new ArgomentoTesiBean();
 		BeanUtilities.populateBean(argomento, req);
+		argomento.setStato("NOT VERIFIED");
 
+		// TODO: impostare setStato a seconda dei privilegi utente
+		
 		// set checkbox values
 		String triennale = req.getParameter("triennale");
 		String magistrale = req.getParameter("magistrale");
