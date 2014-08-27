@@ -55,10 +55,10 @@ public class FlussoDatabase
 			pstmt.setString(2, flusso.getDestinazione());
 			pstmt.setString(3, flusso.getRespFlusso());
 			pstmt.setInt(4, flusso.getPostiDisponibili());
-			//pstmt.setBoolean(5, flusso.isAttivo());
-			//pstmt.setDate(6, flusso.getDataUltimaModifica());
-			pstmt.setInt(7, flusso.getDurata());
-			pstmt.setString(8, flusso.getDettagli());
+			//pstmt.setBoolean(x, flusso.isAttivo());
+			//pstmt.setDate(x, flusso.getDataUltimaModifica());
+			pstmt.setInt(5, flusso.getDurata());
+			pstmt.setString(6, flusso.getDettagli());
 			pstmt.execute();
 		} finally {
 			DbUtils.closeQuietly(pstmt);
