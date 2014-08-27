@@ -226,4 +226,21 @@ public class ArgomentoTesiDatabase {
 		// Returns the results
 		return new Thesis(tesi, listaValutazioni, professori, lingue, aree);
 	}
+
+	/**
+	 * Change thesis status to REPORTED
+	 * 
+	 * @param con connection to the database
+	 * @param id thesis id
+	 * @throws SQLException
+	 */
+	public static void changeThesisStatusToReported(Connection con, int id) throws SQLException 
+	{
+		final String sql = "UPDATE ArgomentoTesi SET stato = 'REPORTED' WHERE id = ?;";
+		
+		QueryRunner run = new QueryRunner();
+		
+		run.update(con, sql, id);
+		
+	}
 }
