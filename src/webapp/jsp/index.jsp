@@ -19,16 +19,21 @@
 	<link href="<c:url value="/fonts"/>/font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet">
 		
 	<!-- Javascript -->
+	<script src="<c:url value="/js"/>/jquery.min.js"></script>
 	<script src="<c:url value="/js"/>/bootstrap.min.js"></script>
 	
 	<script>
-		// funzione che elimina l'interesse dal DB, da fare in Ajax
-		// l'unico modo per salvare i paramentri, a meno di non fare un form, 
-		// è di inserirli nell'Id delimitati in qualche modo
-		function removeInterest(id)
-		{
-			alert(id);
-		}
+        $(document).ready(function() {                    
+            $('.index_button_remove').click(function() {   
+                var flow = $(this).attr("id");
+            	var user = "${interests[0].userName}";
+            	$.post('<c:url value="/interest"/>', 
+                		{ operation: "delete", flowID : flow, userName : user },
+                		function(responseText) { 
+                			$('#row-' + flow).remove();
+                		});
+            });
+        });
 	</script>
 </head>
 <body>
@@ -39,7 +44,6 @@
 		<jsp:include page="/jsp/include/menu.jsp">
 			<jsp:param name="pageName" value="index"/>
 		</jsp:include>
-
 		<!-- corpo della pagina -->
 		<div class="col-md-9 general_main_border" >
 			<h2 align="center">Erasmus Advisor</h2>
@@ -72,13 +76,12 @@
 						</thead>
 						<tbody>
 							<c:forEach var="interest" items='${interests}' varStatus="status">
-								<tr>
+								<tr id="row-${interest.flowID}">
 									<td><a href="<c:url value="/flow"/>?id=${interest.flowID}" target="_blank">${interest.flowID}</a></td>
 									<td><a href="<c:url value="/university"/>?name=${interest.universityName}" target="_blank">${interest.universityName}</a></td>
 									<td><a href="<c:url value="/city"/>?name=${interest.cityName}&country=${interest.countryName}" target="_blank">${interest.cityName} (${interest.countryName})</a></td>
 									<td align="center">
-										<button type="button" class="btn btn-default btn-xs" onclick="removeInterest(this.id);"
-										id="${interest.flowID}&${interest.userName}">
+										<button type="button" class="btn btn-default btn-xs index_button_remove" id="${interest.flowID}">
 											<span class="glyphicon glyphicon glyphicon-remove"></span>
 										</button>
 									</td>

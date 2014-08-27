@@ -91,6 +91,15 @@
 		<url-pattern>/index</url-pattern>
 	</servlet-mapping>
 	
+	<servlet>
+		<servlet-name>InterestServlet</servlet-name>
+		<servlet-class>it.unipd.dei.bding.erasmusadvisor.servlets.InterestServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>InterestServlet</servlet-name>
+		<url-pattern>/interest</url-pattern>
+	</servlet-mapping>
+	
 	<!-- entity servlets -->
 
 	<servlet>

@@ -45,5 +45,13 @@ public class InteresseDatabase
 		return run.query(conn, statement1, h, username);
 	}
 	
+	public static int removeInterest(Connection conn, String flow, String user) throws SQLException
+	{
+		final String statement = "DELETE FROM Interesse WHERE idflusso = ? AND nomeutentestudente = ?";
+		
+		QueryRunner run = new QueryRunner();
+		return run.update(conn, statement, flow, user);
+	}
+	
 
 }
