@@ -28,21 +28,42 @@
 	<link href="<c:url value="/css"/>/tablesorter/style.css" rel="stylesheet"> 
 	
 	<script src="<c:url value="/js"/>/ea-form-validation.js"></script>
-	
+		
 	<script>
-		// funziona che notifica che questa flusso è di interesse per lo studente
-		// da fare con ajax
-	    function showInterest()
-	    {
-	    	var r = confirm("Do you want to add this flow to your interests?");
-			if (r == true) 
+		// funzione che notifica che questo flusso è di interesse per lo studente
+        $(document).ready(function() { 
+	            $('#flow_add_interest').click(function() {  
+	    	    	var r = confirm("Do you want to add this flow to your interests?");
+	    			if (r == true) 
+	    			{               
+		                var flow = "<c:out value="${flow.id}"/>";
+		            	$.post('<c:url value="/interest"/>', 
+		                		{ operation: "insert", flowID : flow},
+		                		function(responseText) { 
+		                			var actualInterest = parseInt(responseText);
+		                			formatInterest(actualInterest);
+		                		    document.getElementById("flow_add_interest").setAttribute("style", "display: none;");
+		                		    document.getElementById("flow_remove_interest").setAttribute("style", "display: block;");
+		                	});
+	    			} 
+	    			else {
+	    			    // splash! and nothing happens
+	    			}      
+	            });
+        });
+		
+		function formatInterest(numInterest)
+		{
+			if (numInterest == 1)
 			{
-			    // procedere
-			} 
-			else {
-			    // splash! and nothing happens
-			} 
-	    }
+    			$('#number_of_interested_stud').html("<b>One</b> student has expressed interest for this flow");
+			}
+			else
+			{
+    			$('#number_of_interested_stud').html("There are <b>"+numInterest+"</b> students that have expressed interest for this flow");
+			}
+		}
+		
 		// funziona che notifica che questo flusso non è più di interesse per lo studente
 		// da fare con ajax
 	    function removeInterest()
@@ -112,8 +133,8 @@
 						edit e delete solo da reponsabili di flusso e coordinatori erasmus -->
 					<ul class="nav nav-stacked pull-right">
 						<li class="active"><span data-toggle="modal" data-target="#evaluateForm">Evaluate</span></li>
-						<li class="active"><span onClick="showInterest();">Show interest</span></li>
-						<li class="active"><span onClick="removeInterest();">Remove interest</span></li>
+						<li class="active"><span id="flow_add_interest">Show interest</span></li>
+						<li class="active"><span id="flow_remove_interest" style="display: none !important;">Remove interest</span></li>
 						<li class="active"><span data-toggle="modal" data-target="#editForm">Edit</span></li>
 						<li class="active">
 							<form method="post" action="<c:url value="/flow"/>">
@@ -260,7 +281,7 @@
 			</div>
 			<!-- fine Form di valutazione a comparsa-->		
 			<br>	
-			<h4 align="center">
+			<h4 align="center" id="number_of_interested_stud">
 			<c:choose>
 				<c:when test="${interests == 0}">
 					No students have expressed interest for this flow
