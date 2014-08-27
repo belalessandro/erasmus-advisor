@@ -56,7 +56,8 @@ CREATE FUNCTION CheckSubscriptionOverlap() RETURNS TRIGGER AS $$
     BEGIN
 	    PERFORM I.nomeUtenteStudente
 	            FROM iscrizione AS I
-	            WHERE (NEW.AnnoInizio<I.AnnoFine OR NEW.AnnoInizio<I.AnnoFine) AND NEW.nomeUtenteStudente=I.nomeUtenteStudente;
+	            WHERE (NEW.AnnoInizio<I.AnnoFine AND NEW.AnnoInizio>I.AnnoInizio) OR 
+	            (NEW.AnnoFine>I.AnnoInizio AND NEW.AnnoFine<I.AnnoFine) AND NEW.nomeUtenteStudente=I.nomeUtenteStudente;
 
 	    IF FOUND THEN
 	       RAISE EXCEPTION 'EA ERROR: Overlap in program subscription.' USING ERRCODE = 'EA003'; 
