@@ -76,7 +76,7 @@ CREATE FUNCTION CheckErasmusOverlap() RETURNS TRIGGER AS $$
     BEGIN
 	    PERFORM P.NomeUtenteStudente
 	            FROM partecipazione AS P
-	            WHERE (NEW.Inizio<P.Fine OR P.Inizio<NEW.Fine) AND NEW.nomeUtenteStudente=P.NomeUtenteStudente;
+	            WHERE (NEW.Inizio>P.Inizio AND NEW.Inizio<P.Fine ) OR (NEW.Fine>P.Inizio AND NEW.Fine<P.Fine) AND NEW.nomeUtenteStudente=P.NomeUtenteStudente;
 	    
 	    IF FOUND THEN
 	       RAISE EXCEPTION 'EA ERROR: Overlap in Erasmus subscription.' USING ERRCODE = 'EA004'; 
