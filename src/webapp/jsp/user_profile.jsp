@@ -89,7 +89,7 @@
 											</div>
 											<br>
 											<div class="input-group sign_in_input_group">
-												<span class="input-group-addon sign_in_input">University</span> <input id="autocomplete" class="form-control" name="university" value="<c:out value="${course.nomeuniversita}" />">
+												<span class="input-group-addon sign_in_input">University</span> <input id="autocomplete" class="form-control" name="university" value="<c:out value="${course.nomeUniversita}" />">
 											</div>
 											<br>
 											<div class="input-group sign_in_input_group">
@@ -155,7 +155,7 @@
 							<tr>
 								<td></td>
 								<td>University</td>
-								<td><c:out value="${course.nomeuniversita}" /></td>
+								<td><c:out value="${course.nomeUniversita}" /></td>
 								<td></td>
 							</tr>
 							<tr>
