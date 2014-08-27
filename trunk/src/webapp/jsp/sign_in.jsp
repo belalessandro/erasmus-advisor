@@ -12,9 +12,8 @@
 	<link href="<c:url value="/css"/>/ea-main.css" rel="stylesheet">
 	<link href="<c:url value="/css"/>/bootstrap.min.css" rel="stylesheet">
 	<link href="<c:url value="/fonts"/>/font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet">
-	<script src="<c:url value="/js"/>/bootstrap.min.js"></script>
 	
-	<script src="<c:url value="/js"/>/js/ea-form-validation.js"></script>
+	<script src="<c:url value="/js"/>/ea-form-validation.js"></script>
 	
 	<!-- questi servono per il datepicker -->
 	<link href="<c:url value="/css"/>/datepicker3.css" rel="stylesheet">
@@ -22,15 +21,18 @@
 	<script src="<c:url value="/js"/>/jquery.min.js"></script>
 	<script src="<c:url value="/js"/>/jquery-1.10.2.js"></script>
 	<script src="<c:url value="/js"/>/jquery-ui-1.10.4.custom.js"></script>
-	<script src="<c:url value="/js"/>/bootstrap-datepicker.js"></script>
 	<script src="<c:url value="/js"/>/ea-basic.js"></script>	
+	<script src="<c:url value="/js"/>/bootstrap-datepicker.js"></script>
+	<script src="<c:url value="/js"/>/bootstrap.min.js"></script>
 	
 	<!-- Autocomplete Universities -->
+	<!-- causano conflitto con lo stile, non vanno inclusi, il tutto funziona lo stesso
 	<script src="//code.jquery.com/ui/1.11.1/jquery-ui.js"></script>	
 	<link rel="stylesheet" href="//code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css">
+	 -->
 	<style>
 	.ui-autocomplete-loading {
-	background: white url("<c:url value="/img"/>/ui-anim_basic_16x16.gif") right center no-repeat;
+		background: white url("<c:url value="/img"/>/ui-anim_basic_16x16.gif") right center no-repeat;
 	}
 	</style>
 	<script>
