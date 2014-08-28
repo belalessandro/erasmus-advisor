@@ -17,6 +17,8 @@
 	<script src="<c:url value="/js"/>/jquery.min.js"></script>
 	<script src="<c:url value="/js"/>/bootstrap-select.js"></script>	
 	<script src="<c:url value="/js"/>/bootstrap.min.js"></script>	
+		<script src="<c:url value="/js"/>/jquery-ui-1.10.4.custom.min.js"></script>
+		<link href="<c:url value="/css"/>/ui-lightness/jquery-ui-1.10.4.custom.css" rel="stylesheet">
 	
 	<script src="<c:url value="/js"/>/ea-form-validation.js"></script>
 	<script>
@@ -28,16 +30,9 @@
 	    });
 	});
 	</script>
-	<!-- Autocomplete Countries -->
-<%-- 	<script src="<c:url value="/js"/>/jquery-ui-1.10.4.custom.min.js"></script>
-	<link rel="stylesheet" href="//code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css"> --%>
-	
-	<script src="<c:url value="/js"/>/jquery.min.js"></script>
-	<script src="<c:url value="/js"/>/jquery-1.10.2.js"></script>
-	<link href="<c:url value="/css"/>/ui-lightness/jquery-ui-1.10.4.custom.css" rel="stylesheet">
 	<style>
 	.ui-autocomplete-loading {
-	background: white url("<c:url value="/img"/>/ui-anim_basic_16x16.gif") right center no-repeat;
+		background: white url("<c:url value="/img"/>/ui-anim_basic_16x16.gif") right center no-repeat;
 	}
 	</style>
 	
