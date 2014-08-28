@@ -25,7 +25,7 @@
 	<script src="<c:url value="/js"/>/ea-form-validation.js"></script>
 	<script src="<c:url value="/js"/>/ea-insert.js"></script> 
 	
-	<!-- Autocompletamento Universities -->
+	<!-- Autocompletamento Universities - non va -->
 	<script src="<c:url value="/js"/>/jquery-ui-1.10.4.custom.min.js"></script>
 	<link rel="stylesheet" href="//code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css">
 	<style>
@@ -112,17 +112,41 @@
 					error: function(data) {console.log("EA ERROR: failed to report the entity."); }
 			    }); // end ajax
 			}); // end click function report-yes
+			
 		}); // end ready function jQuery
-		
-		
 	</script>
 	
 	<script>
 		// funziona che aggiunge che questo corso è riconosciuto per il flusso
-		// da fare con ajax
 	    function acknowledge()
 	    {
-	    	alert(document.getElementById("ackFlow").value);
+	    	var flow = document.getElementById("ackFlow").value;
+	    	var teaching = "<c:out value="${classBean.id}"/>";
+	    	
+        	$.post('<c:url value="/class/acknowledgement"/>', 
+            		{ operation: "insert", flowID : flow, classID : teaching},
+            		function(responseText) 
+            		{ 
+            			if (responseText == "success")
+            			{
+							$('#ack-success').show();
+            		   		
+            		   		// elimina il flusso dalle scelte, se rimane solo "nothing selected"
+            		   		// nasconde anche il pulsante
+            		   		var ackFlows = document.getElementById("ackFlow");
+
+                			alert(ackFlows.selectedIndex);
+            		   		ackFlows.remove(ackFlows.selectedIndex);
+
+            				// aggiorna il controllo
+            				$('.selectpicker').selectpicker('refresh');
+            				
+            				if (ackFlows.length == 1)
+            				{
+                		   		document.getElementById("ack-button").setAttribute("style", "display: none;");
+            				}
+            			}
+            	});
 	    }
 	</script>
 </head>
@@ -149,15 +173,28 @@
 			
 			<!-- Avviso che l'entità è in stato reported -->
 			<c:if test="${!empty classBean.stato && classBean.stato == 'REPORTED'}">
+				<div class="alert alert-danger" role="alert">
+					<div class="text-center"><b> <span class="glyphicon glyphicon-star"></span> Warning:</b> 
+					This class was recently reported to moderators for some reasons.</div> 
+				</div>
+			</c:if>
+			
+			<!-- Avviso che l'entità è in stato not verified -->
+			<c:if test="${!empty classBean.stato && classBean.stato == 'NOT VERIFIED'}">
 				<div class="alert alert-warning" role="alert">
-					<b> <span class="glyphicon glyphicon-star"></span> Warning:</b> 
-					The following thesis was recently reported to moderators for some reasons. 
+					<div class="text-center"><b> <span class="glyphicon glyphicon-star"></span> Warning:</b> 
+					This class has not been verified yet. </div>
 				</div>
 			</c:if>
 			
 			<!-- Avviso del report avvenuto con successo -->
 			<div id="report-success" class="alert alert-success" role="alert" style="display:none">
-					Thesis Successfully Reported! 
+					<div class="text-center">Class successfully reported!</div>  
+			</div>
+			
+			<!-- Avviso del report avvenuto con successo -->
+			<div id="ack-success" class="alert alert-success" role="alert" style="display:none">
+					<div class="text-center">Class successfully acknowledged!</div>  
 			</div>
 			
 			
@@ -180,7 +217,9 @@
 						edit e delete solo da reponsabili di flusso e coordinatori erasmus -->
 					<ul class="nav nav-stacked pull-right">
 						<li class="active"><span data-toggle="modal" data-target="#evaluateForm">Evaluate</span></li>
-						<li class="active"><span data-toggle="modal" data-target="#acknowledgeForm">Acknowledge</span></li>
+						<c:if test="${fn:length(flows) > 0}">
+							<li class="active" id="ack-button"><span data-toggle="modal" data-target="#acknowledgeForm">Acknowledge</span></li>
+						</c:if>
 						<!-- Visualizza il tasto report solo se non in stato non verificato e non reported -->
 						<!-- TODO: inserire il controllo utente  -->
 						<c:if test="${!empty classBean.stato && classBean.stato == 'NOT VERIFIED'}">
@@ -233,6 +272,7 @@
 								<span></span>
 								<span class="input-group-addon insert_new_select_label_inline">Select the flow</span>
 								<select class="selectpicker text-left" id="ackFlow" name="ackFlow">
+	    							<option disabled selected>Nothing Selected</option> <!-- serve per la corretta validazione -->
 									<c:forEach var="flow" items='${flows}'>
 										<option value="${flow.idFlusso}">
 										${flow.idFlusso}</option>

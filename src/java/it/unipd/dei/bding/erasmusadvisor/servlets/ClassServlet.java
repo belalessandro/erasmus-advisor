@@ -98,6 +98,8 @@ public class ClassServlet extends AbstractDatabaseServlet
 			results = InsegnamentoDatabase.getInsegnamento(conn, Integer.parseInt(ID));
 			languageDomain = GetLinguaValues.getLinguaDomain(conn);
 			areaDomain = GetAreaValues.getAreaDomain(conn);
+			// TODO i flussi in questa lista dovrebbero essere quelli a cui ha partecipato l'utente
+			// meno quelli che già riconoscono l'insegnamento
 			flows = PartecipazioneDatabase.getFlows(conn, lu.getUser());
 		} 
 		catch (SQLException ex) {
