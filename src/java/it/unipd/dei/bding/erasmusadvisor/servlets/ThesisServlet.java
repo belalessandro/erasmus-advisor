@@ -88,7 +88,7 @@ public class ThesisServlet extends AbstractDatabaseServlet {
 
 		try {
 			conn = DS.getConnection();
-			results = ArgomentoTesiDatabase.getArgomentoTesiByID(conn, ID);
+			results = ArgomentoTesiDatabase.getArgomentoTesi(conn, ID);
 			languageDomain = GetLinguaValues.getLinguaDomain(conn);
 			areaDomain = GetAreaValues.getAreaDomain(conn);
 			DbUtils.close(conn);

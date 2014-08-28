@@ -218,7 +218,7 @@ public class ArgomentoTesiDatabase {
 		List<Thesis> listThesis = new ArrayList<Thesis>();
 		for(int i=0;i<idList.size();i++)
 		{
-			listThesis.add(getArgomentoTesiSearch(con, Integer.toString(idList.get(i).getId())));
+			listThesis.add(getArgomentoTesi(con, Integer.toString(idList.get(i).getId())));
 		}
 		
 		return listThesis ;
@@ -234,7 +234,7 @@ public class ArgomentoTesiDatabase {
 	 * @return
 	 * @throws SQLException
 	 */
-	public static Thesis getArgomentoTesiSearch(Connection conn, String ID)
+	public static Thesis getArgomentoTesi(Connection conn, String ID)
 			throws SQLException 
 	{
 		final String statement1 = "SELECT * FROM ArgomentoTesi WHERE ID = CAST (? AS INTEGER)";
