@@ -58,14 +58,15 @@ public class TestCittaDatabase {
 		}
 
 
-		CittaBean cittaBean = new CittaBean();
+		//CittaBean cittaBean = new CittaBean();
 		
 		
 		try {
 			con = DriverManager.getConnection(DATABASE, USER, PASSWORD); // UNICA CONNESSIONE
 			//con.setAutoCommit(false);
 			
-			List<CitySearchModel> results = CittaDatabase.filterCityBySiglaLingua(con, "eng");
+			//List<CitySearchModel> results = CittaDatabase.filterCityBySiglaLingua(con, "eng");
+			List<CitySearchModel> results = CittaDatabase.filterCityByStato(con, "Italy");
 			
 			for (CitySearchModel result : results) {
 				System.out.print(result.getCitta().getNome() + " | langs:");
