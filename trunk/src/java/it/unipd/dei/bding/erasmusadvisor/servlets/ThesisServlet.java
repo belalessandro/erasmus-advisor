@@ -3,13 +3,11 @@ package it.unipd.dei.bding.erasmusadvisor.servlets;
 import it.unipd.dei.bding.erasmusadvisor.beans.AreaBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.ArgomentoTesiBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.BeanUtilities;
-import it.unipd.dei.bding.erasmusadvisor.beans.CittaBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.EstensioneBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.GestioneBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.LinguaBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.LinguaTesiBean;
 import it.unipd.dei.bding.erasmusadvisor.database.ArgomentoTesiDatabase;
-import it.unipd.dei.bding.erasmusadvisor.database.CittaDatabase;
 import it.unipd.dei.bding.erasmusadvisor.database.EstensioneDatabase;
 import it.unipd.dei.bding.erasmusadvisor.database.GestioneDatabase;
 import it.unipd.dei.bding.erasmusadvisor.database.GetAreaValues;
@@ -23,15 +21,12 @@ import it.unipd.dei.bding.erasmusadvisor.resources.ThesisEvaluationsAverage;
 import it.unipd.dei.bding.erasmusadvisor.resources.UserType;
 
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.StringReader;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.json.Json;
-import javax.json.JsonArray;
 import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
 import javax.json.JsonReader;
@@ -64,6 +59,12 @@ public class ThesisServlet extends AbstractDatabaseServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException 
 	{
+		
+		// TODO: Errore anche per le tesi sono presenti più professori
+		// modificare Notifications.java
+		// modificare user_notifications.jsp
+		// modificare CoordinatoreDatabase.java
+		
 		String ID = req.getParameter("id");
 
 		if (ID == null || ID.isEmpty()) 
@@ -206,7 +207,7 @@ public class ThesisServlet extends AbstractDatabaseServlet {
 		try {
 			con = DS.getConnection();
 			
-			ArgomentoTesiDatabase.changeThesisStatusToReported(con, json.getInt("id"));
+			ArgomentoTesiDatabase.changeThesisStatus(con, "REPORTED", json.getInt("id"));
 			
 			DbUtils.close(con);
 			

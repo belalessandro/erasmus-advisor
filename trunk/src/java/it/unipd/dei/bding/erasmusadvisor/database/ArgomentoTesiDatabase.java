@@ -324,19 +324,19 @@ public class ArgomentoTesiDatabase {
 	
 
 	/**
-	 * Change thesis status to REPORTED
+	 * Change thesis status
 	 * 
 	 * @param con connection to the database
 	 * @param id thesis id
 	 * @throws SQLException
 	 */
-	public static void changeThesisStatusToReported(Connection con, int id) throws SQLException 
+	public static void changeThesisStatus(Connection con, String status, int id) throws SQLException 
 	{
-		final String sql = "UPDATE ArgomentoTesi SET stato = 'REPORTED' WHERE id = ?;";
+		final String sql = "UPDATE ArgomentoTesi SET stato = CAST(? AS STATO) WHERE id = ?;";
 		
 		QueryRunner run = new QueryRunner();
 		
-		run.update(con, sql, id);
+		run.update(con, sql, status, id);
 		
 	}
 }
