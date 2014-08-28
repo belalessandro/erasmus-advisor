@@ -63,8 +63,8 @@ public class CityListServlet extends AbstractDatabaseServlet {
 			throws ServletException, IOException {
 
 		// Incoming parameters for the search filter
-		String stato = req.getParameter("stato");
-		String siglaLingua = req.getParameter("siglaLingua");
+		String stato = req.getParameter("country");
+		String siglaLingua = req.getParameter("language");
 		
 		// model
 		Message m = null;
@@ -82,7 +82,7 @@ public class CityListServlet extends AbstractDatabaseServlet {
 			if (siglaLingua != null) { // Filter By SiglaLingua
 				results = CittaDatabase.filterCityBySiglaLingua(conn, siglaLingua);
 			} else { // Filter By Stato
-				results = CittaDatabase.filterCityBySiglaLingua(conn, stato);
+				results = CittaDatabase.filterCityByStato(conn, stato);
 			}
 			
 			// Pre-charging form values

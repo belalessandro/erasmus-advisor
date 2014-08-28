@@ -1,7 +1,23 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<!-- i risultati della ricerca sono visualizzati in Ajax -->
+<!-- ale: la ricerca deve essere mutuamente esclusiva (o per Country o per Language)
+		
+	IN:
+	la pagina riceve i risultati via attributi come lista di:	
+		CitySearchModel {
+	private CittaBean citta;
+	private List<LinguaBean> listaLingue; }
+	
+	OUT:
+	    il form di ricerca punta a /city/list
+	    operation=search (campo hidden)
+	    language=eng       oppure    country=Italy 
+	    
+   (le lingue sono sigle, quindi associare le rispettive sigle ai nomi delle lingue)
+   (nota bene che il campo escluso deve essere nullo)
+
+ -->
 
 <!DOCTYPE html>
 <html lang="en">
@@ -94,7 +110,7 @@
 					<ul class="dropdown-menu search_scrollable_menu text-left">
 						<c:forEach var="languageDomain" items='${languageDomain}'>
 							<li><span>${languageDomain.nome}</span></li>
-						</c:forEach>
+						</c:forEach><!-- ale: passare alla servlet la sigla! -->
 					</ul>
 				</div>
 			</div>
@@ -115,23 +131,17 @@
 					</tr>
 				</thead>
 				<tbody>
-				<!-- risultati da creare dinamicamente -->
+				<c:forEach var="citySearchModel" items="${results}">
 					<tr>
-						<td><a href="#" target="_blank">Padua</a></td>
-						<td>Italian, Venetian, Zibbo</td>
+						<td><a href="#" target="_blank"><c:out value="${citySearchModel.citta.nome}"/></a></td>
+						<td>
+							<c:forEach var="linguaBean" items="${citySearchModel.listaLingue}" varStatus="loop">
+    							${linguaBean.nome}
+   								<c:if test="${!loop.last}">, </c:if>
+							</c:forEach>
+						</td>
 					</tr>
-					<tr>
-						<td><a href="#" target="_blank">Neaples</a></td>
-						<td>Terron</td>
-					</tr>
-					<tr>
-						<td><a href="#" target="_blank">Milan</a></td>
-						<td>Italian</td>
-					</tr>
-					<tr>
-						<td><a href="#" target="_blank">Florence</a></td>
-						<td>Italian</td>
-					</tr>
+				</c:forEach>
 				</tbody>
 			</table>
 		</div>
