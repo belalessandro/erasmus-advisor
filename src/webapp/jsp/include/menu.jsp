@@ -11,7 +11,7 @@
 <div class="col-md-3">
 	<div class="menu_title"><i class="fa fa-bars fa-fw"></i>MENU</div>
 	<div class="menu_normal"><a href="<c:url value="/index"/>"><i class="fa fa-home fa-fw"></i>Home</a></div>
-	<div class="menu_normal"><a href="<c:url value="/student/evaluations"/>"><i class="fa fa-user fa-fw"></i>My Comments</a></div>
+	<div class="menu_normal"><a href="<c:url value="/student/evaluations"/>"><i class="fa fa-user fa-fw"></i>My Evaluations</a></div>
 	<br>
 	<div class="menu_title"><i class="fa fa-search fa-fw"></i>SEARCH</div>
 	<div class="menu_normal"><a href="<c:url value="/flow/list"/>"><i class="fa fa-arrow-right fa-fw"></i>Flows</a></div>

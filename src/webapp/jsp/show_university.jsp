@@ -115,6 +115,7 @@
 								
 								<!-- hidden params -->
 								<input type="hidden" name="nomeUniversita" value="<c:out value="${university.nome}"/>"/>
+                                <input type="hidden" name="operation" value="insert"/>
 								                               
 							</form>
 						</div>

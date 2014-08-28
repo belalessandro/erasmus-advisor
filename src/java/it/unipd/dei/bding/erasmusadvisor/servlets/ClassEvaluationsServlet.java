@@ -26,14 +26,10 @@ import org.apache.commons.dbutils.DbUtils;
  * @author Alessandro
  *
  */
-public class ClassEvaluationsServlet extends AbstractDatabaseServlet {
-	
-	/**
-	 * doGet not used
-	 */
-	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
-			throws ServletException, IOException { }
-	
+public class ClassEvaluationsServlet extends AbstractDatabaseServlet 
+{
+	private static final long serialVersionUID = 5779767177706604225L;
+
 	/**
 	 * Insert the new city evaluation into the database
 	 * @param req client request
@@ -47,7 +43,37 @@ public class ClassEvaluationsServlet extends AbstractDatabaseServlet {
 		// Verify logged user
 		// TODO: DA SESSIONE
 		LoggedUser lu = new LoggedUser(UserType.STUDENTE, "prezzemolino");
+
+		String operation = req.getParameter("operation");
 		
+		if (operation == null || operation.isEmpty() || !lu.isStudent()) {
+			// Error
+			Message m = null;
+			m = new Message("Not authorized or operation null", "", "");
+			req.setAttribute("message", m);
+			errorForward(req, resp);
+			return;
+		} 
+		else if (operation.equals("insert"))
+		{
+			insert(req, resp, lu);
+		} 
+		else if (operation.equals("delete"))
+		{
+			delete(req, resp, lu);
+		}	
+		
+	}
+
+	private void delete (HttpServletRequest req, HttpServletResponse resp, LoggedUser lu)
+			throws ServletException, IOException
+	{
+		
+	}
+	
+	private void insert (HttpServletRequest req, HttpServletResponse resp, LoggedUser lu)
+			throws ServletException, IOException
+	{
 		// Setup bean and the database connection
 		Connection con = null;
 		Message m = null;
@@ -83,5 +109,12 @@ public class ClassEvaluationsServlet extends AbstractDatabaseServlet {
 		}	
 		
 	}
+
+	// Error management
+    private void errorForward(HttpServletRequest request, HttpServletResponse response) 
+    		throws ServletException, IOException  
+    {	
+    	getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(request, response);
+    }
 
 }

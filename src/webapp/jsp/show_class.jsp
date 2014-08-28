@@ -336,6 +336,7 @@
 								
 								<!-- Hidden params -->
 								<input type="hidden" name="idInsegnamento" value='<c:out value="${classBean.id}"/>' /> 
+                                <input type="hidden" name="operation" value="insert"/>
 							</form>
 						</div>
 					</div>

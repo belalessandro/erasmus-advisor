@@ -28,11 +28,7 @@ import org.apache.commons.dbutils.DbUtils;
  */
 public class FlowEvaluationsServlet extends AbstractDatabaseServlet 
 {
-	/**
-	 * doGet not used
-	 */
-	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
-			throws ServletException, IOException { }
+	private static final long serialVersionUID = 2580713092841797453L;
 	
 	/**
 	 * Insert the new flow evaluation into the database
@@ -47,7 +43,37 @@ public class FlowEvaluationsServlet extends AbstractDatabaseServlet
 		// Verify logged user
 		// TODO: DA SESSIONE
 		LoggedUser lu = new LoggedUser(UserType.STUDENTE, "JuventinoDOC");
+
+		String operation = req.getParameter("operation");
 		
+		if (operation == null || operation.isEmpty() || !lu.isStudent()) {
+			// Error
+			Message m = null;
+			m = new Message("Not authorized or operation null", "", "");
+			req.setAttribute("message", m);
+			errorForward(req, resp);
+			return;
+		} 
+		else if (operation.equals("insert"))
+		{
+			insert(req, resp, lu);
+		} 
+		else if (operation.equals("delete"))
+		{
+			delete(req, resp, lu);
+		}	
+		
+	}
+
+	private void delete (HttpServletRequest req, HttpServletResponse resp, LoggedUser lu)
+			throws ServletException, IOException
+	{
+		
+	}
+	
+	private void insert (HttpServletRequest req, HttpServletResponse resp, LoggedUser lu)
+			throws ServletException, IOException
+	{
 		// Setup bean and the database connection
 		Connection con = null;
 		Message m = null;
@@ -83,6 +109,13 @@ public class FlowEvaluationsServlet extends AbstractDatabaseServlet
 		}	
 		
 	}
+
+	// Error management
+    private void errorForward(HttpServletRequest request, HttpServletResponse response) 
+    		throws ServletException, IOException  
+    {	
+    	getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(request, response);
+    }
 
 
 }

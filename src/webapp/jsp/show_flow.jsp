@@ -208,6 +208,7 @@
 								
 								<!-- hidden params -->
 								<input type="hidden" name="idFlusso" value="<c:out value="${flow.id}"/>" />
+                                <input type="hidden" name="operation" value="insert"/>
 								
 							</form>
 						</div>

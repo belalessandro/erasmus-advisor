@@ -58,6 +58,15 @@
 					<a href="<c:url value="/city"/>?name=${fn:replace(eval.nomeCitta, ' ', '+')}&country=${fn:replace(eval.statoCitta, ' ', '+')}" target="_blank">
 					<b><c:out value="${eval.nomeCitta}"></c:out> (<c:out value="${eval.statoCitta}"></c:out>)</b></a>
 					, inserted on <c:out value="${eval.dataInserimento}"></c:out>.
+					
+							<form method="post" action="<c:url value="/city/evaluations"/>">
+                                <input type="hidden" name="operation" value="delete"/>
+                                <input type="hidden" name="city" value="${eval.nomeCitta}"/>
+                                <input type="hidden" name="country" value="${eval.nomeStato}"/>
+								<input type="submit" value="Delete" class="btn btn-primary entity_nav_button">
+							</form>
+					
+					
 					<div class="row">
 						<div class="col-xs-12 col-sm-12 col-md-3">
 							Cost of life <br> House availability <br> Liveability <br> Social Life <br>
