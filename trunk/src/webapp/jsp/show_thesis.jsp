@@ -270,6 +270,7 @@
 								
 								<!--  hidden params -->
 								<input type="hidden" name="idArgomentoTesi" value="<c:out value="${thesis.id}"/>" />
+                                <input type="hidden" name="operation" value="insert"/>
 							</form>
 						</div>
 					</div>

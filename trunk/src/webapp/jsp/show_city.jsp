@@ -129,6 +129,7 @@
                                 <input type="hidden" name="TypeOfEvaluation" value="city" />
                                 <input type="hidden" name="nomeCitta" value="${city.nome}"/>
                                 <input type="hidden" name="statoCitta" value="${city.stato}"/>
+                                <input type="hidden" name="operation" value="insert"/>
                                 
 							</form>
 						</div>
