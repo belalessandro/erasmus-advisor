@@ -150,7 +150,14 @@ public class CittaDatabase
 	}
 	
 
-	
+	/**
+	 * City search by language
+	 * 
+	 * @param conn The connection to the database, it will *not* be closed
+	 * @param siglaLingua the language abbreviation to filter by 
+	 * @return a list of CitySearchModel
+	 * @throws SQLException in case of error
+	 */
 	public static List<CitySearchModel> filterCityBySiglaLingua(Connection conn, String siglaLingua) throws SQLException 
 	{
 		/**
@@ -177,6 +184,56 @@ public class CittaDatabase
 		// First query
 		ResultSetHandler<List<CittaBean>> h = new BeanListHandler<CittaBean>(CittaBean.class);
 		List<CittaBean> cittaList = run.query(conn, statement1, h, siglaLingua);		
+				
+		// Queries for the languages of each city
+		for (CittaBean c : cittaList) {
+			// Gets the languages for the city
+			ResultSetHandler<List<LinguaBean>> h1 = new BeanListHandler<LinguaBean>(LinguaBean.class);
+			List<LinguaBean> lingueList = run.query(conn, statement2, h1, c.getNome(), c.getStato());
+			
+			// adding one city-result to the results list 
+			CitySearchModel resultRow = new CitySearchModel(c, lingueList);
+			results.add(resultRow);
+		}
+		
+		return results;
+	}
+	
+	
+	/**
+	 * City search by country
+	 * 
+	 * @param conn The connection to the database, it will *not* be closed
+	 * @param stato the country to filter by 
+	 * @return a list of CitySearchModel
+	 * @throws SQLException in case of error
+	 */
+	public static List<CitySearchModel> filterCityByStato(Connection conn, String stato) throws SQLException 
+	{
+		/**
+		 * SQL statement for getting the cities of the specified country   
+		 */
+		final String statement1 = "SELECT nome, stato "
+				+ "FROM Citta "
+				+ "WHERE stato = ? "
+				+ "ORDER BY nome ASC";
+		
+		/**
+		 * SQL statement for getting, for each city, its languages 
+		 */
+		final String statement2 = "SELECT L.nome FROM Lingua AS L "
+				+ "INNER JOIN LinguaCitta AS C ON L.Sigla = C.SiglaLingua "
+				+ "WHERE C.NomeCitta = ? AND C.StatoCitta = ?";
+		
+		// query facility
+		QueryRunner run = new QueryRunner();
+		
+		// result model
+		List<CitySearchModel> results = new ArrayList<CitySearchModel>();
+		
+		// First query
+		ResultSetHandler<List<CittaBean>> h = new BeanListHandler<CittaBean>(CittaBean.class);
+		List<CittaBean> cittaList = run.query(conn, statement1, h, stato);		
 				
 		// Queries for the languages of each city
 		for (CittaBean c : cittaList) {
