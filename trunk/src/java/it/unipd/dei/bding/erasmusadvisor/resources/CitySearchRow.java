@@ -11,7 +11,7 @@ import java.util.List;
  * @author Alessandro
  *
  */
-public class CitySearchModel {
+public class CitySearchRow {
 	private CittaBean citta;
 	private List<LinguaBean> listaLingue;
 	
@@ -19,7 +19,7 @@ public class CitySearchModel {
 	 * @param citta
 	 * @param listaLingue
 	 */
-	public CitySearchModel(CittaBean citta, List<LinguaBean> listaLingue) {
+	public CitySearchRow(CittaBean citta, List<LinguaBean> listaLingue) {
 		this.citta = citta;
 		this.listaLingue = listaLingue;
 	}

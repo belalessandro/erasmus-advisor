@@ -5,7 +5,7 @@ import it.unipd.dei.bding.erasmusadvisor.beans.LinguaCittaBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.ValutazioneCittaBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.LinguaBean;
 import it.unipd.dei.bding.erasmusadvisor.resources.City;
-import it.unipd.dei.bding.erasmusadvisor.resources.CitySearchModel;
+import it.unipd.dei.bding.erasmusadvisor.resources.CitySearchRow;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -155,10 +155,10 @@ public class CittaDatabase
 	 * 
 	 * @param conn The connection to the database, it will *not* be closed
 	 * @param siglaLingua the language abbreviation to filter by 
-	 * @return a list of CitySearchModel
+	 * @return a list of CitySearchRow
 	 * @throws SQLException in case of error
 	 */
-	public static List<CitySearchModel> filterCityBySiglaLingua(Connection conn, String siglaLingua) throws SQLException 
+	public static List<CitySearchRow> filterCityBySiglaLingua(Connection conn, String siglaLingua) throws SQLException 
 	{
 		/**
 		 * SQL statement for getting the cities with the language specified   
@@ -179,7 +179,7 @@ public class CittaDatabase
 		QueryRunner run = new QueryRunner();
 		
 		// result model
-		List<CitySearchModel> results = new ArrayList<CitySearchModel>();
+		List<CitySearchRow> results = new ArrayList<CitySearchRow>();
 		
 		// First query
 		ResultSetHandler<List<CittaBean>> h = new BeanListHandler<CittaBean>(CittaBean.class);
@@ -192,7 +192,7 @@ public class CittaDatabase
 			List<LinguaBean> lingueList = run.query(conn, statement2, h1, c.getNome(), c.getStato());
 			
 			// adding one city-result to the results list 
-			CitySearchModel resultRow = new CitySearchModel(c, lingueList);
+			CitySearchRow resultRow = new CitySearchRow(c, lingueList);
 			results.add(resultRow);
 		}
 		
@@ -205,10 +205,10 @@ public class CittaDatabase
 	 * 
 	 * @param conn The connection to the database, it will *not* be closed
 	 * @param stato the country to filter by 
-	 * @return a list of CitySearchModel
+	 * @return a list of CitySearchRow
 	 * @throws SQLException in case of error
 	 */
-	public static List<CitySearchModel> filterCityByStato(Connection conn, String stato) throws SQLException 
+	public static List<CitySearchRow> filterCityByStato(Connection conn, String stato) throws SQLException 
 	{
 		/**
 		 * SQL statement for getting the cities of the specified country   
@@ -229,7 +229,7 @@ public class CittaDatabase
 		QueryRunner run = new QueryRunner();
 		
 		// result model
-		List<CitySearchModel> results = new ArrayList<CitySearchModel>();
+		List<CitySearchRow> results = new ArrayList<CitySearchRow>();
 		
 		// First query
 		ResultSetHandler<List<CittaBean>> h = new BeanListHandler<CittaBean>(CittaBean.class);
@@ -242,7 +242,7 @@ public class CittaDatabase
 			List<LinguaBean> lingueList = run.query(conn, statement2, h1, c.getNome(), c.getStato());
 			
 			// adding one city-result to the results list 
-			CitySearchModel resultRow = new CitySearchModel(c, lingueList);
+			CitySearchRow resultRow = new CitySearchRow(c, lingueList);
 			results.add(resultRow);
 		}
 		

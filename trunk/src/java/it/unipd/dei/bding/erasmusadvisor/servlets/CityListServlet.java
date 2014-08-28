@@ -8,7 +8,7 @@ import it.unipd.dei.bding.erasmusadvisor.database.CittaDatabase;
 import it.unipd.dei.bding.erasmusadvisor.database.GetLinguaValues;
 import it.unipd.dei.bding.erasmusadvisor.database.GetStatoValues;
 import it.unipd.dei.bding.erasmusadvisor.database.UniversitaDatabase;
-import it.unipd.dei.bding.erasmusadvisor.resources.CitySearchModel;
+import it.unipd.dei.bding.erasmusadvisor.resources.CitySearchRow;
 import it.unipd.dei.bding.erasmusadvisor.resources.Message;
 import it.unipd.dei.bding.erasmusadvisor.resources.University;
 import it.unipd.dei.bding.erasmusadvisor.resources.UniversityEvaluationsAverage;
@@ -68,7 +68,7 @@ public class CityListServlet extends AbstractDatabaseServlet {
 		
 		// model
 		Message m = null;
-		List<CitySearchModel> results = null;
+		List<CitySearchRow> results = null;
 		List<LinguaBean> languageDomain = null;
 		List<String> countries = null;
 		
