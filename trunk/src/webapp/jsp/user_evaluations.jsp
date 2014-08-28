@@ -55,18 +55,18 @@
 				<c:forEach var="eval" items='${cities}'>
 				<!-- inizio singola valutazione -->
 				<section class="entity_box">
-					<a href="<c:url value="/city"/>?name=${fn:replace(eval.nomeCitta, ' ', '+')}&country=${fn:replace(eval.statoCitta, ' ', '+')}" target="_blank">
-					<b><c:out value="${eval.nomeCitta}"></c:out> (<c:out value="${eval.statoCitta}"></c:out>)</b></a>
-					, inserted on <c:out value="${eval.dataInserimento}"></c:out>.
-					
-							<form method="post" action="<c:url value="/city/evaluations"/>">
-                                <input type="hidden" name="operation" value="delete"/>
-                                <input type="hidden" name="city" value="${eval.nomeCitta}"/>
-                                <input type="hidden" name="country" value="${eval.nomeStato}"/>
-								<input type="submit" value="Delete" class="btn btn-primary entity_nav_button">
-							</form>
-					
-					
+					<div class="row user_evals_eval_title">
+						<span class="user_evals_eval_id">
+							<a href="<c:url value="/city"/>?name=${fn:replace(eval.nomeCitta, ' ', '+')}&country=${fn:replace(eval.statoCitta, ' ', '+')}" target="_blank">
+							<b><c:out value="${eval.nomeCitta}"></c:out> (<c:out value="${eval.statoCitta}"></c:out>)</b></a>, inserted on <c:out value="${eval.dataInserimento}"></c:out>.
+						</span>
+						<form method="post" action="<c:url value="/city/evaluations"/>" class="user_evals_delete_form">
+	                              <input type="hidden" name="operation" value="delete"/>
+	                              <input type="hidden" name="city" value="${eval.nomeCitta}"/>
+	                              <input type="hidden" name="country" value="${eval.statoCitta}"/>
+							<input type="submit" value="Delete" class="btn btn-primary pull-right">
+						</form>
+					</div>
 					<div class="row">
 						<div class="col-xs-12 col-sm-12 col-md-3">
 							Cost of life <br> House availability <br> Liveability <br> Social Life <br>
@@ -175,9 +175,18 @@
 				</div>
 				<c:forEach var="eval" items='${universities}'>
 				<!-- inizio singola valutazione -->
-				<section class="entity_box">
-					<a href="<c:url value="/university"/>?name=${fn:replace(eval.nomeUniversita, ' ', '+')}" target="_blank">
-					<b><c:out value="${eval.nomeUniversita}"></c:out></b></a>, inserted by  on <c:out value="${eval.dataInserimento}"></c:out>.
+				<section class="entity_box">					
+					<div class="row user_evals_eval_title">
+						<span class="user_evals_eval_id">
+							<a href="<c:url value="/university"/>?name=${fn:replace(eval.nomeUniversita, ' ', '+')}" target="_blank">
+							<b><c:out value="${eval.nomeUniversita}"></c:out></b></a>, inserted by  on <c:out value="${eval.dataInserimento}"></c:out>.
+						</span>
+						<form method="post" action="<c:url value="/university/evaluations"/>" class="user_evals_delete_form">
+	                              <input type="hidden" name="operation" value="delete"/>
+	                              <input type="hidden" name="name" value="${eval.nomeUniversita}"/>
+							<input type="submit" value="Delete" class="btn btn-primary pull-right">
+						</form>
+					</div>
 					<div class="row">
 						<div class="col-xs-12 col-sm-12 col-md-3">
 							Urban Location <br> Erasmus Events <br> Teachings Quality <br> Classroom Quality <br>
@@ -287,7 +296,16 @@
 				<c:forEach var="eval" items='${flows}'>
 				<!-- inizio singola valutazione -->
 				<section class="entity_box">
-					<a href="<c:url value="/flow"/>?id=${eval.idFlusso}" target ="_blank"><b><c:out value="${eval.idFlusso}"></c:out></b></a>, inserted on <c:out value="${eval.dataInserimento}"></c:out>.
+					<div class="row user_evals_eval_title">
+						<span class="user_evals_eval_id">
+							<a href="<c:url value="/flow"/>?id=${eval.idFlusso}" target ="_blank"><b><c:out value="${eval.idFlusso}"></c:out></b></a>, inserted on <c:out value="${eval.dataInserimento}"></c:out>.
+						</span>
+						<form method="post" action="<c:url value="/flow/evaluations"/>" class="user_evals_delete_form">
+	                              <input type="hidden" name="operation" value="delete"/>
+	                              <input type="hidden" name="id" value="${eval.idFlusso}"/>
+							<input type="submit" value="Delete" class="btn btn-primary pull-right">
+						</form>
+					</div>
 					<div class="row">
 						<div class="col-xs-12 col-sm-12 col-md-3">
 							Gratification <br> Academic Fulfillment <br> Didactics <br> Manager Evaluation <br>
@@ -397,7 +415,16 @@
 				<c:forEach var="eval" items='${classes}'>
 				<!-- inizio singola valutazione -->
 				<section class="entity_box">
-					<a href="<c:url value="/class"/>?id=${eval.idInsegnamento}" target ="_blank"><b><c:out value="${eval.idInsegnamento}"></c:out></b></a>, inserted on <c:out value="${eval.dataInserimento}"></c:out>.
+					<div class="row user_evals_eval_title">
+						<span class="user_evals_eval_id">
+							<a href="<c:url value="/class"/>?id=${eval.idInsegnamento}" target ="_blank"><b><c:out value="${eval.idInsegnamento}"></c:out></b></a>, inserted on <c:out value="${eval.dataInserimento}"></c:out>.
+						</span>
+						<form method="post" action="<c:url value="/class/evaluations"/>" class="user_evals_delete_form">
+	                              <input type="hidden" name="operation" value="delete"/>
+	                              <input type="hidden" name="id" value="${eval.idInsegnamento}"/>
+							<input type="submit" value="Delete" class="btn btn-primary pull-right">
+						</form>
+					</div>
 					<div class="row">
 						<div class="col-xs-12 col-sm-12 col-md-3">
 							Teaching Quality <br> Schedule Compliance <br> Difficulty <br> Interest <br>
@@ -507,8 +534,17 @@
 				<c:forEach var="eval" items='${thesis}'>
 				<!-- inizio singola valutazione -->
 				<section class="entity_box">
-					<a href="<c:url value="/thesis"/>?id=${eval.idArgomentoTesi}" target ="_blank"><b><c:out value="${eval.idArgomentoTesi}"></c:out></b></a>, 
-					inserted on <c:out value="${eval.dataInserimento}"></c:out>.
+					<div class="row user_evals_eval_title">
+						<span class="user_evals_eval_id">
+							<a href="<c:url value="/thesis"/>?id=${eval.idArgomentoTesi}" target ="_blank"><b><c:out value="${eval.idArgomentoTesi}"></c:out></b></a>, 
+							inserted on <c:out value="${eval.dataInserimento}"></c:out>.
+						</span>
+						<form method="post" action="<c:url value="/thesis/evaluations"/>" class="user_evals_delete_form">
+	                              <input type="hidden" name="operation" value="delete"/>
+	                              <input type="hidden" name="id" value="${eval.idArgomentoTesi}"/>
+							<input type="submit" value="Delete" class="btn btn-primary pull-right">
+						</form>
+					</div>
 					<div class="row">
 						<div class="col-xs-12 col-sm-12 col-md-3">
 							Effort Needed <br> Subject Appeal <br> Supervisor Availability <br> Satisfaction <br>

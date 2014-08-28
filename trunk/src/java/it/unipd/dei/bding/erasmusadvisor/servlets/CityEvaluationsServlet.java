@@ -1,6 +1,3 @@
-/**
- * 
- */
 package it.unipd.dei.bding.erasmusadvisor.servlets;
 
 import it.unipd.dei.bding.erasmusadvisor.beans.BeanUtilities;
@@ -62,6 +59,37 @@ public class CityEvaluationsServlet extends AbstractDatabaseServlet
 	private void delete (HttpServletRequest req, HttpServletResponse resp, LoggedUser lu)
 			throws ServletException, IOException
 	{
+		// Setup bean and the database connection
+		Connection con = null;
+		Message m = null;
+		
+		String city = req.getParameter("city");
+		String country = req.getParameter("country");
+		
+		try
+		{
+			con = DS.getConnection();
+			ValutazioneCittaDatabase.deleteEvaluation(con, lu.getUser(), city, country);
+			
+			// Creating response path
+			StringBuilder builder = new StringBuilder()
+				.append("/erasmus-advisor/student/evaluations");
+		
+			resp.sendRedirect(builder.toString());
+
+		}
+		catch (SQLException e) 
+		{
+			// Error management
+			e.printStackTrace();
+			m = new Message("Error while deleting the evaluation.","", e.getMessage());
+			req.setAttribute("message", m);
+			errorForward(req, resp); 
+			return;
+		} 
+		finally {
+			DbUtils.closeQuietly(con);
+		}
 		
 	}
 	

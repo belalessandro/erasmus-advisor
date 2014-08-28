@@ -1,9 +1,7 @@
 package it.unipd.dei.bding.erasmusadvisor.servlets;
 
 import it.unipd.dei.bding.erasmusadvisor.beans.BeanUtilities;
-import it.unipd.dei.bding.erasmusadvisor.beans.ValutazioneTesiBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.ValutazioneUniversitaBean;
-import it.unipd.dei.bding.erasmusadvisor.database.ValutazioneTesiDatabase;
 import it.unipd.dei.bding.erasmusadvisor.database.ValutazioneUniversitaDatabase;
 import it.unipd.dei.bding.erasmusadvisor.resources.LoggedUser;
 import it.unipd.dei.bding.erasmusadvisor.resources.Message;
@@ -59,8 +57,37 @@ public class UniversityEvaluationsServlet extends AbstractDatabaseServlet
 
 	private void delete (HttpServletRequest req, HttpServletResponse resp, LoggedUser lu)
 			throws ServletException, IOException
-	{
+	{		
+		// Setup bean and the database connection
+		Connection con = null;
+		Message m = null;
 		
+		String name = req.getParameter("name");
+		
+		try
+		{
+			con = DS.getConnection();
+			ValutazioneUniversitaDatabase.deleteEvaluation(con, lu.getUser(), name);
+			
+			// Creating response path
+			StringBuilder builder = new StringBuilder()
+				.append("/erasmus-advisor/student/evaluations");
+		
+			resp.sendRedirect(builder.toString());
+
+		}
+		catch (SQLException e) 
+		{
+			// Error management
+			e.printStackTrace();
+			m = new Message("Error while deleting the evaluation.","", e.getMessage());
+			req.setAttribute("message", m);
+			errorForward(req, resp); 
+			return;
+		} 
+		finally {
+			DbUtils.closeQuietly(con);
+		}
 	}
 	
 	private void insert (HttpServletRequest req, HttpServletResponse resp, LoggedUser lu)
