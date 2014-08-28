@@ -21,6 +21,9 @@
 	<script src="<c:url value="/js"/>/ea-form-validation.js"></script>
 	<script src="<c:url value="/js"/>/ea-insert.js"></script>
 	
+	<script src="<c:url value="/js"/>/jquery-ui-1.10.4.custom.min.js"></script>
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css">
+	
 	<script>
 	// inizializza i select avanzati
 	$(document).ready(function() {
@@ -30,10 +33,6 @@
 	    });
 	});
 	</script>
-	
-	<!-- Autocompletamento Universities -->
-<%-- 	<script src="<c:url value="/js"/>/jquery-ui-1.10.4.custom.min.js"></script>
-	<link rel="stylesheet" href="//code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css"> --%>
 	<style>
 		.ui-autocomplete-loading {
 			background: white url("<c:url value="/img"/>/ui-anim_basic_16x16.gif") right center no-repeat;
