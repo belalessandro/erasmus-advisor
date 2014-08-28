@@ -61,5 +61,22 @@ public class ValutazioneCittaDatabase {
 		
 		return run.query(conn, statement, h, user);
 	}
+	
+	/**
+	 * Delete an evaluation
+	 * @param conn A connection to the database
+	 * @param user The student that inserted the evaluation
+	 * @param city The city evaluated
+	 * @param country The country of the city
+	 * @return The number of rows affected
+	 * @throws SQLException If something goes wrong
+	 */
+	public static int deleteEvaluation(Connection conn, String user, String city, String country) throws SQLException
+	{
+		final String statement = "DELETE FROM ValutazioneCitta WHERE nomeutentestudente = ? AND nomecitta = ? AND statocitta = ?";
+		
+		QueryRunner run = new QueryRunner();
+		return run.update(conn, statement, user, city, country);
+	}
 
 }

@@ -60,5 +60,21 @@ public class ValutazioneTesiDatabase
 		return run.query(conn, statement, h, user);
 	}
 	
+	/**
+	 * Delete an evaluation
+	 * @param conn A connection to the database
+	 * @param user The student that inserted the evaluation
+	 * @param id The thesis evaluated
+	 * @return The number of rows affected
+	 * @throws SQLException If something goes wrong
+	 */
+	public static int deleteEvaluation(Connection conn, String user, int id) throws SQLException
+	{
+		final String statement = "DELETE FROM ValutazioneTesi WHERE nomeutentestudente = ? AND idargomentotesi = ?";
+		
+		QueryRunner run = new QueryRunner();
+		return run.update(conn, statement, user, id);
+	}
+	
 
 }

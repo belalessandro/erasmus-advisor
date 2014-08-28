@@ -4,16 +4,13 @@
 package it.unipd.dei.bding.erasmusadvisor.servlets;
 
 import it.unipd.dei.bding.erasmusadvisor.beans.BeanUtilities;
-import it.unipd.dei.bding.erasmusadvisor.beans.ValutazioneCittaBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.ValutazioneTesiBean;
-import it.unipd.dei.bding.erasmusadvisor.database.ValutazioneCittaDatabase;
 import it.unipd.dei.bding.erasmusadvisor.database.ValutazioneTesiDatabase;
 import it.unipd.dei.bding.erasmusadvisor.resources.LoggedUser;
 import it.unipd.dei.bding.erasmusadvisor.resources.Message;
 import it.unipd.dei.bding.erasmusadvisor.resources.UserType;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.SQLException;
 
@@ -24,7 +21,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.dbutils.DbUtils;
 
 /**
- * @author Alessandro
+ * @author Alessandro, Luca
  *
  */
 public class ThesisEvaluationsServlet extends AbstractDatabaseServlet 
@@ -65,6 +62,36 @@ public class ThesisEvaluationsServlet extends AbstractDatabaseServlet
 	private void delete (HttpServletRequest req, HttpServletResponse resp, LoggedUser lu)
 			throws ServletException, IOException
 	{
+		// Setup bean and the database connection
+		Connection con = null;
+		Message m = null;
+		
+		int id = Integer.parseInt(req.getParameter("id"));
+		
+		try
+		{
+			con = DS.getConnection();
+			ValutazioneTesiDatabase.deleteEvaluation(con, lu.getUser(), id);
+			
+			// Creating response path
+			StringBuilder builder = new StringBuilder()
+				.append("/erasmus-advisor/student/evaluations");
+		
+			resp.sendRedirect(builder.toString());
+
+		}
+		catch (SQLException e) 
+		{
+			// Error management
+			e.printStackTrace();
+			m = new Message("Error while deleting the evaluation.","", e.getMessage());
+			req.setAttribute("message", m);
+			errorForward(req, resp); 
+			return;
+		} 
+		finally {
+			DbUtils.closeQuietly(con);
+		}
 		
 	}
 	

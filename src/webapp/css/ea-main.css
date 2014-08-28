@@ -1,4 +1,8 @@
-/*luca: stili usati nel sito, divisi per tipo pagina*/
+/*
+	stili usati nel sito, divisi per tipo pagina, dopo una sezione di carattere generale
+	
+	autore: luca
+*/
 
 /*bootstrap general integration*/
 
@@ -318,6 +322,26 @@ tr:hover {
 {
 	width:70px !important;
 	max-width:70px !important;
+}
+
+/*user_eval*/
+
+.user_evals_eval_id
+{
+	display:inline-block; 
+	vertical-align:middle; 
+	line-height: 34px;
+}
+
+.user_evals_eval_title
+{
+	padding-left: 15px; 
+	padding-right: 15px
+}
+
+.user_evals_delete_form
+{
+	display: inline !important;
 }
     
     

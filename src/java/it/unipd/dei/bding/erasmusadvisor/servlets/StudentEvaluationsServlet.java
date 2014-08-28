@@ -44,7 +44,7 @@ public class StudentEvaluationsServlet extends AbstractDatabaseServlet
 		Message m = null;
 
 		// TODO: DA SESSIONE
-		LoggedUser lu = new LoggedUser(UserType.STUDENTE, "prezzemolino"); 
+		LoggedUser lu = new LoggedUser(UserType.STUDENTE, "JuventinoDOC"); 
 		
 		List<ValutazioneCittaBean> cities = null;
 		List<ValutazioneFlussoBean> flows = null;
