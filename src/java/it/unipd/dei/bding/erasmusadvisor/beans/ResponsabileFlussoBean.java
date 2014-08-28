@@ -60,6 +60,11 @@ public class ResponsabileFlussoBean implements Serializable {
 	 *
 	 */
 	private boolean attivo;
+	
+	/**
+	 * 
+	 */
+	private boolean abilitato;
 
 	/**
 	 *
@@ -232,7 +237,25 @@ public class ResponsabileFlussoBean implements Serializable {
 	public void setAttivo(boolean attivo) {
 		this.attivo = attivo;
 	}
-
+	
+	/**
+	 * Returns the field abilitato.
+	 * 
+	 * @return the value of attivo
+	 */
+	public boolean isAbilitato() {
+		return abilitato;
+	}
+	
+	/**
+	 * Sets the field abilitato
+	 * 
+	 * @param abilitato the value to set
+	 */
+	public void setAbilitato(boolean abilitato) {
+		this.abilitato = abilitato;
+	}
+	
 	/**
 	 * Returns the field nomeUniversita.
 	 *
