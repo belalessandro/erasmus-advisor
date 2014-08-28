@@ -192,7 +192,7 @@
 					<div class="text-center">Class successfully reported!</div>  
 			</div>
 			
-			<!-- Avviso del report avvenuto con successo -->
+			<!-- Avviso avvenuto con successo -->
 			<div id="ack-success" class="alert alert-success" role="alert" style="display:none">
 					<div class="text-center">Class successfully acknowledged!</div>  
 			</div>

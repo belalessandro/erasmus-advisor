@@ -149,21 +149,20 @@ public class InsegnamentoDatabase
 		QueryRunner run = new QueryRunner();
 		return run.update(conn, statement, id);
 	}
+	
 	/**
-	 * Change class status to REPORTED
+	 * Change class status
 	 * 
 	 * @param con connection to the database
-	 * @param id class id
-	 * @throws SQLException
+	 * @param id id of class
+	 * @throws SQLException 
 	 */
-	public static void changeClassStatusToReported(Connection con, int id) throws SQLException 
+	public static void changeClassStatus(Connection con, String status, int id) throws SQLException 
 	{
-		final String sql = "UPDATE Insegnamento SET stato = 'REPORTED' WHERE id = ?;";
+		final String sql = "UPDATE Insegnamento SET stato = CAST(? AS STATO) WHERE id = ?;";
 		
 		QueryRunner run = new QueryRunner();
 		
-		run.update(con, sql, id);
-		
+		run.update(con, sql, status, id);
 	}
-
 }

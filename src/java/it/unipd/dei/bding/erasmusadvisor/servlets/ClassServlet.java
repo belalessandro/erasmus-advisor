@@ -214,7 +214,7 @@ public class ClassServlet extends AbstractDatabaseServlet
 		try {
 			con = DS.getConnection();
 			
-			InsegnamentoDatabase.changeClassStatusToReported(con, json.getInt("id"));
+			InsegnamentoDatabase.changeClassStatus(con, "REPORTED", json.getInt("id"));
 			
 			DbUtils.close(con);
 			

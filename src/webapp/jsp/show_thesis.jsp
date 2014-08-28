@@ -90,7 +90,6 @@
 					method : "POST",
 					url : "<c:url value="/thesis"/>",
 					success: function(data) { 
-						
 						if(data["report"] == "success")
 						{
 							// hide the button
