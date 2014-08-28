@@ -102,7 +102,7 @@
 					<div class="row">
 						<span></span>
 						<span class="input-group-addon insert_new_select_label_inline">Select the class' area*</span>
-						<select class="selectpicker text-left" id="area" name="NomeArea">
+						<select class="selectpicker text-left" id="area" name="NomeArea" data-width="auto">
 	    					<option disabled selected>Nothing Selected</option> <!-- serve per la corretta validazione -->
 							<c:forEach var="areaDomain" items='${areaDomain}'>
 								<option value="${areaDomain.nome}" >${areaDomain.nome}</option>
@@ -117,7 +117,7 @@
 					<div class="row">
 						<span></span>
 						<span class="input-group-addon insert_new_select_label_inline">Select the class' language*</span>
-						<select class="selectpicker text-left" id="language" name="NomeLingua">
+						<select class="selectpicker text-left" id="language" name="NomeLingua" data-width="auto">
 	    					<option disabled selected>Nothing Selected</option> <!-- serve per la corretta validazione -->
 							<c:forEach var="languageDomain" items='${languageDomain}'>
 								<option value="${languageDomain.sigla}" >${languageDomain.nome}</option>

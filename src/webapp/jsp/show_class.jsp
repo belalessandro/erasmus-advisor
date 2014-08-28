@@ -271,7 +271,7 @@
 							<div class="row text-center">
 								<span></span>
 								<span class="input-group-addon insert_new_select_label_inline">Select the flow</span>
-								<select class="selectpicker text-left" id="ackFlow" name="ackFlow">
+								<select class="selectpicker text-left" id="ackFlow" name="ackFlow" data-width="auto">
 	    							<option disabled selected>Nothing Selected</option> <!-- serve per la corretta validazione -->
 									<c:forEach var="flow" items='${flows}'>
 										<option value="${flow.idFlusso}">
@@ -376,7 +376,7 @@
 								<div class="row text-center">
 									<span></span>
 									<span class="input-group-addon insert_new_select_label_inline">Select the class' area*</span>
-									<select class="selectpicker text-left" id="area" name="nomeArea">
+									<select class="selectpicker text-left" id="area" name="nomeArea" data-width="auto">
 											<c:forEach var="areaDomain" items='${areaDomain}'>
 											<option value="${areaDomain.nome}" 
 												<c:if test="${areaDomain.nome == classBean.nomeArea}">selected</c:if>
@@ -393,7 +393,7 @@
 								<div class="row text-center">
 									<span></span>
 									<span class="input-group-addon insert_new_select_label_inline">Select the class' language*</span>
-									<select class="selectpicker text-left" id="language" name="nomeLingua">
+									<select class="selectpicker text-left" id="language" name="nomeLingua" data-width="auto">
 										<c:forEach var="languageDomain" items='${languageDomain}'>
 											<option value="${languageDomain.sigla}" 
 												<c:if test="${languageDomain.sigla == classBean.nomeLingua}">selected</c:if>
