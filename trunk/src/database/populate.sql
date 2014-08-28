@@ -20,6 +20,8 @@ INSERT INTO citta VALUES('Berlin', 'Germany');
 INSERT INTO citta VALUES('Padua', 'Italy');
 INSERT INTO citta VALUES('Dublin', 'Ireland');
 INSERT INTO citta VALUES ('Barcelona', 'Spain');
+INSERT INTO citta VALUES ('Pisa', 'Italy');
+
 
 INSERT INTO linguacitta VALUES('fra','Paris','France');
 INSERT INTO linguacitta VALUES('ita','Padua','Italy');
@@ -27,6 +29,7 @@ INSERT INTO linguacitta VALUES('deu','Berlin','Germany');
 INSERT INTO linguacitta VALUES('eng','London','United Kingdom');
 INSERT INTO linguacitta VALUES('eng','Cambridge','United Kingdom');
 INSERT INTO linguacitta VALUES('dan','Copenhagen','Denmark');
+INSERT INTO linguacitta VALUES('ita','Pisa','Italy');
 
 -- inserting students
 
@@ -49,9 +52,10 @@ INSERT INTO Universita VALUES
 	('Universitat de Barcelona- Main Site','http://www.ub.edu/uri/estudiantsNOUB/nie_en.htm', 4, FALSE, 'Barcelona', 'Spain'),
 	('Université Pierre et Marie Curie, Paris 6- Main Site','http://www.upmc.fr/en/', 45, TRUE, 'Paris', 'France'),
 	('Dublin Institute of Technology- Main Site','http://www.dit.ie/', 45, TRUE, 'Dublin', 'Ireland'),
-	('University of Cambridge','www.cam.ac.uk', 1, TRUE, 'Cambridge', 'United Kingdom');
+	('University of Cambridge','www.cam.ac.uk', 1, TRUE, 'Cambridge', 'United Kingdom'),
+	('Università degli Studi di Pisa','www.unipi.it', 1, TRUE, 'Pisa', 'Italy');
 
--- Inserting FLows Resp.
+-- Inserting FLow Managers
 INSERT INTO ResponsabileFlusso VALUES 
 	( 'georgua.en',
     'Georguà', 
@@ -71,7 +75,7 @@ INSERT INTO ResponsabileFlusso VALUES
     'dskjwi833', 
     'wskjscnn301qqq', 
     NULL, 
-    TRUE, 
+    FALSE, 
     'Università degli Studi di Padova'),
     ( 'erick.burn',
     'Erick', 
@@ -81,8 +85,28 @@ INSERT INTO ResponsabileFlusso VALUES
     'lr3tjorjow', 
     'slakj2akjwcbb', 
     NULL, 
-    TRUE, 
-    'University of Cambridge');
+    FALSE, 
+    'University of Cambridge'),
+     ( 'nostromo',
+    'Capitan', 
+    'Findus', 
+    'findus@i.se.boni.it', 
+    CURRENT_DATE, 
+    'as32mmm3m1', 
+    '12323ppwpdcmek', 
+    NULL, 
+    FALSE, 
+    'Università degli Studi di Padova'),
+     ( 'Maccio',
+    'Capatonda', 
+    'mario', 
+    'mario@unipi.it', 
+    CURRENT_DATE, 
+    'dskjwi833', 
+    'wskjscnn301qqq', 
+    NULL, 
+    FALSE, 
+    'Università degli Studi di Pisa');
 
 	
 --Inserting Coordinator
