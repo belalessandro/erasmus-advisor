@@ -30,7 +30,7 @@
     			if (r == true) 
     			{ 
 	                var flow = $(this).attr("id");
-	            	$.post('<c:url value="/interest"/>', 
+	            	$.post('<c:url value="/student/interests"/>', 
 	                		{ operation: "delete", flowID : flow},
 	                		function(responseText) { 
 	                			$('#row-' + flow).remove();

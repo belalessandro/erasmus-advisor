@@ -4,32 +4,14 @@
 <!-- 	
 	notare che alcune voci sono disattivate con alcuni utenti: 
 	1) solo responsabili e coordinatori vedono insert_flow, insert_city, insert_uni, insert_course
-	2) solo studenti vedono user_comments
--->
-
-<!-- Mappa dei link del menù
-	Home			->		index (sono visualizzati gli interessi, volendo pure una guida/introduzione)
-	My Comments		-/->	manca la pagina (elenco di tutti i commenti inseriti dall'utente?)
-	
-	Flows			->		search_flow
-	Universities	->		search_university
-	Cities			->		search_city
-	Classes			->		search_class
-	Theses			->		search_theses
-	
-	Flows			->		insert_flow
-	Cities			->		insert_city
-	Universities	->		insert_university
-	Cities			->		insert_course
-	Classes			->		insert_class
-	Theses			->		insert_theses	
+	2) solo studenti vedono /student/evaluation
 -->
 
 <!-- inizio menu -->
 <div class="col-md-3">
 	<div class="menu_title"><i class="fa fa-bars fa-fw"></i>MENU</div>
 	<div class="menu_normal"><a href="<c:url value="/index"/>"><i class="fa fa-home fa-fw"></i>Home</a></div>
-	<div class="menu_normal"><a href="#"><i class="fa fa-user fa-fw"></i>My Comments</a></div>
+	<div class="menu_normal"><a href="<c:url value="/student/evaluations"/>"><i class="fa fa-user fa-fw"></i>My Comments</a></div>
 	<br>
 	<div class="menu_title"><i class="fa fa-search fa-fw"></i>SEARCH</div>
 	<div class="menu_normal"><a href="<c:url value="/flow/list"/>"><i class="fa fa-arrow-right fa-fw"></i>Flows</a></div>

@@ -42,7 +42,7 @@
 	    			if (r == true) 
 	    			{               
 		                var flow = "<c:out value="${flow.id}"/>";
-		            	$.post('<c:url value="/interest"/>', 
+		            	$.post('<c:url value="/student/interests"/>', 
 		                		{ operation: "insert", flowID : flow},
 		                		function(responseText) { 
 		                			var actualInterest = parseInt(responseText);
@@ -60,7 +60,7 @@
 	    			if (r == true) 
 	    			{               
 		                var flow = "<c:out value="${flow.id}"/>";
-		            	$.post('<c:url value="/interest"/>', 
+		            	$.post('<c:url value="/student/interests"/>', 
 		                		{ operation: "delete", flowID : flow},
 		                		function(responseText) { 
 		                			var actualInterest = parseInt(responseText);

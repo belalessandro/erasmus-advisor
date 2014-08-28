@@ -1,6 +1,7 @@
 package it.unipd.dei.bding.erasmusadvisor.servlets;
 
 import it.unipd.dei.bding.erasmusadvisor.database.InteresseDatabase;
+
 import it.unipd.dei.bding.erasmusadvisor.resources.LoggedUser;
 import it.unipd.dei.bding.erasmusadvisor.resources.Message;
 import it.unipd.dei.bding.erasmusadvisor.resources.UserType;
@@ -9,15 +10,26 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-import javax.json.Json;
-import javax.json.JsonWriter;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.dbutils.DbUtils;
 
+/*
+ * (Autorizzazioni: solo STUDENTE)
+ * 
+ * mappato su /student/interests
+ * 
+ * quando riceve POST
+ *   		-> Se operazione è "delete" rimuove l'interesse collegato allo studente loggato e IdFlusso come parametro
+ *   		-> Se operazione è "insert" inserisce l'interesse collegato allo studente loggato e IdFlusso come parametro
+ */
+
+/**
+ * @author Luca
+ *
+ */
 public class InterestServlet extends AbstractDatabaseServlet 
 {
 
