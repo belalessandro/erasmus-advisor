@@ -4,9 +4,9 @@ import it.unipd.dei.bding.erasmusadvisor.beans.AreaBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.ArgomentoTesiBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.LinguaBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.ProfessoreBean;
-import it.unipd.dei.bding.erasmusadvisor.beans.SearchThesisBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.ValutazioneTesiBean;
 import it.unipd.dei.bding.erasmusadvisor.resources.Thesis;
+import it.unipd.dei.bding.erasmusadvisor.resources.ThesisSearchRow;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -114,17 +114,17 @@ public class ArgomentoTesiDatabase {
 		return run.update(conn, statement, id);
 	}
 		
-	/**
+/*	*//**
 	 * Return a list of Theses
 	 * 
 	 * @param con
-	 * @param area
+	 * @param area				---------->>>			DEPRECATED
 	 * @param nome
 	 * @param livello
 	 * @param lingua
 	 * @return
 	 * @throws SQLException
-	 */
+	 *//*
 	public static List<SearchThesisBean> searchTheses(Connection con, String area, String nome, String livello, String lingua) throws SQLException	{
 		List<SearchThesisBean> s = new ArrayList<SearchThesisBean>();
 		List<Thesis > results = searchArgomentoTesi(con,area, nome, livello, lingua);
@@ -160,7 +160,7 @@ public class ArgomentoTesiDatabase {
 		}
 		System.out.println(s.size());
 		return s;
-	}
+	}*/
 	
 	/**
 	 * Return a list of Theses
@@ -173,35 +173,33 @@ public class ArgomentoTesiDatabase {
 	 * @return
 	 * @throws SQLException
 	 */
-	public static List<Thesis> searchArgomentoTesi(Connection con, String area, String nome, String livello, String lingua) throws SQLException {
+	public static List<ThesisSearchRow> searchArgomentoTesi(Connection con, String area, String nome, String livello, String lingua) throws SQLException {
 		/**
 		 * The SQL statements to be executed
 		 */
-		String triennale, magistrale;
-		if (livello.equals("Undergraduate")) {
-			triennale = "true"; magistrale="false";
-		} else 
-		{
-			triennale = "false";magistrale="true";
-		}		
-		if (area.equals("undefined")) area="%"; else  area=area+"%";
-		if (nome.equals("undefined")) nome="%"; else  nome=nome+"%";
-		if (lingua.equals("undefined")) lingua="%"; else  lingua=lingua+"%";
-			
 		//If level is selected --> AND statement
 		String statement = "SELECT A.id, A.nomeUniversita, A.triennale, A.magistrale, A.stato FROM ArgomentoTesi AS A INNER JOIN Estensione AS E ON A.id=E.idArgomentoTesi " +
-				"INNER JOIN LinguaTesi AS L ON L.idArgomentoTesi = A.id INNER JOIN Lingua AS LI on L.siglaLingua=LI.sigla WHERE" +
-				" A.NomeUniversita LIKE ? AND E.Area LIKE ? AND A.Triennale = CAST (? AS BOOLEAN) AND A.Magistrale = CAST (? AS BOOLEAN) AND LI.nome LIKE ? ";
+						"INNER JOIN LinguaTesi AS L ON L.idArgomentoTesi = A.id INNER JOIN Lingua AS LI on L.siglaLingua=LI.sigla WHERE" +
+						"  A.NomeUniversita LIKE ?  AND E.Area LIKE ? AND (A.Triennale = CAST ( ? AS BOOLEAN) AND A.Magistrale = CAST ( ? AS BOOLEAN)) AND Li.Nome LIKE ?  ";
 		
-		//If level isn't selected --> OR statement
-		if (livello.equals("undefined")) 
+		String triennale, magistrale;
+		if (livello.equalsIgnoreCase("Undergraduate")) {
+			triennale = "true"; magistrale="false";
+		} else if(livello.equalsIgnoreCase("Graduate"))
+			
 		{
-			triennale= "true";
-			magistrale= "true";
+			triennale = "false";magistrale="true";
+		}
+		else
+		{
+			triennale = magistrale = "true";
 			statement = "SELECT A.id, A.nomeUniversita, A.triennale, A.magistrale, A.stato FROM ArgomentoTesi AS A INNER JOIN Estensione AS E ON A.id=E.idArgomentoTesi " +
 					"INNER JOIN LinguaTesi AS L ON L.idArgomentoTesi = A.id INNER JOIN Lingua AS LI on L.siglaLingua=LI.sigla WHERE" +
-					" A.NomeUniversita LIKE ? AND E.Area LIKE ? AND (A.Triennale = CAST (? AS BOOLEAN) OR A.Magistrale = CAST (? AS BOOLEAN)) AND LI.nome LIKE ? ";
-		};
+					" A.NomeUniversita LIKE ?  AND E.Area LIKE ? AND (A.Triennale = CAST ( ? AS BOOLEAN) OR A.Magistrale = CAST ( ? AS BOOLEAN)) AND Li.Nome LIKE ?  ";
+		}		
+		if (area.equals("undefined")) area = "%"; else area+="%";
+		if (nome.equals("undefined")) nome= "%"; else nome+="%";
+		if (lingua.equals("undefined")) lingua= "%"; else lingua+="%";
 		
 		// Entity Bean
 		List<ArgomentoTesiBean> idList = null;
@@ -214,20 +212,66 @@ public class ArgomentoTesiDatabase {
 		
 		if (idList == null)
 			throw new SQLException("Theses not found");
-
-		List<Thesis> listThesis = new ArrayList<Thesis>();
+		
+		//For each thesis search it by ID and build a new ThesisSearchRow
+		List<ThesisSearchRow> listThesis = new ArrayList<ThesisSearchRow>();
 		for(int i=0;i<idList.size();i++)
 		{
-			listThesis.add(getArgomentoTesi(con, Integer.toString(idList.get(i).getId())));
+			listThesis.add(getArgomentoTesiID(con, Integer.toString(idList.get(i).getId())));
 		}
 		
 		return listThesis ;
 	}
 	
+	/**
+	 * Return a Thesis, for Search, search by ID
+	 * 
+	 * @param conn
+	 * @param ID
+	 * @return
+	 * @throws SQLException
+	 */
+	
+	public static ThesisSearchRow getArgomentoTesiID(Connection conn, String ID)
+			throws SQLException 
+	{
+		final String statement1 = "SELECT * FROM ArgomentoTesi WHERE ID = CAST (? AS INTEGER)";
+		final String statement2 = "SELECT L.Sigla, L.Nome FROM Lingua AS L INNER JOIN LinguaTesi AS T ON L.Sigla = T.SiglaLingua WHERE idargomentotesi = CAST (? AS INTEGER)";
+		final String statement4 = "SELECT P.Nome, P.Cognome FROM Professore AS P INNER JOIN Gestione AS G ON P.ID = G.IdProfessore WHERE G.idargomentotesi = CAST (? AS INTEGER)";
+		final String statement5 = "SELECT area AS nome FROM Estensione WHERE idargomentotesi = CAST (? AS INTEGER);";
+		
+		ArgomentoTesiBean tesi = new ArgomentoTesiBean();
+		List<LinguaBean> lingue = null;
+		List<ProfessoreBean> professori = null;
+		List<AreaBean> aree = null;
+
+		QueryRunner run = new QueryRunner();
+		
+		ResultSetHandler<ArgomentoTesiBean> h1 = new BeanHandler<ArgomentoTesiBean>(ArgomentoTesiBean.class);
+		tesi = run.query(conn, statement1, h1, ID);
+		
+		if (tesi == null)
+			throw new SQLException("Thesis id not found.");
+		
+		// Gets the languages
+		ResultSetHandler<List<LinguaBean>> h2 = new BeanListHandler<LinguaBean>(LinguaBean.class);
+		lingue = run.query(conn, statement2, h2, ID);
+		
+		// Gets the profs
+		ResultSetHandler<List<ProfessoreBean>> h4 = new BeanListHandler<ProfessoreBean>(ProfessoreBean.class);
+		professori = run.query(conn, statement4, h4, ID);
+		
+		// Gets the areas
+		ResultSetHandler<List<AreaBean>> h5 = new BeanListHandler<AreaBean>(AreaBean.class);
+		aree = run.query(conn, statement5, h5, ID);
+		
+		// Returns the results
+		return new ThesisSearchRow(tesi, aree, professori, lingue);
+	}	
 	
 	
 	/**
-	 * Return a Thesis, search by ID
+	 * Return a Thesis, for Evaluation, search by ID
 	 * 
 	 * @param conn
 	 * @param ID

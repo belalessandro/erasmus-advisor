@@ -37,12 +37,12 @@ public class TestCittaDatabase {
 	/**
 	 * The username for accessing the database
 	 */
-	private static final String USER = "EATeam";
+	private static final String USER = "postgres";
 
 	/**
 	 * The password for accessing the database
 	 */
-	private static final String PASSWORD = "EATeam";
+	private static final String PASSWORD = "postgres";
 
 	public static void main(String[] args) {
 
