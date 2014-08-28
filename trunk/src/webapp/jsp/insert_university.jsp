@@ -99,7 +99,7 @@
 					<div class="row">
 						<span></span>
 						<span class="input-group-addon insert_new_select_label_inline">Select the university's country*</span>
-						<select class="selectpicker text-left" id="country" name="statoCitta" onchange="updateCity();">
+						<select class="selectpicker text-left" id="country" name="statoCitta" onchange="updateCity();" data-width="auto">
 	    					<option disabled selected>Nothing Selected</option> <!-- serve per la corretta validazione -->
 	    						<c:forEach var="state" items='${cities}'>
 									<option value="${state.country}" >${state.country}</option>
@@ -110,7 +110,7 @@
 					<div class="row">
 						<span></span>
 						<span class="input-group-addon insert_new_select_label_inline">Select the university's city*</span>
-						<select class="selectpicker text-left" id="city" name="nomeCitta">
+						<select class="selectpicker text-left" id="city" name="nomeCitta" data-width="auto">
 	    					<option disabled selected>Nothing Selected</option> <!-- serve per la corretta validazione -->
 	    				</select>
 					</div>

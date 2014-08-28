@@ -235,7 +235,7 @@
 								<div class="row text-center">
 									<span></span>
 									<span class="input-group-addon insert_new_select_label_inline">Insert the flow's starting degree courses*</span>
-									<select class="selectpicker text-left" multiple id="origin" name="origins[]">
+									<select class="selectpicker text-left" multiple id="origin" name="origins[]" data-width="auto">
 										<c:forEach var="possibleCourse" items='${possibleCourses}'>
 											<option value="${possibleCourse.id}" 
 												<c:forEach var="origin" items='${origins}' >
@@ -254,7 +254,7 @@
 								<div class="row text-center">
 									<span></span>
 									<span class="input-group-addon insert_new_select_label_inline">Insert the flow's Language Certifications*</span>
-									<select class="selectpicker text-left" multiple id="certificate" name="certificates[]">
+									<select class="selectpicker text-left" multiple id="certificate" name="certificates[]" data-width="auto">
 										<c:forEach var="certificatesDomain" items='${certificatesDomain}'>
 											<option value="${certificatesDomain.nomeLingua} - ${certificatesDomain.livello}" 
 												<c:forEach var="certificates" items='${certificates}' >

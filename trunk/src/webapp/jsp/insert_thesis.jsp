@@ -109,7 +109,7 @@
 					<div class="row">
 						<span></span>
 						<span class="input-group-addon insert_new_select_label_inline">Select the thesis' areas*</span>
-						<select class="selectpicker text-left" multiple id="area" name="area[]">
+						<select class="selectpicker text-left" multiple id="area" name="area[]" data-width="auto">
 							<c:forEach var="areaDomain" items='${areaDomain}'>
 								<option value="${areaDomain.nome}" >${areaDomain.nome}</option>
 							</c:forEach>
@@ -119,7 +119,7 @@
 					<div class="row">
 						<span></span>
 						<span class="input-group-addon insert_new_select_label_inline">Select the thesis' languages*</span>
-						<select class="selectpicker text-left" multiple id="language" name="language[]">
+						<select class="selectpicker text-left" multiple id="language" name="language[]" data-width="auto">
 							<c:forEach var="languageDomain" items='${languageDomain}'>
 								<option value="${languageDomain.sigla}" >${languageDomain.nome}</option>
 							</c:forEach>

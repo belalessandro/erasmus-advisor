@@ -92,7 +92,7 @@
 					<div class="row">
 						<span></span>
 						<span class="input-group-addon insert_new_select_label_inline">Select the course's areas*</span>
-						<select class="selectpicker text-left" multiple id="area" name="area[]">
+						<select class="selectpicker text-left" multiple id="area" name="area[]" data-width="auto">
 							<c:forEach var="areaDomain" items='${areaDomain}'>
 								<option value="${areaDomain.nome}" >${areaDomain.nome}</option>
 							</c:forEach>
@@ -102,7 +102,7 @@
 					<div class="row">
 						<span></span>
 						<span class="input-group-addon insert_new_select_label_inline">Select the course's level*</span>
-						<select class="selectpicker text-left" id="level" name="level">
+						<select class="selectpicker text-left" id="level" name="level" data-width="auto">
 	    					<option disabled selected>Nothing Selected</option> <!-- serve per la corretta validazione -->
 							<c:forEach var="degreeDomain" items='${degreeDomain}'>
 								<option value="${degreeDomain.tipoLaurea}" >${degreeDomain.tipoLaurea}</option>
