@@ -4,29 +4,20 @@
 package it.unipd.dei.bding.erasmusadvisor.servlets;
 
 import it.unipd.dei.bding.erasmusadvisor.beans.AreaBean;
-import it.unipd.dei.bding.erasmusadvisor.beans.ArgomentoTesiBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.LinguaBean;
+import it.unipd.dei.bding.erasmusadvisor.beans.SearchThesisBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.UniversitaBean;
 import it.unipd.dei.bding.erasmusadvisor.database.ArgomentoTesiDatabase;
 import it.unipd.dei.bding.erasmusadvisor.database.GetAreaValues;
 import it.unipd.dei.bding.erasmusadvisor.database.GetLinguaValues;
 import it.unipd.dei.bding.erasmusadvisor.database.GetUniversitaValues;
-import it.unipd.dei.bding.erasmusadvisor.database.UniversitaDatabase;
 import it.unipd.dei.bding.erasmusadvisor.resources.Message;
-import it.unipd.dei.bding.erasmusadvisor.resources.Thesis;
-import it.unipd.dei.bding.erasmusadvisor.resources.University;
-import it.unipd.dei.bding.erasmusadvisor.resources.UniversityEvaluationsAverage;
 
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.PrintStream;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
-import javax.json.Json;
-import javax.json.JsonWriter;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -34,59 +25,49 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.dbutils.DbUtils;
 
 /**
- * @author Luca, Nicola
+ * @author Nicola, Luca
  *
  */
 public class ThesisListServlet extends AbstractDatabaseServlet 
-{
-	 
-	private static final long serialVersionUID = 24559389234503855L;
+{	 
+	private static final long serialVersionUID = 246779234503855L;
 	
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException 
 	{
+		Connection conn = null;
 		String operation = req.getParameter("operation");
 		Message m = null;
-		
-		// database connection
-		Connection conn = null;
 
 		if (operation != null && !operation.isEmpty()
 				&& operation.equals("search")) 
 		{
+			//
 			String area = req.getParameter("area");
-			String uni = req.getParameter("university");
+			String university = req.getParameter("university");
+			String level = req.getParameter("level");
+			String language = req.getParameter("language");
 			// model
-			List<ArgomentoTesiBean> results = null;
+			List<SearchThesisBean> results = null;
 			
 			try {
-
 				conn = DS.getConnection();
-				//results = ArgomentoTesiDatabase.searchArgomentoTesiBy(conn, uni, area);
-				results = ArgomentoTesiDatabase.searchArgomentoTesiBy(conn, uni, area);
+				results = ArgomentoTesiDatabase.searchTheses(conn, area, university ,level, language);
 				
-			} catch (SQLException ex) {
-				m = new Message("Error while getting the university.",
-						"XXX", ex.getMessage());
+			} catch (SQLException e) {
+				DbUtils.rollbackAndCloseQuietly(conn); 
+				e.printStackTrace();
 			} finally {
 				DbUtils.closeQuietly(conn);
 			}
-			
 			if (m == null && results != null) {
 				/** 
 				 * Show results to the JSP page. 
 				 *
-				 *//*
-				List<Thesis> list = new ArrayList<Thesis>();
-				scrivi.println("tesiiiiiiiiii");
-				for(int i=0;i<results.size();i++)
-				{
-					list.add(new Thesis (results.get(i), null, null, null, null)); 
-				}*/
+				 */
 				req.setAttribute("theses", results);
 				req.setAttribute("areaSearch",area);
-				req.setAttribute("universitySearch", uni);
-								
+				req.setAttribute("universitySearch", university);			
 			}
 		}
 			
@@ -96,10 +77,10 @@ public class ThesisListServlet extends AbstractDatabaseServlet
 			List<UniversitaBean> universities = null;
 			
 			try {
-				conn = DS.getConnection();
-				languageDomain = GetLinguaValues.getLinguaDomain(conn);
-				areaDomain = GetAreaValues.getAreaDomain(conn);
-				universities = GetUniversitaValues.getDomain(conn);
+				Connection con = DS.getConnection();
+				languageDomain = GetLinguaValues.getLinguaDomain(con);
+				areaDomain = GetAreaValues.getAreaDomain(con);
+				universities = GetUniversitaValues.getDomain(con);
 			} 
 			catch (SQLException ex) {
 				m = new Message("Error while getting the search page.", "XXX", ex.getMessage());

@@ -10,15 +10,20 @@ import it.unipd.dei.bding.erasmusadvisor.beans.LinguaCittaBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.LinguaTesiBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.OrigineBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.ProfessoreBean;
+import it.unipd.dei.bding.erasmusadvisor.beans.SearchThesisBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.SvolgimentoBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.UniversitaBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.ValutazioneUniversitaBean;
 import it.unipd.dei.bding.erasmusadvisor.database.ArgomentoTesiDatabase;
+import it.unipd.dei.bding.erasmusadvisor.resources.Thesis;
 
+import java.io.FileNotFoundException;
+import java.io.UnsupportedEncodingException;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.util.List;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.dbutils.DbUtils;
@@ -41,7 +46,7 @@ public class TestArgomentoTesiDatabase {
 	 */
 	private static final String PASSWORD = "postgres";
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws FileNotFoundException, UnsupportedEncodingException {
 
 		Connection con = null;
 
@@ -66,8 +71,11 @@ public class TestArgomentoTesiDatabase {
 		try {
 			con = DriverManager.getConnection(DATABASE, USER, PASSWORD); // UNICA CONNESSIONE
 			con.setAutoCommit(false);
-			ArgomentoTesiDatabase.searchArgomentoTesiBy(con, "Universitat de Barcelona- Main Site", "Mathematics");
-			
+			List<SearchThesisBean> list = null;
+			list = ArgomentoTesiDatabase.searchTheses(con, "undefined", "undefined","undefined","undefined");
+			//ArgomentoTesiDatabase.getArgomentoTesiSearch(con, "1");
+			System.out.println(list.get(0).getNomeTesi());
+			System.out.println(list.get(1).getAree());
 			// insert test
 //			DocumentazioneDatabase.createDocumentazione(con, documentazioneBean);
 //			FlussoDatabase.createFlusso(con, flussoBean);
