@@ -4,14 +4,16 @@ import it.unipd.dei.bding.erasmusadvisor.beans.ValutazioneCittaBean;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.List;
 
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.ResultSetHandler;
 import org.apache.commons.dbutils.handlers.BeanHandler;
+import org.apache.commons.dbutils.handlers.BeanListHandler;
 
 /**
  * Database operations about ValutazioneCitta 
- * @author Maurp
+ * @author Mauro, Luca
  *
  */
 public class ValutazioneCittaDatabase {
@@ -41,6 +43,23 @@ public class ValutazioneCittaDatabase {
 				val.getVitaSociale(),
 				val.getCommento()
 				);
+	}
+	
+	/**
+	 * Get all the evaluation to cities inserted by a specific student
+	 * @param conn A connection to the database
+	 * @param user The User
+	 * @return A list of evaluations
+	 * @throws SQLException If something goes wrong
+	 */
+	public static List<ValutazioneCittaBean> getEvalByUser(Connection conn, String user) throws SQLException
+	{
+		final String statement = "SELECT * FROM ValutazioneCitta WHERE nomeutentestudente = ?";
+		
+		QueryRunner run = new QueryRunner();
+		ResultSetHandler<List<ValutazioneCittaBean>> h = new BeanListHandler<ValutazioneCittaBean>(ValutazioneCittaBean.class);
+		
+		return run.query(conn, statement, h, user);
 	}
 
 }

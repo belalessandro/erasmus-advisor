@@ -4,14 +4,16 @@ import it.unipd.dei.bding.erasmusadvisor.beans.ValutazioneInsegnamentoBean;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.List;
 
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.ResultSetHandler;
 import org.apache.commons.dbutils.handlers.BeanHandler;
+import org.apache.commons.dbutils.handlers.BeanListHandler;
 
 /**
- * Database operations about ValutazioneCitta 
- * @author Maurp
+ * Database operations about ValutazioneInsegnamento
+ * @author Mauro, Luca
  *
  */
 public class ValutazioneInsegnamentoDatabase 
@@ -34,5 +36,22 @@ public class ValutazioneInsegnamentoDatabase
 				val.getDifficolta(),
 				val.getRispettoDelleOre(),
 				val.getCommento());
+	}
+	
+	/**
+	 * Get all the evaluation to classes inserted by a specific student
+	 * @param conn A connection to the database
+	 * @param user The User
+	 * @return A list of evaluations
+	 * @throws SQLException If something goes wrong
+	 */
+	public static List<ValutazioneInsegnamentoBean> getEvalByUser(Connection conn, String user) throws SQLException
+	{
+		final String statement = "SELECT * FROM ValutazioneInsegnamento WHERE nomeutentestudente = ?";
+		
+		QueryRunner run = new QueryRunner();
+		ResultSetHandler<List<ValutazioneInsegnamentoBean>> h = new BeanListHandler<ValutazioneInsegnamentoBean>(ValutazioneInsegnamentoBean.class);
+		
+		return run.query(conn, statement, h, user);
 	}
 }

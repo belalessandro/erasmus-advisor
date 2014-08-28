@@ -99,7 +99,16 @@
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>InterestServlet</servlet-name>
-		<url-pattern>/interest</url-pattern>
+		<url-pattern>/student/interests</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>StudentEvaluationsServlet</servlet-name>
+		<servlet-class>it.unipd.dei.bding.erasmusadvisor.servlets.StudentEvaluationsServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>StudentEvaluationsServlet</servlet-name>
+		<url-pattern>/student/evaluations</url-pattern>
 	</servlet-mapping>
 	
 	<servlet>
