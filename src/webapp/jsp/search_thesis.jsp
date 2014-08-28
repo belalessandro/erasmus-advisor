@@ -30,18 +30,12 @@
 		// da questa funzione si fa partire la ricerca
 		function doSearch()
 		{
-			if (document.getElementById("sidebar").style.display=="none")
-			{ 
-				// ricerca avanzata disabilitata
-				 alert('area ' + areaDropValue + ' university ' + universityDropValue); 
-				
-			} 
-			else
-			{
-				alert('area ' + areaDropValue + ' university ' + universityDropValue
-					+ ' level ' + levelDropValue + ' language ' + languageDropValue);
-			}
+				document.getElementById("area").value = areaDropValue;
+				document.getElementById("university").value = universityDropValue;
+				document.getElementById("level").value = levelDropValue;
+				document.getElementById("language").value = languageDropValue;
 		}
+		
 		// serve per la comparsa delle impostazioni di ricerca avanzata
 		function comparsa() 
 		{
@@ -53,12 +47,6 @@
 			{
 				document.getElementById("sidebar").style.display="none";
 			} 
-		}
-		function doParameter()
-		{
-			document.getElementById("area").value = areaDropValue;
-			document.getElementById("university").value = universityDropValue;
-			
 		}
 		// aggiorna l'etichetta mostrata dai dropdown e salva il valore selezionato
 		$(document).on('click', '.dropdown-menu li span', function () {
@@ -108,7 +96,7 @@
 			<br>
 			<!-- Notare che potrebbe essere meglio inserire un altro dropdown che ad esempio permetta di selezionare 
 			lo stato in cui si trova l'università e da lì aggiornare l'altro.-->
-			<form method="get" action="<c:url value="/thesis/list"/>" enctype="plain/text">
+			<form  method="get" action="<c:url value="/thesis/list"/>" enctype="plain/text">
 			<input name="operation" type="hidden" value="search" />
 			<div class="col-md-4 text-center">
 				<div class="btn-group">
@@ -137,12 +125,12 @@
 			</div>
 			<input name="university" type="hidden" id="university"/>
 			<div class="col-md-4 text-center">
-				<button class="btn btn-primary" type="submit" onClick="doParameter()"><span class="fa fa-search fa-fw"></span> Search</button>
+				<button class="btn btn-primary" type="submit" onClick="doSearch()"><span class="fa fa-search fa-fw"></span> Search</button>
 			</div>
 			<br><br><br>
 			<!-- Ricerca Avanzata-->
 			<div class="row text-center">
-				<div><button class="btn btn-default" onClick="comparsa()">Advanced Search</button></div>
+				<div><button class="btn btn-default" type="button" onClick="comparsa()">Advanced Search</button></div>
 			</div>
 			<br>
 			<div id="sidebar" style="display:none">
@@ -157,6 +145,7 @@
 						</ul>
 					</div>
 				</div>
+				<input name="level" type="hidden" id="level"/>
 				<div class="col-md-6 text-center" >
 					<div class="btn-group">
 						<button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" id="dropLanguage" name="dropLanguage">
@@ -168,43 +157,44 @@
 							</c:forEach>
 						</ul>
 					</div>
+					<input name="language" type="hidden" id="language"/>
 				</div>
+				
 			</div>
 			</form>
 			<!-- fine Ricerca Avanzata -->
 			<br><br><br>
 			<!-- frase da da creare dinamicamente -->
-			<c:if test='${not empty theses}'>
+			<c:set var="found" scope="session" value="false"/>
+			<c:if test='${not empty theses}'> 
 			<h5>Results for <strong>${areaSearch}</strong> in <strong>${universitySearch}</strong>.</h5>
 			<br>
 			<table class="table table-bordered table-hover table-striped tablesorter" id="resultTable">
 				<thead>
 					<tr>
 						<th>Name</th>
+						<th>Other Areas</th>
 						<th>Level</th>
-						<th>Undergraduate</th>
-						<th>Graduate</th>
-						<th>State</th> 
+						<th>Languages</th>
+						<th>Professors</th>
 					</tr>
 				</thead>
 				<tbody>
-					<c:forEach var="thesis" items="${theses}">
+				<c:forEach var="thesis" items="${theses}">
 					<tr>
-						<td><c:out value="${thesis.nome}"/></td>
-						<td><c:out value="${thesis.nomeUniversita}"/></td>
-						<c:choose>
-							<c:when test="${not thesis.triennale}"><td>No</td></c:when>
-							<c:otherwise><td>Yes</td></c:otherwise>
-						</c:choose>
-						<c:choose>
-							<c:when test="${not thesis.magistrale}"><td>No</td></c:when>
-							<c:otherwise><td>Yes</td></c:otherwise>
-						</c:choose>
-						<td><c:out value="${thesis.stato}"/></td>
+						<td><c:out value="${thesis.nomeTesi}"/></td>
+						<td><c:out value="${thesis.aree}"/></td>
+						<td><c:out value="${thesis.livello}"/></td>
+						<td><c:out value="${thesis.lingue}"/></td>
+						<td><c:out value="${thesis.professori}"/></td>
 					</tr>
-					</c:forEach>
+				</c:forEach>
 				</tbody>
 			</table>
+			</c:if>
+			<!-- FRASE DA CREARE DIN. -->
+			<c:if test="true">
+				<h4><strong>NOT FOUND: </strong> there are no results for thesis in <strong>${areaSearch}</strong> area, at <strong>${universitySearch}</strong>.</h4>
 			</c:if>
 		</div>
 	</div>	

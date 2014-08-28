@@ -4,6 +4,7 @@ import it.unipd.dei.bding.erasmusadvisor.beans.AreaBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.ArgomentoTesiBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.LinguaBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.ProfessoreBean;
+import it.unipd.dei.bding.erasmusadvisor.beans.SearchThesisBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.ValutazioneTesiBean;
 import it.unipd.dei.bding.erasmusadvisor.resources.Thesis;
 
@@ -11,6 +12,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.dbutils.DbUtils;
@@ -97,7 +99,6 @@ public class ArgomentoTesiDatabase {
 	    		arg.getId());
 	}
 	
-
 	/**
 	 * Delete an ArgomentoTesi (Thesis) from the database.
 	 * @param conn A connection to the database
@@ -113,78 +114,127 @@ public class ArgomentoTesiDatabase {
 		return run.update(conn, statement, id);
 	}
 		
-	
 	/**
-	 * Search a Thesis by name and fits into Thesis model   
+	 * Return a list of Theses
+	 * 
+	 * @param con
+	 * @param area
+	 * @param nome
+	 * @param livello
+	 * @param lingua
+	 * @return
+	 * @throws SQLException
 	 */
-	public static Thesis searchThesisModelByName(Connection con, String byName) throws SQLException {
-		/**
-		 * The SQL statements to be executed
-		 */
-		
-		String statement1 = "SELECT A.Nome, A.NomeUniversita, A.Triennale, A.Magistrale "
-				+ "FROM ArgomentoTesi AS A "
-				+ "WHERE A.Nome = ?";
-		
-		String statement2 = "SELECT V.NomeUtenteStudente, "
-				+ "V.DataInserimento, V.Commento, V.ImpegnoNecessario, "
-				+ "V.InteresseArgomento, V.DisponibilitaRelatore, V.Soddisfazione "
-				+ "FROM ArgomentoTesi AS A "
-				+ "INNER JOIN ValutazioneTesi AS V ON A.id = V.idArgomentoTesi "
-				+ "WHERE A.Nome = ?";
-
-		// Entity Bean
-		ArgomentoTesiBean arg = new ArgomentoTesiBean();
-		List<ValutazioneTesiBean> valList = null;
-		
-		QueryRunner run = new QueryRunner();
-		
-		// Gets the Thesis
-		ResultSetHandler<ArgomentoTesiBean> h = new BeanHandler<ArgomentoTesiBean>(ArgomentoTesiBean.class);
-		arg = run.query(con, statement1, h, byName); 
-		
-		if (arg == null)
-			throw new SQLException("Thesis not found");
-		
-		// Gets the evaluations
-		ResultSetHandler<List<ValutazioneTesiBean>> h2 = 
-				new BeanListHandler<ValutazioneTesiBean>(ValutazioneTesiBean.class);
-		valList = run.query(con, statement2, h2, byName);
-
-		// Returns the results through the university model
-		return new Thesis(arg, valList);
+	public static List<SearchThesisBean> searchTheses(Connection con, String area, String nome, String livello, String lingua) throws SQLException	{
+		List<SearchThesisBean> s = new ArrayList<SearchThesisBean>();
+		List<Thesis > results = searchArgomentoTesi(con,area, nome, livello, lingua);
+		for(int i =0; i<results.size();i++)
+		{
+			SearchThesisBean res = new SearchThesisBean();
+			res.setNomeTesi(results.get(i).getArgomentoTesi().getNome());
+			String ar="";
+			for(int j = 0;j<results.get(i).getAree().size();j++)
+			{
+				ar+=" "+results.get(i).getAree().get(j).getNome()+'\n';
+			}
+			res.setAree(ar);
+			String prof="";
+			for(int j = 0;j<results.get(i).getProfessori().size();j++)
+			{
+				prof+=" "+results.get(i).getProfessori().get(j).getNome()+" "+results.get(i).getProfessori().get(j).getCognome()+'\n';
+			}
+			res.setProfessori(prof);
+			String lev="";
+			if (results.get(i).getArgomentoTesi().isTriennale()) lev+=" UNDERGRADUATE\n";
+			if (results.get(i).getArgomentoTesi().isMagistrale()) lev+=" GRADUATE\n";
+			res.setLivello(lev);
+			
+			String lang="";
+			for(int j = 0;j<results.get(i).getLingue().size();j++)
+			{
+				lang+=" "+results.get(i).getLingue().get(j).getNome()+'\n';
+			}
+			res.setLingue(lang);
+			s.add(res);
+			
+		}
+		System.out.println(s.size());
+		return s;
 	}
 	
-
 	/**
-	 * Search Theses by University and by Area and fits into Thesis model   
+	 * Return a list of Theses
+	 * 
+	 * @param con
+	 * @param area
+	 * @param nome
+	 * @param livello
+	 * @param lingua
+	 * @return
+	 * @throws SQLException
 	 */
-	public static List<ArgomentoTesiBean> searchArgomentoTesiBy(Connection con, String nomeUni, String area) throws SQLException {
+	public static List<Thesis> searchArgomentoTesi(Connection con, String area, String nome, String livello, String lingua) throws SQLException {
 		/**
 		 * The SQL statements to be executed
 		 */
-		//List<Thesis> thesesList;
-		String statement = "SELECT A.Nome, A.NomeUniversita, A.Triennale, A.Magistrale, A.Stato "
-				+ "FROM ArgomentoTesi AS A INNER JOIN Estensione AS E ON A.id=E.idArgomentoTesi "
-				+ "WHERE A.NomeUniversita = ? AND E.Area = ?";
-
-		// Entity Bean
-		List<ArgomentoTesiBean> argList = null;
+		String triennale, magistrale;
+		if (livello.equals("Undergraduate")) {
+			triennale = "true"; magistrale="false";
+		} else 
+		{
+			triennale = "false";magistrale="true";
+		}		
+		if (area.equals("undefined")) area="%"; else  area=area+"%";
+		if (nome.equals("undefined")) nome="%"; else  nome=nome+"%";
+		if (lingua.equals("undefined")) lingua="%"; else  lingua=lingua+"%";
+			
+		//If level is selected --> AND statement
+		String statement = "SELECT A.id, A.nomeUniversita, A.triennale, A.magistrale, A.stato FROM ArgomentoTesi AS A INNER JOIN Estensione AS E ON A.id=E.idArgomentoTesi " +
+				"INNER JOIN LinguaTesi AS L ON L.idArgomentoTesi = A.id INNER JOIN Lingua AS LI on L.siglaLingua=LI.sigla WHERE" +
+				" A.NomeUniversita LIKE ? AND E.Area LIKE ? AND A.Triennale = CAST (? AS BOOLEAN) AND A.Magistrale = CAST (? AS BOOLEAN) AND LI.nome LIKE ? ";
 		
+		//If level isn't selected --> OR statement
+		if (livello.equals("undefined")) 
+		{
+			triennale= "true";
+			magistrale= "true";
+			statement = "SELECT A.id, A.nomeUniversita, A.triennale, A.magistrale, A.stato FROM ArgomentoTesi AS A INNER JOIN Estensione AS E ON A.id=E.idArgomentoTesi " +
+					"INNER JOIN LinguaTesi AS L ON L.idArgomentoTesi = A.id INNER JOIN Lingua AS LI on L.siglaLingua=LI.sigla WHERE" +
+					" A.NomeUniversita LIKE ? AND E.Area LIKE ? AND (A.Triennale = CAST (? AS BOOLEAN) OR A.Magistrale = CAST (? AS BOOLEAN)) AND LI.nome LIKE ? ";
+		};
+		
+		// Entity Bean
+		List<ArgomentoTesiBean> idList = null;
 		
 		// Gets the theses
 		QueryRunner run = new QueryRunner();
 		ResultSetHandler<List<ArgomentoTesiBean>> h = 
 				new BeanListHandler<ArgomentoTesiBean>(ArgomentoTesiBean.class);
-		argList = run.query(con, statement, h, nomeUni, area); 
-		if (argList == null)
+		idList = run.query(con, statement, h, nome, area, triennale, magistrale, lingua); 
+		
+		if (idList == null)
 			throw new SQLException("Theses not found");
 
-		// Returns the results through the university model
-		return argList;
+		List<Thesis> listThesis = new ArrayList<Thesis>();
+		for(int i=0;i<idList.size();i++)
+		{
+			listThesis.add(getArgomentoTesiSearch(con, Integer.toString(idList.get(i).getId())));
+		}
+		
+		return listThesis ;
 	}
 	
-	public static Thesis getArgomentoTesiByID(Connection conn, String ID)
+	
+	
+	/**
+	 * Return a Thesis, search by ID
+	 * 
+	 * @param conn
+	 * @param ID
+	 * @return
+	 * @throws SQLException
+	 */
+	public static Thesis getArgomentoTesiSearch(Connection conn, String ID)
 			throws SQLException 
 	{
 		final String statement1 = "SELECT * FROM ArgomentoTesi WHERE ID = CAST (? AS INTEGER)";
@@ -225,7 +275,9 @@ public class ArgomentoTesiDatabase {
 		
 		// Returns the results
 		return new Thesis(tesi, listaValutazioni, professori, lingue, aree);
-	}
+	}	
+	
+	
 
 	/**
 	 * Change thesis status to REPORTED
