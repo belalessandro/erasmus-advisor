@@ -5,7 +5,7 @@
 		
 	IN:
 	la pagina riceve i risultati via attributi come lista di:	
-		CitySearchModel {
+		CitySearchRow {
 	private CittaBean citta;
 	private List<LinguaBean> listaLingue; }
 	
@@ -131,11 +131,11 @@
 					</tr>
 				</thead>
 				<tbody>
-				<c:forEach var="citySearchModel" items="${results}">
+				<c:forEach var="citySearchRow" items="${results}">
 					<tr>
-						<td><a href="#" target="_blank"><c:out value="${citySearchModel.citta.nome}"/></a></td>
+						<td><a href="#" target="_blank"><c:out value="${citySearchRow.citta.nome}"/></a></td>
 						<td>
-							<c:forEach var="linguaBean" items="${citySearchModel.listaLingue}" varStatus="loop">
+							<c:forEach var="linguaBean" items="${citySearchRow.listaLingue}" varStatus="loop">
     							${linguaBean.nome}
    								<c:if test="${!loop.last}">, </c:if>
 							</c:forEach>

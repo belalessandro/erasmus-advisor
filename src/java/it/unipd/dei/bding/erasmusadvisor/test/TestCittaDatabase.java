@@ -15,7 +15,7 @@ import it.unipd.dei.bding.erasmusadvisor.beans.UniversitaBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.ValutazioneUniversitaBean;
 import it.unipd.dei.bding.erasmusadvisor.database.CittaDatabase;
 import it.unipd.dei.bding.erasmusadvisor.database.InsegnamentoDatabase;
-import it.unipd.dei.bding.erasmusadvisor.resources.CitySearchModel;
+import it.unipd.dei.bding.erasmusadvisor.resources.CitySearchRow;
 
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -65,10 +65,10 @@ public class TestCittaDatabase {
 			con = DriverManager.getConnection(DATABASE, USER, PASSWORD); // UNICA CONNESSIONE
 			//con.setAutoCommit(false);
 			
-			//List<CitySearchModel> results = CittaDatabase.filterCityBySiglaLingua(con, "eng");
-			List<CitySearchModel> results = CittaDatabase.filterCityByStato(con, "Italy");
+			//List<CitySearchRow> results = CittaDatabase.filterCityBySiglaLingua(con, "eng");
+			List<CitySearchRow> results = CittaDatabase.filterCityByStato(con, "Italy");
 			
-			for (CitySearchModel result : results) {
+			for (CitySearchRow result : results) {
 				System.out.print(result.getCitta().getNome() + " | langs:");
 				for (LinguaBean l : result.getListaLingue()) {
 					System.out.print(" " + l.getNome());
