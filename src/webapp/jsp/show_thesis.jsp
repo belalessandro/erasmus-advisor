@@ -99,13 +99,15 @@
 							// hide the window
 							$('#reportConfirmDialog').modal('hide');
 							
+							// show the alert-success
+							$('#report-success').show();
 							console.log("report: " + data["report"]);
 						}
 					},
 					error: function(data) {console.log("EA ERROR: failed to report the entity."); }
-			    });
-			});
-		});
+			    }); // end ajax
+			}); // end click
+		}); // and document.ready
 	</script>
 </head>
 <body>
@@ -127,6 +129,20 @@
 				  <h4 class="text-center">Thesis Successfully Edited!</h4>
 				</div>
 			</c:if>
+			
+			<!-- Avviso che l'entità è in stato reported -->
+			<c:if test="${!empty thesis.stato && thesis.stato == 'REPORTED'}">
+				<div class="alert alert-warning" role="alert">
+					<b> <span class="glyphicon glyphicon-star"></span> Warning:</b> 
+					The following thesis was recently reported to moderators for some reasons. 
+				</div>
+			</c:if>
+			
+			<!-- Avviso del report avvenuto con successo -->
+			<div id="report-success" class="alert alert-success" role="alert" style="display:none">
+					Thesis Successfully Reported! 
+			</div>
+			
 			
 			<div class="entity_details">
 				<div class="entity_details_text">
@@ -162,8 +178,9 @@
 						edit e delete solo da reponsabili di flusso e coordinatori erasmus -->
 					<ul class="nav nav-stacked pull-right">
 						<li class="active"><span data-toggle="modal" data-target="#evaluateForm">Evaluate</span></li>
-<!-- 						<li class="active"><span onClick="report();">Report</span></li> -->
+						<c:if test="${!empty thesis.stato && thesis.stato == 'NOT VERIFIED'}">
 							<li id="report-button" class="active"><span data-toggle="modal" data-target="#reportConfirmDialog">Report</span></li>
+						</c:if>
 						<li class="active"><span data-toggle="modal" data-target="#editForm">Edit</span></li>
 						<li class="active">
 							<form method="post" action="<c:url value="/thesis"/>">
