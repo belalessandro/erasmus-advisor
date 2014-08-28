@@ -25,7 +25,7 @@
 	<script src="<c:url value="/js"/>/ea-form-validation.js"></script>
 	<script src="<c:url value="/js"/>/ea-insert.js"></script> 
 	
-	<!-- Autocompletamento Universities -->
+	<!-- Autocompletamento Universities - non va -->
 	<script src="<c:url value="/js"/>/jquery-ui-1.10.4.custom.min.js"></script>
 	<link rel="stylesheet" href="//code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css">
 	<style>
@@ -132,15 +132,23 @@
 			
 			<!-- Avviso che l'entità è in stato reported -->
 			<c:if test="${!empty thesis.stato && thesis.stato == 'REPORTED'}">
+				<div class="alert alert-danger" role="alert">
+					<div class="text-center"><b> <span class="glyphicon glyphicon-star"></span> Warning:</b> 
+					This thesis was recently reported to moderators for some reasons. </div>
+				</div>
+			</c:if>
+			
+			<!-- Avviso che l'entità è in stato not verified -->
+			<c:if test="${!empty thesis.stato && thesis.stato == 'NOT VERIFIED'}">
 				<div class="alert alert-warning" role="alert">
-					<b> <span class="glyphicon glyphicon-star"></span> Warning:</b> 
-					The following thesis was recently reported to moderators for some reasons. 
+					<div class="text-center"><b> <span class="glyphicon glyphicon-star"></span> Warning:</b> 
+					This thesis has not been verified yet. </div>
 				</div>
 			</c:if>
 			
 			<!-- Avviso del report avvenuto con successo -->
 			<div id="report-success" class="alert alert-success" role="alert" style="display:none">
-					Thesis Successfully Reported! 
+					<div class="text-center">Thesis successfully reported! </div> 
 			</div>
 			
 			

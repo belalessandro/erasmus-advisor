@@ -142,7 +142,9 @@
 				<div class="entity_details_text">
 					<!-- evalutate visibile solo da studente
 						show/remove interest solo da studente, se ha espresso interesse diventa remove interest
-						edit e delete solo da reponsabili di flusso e coordinatori erasmus -->
+						edit e delete solo da reponsabili di flusso e coordinatori erasmus
+						add partecipation solo se non si è partecipato già al flusso						
+					 -->
 					<ul class="nav nav-stacked pull-right">
 						<li class="active"><span data-toggle="modal" data-target="#evaluateForm">Evaluate</span></li>
 						<li class="active"><span id="flow_add_interest">Add interest</span></li>
@@ -304,21 +306,19 @@
 						</div>
 						<div class="modal-body">
 							<form name='participationForm'  method="post"  action="<c:url value="/flow/participation"/>" >
-							
-					<div class="row">
-						<div class="col-lg-2"></div>
-						<div class="col-lg-8">
-							<div class="input-group sign_in_input_group">
-								<span class="input-group-addon sign_in_input_small">From</span><input type="text" class="form-control" id="datepicker" name="date_from" placeholder="dd/mm/yyyy">
-							</div>
-							<br>
-							<div class="input-group sign_in_input_group">
-								<span class="input-group-addon sign_in_input_small">To</span><input type="text" class="form-control" id="datepicker2" name="date_to" placeholder="dd/mm/yyyy">
-							</div>
-						</div>
-						<div class="col-lg-2"></div>
-					</div>
-								
+								<div class="row">
+									<div class="col-lg-2"></div>
+									<div class="col-lg-8">
+										<div class="input-group sign_in_input_group">
+											<span class="input-group-addon sign_in_input_small">From</span><input type="text" class="form-control" id="datepicker" name="date_from" placeholder="dd/mm/yyyy">
+										</div>
+										<br>
+										<div class="input-group sign_in_input_group">
+											<span class="input-group-addon sign_in_input_small">To</span><input type="text" class="form-control" id="datepicker2" name="date_to" placeholder="dd/mm/yyyy">
+										</div>
+									</div>
+									<div class="col-lg-2"></div>
+								</div>
 								<br>
 								<div class="modal-footer">
 									<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

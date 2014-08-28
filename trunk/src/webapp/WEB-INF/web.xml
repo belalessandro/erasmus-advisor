@@ -111,6 +111,15 @@
 		<url-pattern>/flow/participation</url-pattern>
 	</servlet-mapping>
 	
+	<servlet>
+		<servlet-name>AcknowledgementServlet</servlet-name>
+		<servlet-class>it.unipd.dei.bding.erasmusadvisor.servlets.AcknowledgementServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>AcknowledgementServlet</servlet-name>
+		<url-pattern>/class/acknowledgement</url-pattern>
+	</servlet-mapping>
+	
 	<!-- entity servlets -->
 
 	<servlet>

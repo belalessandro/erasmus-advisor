@@ -4,10 +4,13 @@ import it.unipd.dei.bding.erasmusadvisor.beans.InsegnamentoBean;
 
 
 
+
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
 
+import org.apache.commons.dbutils.DbUtils;
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.ResultSetHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
@@ -19,7 +22,7 @@ public class RiconoscimentoDatabase
 	 * @param conn connection to the database
 	 * @param ID flow id
 	 * @return all classes validated as a list of InsegnamentoBean
-	 * @throws SQLException
+	 * @throws SQLException If an error occurs
 	 */
 	public static List<InsegnamentoBean> getInsegnamentiRiconosciuti(Connection conn, String ID)
 			throws SQLException 
@@ -38,7 +41,7 @@ public class RiconoscimentoDatabase
 	 * @param con connection to the database
 	 * @param flowId the flow id given
 	 * @return number of instances deleted
-	 * @throws SQLException
+	 * @throws SQLException If an error occurs
 	 */
 	public static int deleteRiconoscimentoByFlowId(Connection con, String flowId) throws SQLException 
 	{
@@ -47,6 +50,28 @@ public class RiconoscimentoDatabase
 		QueryRunner run = new QueryRunner();
 		
 		return run.update(con, sql);
+	}
+	
+	/**
+	 * Add an acknoledge class to a flow
+	 * @param conn A connection to the database
+	 * @param flowId the flow id
+	 * @param classId the class id 
+	 * @throws SQLException If an error occurs
+	 */
+	public static void addRiconoscimento(Connection conn, String flowId, int classId) throws SQLException
+	{
+		String insertStmt = "INSERT INTO Riconoscimento (idflusso, idinsegnamento) VALUES (?, ?)";
+		
+		PreparedStatement pstmt = null;
+		try {
+			pstmt = conn.prepareStatement(insertStmt);
+			pstmt.setString(1, flowId);
+			pstmt.setInt(2, classId);
+			pstmt.execute();
+		} finally {
+			DbUtils.closeQuietly(pstmt);
+		}
 	}
 
 }
