@@ -1,6 +1,7 @@
 package it.unipd.dei.bding.erasmusadvisor.test;
 
 import it.unipd.dei.bding.erasmusadvisor.beans.ArgomentoTesiBean;
+
 import it.unipd.dei.bding.erasmusadvisor.beans.CittaBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.DocumentazioneBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.FlussoBean;
@@ -10,12 +11,12 @@ import it.unipd.dei.bding.erasmusadvisor.beans.LinguaCittaBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.LinguaTesiBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.OrigineBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.ProfessoreBean;
-import it.unipd.dei.bding.erasmusadvisor.beans.SearchThesisBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.SvolgimentoBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.UniversitaBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.ValutazioneUniversitaBean;
 import it.unipd.dei.bding.erasmusadvisor.database.ArgomentoTesiDatabase;
 import it.unipd.dei.bding.erasmusadvisor.resources.Thesis;
+import it.unipd.dei.bding.erasmusadvisor.resources.ThesisSearchRow;
 
 import java.io.FileNotFoundException;
 import java.io.UnsupportedEncodingException;
@@ -71,11 +72,11 @@ public class TestArgomentoTesiDatabase {
 		try {
 			con = DriverManager.getConnection(DATABASE, USER, PASSWORD); // UNICA CONNESSIONE
 			con.setAutoCommit(false);
-			List<SearchThesisBean> list = null;
-			list = ArgomentoTesiDatabase.searchTheses(con, "undefined", "undefined","undefined","undefined");
+			List<ThesisSearchRow> list = null;
+			list = ArgomentoTesiDatabase.searchArgomentoTesi(con, "undefined", "undefined", "undefined", "undefined");
 			//ArgomentoTesiDatabase.getArgomentoTesiSearch(con, "1");
-			System.out.println(list.get(0).getNomeTesi());
-			System.out.println(list.get(1).getAree());
+			System.out.println(list.get(0).getArg().getNome());
+			System.out.println(list.get(1).getListaAree().get(0).getNome());
 			// insert test
 //			DocumentazioneDatabase.createDocumentazione(con, documentazioneBean);
 //			FlussoDatabase.createFlusso(con, flussoBean);

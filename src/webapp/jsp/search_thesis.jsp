@@ -1,8 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<!-- i risultati della ricerca sono visualizzati in Ajax -->
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -166,36 +164,40 @@
 			<br><br><br>
 			<!-- frase da da creare dinamicamente -->
 			<c:set var="found" scope="session" value="false"/>
-			<c:if test='${not empty theses}'> 
+			<%-- <c:if test='${not empty results}'> 
 			<h5>Results for <strong>${areaSearch}</strong> in <strong>${universitySearch}</strong>.</h5>
+			</c:if> --%>
 			<br>
 			<table class="table table-bordered table-hover table-striped tablesorter" id="resultTable">
 				<thead>
 					<tr>
 						<th>Name</th>
+						<th>University</th>
 						<th>Other Areas</th>
 						<th>Level</th>
 						<th>Languages</th>
 						<th>Professors</th>
 					</tr>
 				</thead>
+				
 				<tbody>
-				<c:forEach var="thesis" items="${theses}">
+				<c:if test='${not empty results}'> 
+				<c:forEach var="thesis" items="${results}">
 					<tr>
-						<td><c:out value="${thesis.nomeTesi}"/></td>
-						<td><c:out value="${thesis.aree}"/></td>
-						<td><c:out value="${thesis.livello}"/></td>
-						<td><c:out value="${thesis.lingue}"/></td>
-						<td><c:out value="${thesis.professori}"/></td>
+						<td><c:out value="${thesis.arg.nome}"/></td>
+						<td><c:out value="${thesis.arg.nomeUniversita}"/></td>
+						<td><c:forEach var="area" items="${thesis.listaAree}" varStatus="status"><c:out value="${area.nome}"/><c:if test="${!status.last}"><br></c:if></c:forEach></td>
+						<td><c:if test='${thesis.arg.triennale}'>UNDERGRADUATE<br></c:if><c:if test='${thesis.arg.magistrale}'>GRADUATE<br></c:if></td>
+						<td><c:forEach var="language" items="${thesis.listaLingue}" varStatus="status"><c:out value="${language.nome}"/><c:if test="${!status.last}"><br></c:if></c:forEach></td>
+						<td><c:forEach var="teacher" items="${thesis.listaProfessori}" varStatus="status"><c:out value="${teacher.nome}"/><c:out value="${teacher.cognome}"/> <c:if test="${!status.last}"><br></c:if></c:forEach></td>
 					</tr>
 				</c:forEach>
+				</c:if>
 				</tbody>
 			</table>
-			</c:if>
-			<!-- FRASE DA CREARE DIN. -->
-			<c:if test="true">
-				<h4><strong>NOT FOUND: </strong> there are no results for thesis in <strong>${areaSearch}</strong> area, at <strong>${universitySearch}</strong>.</h4>
-			</c:if>
+			<%-- <c:if test='${empty results}'>
+				<h4><strong>NOT FOUND:</strong> there isn't any thesis in the Database with these parameters. <c:out value="${dinam}"/></h4>
+			</c:if> --%>
 		</div>
 	</div>	
 	<!-- footer -->
