@@ -5,10 +5,12 @@ import it.unipd.dei.bding.erasmusadvisor.beans.LinguaCittaBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.ValutazioneCittaBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.LinguaBean;
 import it.unipd.dei.bding.erasmusadvisor.resources.City;
+import it.unipd.dei.bding.erasmusadvisor.resources.CitySearchModel;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.dbutils.DbUtils;
@@ -19,7 +21,7 @@ import org.apache.commons.dbutils.handlers.BeanListHandler;
 
 /**
  * Database operations about Citta 
- * @author Luca
+ * @author Luca, Alessandro
  *
  */
 
@@ -145,5 +147,48 @@ public class CittaDatabase
 		
 		ResultSetHandler<List<CittaBean>> h = new BeanListHandler<CittaBean>(CittaBean.class);
 		return run.query(conn, statement, h);
+	}
+	
+
+	
+	public static List<CitySearchModel> filterCityBySiglaLingua(Connection conn, String siglaLingua) throws SQLException 
+	{
+		/**
+		 * SQL statement for getting the cities with the language specified   
+		 */
+		final String statement1 = "SELECT NomeCitta AS nome, StatoCitta AS stato "
+				+ "FROM LinguaCitta "
+				+ "WHERE SiglaLingua = ? "
+				+ "ORDER BY stato, nome ASC";
+		
+		/**
+		 * SQL statement for getting, for each city, its languages 
+		 */
+		final String statement2 = "SELECT L.nome FROM Lingua AS L "
+				+ "INNER JOIN LinguaCitta AS C ON L.Sigla = C.SiglaLingua "
+				+ "WHERE C.NomeCitta = ? AND C.StatoCitta = ?";
+		
+		// query facility
+		QueryRunner run = new QueryRunner();
+		
+		// result model
+		List<CitySearchModel> results = new ArrayList<CitySearchModel>();
+		
+		// First query
+		ResultSetHandler<List<CittaBean>> h = new BeanListHandler<CittaBean>(CittaBean.class);
+		List<CittaBean> cittaList = run.query(conn, statement1, h, siglaLingua);		
+				
+		// Queries for the languages of each city
+		for (CittaBean c : cittaList) {
+			// Gets the languages for the city
+			ResultSetHandler<List<LinguaBean>> h1 = new BeanListHandler<LinguaBean>(LinguaBean.class);
+			List<LinguaBean> lingueList = run.query(conn, statement2, h1, c.getNome(), c.getStato());
+			
+			// adding one city-result to the results list 
+			CitySearchModel resultRow = new CitySearchModel(c, lingueList);
+			results.add(resultRow);
+		}
+		
+		return results;
 	}
 }
