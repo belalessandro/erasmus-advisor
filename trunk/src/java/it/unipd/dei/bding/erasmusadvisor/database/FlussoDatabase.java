@@ -2,15 +2,24 @@ package it.unipd.dei.bding.erasmusadvisor.database;
 
 
 import it.unipd.dei.bding.erasmusadvisor.beans.CertificatiLinguisticiBean;
+import it.unipd.dei.bding.erasmusadvisor.beans.CittaBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.CorsoDiLaureaBean;
+import it.unipd.dei.bding.erasmusadvisor.beans.DocumentazioneBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.FlussoBean;
+import it.unipd.dei.bding.erasmusadvisor.beans.LinguaBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.ResponsabileFlussoBean;
+import it.unipd.dei.bding.erasmusadvisor.beans.UniversitaBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.ValutazioneFlussoBean;
+import it.unipd.dei.bding.erasmusadvisor.resources.CitySearchRow;
 import it.unipd.dei.bding.erasmusadvisor.resources.Flow;
+import it.unipd.dei.bding.erasmusadvisor.resources.FlowSearchRow;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Types;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -156,4 +165,98 @@ public class FlussoDatabase
 		return run.update(conn, statement, id);
 	}
 
+	
+/**
+ * Flow Search with optional filter fields
+ * 
+ * (null = optional)
+ * 
+ * @param conn The connection to the database, it will *not* be closed
+ * @param stato
+ * @param citta
+ * @param durata
+ * @param minPosti
+ * @param nomeCertificato
+ * @param livelloCertificato
+ * @return a list of FlowSearchRow
+ * @throws SQLException in case of error
+ */
+	public static List<FlowSearchRow> filterFlowBy(Connection conn, String stato, String citta, 
+			Integer durata, Integer minPosti, String nomeCertificato, String livelloCertificato) throws SQLException 
+	{
+		/**
+		 * SQL statement for getting the flow ID's with the specified conditions
+		 */
+		final String statement1 = "SELECT F.Id FROM Flusso AS F "
+				+ "JOIN Universita AS U ON F.Destinazione = U.Nome "
+				+ "JOIN Documentazione AS D ON F.Id = D.IdFlusso "
+				+ "WHERE (? IS NULL OR U.NomeCitta = ?) " // by NomeCitta
+				+ "AND (? IS NULL OR U.StatoCitta = ?) " // by StatoCitta
+				+ "AND (? IS NULL OR F.Durata = ?) " // by Durata
+				+ "AND (? IS NULL OR F.PostiDisponibili >= ?) " // by min. PostiDisponibili
+				+ "AND (? IS NULL OR (D.NomeCertificato = ? AND D.LivelloCertificato = ?)) " // by Certificato
+				+ "ORDER BY F.Id ASC";
+		
+		/**
+		 * SQL statement for getting, for each flow, the other row fields
+		 */
+		final String statement2 = "SELECT U.nome, U.nomeCitta, F.PostiDisponibili, F.Durata "
+				+ "FROM Universita AS U "
+				+ "INNER JOIN Flusso AS F ON L.Sigla = C.SiglaLingua "
+				+ "WHERE F.Id = ? ";
+
+		final String statement3 = "SELECT NomeCertificato AS NomeLingua, LivelloCertificato AS Livello "
+				+ "FROM Documentazione "
+				+ "WHERE IdFlusso = ? "
+				+ "ORDER BY NomeCertificato, LivelloCertificato ASC";
+		
+		// query facility
+		QueryRunner run = new QueryRunner();
+		ResultSetHandler<List<FlussoBean>> h = new BeanListHandler<FlussoBean>(FlussoBean.class);
+		
+		// result model
+		List<FlowSearchRow> results = new ArrayList<FlowSearchRow>();
+		
+		// First query
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		List<FlussoBean> flussoList = null;
+		try {
+			pstmt = conn.prepareStatement(statement1);
+			int col = 1;
+			pstmt.setString(col++, stato);
+			pstmt.setString(col++, stato);
+			pstmt.setString(col++, citta);
+			pstmt.setString(col++, citta);
+			pstmt.setObject(col++, durata, Types.SMALLINT);
+			pstmt.setObject(col++, durata, Types.SMALLINT);
+			pstmt.setObject(col++, minPosti, Types.SMALLINT);
+			pstmt.setObject(col++, minPosti, Types.SMALLINT);
+			pstmt.setString(col++, nomeCertificato);
+			pstmt.setString(col++, nomeCertificato);
+			pstmt.setString(col++, livelloCertificato);
+			rs = pstmt.executeQuery(); // execute query
+			flussoList = h.handle(rs); // load results to flussoList
+			
+		} finally {
+			DbUtils.close(pstmt); // close the statement (*always*)
+			DbUtils.close(rs); // close the result set (*always*)
+		}
+		
+		// Queries for other row fields
+		for (FlussoBean c : flussoList) {
+			// Gets the certifications for the flow
+			ResultSetHandler<List<CertificatiLinguisticiBean>> h1 = 
+					new BeanListHandler<CertificatiLinguisticiBean>(CertificatiLinguisticiBean.class);
+			List<CertificatiLinguisticiBean> docList = run.query(conn, statement2, h1, c.getId());
+			
+			// adding one city-result to the results list 
+			
+			
+			FlowSearchRow resultRow = new FlowSearchRow(c, null, docList);
+			results.add(resultRow);
+		}
+		
+		return results;
+	}
 }
