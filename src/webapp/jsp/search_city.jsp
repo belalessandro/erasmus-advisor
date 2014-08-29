@@ -27,8 +27,22 @@
 		// da questa funzione si fa partire la ricerca
 		function doSearch()
 		{
-			document.getElementById("country").value = countryDropValue;
-			document.getElementById("language").value = languageDropValue;
+			if (countryDropValue === undefined)
+			{
+				document.getElementById('country').disabled = true;
+			}
+			else
+			{
+				document.getElementById("country").value = countryDropValue;
+			}
+			if (languageDropValue === undefined)
+			{
+				document.getElementById('language').disabled = true;
+			}
+			else
+			{
+				document.getElementById("language").value = languageDropValue;
+			}
 		}
 		// aggiorna l'etichetta mostrata dai dropdown e salva il valore selezionato
 		$(document).on('click', '.dropdown-menu li span', function () {

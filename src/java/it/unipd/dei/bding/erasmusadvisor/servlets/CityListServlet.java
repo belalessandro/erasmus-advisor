@@ -66,10 +66,6 @@ public class CityListServlet extends AbstractDatabaseServlet {
 		String stato = req.getParameter("country");
 		String siglaLingua = req.getParameter("language");
 		
-		if (stato.equals("undefined"))
-			stato = null;
-		if (siglaLingua.equals("undefined"))
-			siglaLingua = null;
 
 		// model
 		Message m = null;
