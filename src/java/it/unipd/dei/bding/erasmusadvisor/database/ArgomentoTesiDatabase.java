@@ -114,54 +114,6 @@ public class ArgomentoTesiDatabase {
 		return run.update(conn, statement, id);
 	}
 		
-/*	*//**
-	 * Return a list of Theses
-	 * 
-	 * @param con
-	 * @param area				---------->>>			DEPRECATED
-	 * @param nome
-	 * @param livello
-	 * @param lingua
-	 * @return
-	 * @throws SQLException
-	 *//*
-	public static List<SearchThesisBean> searchTheses(Connection con, String area, String nome, String livello, String lingua) throws SQLException	{
-		List<SearchThesisBean> s = new ArrayList<SearchThesisBean>();
-		List<Thesis > results = searchArgomentoTesi(con,area, nome, livello, lingua);
-		for(int i =0; i<results.size();i++)
-		{
-			SearchThesisBean res = new SearchThesisBean();
-			res.setNomeTesi(results.get(i).getArgomentoTesi().getNome());
-			String ar="";
-			for(int j = 0;j<results.get(i).getAree().size();j++)
-			{
-				ar+=" "+results.get(i).getAree().get(j).getNome()+'\n';
-			}
-			res.setAree(ar);
-			String prof="";
-			for(int j = 0;j<results.get(i).getProfessori().size();j++)
-			{
-				prof+=" "+results.get(i).getProfessori().get(j).getNome()+" "+results.get(i).getProfessori().get(j).getCognome()+'\n';
-			}
-			res.setProfessori(prof);
-			String lev="";
-			if (results.get(i).getArgomentoTesi().isTriennale()) lev+=" UNDERGRADUATE\n";
-			if (results.get(i).getArgomentoTesi().isMagistrale()) lev+=" GRADUATE\n";
-			res.setLivello(lev);
-			
-			String lang="";
-			for(int j = 0;j<results.get(i).getLingue().size();j++)
-			{
-				lang+=" "+results.get(i).getLingue().get(j).getNome()+'\n';
-			}
-			res.setLingue(lang);
-			s.add(res);
-			
-		}
-		System.out.println(s.size());
-		return s;
-	}*/
-	
 	/**
 	 * Return a list of Theses
 	 * 

@@ -143,4 +143,32 @@ public class UniversitaDatabase {
 		// Returns the results through the university model
 		return new University(uni, valList);
 	}
+	
+	/**
+	 * Search a University by country or by city or both  
+	 */
+	public static List<UniversitaBean> searchUniversityByCity(Connection con, String country, String city) throws SQLException {
+		/**
+		 * The SQL statements to be executed
+		 */
+		if (country.equals("undefined")) country = "%"; else country+="%";
+		if (city.equals("undefined")) city= "%"; else city+="%";
+		
+		String statement = "SELECT DISTINCT * FROM Universita as U WHERE U.statoCitta LIKE ? AND U.nomeCitta LIKE ?";
+
+		// Entity Bean
+		List<UniversitaBean> uniList = null;
+		
+		QueryRunner run = new QueryRunner();
+		
+		// Gets the university
+		ResultSetHandler<List<UniversitaBean>> h = new BeanListHandler<UniversitaBean>(UniversitaBean.class);
+		uniList = run.query(con, statement, h, country, city); 
+		
+		if (uniList == null)
+			throw new SQLException("University not found");
+
+		// Returns the results through the university Bean List
+		return uniList;
+	}
 }
