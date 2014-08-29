@@ -32,7 +32,7 @@ import org.apache.commons.dbutils.handlers.BeanListHandler;
 
 /**
  * Database operations about Flusso 
- * @author Luca
+ * @author Luca, Alessandro
  *
  */
 public class FlussoDatabase 
@@ -167,22 +167,25 @@ public class FlussoDatabase
 
 	
 /**
- * Flow Search with optional filter fields
+ * Flow Search with optional filter fields, 
+ * limiting the results to the student's allowed destinations
  * 
  * (null = optional)
  * 
  * @param conn The connection to the database, it will *not* be closed
- * @param stato
- * @param citta
- * @param durata
- * @param minPosti
- * @param nomeCertificato
- * @param livelloCertificato
+ * @param nomeUtenteStudente (required) the name of the student
+ * @param stato stato (optional)
+ * @param citta citta (optional)
+ * @param durata durata (optional)
+ * @param minPosti minPosti (optional)
+ * @param nomeCertificato nomeCertificato (optional)
+ * @param livelloCertificato livelloCertificato (required only if nome Certificato is not null)
  * @return a list of FlowSearchRow
  * @throws SQLException in case of error
  */
-	public static List<FlowSearchRow> filterFlowBy(Connection conn, String stato, String citta, 
-			Integer durata, Integer minPosti, String nomeCertificato, String livelloCertificato) throws SQLException 
+	public static List<FlowSearchRow> filterFlowBy(Connection conn, String nomeUtenteStudente, 
+			String stato, String citta, Integer durata, Integer minPosti, String nomeCertificato, 
+			String livelloCertificato) throws SQLException 
 	{
 		/**
 		 * SQL statement for getting the flow ID's with the specified conditions
@@ -191,11 +194,15 @@ public class FlussoDatabase
 				+ "F.PostiDisponibili, F.Durata, F.Destinazione FROM Flusso AS F "
 				+ "JOIN Universita AS U ON F.Destinazione = U.Nome "
 				+ "JOIN Documentazione AS D ON F.Id = D.IdFlusso "
-				+ "WHERE (? IS NULL OR U.StatoCitta = ?) " // by StatoCitta
-				+ "AND (? IS NULL OR U.NomeCitta = ?) " // by NomeCitta
-				+ "AND (? IS NULL OR F.Durata = ?) " // by Durata
-				+ "AND (? IS NULL OR F.PostiDisponibili >= ?) " // by min. PostiDisponibili
-				+ "AND (? IS NULL OR (D.NomeCertificato = ? AND D.LivelloCertificato = ?)) " // by Certificato
+				+ "JOIN Origine AS O ON F.Id = O.IdFlusso "
+				+ "JOIN Iscrizione AS I ON O.IdCorso = I.IdCorso "
+				+ "WHERE I.NomeUtenteStudente = ? " // Where student is allowed
+				+ "AND (? IS NULL OR U.StatoCitta = ?) " // by StatoCitta (optional)
+				+ "AND (? IS NULL OR U.NomeCitta = ?) " // by NomeCitta (optional)
+				+ "AND (? IS NULL OR F.Durata = ?) " // by Durata (optional)
+				+ "AND (? IS NULL OR F.PostiDisponibili >= ?) " // by min. PostiDisponibili (optional)
+				+ "AND (? IS NULL OR (D.NomeCertificato = ? "
+					+ "AND D.LivelloCertificato = ?)) " // by Certificato (optional)
 				+ "ORDER BY F.Id ASC";
 		
 		/**
@@ -223,6 +230,7 @@ public class FlussoDatabase
 		try {
 			pstmt = conn.prepareStatement(statement1);
 			int col = 1;
+			pstmt.setString(col++, nomeUtenteStudente); // required
 			pstmt.setString(col++, stato);
 			pstmt.setString(col++, stato);
 			pstmt.setString(col++, citta);
