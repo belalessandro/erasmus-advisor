@@ -1,5 +1,6 @@
 package it.unipd.dei.bding.erasmusadvisor.test;
 
+import it.unipd.dei.bding.erasmusadvisor.beans.CertificatiLinguisticiBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.CittaBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.DocumentazioneBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.FlussoBean;
@@ -72,9 +73,9 @@ public class TestFlussoDatabase {
 			
 			for (FlowSearchRow result : results) {
 				System.out.print(result.getFlusso().getId() + " | langs:");
-//				for (LinguaBean l : result.getListaLingue()) {
-//					System.out.print(" " + l.getNome());
-//				}
+				for (CertificatiLinguisticiBean l : result.getListaCertificatiLinguistici()) {
+					System.out.print(" " + l.getNomeLingua() + l.getLivello());
+				}
 				System.out.print("\n");
 			}
 		} catch (SQLException e) {
