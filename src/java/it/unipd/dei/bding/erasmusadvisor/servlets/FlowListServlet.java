@@ -18,7 +18,9 @@ import it.unipd.dei.bding.erasmusadvisor.database.GetUniversitaValues;
 import it.unipd.dei.bding.erasmusadvisor.resources.CitySearchRow;
 import it.unipd.dei.bding.erasmusadvisor.resources.CountryCityListBean;
 import it.unipd.dei.bding.erasmusadvisor.resources.FlowSearchRow;
+import it.unipd.dei.bding.erasmusadvisor.resources.LoggedUser;
 import it.unipd.dei.bding.erasmusadvisor.resources.Message;
+import it.unipd.dei.bding.erasmusadvisor.resources.UserType;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -32,7 +34,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.dbutils.DbUtils;
 
 /**
- * @author Luca
+ * @author Luca, Alessandro
  *
  */
 public class FlowListServlet extends AbstractDatabaseServlet 
@@ -66,6 +68,9 @@ public class FlowListServlet extends AbstractDatabaseServlet
 	
 	private void search(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
+		
+		// TODO: DA SESSIONE
+		LoggedUser lu = new LoggedUser(UserType.STUDENTE, "mario.rossi"); 
 
 		// Incoming parameters for the search filter
 		String stato = req.getParameter("country");
@@ -98,7 +103,7 @@ public class FlowListServlet extends AbstractDatabaseServlet
 
 			conn = DS.getConnection();
 			
-			results = FlussoDatabase.filterFlowBy(conn, stato, citta, durata, 
+			results = FlussoDatabase.filterFlowBy(conn, lu.getUser(), stato, citta, durata, 
 					minPosti, nomeCertificato, livelloCertificato);
 			
 			// Pre-charging form values
