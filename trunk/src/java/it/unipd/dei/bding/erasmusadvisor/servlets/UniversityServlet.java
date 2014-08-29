@@ -152,7 +152,7 @@ public class UniversityServlet extends AbstractDatabaseServlet {
 			delete(req, resp);
 		
 		}
-		else if (operation.equals("update")) 
+		else if (operation.equals(EDIT)) 
 		{
 			edit(req, resp);
 		}
@@ -306,6 +306,14 @@ public class UniversityServlet extends AbstractDatabaseServlet {
 		}
     }
 
+    /**
+     * Handle error forwarding between pages.
+     * 
+     * @param request request object
+     * @param response response object
+     * @throws ServletException
+     * @throws IOException
+     */
     private void errorForward(HttpServletRequest request, HttpServletResponse response) 
     		throws ServletException, IOException  {
     	// Error management
@@ -318,6 +326,7 @@ public class UniversityServlet extends AbstractDatabaseServlet {
     }
 	
 	
+    // TODO: mauro: da cancellare ?
 	private JsonObject convertToJson(University uni) {
 		/* NOT IMPLEMENTED YET */
 		JsonObject json = Json.createObjectBuilder()

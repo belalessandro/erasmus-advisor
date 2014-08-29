@@ -59,7 +59,7 @@
 							</button>
 						</div>
 
-						<!--Form di modifica a comparsa-->
+						<!--Edit form-->
 						<!-- notare che ogni input deve avere il campo value settato a quanto è presente nel DB -->
 						<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false">
 							<div class="modal-dialog">
@@ -72,46 +72,101 @@
 										<!-- action deve puntare alla servlet che gestisce il cambio delle informazioni -->
 										<!-- notare che ogni input deve avere il campo value settato a quanto è presente nel DB -->
 										<form name='registration' onSubmit="return userProfileFormValidation();" method="post" action="#">
-											<div class="input-group sign_in_input_group">
-												<span class="input-group-addon sign_in_input">Username*</span> <input type="text" class="form-control" name="user" id="user" value="<c:out value="${student.nomeUtente}"/>">
-											</div>
-											<br>
-											<div class="input-group sign_in_input_group">
-												<span class="input-group-addon sign_in_input">E-mail*</span> <input type="text" class="form-control" name="email" id="email" value="<c:out value="${student.email}"/>">
-											</div>
-											<br>
-											<div class="input-group sign_in_input_group">
-												<span class="input-group-addon sign_in_input">Password*</span> <input type="password" class="form-control" name="password" id="password" value="<c:out value="${student.password}"/>">
-											</div>
-											<br>
-											<div class="input-group sign_in_input_group">
-												<span class="input-group-addon sign_in_input">Confirm Password*</span> <input type="password" class="form-control" name="password2" id="password2" value="<c:out value="${student.password}" />">
-											</div>
-											<br>
-											<div class="input-group sign_in_input_group">
-												<span class="input-group-addon sign_in_input">University</span> <input id="autocomplete" class="form-control" name="university" value="<c:out value="${course.nomeUniversita}" />">
-											</div>
-											<br>
-											<div class="input-group sign_in_input_group">
-												<span class="input-group-addon sign_in_input">Degree Course</span> <input id="autocomplete2" class="form-control" name="degree" value="<c:out value="${course.nome}" />">
-											</div>
-											<br>
-											<div class="row">
-												<div class="col-lg-5"></div>
-												<div class="col-lg-7">
-													<div class="input-group sign_in_input_group">
-														<span class="input-group-addon sign_in_input_small">From</span><input type="text" class="form-control" id="datepicker" name="date_from" value="<c:out value="${iscrizione.annoInizio}" />">
-													</div>
-													<div class="input-group sign_in_input_group">
-														<span class="input-group-addon sign_in_input_small">To</span><input type="text" class="form-control" id="datepicker2" name="date_to" value="<c:out value="${iscrizione.annoFine}" />">
+											<!-- student's input -->
+											<c:if test="${student != null}">
+												<div class="input-group sign_in_input_group">
+													<span class="input-group-addon sign_in_input">E-mail*</span> <input type="text" class="form-control" name="email" id="email" value="<c:out value="${student.email}"/>">
+												</div>
+												<br>
+												<div class="input-group sign_in_input_group">
+													<span class="input-group-addon sign_in_input">Password*</span> <input type="password" class="form-control" name="password" id="password" value="<c:out value="${student.password}"/>">
+												</div>
+												<br>
+												<div class="input-group sign_in_input_group">
+													<span class="input-group-addon sign_in_input">Confirm Password*</span> <input type="password" class="form-control" name="password2" id="password2" value="<c:out value="${student.password}" />">
+												</div>
+												<br>
+												<div class="input-group sign_in_input_group">
+													<span class="input-group-addon sign_in_input">University</span> <input id="autocomplete" class="form-control" name="courseUniversity" value="<c:out value="${course.nomeUniversita}" />">
+												</div>
+												<br>
+												<div class="input-group sign_in_input_group">
+													<span class="input-group-addon sign_in_input">Degree Course</span> <input id="autocomplete2" class="form-control" name="courseName" value="<c:out value="${course.nome}" />">
+												</div>
+												<br>
+												<div class="row">
+													<div class="col-lg-5"></div>
+													<div class="col-lg-7">
+														<div class="input-group sign_in_input_group">
+															<span class="input-group-addon sign_in_input_small">From</span><input type="text" class="form-control" id="datepicker" name="date_from" value="<c:out value="${subscription.annoInizio}" />">
+														</div>
+														<div class="input-group sign_in_input_group">
+															<span class="input-group-addon sign_in_input_small">To</span><input type="text" class="form-control" id="datepicker2" name="date_to" value="<c:out value="${subscription.annoFine}" />">
+														</div>
 													</div>
 												</div>
-											</div>
+												
+												<!-- student hidden params -->
+												<input type="hidden" name="nomeUtente" value="<c:out value="${student.nomeUtente}"/>" >
+												<input type="hidden" name="courseId" value="<c:out value="${course.id}"/>" >
+												<input type="hidden" name="courseLevel" value="<c:out value="${course.livello}"/>" >
+											</c:if>
+											
+											<!-- flow manager input -->
+											<c:if test="${flowmanager != null }">
+												<div class="input-group sign_in_input_group">
+													<span class="input-group-addon sign_in_input">E-mail*</span> <input type="text" class="form-control" name="email" id="email" value="<c:out value="${flowmanager.email}"/>">
+												</div>
+												<br>
+												<div class="input-group sign_in_input_group">
+													<span class="input-group-addon sign_in_input">Password*</span> <input type="password" class="form-control" name="password" id="password" value="<c:out value="${flowmanager.password}"/>">
+												</div>
+												<br>
+												<div class="input-group sign_in_input_group">
+													<span class="input-group-addon sign_in_input">Confirm Password*</span> <input type="password" class="form-control" name="password2" id="password2" value="<c:out value="${flowmanager.password}" />">
+												</div>
+												<br>
+												<div class="input-group sign_in_input_group">
+													<span class="input-group-addon sign_in_input">University</span> <input id="autocomplete" class="form-control" name="nomeUniversita" value="<c:out value="${flowmanager.nomeUniversita}" />">
+												</div>
+												<br>
+												
+												<!-- flowmanager hidden params -->
+												<input type="hidden" name="idCourse" value="<c:out value="${flowmanager.nomeUtente}"/>" >
+											</c:if>
+											
+											
+											<!-- coordinator input -->
+											<c:if test="${coordinator != null }">
+												<div class="input-group sign_in_input_group">
+													<span class="input-group-addon sign_in_input">E-mail*</span> <input type="text" class="form-control" name="email" id="email" value="<c:out value="${coordinator.email}"/>">
+												</div>
+												<br>
+												<div class="input-group sign_in_input_group">
+													<span class="input-group-addon sign_in_input">Password*</span> <input type="password" class="form-control" name="password" id="password" value="<c:out value="${coordinator.password}"/>">
+												</div>
+												<br>
+												<div class="input-group sign_in_input_group">
+													<span class="input-group-addon sign_in_input">Confirm Password*</span> <input type="password" class="form-control" name="password2" id="password2" value="<c:out value="${coordinator.password}" />">
+												</div>
+											<br>
+												<div class="input-group sign_in_input_group">
+													<span class="input-group-addon sign_in_input">University</span> <input id="autocomplete" class="form-control" name="nomeUniversita" value="<c:out value="${coordinator.nomeUniversita}" />">
+												</div>
+												<br>
+												
+												<!-- flowmanager hidden params -->
+												<input type="hidden" name="idCourse" value="<c:out value="${coordinator.nomeUtente}"/>" >
+											</c:if>
+											
 											<br>
 											<div class="modal-footer">
 												<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 													<input type="submit" class="btn btn-primary pull-right" value="Save changes!">
 											</div>
+											
+											<!-- hidden params -->
+											<input type="hidden" name="operation" value="edit"/>
 										</form>
 									</div>
 								</div>
@@ -122,8 +177,8 @@
 				</div>  			
     	
 				<!-- Information Table -->
-				<!-- Da generare con JSP -->
-				<c:if test='${not empty student}'>
+				<!-- Generated when student is logged -->
+				<c:if test='${student != null}'>
 					<table class="table">
 						<thead>
 							<tr>
@@ -167,13 +222,13 @@
 							<tr>
 								<td></td>
 								<td>From</td>
-								<td><c:out value="${iscrizione.annoInizio}" /></td>
+								<td><c:out value="${subscription.annoInizio}" /></td>
 								<td></td>
 							</tr>
 							<tr>
 								<td></td>
 								<td>To</td>
-								<td><c:out value="${iscrizione.annoFine}" /></td>
+								<td><c:out value="${subscription.annoFine}" /></td>
 								<td></td>
 							</tr>
 							<tr>
@@ -185,7 +240,110 @@
 						</tbody>
 					</table>
 				</c:if>
+				<!-- Generated when coordinator is logged -->
+				<c:if test='${coordinator != null}'>
+					<table class="table">
+						<thead>
+							<tr>
+								<th></th>
+								<th>Field</th>
+								<th>Content</th>
+								<th></th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td></td>
+								<td>Username</td>
+								<td><c:out value="${coordinator.nomeUtente}"/></td>
+								<td></td>
+							</tr>
+							<tr>
+								<td></td>
+								<td>E-mail</td>
+								<td><c:out value="${coordinator.email}" /></td>
+								<td></td>
+							</tr>
+							<tr>
+								<td></td>
+								<td>Password</td>
+								<td><c:out value="${coordinator.password}" /></td>
+								<td></td>
+							</tr>
+							<tr>
+								<td></td>
+								<td>University</td>
+								<td><c:out value="${coordinator.nomeUniversita}" /></td>
+								<td></td>
+							</tr>
+							<tr>
+								<td></td>
+								<td>Registration Date</td>
+								<td><c:out value="${coordinator.dataRegistrazione}" /></td>
+								<td></td>
+							</tr>
+						</tbody>
+					</table>
+				</c:if>
+				
+				<!-- Generated when flowmanager is logged -->
+				<c:if test='${flowmanager != null}'>
+					<table class="table">
+						<thead>
+							<tr>
+								<th></th>
+								<th>Field</th>
+								<th>Content</th>
+								<th></th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td></td>
+								<td>Username</td>
+								<td><c:out value="${flowmanager.nomeUtente}"/></td>
+								<td></td>
+							</tr>
+							<tr>
+								<td></td>
+								<td>E-mail</td>
+								<td><c:out value="${flowmanager.email}" /></td>
+								<td></td>
+							</tr>
+							<tr>
+								<td></td>
+								<td>Password</td>
+								<td><c:out value="${flowmanager.password}" /></td>
+								<td></td>
+							</tr>
+							<tr>
+								<td></td>
+								<td>University</td>
+								<td><c:out value="${flowmanager.nomeUniversita}" /></td>
+								<td></td>
+							</tr>
+							<tr>
+								<td></td>
+								<td>Registration Date</td>
+								<td><c:out value="${flowmanager.dataRegistrazione}" /></td>
+								<td></td>
+							</tr>
+						</tbody>
+					</table>
+					<br><br>
+				</c:if>
 			</div>
+			
+			<c:if test="${flowmanager != null }">
+				<c:choose>
+					<c:when test="${flowmanager.abilitato && flowmanager.attivo}">
+						<div class="alert alert-success" role="alert">You are enabled to modify your flow and course features.</div>	
+					</c:when>
+					<c:otherwise>
+						<div class="alert alert-warning" role="alert">You have been reported to university's coordinator. </div>
+					</c:otherwise>
+				</c:choose>
+			</c:if>
 		</div>
 	</div>
 	<!-- footer -->
