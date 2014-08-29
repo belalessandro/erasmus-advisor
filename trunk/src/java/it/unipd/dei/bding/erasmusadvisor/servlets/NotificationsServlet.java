@@ -50,7 +50,7 @@ public class NotificationsServlet extends AbstractDatabaseServlet {
 	{
 		// get the coordinator from current user
 		LoggedUser lu = new LoggedUser(UserType.COORDINATORE, "ErasmusCoordinator");
-		
+//		LoggedUser lu = new LoggedUser(UserType.RESPONSABILE, "erick.burn");
 		// required variables
 		Notifications notifications = null;
 		Connection con = null;
@@ -100,8 +100,8 @@ public class NotificationsServlet extends AbstractDatabaseServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		LoggedUser lu = new LoggedUser(UserType.RESPONSABILE, "erick.burn");
-//		LoggedUser lu = new LoggedUser(UserType.COORDINATORE, "ErasmusCoordinator");
+//		LoggedUser lu = new LoggedUser(UserType.RESPONSABILE, "erick.burn");
+		LoggedUser lu = new LoggedUser(UserType.COORDINATORE, "ErasmusCoordinator");
 		String operation = null;
 		
 		if(request.getHeader("X-Requested-With") != null && request.getHeader("X-Requested-With").equals("XMLHttpRequest"))
@@ -116,99 +116,113 @@ public class NotificationsServlet extends AbstractDatabaseServlet {
 		} 
 		else if (operation.equals(AJAX)) 
 		{	
-			// get json object
-			response.setContentType("application/json");
-			JsonReader reader = Json.createReader(request.getInputStream());
-			JsonObject json = reader.readObject();
-			reader.close();
-			
-			// modify the instance into the database
-			Message m = null;
-			Connection con = null;
-			
-			// get parameters
-			String execute = json.getString("execute");
-			String type = json.getString("type");
-			
-			// preparing to write json response
-			JsonObjectBuilder builder = Json.createObjectBuilder();
-			try {
-				con = DS.getConnection();
-				
-				if(execute.equals("accept"))
-				{
-					switch(type) 
-					{
-					case "flowmanager":
-						if(lu.isCoord())
-						{
-							ResponsabileFlussoDatabase.enableResponsabileFlusso(con, json.getString("primarykey"));
-							builder.add("flowmanager","enabled");
-						}
-						break;
-					case "class":
-						if(lu.isFlowResp())
-						{
-							InsegnamentoDatabase.changeClassStatus(con, "VERIFIED", json.getInt("primarykey"));
-							builder.add("class","enabled");
-						}
-						break;
-					case "thesis":
-						if(lu.isFlowResp())
-						{
-							ArgomentoTesiDatabase.changeThesisStatus(con, "VERIFIED", json.getInt("primarykey"));
-							builder.add("thesis","enabled");
-						}
-						break;
-					}
-				}
-				else if(execute.equals("discard"))
-				{
-					switch(type) 
-					{
-					case "flowmanager":
-						if(lu.isCoord())
-						{
-							ResponsabileFlussoDatabase.disableResponsabileFlusso(con, json.getString("primarykey"));
-							builder.add("flowmanager","disabled");
-						}
-						break;
-					case "class":
-						if(lu.isFlowResp())
-						{
-							InsegnamentoDatabase.changeClassStatus(con, "DISABLED", json.getInt("primarykey"));
-							builder.add("class","disabled");
-						}
-						break;
-					case "thesis":
-						if(lu.isFlowResp())
-						{
-							ArgomentoTesiDatabase.changeThesisStatus(con, "DISABLED", json.getInt("primarykey"));
-							builder.add("thesis","disabled");
-						}
-						break;
-					}
-				}
-				
-				DbUtils.close(con);
-			} catch (SQLException e) {
-				m = new Message("Error while accepting/discarding the", "XXX", e.getMessage());
-				request.setAttribute("message", m);
-				errorForward(request, response);
-				return;
-			} finally {
-				DbUtils.closeQuietly(con);
-			}	
-			
-			// writing the json object to the page
-			JsonObject out = builder.build();
-			
-			JsonWriter writer = Json.createWriter(response.getOutputStream());
-			writer.writeObject(out);
-			writer.close();
+			acceptDiscardEntity(lu, request, response);
 		}
 	}
 	
+	/**
+	 * Handle the accepting and discarding operations by the flow manager and the coordinator.
+	 * 
+	 * @param lu logged user
+	 * @param request request object
+	 * @param response response object
+	 * @throws ServletException
+	 * @throws IOException
+	 */
+	private void acceptDiscardEntity(LoggedUser lu, HttpServletRequest request, HttpServletResponse response) 
+			throws ServletException, IOException {
+		
+		// get json object
+		response.setContentType("application/json");
+		JsonReader reader = Json.createReader(request.getInputStream());
+		JsonObject json = reader.readObject();
+		reader.close();
+		
+		// modify the instance into the database
+		Message m = null;
+		Connection con = null;
+		
+		// get parameters
+		String execute = json.getString("execute");
+		String type = json.getString("type");
+		
+		// preparing to write json response
+		JsonObjectBuilder builder = Json.createObjectBuilder();
+		try {
+			con = DS.getConnection();
+			
+			if(execute.equals("accept"))
+			{
+				switch(type) 
+				{
+				case "flowmanager":
+					if(lu.isCoord())
+					{
+						ResponsabileFlussoDatabase.enableResponsabileFlusso(con, json.getString("primarykey"));
+						builder.add("flowmanager","enabled");
+					}
+					break;
+				case "class":
+					if(lu.isFlowResp())
+					{
+						InsegnamentoDatabase.changeClassStatus(con, "VERIFIED", json.getInt("primarykey"));
+						builder.add("class","enabled");
+					}
+					break;
+				case "thesis":
+					if(lu.isFlowResp())
+					{
+						ArgomentoTesiDatabase.changeThesisStatus(con, "VERIFIED", json.getInt("primarykey"));
+						builder.add("thesis","enabled");
+					}
+					break;
+				}
+			}
+			else if(execute.equals("discard"))
+			{
+				switch(type) 
+				{
+				case "flowmanager":
+					if(lu.isCoord())
+					{
+						ResponsabileFlussoDatabase.disableResponsabileFlusso(con, json.getString("primarykey"));
+						builder.add("flowmanager","disabled");
+					}
+					break;
+				case "class":
+					if(lu.isFlowResp())
+					{
+						InsegnamentoDatabase.changeClassStatus(con, "DISABLED", json.getInt("primarykey"));
+						builder.add("class","disabled");
+					}
+					break;
+				case "thesis":
+					if(lu.isFlowResp())
+					{
+						ArgomentoTesiDatabase.changeThesisStatus(con, "DISABLED", json.getInt("primarykey"));
+						builder.add("thesis","disabled");
+					}
+					break;
+				}
+			}
+			
+			DbUtils.close(con);
+		} catch (SQLException e) {
+			m = new Message("Error while accepting/discarding the", "XXX", e.getMessage());
+			request.setAttribute("message", m);
+			errorForward(request, response);
+			return;
+		} finally {
+			DbUtils.closeQuietly(con);
+		}	
+		
+		// writing the json object to the page
+		JsonObject out = builder.build();
+		
+		JsonWriter writer = Json.createWriter(response.getOutputStream());
+		writer.writeObject(out);
+		writer.close();
+	}
 	
 	private void errorForward(HttpServletRequest request, HttpServletResponse response) 
     		throws ServletException, IOException  {

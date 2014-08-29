@@ -20,8 +20,8 @@ public class Notifications
 	private List<ResponsabileFlussoBean> responsabiliFlusso;
 	private List<InsegnamentoBean> insegnamenti;
 	private List<List<ProfessoreBean>> professoriInsegnamento;
-	private List<ProfessoreBean> professoriTesi;
 	private List<ArgomentoTesiBean> argomentiTesi;
+	private List<List<ProfessoreBean>> professoriTesi;
 	
 	public Notifications() {
 		
@@ -31,7 +31,7 @@ public class Notifications
 			List<InsegnamentoBean> insegnamenti, 
 			List<List<ProfessoreBean>> professoriInsegnamento,
 			List<ArgomentoTesiBean> argomentiTesi,
-			List<ProfessoreBean> professoriTesi) {
+			List<List<ProfessoreBean>> professoriTesi) {
 		
 		this.responsabiliFlusso = responsabiliFlusso;
 		this.insegnamenti = insegnamenti;
@@ -101,13 +101,13 @@ public class Notifications
 	 * Get the list of thesis' professors
 	 * @return the list of thesis' professors
 	 */
-	public List<ProfessoreBean> getProfessoriTesi() { return professoriTesi; }
+	public List<List<ProfessoreBean>> getProfessoriTesi() { return professoriTesi; }
 	
 	/**
 	 * Set the list of thesis' professors
 	 * @param professoriTesi the list of thesis' professors
 	 */
-	public void setProfessoriTesi(List<ProfessoreBean> professoriTesi) 
+	public void setProfessoriTesi(List<List<ProfessoreBean>> professoriTesi) 
 	{
 		this.professoriTesi = professoriTesi;
 	}

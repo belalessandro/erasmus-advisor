@@ -286,9 +286,22 @@ public class ArgomentoTesiDatabase {
 	{
 		final String sql = "UPDATE ArgomentoTesi SET stato = CAST(? AS STATO) WHERE id = ?;";
 		
-		QueryRunner run = new QueryRunner();
+		PreparedStatement pstmt = null;
 		
-		run.update(con, sql, status, id);
+		pstmt = con.prepareStatement(sql);
+		
+		try{
+			pstmt.setString(1, status);
+			pstmt.setInt(2, id);
+			
+			pstmt.execute();
+			DbUtils.close(con);
+			
+		} catch(SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DbUtils.closeQuietly(con);	
+		}
 		
 	}
 }
