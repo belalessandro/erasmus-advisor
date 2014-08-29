@@ -97,70 +97,70 @@
 			<!-- Notare che potrebbe essere meglio inserire un altro dropdown che ad esempio permetta di selezionare 
 			lo stato in cui si trova l'università e da lì aggiornare l'altro.-->
 			<form  method="get" action="<c:url value="/thesis/list"/>" enctype="plain/text">
-			<input name="operation" type="hidden" value="search" />
-			<div class="col-md-4 text-center">
-				<div class="btn-group">
-					<button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" id="dropArea" name="dropArea">
-						Select an Area <span class="caret"></span>
-					</button>
-					<ul class="dropdown-menu search_scrollable_menu text-left">
-						<c:forEach var="areaDomain" items='${areaDomain}'>
-							<li><span>${areaDomain.nome}</span></li>
-						</c:forEach>
-					</ul>
-				</div>
-			</div>
-			<input name="area" type="hidden" id="area"/>
-			<div class="col-md-4 text-center" >
-				<div class="btn-group">
-					<button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" id="dropUniversity" name="idUniversity">
-						Select a University <span class="caret"></span>
-					</button>
-					<ul class="dropdown-menu search_scrollable_menu text-left">
-						<c:forEach var="uni" items='${universities}'>
-							<li><span>${uni.nome}</span></li>
-						</c:forEach>
-					</ul>
-				</div>
-			</div>
-			<input name="university" type="hidden" id="university"/>
-			<div class="col-md-4 text-center">
-				<button class="btn btn-primary" type="submit" onClick="doSearch()"><span class="fa fa-search fa-fw"></span> Search</button>
-			</div>
-			<br><br><br>
-			<!-- Ricerca Avanzata-->
-			<div class="row text-center">
-				<div><button class="btn btn-default" type="button" onClick="comparsa()">Advanced Search</button></div>
-			</div>
-			<br>
-			<div id="sidebar" style="display:none">
-				<div class="col-md-6 text-center" >
+				<input name="operation" type="hidden" value="search" />
+				<div class="col-md-4 text-center">
 					<div class="btn-group">
-						<button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" id="dropLevel" name="dropLevel" value="ciao">
-							Select a Level <span class="caret"></span>
+						<button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" id="dropArea" name="dropArea">
+							Select an Area <span class="caret"></span>
 						</button>
 						<ul class="dropdown-menu search_scrollable_menu text-left">
-							<li><span>Undergraduate</span></li>
-							<li><span>Graduate</span></li>
-						</ul>
-					</div>
-				</div>
-				<input name="level" type="hidden" id="level"/>
-				<div class="col-md-6 text-center" >
-					<div class="btn-group">
-						<button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" id="dropLanguage" name="dropLanguage">
-							Select a Language <span class="caret"></span>
-						</button>
-						<ul class="dropdown-menu search_scrollable_menu text-left">
-							<c:forEach var="languageDomain" items='${languageDomain}'>
-								<li><span>${languageDomain.nome}</span></li>
+							<c:forEach var="areaDomain" items='${areaDomain}'>
+								<li><span>${areaDomain.nome}</span></li>
 							</c:forEach>
 						</ul>
 					</div>
-					<input name="language" type="hidden" id="language"/>
 				</div>
-				
-			</div>
+				<input name="area" type="hidden" id="area"/>
+				<div class="col-md-4 text-center" >
+					<div class="btn-group">
+						<button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" id="dropUniversity" name="idUniversity">
+							Select a University <span class="caret"></span>
+						</button>
+						<ul class="dropdown-menu search_scrollable_menu text-left">
+							<c:forEach var="uni" items='${universities}'>
+								<li><span>${uni.nome}</span></li>
+							</c:forEach>
+						</ul>
+					</div>
+				</div>
+				<input name="university" type="hidden" id="university"/>
+				<div class="col-md-4 text-center">
+					<button class="btn btn-primary" type="submit" onClick="doSearch()"><span class="fa fa-search fa-fw"></span> Search</button>
+				</div>
+				<br><br><br>
+				<!-- Ricerca Avanzata-->
+				<div class="row text-center">
+					<div><button class="btn btn-default" type="button" onClick="comparsa()">Advanced Search</button></div>
+				</div>
+				<br>
+				<div id="sidebar" style="display:none">
+					<div class="col-md-6 text-center" >
+						<div class="btn-group">
+							<button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" id="dropLevel" name="dropLevel" value="ciao">
+								Select a Level <span class="caret"></span>
+							</button>
+							<ul class="dropdown-menu search_scrollable_menu text-left">
+								<li><span>Undergraduate</span></li>
+								<li><span>Graduate</span></li>
+							</ul>
+						</div>
+					</div>
+					<input name="level" type="hidden" id="level"/>
+					<div class="col-md-6 text-center" >
+						<div class="btn-group">
+							<button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" id="dropLanguage" name="dropLanguage">
+								Select a Language <span class="caret"></span>
+							</button>
+							<ul class="dropdown-menu search_scrollable_menu text-left">
+								<c:forEach var="languageDomain" items='${languageDomain}'>
+									<li><span>${languageDomain.nome}</span></li>
+								</c:forEach>
+							</ul>
+						</div>
+						<input name="language" type="hidden" id="language"/>
+					</div>
+					
+				</div>
 			</form>
 			<!-- fine Ricerca Avanzata -->
 			<br><br><br>
@@ -184,19 +184,19 @@
 				</thead>
 				
 				<tbody>
-				<c:if test='${not empty results}'> 
-				<c:forEach var="thesis" items="${results}">
-					<tr>
-						<td class="idThesis"><c:out value="${thesis.arg.id}"/></td>
-						<td><a href="#" target="_blank"><c:out value="${thesis.arg.nome}"/></a></td>
-						<td><a href="#" target="_blank"><c:out value="${thesis.arg.nomeUniversita}"/></a></td>
-						<td><c:forEach var="area" items="${thesis.listaAree}" varStatus="status"><c:out value="${area.nome}"/><c:if test="${!status.last}"><br></c:if></c:forEach></td>
-						<td><c:if test='${thesis.arg.triennale}'>UNDERGRADUATE<br></c:if><c:if test='${thesis.arg.magistrale}'>GRADUATE<br></c:if></td>
-						<td><c:forEach var="language" items="${thesis.listaLingue}" varStatus="status"><c:out value="${language.nome}"/><c:if test="${!status.last}"><br></c:if></c:forEach></td>
-						<td><c:forEach var="teacher" items="${thesis.listaProfessori}" varStatus="status"><c:out value="${teacher.nome}"/><c:out value="${teacher.cognome}"/> <c:if test="${!status.last}"><br></c:if></c:forEach></td>
-					</tr>
-				</c:forEach>
-				</c:if>
+					<c:if test='${not empty results}'> 
+						<c:forEach var="thesis" items="${results}">
+							<tr>
+								<td class="idThesis"><c:out value="${thesis.arg.id}"/></td>
+								<td><a href="#" target="_blank"><c:out value="${thesis.arg.nome}"/></a></td>
+								<td><a href="#" target="_blank"><c:out value="${thesis.arg.nomeUniversita}"/></a></td>
+								<td><c:forEach var="area" items="${thesis.listaAree}" varStatus="status"><c:out value="${area.nome}"/><c:if test="${!status.last}"><br></c:if></c:forEach></td>
+								<td><c:if test='${thesis.arg.triennale}'>UNDERGRADUATE<br></c:if><c:if test='${thesis.arg.magistrale}'>GRADUATE<br></c:if></td>
+								<td><c:forEach var="language" items="${thesis.listaLingue}" varStatus="status"><c:out value="${language.nome}"/><c:if test="${!status.last}"><br></c:if></c:forEach></td>
+								<td><c:forEach var="teacher" items="${thesis.listaProfessori}" varStatus="status"><c:out value="${teacher.nome}"/><c:out value="${teacher.cognome}"/> <c:if test="${!status.last}"><br></c:if></c:forEach></td>
+							</tr>
+						</c:forEach>
+					</c:if>
 				</tbody>
 			</table>
 			<%-- <c:if test='${empty results}'>

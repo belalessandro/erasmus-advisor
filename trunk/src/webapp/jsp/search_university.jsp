@@ -24,19 +24,11 @@
 		// usate nella chiamata per effettuare la ricerca vera e propria
 		var countryDropValue;
 		var cityDropValue;
-		
-		// da questa funzione si fa partire la ricerca
+		//Assegno i valori ai campi OUT
 		function doSearch()
 		{
-			if (cityDropValue === undefined || cityDropValue === null) 
-			{
-				// città non selezionata
-				alert('country ' + countryDropValue);
-			}
-			else
-			{
-				alert('country ' + countryDropValue + ' city ' + cityDropValue);
-			}
+				document.getElementById("country").value = countryDropValue;
+				document.getElementById("city").value = cityDropValue;
 		}
 		// aggiorna l'etichetta mostrata dai dropdown e salva il valore selezionato
 		$(document).on('click', '.dropdown-menu li span', function () {
@@ -116,30 +108,35 @@
 		<div class="col-md-9 general_main_border">
 			<h2 class="text-center">Search a University</h2>
 			<br>
-			<div class="col-md-4 text-center">
-				<div class="btn-group">
-					<button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" id="dropCountry">
-						Select a Country <span class="caret"></span>
-					</button>
-					<ul class="dropdown-menu search_scrollable_menu text-left" id="countries">
-						<c:forEach var="city" items='${cities}'>
-							<li><span>${city.country}</span></li>
-						</c:forEach>
-					</ul>
+			<form  method="get" action="<c:url value="/university/list"/>" enctype="plain/text">
+				<input name="operation" type="hidden" value="search" />
+				<div class="col-md-4 text-center">
+					<div class="btn-group">
+						<button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" id="dropCountry">
+							Select a Country <span class="caret"></span>
+						</button>
+						<ul class="dropdown-menu search_scrollable_menu text-left" id="countries">
+							<c:forEach var="city" items='${cities}'>
+								<li><span>${city.country}</span></li>
+							</c:forEach>
+						</ul>
+					</div>
+					<input name="country" type="hidden" id="country"/>
 				</div>
-			</div>
-			<div class="col-md-4 text-center" >
-				<div class="btn-group">
-					<button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" id="dropCity">
-						Select a City <span class="caret"></span>
-					</button>
-					<ul class="dropdown-menu search_scrollable_menu text-left" id="cities">
-					</ul>
+				<div class="col-md-4 text-center" >
+					<div class="btn-group">
+						<button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" id="dropCity">
+							Select a City <span class="caret"></span>
+						</button>
+						<ul class="dropdown-menu search_scrollable_menu text-left" id="cities">
+						</ul>
+					</div>
+					<input name="city" type="hidden" id="city"/>
 				</div>
-			</div>
-			<div class="col-md-4 text-center">
-				<button class="btn btn-primary" onclick="doSearch()"><span class="fa fa-search fa-fw"></span> Search</button>
-			</div>
+				<div class="col-md-4 text-center">
+					<button class="btn btn-primary" type="submit" onClick="doSearch()"><span class="fa fa-search fa-fw"></span> Search</button>
+				</div>
+			</form>
 			<!-- Niente ricerca avanzata qui, non ha molto senso IMHO-->
 			<br><br><br>
 			<!-- frase da da creare dinamicamente -->
@@ -156,35 +153,17 @@
 					</tr>
 				</thead>
 				<tbody>
-				<!-- risultati da creare dinamicamente -->
-					<tr>
-						<td><a href="#" target="_blank">Università degli Studi di Padova</a></td>
-						<td><a href="http://www.unipd.it">http://www.unipd.it</a></td>
-						<td>180</td>
-						<td>No</td>
-						<td>Padua</td>
-					</tr>
-					<tr>
-						<td><a href="#" target="_blank">Università degli Studi di Bologna</a></td>
-						<td><a href="http://www.unibo.it">http://www.unibo.it</a></td>
-						<td>160</td>
-						<td>Yes</td>
-						<td>Bologna</td>
-					</tr>
-					<tr>
-						<td><a href="#" target="_blank">Università degli Studi di Napoli Federico II</a></td>
-						<td><a href="http://www.unina.it">http://www.unina.it</a></td>
-						<td>NV</td>
-						<td>No</td>
-						<td>Neaples</td>
-					</tr>
-					<tr>
-						<td><a href="#" target="_blank">La Sapienza - Università di Roma</a></td>
-						<td><a href="http://www.uniroma1.it">http://www.uniroma1.it</a></td>
-						<td>380</td>
-						<td>Yes</td>
-						<td>Rome</td>
-					</tr>
+					<c:if test='${not empty results}'> 
+						<c:forEach var="university" items="${results}">
+							<tr>
+								<td><a href="#" target="_blank"><c:out value="${university.nome}"/></a></td>
+								<td><a href="#" target="_blank"><c:out value="${university.link}"/></a></td>
+								<td><c:out value="${university.posizioneClassifica}"/></td>
+								<td><c:if test='${university.presenzaAlloggi}'>Yes</c:if><c:if test='${not university.presenzaAlloggi}'>No</c:if></td>
+								<td><c:out value="${university.nomeCitta}"/></td>
+							</tr>
+						</c:forEach>
+					</c:if>
 				</tbody>
 			</table>
 			<!-- da usare solo se si sceglie di non visualizzare tutti i risultati nella pagina

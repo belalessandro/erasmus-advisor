@@ -5,11 +5,13 @@ import it.unipd.dei.bding.erasmusadvisor.beans.ProfessoreBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.UniversitaBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.ValutazioneUniversitaBean;
 import it.unipd.dei.bding.erasmusadvisor.database.InsegnamentoDatabase;
+import it.unipd.dei.bding.erasmusadvisor.database.UniversitaDatabase;
 
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.util.List;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.dbutils.DbUtils;
@@ -25,12 +27,12 @@ public class TestUniversitaDatabase {
 	/**
 	 * The username for accessing the database
 	 */
-	private static final String USER = "EATeam";
+	private static final String USER = "postgres";
 
 	/**
 	 * The password for accessing the database
 	 */
-	private static final String PASSWORD = "EATeam";
+	private static final String PASSWORD = "postgres";
 
 	public static void main(String[] args) {
 
@@ -53,16 +55,21 @@ public class TestUniversitaDatabase {
 			
 			it.unipd.dei.bding.erasmusadvisor.resources.Teaching c = InsegnamentoDatabase.getInsegnamento(con, 1);
 			
-			DbUtils.close(con);
+			
+			List<UniversitaBean> list = UniversitaDatabase.searchUniversityByCity(con, "undefined", "Padua");
+			System.out.println(list.get(0).getNome());
 
-			if (c.getInsegnamento() != null) {
+
+
+
+		/*	if (c.getInsegnamento() != null) {
 				try { 
 					String s = BeanUtils.describe(c.getInsegnamento()).toString();
 					for ( ProfessoreBean v : c.getProfessori())
 						s += "\n" + BeanUtils.describe(v).toString();
 					System.out.println(s);
 				} catch (Exception e) {}
-			}
+			}*/
 		} catch (SQLException e) {
 //			// If there is any error.
 //			if (con != null)
