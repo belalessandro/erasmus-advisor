@@ -74,7 +74,7 @@ public class TestCorsoDiLaureaDatabase {
 //			GestioneDatabase.createGestione(con, gestioneBean);
 			//int ret = CorsoDiLaureaDatabase.createCorsoDiLaurea(con, corso);
 			ResponsabileFlussoBean r = new ResponsabileFlussoBean();
-			r.setNomeUniversita("University of Copenhagen");
+			r.setNomeUtente("pilu");
 			List<CorsoDiLaureaBean> list = CorsoDiLaureaDatabase.getPossibleCourses(con, r);
 //			LinguaCittaDatabase.createLinguaCitta(con, linguaCittaBean);
 //			LinguaTesiDatabase.createLinguaTesi(con, linguaTesiBean);
