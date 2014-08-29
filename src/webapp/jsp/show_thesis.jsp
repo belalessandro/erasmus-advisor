@@ -145,6 +145,14 @@
 				</div>
 			</c:if>
 			
+			<!-- Avviso che l'entità è in stato not verified -->
+			<c:if test="${!empty thesis.stato && thesis.stato == 'DISABLED'}">
+				<div class="alert alert-warning" role="alert">
+					<div class="text-center"><b> <span class="glyphicon glyphicon-star"></span> Warning:</b> 
+					This thesis has been disabled. </div>
+				</div>
+			</c:if>
+			
 			<!-- Avviso del report avvenuto con successo -->
 			<div id="report-success" class="alert alert-success" role="alert" style="display:none">
 					<div class="text-center">Thesis successfully reported! </div> 
