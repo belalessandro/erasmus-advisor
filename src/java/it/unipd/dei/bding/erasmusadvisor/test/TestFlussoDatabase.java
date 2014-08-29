@@ -69,7 +69,7 @@ public class TestFlussoDatabase {
 			//con.setAutoCommit(false);
 			
 			//List<CitySearchRow> results = CittaDatabase.filterCityBySiglaLingua(con, "eng");
-			List<FlowSearchRow> results = FlussoDatabase.filterFlowBy(con, null, null, null, null, null, null);
+			List<FlowSearchRow> results = FlussoDatabase.filterFlowBy(con, "France", null, null, 2, null, null);
 			
 			for (FlowSearchRow result : results) {
 				System.out.print(result.getFlusso().getId() + " | langs:");
