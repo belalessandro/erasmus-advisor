@@ -197,7 +197,12 @@ public class UniversityServlet extends AbstractDatabaseServlet {
 			
 		} catch (SQLException e) {
 			DbUtils.rollbackAndCloseQuietly(conn); // ROLLBACK
-			m = new Message("Error while inserting a new university.", "XXX", e.getMessage());
+			if (e.getSQLState() != null && e.getSQLState().equals("23505")) {
+				m = new Message("Operation not allowed: Duplicate data", "E300", 
+						"This university is already present in the database!");
+			} else {
+				m = new Message("Error while inserting a new university.", "E200", e.getMessage());
+			}
 			request.setAttribute("message", m);
 			errorForward(request, response);
 			return;

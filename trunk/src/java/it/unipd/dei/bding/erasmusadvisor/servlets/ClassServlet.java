@@ -262,22 +262,27 @@ public class ClassServlet extends AbstractDatabaseServlet
 		Message m = null;
 		
 		// Populating beans from FORM parameters
-		//BeanUtilities.populateBean(insegnamentoBean, request); // automatic
-		
-		insegnamentoBean.setNome(request.getParameter("Nome"));
-		insegnamentoBean.setCrediti(Integer.parseInt(request.getParameter("Crediti")));
-		insegnamentoBean.setNomeUniversita(request.getParameter("NomeUniversita"));
-		insegnamentoBean.setPeriodoErogazione(Integer.parseInt(request.getParameter("PeriodoErogazione")));
-		insegnamentoBean.setAnnoCorso(Integer.parseInt(request.getParameter("AnnoCorso")));
-		insegnamentoBean.setNomeArea(request.getParameter("NomeArea"));
-		insegnamentoBean.setNomeLingua(request.getParameter("NomeLingua"));
+		try {
+			insegnamentoBean.setNome(request.getParameter("Nome"));
+			insegnamentoBean.setCrediti(Integer.parseInt(request.getParameter("Crediti")));
+			insegnamentoBean.setNomeUniversita(request.getParameter("NomeUniversita"));
+			insegnamentoBean.setPeriodoErogazione(Integer.parseInt(request.getParameter("PeriodoErogazione")));
+			insegnamentoBean.setAnnoCorso(Integer.parseInt(request.getParameter("AnnoCorso")));
+			insegnamentoBean.setNomeArea(request.getParameter("NomeArea"));
+			insegnamentoBean.setNomeLingua(request.getParameter("NomeLingua"));
+			
+		} catch (NumberFormatException ex) {
+			m = new Message("Invalid input parameters.", "E100", ex.getMessage());
+			request.setAttribute("message", m);
+			errorForward(request, response);
+			return;
+		}
 		
 		insegnamentoBean.setStato("NOT VERIFIED"); // Setting status
 		// TODO: in base all'autorhization
 		
 		String[] profNames = request.getParameterValues("professorName");
 		String[] profSurnames = request.getParameterValues("professorSurname");
-		
 
 		/**
 		 * Insert to database
@@ -318,7 +323,20 @@ public class ClassServlet extends AbstractDatabaseServlet
 		} catch (SQLException e) {
 			DbUtils.rollbackAndCloseQuietly(conn); // ROLLBACK
 			
-			m = new Message("Error while inserting a new class.", "XXX", e.getMessage());
+			/** Primary key error */
+			if (e.getSQLState() != null && e.getSQLState().equals("23505")) { 
+				
+				m = new Message("Operation not allowed: Duplicate data", "E300", 
+						"This class is already present in the database!");
+			} /** Foreign key error */
+			else if (e.getSQLState() != null && e.getSQLState().equals("23503")) { 
+				
+				m = new Message("University not found", "E300", 
+						"The university you specified is not present in the database!");
+			} 
+			else { 
+				m = new Message("Error while inserting a new class.", "E200", e.getMessage());
+			}
 			request.setAttribute("message", m);
 			errorForward(request, response);
 			return;

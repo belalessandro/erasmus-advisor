@@ -252,10 +252,6 @@ public class CityServlet extends AbstractDatabaseServlet
 		String country = request.getParameter("Stato");
 		String[] siglaLingua = request.getParameterValues("LinguaCitta[]");
 		
-//		// Auto-populate beans with incoming FORM fields
-//		BeanUtilities.populateBean(citta, request);
-//		BeanUtilities.populateBean(linguaCittaList, request.getParameterMap());
-		
 		// Populating beans
 		cittaBean.setNome(city);
 		cittaBean.setStato(country);
@@ -286,7 +282,12 @@ public class CityServlet extends AbstractDatabaseServlet
 			DbUtils.commitAndClose(conn); // COMMIT
 		} catch (SQLException e) {
 			DbUtils.rollbackAndCloseQuietly(conn); // ROLLBACK
-			m = new Message("Error while inserting a new city.", "XXX", e.getMessage());
+			if (e.getSQLState() != null && e.getSQLState().equals("23505")) {
+				m = new Message("Operation not allowed: Duplicate data", "E300", 
+						"The couple city-country is already present in the database!");
+			} else {
+				m = new Message("Error while inserting a new city.", "E200", e.getMessage());
+			}
 			request.setAttribute("message", m);
 			errorForward(request, response);
 			return;

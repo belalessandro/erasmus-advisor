@@ -151,7 +151,21 @@ public class CourseServlet extends AbstractDatabaseServlet {
 			corsoDiLaureaBean.setId(id);
 		} catch (SQLException e) {
 			DbUtils.rollbackAndCloseQuietly(conn); // ROLLBACK
-			m = new Message("Error while inserting a new course.", "XXX", e.getMessage());
+			
+			/** Primary key error */
+			if (e.getSQLState() != null && e.getSQLState().equals("23505")) { 
+				
+				m = new Message("Operation not allowed: Duplicate data", "E300", 
+						"This course is already present in the database!");
+			} /** Foreign key error */
+			else if (e.getSQLState() != null && e.getSQLState().equals("23503")) { 
+				
+				m = new Message("University not found", "E300", 
+						"The university you specified is not present in the database!");
+			} 
+			else { 
+				m = new Message("Error while inserting a new course.", "E200", e.getMessage());
+			}
 			request.setAttribute("message", m);
 			errorForward(request, response);
 			return;
