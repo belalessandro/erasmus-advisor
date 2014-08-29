@@ -36,8 +36,8 @@ public class CoordinatoreDatabase
 	public static CoordinatoreBean getCoordinatore(Connection con, String username) throws SQLException
 	{
 		StringBuilder sql = new StringBuilder()
-			.append("SELECT NomeUtente, Email, DataRegistrazione, ultimoaccesso, attivo, abilitato, nomeuniversita")
-			.append("FROM ResponsabileFlusso")
+			.append("SELECT NomeUtente, Email, Password, DataRegistrazione, ultimoaccesso, attivo, nomeuniversita ")
+			.append("FROM Coordinatore ")
 			.append("WHERE NomeUtente = ?;");
 		
 		QueryRunner run = new QueryRunner();

@@ -165,7 +165,7 @@
 								</div>
 								
 								<!-- hidden params -->
-								<input type="hidden" name="operation" value="update"/>
+								<input type="hidden" name="operation" value="edit"/>
 								<input type="hidden" name="old_name" value="<c:out value="${university.nome}"/>"/>
 							</form>
 						</div>

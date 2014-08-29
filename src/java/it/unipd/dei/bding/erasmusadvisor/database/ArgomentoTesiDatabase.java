@@ -295,12 +295,21 @@ public class ArgomentoTesiDatabase {
 			pstmt.setInt(2, id);
 			
 			pstmt.execute();
-			DbUtils.close(con);
 			
 		} catch(SQLException e) {
 			e.printStackTrace();
 		} finally {
-			DbUtils.closeQuietly(con);	
+			try {
+				if(pstmt != null)
+					pstmt.close();
+				if(con != null)
+					pstmt.close();
+			} catch(SQLException ex) {
+				ex.printStackTrace();
+			} finally {
+				pstmt = null;
+				con = null;
+			}
 		}
 		
 	}
