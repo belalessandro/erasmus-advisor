@@ -107,6 +107,19 @@ public class ThesisListServlet extends AbstractDatabaseServlet {
 		req.setAttribute("areaDomain", areaDomain);
 		req.setAttribute("universities", universityDomain);
 
+		if (area != null)
+			req.setAttribute("searchedArea", area);
+		if (university != null)
+			req.setAttribute("searchedUniversity", university);
+		if (level != null)
+			req.setAttribute("searchedLevel", level);
+		if (language != null)
+			req.setAttribute("searchedLanguage", language);
+		
+		
+		if (area == null && university == null && level == null && language == null)
+			req.setAttribute("allThesis", "allThesis");
+
 		/* Forward to the Search JSP page */
 		getServletContext().getRequestDispatcher("/jsp/search_thesis.jsp").forward(req, resp);
 	}

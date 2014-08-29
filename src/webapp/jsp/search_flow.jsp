@@ -1,24 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
-<!-- IN:
-
-		req.setAttribute("results", results);
-		
-		dove results è una List di:
-		
-		FlowSearchRow {
-	private FlussoBean flusso;
-	private UniversitaBean universita;
-	private List<CertificatiLinguisticiBean> listaCertificatiLinguistici;
-
-OUT: 
-String stato = req.getParameter("country");
-		String citta = req.getParameter("city");
-		String durataStr = req.getParameter("length");
-		String minPostiStr = req.getParameter("minSeats");
-		String certificate = req.getParameter("certificate");
- -->
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -48,21 +30,45 @@ String stato = req.getParameter("country");
 		// da questa funzione si fa partire la ricerca
 		function doSearch()
 		{
-			if (countryDropValue === undefined || countryDropValue === null) 
+			if (countryDropValue === undefined)
 			{
-				// l'utente vuole tutti i flussi
-				alert('get all the flows');
+				document.getElementById('country').disabled = true;
 			}
-			else if (document.getElementById("sidebar").style.display=="none")
-			{ 
-				// ricerca avanzata disabilitata
-				alert('country ' + countryDropValue + ' city ' + cityDropValue);
-			} 
 			else
 			{
-				alert('country ' + countryDropValue + ' city ' + cityDropValue
-					+ ' duration ' + durationDropValue + ' seats ' + seatsDropValue 
-					+ ' certificate ' + certificateDropValue);
+				document.getElementById("country").value = countryDropValue;
+			}
+			if (cityDropValue === undefined)
+			{
+				document.getElementById('city').disabled = true;
+			}
+			else
+			{
+				document.getElementById("city").value = cityDropValue;
+			}
+			if (durationDropValue === undefined)
+			{
+				document.getElementById('length').disabled = true;
+			}
+			else
+			{
+				document.getElementById("length").value = durationDropValue;
+			}
+			if (seatsDropValue === undefined)
+			{
+				document.getElementById('minSeats').disabled = true;
+			}
+			else
+			{
+				document.getElementById("minSeats").value = seatsDropValue;
+			}
+			if (certificateDropValue === undefined)
+			{
+				document.getElementById('certificate').disabled = true;
+			}
+			else
+			{
+				document.getElementById("certificate").value = certificateDropValue;
 			}
 		}
 		// serve per la comparsa delle impostazioni di ricerca avanzata
@@ -169,142 +175,182 @@ String stato = req.getParameter("country");
 			The results are automatically filtered to show you only the Erasmus flows that start from your degree course.
 			If you do not specify any parameter you will get their full list.
 			<br><br>
-			<div class="col-md-4 text-center">
-				<div class="btn-group">
-					<button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" id="dropCountry">
-						Select a Country <span class="caret"></span>
-					</button>
-					<ul class="dropdown-menu search_scrollable_menu text-left" id="countries">
-						<c:forEach var="city" items='${cities}'>
-							<li><span>${city.country}</span></li>
-						</c:forEach>
-					</ul>
-				</div>
-			</div>
-			<div class="col-md-4 text-center" >
-				<div class="btn-group">
-					<button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" id="dropCity">
-						Select a City <span class="caret"></span>
-					</button>
-					<ul class="dropdown-menu search_scrollable_menu text-left" id="cities">
-					</ul>
-				</div>
-			</div>
-			<div class="col-md-4 text-center">
-				<button class="btn btn-primary" onclick="doSearch()"><span class="fa fa-search fa-fw"></span> Search</button>
-			</div>
-			<br><br><br>
-			<!-- Ricerca Avanzata-->
-			<div class="row text-center">
-				<div><button class="btn btn-default" onClick="comparsa()">Advanced Search</button></div>
-			</div>
-			<br>
-			<div id="sidebar" style="display:none">
-				<div class="col-md-4 text-center" >
+			<form  method="get" action="<c:url value="/flow/list"/>" enctype="plain/text">
+				<div class="col-md-4 text-center">
 					<div class="btn-group">
-						<button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" id="dropDuration">
-							Select a number of months <span class="caret"></span>
+						<button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" id="dropCountry">
+							Select a Country <span class="caret"></span>
 						</button>
-						<ul class="dropdown-menu search_scrollable_menu text-left">
-							<li><span>1</span></li>
-							<li><span>2</span></li>
-							<li><span>3</span></li>
-							<li><span>4</span></li>
-							<li><span>5</span></li>
-							<li><span>6</span></li>
-							<li><span>7</span></li>
-							<li><span>8</span></li>
-							<li><span>9</span></li>
-							<li><span>10</span></li>
-							<li><span>11</span></li>
-							<li><span>12</span></li>
+						<ul class="dropdown-menu search_scrollable_menu text-left" id="countries">
+							<c:forEach var="city" items='${cities}'>
+								<li><span>${city.country}</span></li>
+							</c:forEach>
 						</ul>
 					</div>
 				</div>
 				<div class="col-md-4 text-center" >
 					<div class="btn-group">
-						<button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" id="dropSeats">
-							Select the min available positions <span class="caret"></span>
+						<button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" id="dropCity">
+							Select a City <span class="caret"></span>
 						</button>
-						<ul class="dropdown-menu search_scrollable_menu text-left">
-							<li><span>1</span></li>
-							<li><span>2</span></li>
-							<li><span>3</span></li>
-							<li><span>4</span></li>
-							<li><span>5</span></li>
-							<li><span>6</span></li>
-							<li><span>7</span></li>
-							<li><span>8</span></li>
-							<li><span>9</span></li>
-							<li><span>10</span></li>
+						<ul class="dropdown-menu search_scrollable_menu text-left" id="cities">
 						</ul>
 					</div>
 				</div>
-				<div class="col-md-4 text-center" >
-					<div class="btn-group">
-						<button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" id="dropCertificate">
-							Select a Linguistic Certification <span class="caret"></span>
-						</button>
-						<ul class="dropdown-menu search_scrollable_menu text-left">
-						<c:forEach var="cert" items='${certificatesDomain}'>
-							<li><span>${cert.nomeLingua} - ${cert.livello}</span></li>
-						</c:forEach>
-						</ul>
+				<div class="col-md-4 text-center">
+					<button type="submit" class="btn btn-primary" onclick="doSearch()"><span class="fa fa-search fa-fw"></span> Search</button>
+				</div>
+				<br><br><br>
+				<!-- Ricerca Avanzata-->
+				<div class="row text-center">
+					<div><button class="btn btn-default" type="button" onClick="comparsa()">Advanced Search</button></div>
+				</div>
+				<br>
+				<div id="sidebar" style="display:none">
+					<div class="col-md-4 text-center" >
+						<div class="btn-group">
+							<button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" id="dropDuration">
+								Select a number of months <span class="caret"></span>
+							</button>
+							<ul class="dropdown-menu search_scrollable_menu text-left">
+								<li><span>1</span></li>
+								<li><span>2</span></li>
+								<li><span>3</span></li>
+								<li><span>4</span></li>
+								<li><span>5</span></li>
+								<li><span>6</span></li>
+								<li><span>7</span></li>
+								<li><span>8</span></li>
+								<li><span>9</span></li>
+								<li><span>10</span></li>
+								<li><span>11</span></li>
+								<li><span>12</span></li>
+							</ul>
+						</div>
+					</div>
+					<div class="col-md-4 text-center" >
+						<div class="btn-group">
+							<button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" id="dropSeats">
+								Select the min available seats <span class="caret"></span>
+							</button>
+							<ul class="dropdown-menu search_scrollable_menu text-left">
+								<li><span>1</span></li>
+								<li><span>2</span></li>
+								<li><span>3</span></li>
+								<li><span>4</span></li>
+								<li><span>5</span></li>
+								<li><span>6</span></li>
+								<li><span>7</span></li>
+								<li><span>8</span></li>
+								<li><span>9</span></li>
+								<li><span>10</span></li>
+							</ul>
+						</div>
+					</div>
+					<div class="col-md-4 text-center" >
+						<div class="btn-group">
+							<button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" id="dropCertificate">
+								Select a Linguistic Certification <span class="caret"></span>
+							</button>
+							<ul class="dropdown-menu search_scrollable_menu text-left">
+							<c:forEach var="cert" items='${certificatesDomain}'>
+								<li><span>${cert.nomeLingua} - ${cert.livello}</span></li>
+							</c:forEach>
+							</ul>
+						</div>
 					</div>
 				</div>
-			</div>
+				<input name="operation" type="hidden" value="search" />
+				<input name="country" type="hidden" id="country" />
+				<input name="city" type="hidden" id="city" />
+				<input name="length" type="hidden" id="length" />
+				<input name="minSeats" type="hidden" id="minSeats" />
+				<input name="certificate" type="hidden" id="certificate" />
+			</form>
 			<!-- fine Ricerca Avanzata -->
 			<br><br><br>
-			<!-- frase da da creare dinamicamente -->
-			<h5>Results for <strong>United Kingdom</strong>.</h5>
-			<br>
-			<table class="table table-bordered table-hover table-striped tablesorter" id="resultTable">
-				<thead>
-					<tr>
-						<th>ID</th>
-						<th>University</th>
-						<th>City</th>
-						<th>Avaible Seats</th>
-						<th>Duration</th>
-						<th>Certificates</th>
-					</tr>
-				</thead>
-				<tbody>
-				<!-- risultati da creare dinamicamente -->
-					<tr>
-						<td><a href="#" target="_blank">UK854</a></td>
-						<td><a href="#" target="_blank">Imperial College</a></td>
-						<td><a href="#" target="_blank">London</a></td>
-						<td>1</td>
-						<td>6</td>
-						<td>English C2</td>
-					</tr>
-					<tr>
-						<td><a href="#" target="_blank">UK5</a></td>
-						<td><a href="#" target="_blank">Brighton University</a></td>
-						<td><a href="#" target="_blank">Brighton</a></td>
-						<td>2</td>
-						<td>9</td>
-						<td>English B2</td>
-					</tr>
-					<tr>
-						<td><a href="#" target="_blank">UK202</a></td>
-						<td><a href="#" target="_blank">University of London</a></td>
-						<td><a href="#" target="_blank">London</a></td>
-						<td>4</td>
-						<td>6</td>
-						<td>English C1</td>
-					</tr>
-					<tr>
-						<td><a href="#" target="_blank">UK412</a></td>
-						<td><a href="#" target="_blank">Edimburgh College</a></td>
-						<td><a href="#" target="_blank">Edimburgh</a></td>
-						<td>1</td>
-						<td>6</td>
-						<td>English C1</td>
-					</tr>
-				</tbody>
-			</table>
+
+			<c:choose>
+				<c:when test="${fn:length(results) == 0}">
+					<div class="row text-center">
+						<h4>There are no results for your search.</h4>
+					</div>
+				</c:when>
+				<c:otherwise>
+					<h4><c:choose>
+					<c:when test="${empty allFlows}">
+						Results for flows						
+						<c:if test="${(not empty searchedCountry && not empty searchedCity)}" >
+							 to <strong><c:out value="${searchedCity}"/> 
+							(<c:out value="${searchedCountry}"/></strong>)
+						</c:if>			
+						<c:if test="${(not empty searchedCountry && empty searchedCity)}" >
+							 to <strong><c:out value="${searchedCountry}"/></strong>
+						</c:if>			
+								
+						<c:if test="${(not empty searchedLenght)}" >
+							 with a length of <strong><c:out value="${searchedLenght}"/></strong> months
+						</c:if>		
+						
+						<c:if test="${(not empty searchedSeats)}" >
+							 with <strong><c:out value="${searchedSeats}"/></strong> minumum available seats
+						</c:if>		
+						
+						<c:if test="${(not empty searchedCert)}" >
+							 with <strong><c:out value="${searchedCert}"/></strong> as required language certification
+						</c:if>	
+						.
+					</c:when>
+					<c:otherwise>
+						List of all the flows.
+					</c:otherwise>
+					
+					</c:choose></h4>
+					
+					
+					<br>
+					<table class="table table-bordered table-hover table-striped tablesorter" id="resultTable">
+						<thead>
+							<tr>
+								<th>ID</th>
+								<th>University</th>
+								<th>City</th>
+								<th>Avaible Seats</th>
+								<th>Duration</th>
+								<th>Certificates</th>
+							</tr>
+						</thead>
+						<tbody>
+						<c:forEach var="result" items="${results}">
+							<tr>
+								<td>
+									<a href="<c:url value="/flow"/>?id=${result.flusso.id}" target="_blank">
+										<c:out value="${result.flusso.id}"/>
+									</a>
+								</td>
+								<td>
+									<a href="<c:url value="/university"/>?name=${fn:replace(result.universita.nome, ' ', '+')}" target="_blank">
+										<c:out value="${result.universita.nome}"/>
+									</a>
+								</td>
+								<td>
+									<a href="<c:url value="/city"/>?name=${fn:replace(result.universita.nomeCitta, ' ', '+')}&country=${fn:replace(result.universita.statoCitta, ' ', '+')}" target="_blank">
+										<c:out value="${result.universita.nomeCitta}"/>
+									</a>
+								</td>
+								<td>${result.flusso.postiDisponibili}</td>
+								<td>${result.flusso.durata}</td>
+								<td>
+									<c:forEach var="certificate" items="${result.listaCertificatiLinguistici}" varStatus="loop">
+		    							${certificate.nomeLingua} - ${certificate.livello}<c:if test="${!loop.last}">, </c:if>
+									</c:forEach>
+								</td>
+							</tr>
+						</c:forEach>
+						</tbody>
+					</table>
+				</c:otherwise>
+			</c:choose>
 		</div>
 	</div>	
 	<!-- footer -->
