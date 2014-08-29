@@ -171,7 +171,7 @@ public class CittaDatabase
 		/**
 		 * SQL statement for getting, for each city, its languages 
 		 */
-		final String statement2 = "SELECT L.nome FROM Lingua AS L "
+		final String statement2 = "SELECT L.nome, L.Sigla FROM Lingua AS L "
 				+ "INNER JOIN LinguaCitta AS C ON L.Sigla = C.SiglaLingua "
 				+ "WHERE C.NomeCitta = ? AND C.StatoCitta = ?";
 		
@@ -217,11 +217,62 @@ public class CittaDatabase
 				+ "FROM Citta "
 				+ "WHERE stato = ? "
 				+ "ORDER BY nome ASC";
-		
+
 		/**
 		 * SQL statement for getting, for each city, its languages 
 		 */
-		final String statement2 = "SELECT L.nome FROM Lingua AS L "
+		final String statement2 = "SELECT L.nome, L.Sigla FROM Lingua AS L "
+				+ "INNER JOIN LinguaCitta AS C ON L.Sigla = C.SiglaLingua "
+				+ "WHERE C.NomeCitta = ? AND C.StatoCitta = ?";
+		
+		
+		// query facility
+		QueryRunner run = new QueryRunner();
+		
+		// result model
+		List<CitySearchRow> results = new ArrayList<CitySearchRow>();
+		
+		// First query
+		ResultSetHandler<List<CittaBean>> h = new BeanListHandler<CittaBean>(CittaBean.class);
+		List<CittaBean> cittaList = run.query(conn, statement1, h, stato);		
+				
+		// Queries for the languages of each city
+		for (CittaBean c : cittaList) {
+			// Gets the languages for the city
+			ResultSetHandler<List<LinguaBean>> h1 = new BeanListHandler<LinguaBean>(LinguaBean.class);
+			List<LinguaBean> lingueList = run.query(conn, statement2, h1, c.getNome(), c.getStato());
+			
+			// adding one city-result to the results list 
+			CitySearchRow resultRow = new CitySearchRow(c, lingueList);
+			results.add(resultRow);
+		}
+		
+		return results;
+	}
+	
+	/**
+	 * City search by country and language
+	 * 
+	 * @param conn The connection to the database, it will *not* be closed
+	 * @param stato the country to filter by 
+	 * @param language the language
+	 * @return a list of CitySearchRow
+	 * @throws SQLException in case of error
+	 */
+	public static List<CitySearchRow> filterCityByStatoLingua(Connection conn, String stato, String language) throws SQLException 
+	{
+		
+		/**
+		 * SQL statement for getting the cities
+		 */
+		final String statement1 = "SELECT NomeCitta AS Nome, StatoCitta AS stato FROM LinguaCitta "
+				+ "WHERE siglalingua = ? AND StatoCitta = ? "
+				+ "ORDER BY Nome ASC";
+
+		/**
+		 * SQL statement for getting, for each city, its languages 
+		 */
+		final String statement2 = "SELECT L.nome, L.Sigla FROM Lingua AS L "
 				+ "INNER JOIN LinguaCitta AS C ON L.Sigla = C.SiglaLingua "
 				+ "WHERE C.NomeCitta = ? AND C.StatoCitta = ?";
 		
@@ -233,7 +284,7 @@ public class CittaDatabase
 		
 		// First query
 		ResultSetHandler<List<CittaBean>> h = new BeanListHandler<CittaBean>(CittaBean.class);
-		List<CittaBean> cittaList = run.query(conn, statement1, h, stato);		
+		List<CittaBean> cittaList = run.query(conn, statement1, h, language, stato);		
 				
 		// Queries for the languages of each city
 		for (CittaBean c : cittaList) {
