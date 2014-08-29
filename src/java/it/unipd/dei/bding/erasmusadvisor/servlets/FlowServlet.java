@@ -279,11 +279,19 @@ public class FlowServlet extends AbstractDatabaseServlet {
 		
 		// Populating beans from FORM parameters
 		flussoBean = new FlussoBean();
-		flussoBean.setId(request.getParameter("name"));
-		flussoBean.setDestinazione(request.getParameter("university"));
-		flussoBean.setPostiDisponibili(Integer.parseInt(request.getParameter("seats")));
-		flussoBean.setDurata(Integer.parseInt(request.getParameter("length")));
-		flussoBean.setDettagli(request.getParameter("details"));
+		try {
+			flussoBean.setId(request.getParameter("name"));
+			flussoBean.setDestinazione(request.getParameter("university"));
+			flussoBean.setPostiDisponibili(Integer.parseInt(request.getParameter("seats")));
+			flussoBean.setDurata(Integer.parseInt(request.getParameter("length")));
+			flussoBean.setDettagli(request.getParameter("details"));
+		
+		} catch (NumberFormatException ex) {
+			m = new Message("Invalid input parameters.", "E100", ex.getMessage());
+			request.setAttribute("message", m);
+			errorForward(request, response);
+			return;
+		}
 		
 		// Additional settings for the bean
 		flussoBean.setRespFlusso(lu.getUser());
