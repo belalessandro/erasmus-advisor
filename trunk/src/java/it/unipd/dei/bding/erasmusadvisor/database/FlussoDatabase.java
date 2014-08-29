@@ -191,8 +191,8 @@ public class FlussoDatabase
 				+ "F.PostiDisponibili, F.Durata, F.Destinazione FROM Flusso AS F "
 				+ "JOIN Universita AS U ON F.Destinazione = U.Nome "
 				+ "JOIN Documentazione AS D ON F.Id = D.IdFlusso "
-				+ "WHERE (? IS NULL OR U.NomeCitta = ?) " // by NomeCitta
-				+ "AND (? IS NULL OR U.StatoCitta = ?) " // by StatoCitta
+				+ "WHERE (? IS NULL OR U.StatoCitta = ?) " // by StatoCitta
+				+ "AND (? IS NULL OR U.NomeCitta = ?) " // by NomeCitta
 				+ "AND (? IS NULL OR F.Durata = ?) " // by Durata
 				+ "AND (? IS NULL OR F.PostiDisponibili >= ?) " // by min. PostiDisponibili
 				+ "AND (? IS NULL OR (D.NomeCertificato = ? AND D.LivelloCertificato = ?)) " // by Certificato
