@@ -9,11 +9,15 @@ import it.unipd.dei.bding.erasmusadvisor.beans.CittaBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.LinguaBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.UniversitaBean;
 import it.unipd.dei.bding.erasmusadvisor.database.CittaDatabase;
+import it.unipd.dei.bding.erasmusadvisor.database.FlussoDatabase;
 import it.unipd.dei.bding.erasmusadvisor.database.GetAreaValues;
 import it.unipd.dei.bding.erasmusadvisor.database.GetCertificatiLinguisticiValues;
 import it.unipd.dei.bding.erasmusadvisor.database.GetLinguaValues;
+import it.unipd.dei.bding.erasmusadvisor.database.GetStatoValues;
 import it.unipd.dei.bding.erasmusadvisor.database.GetUniversitaValues;
+import it.unipd.dei.bding.erasmusadvisor.resources.CitySearchRow;
 import it.unipd.dei.bding.erasmusadvisor.resources.CountryCityListBean;
+import it.unipd.dei.bding.erasmusadvisor.resources.FlowSearchRow;
 import it.unipd.dei.bding.erasmusadvisor.resources.Message;
 
 import java.io.IOException;
@@ -33,45 +37,128 @@ import org.apache.commons.dbutils.DbUtils;
  */
 public class FlowListServlet extends AbstractDatabaseServlet 
 {
+	/**
+	 * Operation constants
+	 */
+	private final static String SEARCH = "search";
+	
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException 
 	{
+		// incoming parameters
 		String operation = req.getParameter("operation");
+		
 		if (operation != null && !operation.isEmpty()
-				&& operation.equals("search")) {
-	
-		}
-		else { 
-			/* Redirect to the Search JSP page */
+				&& operation.equals(SEARCH)) {
+			/**
+			 * SEARCH
+			 */
+			search(req, resp);
 
-			List<CertificatiLinguisticiBean> certificatesDomain = null;
-			List<CittaBean> cities = null;
-			Connection conn = null;
-			Message m = null;
-			
-			try {
-				conn = DS.getConnection();
-				certificatesDomain = GetCertificatiLinguisticiValues.getCertificatiLinguisticiDomain(conn);
-				cities = CittaDatabase.getAllSortByCountry(conn);
-			} 
-			catch (SQLException ex) {
-				m = new Message("Error while getting the search page.", "XXX", ex.getMessage());
-			} 
-			finally {
-				DbUtils.closeQuietly(conn); // always closes the connection 
-			}
-	
-			if (m == null)
-			{
-				req.setAttribute("certificatesDomain", certificatesDomain);
-				req.setAttribute("cities", (new CountryCityListBean()).initialize(cities));
-				getServletContext().getRequestDispatcher("/jsp/search_flow.jsp").forward(req, resp);
-			}
-			else
-			{
-				req.setAttribute("message", m);
-				getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(req, resp);
-			}
+		} else {
+			/**
+			 * default: PRELOAD FORM
+			 */
+			preload(req, resp);
+
 		}
+	}
+	
+	private void search(HttpServletRequest req, HttpServletResponse resp)
+			throws ServletException, IOException {
+
+		// Incoming parameters for the search filter
+		String stato = req.getParameter("country");
+		String citta = req.getParameter("city");
+		String durataStr = req.getParameter("length");
+		String minPostiStr = req.getParameter("minSeats");
+		String certificate = req.getParameter("certificate");
+		
+		// Pre-processing parameters
+		Integer durata = (durataStr != null ? Integer.parseInt(durataStr) : null);
+		Integer minPosti = (minPostiStr != null ? Integer.parseInt(minPostiStr) : null);
+		String nomeCertificato = certificate.split("-")[0].trim(); // "ITA - B2" -> ITA
+		String livelloCertificato = certificate.split("-")[1].trim(); // "ITA - B2" -> B2
+
+		// model
+		Message m = null;
+		List<FlowSearchRow> results = null;
+		List<CertificatiLinguisticiBean> certificatesDomain = null;
+		List<CittaBean> cities = null;
+		
+		// database connection
+		Connection conn = null;
+
+		try {
+
+			conn = DS.getConnection();
+			
+			results = FlussoDatabase.filterFlowBy(conn, stato, citta, durata, 
+					minPosti, nomeCertificato, livelloCertificato);
+			
+			// Pre-charging form values
+			certificatesDomain = GetCertificatiLinguisticiValues.getCertificatiLinguisticiDomain(conn);
+			cities = CittaDatabase.getAllSortByCountry(conn);
+			
+		} catch (SQLException ex) {
+			m = new Message("Error while getting the flow list.",
+					"XXX", ex.getMessage());
+			req.setAttribute("message", m);
+			errorForward(req, resp);
+			return;
+		} finally {
+			DbUtils.closeQuietly(conn); // *always* close the connection
+		}
+		
+
+		// Send data to the view 
+		req.setAttribute("results", results);
+		req.setAttribute("certificatesDomain", certificatesDomain);
+		req.setAttribute("cities", (new CountryCityListBean()).initialize(cities));
+
+		/* Forward to the Search JSP page */
+		getServletContext().getRequestDispatcher("/jsp/search_flow.jsp").forward(req, resp);
+	}
+	
+	private void errorForward(HttpServletRequest request, HttpServletResponse response) 
+    		throws ServletException, IOException  {
+    	// Error management
+        	
+    	//Message m = new Message("Error while updating the city.","XXX", "");
+    	//request.setAttribute("message", m);
+    		
+    	getServletContext().getRequestDispatcher("/jsp/error.jsp")
+    		.forward(request, response); // ERROR PAGE
+    }
+	
+	private void preload(HttpServletRequest req, HttpServletResponse resp)
+			throws ServletException, IOException {
+		// model, beans and connection
+		List<CertificatiLinguisticiBean> certificatesDomain = null;
+		List<CittaBean> cities = null;
+		Connection conn = null;
+		Message m = null;
+		
+		try {
+			conn = DS.getConnection();
+			certificatesDomain = GetCertificatiLinguisticiValues.getCertificatiLinguisticiDomain(conn);
+			cities = CittaDatabase.getAllSortByCountry(conn);
+		} 
+		catch (SQLException ex) {
+			m = new Message("Error while getting the search page.", "XXX", ex.getMessage());
+			req.setAttribute("message", m);
+			errorForward(req, resp);
+			return;
+		} 
+		finally {
+			DbUtils.closeQuietly(conn); // always closes the connection 
+		}
+
+		// Send data to the view 
+		req.setAttribute("certificatesDomain", certificatesDomain);
+		req.setAttribute("cities", (new CountryCityListBean()).initialize(cities));
+		
+		/* Forward to the Search JSP page */
+		getServletContext().getRequestDispatcher("/jsp/search_flow.jsp").forward(req, resp);
 	}
 }
