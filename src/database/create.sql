@@ -230,7 +230,7 @@ UNIQUE (Nome, Crediti, NomeUniversita)
 CREATE TABLE ArgomentoTesi
 (
 Id SERIAL,
-Nome VARCHAR(40) NOT NULL,
+Nome TEXT NOT NULL,
 NomeUniversita VARCHAR(80),
 Triennale BOOLEAN NOT NULL,
 Magistrale BOOLEAN NOT NULL,

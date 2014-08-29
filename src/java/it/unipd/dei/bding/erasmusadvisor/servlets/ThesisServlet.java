@@ -59,12 +59,6 @@ public class ThesisServlet extends AbstractDatabaseServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException 
 	{
-		
-		// TODO: Errore anche per le tesi sono presenti più professori
-		// modificare Notifications.java
-		// modificare user_notifications.jsp
-		// modificare CoordinatoreDatabase.java
-		
 		String ID = req.getParameter("id");
 
 		if (ID == null || ID.isEmpty()) 

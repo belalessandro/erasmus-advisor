@@ -81,7 +81,7 @@ public class CoordinatoreDatabase
 		List<InsegnamentoBean> classes = null;
 		ArrayList<List<ProfessoreBean>> classProfessors = new ArrayList<List<ProfessoreBean>>();
 		List<ArgomentoTesiBean> thesis = null;
-		ArrayList<ProfessoreBean> thesisProfessors = new ArrayList<ProfessoreBean>();
+		ArrayList<List<ProfessoreBean>> thesisProfessors = new ArrayList<List<ProfessoreBean>>();
 		
 		// statements
 		final StringBuilder getResponsabiliFlusso = new StringBuilder()
@@ -115,7 +115,7 @@ public class CoordinatoreDatabase
 		ResultSetHandler<List<InsegnamentoBean>> rshClasses = new BeanListHandler<InsegnamentoBean>(InsegnamentoBean.class);
 		ResultSetHandler<List<ProfessoreBean>> rshClassProfessors = new BeanListHandler<ProfessoreBean>(ProfessoreBean.class);
 		ResultSetHandler<List<ArgomentoTesiBean>> rshThesis = new BeanListHandler<ArgomentoTesiBean>(ArgomentoTesiBean.class);
-		ResultSetHandler<ProfessoreBean> rshThesisProfessors = new BeanHandler<ProfessoreBean>(ProfessoreBean.class);
+		ResultSetHandler<List<ProfessoreBean>> rshThesisProfessors = new BeanListHandler<ProfessoreBean>(ProfessoreBean.class);
 		
 		// executing the query
 		flowManagers = run.query(con, getResponsabiliFlusso.toString(), rshResponsabiliFlusso, username);

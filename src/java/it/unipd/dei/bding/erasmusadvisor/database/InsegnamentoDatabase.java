@@ -160,9 +160,24 @@ public class InsegnamentoDatabase
 	public static void changeClassStatus(Connection con, String status, int id) throws SQLException 
 	{
 		final String sql = "UPDATE Insegnamento SET stato = CAST(? AS STATO) WHERE id = ?;";
+		PreparedStatement pstmt = null;
 		
-		QueryRunner run = new QueryRunner();
+		pstmt = con.prepareStatement(sql);
 		
-		run.update(con, sql, status, id);
+		try{
+			pstmt.setString(1, status);
+			pstmt.setInt(2, id);
+			
+			pstmt.execute();
+			DbUtils.close(con);
+			
+		} catch(SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DbUtils.closeQuietly(con);	
+		}
+//		QueryRunner run = new QueryRunner();
+//		
+//		run.update(con, sql, status, id);
 	}
 }

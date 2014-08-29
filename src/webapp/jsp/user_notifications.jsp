@@ -90,7 +90,7 @@
 					// parent node of accept/discard buttons (hiding the content)
 					var td = $(button_accept).parent();
 					
-					$(td).html("&nbsp;");
+					$(td).html("<span>&nbsp;</span>");
 					
 					// parent node of td cell (change content color)
 					var tr = $(td).parent();
@@ -109,7 +109,7 @@
 					// parent node of accept/discard buttons (hiding the content)
 					var td = $(button_accept).parent();
 					
-					$(td).html("&nbsp;");
+					$(td).html("<span>&nbsp;</span>");
 					
 					// parent node of td cell (change content color)
 					var tr = $(td).parent();
@@ -206,6 +206,7 @@
 						<th>Name</th>
 						<th>University</th>
 						<th>Professors</th>
+						<th>State<th>
 					</tr>
 				</thead>
 				<tbody>
@@ -226,6 +227,7 @@
 									</tbody>
 								</table>
 							</td>
+							<td class="status">To Be Approved</td>
 						</tr>
 					</c:forEach>
 				</tbody>
@@ -241,22 +243,32 @@
 			<table class="table table-condensed table-hover table-striped tablesorter" id="thesisTable">
 				<thead>
 					<tr>
-						<th></th>
+						<th>Actions</th>
 						<th>Name</th>
 						<th>University</th>
 						<th>Professor</th>
+						<th>State<th>
 					</tr>
 				</thead>
 				<tbody>
-					<c:forEach var="thesis" items="${theses}" varStatus="counter">
+					<c:forEach var="thesis" items="${theses}"  varStatus="counter">
 						<tr class="danger">
 							<td>
 								<button onclick="acceptDiscardButtonClick(<c:out value="${thesis.id}"/>, 'thesis', 'accept', event)" type="button" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-ok"></span></button>
 								<button onclick="acceptDiscardButtonClick(<c:out value="${thesis.id}"/>, 'thesis', 'discard', event)" type="button" class="btn btn-default btn-xs"><span class="glyphicon glyphicon glyphicon-remove"></span></button>
 							</td>
-							<td><a href="<c:url value="/thesis?id="/><c:out value="${thesis.id}"/>" target="_blank"><c:out value="${thesis.nome}"/></a></td>
+							<td><a href="<c:url value="/class?id="/><c:out value="${thesis.id}"/>" target="_blank"><c:out value="${thesis.nome}"/></a></td>
 							<td><c:out value="${thesis.nomeUniversita}"/></td>
-							<td><c:out value="${thesisProfessors[counter.index].nome} ${thesisProfessors[counter.index].cognome}"/></td>
+							<td>
+								<table>
+									<tbody>
+										<c:forEach var="professor" items="${thesisProfessors[counter.index]}">
+										<tr><td><c:out value="${professor.nome} ${professor.cognome}"/></td></tr>
+										</c:forEach>		
+									</tbody>
+								</table>
+							</td>
+							<td class="status">To Be Approved</td>
 						</tr>
 					</c:forEach>
 				</tbody>
