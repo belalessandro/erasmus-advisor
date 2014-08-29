@@ -57,24 +57,32 @@ public class CorsoDiLaureaDatabase  {
 		
 		return generatedId;
 	}
+
 	/**
 	 * Get all the degree courses in a Flow Manager University
-	 * @param conn A connection to the database.
+	 * 
+	 * @param conn
+	 *            A connection to the database.
+	 * @param manager
+	 *            A ResponsabileFlussoBean with a specified NomeUtente
 	 * @return a list of degree courses
-	 * @throws SQLException If an error occurs running the SQL query.
+	 * @throws SQLException
+	 *             If an error occurs running the SQL query.
 	 */
-	public static List<CorsoDiLaureaBean> getPossibleCourses(Connection conn, ResponsabileFlussoBean manager) 
-			throws SQLException
-	{
-		final String statement = "SELECT * FROM CorsoDiLaurea WHERE NomeUniversita = ?"; 
-		
+	public static List<CorsoDiLaureaBean> getPossibleCourses(Connection conn,
+			ResponsabileFlussoBean manager) throws SQLException {
+		final String statement = "SELECT * FROM CorsoDiLaurea "
+				+ "WHERE NomeUniversita in "
+				+ "(SELECT NomeUniversita FROM ResponsabileFlusso WHERE NomeUtente = ?)";
+
 		QueryRunner run = new QueryRunner();
-		
+
 		List<CorsoDiLaureaBean> list = null;
-		
-		ResultSetHandler<List<CorsoDiLaureaBean>> h1 = new BeanListHandler<CorsoDiLaureaBean>(CorsoDiLaureaBean.class);
-		list = run.query(conn, statement, h1, manager.getNomeUniversita());
-				
+
+		ResultSetHandler<List<CorsoDiLaureaBean>> h1 = new BeanListHandler<CorsoDiLaureaBean>(
+				CorsoDiLaureaBean.class);
+		list = run.query(conn, statement, h1, manager.getNomeUtente());
+
 		return list;
 	}
 }

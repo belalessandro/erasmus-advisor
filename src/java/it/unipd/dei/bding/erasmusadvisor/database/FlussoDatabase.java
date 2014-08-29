@@ -203,6 +203,7 @@ public class FlussoDatabase
 				+ "AND (? IS NULL OR F.PostiDisponibili >= ?) " // by min. PostiDisponibili (optional)
 				+ "AND (? IS NULL OR (D.NomeCertificato = ? "
 					+ "AND D.LivelloCertificato = ?)) " // by Certificato (optional)
+				+ "AND F.Attivo = TRUE " // Only *active* flows
 				+ "ORDER BY F.Id ASC";
 		
 		/**

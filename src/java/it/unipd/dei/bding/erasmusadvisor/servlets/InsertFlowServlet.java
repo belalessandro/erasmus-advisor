@@ -44,8 +44,7 @@ public class InsertFlowServlet extends AbstractDatabaseServlet {
 		// if !lu.isResp()... => ERROR
 		
 		ResponsabileFlussoBean flowResp = new ResponsabileFlussoBean();
-		// flowResp <- SELECT * from ResponsabileFlusso where lu.getUser() 
-		flowResp.setNomeUniversita("University of Copenhagen");// TODO ale: sostituire con il populate da db
+		flowResp.setNomeUtente("pilu");
 		
 		List<CertificatiLinguisticiBean> certificatesDomain = null;
 		List<CorsoDiLaureaBean> possibleCourses = null;
