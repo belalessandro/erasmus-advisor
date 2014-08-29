@@ -1,7 +1,24 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<!-- i risultati della ricerca sono visualizzati in Ajax -->
+<!-- IN:
+
+		req.setAttribute("results", results);
+		
+		dove results è una List di:
+		
+		FlowSearchRow {
+	private FlussoBean flusso;
+	private UniversitaBean universita;
+	private List<CertificatiLinguisticiBean> listaCertificatiLinguistici;
+
+OUT: 
+String stato = req.getParameter("country");
+		String citta = req.getParameter("city");
+		String durataStr = req.getParameter("length");
+		String minPostiStr = req.getParameter("minSeats");
+		String certificate = req.getParameter("certificate");
+ -->
 
 <!DOCTYPE html>
 <html lang="en">
