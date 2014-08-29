@@ -2,9 +2,11 @@ package it.unipd.dei.bding.erasmusadvisor.servlets;
 
 import it.unipd.dei.bding.erasmusadvisor.beans.AreaBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.LinguaBean;
+import it.unipd.dei.bding.erasmusadvisor.beans.UniversitaBean;
 import it.unipd.dei.bding.erasmusadvisor.database.ArgomentoTesiDatabase;
 import it.unipd.dei.bding.erasmusadvisor.database.GetAreaValues;
 import it.unipd.dei.bding.erasmusadvisor.database.GetLinguaValues;
+import it.unipd.dei.bding.erasmusadvisor.database.GetUniversitaValues;
 import it.unipd.dei.bding.erasmusadvisor.resources.Message;
 import it.unipd.dei.bding.erasmusadvisor.resources.ThesisSearchRow;
 
@@ -72,6 +74,7 @@ public class ThesisListServlet extends AbstractDatabaseServlet {
 		List<ThesisSearchRow> results = null;
 		List<AreaBean> areaDomain = null;
 		List<LinguaBean> languageDomain = null;
+		List<UniversitaBean> universityDomain = null;
 		
 		// database connection
 		Connection conn = null;
@@ -85,6 +88,7 @@ public class ThesisListServlet extends AbstractDatabaseServlet {
 			// Pre-charging form values
 			languageDomain = GetLinguaValues.getLinguaDomain(conn);
 			areaDomain = GetAreaValues.getAreaDomain(conn);
+			universityDomain = GetUniversitaValues.getDomain(conn);
 			
 		} catch (SQLException ex) {
 			m = new Message("Error while getting the thesis list.",
@@ -101,6 +105,7 @@ public class ThesisListServlet extends AbstractDatabaseServlet {
 		req.setAttribute("results", results);
 		req.setAttribute("languageDomain", languageDomain);
 		req.setAttribute("areaDomain", areaDomain);
+		req.setAttribute("universities", universityDomain);
 
 		/* Forward to the Search JSP page */
 		getServletContext().getRequestDispatcher("/jsp/search_thesis.jsp").forward(req, resp);
@@ -112,6 +117,7 @@ public class ThesisListServlet extends AbstractDatabaseServlet {
 		
 		List<AreaBean> areaDomain = null;
 		List<LinguaBean> languageDomain = null;
+		List<UniversitaBean> universityDomain = null;
 		Connection conn = null;
 		Message m = null;
 		
@@ -119,6 +125,7 @@ public class ThesisListServlet extends AbstractDatabaseServlet {
 			conn = DS.getConnection();
 			languageDomain = GetLinguaValues.getLinguaDomain(conn);
 			areaDomain = GetAreaValues.getAreaDomain(conn);
+			universityDomain = GetUniversitaValues.getDomain(conn);
 		} 
 		catch (SQLException ex) {
 			m = new Message("Error while getting the thesis list.", "XXX", ex.getMessage());
@@ -133,6 +140,7 @@ public class ThesisListServlet extends AbstractDatabaseServlet {
 		// Send data to the view 
 		req.setAttribute("languageDomain", languageDomain);
 		req.setAttribute("areaDomain", areaDomain);
+		req.setAttribute("universities", universityDomain);
 		
 		/* Forward to the Search JSP page */
 		getServletContext().getRequestDispatcher("/jsp/search_thesis.jsp").forward(req, resp);
