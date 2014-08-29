@@ -66,6 +66,11 @@ public class CityListServlet extends AbstractDatabaseServlet {
 		String stato = req.getParameter("country");
 		String siglaLingua = req.getParameter("language");
 		
+		if (stato.equals("undefined"))
+			stato = null;
+		if (siglaLingua.equals("undefined"))
+			siglaLingua = null;
+
 		// model
 		Message m = null;
 		List<CitySearchRow> results = null;
@@ -79,10 +84,19 @@ public class CityListServlet extends AbstractDatabaseServlet {
 
 			conn = DS.getConnection();
 			
-			if (siglaLingua != null) { // Filter By SiglaLingua
+			if (siglaLingua != null && stato != null)
+			{
+				results = CittaDatabase.filterCityByStatoLingua(conn, stato, siglaLingua);
+			}
+			else if (siglaLingua != null) { // Filter By SiglaLingua
 				results = CittaDatabase.filterCityBySiglaLingua(conn, siglaLingua);
-			} else { // Filter By Stato
+			} 
+			else if (stato != null) { // Filter By Stato
 				results = CittaDatabase.filterCityByStato(conn, stato);
+			}
+			else
+			{ // parametri errati, brutto ma è un work around
+				throw new SQLException();
 			}
 			
 			// Pre-charging form values
@@ -104,6 +118,11 @@ public class CityListServlet extends AbstractDatabaseServlet {
 		req.setAttribute("results", results);
 		req.setAttribute("languageDomain", languageDomain);
 		req.setAttribute("countries", countries);
+
+		if (stato != null)
+			req.setAttribute("searchedCountry", stato);
+		if (siglaLingua != null)
+			req.setAttribute("searchedLanguage", siglaLingua);
 
 		/* Forward to the Search JSP page */
 		getServletContext().getRequestDispatcher("/jsp/search_city.jsp").forward(req, resp);
