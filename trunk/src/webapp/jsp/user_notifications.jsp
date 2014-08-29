@@ -29,25 +29,24 @@
 	<script src="<c:url value="/js"/>/ea-insert.js"></script>  
 	
 	<script>
-	// inizializza tablesorter
 	$(function() 
    	{ 
-// 		mauro: mo' sta roba che serve?
-//        	$("#coordinatorTable").tablesorter({ 
-// 	        headers: { 
-// 	            0: { sorter: false }
-// 	        } 
-// 	    });
-//        	$("#classTable").tablesorter({ 
-// 	        headers: { 
-// 	            0: { sorter: false }
-// 	        } 
-// 	    });
-//        	$("#thesisTable").tablesorter({ 
-// 	        headers: { 
-// 	            0: { sorter: false }
-// 	        } 
-// 	    });
+		// inizializza tablesorter, la funzione che permette di ordinare le voci delle tabelle
+        $("#coordinatorTable").tablesorter({ 
+ 	        headers: { 
+ 	            0: { sorter: false }
+ 	        } 
+ 	    });
+        $("#classTable").tablesorter({ 
+	 	        headers: { 
+ 	            0: { sorter: false }
+ 	        } 
+ 	    });
+        $("#thesisTable").tablesorter({ 
+ 	        headers: { 
+ 	            0: { sorter: false }
+ 	        } 
+	    });
 
 		
   	}); 
