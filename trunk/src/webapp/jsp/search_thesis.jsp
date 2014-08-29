@@ -75,6 +75,8 @@
 		$(document).ready(function() 
     	{ 
         	$("#resultTable").tablesorter();
+        	$("th.idThesis").hide();
+         	$("td.idThesis").hide();     	
    		}); 
 	</script>
 </head>
@@ -171,6 +173,7 @@
 			<table class="table table-bordered table-hover table-striped tablesorter" id="resultTable">
 				<thead>
 					<tr>
+						<th class="idThesis">ID</th>
 						<th>Name</th>
 						<th>University</th>
 						<th>Other Areas</th>
@@ -184,8 +187,9 @@
 				<c:if test='${not empty results}'> 
 				<c:forEach var="thesis" items="${results}">
 					<tr>
-						<td><c:out value="${thesis.arg.nome}"/></td>
-						<td><c:out value="${thesis.arg.nomeUniversita}"/></td>
+						<td class="idThesis"><c:out value="${thesis.arg.id}"/></td>
+						<td><a href="#" target="_blank"><c:out value="${thesis.arg.nome}"/></a></td>
+						<td><a href="#" target="_blank"><c:out value="${thesis.arg.nomeUniversita}"/></a></td>
 						<td><c:forEach var="area" items="${thesis.listaAree}" varStatus="status"><c:out value="${area.nome}"/><c:if test="${!status.last}"><br></c:if></c:forEach></td>
 						<td><c:if test='${thesis.arg.triennale}'>UNDERGRADUATE<br></c:if><c:if test='${thesis.arg.magistrale}'>GRADUATE<br></c:if></td>
 						<td><c:forEach var="language" items="${thesis.listaLingue}" varStatus="status"><c:out value="${language.nome}"/><c:if test="${!status.last}"><br></c:if></c:forEach></td>

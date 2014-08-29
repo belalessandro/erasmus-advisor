@@ -1,34 +1,16 @@
 package it.unipd.dei.bding.erasmusadvisor.test;
 
-import it.unipd.dei.bding.erasmusadvisor.beans.ArgomentoTesiBean;
-
-import it.unipd.dei.bding.erasmusadvisor.beans.CittaBean;
-import it.unipd.dei.bding.erasmusadvisor.beans.DocumentazioneBean;
-import it.unipd.dei.bding.erasmusadvisor.beans.FlussoBean;
-import it.unipd.dei.bding.erasmusadvisor.beans.GestioneBean;
-import it.unipd.dei.bding.erasmusadvisor.beans.InsegnamentoBean;
-import it.unipd.dei.bding.erasmusadvisor.beans.LinguaCittaBean;
-import it.unipd.dei.bding.erasmusadvisor.beans.LinguaTesiBean;
-import it.unipd.dei.bding.erasmusadvisor.beans.OrigineBean;
-import it.unipd.dei.bding.erasmusadvisor.beans.ProfessoreBean;
-import it.unipd.dei.bding.erasmusadvisor.beans.SvolgimentoBean;
-import it.unipd.dei.bding.erasmusadvisor.beans.UniversitaBean;
-import it.unipd.dei.bding.erasmusadvisor.beans.ValutazioneUniversitaBean;
 import it.unipd.dei.bding.erasmusadvisor.database.ArgomentoTesiDatabase;
-import it.unipd.dei.bding.erasmusadvisor.resources.Thesis;
 import it.unipd.dei.bding.erasmusadvisor.resources.ThesisSearchRow;
 
 import java.io.FileNotFoundException;
 import java.io.UnsupportedEncodingException;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.util.List;
-
-import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.dbutils.DbUtils;
-import org.apache.tomcat.jdbc.pool.DataSource;
+
 
 public class TestArgomentoTesiDatabase {
 
