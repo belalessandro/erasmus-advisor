@@ -187,7 +187,8 @@ public class FlussoDatabase
 		/**
 		 * SQL statement for getting the flow ID's with the specified conditions
 		 */
-		final String statement1 = "SELECT F.Id FROM Flusso AS F "
+		final String statement1 = "SELECT DISTINCT F.Id, "
+				+ "F.PostiDisponibili, F.Durata, F.Destinazione FROM Flusso AS F "
 				+ "JOIN Universita AS U ON F.Destinazione = U.Nome "
 				+ "JOIN Documentazione AS D ON F.Id = D.IdFlusso "
 				+ "WHERE (? IS NULL OR U.NomeCitta = ?) " // by NomeCitta
@@ -200,10 +201,8 @@ public class FlussoDatabase
 		/**
 		 * SQL statement for getting, for each flow, the other row fields
 		 */
-		final String statement2 = "SELECT U.nome, U.nomeCitta, F.PostiDisponibili, F.Durata "
-				+ "FROM Universita AS U "
-				+ "INNER JOIN Flusso AS F ON L.Sigla = C.SiglaLingua "
-				+ "WHERE F.Id = ? ";
+		final String statement2 = "SELECT nome, nomeCitta, statoCitta FROM Universita "
+				+ "WHERE nome = ? ";
 
 		final String statement3 = "SELECT NomeCertificato AS NomeLingua, LivelloCertificato AS Livello "
 				+ "FROM Documentazione "
@@ -244,16 +243,19 @@ public class FlussoDatabase
 		}
 		
 		// Queries for other row fields
-		for (FlussoBean c : flussoList) {
+		for (FlussoBean f : flussoList) {
+			// Gets the destination university of the flow
+			ResultSetHandler<UniversitaBean> h1 = 
+				new BeanHandler<UniversitaBean>(UniversitaBean.class);
+			UniversitaBean universita = run.query(conn, statement2, h1, f.getDestinazione());
+			
 			// Gets the certifications for the flow
-			ResultSetHandler<List<CertificatiLinguisticiBean>> h1 = 
+			ResultSetHandler<List<CertificatiLinguisticiBean>> h2 = 
 					new BeanListHandler<CertificatiLinguisticiBean>(CertificatiLinguisticiBean.class);
-			List<CertificatiLinguisticiBean> docList = run.query(conn, statement2, h1, c.getId());
+			List<CertificatiLinguisticiBean> docList = run.query(conn, statement3, h2, f.getId());
 			
-			// adding one city-result to the results list 
-			
-			
-			FlowSearchRow resultRow = new FlowSearchRow(c, null, docList);
+			// adding one flow-result to the results list 
+			FlowSearchRow resultRow = new FlowSearchRow(f, universita, docList);
 			results.add(resultRow);
 		}
 		
