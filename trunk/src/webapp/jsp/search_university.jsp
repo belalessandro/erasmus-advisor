@@ -140,7 +140,7 @@
 			<!-- Niente ricerca avanzata qui, non ha molto senso IMHO-->
 			<br><br><br>
 			<!-- frase da da creare dinamicamente -->
-			<h5>Results for <strong>Italy</strong>.</h5>
+			<h4><c:out value="${str}"/></h4>
 			<br>
 			<table class="table table-bordered table-hover table-striped tablesorter" id="resultTable">
 				<thead>
