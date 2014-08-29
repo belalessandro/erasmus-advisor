@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -24,14 +25,49 @@
 		var universityDropValue;
 		var levelDropValue;
 		var languageDropValue;
-		var operation = 'search';
+		
 		// da questa funzione si fa partire la ricerca
 		function doSearch()
 		{
+			document.getElementById("area").value = areaDropValue;
+			document.getElementById("university").value = universityDropValue;
+			document.getElementById("level").value = levelDropValue;
+			document.getElementById("language").value = languageDropValue;
+			
+/* 			if (areaDropValue === undefined)
+			{
+				document.getElementById('area').disabled = true;
+			}
+			else
+			{
 				document.getElementById("area").value = areaDropValue;
+			}
+			if (universityDropValue === undefined)
+			{
+				document.getElementById('university').disabled = true;
+			}
+			else
+			{
 				document.getElementById("university").value = universityDropValue;
+			}
+			
+			if (levelDropValue === undefined)
+			{
+				document.getElementById('level').disabled = true;
+			}
+			else
+			{
 				document.getElementById("level").value = levelDropValue;
+			}
+			
+			if (languageDropValue === undefined)
+			{
+				document.getElementById('language').disabled = true;
+			}
+			else
+			{
 				document.getElementById("language").value = languageDropValue;
+			} */
 		}
 		
 		// serve per la comparsa delle impostazioni di ricerca avanzata
@@ -94,8 +130,6 @@
 		<div class="col-md-9 general_main_border">
 			<h2 class="text-center">Search a Thesis</h2>
 			<br>
-			<!-- Notare che potrebbe essere meglio inserire un altro dropdown che ad esempio permetta di selezionare 
-			lo stato in cui si trova l'università e da lì aggiornare l'altro.-->
 			<form  method="get" action="<c:url value="/thesis/list"/>" enctype="plain/text">
 				<input name="operation" type="hidden" value="search" />
 				<div class="col-md-4 text-center">
@@ -164,44 +198,75 @@
 			</form>
 			<!-- fine Ricerca Avanzata -->
 			<br><br><br>
-			<!-- frase da da creare dinamicamente -->
-			<c:set var="found" scope="session" value="false"/>
-			<%-- <c:if test='${not empty results}'> 
-			<h5>Results for <strong>${areaSearch}</strong> in <strong>${universitySearch}</strong>.</h5>
-			</c:if> --%>
-			<br>
-			<table class="table table-bordered table-hover table-striped tablesorter" id="resultTable">
-				<thead>
-					<tr>
-						<th class="idThesis">ID</th>
-						<th>Name</th>
-						<th>University</th>
-						<th>Other Areas</th>
-						<th>Level</th>
-						<th>Languages</th>
-						<th>Professors</th>
-					</tr>
-				</thead>
-				
-				<tbody>
-					<c:if test='${not empty results}'> 
-						<c:forEach var="thesis" items="${results}">
+			
+			
+			<c:choose>
+				<c:when test="${fn:length(results) == 0}">
+					<div class="row text-center">
+						<h4>There are no results for your search.</h4>
+					</div>
+				</c:when>
+				<c:otherwise>
+					<h4>
+					<c:choose>
+						<c:when test="${empty allThesis}">
+							Results for theses 
+							<c:if test="${(not empty searchedArea)}" >
+								in the "<strong><c:out value="${searchedArea}"/></strong>" area 
+							</c:if>
+							<c:if test="${(not empty searchedUniversity)}" >
+								in <strong><c:out value="${searchedUniversity}"/></strong> 
+							</c:if>
+							<c:if test="${(not empty searchedLevel)}" >
+								for <strong><c:out value="${searchedLevel}"/></strong> students
+							</c:if>
+							<c:if test="${(not empty searchedLanguage)}" >
+								in <strong><c:out value="${searchedLanguage}"/></strong> language
+							</c:if>
+							.
+						</c:when>
+						<c:otherwise>
+							List of all the theses.
+						</c:otherwise>
+					</c:choose>
+					</h4>
+					<table class="table table-bordered table-hover table-striped tablesorter" id="resultTable">
+						<thead>
 							<tr>
-								<td class="idThesis"><c:out value="${thesis.arg.id}"/></td>
-								<td><a href="#" target="_blank"><c:out value="${thesis.arg.nome}"/></a></td>
-								<td><a href="#" target="_blank"><c:out value="${thesis.arg.nomeUniversita}"/></a></td>
-								<td><c:forEach var="area" items="${thesis.listaAree}" varStatus="status"><c:out value="${area.nome}"/><c:if test="${!status.last}"><br></c:if></c:forEach></td>
-								<td><c:if test='${thesis.arg.triennale}'>UNDERGRADUATE<br></c:if><c:if test='${thesis.arg.magistrale}'>GRADUATE<br></c:if></td>
-								<td><c:forEach var="language" items="${thesis.listaLingue}" varStatus="status"><c:out value="${language.nome}"/><c:if test="${!status.last}"><br></c:if></c:forEach></td>
-								<td><c:forEach var="teacher" items="${thesis.listaProfessori}" varStatus="status"><c:out value="${teacher.nome}"/><c:out value="${teacher.cognome}"/> <c:if test="${!status.last}"><br></c:if></c:forEach></td>
+						<th class="idThesis">ID</th>
+								<th>Name</th>
+								<th>University</th>
+								<th>Other Areas</th>
+								<th>Level</th>
+								<th>Languages</th>
+								<th>Professors</th>
 							</tr>
-						</c:forEach>
-					</c:if>
-				</tbody>
-			</table>
-			<%-- <c:if test='${empty results}'>
-				<h4><strong>NOT FOUND:</strong> there isn't any thesis in the Database with these parameters. <c:out value="${dinam}"/></h4>
-			</c:if> --%>
+						</thead>
+						
+						<tbody>
+							<c:forEach var="thesis" items="${results}">
+								<tr>
+									<td class="idThesis"><c:out value="${thesis.arg.id}"/></td>
+									<td>
+									<a href="<c:url value="/thesis"/>?id=${thesis.arg.id}" target="_blank">
+										<c:out value="${thesis.arg.nome}"/>
+									</a>
+									</td>
+									<td>
+									<a href="<c:url value="/university"/>?name=${fn:replace(thesis.arg.nomeUniversita, ' ', '+')}" target="_blank">
+										<c:out value="${thesis.arg.nomeUniversita}"/>
+									</a>
+									</td>
+									<td><c:forEach var="area" items="${thesis.listaAree}" varStatus="status"><c:out value="${area.nome}"/><c:if test="${!status.last}"><br></c:if></c:forEach></td>
+									<td><c:if test='${thesis.arg.triennale}'>UNDERGRADUATE<br></c:if><c:if test='${thesis.arg.magistrale}'>GRADUATE<br></c:if></td>
+									<td><c:forEach var="language" items="${thesis.listaLingue}" varStatus="status"><c:out value="${language.nome}"/><c:if test="${!status.last}"><br></c:if></c:forEach></td>
+									<td><c:forEach var="teacher" items="${thesis.listaProfessori}" varStatus="status"><c:out value="${teacher.nome}"/><c:out value="${teacher.cognome}"/> <c:if test="${!status.last}"><br></c:if></c:forEach></td>
+								</tr>
+							</c:forEach>
+						</tbody>
+					</table>
+				</c:otherwise>
+			</c:choose>
 		</div>
 	</div>	
 	<!-- footer -->

@@ -77,8 +77,13 @@ public class FlowListServlet extends AbstractDatabaseServlet
 		// Pre-processing parameters
 		Integer durata = (durataStr != null ? Integer.parseInt(durataStr) : null);
 		Integer minPosti = (minPostiStr != null ? Integer.parseInt(minPostiStr) : null);
-		String nomeCertificato = certificate.split("-")[0].trim(); // "ITA - B2" -> ITA
-		String livelloCertificato = certificate.split("-")[1].trim(); // "ITA - B2" -> B2
+		String nomeCertificato = null;
+		String livelloCertificato = null;
+		if (certificate != null)
+		{
+			nomeCertificato = certificate.split("-")[0].trim(); // "ITA - B2" -> ITA
+			livelloCertificato = certificate.split("-")[1].trim(); // "ITA - B2" -> B2
+		}
 
 		// model
 		Message m = null;
@@ -115,7 +120,21 @@ public class FlowListServlet extends AbstractDatabaseServlet
 		req.setAttribute("results", results);
 		req.setAttribute("certificatesDomain", certificatesDomain);
 		req.setAttribute("cities", (new CountryCityListBean()).initialize(cities));
-
+		
+		if (stato != null)
+			req.setAttribute("searchedCountry", stato);
+		if (citta != null)
+			req.setAttribute("searchedCity", citta);
+		if (durataStr != null)
+			req.setAttribute("searchedLenght", durataStr);
+		if (minPostiStr != null)
+			req.setAttribute("searchedSeats", minPostiStr);
+		if (certificate != null)
+			req.setAttribute("searchedCert", certificate);
+		
+		if (stato == null && citta == null && durataStr == null && minPostiStr == null && certificate == null)
+			req.setAttribute("allFlows", "allFlows");
+		
 		/* Forward to the Search JSP page */
 		getServletContext().getRequestDispatcher("/jsp/search_flow.jsp").forward(req, resp);
 	}

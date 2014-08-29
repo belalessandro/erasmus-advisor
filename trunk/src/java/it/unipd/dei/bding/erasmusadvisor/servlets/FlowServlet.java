@@ -58,7 +58,7 @@ public class FlowServlet extends AbstractDatabaseServlet {
 
 		if (ID == null || ID.isEmpty()) {
 			/* Redirect to insert form. */
-			resp.sendRedirect(req.getContextPath() + "/jsp/insert_class.jsp");
+			resp.sendRedirect(req.getContextPath() + "/jsp/insert_flow.jsp");
 			return;
 		}
 		
@@ -86,7 +86,7 @@ public class FlowServlet extends AbstractDatabaseServlet {
 			recognisedClasses = RiconoscimentoDatabase.getInsegnamentiRiconosciuti(conn, ID);
 		} 
 		catch (SQLException ex) {
-			m = new Message("Error while getting the class.", "XXX", ex.getMessage());
+			m = new Message("Error while getting the flow.", "", ex.getMessage());
 		} 
 		
 		
