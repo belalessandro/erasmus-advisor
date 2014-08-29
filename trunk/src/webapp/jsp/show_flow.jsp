@@ -45,6 +45,8 @@
 		            	$.post('<c:url value="/student/interests"/>', 
 		                		{ operation: "insert", flowID : flow},
 		                		function(responseText) { 
+									$('#add-interest-success').show();
+									
 		                			var actualInterest = parseInt(responseText);
 		                			formatInterest(actualInterest);
 		                		    document.getElementById("flow_add_interest").setAttribute("style", "display: none;");
@@ -63,6 +65,8 @@
 		            	$.post('<c:url value="/student/interests"/>', 
 		                		{ operation: "delete", flowID : flow},
 		                		function(responseText) { 
+									$('#remove-interest-success').show();
+									
 		                			var actualInterest = parseInt(responseText);
 		                			formatInterest(actualInterest);
 		                		    document.getElementById("flow_remove_interest").setAttribute("style", "display: none;");
@@ -78,6 +82,10 @@
 			if (isNaN(numInterest))
 			{
     			$('#number_of_interested_stud').html("Error with the interest operation, please reload this page");
+			}
+			else if (numInterest == 0)
+			{
+    			$('#number_of_interested_stud').html("No students have expressed interest for this flow");
 			}
 			else if (numInterest == 1)
 			{
@@ -114,6 +122,7 @@
 
 		<!-- corpo della pagina -->
 		<div class="col-md-9 general_main_border">
+		
 			<!-- Notifica di avvenuta modifica del flusso -->
 			<c:if test="${!empty param.edited && param.edited == 'success'}">
 				<div class="alert alert-success alert-dismissible" role="alert" >
@@ -121,6 +130,19 @@
 				  <h4 class="text-center">Flow Successfully Edited!</h4>
 				</div>
 			</c:if>
+			
+			<!-- Avviso aggiunta interesse con successo -->
+			<div id="add-interest-success" class="alert alert-success" role="alert" style="display:none">
+				<button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+				<div class="text-center">This flow has been successfully add to your interests!</div>  
+			</div>
+			
+			<!-- Avviso rimozione interesse con successo -->
+			<div id="remove-interest-success" class="alert alert-success" role="alert" style="display:none">
+				<button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+				<div class="text-center">This flow has been successfully removed from your interests</div>  
+			</div>
+			
 			<div class="entity_details">
 				<div class="entity_details_text">
 					<h2><c:out value="${flow.id}"/></h2> 

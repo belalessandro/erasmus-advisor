@@ -134,8 +134,6 @@
             		   		// elimina il flusso dalle scelte, se rimane solo "nothing selected"
             		   		// nasconde anche il pulsante
             		   		var ackFlows = document.getElementById("ackFlow");
-
-                			alert(ackFlows.selectedIndex);
             		   		ackFlows.remove(ackFlows.selectedIndex);
 
             				// aggiorna il controllo
@@ -187,14 +185,24 @@
 				</div>
 			</c:if>
 			
+			<!-- Avviso che l'entità è in stato not verified -->
+			<c:if test="${!empty classBean.stato && classBean.stato == 'DISABLED'}">
+				<div class="alert alert-warning" role="alert">
+					<div class="text-center"><b> <span class="glyphicon glyphicon-star"></span> Warning:</b> 
+					This class has been disabled. </div>
+				</div>
+			</c:if>
+			
 			<!-- Avviso del report avvenuto con successo -->
 			<div id="report-success" class="alert alert-success" role="alert" style="display:none">
-					<div class="text-center">Class successfully reported!</div>  
+				<button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+				<div class="text-center">Class successfully reported!</div>  
 			</div>
 			
 			<!-- Avviso avvenuto con successo -->
 			<div id="ack-success" class="alert alert-success" role="alert" style="display:none">
-					<div class="text-center">Class successfully acknowledged!</div>  
+				<button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+				<div class="text-center">Class successfully acknowledged!</div>  
 			</div>
 			
 			
