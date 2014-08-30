@@ -3,7 +3,9 @@ package it.unipd.dei.bding.erasmusadvisor.servlets;
 import it.unipd.dei.bding.erasmusadvisor.beans.BeanUtilities;
 import it.unipd.dei.bding.erasmusadvisor.beans.StudenteBean;
 import it.unipd.dei.bding.erasmusadvisor.database.CreateStudenteDatabase;
+import it.unipd.dei.bding.erasmusadvisor.resources.LoggedUser;
 import it.unipd.dei.bding.erasmusadvisor.resources.Message;
+import it.unipd.dei.bding.erasmusadvisor.resources.UserType;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -15,6 +17,7 @@ import java.sql.SQLException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 
 /**
@@ -70,6 +73,10 @@ public class SignInServlet extends AbstractDatabaseServlet {
 			s.setPassword(hashPassword(s.getPassword(), s.getSalt()));
 			s.setNomeUtente(request.getParameter("user"));
 			
+			LoggedUser logged=new LoggedUser(UserType.STUDENTE, s.getNomeUtente());
+			HttpSession session=request.getSession();
+			session.setAttribute("loggedUser", logged);
+			
 			new CreateStudenteDatabase(DS.getConnection(), s).createStudente();
 			
 		} catch (NumberFormatException ex) {
@@ -91,11 +98,7 @@ public class SignInServlet extends AbstractDatabaseServlet {
 		if (m == null) {
 			// forwards the control to the index JSP
 			// luca: cambiato da user_profile a index.jsp
-			//getServletContext().getRequestDispatcher("/jsp/index.jsp").forward(request, response);
-			
-			StringBuilder builder = new StringBuilder()
-			.append("/erasmus-advisor/index");
-			response.sendRedirect(builder.toString());
+			getServletContext().getRequestDispatcher("/jsp/index.jsp").forward(request, response);
 		} 
 		else {
 			// come back to sign_in JSP
