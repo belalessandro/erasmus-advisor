@@ -2,9 +2,11 @@ package it.unipd.dei.bding.erasmusadvisor.database;
 
 import it.unipd.dei.bding.erasmusadvisor.beans.AreaBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.ArgomentoTesiBean;
+import it.unipd.dei.bding.erasmusadvisor.beans.InsegnamentoBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.LinguaBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.ProfessoreBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.ValutazioneTesiBean;
+import it.unipd.dei.bding.erasmusadvisor.resources.TeachingSearchRow;
 import it.unipd.dei.bding.erasmusadvisor.resources.Thesis;
 import it.unipd.dei.bding.erasmusadvisor.resources.ThesisSearchRow;
 
@@ -12,6 +14,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -115,7 +118,7 @@ public class ArgomentoTesiDatabase {
 	}
 		
 	/**
-	 * Return a list of Theses
+	 * Return a list of Theses, used in Search
 	 * 
 	 * @param con
 	 * @param area
@@ -125,42 +128,66 @@ public class ArgomentoTesiDatabase {
 	 * @return
 	 * @throws SQLException
 	 */
-	public static List<ThesisSearchRow> searchArgomentoTesi(Connection con, String area, String nome, String livello, String lingua) throws SQLException {
+	public static List<ThesisSearchRow> searchArgomentoTesi(Connection con, String area, String nomeUni, String livello, String lingua) throws SQLException {
 		/**
 		 * The SQL statements to be executed
 		 */
 		//If level is selected --> AND statement
-		String statement = "SELECT A.id, A.nomeUniversita, A.triennale, A.magistrale, A.stato FROM ArgomentoTesi AS A INNER JOIN Estensione AS E ON A.id=E.idArgomentoTesi " +
-						"INNER JOIN LinguaTesi AS L ON L.idArgomentoTesi = A.id INNER JOIN Lingua AS LI on L.siglaLingua=LI.sigla WHERE" +
-						"  A.NomeUniversita LIKE ?  AND E.Area LIKE ? AND (A.Triennale = CAST ( ? AS BOOLEAN) AND A.Magistrale = CAST ( ? AS BOOLEAN)) AND Li.Nome LIKE ?  ";
+		String statement; 
 		
-		String triennale, magistrale;
-		if (livello.equalsIgnoreCase("Undergraduate")) {
-			triennale = "true"; magistrale="false";
-		} else if(livello.equalsIgnoreCase("Graduate"))
-			
+		//Thesis is for Graduate or Ungraduate students?
+		boolean triennale, magistrale;
+		triennale = magistrale = true ;
+		if (livello==null) {
+			statement = "SELECT A.id, A.nomeUniversita, A.triennale, A.magistrale, A.stato FROM ArgomentoTesi AS A " +
+						"INNER JOIN Estensione AS E ON A.id=E.idArgomentoTesi " +
+						"INNER JOIN LinguaTesi AS L ON L.idArgomentoTesi = A.id INNER JOIN Lingua AS LI on L.siglaLingua=LI.sigla WHERE" +
+						" (? IS NULL OR A.NomeUniversita = ?)  AND (? IS NULL OR E.Area = ?) AND " +
+						"(A.Triennale = CAST ( ? AS BOOLEAN) OR A.Magistrale = CAST ( ? AS BOOLEAN)) AND (? IS NULL OR Li.Nome = ?)  ";		
+		} 
+		else if(livello.equalsIgnoreCase("Graduate"))	
 		{
-			triennale = "false";magistrale="true";
+			statement = "SELECT A.id, A.nomeUniversita, A.triennale, A.magistrale, A.stato FROM ArgomentoTesi AS A " +
+					"INNER JOIN Estensione AS E ON A.id=E.idArgomentoTesi " +
+					"INNER JOIN LinguaTesi AS L ON L.idArgomentoTesi = A.id INNER JOIN Lingua AS LI on L.siglaLingua=LI.sigla WHERE" +
+					" (? IS NULL OR A.NomeUniversita = ?)  AND (? IS NULL OR E.Area = ?) AND " +
+					" A.Magistrale = CAST ( ? AS BOOLEAN) AND A.Magistrale = CAST ( ? AS BOOLEAN) AND ( ? IS NULL OR Li.Nome = ?)  ";
 		}
 		else
 		{
-			triennale = magistrale = "true";
-			statement = "SELECT A.id, A.nomeUniversita, A.triennale, A.magistrale, A.stato FROM ArgomentoTesi AS A INNER JOIN Estensione AS E ON A.id=E.idArgomentoTesi " +
+			statement = "SELECT A.id, A.nomeUniversita, A.triennale, A.magistrale, A.stato FROM ArgomentoTesi AS A " +
+					"INNER JOIN Estensione AS E ON A.id=E.idArgomentoTesi " +
 					"INNER JOIN LinguaTesi AS L ON L.idArgomentoTesi = A.id INNER JOIN Lingua AS LI on L.siglaLingua=LI.sigla WHERE" +
-					" A.NomeUniversita LIKE ?  AND E.Area LIKE ? AND (A.Triennale = CAST ( ? AS BOOLEAN) OR A.Magistrale = CAST ( ? AS BOOLEAN)) AND Li.Nome LIKE ?  ";
-		}		
-		if (area.equals("undefined")) area = "%"; else area+="%";
-		if (nome.equals("undefined")) nome= "%"; else nome+="%";
-		if (lingua.equals("undefined")) lingua= "%"; else lingua+="%";
+					" ( ? IS NULL OR A.NomeUniversita = ?)  AND (? IS NULL OR E.Area = ?) AND " +
+					" A.Triennale = CAST ( ? AS BOOLEAN) AND  A.Triennale = CAST ( ? AS BOOLEAN) AND ( ? IS NULL OR Li.Nome = ?)  ";
+		}	
 		
-		// Entity Bean
+		// query facility
+		ResultSetHandler<List<ArgomentoTesiBean>> h = new BeanListHandler<ArgomentoTesiBean>(ArgomentoTesiBean.class);
+		
+		//query
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		List<ArgomentoTesiBean> idList = null;
-		
-		// Gets the theses
-		QueryRunner run = new QueryRunner();
-		ResultSetHandler<List<ArgomentoTesiBean>> h = 
-				new BeanListHandler<ArgomentoTesiBean>(ArgomentoTesiBean.class);
-		idList = run.query(con, statement, h, nome, area, triennale, magistrale, lingua); 
+		try {
+			pstmt = con.prepareStatement(statement);
+			int col = 1;
+			pstmt.setString(col++, nomeUni);
+			pstmt.setString(col++, nomeUni);
+			pstmt.setString(col++, area);
+			pstmt.setString(col++, area);
+			pstmt.setBoolean(col++, triennale);
+			pstmt.setBoolean(col++, magistrale);
+			pstmt.setString(col++, lingua);
+			pstmt.setString(col++, lingua);
+			rs = pstmt.executeQuery(); // execute query
+			idList = h.handle(rs); // load results to thesis List
+			
+		} finally {
+			DbUtils.close(pstmt); // close the statement (*always*)
+			DbUtils.close(rs); // close the result set (*always*)
+		}
+ 
 		
 		if (idList == null)
 			throw new SQLException("Theses not found");

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <!-- i risultati della ricerca sono visualizzati in Ajax -->
 	
@@ -26,9 +27,23 @@
 		var cityDropValue;
 		//Assegno i valori ai campi OUT
 		function doSearch()
-		{
+		{	
+ 			if (countryDropValue === undefined)
+			{
+				document.getElementById('country').disabled = true;
+			}
+			else
+			{
 				document.getElementById("country").value = countryDropValue;
+			}
+			if (cityDropValue === undefined)
+			{
+				document.getElementById('city').disabled = true;
+			}
+			else
+			{
 				document.getElementById("city").value = cityDropValue;
+			}
 		}
 		// aggiorna l'etichetta mostrata dai dropdown e salva il valore selezionato
 		$(document).on('click', '.dropdown-menu li span', function () {
@@ -139,33 +154,66 @@
 			</form>
 			<!-- Niente ricerca avanzata qui, non ha molto senso IMHO-->
 			<br><br><br>
-			<!-- frase da da creare dinamicamente -->
-			<h4><c:out value="${str}"/></h4>
-			<br>
-			<table class="table table-bordered table-hover table-striped tablesorter" id="resultTable">
-				<thead>
-					<tr>
-						<th>Name</th>
-						<th>Link</th>
-						<th>Rank</th>
-						<th>Campus</th>
-						<th>City</th>
-					</tr>
-				</thead>
-				<tbody>
-					<c:if test='${not empty results}'> 
-						<c:forEach var="university" items="${results}">
-							<tr>
-								<td><a href="#" target="_blank"><c:out value="${university.nome}"/></a></td>
-								<td><a href="#" target="_blank"><c:out value="${university.link}"/></a></td>
-								<td><c:out value="${university.posizioneClassifica}"/></td>
-								<td><c:if test='${university.presenzaAlloggi}'>Yes</c:if><c:if test='${not university.presenzaAlloggi}'>No</c:if></td>
-								<td><c:out value="${university.nomeCitta}"/></td>
-							</tr>
-						</c:forEach>
-					</c:if>
-				</tbody>
-			</table>
+			<c:choose>
+				<c:when test="${fn:length(results) == 0}">
+					<div class="row text-center">
+						<h4>There are no results for your search.</h4>
+					</div>
+				</c:when>
+					<c:otherwise>
+						<h4>
+						<c:choose>
+							<c:when test="${empty allUniversities}">
+								Results for universities
+								<c:if test="${(not empty searchedCountry)}" >
+									in  "<strong><c:out value="${searchedCountry}"/></strong>" 
+								</c:if>
+								<c:if test="${(not empty searchedCity)}" >
+									at <strong><c:out value="${searchedCity}"/></strong> 
+								</c:if>
+								.
+							</c:when>
+							<c:otherwise>
+								List of all the universities.
+							</c:otherwise>
+						</c:choose>
+						</h4>
+						<table class="table table-bordered table-hover table-striped tablesorter" id="resultTable">
+							<thead>
+								<tr>
+									<th>Name</th>
+									<th>Link</th>
+									<th>Rank</th>
+									<th>Campus</th>
+									<th>City</th>
+								</tr>
+							</thead>
+							<tbody>
+								<c:forEach var="university" items="${results}">
+									<tr>
+										<td>
+											<a href="<c:url value="/university"/>?name=${fn:replace(university.nome, ' ', '+')}" target="_blank">
+													<c:out value="${university.nome}"/>
+											</a>
+										</td>
+										<td>
+											<a href="<c:url value="${university.link}"/>" target="_blank">
+													<c:out value="${university.link}"/>
+											</a>
+										</td>
+										<td><c:out value="${university.posizioneClassifica}"/></td>
+										<td><c:if test='${university.presenzaAlloggi}'>Yes</c:if><c:if test='${not university.presenzaAlloggi}'>No</c:if></td>
+										<td>
+											<a href="<c:url value="/city"/>?name=${fn:replace(university.nomeCitta, ' ', '+')}&country=${fn:replace(university.statoCitta, ' ', '+')}" target="_blank">
+													<c:out value="${university.nomeCitta}"/>
+											</a>
+										</td>
+									</tr>
+								</c:forEach>
+							</tbody>
+						</table>
+					</c:otherwise>
+				</c:choose>
 			<!-- da usare solo se si sceglie di non visualizzare tutti i risultati nella pagina
 			<ul class="pager">
 				<li class="next"><a href="#" target="_blank">Show more &darr;</a></li>

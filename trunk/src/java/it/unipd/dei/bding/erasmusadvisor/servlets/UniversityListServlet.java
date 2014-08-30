@@ -1,29 +1,21 @@
 package it.unipd.dei.bding.erasmusadvisor.servlets;
 
-import it.unipd.dei.bding.erasmusadvisor.beans.AreaBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.CittaBean;
-import it.unipd.dei.bding.erasmusadvisor.beans.LinguaBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.UniversitaBean;
 import it.unipd.dei.bding.erasmusadvisor.database.CittaDatabase;
-import it.unipd.dei.bding.erasmusadvisor.database.GetAreaValues;
-import it.unipd.dei.bding.erasmusadvisor.database.GetLinguaValues;
 import it.unipd.dei.bding.erasmusadvisor.database.GetUniversitaValues;
 import it.unipd.dei.bding.erasmusadvisor.database.UniversitaDatabase;
 import it.unipd.dei.bding.erasmusadvisor.resources.CountryCityListBean;
 import it.unipd.dei.bding.erasmusadvisor.resources.Message;
-import it.unipd.dei.bding.erasmusadvisor.resources.University;
 
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.json.Json;
 import javax.json.JsonArray;
 import javax.json.JsonArrayBuilder;
-import javax.json.JsonObject;
-import javax.json.JsonObjectBuilder;
 import javax.json.JsonWriter;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -116,7 +108,6 @@ public class UniversityListServlet extends AbstractDatabaseServlet {
 		// Incoming parameters for the search filter
 		String country = req.getParameter("country");
 		String city = req.getParameter("city");
-		String str;
 		
 		// model
 		Message m = null;
@@ -146,11 +137,17 @@ public class UniversityListServlet extends AbstractDatabaseServlet {
 		
 
 		// Send data to the view 
-		if (results==null || results.isEmpty()) str = "No results for "+city+" in "+country+".";
-		else str = "Results for "+city+" in "+country+" :";
-		req.setAttribute("str", str);
 		req.setAttribute("results", results);
 		req.setAttribute("cities", (new CountryCityListBean()).initialize(cities));
+		
+		if (country != null)
+			req.setAttribute("searchedCountry", country);
+		if (city != null)
+			req.setAttribute("searchedCity", city);
+		
+		
+		if (country == null && city == null)
+			req.setAttribute("allUniversities", "allUniversities");
 
 		/* Forward to the Search JSP page */
 		getServletContext().getRequestDispatcher("/jsp/search_university.jsp").forward(req, resp);
