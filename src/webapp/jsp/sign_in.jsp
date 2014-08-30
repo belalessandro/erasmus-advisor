@@ -137,7 +137,7 @@
 				<hr>
 			</div>
 			<!-- action deve puntare alla servlet che gestisce la registrazione -->
-			<form name='registration' onSubmit="return signInFormValidation();" action="<c:url value="/create-student"/>" method="post" style="display: none;"> 
+			<form name='registration' onSubmit="return signInFormValidation();" action="<c:url value="/signin"/>" method="post" style="display: none;"> 
 				<div align="center">
 					<br>
 					<p>An * indicates a required field.</p>
