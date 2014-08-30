@@ -55,7 +55,7 @@ public class LoginServlet extends AbstractDatabaseServlet {
 						session.setAttribute("loggedUser", logged);
 						
 						// luca: traferisce il controllo alla index
-						getServletContext().getRequestDispatcher("/jsp/index.jsp").forward(request, response);
+						getServletContext().getRequestDispatcher("/IndexServlet").forward(request, response);
 						
 						//StringBuilder builder = new StringBuilder()
 						//.append("/erasmus-advisor/index");
