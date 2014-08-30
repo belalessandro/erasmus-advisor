@@ -28,13 +28,8 @@
 		
 		// da questa funzione si fa partire la ricerca
 		function doSearch()
-		{
-			document.getElementById("area").value = areaDropValue;
-			document.getElementById("university").value = universityDropValue;
-			document.getElementById("level").value = levelDropValue;
-			document.getElementById("language").value = languageDropValue;
-			
-/* 			if (areaDropValue === undefined)
+		{	
+ 			if (areaDropValue === undefined)
 			{
 				document.getElementById('area').disabled = true;
 			}
@@ -67,7 +62,7 @@
 			else
 			{
 				document.getElementById("language").value = languageDropValue;
-			} */
+			} 
 		}
 		
 		// serve per la comparsa delle impostazioni di ricerca avanzata
@@ -198,8 +193,6 @@
 			</form>
 			<!-- fine Ricerca Avanzata -->
 			<br><br><br>
-			
-			
 			<c:choose>
 				<c:when test="${fn:length(results) == 0}">
 					<div class="row text-center">
@@ -215,7 +208,7 @@
 								in the "<strong><c:out value="${searchedArea}"/></strong>" area 
 							</c:if>
 							<c:if test="${(not empty searchedUniversity)}" >
-								in <strong><c:out value="${searchedUniversity}"/></strong> 
+								at <strong><c:out value="${searchedUniversity}"/></strong> 
 							</c:if>
 							<c:if test="${(not empty searchedLevel)}" >
 								for <strong><c:out value="${searchedLevel}"/></strong> students
@@ -240,6 +233,7 @@
 								<th>Level</th>
 								<th>Languages</th>
 								<th>Professors</th>
+								<th>Status</th>
 							</tr>
 						</thead>
 						
@@ -260,7 +254,8 @@
 									<td><c:forEach var="area" items="${thesis.listaAree}" varStatus="status"><c:out value="${area.nome}"/><c:if test="${!status.last}"><br></c:if></c:forEach></td>
 									<td><c:if test='${thesis.arg.triennale}'>UNDERGRADUATE<br></c:if><c:if test='${thesis.arg.magistrale}'>GRADUATE<br></c:if></td>
 									<td><c:forEach var="language" items="${thesis.listaLingue}" varStatus="status"><c:out value="${language.nome}"/><c:if test="${!status.last}"><br></c:if></c:forEach></td>
-									<td><c:forEach var="teacher" items="${thesis.listaProfessori}" varStatus="status"><c:out value="${teacher.nome}"/><c:out value="${teacher.cognome}"/> <c:if test="${!status.last}"><br></c:if></c:forEach></td>
+									<td><c:forEach var="teacher" items="${thesis.listaProfessori}" varStatus="status"><c:out value="${teacher.nome}"/> <c:out value="${teacher.cognome}"/> <c:if test="${!status.last}"><br></c:if></c:forEach></td>
+									<td><c:out value="${thesis.arg.stato}"/></td>
 								</tr>
 							</c:forEach>
 						</tbody>

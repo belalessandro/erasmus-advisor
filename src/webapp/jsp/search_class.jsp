@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
-<!-- i risultati della ricerca sono visualizzati in Ajax -->
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -28,20 +27,51 @@
 		var semesterDropValue;
 		var languageDropValue;
 		
-		// da questa funzione si fa partire la ricerca
 		function doSearch()
-		{
-			if (document.getElementById("sidebar").style.display=="none")
-			{ 
-				// ricerca avanzata disabilitata
-				alert('area ' + areaDropValue + ' university ' + universityDropValue);
-			} 
+		{	
+ 			if (areaDropValue === undefined)
+			{
+				document.getElementById('area').disabled = true;
+			}
 			else
 			{
-				alert('area ' + areaDropValue + ' university ' + universityDropValue
-					+ ' year ' + yearDropValue + ' semester ' + semesterDropValue 
-					+ ' language ' + languageDropValue);
+				document.getElementById("area").value = areaDropValue;
 			}
+			if (universityDropValue === undefined)
+			{
+				document.getElementById('university').disabled = true;
+			}
+			else
+			{
+				document.getElementById("university").value = universityDropValue;
+			}
+			
+			if (yearDropValue === undefined)
+			{
+				document.getElementById('year').disabled = true;
+			}
+			else
+			{
+				document.getElementById("year").value = yearDropValue;
+			}
+			
+			if (semesterDropValue === undefined)
+			{
+				document.getElementById('semester').disabled = true;
+			}
+			else
+			{
+				document.getElementById("semester").value = semesterDropValue;
+			}
+			
+			if (languageDropValue === undefined)
+			{
+				document.getElementById('language').disabled = true;
+			}
+			else
+			{
+				document.getElementById("language").value = languageDropValue;
+			} 
 		}
 		// serve per la comparsa delle impostazioni di ricerca avanzata
 		function comparsa() 
@@ -108,131 +138,160 @@
 			<br>
 			<!--  Notare che potrebbe essere meglio inserire un altro dropdown che ad esempio permetta di selezionare 
 			lo stato in cui si trova l'università e da lì aggiornare l'altro.-->
-			<div class="col-md-4 text-center">
-				<div class="btn-group">
-					<button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" id="dropArea">
-						Select an Area <span class="caret"></span>
-					</button>
-					<ul class="dropdown-menu search_scrollable_menu text-left">
-						<c:forEach var="areaDomain" items='${areaDomain}'>
-							<li><span>${areaDomain.nome}</span></li>
-						</c:forEach>
-					</ul>
-				</div>
-			</div>
-			<div class="col-md-4 text-center" >
-				<div class="btn-group">
-					<button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" id="dropUniversity">
-						Select a University <span class="caret"></span>
-					</button>
-					<ul class="dropdown-menu search_scrollable_menu text-left">
-						<c:forEach var="uni" items='${universities}'>
-							<li><span>${uni.nome}</span></li>
-						</c:forEach>
-					</ul>
-				</div>
-			</div>
-			<div class="col-md-4 text-center">
-				<button class="btn btn-primary" onclick="doSearch()"><span class="fa fa-search fa-fw"></span> Search</button>
-			</div>
-			<br><br><br>
-			<!-- Ricerca Avanzata-->
-			<div class="row text-center">
-				<div><button class="btn btn-default" onClick="comparsa()">Advanced Search</button></div>
-			</div>
-			<br>
-			<div id="sidebar" style="display:none">
-				<div class="col-md-4 text-center" >
+			<form  method="get" action="<c:url value="/class/list"/>" enctype="plain/text">
+				<div class="col-md-4 text-center">
 					<div class="btn-group">
-						<button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" id="dropYear">
-							Select a Year <span class="caret"></span>
+						<button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" id="dropArea">
+							Select an Area <span class="caret"></span>
 						</button>
 						<ul class="dropdown-menu search_scrollable_menu text-left">
-							<li><span>1</span></li>
-							<li><span>2</span></li>
-							<li><span>3</span></li>
-							<li><span>4</span></li>
-							<li><span>5</span></li>
-							<li><span>6</span></li>
-						</ul>
-					</div>
-				</div>
-				<div class="col-md-4 text-center" >
-					<div class="btn-group">
-						<button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" id="dropSemester">
-							Select a Period <span class="caret"></span>
-						</button>
-						<ul class="dropdown-menu search_scrollable_menu text-left">
-							<li><span>1</span></li>
-							<li><span>2</span></li>
-						</ul>
-					</div>
-				</div>
-				<div class="col-md-4 text-center" >
-					<div class="btn-group">
-						<button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" id="dropLanguage">
-							Select a Language <span class="caret"></span>
-						</button>
-						<ul class="dropdown-menu search_scrollable_menu text-left">
-							<c:forEach var="languageDomain" items='${languageDomain}'>
-								<li><span>${languageDomain.nome}</span></li>
+							<c:forEach var="areaDomain" items='${areaDomain}'>
+								<li><span>${areaDomain.nome}</span></li>
 							</c:forEach>
 						</ul>
 					</div>
 				</div>
-			</div>
+				<div class="col-md-4 text-center" >
+					<div class="btn-group">
+						<button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" id="dropUniversity">
+							Select a University <span class="caret"></span>
+						</button>
+						<ul class="dropdown-menu search_scrollable_menu text-left">
+							<c:forEach var="uni" items='${universities}'>
+								<li><span>${uni.nome}</span></li>
+							</c:forEach>
+						</ul>
+					</div>
+				</div>
+				<div class="col-md-4 text-center">
+					<button class="btn btn-primary" type="submit" onclick="doSearch()"><span class="fa fa-search fa-fw"></span> Search</button>
+				</div>
+				<br><br><br>
+				<!-- Ricerca Avanzata-->
+				<div class="row text-center">
+					<div><button class="btn btn-default" type="button" onClick="comparsa()">Advanced Search</button></div>
+				</div>
+				<br>
+				<div id="sidebar" style="display:none">
+					<div class="col-md-4 text-center" >
+						<div class="btn-group">
+							<button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" id="dropYear">
+								Select a Year <span class="caret"></span>
+							</button>
+							<ul class="dropdown-menu search_scrollable_menu text-left">
+								<li><span>1</span></li>
+								<li><span>2</span></li>
+								<li><span>3</span></li>
+								<li><span>4</span></li>
+								<li><span>5</span></li>
+								<li><span>6</span></li>
+							</ul>
+						</div>
+					</div>
+					<div class="col-md-4 text-center" >
+						<div class="btn-group">
+							<button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" id="dropSemester">
+								Select a Period <span class="caret"></span>
+							</button>
+							<ul class="dropdown-menu search_scrollable_menu text-left">
+								<li><span>1</span></li>
+								<li><span>2</span></li>
+							</ul>
+						</div>
+					</div>
+					<div class="col-md-4 text-center" >
+						<div class="btn-group">
+							<button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" id="dropLanguage">
+								Select a Language <span class="caret"></span>
+							</button>
+							<ul class="dropdown-menu search_scrollable_menu text-left">
+								<c:forEach var="languageDomain" items='${languageDomain}'>
+									<li><span>${languageDomain.nome}</span></li>
+								</c:forEach>
+							</ul>
+						</div>
+					</div>
+				</div>
+				<input name="operation" type="hidden" value="search" />
+				<input name="area" type="hidden" id="area"/>
+				<input name="university" type="hidden" id="university"/>
+				<input name="year" type="hidden" id="year"/>
+				<input name="semester" type="hidden" id="semester"/>
+				<input name="language" type="hidden" id="language"/>
+			</form>
 			<!-- fine Ricerca Avanzata -->
 			<br><br><br>
-			<!-- frase da da creare dinamicamente -->
-			<h5>Results for <strong>Mathematics</strong> in <strong>Università agli Studi di Padova</strong>.</h5>
-			<br>
-			<table class="table table-bordered table-hover table-striped tablesorter" id="resultTable">
-				<thead>
-					<tr>
-						<th>Name</th>
-						<th>CFU</th>
-						<th>Year</th>
-						<th>Semester</th>
-						<th>Language</th>
-						<th>Professors</th>
-					</tr>
-				</thead>
-				<tbody>
-				<!-- risultati da creare dinamicamente -->
-					<tr>
-						<td><a href="#" target="_blank">Analisi matematica 1</a></td>
-						<td>12</td>
-						<td>1</td>
-						<td>1</td>
-						<td>Italian</td>
-						<td>Marco Bardi, Matteo Novaga</td>
-					</tr>
-					<tr>
-						<td><a href="#" target="_blank">Analisi matematica 2</a></td>
-						<td>12</td>
-						<td>2</td>
-						<td>1</td>
-						<td>Italian</td>
-						<td>Pietro Maroponda</td>
-					</tr>
-					<tr>
-						<td><a href="#" target="_blank">Probabilità Discreta</a></td>
-						<td>9</td>
-						<td>3</td>
-						<td>1</td>
-						<td>Italian</td>
-						<td>Vincenzo Rossi</td>
-					</tr>
-					<tr>
-						<td><a href="#" target="_blank">Algebra Lineare e Geometria</a></td>
-						<td>9</td>
-						<td>1</td>
-						<td>2</td>
-						<td>Italian</td>
-						<td>Stagnaro is Love</td>
-					</tr>
-				</tbody>
-			</table>
+			<c:choose>
+				<c:when test="${fn:length(results) == 0}">
+					<div class="row text-center">
+						<h4>There are no results for your search.</h4>
+					</div>
+				</c:when>
+				<c:otherwise>
+					<h4>
+					<c:choose>
+						<c:when test="${empty allClasses}">
+							Results for class
+							<c:if test="${(not empty searchedArea)}" >
+								in the "<strong><c:out value="${searchedArea}"/></strong>" area 
+							</c:if>
+							<c:if test="${(not empty searchedUniversity)}" >
+								in <strong><c:out value="${searchedUniversity}"/></strong> 
+							</c:if>
+							<c:if test="${(not empty searchedYear)}" >
+								for <strong><c:out value="${searchedYear}"/></strong> year
+							</c:if>
+							<c:if test="${(not empty searchedPeriod)}" >
+								for semester <strong><c:out value="${searchedPeriod}"/></strong> 
+							</c:if>
+							<c:if test="${(not empty searchedLanguage)}" >
+								in <strong><c:out value="${searchedLanguage}"/></strong> language
+							</c:if>
+							.
+						</c:when>
+						<c:otherwise>
+							List of all classes.
+						</c:otherwise>
+					</c:choose>
+					</h4>
+					<table class="table table-bordered table-hover table-striped tablesorter" id="resultTable">
+						<thead>
+							<tr>
+								<th>Name</th>
+								<th>University</th>
+								<th>CFU</th>
+								<th>Year</th>
+								<th>Semester</th>
+								<th>Language</th>
+								<th>Professors</th>
+								<th>Status</th>
+							</tr>
+						</thead>
+						<tbody>
+							<c:forEach var="teach" items="${results}">
+								<tr>
+									<td>
+										<a href="<c:url value="/class"/>?id=${teach.arg.id}" target="_blank">
+											<c:out value="${teach.arg.nome}"/>
+										</a>
+									</td>
+									<td>
+										<a href="<c:url value="/university"/>?name=${fn:replace(teach.arg.nomeUniversita, ' ', '+')}" target="_blank">
+												<c:out value="${teach.arg.nomeUniversita}"/>
+										</a>
+									</td>
+									<td><c:out value="${teach.arg.crediti}"/></td>
+									<td><c:out value="${teach.arg.annoCorso}"/></td>
+									<td><c:out value="${teach.arg.periodoErogazione}"/></td>
+									<td><c:out value="${teach.arg.nomeLingua}"/></td>
+									<td><c:forEach var="teacher" items="${teach.listaProfessori}" varStatus="status"><c:out value="${teacher.nome}"/> <c:out value="${teacher.cognome}"/> <c:if test="${!status.last}"><br></c:if></c:forEach></td>
+									<td><c:out value="${teach.arg.stato}"/></td>
+								</tr>
+							</c:forEach>
+						</tbody>
+					</table>
+			</c:otherwise>
+		</c:choose>
 		</div>
 	</div>	
 	<!-- footer -->

@@ -1,16 +1,18 @@
 package it.unipd.dei.bding.erasmusadvisor.database;
 
-
 import it.unipd.dei.bding.erasmusadvisor.beans.InsegnamentoBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.LinguaBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.ProfessoreBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.ValutazioneInsegnamentoBean;
 import it.unipd.dei.bding.erasmusadvisor.resources.Teaching;
+import it.unipd.dei.bding.erasmusadvisor.resources.TeachingSearchRow;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Types;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.dbutils.DbUtils;
@@ -21,9 +23,10 @@ import org.apache.commons.dbutils.handlers.BeanListHandler;
 
 /**
  * Database operations about Insegnamento 
- * @author Luca
+ * @author Luca, Nicola
  *
  */
+
 public class InsegnamentoDatabase 
 {
 	
@@ -73,15 +76,120 @@ public class InsegnamentoDatabase
 		return generatedId;
 	}
 	
+	
+	/**
+	 * Return a list of Teaching, used in Search
+	 * 
+	 * @param con
+	 * @param area
+	 * @param nome
+	 * @param livello
+	 * @param lingua
+	 * @return
+	 * @throws SQLException
+	 */
+	public static List<TeachingSearchRow> searchInsegnamento(Connection conn, String area, String nomeUni, Integer anno, Integer periodo, String lingua) throws SQLException {
+		/**
+		 * The SQL statements to be executed
+		 */
+		final String statement= "SELECT * FROM Insegnamento AS I " +
+						   		" WHERE (? IS NULL OR I.nomeArea = ?) AND (? IS NULL OR I.nomeUniversita = ?) AND " +
+						   		"(? IS NULL OR I.annoDiCorso = ?) AND (? IS NULL OR I.periodoErogazione = ?) AND (? IS NULL OR I.nomeLingua = ?)" ;
+
+		// query facility
+		ResultSetHandler<List<InsegnamentoBean>> h = new BeanListHandler<InsegnamentoBean>(InsegnamentoBean.class);
+		
+		// result model
+		List<TeachingSearchRow> results = new ArrayList<TeachingSearchRow>();
+		
+		//query
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		List<InsegnamentoBean> insList = null;
+		try {
+			pstmt = conn.prepareStatement(statement);
+			int col = 1;
+			pstmt.setString(col++, area);
+			pstmt.setString(col++, area);
+			pstmt.setString(col++, nomeUni);
+			pstmt.setString(col++, nomeUni);
+			pstmt.setObject(col++, anno, Types.SMALLINT);
+			pstmt.setObject(col++, anno, Types.SMALLINT);
+			pstmt.setObject(col++, periodo, Types.SMALLINT);
+			pstmt.setObject(col++, periodo, Types.SMALLINT);
+			pstmt.setString(col++, lingua);
+			pstmt.setString(col++, lingua);
+			rs = pstmt.executeQuery(); // execute query
+			insList = h.handle(rs); // load results to insList
+			
+		} finally {
+			DbUtils.close(pstmt); // close the statement (*always*)
+			DbUtils.close(rs); // close the result set (*always*)
+		}
+
+		for(int i=0;i<insList.size();i++)
+		{
+			results.add(getInsegnamentoID(conn, Integer.toString(insList.get(i).getId())));
+		}
+		
+		return results ;
+	}
+	
+	/**
+	 * Return a Teaching, for Search MODEL
+	 * 
+	 * @param conn
+	 * @param ID
+	 * @return
+	 * @throws SQLException
+	 */
+	public static TeachingSearchRow getInsegnamentoID(Connection conn, String ID)
+			throws SQLException 
+	{
+		final String statement1 = "SELECT * FROM Insegnamento WHERE ID = CAST (? AS INTEGER) ";
+		final String statement2 = "SELECT P.Nome, P.Cognome FROM Professore AS P "
+									+ "INNER JOIN Svolgimento AS S ON P.ID = S.IdProfessore "
+									+ "WHERE S.IdInsegnamento = CAST (? AS INTEGER) ";
+		
+		InsegnamentoBean insegnamento = new InsegnamentoBean();
+		List<ProfessoreBean> professori = null;
+
+		QueryRunner run = new QueryRunner();
+		
+		ResultSetHandler<InsegnamentoBean> h1 = new BeanHandler<InsegnamentoBean>(InsegnamentoBean.class);
+		insegnamento = run.query(conn, statement1, h1, ID);
+		
+		if (insegnamento == null)
+			throw new SQLException("Class id not found.");
+		
+		// Gets the profs
+		ResultSetHandler<List<ProfessoreBean>> h2 = 
+				new BeanListHandler<ProfessoreBean>(ProfessoreBean.class);
+		professori = run.query(conn, statement2, h2, ID);
+		
+		// Returns the results
+		return new TeachingSearchRow(insegnamento, professori);
+	}	
+
+		
+	
+	/**
+	 * Search method used for Evaluation MODEL
+	 * 
+	 * @param conn
+	 * @param ID
+	 * @return
+	 * @throws SQLException
+	 */
 	public static Teaching getInsegnamento(Connection conn, int ID)
 			throws SQLException 
 	{
-		final String statement1 = "SELECT * FROM Insegnamento WHERE ID = ?";
+		final String statement1 = "SELECT * FROM Insegnamento WHERE ID = CAST (? AS INTEGER)";
 		final String statement2 = "SELECT * FROM Lingua WHERE Sigla = ?";
-		final String statement3 = "SELECT * FROM ValutazioneInsegnamento WHERE IdInsegnamento = ?";
+		final String statement3 = "SELECT * FROM ValutazioneInsegnamento WHERE IdInsegnamento = CAST (? AS INTEGER)";
 		final String statement4 = "SELECT P.Nome, P.Cognome FROM Professore AS P "
 									+ "INNER JOIN Svolgimento AS S ON P.ID = S.IdProfessore "
-									+ "WHERE S.IdInsegnamento = ?";
+									+ "WHERE S.IdInsegnamento = CAST (? AS INTEGER)";
 		
 		InsegnamentoBean insegnamento = new InsegnamentoBean();
 		LinguaBean lingua = new LinguaBean();

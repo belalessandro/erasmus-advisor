@@ -9,6 +9,7 @@ import it.unipd.dei.bding.erasmusadvisor.resources.University;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -20,7 +21,7 @@ import org.apache.commons.dbutils.handlers.BeanListHandler;
 
 /**
  * Database operations about Universita 
- * @author Alessandro
+ * @author Alessandro, Nicola
  *
  */
 public class UniversitaDatabase {
@@ -145,30 +146,47 @@ public class UniversitaDatabase {
 	}
 	
 	/**
-	 * Search a University by country or by city or both  
+	 * Search a University by country or by city or both
+	 * 
+	 * @param con
+	 * @param country
+	 * @param city
+	 * @return
+	 * @throws SQLException
 	 */
 	public static List<UniversitaBean> searchUniversityByCity(Connection con, String country, String city) throws SQLException {
 		/**
 		 * The SQL statements to be executed
 		 */
-		if (country.equals("undefined")) country = "%"; else country+="%";
-		if (city.equals("undefined")) city= "%"; else city+="%";
-		
-		String statement = "SELECT DISTINCT * FROM Universita as U WHERE U.statoCitta LIKE ? AND U.nomeCitta LIKE ?";
+		String statement = "SELECT DISTINCT * FROM Universita as U WHERE (? IS NULL OR U.statoCitta = ?) AND (? IS NULL OR U.nomeCitta = ?) ";
 
 		// Entity Bean
 		List<UniversitaBean> uniList = null;
 		
-		QueryRunner run = new QueryRunner();
-		
-		// Gets the university
 		ResultSetHandler<List<UniversitaBean>> h = new BeanListHandler<UniversitaBean>(UniversitaBean.class);
-		uniList = run.query(con, statement, h, country, city); 
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		
+		// Gets the universities
+		try {
+			pstmt = con.prepareStatement(statement);
+			int col = 1;
+			pstmt.setString(col++, country);
+			pstmt.setString(col++, country);
+			pstmt.setString(col++, city);
+			pstmt.setString(col++, city);
+			rs = pstmt.executeQuery(); // execute query
+			uniList = h.handle(rs); // load results to flussoList
+			
+		} finally {
+			DbUtils.close(pstmt); // close the statement (*always*)
+			DbUtils.close(rs); // close the result set (*always*)
+		}
 		if (uniList == null)
 			throw new SQLException("University not found");
 
 		// Returns the results through the university Bean List
 		return uniList;
 	}
+		
 }
