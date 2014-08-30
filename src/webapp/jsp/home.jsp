@@ -68,8 +68,8 @@
 			<div class="navbar-collapse collapse">
 				<!-- action deve puntare alla servlet che gestisce la registrazione -->
 				<form class="navbar-form navbar-right" method="post" action="<c:url value="/login"/>">
-					<div class="form-group"><input type="text" placeholder="Email" class="form-control"></div>
-					<div class="form-group"><input type="password" placeholder="Password" class="form-control"></div>
+					<div class="form-group"><input type="text" placeholder="Email" name="email" class="form-control"></div>
+					<div class="form-group"><input type="password" placeholder="Password" name="pass" class="form-control"></div>
 					<button type="submit" class="btn btn-primary">Login</button>
 				</form>
 			</div>
