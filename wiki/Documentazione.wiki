@@ -31,7 +31,7 @@ Vedere libri di progetto
 
 = Bozze varie =
 
-Non ancora disponibili.
+[Architettura]
 
 = Link =
 
