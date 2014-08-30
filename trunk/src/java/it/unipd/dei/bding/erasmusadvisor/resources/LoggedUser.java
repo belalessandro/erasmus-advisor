@@ -1,12 +1,14 @@
 package it.unipd.dei.bding.erasmusadvisor.resources;
 
+import java.io.Serializable;
+
 /**
  * Represents a logged user.
  * 
  * @author Alessandro
  * @version 1.1
  */
-public class LoggedUser {
+public class LoggedUser implements Serializable {
 	/**
 	 * Stores the authorization level
 	 */
