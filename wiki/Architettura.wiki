@@ -21,7 +21,7 @@ In risposta alle azioni richieste dall’utente, la Servlet tipicamente si occup
 I risultati vengono poi inviati alle pagine JSP appropriate, oppure possono essere restituiti in formato JSON, se la richiesta è asincrona.
 Una tale organizzazione predispone, in maniera naturale, sia all’uso della tecnica Ajax, sia all’eventuale interfacciarsi di applicazioni per dispositivi mobile (Android, iOs..)
 
-===Package servlets.filter:===
+===Package servlets.filters:===
 Contengono i filtri per l’aggiunta di funzioni supplementari, come il supporto alla codifica UTF-8, o filtri per il controllo degli accessi (sicurezza programmatica) permettendo il redirect automatico in caso l’utente non sia autorizzato ad accedere a determinate pagine.
 
 ==Package test:==
