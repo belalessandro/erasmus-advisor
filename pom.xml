@@ -272,6 +272,13 @@
 			<version>1.0</version>
 			<scope>runtime</scope>
 		</dependency>
+		
+		<!--  Input sanitization -->
+		<dependency>
+        	<groupId>com.googlecode.owasp-java-html-sanitizer</groupId>
+        	<artifactId>owasp-java-html-sanitizer</artifactId>
+        	<version>[r136,)</version>
+    	</dependency>
 	</dependencies>
 
 </project>
