@@ -13,20 +13,21 @@ import org.apache.commons.dbutils.ResultSetHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
 
 /**
+ * Database operations about "Estensione".
  * 
  * @author Nicola
  *
  */
 public class EstensioneDatabase {
 	/**
-	 * Executes a statement to store a new Estensione into the database,
+	 * Executes a statement to store a new "Estensione" into the database,
 	 * without closing the connection.
 	 * 
-	 * @param con The connection to the database
-	 * @param est The Estensione to be stored
+	 * @param con The connection to the database.
+	 * @param est The "Estensione" to be stored.
 	 * 
 	 * @throws SQLException
-	 *             if any error occurs while storing the Estensione.
+	 *             if any error occurs while storing the "Estensione".
 	 */
 	public static void createEstensione(Connection con, EstensioneBean est)
 			throws SQLException {
@@ -47,16 +48,16 @@ public class EstensioneDatabase {
 	}
 	
 	/**
-	 * Executes a statement to update a Thesis into the database,
+	 * Executes a statement to update a "Estensione" into the database,
 	 * without closing the connection.
 	 * 
-	 * @param con The connection to the database
-	 * @param uni The Estensione to be updated
+	 * @param con The connection to the database.
+	 * @param uni The "Estensione" to be updated.
 	 * 
-	 * @return the number of rows affected	
+	 * @return The number of rows affected.	
 	 * 
 	 * @throws SQLException
-	 *             if any error occurs while storing the Estensione.
+	 *             If any error occurs while storing the Estensione.
 	 */
 	public static int updateEstensione(Connection con, EstensioneBean est)
 			throws SQLException {
@@ -72,10 +73,10 @@ public class EstensioneDatabase {
 	}
 	
 	/**
-	* Delete a Estensione
+	* Delete an "Estensione".
 	* 
-	* @return the number of rows affected	
-	* @throws SQLException if any error occurs 
+	* @return The number of rows affected.
+	* @throws SQLException If any error occurs. 
 	*/
 	public static int deleteEstensione(Connection con, int idArgomentoTesi) throws SQLException 
 	{
@@ -90,7 +91,7 @@ public class EstensioneDatabase {
 	
 	
 	/**
-	 * Search a List of "Estensione" by the id of the Thesis 
+	 * Search a List of "Estensione" by the id of the Thesis.
 	 */
 	public static List<EstensioneBean> getEstensione(Connection con, String idArgomentoTesi) throws SQLException {
 		/**

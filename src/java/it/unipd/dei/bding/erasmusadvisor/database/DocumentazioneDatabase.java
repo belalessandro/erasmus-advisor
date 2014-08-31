@@ -10,21 +10,20 @@ import org.apache.commons.dbutils.DbUtils;
 import org.apache.commons.dbutils.QueryRunner;
 
 /**
- * Database operations about Documentazione
+ * Database operations about "Documentazione".
  * @author Alessandro
  *
  */
 public class DocumentazioneDatabase {
 	
 	/**
-	 * Executes a statement to store a new Documentazione into the database,
+	 * Executes a statement to store a new "Documentazione" into the database,
 	 * without closing the connection.
 	 * 
-	 * @param con The connection to the database
-	 * @param doc The Documentazione to be stored
+	 * @param con The connection to the database.
+	 * @param doc The "Documentazione" to be stored.
 	 * 
-	 * @throws SQLException
-	 *             if any error occurs while storing the Documentazione.
+	 * @throws SQLException if any error occurs while storing the Documentazione.
 	 */
 	public static void createDocumentazione(Connection con, DocumentazioneBean doc)
 			throws SQLException {
@@ -48,10 +47,10 @@ public class DocumentazioneDatabase {
 	/**
 	 * Deletes all Documentazione's instaces with the flow id given.
 	 * 
-	 * @param con connection to the database
-	 * @param flowId flow id
-	 * @return number of instances deleted
-	 * @throws SQLException
+	 * @param con A connection to the database.
+	 * @param flowId Flow id.
+	 * @return Number of instances deleted.
+	 * @throws SQLException If an error occurs while deleting the "Documentazione".
 	 */
 	public static int  deleteDocumentazioneByFlowId(Connection con, String flowId) throws SQLException {
 		final String sql = "DELETE FROM Documentazione WHERE idFlusso = ?;";
