@@ -1,9 +1,5 @@
-/**
- * 
- */
 package it.unipd.dei.bding.erasmusadvisor.servlets;
 
-import it.unipd.dei.bding.erasmusadvisor.beans.BeanUtilities;
 import it.unipd.dei.bding.erasmusadvisor.beans.CittaBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.LinguaBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.LinguaCittaBean;
@@ -15,7 +11,6 @@ import it.unipd.dei.bding.erasmusadvisor.resources.CityEvaluationsAverage;
 import it.unipd.dei.bding.erasmusadvisor.resources.Message;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -24,13 +19,18 @@ import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.json.*;
 
 import org.apache.commons.dbutils.DbUtils;
 
 /**
- * @author Luca
- *
+ * Manages a specific City.
+ * 
+ * <p> Base URL: /city
+ * 
+ * <p> Accepts: GET, POST
+ * 
+ * @see UniversityServlet
+ * @author Luca, Alessandro
  */
 public class CityServlet extends AbstractDatabaseServlet 
 {
@@ -51,12 +51,20 @@ public class CityServlet extends AbstractDatabaseServlet
 	 *   		-> Se operazione è "insert" inserisce l'interesse collegato allo studente loggato e IdFlusso come parametro
 	 *   		-> Se operazione è "edit"   edita l'entita citta (deve comparire solo con coordinatore)
 	 */
+	
+	/**
+	 * Operation constants
+	 */
+	
 	private static final String INSERT = "insert";
     private static final String EDIT = "edit";
     private static final String DELETE = "delete";
     
 	/**
-	 * Get the details of a specific city or redirects to the insert page
+	 * Get the details of a specific city
+	 * 
+	 * @param "name" the name of the city
+	 * @param "country" the country
 	 */
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException 
@@ -113,6 +121,11 @@ public class CityServlet extends AbstractDatabaseServlet
 
 	}
 	
+	/**
+	 * Submit a form
+	 * 
+	 * @param "operation" the operation to be executed 
+	 */
 	protected void  doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException 
 	{
@@ -231,9 +244,12 @@ public class CityServlet extends AbstractDatabaseServlet
 	}
 	
 	/**
-	 * Handle logic for insert operation...
-	 * @param request
-	 * @param response
+	 * Handles logic for insert operation.
+	 * 
+	 * @param "Nome" the name of the city
+	 * @param "Stato" the country
+	 * @param "LinguaCitta[]" the languages spoken in the city
+	 * 
 	 */
 	private void insert(HttpServletRequest request, HttpServletResponse response) 
 			throws ServletException, IOException  {
@@ -308,6 +324,13 @@ public class CityServlet extends AbstractDatabaseServlet
 		response.sendRedirect(builder.toString());	
     }
 
+	/**
+	 * Handles logic for delete operation.
+	 * 
+	 * @param "city" the name of the city
+	 * @param "country" the country
+	 * 
+	 */
     private void delete(HttpServletRequest req, HttpServletResponse resp) 
     		throws ServletException, IOException 
     {
@@ -351,7 +374,15 @@ public class CityServlet extends AbstractDatabaseServlet
     private void edit(HttpServletRequest request, HttpServletResponse response) {
         //handle logic for edit operation...
     }
-
+    
+    /**
+     * Handle error forwarding between pages.
+     * 
+     * @param request request object
+     * @param response response object
+     * @throws ServletException
+     * @throws IOException
+     */
     private void errorForward(HttpServletRequest request, HttpServletResponse response) 
     		throws ServletException, IOException  {
     	// Error management
