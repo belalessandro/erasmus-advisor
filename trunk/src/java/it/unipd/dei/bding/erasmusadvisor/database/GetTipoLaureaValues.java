@@ -13,7 +13,7 @@ import org.apache.commons.dbutils.handlers.BeanListHandler;
 
 
 /**
- * Get the values of the enum TipoLaurea
+ * Get the values of the enum TipoLaurea.
  * @author Luca
  *
  */
@@ -21,9 +21,10 @@ import org.apache.commons.dbutils.handlers.BeanListHandler;
 public class GetTipoLaureaValues 
 {
 	/**
-	 * Returns the domain of TipoLaurea (so the types of the degree courses)
+	 * Returns the domain of TipoLaurea (so the types of the degree courses).
+	 * 
 	 * @param conn A connection to the database.
-	 * @return A list of types of courses
+	 * @return A list of types of courses.
 	 * @throws SQLException If an error occurs running the SQL query.
 	 */
 	public static List<TipoLaureaBean> getDomain(Connection conn) throws SQLException

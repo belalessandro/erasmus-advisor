@@ -11,7 +11,7 @@ import org.apache.commons.dbutils.ResultSetHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
 
 /**
- * Get the values of the domain of CorsoDiLaurea
+ * Get the values of the domain of "CorsoDiLaurea".
  * @author Nicola
  *
  */
@@ -19,9 +19,10 @@ import org.apache.commons.dbutils.handlers.BeanListHandler;
 public class GetCorsoDiLaureaValues 
 {
 	/**
-	 * Returns the name domains of CorsoDiLaurea
+	 * Returns the name domains of "CorsoDiLaurea".
+	 * 
 	 * @param conn A connection to the database.
-	 * @return a list of university names
+	 * @return A list of university names.
 	 * @throws SQLException If an error occurs running the SQL query.
 	 */
 	public static List<CorsoDiLaureaBean> getDomain(Connection conn) throws SQLException
@@ -39,10 +40,11 @@ public class GetCorsoDiLaureaValues
 	}
 	
 	/**
-	 * Returns the name domains of CorsoDiLaurea filtered by university
+	 * Returns the name domains of "CorsoDiLaurea" filtered by university.
+	 * 
 	 * @param conn A connection to the database.
-	 * @param university university name.
-	 * @return a list of university names
+	 * @param university University name.
+	 * @return A list of university names.
 	 * @throws SQLException If an error occurs running the SQL query.
 	 */
 	public static List<CorsoDiLaureaBean> getDomain(Connection conn, String university) throws SQLException
@@ -60,9 +62,10 @@ public class GetCorsoDiLaureaValues
 	}
 	
 	/**
-	 * Returns the name domains of CorsoDiLaurea starting with some letters
+	 * Returns the name domains of "CorsoDiLaurea" starting with some letters.
+	 * 
 	 * @param conn A connection to the database.
-	 * @return a list of university names
+	 * @return A list of university names.
 	 * @throws SQLException If an error occurs running the SQL query.
 	 */
 	public static List<CorsoDiLaureaBean> getDomainStartingWith(Connection conn, String with) throws SQLException
@@ -81,11 +84,12 @@ public class GetCorsoDiLaureaValues
 	}
 
 	/**
-	 * Returns the name domains of CorsoDiLaurea starting with some letters filtered by university.
+	 * Returns the name domains of "CorsoDiLaurea" starting with some letters filtered by university.
+	 * 
 	 * @param conn A connection to the database.
-	 * @param startingWith starting string
-	 * @param university university name
-	 * @return a list of university names
+	 * @param startingWith A starting string.
+	 * @param university University name.
+	 * @return A list of university names
 	 * @throws SQLException If an error occurs running the SQL query.
 	 */
 	public static List<CorsoDiLaureaBean> getDomainStartingWith(

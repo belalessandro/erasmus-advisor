@@ -15,13 +15,22 @@ import org.apache.commons.dbutils.handlers.ScalarHandler;
 
 
 /**
- * Database operations about Interesse 
+ * Database operations about "Interesse". 
+ * 
  * @author Luca
  *
  */
 public class InteresseDatabase 
 {
 	
+	/**
+	 * Returns the number of "Like" for a flow.
+	 * 
+	 * @param conn A connection to the database.
+	 * @param ID The id of the flow.
+	 * @return Number of interest of the flow. 
+	 * @throws SQLException if an error occurs while searching.
+	 */
 	public static long getCountInteresseByFlusso(Connection conn, String ID) 
 			throws SQLException
 	{
@@ -34,6 +43,14 @@ public class InteresseDatabase
 		
 	}
 	
+	/**
+	 * Returns a list of Interest for a user.
+	 * 
+	 * @param conn A connection to the database.
+	 * @param username The username.	
+	 * @return A list of InterestBean for a user.
+	 * @throws SQLException if an error occurs.
+	 */
 	public static List<InterestBean> getInterestInformationsFromUser(Connection conn, String username) throws SQLException
 	{
 
@@ -47,6 +64,15 @@ public class InteresseDatabase
 		return run.query(conn, statement1, h, username);
 	}
 	
+	/**
+	 * Remove an user's Interest for a Flow.
+	 * 
+	 * @param conn A connection to the database.
+	 * @param flow The Id of the flow to which the user want to remove.
+	 * @param user The user that want to remove the Interest.	
+	 * @return 1 if the interest have been removed.
+	 * @throws SQLException If an error occurs while deleting an Interest.
+	 */
 	public static int removeInterest(Connection conn, String flow, String user) throws SQLException
 	{
 		final String statement = "DELETE FROM Interesse WHERE idflusso = ? AND nomeutentestudente = ?";
@@ -55,6 +81,14 @@ public class InteresseDatabase
 		return run.update(conn, statement, flow, user);
 	}
 	
+	/**
+	 * Add an user's Interest to a Flow.
+	 * 
+	 * @param conn A connection to the database.
+	 * @param flow The Flow's ID to which add the Interest.
+	 * @param user The user that want to add an Interest.
+	 * @throws SQLException If an error occurs while adding a Interest.
+	 */
 	public static void addInterest(Connection conn, String flow, String user) throws SQLException
 	{
 		String insertStmt = "INSERT INTO Interesse (idflusso, nomeutentestudente) VALUES (?, ?)";

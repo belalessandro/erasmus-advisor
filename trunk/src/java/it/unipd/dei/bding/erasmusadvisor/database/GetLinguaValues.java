@@ -11,7 +11,8 @@ import org.apache.commons.dbutils.ResultSetHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
 
 /**
- * Get the values of the domain of Lingua
+ * Get the values of the domain of "Lingua".
+ * 
  * @author Luca
  *
  */
@@ -19,9 +20,10 @@ import org.apache.commons.dbutils.handlers.BeanListHandler;
 public class GetLinguaValues 
 {
 	/**
-	 * Returns the domain of Lingua (so the languages in the databases)
+	 * Returns the domain of "Lingua "(so the languages in the databases).
+	 * 
 	 * @param conn A connection to the database.
-	 * @return A list of languages
+	 * @return A list of languages.
 	 * @throws SQLException If an error occurs running the SQL query.
 	 */
 	public static List<LinguaBean> getLinguaDomain(Connection conn) throws SQLException

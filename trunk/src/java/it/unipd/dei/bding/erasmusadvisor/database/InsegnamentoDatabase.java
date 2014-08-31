@@ -22,7 +22,8 @@ import org.apache.commons.dbutils.handlers.BeanHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
 
 /**
- * Database operations about Insegnamento 
+ * Database operations about "Insegnamento".
+ *  
  * @author Luca, Nicola
  *
  */
@@ -31,14 +32,14 @@ public class InsegnamentoDatabase
 {
 	
 	/**
-	 * Executes a statement to store a new Insegnamento into the database,
+	 * Executes a statement to store a new "Insegnamento" into the database,
 	 * without closing the connection.
 	 * 
-	 * @param con The connection to the database
-	 * @param insegnamento The Insegnamento to be stored
-	 * @return the generated id
+	 * @param con The connection to the database.
+	 * @param insegnamento The "Insegnamento" to be stored.
+	 * @return The generated id.
 	 * @throws SQLException
-	 *             if any error occurs while storing the Insegnamento.
+	 *             If any error occurs while storing the "Insegnamento".
 	 */
 	public static int createInsegnamento(Connection con, InsegnamentoBean insegnamento)
 			throws SQLException {
@@ -78,15 +79,16 @@ public class InsegnamentoDatabase
 	
 	
 	/**
-	 * Return a list of Teaching, used in Search
+	 * Return a list of class (TeachingSearchRow), with the corresponding list
+	 * of professors, used in Search.
 	 * 
-	 * @param con
-	 * @param area
-	 * @param nome
-	 * @param livello
-	 * @param lingua
-	 * @return
-	 * @throws SQLException
+	 * @param con A connection to the database.
+	 * @param area (optional = null) The area of the class to search.
+	 * @param nome (optional = null) The class' university name.
+	 * @param livello (optional = null) The level of the class for: "Graduate" or "Undergraduate".
+	 * @param lingua (optional = null) The language of the class.
+	 * @return A list of class TeachingSearchRow.
+	 * @throws SQLException if an error occurs while searching class.
 	 */
 	public static List<TeachingSearchRow> searchInsegnamento(Connection conn, String area, String nomeUni, Integer anno, Integer periodo, String lingua) throws SQLException {
 		/**
@@ -136,12 +138,12 @@ public class InsegnamentoDatabase
 	}
 	
 	/**
-	 * Return a Teaching, for Search MODEL
+	 * Return a class (TeachingSearchRow), for Search MODEL.
 	 * 
-	 * @param conn
-	 * @param ID
-	 * @return
-	 * @throws SQLException
+	 * @param conn A connection to the database.
+	 * @param ID The id of the class to search.
+	 * @return A TeachingSearchRow (class) which have the searched id.
+	 * @throws SQLException If an error occurs.
 	 */
 	public static TeachingSearchRow getInsegnamentoID(Connection conn, String ID)
 			throws SQLException 
@@ -174,12 +176,13 @@ public class InsegnamentoDatabase
 		
 	
 	/**
-	 * Search method used for Evaluation MODEL
+	 * Search method, return a class (Teaching), with corresponding list
+	 * of professors, languages, evaluations, used for Evaluation MODEL.
 	 * 
-	 * @param conn
-	 * @param ID
-	 * @return
-	 * @throws SQLException
+	 * @param conn A connection to the database.
+	 * @param ID The Id of the class.
+	 * @return The Teaching searched for.
+	 * @throws SQLException If an error occurs.
 	 */
 	public static Teaching getInsegnamento(Connection conn, int ID)
 			throws SQLException 
@@ -222,6 +225,14 @@ public class InsegnamentoDatabase
 		return new Teaching(insegnamento, listaValutazioni, professori, lingua);
 	}
 	
+	/**
+	 * Update the "Insegnamento" fields.
+	 * 
+	 * @param con A connection to the database.
+	 * @param insegnamentoBean A bean of "Insegnamento".
+	 * @return The numbers of classes updated.
+	 * @throws SQLException
+	 */
 	public static int updateInsegnamento(Connection con, InsegnamentoBean insegnamentoBean) throws SQLException
 	{
 //		UPDATE Insegnamento SET nome='Analisi 2', crediti=12, NomeUniversita='Imperial College London', periodoerogazione=2, stato='NOT VERIFIED',annocorso=2,nomearea='Mathematics',nomelingua='eng' where id=1;
@@ -244,9 +255,9 @@ public class InsegnamentoDatabase
 	}
 	
 	/**
-	 * Delete an Insegnamento (Teaching) from the database.
+	 * Delete an "Insegnamento" (Teaching) from the database.
 	 * @param conn A connection to the database
-	 * @param id The id of the teaching to delete
+	 * @param id The id of the teaching to delete.
 	 * @return The number of rows affected: zero means an id that do not correspond to any teaching.
 	 * @throws SQLException If an error occurs.
 	 */
@@ -259,11 +270,11 @@ public class InsegnamentoDatabase
 	}
 	
 	/**
-	 * Change class status
+	 * Change class status.
 	 * 
-	 * @param con connection to the database
-	 * @param id id of class
-	 * @throws SQLException 
+	 * @param con A connection to the database
+	 * @param id The id of class to update.
+	 * @throws SQLException if an error occurs. 
 	 */
 	public static void changeClassStatus(Connection con, String status, int id) throws SQLException 
 	{

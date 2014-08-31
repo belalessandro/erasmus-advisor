@@ -11,7 +11,8 @@ import org.apache.commons.dbutils.ResultSetHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
 
 /**
- * Get the values of the domain of Certificati Linguistici
+ * Get the values of the domain of "CertificatiLinguistici"
+ * 
  * @author Luca
  *
  */
@@ -19,9 +20,10 @@ import org.apache.commons.dbutils.handlers.BeanListHandler;
 public class GetCertificatiLinguisticiValues 
 {
 	/**
-	 * Returns the domain of Certificati Linguisici
+	 * Returns the domain of "CertificatiLinguistici"
+	 * 
 	 * @param conn A connection to the database.
-	 * @return a list of certificates
+	 * @return A list of certificates.
 	 * @throws SQLException If an error occurs running the SQL query.
 	 */
 	public static List<CertificatiLinguisticiBean> getCertificatiLinguisticiDomain(Connection conn) throws SQLException

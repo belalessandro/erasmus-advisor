@@ -11,7 +11,7 @@ import org.apache.commons.dbutils.ResultSetHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
 
 /**
- * Get the values of the domain of Universita
+ * Get the values of the domain of "Universita".
  * @author Ale
  *
  */
@@ -19,9 +19,10 @@ import org.apache.commons.dbutils.handlers.BeanListHandler;
 public class GetUniversitaValues 
 {
 	/**
-	 * Returns the name domains of Universita
+	 * Returns the name domains of "Universita".
+	 * 
 	 * @param conn A connection to the database.
-	 * @return a list of university names
+	 * @return A list of university names.
 	 * @throws SQLException If an error occurs running the SQL query.
 	 */
 	public static List<UniversitaBean> getDomain(Connection conn) throws SQLException
@@ -39,9 +40,10 @@ public class GetUniversitaValues
 	}
 	
 	/**
-	 * Returns the name domains of Universita starting with some letters
+	 * Returns the name domains of Universita starting with some letters.
+	 * 
 	 * @param conn A connection to the database.
-	 * @return a list of university names
+	 * @return A list of university names.
 	 * @throws SQLException If an error occurs running the SQL query.
 	 */
 	public static List<UniversitaBean> getDomainStartingWith(Connection conn, String with) throws SQLException
