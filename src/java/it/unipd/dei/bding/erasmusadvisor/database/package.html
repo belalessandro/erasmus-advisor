@@ -11,9 +11,9 @@
 <html>
 <body bgcolor="white">
 
-Contains the methods to execute SQL instructions in the database.
+Contains the methods for the database communication.
 
-Static methods in each class receives an instance of Connection and execute the specific SQL query. 
+Static methods in each class receive an instance of Connection and execute the specific SQL query. 
 The connection is never closed, it is the responsibility of the caller 
 (eg Servlet) to properly close the connection and handle any transactions. 
 The Statement, ResultSet and PrepearedStatement, in contrast, 
