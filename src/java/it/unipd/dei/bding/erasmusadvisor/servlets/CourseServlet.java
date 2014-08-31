@@ -1,26 +1,12 @@
 package it.unipd.dei.bding.erasmusadvisor.servlets;
 
-import it.unipd.dei.bding.erasmusadvisor.database.CorsoDiLaureaDatabase;
-import it.unipd.dei.bding.erasmusadvisor.database.DocumentazioneDatabase;
-import it.unipd.dei.bding.erasmusadvisor.database.FlussoDatabase;
-import it.unipd.dei.bding.erasmusadvisor.database.GetAreaValues;
-import it.unipd.dei.bding.erasmusadvisor.database.GetLinguaValues;
-import it.unipd.dei.bding.erasmusadvisor.database.InsegnamentoDatabase;
-import it.unipd.dei.bding.erasmusadvisor.database.OrigineDatabase;
-import it.unipd.dei.bding.erasmusadvisor.database.SpecializzazioneDatabase;
-import it.unipd.dei.bding.erasmusadvisor.resources.Course;
-import it.unipd.dei.bding.erasmusadvisor.resources.LoggedUser;
-import it.unipd.dei.bding.erasmusadvisor.resources.TeachingEvaluationAverage;
-import it.unipd.dei.bding.erasmusadvisor.resources.Message;
-import it.unipd.dei.bding.erasmusadvisor.resources.Teaching;
-import it.unipd.dei.bding.erasmusadvisor.resources.UserType;
-import it.unipd.dei.bding.erasmusadvisor.beans.AreaBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.CorsoDiLaureaBean;
-import it.unipd.dei.bding.erasmusadvisor.beans.DocumentazioneBean;
-import it.unipd.dei.bding.erasmusadvisor.beans.FlussoBean;
-import it.unipd.dei.bding.erasmusadvisor.beans.LinguaBean;
-import it.unipd.dei.bding.erasmusadvisor.beans.OrigineBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.SpecializzazioneBean;
+import it.unipd.dei.bding.erasmusadvisor.database.CorsoDiLaureaDatabase;
+import it.unipd.dei.bding.erasmusadvisor.database.SpecializzazioneDatabase;
+import it.unipd.dei.bding.erasmusadvisor.resources.LoggedUser;
+import it.unipd.dei.bding.erasmusadvisor.resources.Message;
+import it.unipd.dei.bding.erasmusadvisor.resources.UserType;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -35,10 +21,17 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.dbutils.DbUtils;
 
 /**
+ * Manages a specific Course.
+ * 
+ * <p> Base URL: /course
+ * 
+ * <p> Accepts: POST
+ * 
+ * <p> Operations: INSERT, EDIT, DELETE
+ * 
+ * @see UniversityServlet
  * @author Nicola, Ale
- *
  */
-
 public class CourseServlet extends AbstractDatabaseServlet {
 	/**
 	 * Operation constants
@@ -49,6 +42,18 @@ public class CourseServlet extends AbstractDatabaseServlet {
 	
 	private static final long serialVersionUID = 12091245444464363L;
 
+	/**
+	 * Handles an operation form
+	 * 
+	 * @param request 
+	 * 				request from the client
+	 * @param response 
+	 * 				response to the client 
+	 * @throws ServletException
+	 * 			 	if any error occurs while executing the servlet
+	 * @throws IOException
+	 *  			if any error occurs in the client/server communication.
+	 */
 	public void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		// get the operation
@@ -81,7 +86,7 @@ public class CourseServlet extends AbstractDatabaseServlet {
 
 			edit(req, resp);
 
-		} else if (operation.equals(INSERT)) {
+		} else if (operation.equals(DELETE)) {
 			
 			/**
 			 * DELETE OPERATION
@@ -97,9 +102,16 @@ public class CourseServlet extends AbstractDatabaseServlet {
 
 
 	/**
-	 * Handle logic for insert operation...
-	 * @param request
-	 * @param response
+	 * Handle logic for insert operation.
+	 * 
+	 * @param request 
+	 * 				request from the client
+	 * @param response 
+	 * 				response to the client 
+	 * @throws ServletException
+	 * 			 	if any error occurs while executing the servlet
+	 * @throws IOException
+	 *  			if any error occurs in the client/server communication.
 	 */
 	private void insert(HttpServletRequest request, HttpServletResponse response) 
 			throws ServletException, IOException  {
@@ -183,15 +195,52 @@ public class CourseServlet extends AbstractDatabaseServlet {
 				.append(corsoDiLaureaBean.getId());
 		response.sendRedirect(builder.toString());	
     }
-
+	
+	/**
+     * Handles a delete request.
+     * 
+	 * @param request 
+	 * 				request from the client
+	 * @param response 
+	 * 				response to the client 
+	 * @throws ServletException
+	 * 			 	if any error occurs while executing the servlet
+	 * @throws IOException
+	 *  			if any error occurs in the client/server communication.
+	 */
     private void delete(HttpServletRequest request, HttpServletResponse response) {
         //handle logic for delete operation...
     }
     
+
+	/**
+     * Handles an edit post request.
+     * 
+	 * @param request 
+	 * 				request from the client
+	 * @param response 
+	 * 				response to the client 
+	 * @throws ServletException
+	 * 			 	if any error occurs while executing the servlet
+	 * @throws IOException
+	 *  			if any error occurs in the client/server communication.
+	 */
     private void edit(HttpServletRequest request, HttpServletResponse response) {
         //handle logic for edit operation...
     }
 
+	/**
+     * Handles error forwarding between pages.
+     * 
+	 * @param request 
+	 * 				request from the client
+	 * @param response 
+	 * 				response to the client 
+	 * @throws ServletException
+	 * 			 	if any error occurs while executing the servlet
+	 * @throws IOException
+	 *  			if any error occurs in the client/server communication.
+	 */
     private void errorForward(HttpServletRequest request, HttpServletResponse response) 
     		throws ServletException, IOException  {
     	// Error management
