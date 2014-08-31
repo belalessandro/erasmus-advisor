@@ -1,19 +1,20 @@
 package it.unipd.dei.bding.erasmusadvisor.test;
 
-import it.unipd.dei.bding.erasmusadvisor.database.ArgomentoTesiDatabase;
 import it.unipd.dei.bding.erasmusadvisor.database.InsegnamentoDatabase;
 import it.unipd.dei.bding.erasmusadvisor.resources.TeachingSearchRow;
-import it.unipd.dei.bding.erasmusadvisor.resources.ThesisSearchRow;
 
 import java.io.FileNotFoundException;
 import java.io.UnsupportedEncodingException;
-import java.sql.SQLException;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.List;
+
 import org.apache.commons.dbutils.DbUtils;
 
-
+/**
+ * Test class
+ */
 public class TestClass{
 
 

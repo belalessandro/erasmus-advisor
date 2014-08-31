@@ -6,6 +6,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+/**
+ * Test class
+ */
 public class ListOfCities {
 
 	private static final String DRIVER = "org.postgresql.Driver";

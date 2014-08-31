@@ -11,7 +11,9 @@ import java.sql.DriverManager;
 import java.util.List;
 import org.apache.commons.dbutils.DbUtils;
 
-
+/**
+ * Test class
+ */
 public class TestArgomentoTesiDatabase {
 
 

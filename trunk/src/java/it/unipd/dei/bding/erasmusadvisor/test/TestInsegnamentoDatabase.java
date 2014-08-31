@@ -1,22 +1,17 @@
 package it.unipd.dei.bding.erasmusadvisor.test;
 
-import it.unipd.dei.bding.erasmusadvisor.beans.CittaBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.InsegnamentoBean;
-import it.unipd.dei.bding.erasmusadvisor.beans.UniversitaBean;
-import it.unipd.dei.bding.erasmusadvisor.beans.ValutazioneUniversitaBean;
 import it.unipd.dei.bding.erasmusadvisor.database.InsegnamentoDatabase;
-import it.unipd.dei.bding.erasmusadvisor.database.UniversitaDatabase;
-import it.unipd.dei.bding.erasmusadvisor.resources.University;
 
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.SQLException;
 
-import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.dbutils.DbUtils;
-import org.apache.tomcat.jdbc.pool.DataSource;
 
+/**
+ * Test class
+ */
 public class TestInsegnamentoDatabase {
 
 
