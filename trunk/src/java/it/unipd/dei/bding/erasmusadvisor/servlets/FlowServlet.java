@@ -37,8 +37,16 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.dbutils.DbUtils;
 
 /**
+ * Manages a specific Flow.
+ * 
+ * <p> Base URL: /flow
+ * 
+ * <p> Accepts: GET, POST
+ * 
+ * <p> Operations: INSERT, EDIT, DELETE
+ * 
+ * @see UniversityServlet
  * @author Luca
- *
  */
 public class FlowServlet extends AbstractDatabaseServlet {
 
@@ -254,9 +262,12 @@ public class FlowServlet extends AbstractDatabaseServlet {
 	
 
 	/**
-	 * Handle logic for insert operation...
+	 * Handle logic for insert operation.
+	 * 
 	 * @param request
 	 * @param response
+	 * @throws ServletException
+	 * @throws IOException
 	 */
 	private void insert(HttpServletRequest request, HttpServletResponse response) 
 			throws ServletException, IOException  {

@@ -14,9 +14,6 @@ import java.net.URLEncoder;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-import javax.json.Json;
-import javax.json.JsonObject;
-import javax.json.JsonWriter;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -24,10 +21,17 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.dbutils.DbUtils;
 
 /**
- * Mapped to /university
- * @author Alessandro, Luca
- *
+ * Manages a specific University.
+ * 
+ * <p> Base URL: /university
+ * 
+ * <p> Accepts: GET, POST
+ * 
+ * <p> Operations: INSERT, EDIT, DELETE
+ * 
+ * @author Luca, Alessandro
  */
+
 public class UniversityServlet extends AbstractDatabaseServlet {
 	/**
 	 * Operation constants
@@ -41,6 +45,15 @@ public class UniversityServlet extends AbstractDatabaseServlet {
 
 	/**
 	 * Get the details of a specific university
+	 * 
+	 * @param request 
+	 * 				request from the client
+	 * @param response 
+	 * 				response to the client 
+	 * @throws ServletException
+	 * 			 	if any error occurs while executing the servlet
+	 * @throws IOException
+	 *  			if any error occurs in the client/server communication.
 	 */
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
@@ -88,10 +101,7 @@ public class UniversityServlet extends AbstractDatabaseServlet {
 
 			resp.setContentType("application/json");
 			if (results != null) {
-				/* NOT IMPLEMENTED YET */
-				JsonWriter jsonWriter = Json.createWriter(resp.getWriter());
-				jsonWriter.writeObject(convertToJson(results));
-				jsonWriter.close();
+				/* NOT IMPLEMENTED */
 			}
 
 		} else {
@@ -120,9 +130,17 @@ public class UniversityServlet extends AbstractDatabaseServlet {
 	}
 	
 	/**
-	 * Insert or update the university sent with a POST form
+	 * Handles an operation FORM
+	 * 
+	 * @param request 
+	 * 				request from the client
+	 * @param response 
+	 * 				response to the client 
+	 * @throws ServletException
+	 * 			 	if any error occurs while executing the servlet
+	 * @throws IOException
+	 *  			if any error occurs in the client/server communication.
 	 */
-	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		
@@ -160,9 +178,16 @@ public class UniversityServlet extends AbstractDatabaseServlet {
 
 
 	/**
-	 * Handle logic for insert operation...
-	 * @param request
-	 * @param response
+	 * Handles logic for insert operation.
+	 * 
+	 * @param request 
+	 * 				request from the client
+	 * @param response 
+	 * 				response to the client 
+	 * @throws ServletException
+	 * 			 	if any error occurs while executing the servlet
+	 * @throws IOException
+	 *  			if any error occurs in the client/server communication.
 	 */
 	private void insert(HttpServletRequest request, HttpServletResponse response) 
 			throws ServletException, IOException  {
@@ -221,7 +246,18 @@ public class UniversityServlet extends AbstractDatabaseServlet {
 		response.sendRedirect(builder.toString());
     }
 
-
+	/**
+     * Handles a delete request.
+     * 
+	 * @param request 
+	 * 				request from the client
+	 * @param response 
+	 * 				response to the client 
+	 * @throws ServletException
+	 * 			 	if any error occurs while executing the servlet
+	 * @throws IOException
+	 *  			if any error occurs in the client/server communication.
+	 */
     private void delete(HttpServletRequest req, HttpServletResponse resp) 
     		throws ServletException, IOException 
     {
@@ -260,6 +296,19 @@ public class UniversityServlet extends AbstractDatabaseServlet {
 		}
     }
     
+    
+	/**
+     * Handles an edit post request.
+     * 
+	 * @param request 
+	 * 				request from the client
+	 * @param response 
+	 * 				response to the client 
+	 * @throws ServletException
+	 * 			 	if any error occurs while executing the servlet
+	 * @throws IOException
+	 *  			if any error occurs in the client/server communication.
+	 */
     private void edit(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
     {
     	
@@ -307,13 +356,17 @@ public class UniversityServlet extends AbstractDatabaseServlet {
     }
 
     /**
-     * Handle error forwarding between pages.
+     * Handles error forwarding between pages.
      * 
-     * @param request request object
-     * @param response response object
-     * @throws ServletException
-     * @throws IOException
-     */
+	 * @param request 
+	 * 				request from the client
+	 * @param response 
+	 * 				response to the client 
+	 * @throws ServletException
+	 * 			 	if any error occurs while executing the servlet
+	 * @throws IOException
+	 *  			if any error occurs in the client/server communication.
+	 */
     private void errorForward(HttpServletRequest request, HttpServletResponse response) 
     		throws ServletException, IOException  {
     	// Error management
@@ -324,29 +377,4 @@ public class UniversityServlet extends AbstractDatabaseServlet {
     	getServletContext().getRequestDispatcher("/jsp/error.jsp")
     		.forward(request, response); // ERROR PAGE
     }
-	
-	
-    // TODO: mauro: da cancellare ?
-	private JsonObject convertToJson(University uni) {
-		/* NOT IMPLEMENTED YET */
-		JsonObject json = Json.createObjectBuilder()
-			     .add("firstName", "John")
-			     .add("lastName", "Smith")
-			     .add("age", 25)
-			     .add("address", Json.createObjectBuilder()
-			         .add("streetAddress", "21 2nd Street")
-			         .add("city", "New York")
-			         .add("state", "NY")
-			         .add("postalCode", "10021"))
-			     .add("phoneNumber", Json.createArrayBuilder()
-			         .add(Json.createObjectBuilder()
-			             .add("type", "home")
-			             .add("number", "212 555-1234"))
-			         .add(Json.createObjectBuilder()
-			             .add("type", "fax")
-			             .add("number", "646 555-4567")))
-			     .build();
-		
-		return json;
-	}
 }

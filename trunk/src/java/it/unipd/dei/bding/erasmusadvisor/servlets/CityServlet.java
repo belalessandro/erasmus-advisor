@@ -29,6 +29,8 @@ import org.apache.commons.dbutils.DbUtils;
  * 
  * <p> Accepts: GET, POST
  * 
+ * <p> Operations: INSERT, EDIT, DELETE
+ * 
  * @see UniversityServlet
  * @author Luca, Alessandro
  */
@@ -63,8 +65,14 @@ public class CityServlet extends AbstractDatabaseServlet
 	/**
 	 * Get the details of a specific city
 	 * 
-	 * @param "name" the name of the city
-	 * @param "country" the country
+	 * @param request 
+	 * 				request from the client
+	 * @param response 
+	 * 				response to the client 
+	 * @throws ServletException
+	 * 			 	if any error occurs while executing the servlet
+	 * @throws IOException
+	 *  			if any error occurs in the client/server communication.
 	 */
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException 
@@ -122,9 +130,16 @@ public class CityServlet extends AbstractDatabaseServlet
 	}
 	
 	/**
-	 * Submit a form
+	 * Submit an operation form
 	 * 
-	 * @param "operation" the operation to be executed 
+	 * @param request 
+	 * 				request from the client
+	 * @param response 
+	 * 				response to the client 
+	 * @throws ServletException
+	 * 			 	if any error occurs while executing the servlet
+	 * @throws IOException
+	 *  			if any error occurs in the client/server communication.
 	 */
 	protected void  doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException 
@@ -246,10 +261,14 @@ public class CityServlet extends AbstractDatabaseServlet
 	/**
 	 * Handles logic for insert operation.
 	 * 
-	 * @param "Nome" the name of the city
-	 * @param "Stato" the country
-	 * @param "LinguaCitta[]" the languages spoken in the city
-	 * 
+	 * @param request 
+	 * 				request from the client
+	 * @param response 
+	 * 				response to the client 
+	 * @throws ServletException
+	 * 			 	if any error occurs while executing the servlet
+	 * @throws IOException
+	 *  			if any error occurs in the client/server communication.
 	 */
 	private void insert(HttpServletRequest request, HttpServletResponse response) 
 			throws ServletException, IOException  {
@@ -327,9 +346,14 @@ public class CityServlet extends AbstractDatabaseServlet
 	/**
 	 * Handles logic for delete operation.
 	 * 
-	 * @param "city" the name of the city
-	 * @param "country" the country
-	 * 
+	 * @param request 
+	 * 				request from the client
+	 * @param response 
+	 * 				response to the client 
+	 * @throws ServletException
+	 * 			 	if any error occurs while executing the servlet
+	 * @throws IOException
+	 *  			if any error occurs in the client/server communication.
 	 */
     private void delete(HttpServletRequest req, HttpServletResponse resp) 
     		throws ServletException, IOException 
@@ -376,13 +400,17 @@ public class CityServlet extends AbstractDatabaseServlet
     }
     
     /**
-     * Handle error forwarding between pages.
+     * Handles error forwarding between pages.
      * 
-     * @param request request object
-     * @param response response object
-     * @throws ServletException
-     * @throws IOException
-     */
+	 * @param request 
+	 * 				request from the client
+	 * @param response 
+	 * 				response to the client 
+	 * @throws ServletException
+	 * 			 	if any error occurs while executing the servlet
+	 * @throws IOException
+	 *  			if any error occurs in the client/server communication.
+	 */
     private void errorForward(HttpServletRequest request, HttpServletResponse response) 
     		throws ServletException, IOException  {
     	// Error management

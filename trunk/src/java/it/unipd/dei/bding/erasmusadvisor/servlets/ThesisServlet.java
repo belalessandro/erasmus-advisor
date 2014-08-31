@@ -38,9 +38,16 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.dbutils.DbUtils;
 
 /**
- * Mapped to /thesis
- * @author Nicola, Luca
- *
+ * Manages a specific Thesis.
+ * 
+ * <p> Base URL: /thesis
+ * 
+ * <p> Accepts: GET, POST
+ * 
+ * <p> Operations: INSERT, UPDATE, DELETE, AJAX
+ * 
+ * @see UniversityServlet
+ * @author Alessandro, Nicola, Luca
  */
 public class ThesisServlet extends AbstractDatabaseServlet {
 	/**
@@ -54,7 +61,16 @@ public class ThesisServlet extends AbstractDatabaseServlet {
 	private static final long serialVersionUID = 77657689265503855L;
 
 	/**
-	 * Get the details of a specific thesis or redirects to the insert form-page
+	 * Get the details of a specific thesis.
+	 * 
+	 * @param request 
+	 * 				request from the client
+	 * @param response 
+	 * 				response to the client 
+	 * @throws ServletException
+	 * 			 	if any error occurs while executing the servlet
+	 * @throws IOException
+	 *  			if any error occurs in the client/server communication.
 	 */
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException 
@@ -69,7 +85,7 @@ public class ThesisServlet extends AbstractDatabaseServlet {
 		}
 		
 		/**
-		 *  Gets the university model from the database
+		 *  Gets the thesis model from the database
 		 */
 		
 		// model
@@ -96,19 +112,14 @@ public class ThesisServlet extends AbstractDatabaseServlet {
 		}
 		
 		/**
-		 *  Send the university model to the appropriate output (Ajax or normal)
+		 *  Send the thesis model to the appropriate output (Ajax or normal)
 		 *
 		 */
 		if ("XMLHttpRequest".equals(req.getHeader("X-Requested-With"))) 
 		{
 			// Handle Ajax response (e.g. return JSON data object).
-			resp.setContentType("application/json");
-			if (results != null) {
-				/* NOT IMPLEMENTED YET */
-				JsonWriter jsonWriter = Json.createWriter(resp.getWriter());
-				jsonWriter.writeObject(convertToJson(results));
-				jsonWriter.close();
-			}
+			
+			/* NOT IMPLEMENTED */
 		}
 		else {
 			// Handle normal response (e.g. forward and/or set message as attribute).
@@ -136,7 +147,16 @@ public class ThesisServlet extends AbstractDatabaseServlet {
 	}
 	
 	/**
-	 * Insert or update the thesis sent with a POST form
+	 * Handles an operation form
+	 * 
+	 * @param request 
+	 * 				request from the client
+	 * @param response 
+	 * 				response to the client 
+	 * @throws ServletException
+	 * 			 	if any error occurs while executing the servlet
+	 * @throws IOException
+	 *  			if any error occurs in the client/server communication.
 	 */
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
@@ -179,15 +199,19 @@ public class ThesisServlet extends AbstractDatabaseServlet {
 	/**
 	 * Handle the report for a thesis. 
 	 * 
-	 * @param request
-	 * @param response
+	 * @param request 
+	 * 				request from the client
+	 * @param response 
+	 * 				response to the client 
 	 * @throws ServletException
+	 * 			 	if any error occurs while executing the servlet
 	 * @throws IOException
+	 *  			if any error occurs in the client/server communication.
 	 */
 	private void report(HttpServletRequest request, HttpServletResponse response) 
 			throws ServletException, IOException {
 		
-		// get json object
+		// get JSON object
 		response.setContentType("application/json");
 		JsonReader reader = Json.createReader(request.getInputStream());
 		JsonObject json = reader.readObject();
@@ -214,7 +238,7 @@ public class ThesisServlet extends AbstractDatabaseServlet {
 			DbUtils.closeQuietly(con);
 		}
 		
-		// writing the json object to the page
+		// writing the JSON object to the page
 		JsonObjectBuilder builder = Json.createObjectBuilder();
 		
 		builder.add("report", "success");
@@ -226,9 +250,16 @@ public class ThesisServlet extends AbstractDatabaseServlet {
 	}
 
 	/**
-	 * Handle logic for insert operation...
-	 * @param request
-	 * @param response
+	 * Handles logic for insert operation.
+	 * 
+	 * @param request 
+	 * 				request from the client
+	 * @param response 
+	 * 				response to the client 
+	 * @throws ServletException
+	 * 			 	if any error occurs while executing the servlet
+	 * @throws IOException
+	 *  			if any error occurs in the client/server communication.
 	 */
 	private void insert(HttpServletRequest request, HttpServletResponse response) 
 			throws ServletException, IOException  {
@@ -385,7 +416,18 @@ public class ThesisServlet extends AbstractDatabaseServlet {
 		response.sendRedirect(builder.toString());	
     }
 
-
+ 	/**
+	 * Handles a delete request.
+	 * 
+	 * @param request 
+	 * 				request from the client
+	 * @param response 
+	 * 				response to the client 
+	 * @throws ServletException
+	 * 			 	if any error occurs while executing the servlet
+	 * @throws IOException
+	 *  			if any error occurs in the client/server communication.
+	 */
     private void delete(HttpServletRequest req, HttpServletResponse resp) 
     		throws ServletException, IOException 
     {
@@ -427,12 +469,17 @@ public class ThesisServlet extends AbstractDatabaseServlet {
     
     
     /**
-     * Handle an edit post request. It modifies an instance of entity ArgomentoTesi 
-     * @param req
-     * @param resp
-     * @throws IOException
-     * @throws ServletException
-     */
+     * Handle an edit post request.
+	 * 
+	 * @param request 
+	 * 				request from the client
+	 * @param response 
+	 * 				response to the client 
+	 * @throws ServletException
+	 * 			 	if any error occurs while executing the servlet
+	 * @throws IOException
+	 *  			if any error occurs in the client/server communication.
+	 */
     private void edit(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
 		
     	// data models, connection
@@ -544,6 +591,18 @@ public class ThesisServlet extends AbstractDatabaseServlet {
 		}
     }
 
+	/**
+     * Handles error forwarding between pages.
+     * 
+	 * @param request 
+	 * 				request from the client
+	 * @param response 
+	 * 				response to the client 
+	 * @throws ServletException
+	 * 			 	if any error occurs while executing the servlet
+	 * @throws IOException
+	 *  			if any error occurs in the client/server communication.
+	 */
     private void errorForward(HttpServletRequest request, HttpServletResponse response) 
     		throws ServletException, IOException  {
     	// Error management
@@ -554,27 +613,4 @@ public class ThesisServlet extends AbstractDatabaseServlet {
     	getServletContext().getRequestDispatcher("/jsp/error.jsp")
     		.forward(request, response); // ERROR PAGE
     }
-	
-	private JsonObject convertToJson(Thesis tesi) {
-		/* NOT IMPLEMENTED YET */
-		JsonObject json = Json.createObjectBuilder()
-			     .add("firstName", "John")
-			     .add("lastName", "Smith")
-			     .add("age", 25)
-			     .add("address", Json.createObjectBuilder()
-			         .add("streetAddress", "21 2nd Street")
-			         .add("city", "New York")
-			         .add("state", "NY")
-			         .add("postalCode", "10021"))
-			     .add("phoneNumber", Json.createArrayBuilder()
-			         .add(Json.createObjectBuilder()
-			             .add("type", "home")
-			             .add("number", "212 555-1234"))
-			         .add(Json.createObjectBuilder()
-			             .add("type", "fax")
-			             .add("number", "646 555-4567")))
-			     .build();
-		
-		return json;
-	}
 }

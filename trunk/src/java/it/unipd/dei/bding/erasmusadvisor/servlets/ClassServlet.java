@@ -1,9 +1,11 @@
-/**
- * 
- */
 package it.unipd.dei.bding.erasmusadvisor.servlets;
 
-import it.unipd.dei.bding.erasmusadvisor.database.ArgomentoTesiDatabase;
+import it.unipd.dei.bding.erasmusadvisor.beans.AreaBean;
+import it.unipd.dei.bding.erasmusadvisor.beans.BeanUtilities;
+import it.unipd.dei.bding.erasmusadvisor.beans.InsegnamentoBean;
+import it.unipd.dei.bding.erasmusadvisor.beans.LinguaBean;
+import it.unipd.dei.bding.erasmusadvisor.beans.PartecipazioneBean;
+import it.unipd.dei.bding.erasmusadvisor.beans.SvolgimentoBean;
 import it.unipd.dei.bding.erasmusadvisor.database.GetAreaValues;
 import it.unipd.dei.bding.erasmusadvisor.database.GetLinguaValues;
 import it.unipd.dei.bding.erasmusadvisor.database.InsegnamentoDatabase;
@@ -11,19 +13,12 @@ import it.unipd.dei.bding.erasmusadvisor.database.PartecipazioneDatabase;
 import it.unipd.dei.bding.erasmusadvisor.database.ProfessoreDatabase;
 import it.unipd.dei.bding.erasmusadvisor.database.SvolgimentoDatabase;
 import it.unipd.dei.bding.erasmusadvisor.resources.LoggedUser;
-import it.unipd.dei.bding.erasmusadvisor.resources.TeachingEvaluationAverage;
 import it.unipd.dei.bding.erasmusadvisor.resources.Message;
 import it.unipd.dei.bding.erasmusadvisor.resources.Teaching;
+import it.unipd.dei.bding.erasmusadvisor.resources.TeachingEvaluationAverage;
 import it.unipd.dei.bding.erasmusadvisor.resources.UserType;
-import it.unipd.dei.bding.erasmusadvisor.beans.AreaBean;
-import it.unipd.dei.bding.erasmusadvisor.beans.BeanUtilities;
-import it.unipd.dei.bding.erasmusadvisor.beans.InsegnamentoBean;
-import it.unipd.dei.bding.erasmusadvisor.beans.LinguaBean;
-import it.unipd.dei.bding.erasmusadvisor.beans.PartecipazioneBean;
-import it.unipd.dei.bding.erasmusadvisor.beans.SvolgimentoBean;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
@@ -41,8 +36,14 @@ import org.apache.commons.dbutils.DbUtils;
 
 
 /**
- * @author Luca
- *
+ * Manages a specific Class.
+ * 
+ * <p> Base URL: /class
+ * 
+ * <p> Accepts: GET, POST
+ * 
+ * @see UniversityServlet
+ * @author Luca, Nicola, Mauro
  */
 public class ClassServlet extends AbstractDatabaseServlet 
 {
@@ -58,10 +59,15 @@ public class ClassServlet extends AbstractDatabaseServlet
 
 	/**
 	 * Provides a class visualization and list of evaluations.
-	 * @param req request by the client
-	 * @param resp response to the client 
+	 * 
+	 * @param request 
+	 * 				request from the client
+	 * @param response 
+	 * 				response to the client 
 	 * @throws ServletException
+	 * 			 	if any error occurs while executing the servlet
 	 * @throws IOException
+	 *  			if any error occurs in the client/server communication.
 	 */
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException
@@ -142,11 +148,16 @@ public class ClassServlet extends AbstractDatabaseServlet
 	}
 	
 	/**
-	 * Manage edit class requests.
-	 * @param req request by the client
-	 * @param resp response to the client
+	 * Submit an operation form
+	 * 
+	 * @param request 
+	 * 				request from the client
+	 * @param response 
+	 * 				response to the client 
 	 * @throws ServletException
+	 * 			 	if any error occurs while executing the servlet
 	 * @throws IOException
+	 *  			if any error occurs in the client/server communication.
 	 */
 	protected void  doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException 
@@ -193,15 +204,19 @@ public class ClassServlet extends AbstractDatabaseServlet
 	/**
 	 * Handle the report for a class. 
 	 * 
-	 * @param request
-	 * @param response
+	 * @param request 
+	 * 				request from the client
+	 * @param response 
+	 * 				response to the client 
 	 * @throws ServletException
+	 * 			 	if any error occurs while executing the servlet
 	 * @throws IOException
+	 *  			if any error occurs in the client/server communication.
 	 */
 	private void report(HttpServletRequest request, HttpServletResponse response) 
 			throws ServletException, IOException {
 		
-		// get json object
+		// get JSON object
 		response.setContentType("application/json");
 		JsonReader reader = Json.createReader(request.getInputStream());
 		JsonObject json = reader.readObject();
@@ -227,7 +242,7 @@ public class ClassServlet extends AbstractDatabaseServlet
 			DbUtils.closeQuietly(con);
 		}
 		
-		// writing the json object to the page
+		// writing the JSON object to the page
 		JsonObjectBuilder builder = Json.createObjectBuilder();
 		
 		builder.add("report", "success");
@@ -240,9 +255,16 @@ public class ClassServlet extends AbstractDatabaseServlet
 	
 
 	/**
-	 * Handle logic for insert operation...
-	 * @param request
-	 * @param response
+	 * Handles logic for insert operation.
+	 * 
+	 * @param request 
+	 * 				request from the client
+	 * @param response 
+	 * 				response to the client 
+	 * @throws ServletException
+	 * 			 	if any error occurs while executing the servlet
+	 * @throws IOException
+	 *  			if any error occurs in the client/server communication.
 	 */
 	private void insert(HttpServletRequest request, HttpServletResponse response) 
 			throws ServletException, IOException  {
@@ -355,6 +377,18 @@ public class ClassServlet extends AbstractDatabaseServlet
 		response.sendRedirect(builder.toString());	
     }
 
+	/**
+     * Handles a delete post request.
+     * 
+	 * @param request 
+	 * 				request from the client
+	 * @param response 
+	 * 				response to the client 
+	 * @throws ServletException
+	 * 			 	if any error occurs while executing the servlet
+	 * @throws IOException
+	 *  			if any error occurs in the client/server communication.
+	 */
     private void delete(HttpServletRequest req, HttpServletResponse resp) 
     		throws ServletException, IOException 
     {
@@ -395,12 +429,17 @@ public class ClassServlet extends AbstractDatabaseServlet
     }
     
     /**
-     * Handle an edit post request. It modifies an instance of entity ArgomentoTesi
-     * @param request
-     * @param response
-     * @throws IOException
-     * @throws ServletException
-     */
+     * Handles an edit post request.
+	 * 
+	 * @param request 
+	 * 				request from the client
+	 * @param response 
+	 * 				response to the client 
+	 * @throws ServletException
+	 * 			 	if any error occurs while executing the servlet
+	 * @throws IOException
+	 *  			if any error occurs in the client/server communication.
+	 */
     private void edit(HttpServletRequest request, HttpServletResponse response) 
     		throws IOException, ServletException 
     {
@@ -472,7 +511,19 @@ public class ClassServlet extends AbstractDatabaseServlet
 			DbUtils.closeQuietly(con);
 		}
 	}
-
+    
+	/**
+     * Handles error forwarding between pages.
+     * 
+	 * @param request 
+	 * 				request from the client
+	 * @param response 
+	 * 				response to the client 
+	 * @throws ServletException
+	 * 			 	if any error occurs while executing the servlet
+	 * @throws IOException
+	 *  			if any error occurs in the client/server communication.
+	 */
     private void errorForward(HttpServletRequest request, HttpServletResponse response) 
     		throws ServletException, IOException  {
     	// Error management
