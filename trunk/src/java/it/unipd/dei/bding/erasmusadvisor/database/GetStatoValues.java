@@ -20,7 +20,7 @@ import org.apache.commons.dbutils.handlers.ColumnListHandler;
 public class GetStatoValues 
 {
 	/**
-	 * Get the values for the attribute Citta.Stato
+	 * Returns the values for the attribute Citta.Stato
 	 * @param conn A connection to the database.
 	 * @return A list of countries
 	 * @throws SQLException If an error occurs running the SQL query.

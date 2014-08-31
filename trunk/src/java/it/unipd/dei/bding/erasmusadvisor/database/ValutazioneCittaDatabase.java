@@ -46,7 +46,7 @@ public class ValutazioneCittaDatabase {
 	}
 	
 	/**
-	 * Get all the evaluation to cities inserted by a specific student
+	 * Returns all the evaluation to cities inserted by a specific student
 	 * @param conn A connection to the database
 	 * @param user The User
 	 * @return A list of evaluations

@@ -21,10 +21,11 @@ public class ThesisSearchRow {
 	
 	
 	/**
-	 * @param arg
-	 * @param listaAree
-	 * @param listaProfessori
-	 * @param listaLingue
+	 * Initializes the object, setting the search results.
+	 * @param arg The thesis.
+	 * @param listaAree The thesis' areas.
+	 * @param listaProfessori The thesis' teachers.
+	 * @param listaLingue The thesis' languages.
 	 */
 	public ThesisSearchRow(ArgomentoTesiBean arg, List<AreaBean> listaAree,
 			List<ProfessoreBean> listaProfessori, List<LinguaBean> listaLingue) {
@@ -34,50 +35,66 @@ public class ThesisSearchRow {
 		this.listaProfessori = listaProfessori;
 		this.listaLingue = listaLingue;
 	}
+	
 	/**
-	 * @return the arg
+	 * Returns the thesis.
+	 * @return The thesis.
 	 */
 	public ArgomentoTesiBean getArg() {
 		return arg;
 	}
+	
 	/**
-	 * @param arg the arg to set
+	 * Sets the thesis.
+	 * @param arg The value to set.
 	 */
 	public void setArg(ArgomentoTesiBean arg) {
 		this.arg = arg;
 	}
+	
 	/**
-	 * @return the listaAree
+	 * Returns the thesis areas.
+	 * @return A list of areas.
 	 */
 	public List<AreaBean> getListaAree() {
 		return listaAree;
 	}
+	
 	/**
-	 * @param listaAree the listaAree to set
+	 * Sets the thesis' areas.
+	 * @param listaAree The value to set.
 	 */
 	public void setListaAree(List<AreaBean> listaAree) {
 		this.listaAree = listaAree;
 	}
+	
 	/**
-	 * @return the listaProfessori
+	 * Returns the thesis teachers.
+	 * @return A list of teachers.
 	 */
 	public List<ProfessoreBean> getListaProfessori() {
 		return listaProfessori;
 	}
+	
 	/**
-	 * @param listaProfessori the listaProfessori to set
+	 * Sets the thesis teachers.
+	 * @param listaProfessori The value to set.
 	 */
 	public void setListaProfessori(List<ProfessoreBean> listaProfessori) {
 		this.listaProfessori = listaProfessori;
 	}
+	
 	/**
-	 * @return the listaLingue
+	 * Returns the thesis' languages.
+	 * @return A list of languages.
 	 */
 	public List<LinguaBean> getListaLingue() {
 		return listaLingue;
 	}
+	
 	/**
-	 * @param listaLingue the listaLingue to set
+	 * Set the thesis' languages.
+	 * @param listaLingue The value to set.
 	 */
 	public void setListaLingue(List<LinguaBean> listaLingue) {
 		this.listaLingue = listaLingue;

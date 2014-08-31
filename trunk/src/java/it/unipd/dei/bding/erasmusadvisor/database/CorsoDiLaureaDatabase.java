@@ -59,7 +59,7 @@ public class CorsoDiLaureaDatabase  {
 	}
 
 	/**
-	 * Get all the degree courses in a Flow Manager University
+	 * Returns all the degree courses in a Flow Manager University
 	 * 
 	 * @param conn
 	 *            A connection to the database.

@@ -6,7 +6,7 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * Compute the average of the a class's Flow list
+ * Compute the average of the a flow's evaluations list.
  * @author Luca
  *
  */
@@ -20,8 +20,8 @@ public class FlowEvaluationAverage implements Serializable
 	int managerEvaluation = 0;
 
 	/**
-	 * Initialize the class computing the evaluations' average. If the list is void the average is set to 0 for all the fields.
-	 * @param list a list of evaluations
+	 * Initializes the class computing the evaluations' average. If the list is void the average is set to 0 for all the fields.
+	 * @param list A list of evaluations.
 	 */
 	public FlowEvaluationAverage(List<ValutazioneFlussoBean> list)
 	{
@@ -44,8 +44,8 @@ public class FlowEvaluationAverage implements Serializable
 	}
 
 	/**
-	 * Get the average of the evaluations in the Gratification field
-	 * @return the average
+	 * Returns the average of the evaluations in the Gratification field.
+	 * @return The average.
 	 */
 	public int getGratification()
 	{
@@ -53,8 +53,8 @@ public class FlowEvaluationAverage implements Serializable
 	}
 
 	/**
-	 * Get the average of the evaluations in the Academic Fulfillment field
-	 * @return the average
+	 * Returns the average of the evaluations in the Academic Fulfillment field.
+	 * @return The average.
 	 */
 	public int getAcademicFulfillment()
 	{
@@ -62,8 +62,8 @@ public class FlowEvaluationAverage implements Serializable
 	}
 
 	/**
-	 * Get the average of the evaluations in the Didactics field
-	 * @return the average
+	 * Returns the average of the evaluations in the Didactics field.
+	 * @return The average.
 	 */
 	public int getDidactics()
 	{
@@ -71,8 +71,8 @@ public class FlowEvaluationAverage implements Serializable
 	}
 
 	/**
-	 * Get the average of the evaluations in the Manager Evaluation field
-	 * @return the average
+	 * Returns the average of the evaluations in the Manager Evaluation field.
+	 * @return The average.
 	 */
 	public int getManagerEvaluation()
 	{

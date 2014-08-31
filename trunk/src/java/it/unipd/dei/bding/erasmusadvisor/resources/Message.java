@@ -32,12 +32,9 @@ public class Message {
 	/**
 	 * Creates an error message.
 	 * 
-	 * @param code
-	 *            the code of the error.
-	 * @param message
-	 *            the error message.
-	 * @param details
-	 *            additional details about the error.
+	 * @param code The code of the error.
+	 * @param message The error message.
+	 * @param details Additional details about the error.
 	 */
 	public Message(final String message, final String errorCode, final String errorDetails) {
 		this.message = message;
@@ -50,8 +47,7 @@ public class Message {
 	/**
 	 * Creates a message.
 	 * 
-	 * @param message
-	 *            the message.
+	 * @param message The message.
 	 */
 	public Message(final String message) {
 		this.message = message;
@@ -64,7 +60,7 @@ public class Message {
 	/**
 	 * Returns the message.
 	 * 
-	 * @return the message.
+	 * @return The message.
 	 */
 	public String getMessage() {
 		return message;
@@ -73,7 +69,7 @@ public class Message {
 	/**
 	 * Returns the code of the error, if any.
 	 * 
-	 * @return the code of the error, if any.
+	 * @return The code of the error, if any.
 	 */
 	public String getErrorCode() {
 		return errorCode;
@@ -82,7 +78,7 @@ public class Message {
 	/**
 	 * Returns additional details about the error, if any.
 	 * 
-	 * @return additional details about the error.
+	 * @return Additional details about the error.
 	 */
 	public String getErrorDetails() {
 		return errorDetails;

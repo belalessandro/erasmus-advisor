@@ -33,7 +33,7 @@ public class CountryListServlet extends AbstractDatabaseServlet {
 	private static final long serialVersionUID = 124559389265503855L;
 
 	/**
-	 * Gets a list of countries 
+	 * Returns a list of countries 
 	 */
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {

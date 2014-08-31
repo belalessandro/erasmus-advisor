@@ -3,7 +3,7 @@ package it.unipd.dei.bding.erasmusadvisor.resources;
 import java.io.Serializable;
 
 /**
- * Represent a degree type, such as undergraduate or graduate
+ * Represents a degree type, such as undergraduate or graduate.
  * @author Luca
  *
  */
@@ -14,25 +14,25 @@ public class TipoLaureaBean implements Serializable
 	private String tipoLaurea;
 
 	/**
-	 * Returns the field nome.
+	 * Returns the degree type.
 	 *
-	 * @return the value of nome
+	 * @return The degree type.
 	 */
 	public String getTipoLaurea() {
 		return tipoLaurea;
 	}
 
 	/**
-	 * Sets the field nome
+	 * Sets the degree type.
 	 *
-	 * @param nome The value to set
+	 * @param tipoLaurea The value to set.
 	 */
 	public void setTipoLaurea(String tipoLaurea) {
 		this.tipoLaurea = tipoLaurea;
 	}
 
 	/**
-	 * Empty constructor
+	 * Empty constructor.
 	 */
 	public TipoLaureaBean() {}
 }

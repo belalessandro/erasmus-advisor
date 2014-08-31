@@ -8,7 +8,7 @@ import it.unipd.dei.bding.erasmusadvisor.beans.ValutazioneCittaBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.LinguaBean;
 
 /**
- * Contains all the details of a City needed by an end user.
+ * Contains all the details of a City displayed to an end user.
  * 
  * @author Luca
  *
@@ -21,10 +21,10 @@ public class City {
 	private List<LinguaBean> listaLingue;
 	
 	/**
-	 * Initialize the city
-	 * @param city the city
-	 * @param listaValutazioni a list of evaluations
-	 * @param listaLingue a list of languages spoken in the city
+	 * Initializes the city
+	 * @param city The city
+	 * @param listaValutazioni A list of evaluations
+	 * @param listaLingue A list of languages spoken in the city
 	 */
 	public City(CittaBean city, List<ValutazioneCittaBean> listaValutazioni, List<LinguaBean> listaLingue) 
 	{
@@ -37,7 +37,7 @@ public class City {
 	/**
 	 * Returns the city.
 	 *
-	 * @return the city
+	 * @return The city
 	 */
 	public CittaBean getCity() 
 	{
@@ -47,7 +47,7 @@ public class City {
 	/**
 	 * Sets the city
 	 *
-	 * @param city The city
+	 * @param ity The city
 	 */
 	public void setCity(CittaBean city) 
 	{
@@ -57,7 +57,7 @@ public class City {
 	/**
 	 * Returns the evaluations.
 	 *
-	 * @return a list of evaluations
+	 * @return A list of evaluations
 	 */
 	public List<ValutazioneCittaBean> getEvalutationList() 
 	{
@@ -67,7 +67,7 @@ public class City {
 	/**
 	 * Sets the evaluations
 	 *
-	 * @param listaValutazioni a list of evaluations
+	 * @param listaValutazioni A list of evaluations
 	 */
 	public void setEvalutationList(ArrayList<ValutazioneCittaBean> listaValutazioni) 
 	{
@@ -77,7 +77,7 @@ public class City {
 	/**
 	 * Returns the languages spoken in the city.
 	 *
-	 * @return a list of languages
+	 * @return A list of languages
 	 */
 	public List<LinguaBean> getLanguagesList() 
 	{
@@ -87,7 +87,7 @@ public class City {
 	/**
 	 * Sets the languages spoken in the city.
 	 *
-	 * @param listaLingue a list of languages
+	 * @param listaLingue A list of languages
 	 */
 	public void setLanguagesList(ArrayList<LinguaBean> listaLingue) 
 	{

@@ -39,7 +39,7 @@ public class ValutazioneInsegnamentoDatabase
 	}
 	
 	/**
-	 * Get all the evaluation to classes inserted by a specific student
+	 * Returns all the evaluation to classes inserted by a specific student
 	 * @param conn A connection to the database
 	 * @param user The User
 	 * @return A list of evaluations

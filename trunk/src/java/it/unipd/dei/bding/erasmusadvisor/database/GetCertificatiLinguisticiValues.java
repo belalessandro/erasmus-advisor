@@ -19,7 +19,7 @@ import org.apache.commons.dbutils.handlers.BeanListHandler;
 public class GetCertificatiLinguisticiValues 
 {
 	/**
-	 * Get the domain of Certificati Linguisici
+	 * Returns the domain of Certificati Linguisici
 	 * @param conn A connection to the database.
 	 * @return a list of certificates
 	 * @throws SQLException If an error occurs running the SQL query.

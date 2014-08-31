@@ -15,7 +15,7 @@ import java.util.List;
 
 
 /**
- * Contains all the details of a Thesis needed by an end user.
+ * Contains all the details of a Thesis displayed to an end user.
  * 
  * @author Nicola, Luca
  *
@@ -30,13 +30,13 @@ public class Thesis
         private List<AreaBean> aree;
 
         /**
-         * Initialize the Thesis.
+         * Initializes the Thesis.
          * 
-         * @param arg the Thesis
-         * @param listaValutazioni the list of the thesis' evaluations 
-         * @param professori the list of teachers that manage the thesis
-         * @param lingue the list of languages in which the thesis could be done
-         * @param aree the list of areas that the thesis extends
+         * @param arg The Thesis.
+         * @param listaValutazioni The list of the thesis' evaluations.
+         * @param professori The list of teachers that manage the thesis.
+         * @param lingue The list of languages in which the thesis could be done.
+         * @param aree The list of areas that the thesis extends.
          */
         public Thesis(ArgomentoTesiBean arg, List<ValutazioneTesiBean> listaValutazioni,
                         List<ProfessoreBean> professori, List<LinguaBean> lingue, List<AreaBean> aree) 
@@ -49,8 +49,9 @@ public class Thesis
         }
         
         /**
-         * @param arg
-         * @param listaValutazioni
+         * Initializes the thesis.
+         * @param arg The thesis.
+         * @param listaValutazioni A list of evaluations.
          */
         public Thesis(ArgomentoTesiBean arg, List<ValutazioneTesiBean> listaValutazioni) 
         {
@@ -59,7 +60,8 @@ public class Thesis
         }
         
         /**
-         * @param arg
+         * Initializes the thesis.
+         * @param arg The thesis.
          */
         public Thesis(ArgomentoTesiBean arg) 
         {
@@ -68,8 +70,8 @@ public class Thesis
         }
         
         /**
-         * Get the teachers that manage the thesis
-         * @return a list of beans representing the teachers
+         * Returns the teachers that manage the thesis.
+         * @return A list of beans representing the teachers.
          */
         public List<ProfessoreBean> getProfessori()
         {
@@ -77,8 +79,8 @@ public class Thesis
         }
         
         /**
-         * Set the teachers that manage the thesis
-         * @param obj
+         * Sets the teachers that manage the thesis.
+         * @param obj A list of teachers.
          */
         public void setProfessori(List<ProfessoreBean> obj)
         {
@@ -86,8 +88,8 @@ public class Thesis
         }
         
         /**
-         * Get the thesis' languages
-         * @return the list of languages
+         * Returns the thesis' languages.
+         * @return The list of languages.
          */
         public List<LinguaBean> getLingue()
         {
@@ -95,8 +97,8 @@ public class Thesis
         }
         
         /**
-         * Set the thesis' languages
-         * @param obj a list of beans representing the languages
+         * Sets the thesis' languages.
+         * @param obj A list of beans representing the languages.
          */
         public void setLingue(List<LinguaBean> obj)
         {
@@ -104,8 +106,8 @@ public class Thesis
         }
         
         /**
-         * Get the thesis' areas
-         * @return a list of areas
+         * Returns the thesis' areas.
+         * @return A list of areas.
          */
         public List<AreaBean> getAree()
         {
@@ -113,8 +115,8 @@ public class Thesis
         }
         
         /**
-         * Set the thesis' areas
-         * @param obj a list of beans representing the areas
+         * Sets the thesis' areas.
+         * @param obj A list of beans representing the areas.
          */
         public void setAree(List<AreaBean> obj)
         {
@@ -124,7 +126,7 @@ public class Thesis
         /**
          * Returns Thesis.
          *
-         * @return a bean representing the Thesis
+         * @return A bean representing the Thesis.
          */
         public ArgomentoTesiBean getArgomentoTesi()
         {
@@ -132,9 +134,9 @@ public class Thesis
         }
 
         /**
-         * Sets the Thesis
+         * Sets the Thesis.
          *
-         * @param arg The thesis
+         * @param arg The thesis.
          */
         public void setArgomentoTesi(ArgomentoTesiBean arg) 
         {
@@ -144,7 +146,7 @@ public class Thesis
         /**
          * Returns the thesis' evaluations.
          *
-         * @return a list of beans representing the evaluations
+         * @return A list of beans representing the evaluations.
          */
         public List<ValutazioneTesiBean> getListaValutazioni() 
         {
@@ -152,9 +154,9 @@ public class Thesis
         }
 
         /**
-         * Sets the thesis' evaluations
+         * Sets the thesis' evaluations.
          *
-         * @param listaValutazioni The value to set
+         * @param listaValutazioni The value to set.
          */
         public void setListaValutazioni(
                         ArrayList<ValutazioneTesiBean> listaValutazioni) 

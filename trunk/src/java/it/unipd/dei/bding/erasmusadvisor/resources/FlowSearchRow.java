@@ -1,9 +1,7 @@
 package it.unipd.dei.bding.erasmusadvisor.resources;
 
 import it.unipd.dei.bding.erasmusadvisor.beans.CertificatiLinguisticiBean;
-import it.unipd.dei.bding.erasmusadvisor.beans.CittaBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.FlussoBean;
-import it.unipd.dei.bding.erasmusadvisor.beans.LinguaBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.UniversitaBean;
 
 import java.util.List;
@@ -20,9 +18,10 @@ public class FlowSearchRow {
 	private List<CertificatiLinguisticiBean> listaCertificatiLinguistici;
 	
 	/**
-	 * @param flusso
-	 * @param universita
-	 * @param listaCertificatiLinguistici
+	 * Initializes the object, setting the search results.
+	 * @param flusso The flow.
+	 * @param universita The university.
+	 * @param listaCertificatiLinguistici The list of language certifications.
 	 */
 	public FlowSearchRow(FlussoBean flusso, UniversitaBean universita,
 			List<CertificatiLinguisticiBean> listaCertificatiLinguistici) {
@@ -32,54 +31,54 @@ public class FlowSearchRow {
 	}
 
 	/**
-	 * Returns the field flusso.
+	 * Returns the flow.
 	 *
-	 * @return the value of flusso
+	 * @return The flow.
 	 */
 	public FlussoBean getFlusso() {
 		return flusso;
 	}
 
 	/**
-	 * Sets the field flusso
+	 * Sets the flow.
 	 *
-	 * @param flusso The value to set
+	 * @param flusso The value to set.
 	 */
 	public void setFlusso(FlussoBean flusso) {
 		this.flusso = flusso;
 	}
 
 	/**
-	 * Returns the field universita.
+	 * Returns the university.
 	 *
-	 * @return the value of universita
+	 * @return The university.
 	 */
 	public UniversitaBean getUniversita() {
 		return universita;
 	}
 
 	/**
-	 * Sets the field universita
+	 * Sets the university.
 	 *
-	 * @param universita The value to set
+	 * @param universita The value to set.
 	 */
 	public void setUniversita(UniversitaBean universita) {
 		this.universita = universita;
 	}
 
 	/**
-	 * Returns the field listaCertificatiLinguistici.
+	 * Returns the list of language certifications.
 	 *
-	 * @return the value of listaCertificatiLinguistici
+	 * @return A list of language certifications.
 	 */
 	public List<CertificatiLinguisticiBean> getListaCertificatiLinguistici() {
 		return listaCertificatiLinguistici;
 	}
 
 	/**
-	 * Sets the field listaCertificatiLinguistici
+	 * Sets list of language certifications.
 	 *
-	 * @param listaCertificatiLinguistici The value to set
+	 * @param listaCertificatiLinguistici The value to set.
 	 */
 	public void setListaCertificatiLinguistici(
 			List<CertificatiLinguisticiBean> listaCertificatiLinguistici) {
