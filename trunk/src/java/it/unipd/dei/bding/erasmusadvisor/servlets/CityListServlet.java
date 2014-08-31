@@ -1,17 +1,11 @@
-/**
- * 
- */
 package it.unipd.dei.bding.erasmusadvisor.servlets;
 
 import it.unipd.dei.bding.erasmusadvisor.beans.LinguaBean;
 import it.unipd.dei.bding.erasmusadvisor.database.CittaDatabase;
 import it.unipd.dei.bding.erasmusadvisor.database.GetLinguaValues;
 import it.unipd.dei.bding.erasmusadvisor.database.GetStatoValues;
-import it.unipd.dei.bding.erasmusadvisor.database.UniversitaDatabase;
 import it.unipd.dei.bding.erasmusadvisor.resources.CitySearchRow;
 import it.unipd.dei.bding.erasmusadvisor.resources.Message;
-import it.unipd.dei.bding.erasmusadvisor.resources.University;
-import it.unipd.dei.bding.erasmusadvisor.resources.UniversityEvaluationsAverage;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -81,7 +75,7 @@ public class CityListServlet extends AbstractDatabaseServlet {
 			conn = DS.getConnection();
 			
 			if (siglaLingua != null && stato != null)
-			{
+			{ 	// Filter By SiglaLingua AND Stato
 				results = CittaDatabase.filterCityByStatoLingua(conn, stato, siglaLingua);
 			}
 			else if (siglaLingua != null) { // Filter By SiglaLingua
@@ -91,8 +85,8 @@ public class CityListServlet extends AbstractDatabaseServlet {
 				results = CittaDatabase.filterCityByStato(conn, stato);
 			}
 			else
-			{ // parametri errati, brutto ma è un work around
-				throw new SQLException();
+			{ 	// Filters OFF
+				results = CittaDatabase.filterCity(conn);
 			}
 			
 			// Pre-charging form values
