@@ -47,7 +47,14 @@ public class StudenteDatabase
 		return new Student(studente, iscrizione, corso);
 	}
 
-	public static void updateStudent(Connection con, Student stud) 
+	/**
+	 * Update a student instance with the username given
+	 * 
+	 * @param con connection to the database
+	 * @param stud model of a student
+	 * @throws SQLException
+	 */
+	public static void updateStudent(Connection con, Student stud) throws SQLException 
 	{
 		StudenteBean studente = stud.getStudente();
 		CorsoDiLaureaBean corso = stud.getCorso();
@@ -68,7 +75,7 @@ public class StudenteDatabase
 		// start the transaction
 		try {
 			
-			// TODO:sbagliato: fare le due cose separatamente!
+			
 			con.setAutoCommit(false);
 			
 			pstmt1 = con.prepareStatement(stmt1.toString());
@@ -112,18 +119,33 @@ public class StudenteDatabase
 			} catch(SQLException ex) {
 				
 			} finally {
+				con.setAutoCommit(true);
 				pstmt1 = null;
 				pstmt2 = null;
 				pstmt3 = null;
 				con = null;
 			}
-			
-			
-			
-			
 		}
-		
-		
-		
 	}
+
+	/**
+	 * Update a student instance with the username given.
+	 * 
+	 * @param con connection to the database
+	 * @param studente a student bean model
+	 * @throws SQLException
+	 */
+	public static void updateStudent(Connection con, StudenteBean studente) throws SQLException 
+	{
+		StringBuilder sql = new StringBuilder()
+		.append("UPDATE Studente SET email = ?, dataregistrazione = ?, password = ?, attivo = 't' ")
+		.append("WHERE nomeutente = ?;");
+		
+		QueryRunner run = new QueryRunner();
+		
+		run.update(con, sql.toString(), studente.getEmail(), studente.getDataRegistrazione(), 
+				studente.getPassword(),studente.getNomeUtente());
+	}
+	
+	
 }
