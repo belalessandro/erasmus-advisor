@@ -21,21 +21,30 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.dbutils.DbUtils;
-
 /**
- * Servlet for getting lists of courses
+ * Servlet for getting lists of Course
  * 
- * Mapped to /course/list
+ * <p> Base URL: /course/list
+ * 
+ * <p> Accepts: AJAX Requests *only*
+ * 
  * @author Nicola
  */
-//Nb: This Servlet is only for Ajax Request
-
 public class CourseListServlet extends AbstractDatabaseServlet {
 
 	private static final long serialVersionUID = 124559389265503855L;
 
 	/**
 	 * Returns a list of courses 
+	 *
+	 * @param request 
+	 * 				request from the client
+	 * @param response 
+	 * 				response to the client 
+	 * @throws ServletException
+	 * 			 	if any error occurs while executing the servlet
+	 * @throws IOException
+	 *  			if any error occurs in the client/server communication.
 	 */
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
@@ -105,7 +114,8 @@ public class CourseListServlet extends AbstractDatabaseServlet {
 	}
 	
 	/**
-	 * Create a new json object to send
+	 * Creates a new JSON object to send
+	 * 
 	 * @param key key of the json
 	 * @param value value of the json
 	 * @return the json object
@@ -121,7 +131,8 @@ public class CourseListServlet extends AbstractDatabaseServlet {
 	}
 	
 	/**
-	 * Set up the json with the appropriate values after courses are selected.
+	 * Set up the JSON with the appropriate values after courses are selected.
+	 * 
 	 * @param nameList courses list
 	 * @return json array to send
 	 */
@@ -142,19 +153,4 @@ public class CourseListServlet extends AbstractDatabaseServlet {
 		return jb.build();
 	}
 	
-	
-	
-//	private JsonArray convertToJson(List<CorsoDiLaureaBean> nameList) {
-//		// eg. {"id":"Botaurus stellaris","label":"Great Bittern","value":"Great Bittern"}
-//		JsonArrayBuilder jb = Json.createArrayBuilder();
-//		
-//		for (CorsoDiLaureaBean corso : nameList) {
-//			jb.add(Json.createObjectBuilder()
-//				     .add("id", corso.getNome())
-//				     .add("label", corso.getNome())
-//				     .add("value", corso.getNome()));
-//		}
-//		
-//		return jb.build();
-//	}
 }

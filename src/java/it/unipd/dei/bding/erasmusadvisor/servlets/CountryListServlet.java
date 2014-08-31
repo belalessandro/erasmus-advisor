@@ -21,19 +21,29 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.dbutils.DbUtils;
 
 /**
- * Servlet for getting lists of courses
+ * Servlet for getting lists of Country
  * 
- * Mapped to /country/list
+ * <p> Base URL: /country/list
+ * 
+ * <p> Accepts: AJAX Requests *only*
+ * 
  * @author Nicola
  */
-//Nb: This Servlet is only for Ajax Request
-
 public class CountryListServlet extends AbstractDatabaseServlet {
 
 	private static final long serialVersionUID = 124559389265503855L;
 
 	/**
 	 * Returns a list of countries 
+	 *
+	 * @param request 
+	 * 				request from the client
+	 * @param response 
+	 * 				response to the client 
+	 * @throws ServletException
+	 * 			 	if any error occurs while executing the servlet
+	 * @throws IOException
+	 *  			if any error occurs in the client/server communication.
 	 */
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
@@ -83,6 +93,11 @@ public class CountryListServlet extends AbstractDatabaseServlet {
 
 	}
 	
+	/**
+     * Converts the bean list to a JSON Object
+     * 
+	 * @param nameList the list
+	 */
 	private JsonArray convertToJson(List<String> nameList) {
 		// eg. {"id":"Botaurus stellaris","label":"Great Bittern","value":"Great Bittern"}
 		JsonArrayBuilder jb = Json.createArrayBuilder();

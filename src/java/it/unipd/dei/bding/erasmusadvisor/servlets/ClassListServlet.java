@@ -23,22 +23,41 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.dbutils.DbUtils;
 
 /**
- * Mapped to /class/list
+ * Manages lists of Class.
  * 
+ * <p> Base URL: /class/list
+ * 
+ * <p> Accepts: GET
+ * 
+ * <p> Operations: SEARCH
+ * 
+ * @see UniversityListServlet
  * @author Nicola, Luca
- * 
  */
 public class ClassListServlet extends AbstractDatabaseServlet {
-	/**
-	 * Serial ID
-	 */
-	private static final long serialVersionUID = 2535254543154354L;
 	/**
 	 * Operation constants
 	 */
 	private final static String SEARCH = "search";
-
 	
+	/**
+	 * Serial ID
+	 */
+	private static final long serialVersionUID = 2535254543154354L;
+
+
+	/**
+	 * Gets the list
+	 * 
+	 * @param request 
+	 * 				request from the client
+	 * @param response 
+	 * 				response to the client 
+	 * @throws ServletException
+	 * 			 	if any error occurs while executing the servlet
+	 * @throws IOException
+	 *  			if any error occurs in the client/server communication.
+	 */
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException 
 		{
@@ -61,6 +80,18 @@ public class ClassListServlet extends AbstractDatabaseServlet {
 		}
 	}
 	
+	/**
+	 * Handles the search operation
+	 * 
+	 * @param request 
+	 * 				request from the client
+	 * @param response 
+	 * 				response to the client 
+	 * @throws ServletException
+	 * 			 	if any error occurs while executing the servlet
+	 * @throws IOException
+	 *  			if any error occurs in the client/server communication.
+	 */
 	private void search(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 
@@ -131,6 +162,18 @@ public class ClassListServlet extends AbstractDatabaseServlet {
 		getServletContext().getRequestDispatcher("/jsp/search_class.jsp").forward(req, resp);
 	}
 	
+	/**
+	 * Preloads the data
+	 * 
+	 * @param request 
+	 * 				request from the client
+	 * @param response 
+	 * 				response to the client 
+	 * @throws ServletException
+	 * 			 	if any error occurs while executing the servlet
+	 * @throws IOException
+	 *  			if any error occurs in the client/server communication.
+	 */
 	private void preload(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		
@@ -166,7 +209,19 @@ public class ClassListServlet extends AbstractDatabaseServlet {
 		getServletContext().getRequestDispatcher("/jsp/search_class.jsp").forward(req, resp);
 	}
 
-	
+
+	/**
+     * Handles error forwarding between pages.
+     * 
+	 * @param request 
+	 * 				request from the client
+	 * @param response 
+	 * 				response to the client 
+	 * @throws ServletException
+	 * 			 	if any error occurs while executing the servlet
+	 * @throws IOException
+	 *  			if any error occurs in the client/server communication.
+	 */
 	private void errorForward(HttpServletRequest request, HttpServletResponse response) 
     		throws ServletException, IOException  {
     	// Error management

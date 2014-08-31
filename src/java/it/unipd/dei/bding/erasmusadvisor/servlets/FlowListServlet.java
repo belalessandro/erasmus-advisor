@@ -1,21 +1,10 @@
-/**
- * 
- */
 package it.unipd.dei.bding.erasmusadvisor.servlets;
 
-import it.unipd.dei.bding.erasmusadvisor.beans.AreaBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.CertificatiLinguisticiBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.CittaBean;
-import it.unipd.dei.bding.erasmusadvisor.beans.LinguaBean;
-import it.unipd.dei.bding.erasmusadvisor.beans.UniversitaBean;
 import it.unipd.dei.bding.erasmusadvisor.database.CittaDatabase;
 import it.unipd.dei.bding.erasmusadvisor.database.FlussoDatabase;
-import it.unipd.dei.bding.erasmusadvisor.database.GetAreaValues;
 import it.unipd.dei.bding.erasmusadvisor.database.GetCertificatiLinguisticiValues;
-import it.unipd.dei.bding.erasmusadvisor.database.GetLinguaValues;
-import it.unipd.dei.bding.erasmusadvisor.database.GetStatoValues;
-import it.unipd.dei.bding.erasmusadvisor.database.GetUniversitaValues;
-import it.unipd.dei.bding.erasmusadvisor.resources.CitySearchRow;
 import it.unipd.dei.bding.erasmusadvisor.resources.CountryCityListBean;
 import it.unipd.dei.bding.erasmusadvisor.resources.FlowSearchRow;
 import it.unipd.dei.bding.erasmusadvisor.resources.LoggedUser;
@@ -34,8 +23,16 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.dbutils.DbUtils;
 
 /**
- * @author Luca, Alessandro
- *
+ * Manages lists of Flows.
+ * 
+ * <p> Base URL: /flow/list
+ * 
+ * <p> Accepts: GET
+ * 
+ * <p> Operations: SEARCH
+ * 
+ * @see UniversityListServlet
+ * @author Alessandro, Luca
  */
 public class FlowListServlet extends AbstractDatabaseServlet 
 {
@@ -44,6 +41,20 @@ public class FlowListServlet extends AbstractDatabaseServlet
 	 */
 	private final static String SEARCH = "search";
 	
+	private static final long serialVersionUID = 3682178126915951453L;
+	
+	/**
+	 * Gets the list
+	 * 
+	 * @param request 
+	 * 				request from the client
+	 * @param response 
+	 * 				response to the client 
+	 * @throws ServletException
+	 * 			 	if any error occurs while executing the servlet
+	 * @throws IOException
+	 *  			if any error occurs in the client/server communication.
+	 */
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException 
 	{
@@ -65,7 +76,19 @@ public class FlowListServlet extends AbstractDatabaseServlet
 
 		}
 	}
-	
+
+	/**
+	 * Handles the search operation
+	 * 
+	 * @param request 
+	 * 				request from the client
+	 * @param response 
+	 * 				response to the client 
+	 * @throws ServletException
+	 * 			 	if any error occurs while executing the servlet
+	 * @throws IOException
+	 *  			if any error occurs in the client/server communication.
+	 */
 	private void search(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		
@@ -144,6 +167,19 @@ public class FlowListServlet extends AbstractDatabaseServlet
 		getServletContext().getRequestDispatcher("/jsp/search_flow.jsp").forward(req, resp);
 	}
 	
+	
+	/**
+     * Handles error forwarding between pages.
+     * 
+	 * @param request 
+	 * 				request from the client
+	 * @param response 
+	 * 				response to the client 
+	 * @throws ServletException
+	 * 			 	if any error occurs while executing the servlet
+	 * @throws IOException
+	 *  			if any error occurs in the client/server communication.
+	 */
 	private void errorForward(HttpServletRequest request, HttpServletResponse response) 
     		throws ServletException, IOException  {
     	// Error management
@@ -155,6 +191,18 @@ public class FlowListServlet extends AbstractDatabaseServlet
     		.forward(request, response); // ERROR PAGE
     }
 	
+	/**
+	 * Preloads the data
+	 * 
+	 * @param request 
+	 * 				request from the client
+	 * @param response 
+	 * 				response to the client 
+	 * @throws ServletException
+	 * 			 	if any error occurs while executing the servlet
+	 * @throws IOException
+	 *  			if any error occurs in the client/server communication.
+	 */
 	private void preload(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		// model, beans and connection
