@@ -15,7 +15,7 @@ import org.apache.commons.dbutils.ResultSetHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
 
 /**
- * Database operations about CorsoDiLaurea
+ * Database operations about "CorsoDiLaurea".
  * 
  * @author Nicola, Luca
  */
@@ -24,8 +24,8 @@ public class CorsoDiLaureaDatabase  {
 	/**
 	 * Creates a new CorsoDiLaurea into the database.
 	 * @param con A connection to the Database
-	 * @param corsoDiLaurea The course to be inserted in the Database
-	 * @return The course's ID
+	 * @param corsoDiLaurea The course to be inserted in the Database.
+	 * @return The course's ID.
 	 * @throws SQLException If an error occurs running the SQL query.
 	 */
 	public static int createCorsoDiLaurea(final Connection con, 
@@ -59,15 +59,12 @@ public class CorsoDiLaureaDatabase  {
 	}
 
 	/**
-	 * Returns all the degree courses in a Flow Manager University
+	 * Returns all the degree courses in a Flow Manager University.
 	 * 
-	 * @param conn
-	 *            A connection to the database.
-	 * @param manager
-	 *            A ResponsabileFlussoBean with a specified NomeUtente
-	 * @return a list of degree courses
-	 * @throws SQLException
-	 *             If an error occurs running the SQL query.
+	 * @param conn A connection to the database.
+	 * @param manager A ResponsabileFlussoBean with a specified NomeUtente.
+	 * @return A list of degree courses.
+	 * @throws SQLException If an error occurs running the SQL query.
 	 */
 	public static List<CorsoDiLaureaBean> getPossibleCourses(Connection conn,
 			ResponsabileFlussoBean manager) throws SQLException {

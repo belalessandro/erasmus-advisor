@@ -18,9 +18,9 @@ import it.unipd.dei.bding.erasmusadvisor.beans.ResponsabileFlussoBean;
 import it.unipd.dei.bding.erasmusadvisor.resources.Notifications;
 
 /**
- * Represents the entity coordinator.
+ * Database operations about "Coordinatore".
  * 
- * @author mauro
+ * @author Mauro
  *
  */
 public class CoordinatoreDatabase 
@@ -28,10 +28,10 @@ public class CoordinatoreDatabase
 	/**
 	 * Returns the bean of the coordinator with the username given.
 	 * 
-	 * @param con connection to the database
-	 * @param username user name
-	 * @return the bean of the coordinator
-	 * @throws SQLException
+	 * @param con A connection to the database.
+	 * @param username User name.
+	 * @return The bean of the coordinator.
+	 * @throws SQLException If an error occurs.
 	 */
 	public static CoordinatoreBean getCoordinatore(Connection con, String username) throws SQLException
 	{
@@ -49,10 +49,10 @@ public class CoordinatoreDatabase
 	/**
 	 * Returns the bean of the coordinator's university with the username given.
 	 * 
-	 * @param con
-	 * @param username
-	 * @return
-	 * @throws SQLException
+	 * @param con A connection to the database.
+	 * @param username The user's name.
+	 * @return The name of university.
+	 * @throws SQLException If an error occurs.
 	 */
 	public static String getUniversity(Connection con, String username) throws SQLException
 	{
@@ -67,11 +67,12 @@ public class CoordinatoreDatabase
 	}
 	
 	/**
-	 * Returns all notificatins related to a flow manager.
-	 * @param con connection to the database
-	 * @param username coordinator's username
-	 * @return a Notifications model with all fields initialized
-	 * @throws SQLException 
+	 * Returns all notifications related to a flow manager.
+	 * 
+	 * @param con A connection to the database.
+	 * @param username Coordinator's username.
+	 * @return notifications Notifications model with all fields initialized.
+	 * @throws SQLException If an error occurs.
 	 */
 	public static Notifications getNotifications(Connection con, String username) throws SQLException
 	{

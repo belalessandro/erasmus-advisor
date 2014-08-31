@@ -1,21 +1,20 @@
 package it.unipd.dei.bding.erasmusadvisor.database;
 
 import it.unipd.dei.bding.erasmusadvisor.beans.ResponsabileFlussoBean;
-import it.unipd.dei.bding.erasmusadvisor.beans.StudenteBean;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 /**
- * Creates a new Studente into the database.
+ * Creates a new "Studente" into the database.
  * 
  * @author Fede
  */
 public class CreateResponsabileDatabase {
 
 	/**
-	 * The SQL statement to be executed
+	 * The SQL statement to be executed.
 	 */
 	private static final String STATEMENT = 
 			"INSERT INTO ResponsabileFlusso (NomeUtente, Nome, Cognome, Email, DataRegistrazione, Password, Salt, UltimoAccesso, Attivo, Abilitato)"
@@ -26,12 +25,12 @@ public class CreateResponsabileDatabase {
 
 
 	/**
-	 * The connection to the database
+	 * The connection to the database.
 	 */
 	private final Connection con;
 
 	/**
-	 * The instance of Manager to be stored into the database
+	 * The instance of Manager to be stored into the database.
 	 */
 	private final ResponsabileFlussoBean responsabile;
 
@@ -39,9 +38,9 @@ public class CreateResponsabileDatabase {
 	 * Creates a new object for storing a record of Manager into the database.
 	 * 
 	 * @param con
-	 *            the connection to the database.
+	 *            The connection to the database.
 	 * @param responsabile
-	 *            the Manager to be stored into the database.
+	 *            The Manager to be stored into the database.
 	 */
 	public CreateResponsabileDatabase(final Connection con, final ResponsabileFlussoBean responsabile) {
 		this.con = con;
@@ -49,10 +48,10 @@ public class CreateResponsabileDatabase {
 	}
 
 	/**
-	 * Stores a new Studente into the database
+	 * Stores a new "Studente" into the database.
 	 * 
 	 * @throws SQLException
-	 *             if any error occurs while storing the Studente.
+	 *             If any error occurs while storing the "Studente".
 	 */
 	public void createManager() throws SQLException {
 

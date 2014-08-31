@@ -7,7 +7,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 /**
- * Creates a new Studente into the database.
+ * Creates a new "Studente" into the database.
  * 
  * @author Alessandro
  */
@@ -26,17 +26,17 @@ public class CreateStudenteDatabase {
 	private final Connection con;
 
 	/**
-	 * The instance of Studente to be stored into the database
+	 * The instance of "Studente" to be stored into the database
 	 */
 	private final StudenteBean studente;
 
 	/**
-	 * Creates a new object for storing a record of Studente into the database.
+	 * Creates a new object for storing a record of "Studente" into the database.
 	 * 
 	 * @param con
-	 *            the connection to the database.
+	 *            The connection to the database.
 	 * @param studente
-	 *            the Studente to be stored into the database.
+	 *           The "Studente" to be stored into the database.
 	 */
 	public CreateStudenteDatabase(final Connection con, final StudenteBean studente) {
 		this.con = con;
@@ -44,10 +44,10 @@ public class CreateStudenteDatabase {
 	}
 
 	/**
-	 * Stores a new Studente into the database
+	 * Stores a new "Studente" into the database
 	 * 
 	 * @throws SQLException
-	 *             if any error occurs while storing the Studente.
+	 *             if any error occurs while storing the "Studente".
 	 */
 	public void createStudente() throws SQLException {
 

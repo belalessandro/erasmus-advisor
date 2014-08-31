@@ -2,15 +2,11 @@ package it.unipd.dei.bding.erasmusadvisor.database;
 
 
 import it.unipd.dei.bding.erasmusadvisor.beans.CertificatiLinguisticiBean;
-import it.unipd.dei.bding.erasmusadvisor.beans.CittaBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.CorsoDiLaureaBean;
-import it.unipd.dei.bding.erasmusadvisor.beans.DocumentazioneBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.FlussoBean;
-import it.unipd.dei.bding.erasmusadvisor.beans.LinguaBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.ResponsabileFlussoBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.UniversitaBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.ValutazioneFlussoBean;
-import it.unipd.dei.bding.erasmusadvisor.resources.CitySearchRow;
 import it.unipd.dei.bding.erasmusadvisor.resources.Flow;
 import it.unipd.dei.bding.erasmusadvisor.resources.FlowSearchRow;
 
@@ -31,7 +27,7 @@ import org.apache.commons.dbutils.handlers.BeanHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
 
 /**
- * Database operations about Flusso 
+ * Database operations about "Flusso". 
  * @author Luca, Alessandro
  *
  */
@@ -39,14 +35,14 @@ public class FlussoDatabase
 {
 
 	/**
-	 * Executes a statement to store a new Flusso into the database,
+	 * Executes a statement to store a new "Flusso" into the database,
 	 * without closing the connection.
 	 * 
-	 * @param con The connection to the database
-	 * @param flusso The Flusso to be stored
+	 * @param con The connection to the database.
+	 * @param flusso The "Flusso" to be stored.
 	 * 
 	 * @throws SQLException
-	 *             if any error occurs while storing the Flusso.
+	 *             if any error occurs while storing the "Flusso".
 	 */
 	public static void createFlusso(Connection con, FlussoBean flusso)
 			throws SQLException {
@@ -74,6 +70,15 @@ public class FlussoDatabase
 		}
 	}
 	
+	/**
+	 * Gets a flow, searched by ID, with the corresponding 
+	 * list of professors, courses, certificates, evaluations.
+	 * 
+	 * @param ds A Data Source for getting the connection.
+	 * @param ID The Flow ID.
+	 * @return A Flow with the corresponding list of professors, courses, certificates, evaluations.
+	 * @throws SQLException If an error occurs.
+	 */
 	public static Flow getFlusso(DataSource ds, String ID)
 			throws SQLException 
 	{
@@ -125,10 +130,10 @@ public class FlussoDatabase
 	/**
 	 * Update the flow with the id given.
 	 * 
-	 * @param con connection to the database
-	 * @param flusso flow bean
-	 * @param old_id id of the flow to modify
-	 * @throws SQLException 
+	 * @param con A connection to the database.
+	 * @param flusso Flow's bean.
+	 * @param old_id Id of the flow to modify.
+	 * @throws SQLException If an error occurs.
 	 */
 	public static void updateFlusso(Connection con, FlussoBean flusso, String old_id) throws SQLException
 	{
@@ -151,9 +156,10 @@ public class FlussoDatabase
 	
 
 	/**
-	 * Delete a Flusso (Flow) from the database.
-	 * @param conn A connection to the database
-	 * @param id The id of the flow to delete
+	 * Delete a "Flusso" from the database.
+	 * 
+	 * @param conn A connection to the databas.
+	 * @param id The id of the flow to delete.
 	 * @return The number of rows affected: zero means an id that do not correspond to any flow.
 	 * @throws SQLException If an error occurs.
 	 */
@@ -174,14 +180,14 @@ public class FlussoDatabase
  * 
  * @param conn The connection to the database, it will *not* be closed
  * @param nomeUtenteStudente (required) the name of the student
- * @param stato stato (optional)
- * @param citta citta (optional)
- * @param durata durata (optional)
- * @param minPosti minPosti (optional)
- * @param nomeCertificato nomeCertificato (optional)
- * @param livelloCertificato livelloCertificato (required only if nome Certificato is not null)
- * @return a list of FlowSearchRow
- * @throws SQLException in case of error
+ * @param stato (optional) The country toward which the flow.
+ * @param citta  (optional) The city toward which the flow.
+ * @param durata  (optional) The durations of the Flow.
+ * @param minPosti (optional) The minimum number of available seats.
+ * @param nomeCertificato nomeCertificato (optional) The language's certificate required for the flow.
+ * @param livelloCertificato Certificate's level (required only if nome Certificato is not null).
+ * @return A list of FlowSearchRow
+ * @throws SQLException In case of error.
  */
 	public static List<FlowSearchRow> filterFlowBy(Connection conn, String nomeUtenteStudente, 
 			String stato, String citta, Integer durata, Integer minPosti, String nomeCertificato, 

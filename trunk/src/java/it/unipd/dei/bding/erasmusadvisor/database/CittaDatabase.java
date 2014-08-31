@@ -20,7 +20,8 @@ import org.apache.commons.dbutils.handlers.BeanHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
 
 /**
- * Database operations about Citta 
+ * Contains static methods for the insertion, modification, deletion or city research.
+ * Database operations about "Citta".
  * @author Luca, Alessandro
  *
  */
@@ -28,6 +29,13 @@ import org.apache.commons.dbutils.handlers.BeanListHandler;
 
 public class CittaDatabase 
 {
+	/**
+	 * Creates a new city.
+	 * 
+	 * @param con A connection to the database.
+	 * @param citta The city to be stored.
+	 * @throws SQLException If an error occurs.
+	 */
 	public static void createCitta(Connection con, CittaBean citta)
 			throws SQLException {
 		
@@ -45,6 +53,16 @@ public class CittaDatabase
 		}
 	}
 
+	/**
+	 * Search a city, by name and return the city searched for with a list
+	 * of the city's evaluations.
+	 * 
+	 * @param conn A connection to the database.
+	 * @param name The language spoken in the city to search.
+	 * @param country The country in which search the city,
+	 * @return The city searched with a list of the city's evaluations.
+	 * @throws SQLException If an error occurs.
+	 */
 	public City searchCityByName(Connection conn, String name, String country) throws SQLException 
 	{
 		/**
@@ -54,13 +72,6 @@ public class CittaDatabase
 		final String statement = "SELECT Nome, Stato FROM Citta WHERE Nome = ? AND Stato = ?";
 		
 		final String statement1 = "SELECT L.nome FROM Lingua AS L INNER JOIN LinguaCitta AS C ON L.Sigla = C.SiglaLingua WHERE C.NomeCitta = ? AND C.StatoCitta = ?";
-		
-/*		final String statement2 = "SELECT V.NomeUtenteStudente,"
-				+ "V.DataInserimento, V.Commento, V.CostoDellaVita, "
-				+ "V.DisponibilitaAlloggi, V.VivibilitaUrbana, V.VitaSociale "
-				+ "FROM Citta AS C "
-				+ "INNER JOIN ValutazioneCitta AS V ON C.Nome = V.NomeCitta AND C.Stato = V.StatoCitta "
-				+ "WHERE C.Nome = ? AND C.Stato = ?";*/
 		
 		final String statement2 = "SELECT * FROM ValutazioneCitta WHERE NomeCitta = ? AND StatoCitta = ?";
 
@@ -89,10 +100,16 @@ public class CittaDatabase
 		return new City(citta, valList, lingue);
 	}
 	
+
 	/**
-	* Delete a city
-	* @return the number of rows affected	
-	*/
+	 * Delete a city in the database.
+	 * 
+	 * @param conn A connection to the database.
+	 * @param name The name of the city to delete.
+	 * @param country The city's country.
+	 * @return The deletion of the city.
+	 * @throws SQLException If an error occurs.
+	 */
 	public static int deleteCity(Connection conn, String name, String country) throws SQLException 
 	{
 		final String statement = "DELETE From Citta WHERE Nome = ? AND Stato = ?";
@@ -104,14 +121,14 @@ public class CittaDatabase
 	
 	/**
 	 * Function to update city fields and relative languages.
-	 * @param conn database connection
-	 * @param new_name new name of the city
-	 * @param new_country new city country
-	 * @param old_name old name of the city
-	 * @param old_country old city country
-	 * @param linguaCittaBeanList list of bean with new languages
-	 * @return the number of rows updated of relation Citta
-	 * @throws SQLException
+	 * @param conn A database connection.
+	 * @param new_name New name of the city.
+	 * @param new_country New city country.
+	 * @param old_name Old name of the city.
+	 * @param old_country Old city country.
+	 * @param linguaCittaBeanList List of bean with new languages.
+	 * @return The number of rows updated of relation "Citta".
+	 * @throws SQLException If an error occurs.
 	 */
 	public int editCity(Connection conn, String new_name, String new_country,
 			String old_name, String old_country, List<LinguaCittaBean> linguaCittaBeanList) throws SQLException
@@ -139,6 +156,11 @@ public class CittaDatabase
 		return ok;
 	}
 	
+	/**
+	 * @param conn A connection to the database.
+	 * @return A list of all city.
+	 * @throws SQLException If an error occurs.
+	 */
 	public static List<CittaBean> getAllSortByCountry(Connection conn) throws SQLException 
 	{
 		final String statement = "SELECT * FROM Citta ORDER BY stato ASC";
@@ -151,12 +173,12 @@ public class CittaDatabase
 	
 
 	/**
-	 * City search by language
+	 * City searched by language.
 	 * 
-	 * @param conn The connection to the database, it will *not* be closed
-	 * @param siglaLingua the language abbreviation to filter by 
-	 * @return a list of CitySearchRow
-	 * @throws SQLException in case of error
+	 * @param conn The connection to the database, it will *not* be closed.
+	 * @param siglaLingua The language abbreviation to filter by.
+	 * @return A list of CitySearchRow.
+	 * @throws SQLException in case of error.
 	 */
 	public static List<CitySearchRow> filterCityBySiglaLingua(Connection conn, String siglaLingua) throws SQLException 
 	{
@@ -201,12 +223,12 @@ public class CittaDatabase
 	
 	
 	/**
-	 * City search by country
+	 * City searched by country.
 	 * 
-	 * @param conn The connection to the database, it will *not* be closed
-	 * @param stato the country to filter by 
-	 * @return a list of CitySearchRow
-	 * @throws SQLException in case of error
+	 * @param conn The connection to the database, it will *not* be closed.
+	 * @param stato The country to filter by.
+	 * @return A list of CitySearchRow.
+	 * @throws SQLException In case of error.
 	 */
 	public static List<CitySearchRow> filterCityByStato(Connection conn, String stato) throws SQLException 
 	{
@@ -251,13 +273,13 @@ public class CittaDatabase
 	}
 	
 	/**
-	 * City search by country and language
+	 * City search by country and/or language.
 	 * 
-	 * @param conn The connection to the database, it will *not* be closed
-	 * @param stato the country to filter by 
-	 * @param language the language
-	 * @return a list of CitySearchRow
-	 * @throws SQLException in case of error
+	 * @param conn The connection to the database, it will *not* be closed.
+	 * @param stato (null = optional) The country to filter by.
+	 * @param language (null = optional) The language.
+	 * @return A list of CitySearchRow.
+	 * @throws SQLException If an error occurs.
 	 */
 	public static List<CitySearchRow> filterCityByStatoLingua(Connection conn, String stato, String language) throws SQLException 
 	{
@@ -301,11 +323,11 @@ public class CittaDatabase
 	}
 	
 	/**
-	 * City search - with the filters off
+	 * City search - with the filters off.
 	 * 
-	 * @param conn The connection to the database, it will *not* be closed
-	 * @return a list of CitySearchRow
-	 * @throws SQLException in case of error
+	 * @param conn The connection to the database, it will *not* be closed.
+	 * @return A list of CitySearchRow.
+	 * @throws SQLException In case of error.
 	 */
 	public static List<CitySearchRow> filterCity(Connection conn) throws SQLException 
 	{

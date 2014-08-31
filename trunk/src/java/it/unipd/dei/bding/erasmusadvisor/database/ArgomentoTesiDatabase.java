@@ -2,11 +2,9 @@ package it.unipd.dei.bding.erasmusadvisor.database;
 
 import it.unipd.dei.bding.erasmusadvisor.beans.AreaBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.ArgomentoTesiBean;
-import it.unipd.dei.bding.erasmusadvisor.beans.InsegnamentoBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.LinguaBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.ProfessoreBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.ValutazioneTesiBean;
-import it.unipd.dei.bding.erasmusadvisor.resources.TeachingSearchRow;
 import it.unipd.dei.bding.erasmusadvisor.resources.Thesis;
 import it.unipd.dei.bding.erasmusadvisor.resources.ThesisSearchRow;
 
@@ -14,7 +12,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,7 +22,8 @@ import org.apache.commons.dbutils.handlers.BeanHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
 
 /**
- * 
+ * Contains static methods for the insertion, modification, deletion or thesis research.
+ * Database operations about "ArgomentoTesi".
  * @author Nicola
  *
  */
@@ -34,11 +32,12 @@ public class ArgomentoTesiDatabase {
 	 * Executes a statement to store a new Thesis into the database,
 	 * without closing the connection.
 	 * 
-	 * @param con The connection to the database
-	 * @param arg The Thesis to be stored
+	 * @param con The connection to the database.
+	 * @param arg The Thesis to be stored.
 	 * 
 	 * @throws SQLException
 	 *             if any error occurs while storing the Thesis.
+	 * @return generateId The ID of the the thesis newly generated: -1 means that the thesis already exist o there is a problem.
 	 */
 	public static int createArgomentoTesi(Connection con, ArgomentoTesiBean arg)
 			throws SQLException {
@@ -75,10 +74,10 @@ public class ArgomentoTesiDatabase {
 	 * Executes a statement to update a Thesis into the database,
 	 * without closing the connection.
 	 * 
-	 * @param con The connection to the database
-	 * @param uni The Thesis to be updated
+	 * @param con The connection to the database.
+	 * @param uni The Thesis to be updated.
 	 * 
-	 * @return the number of rows affected	
+	 * @return The number of rows affected.	
 	 * 
 	 * @throws SQLException
 	 *             if any error occurs while storing the Thesis.
@@ -104,8 +103,8 @@ public class ArgomentoTesiDatabase {
 	
 	/**
 	 * Delete an ArgomentoTesi (Thesis) from the database.
-	 * @param conn A connection to the database
-	 * @param id The id of the thesis to delete
+	 * @param conn A connection to the database.
+	 * @param id The id of the thesis to delete.
 	 * @return The number of rows affected: zero means an id that do not correspond to any thesis.
 	 * @throws SQLException If an error occurs.
 	 */
@@ -118,15 +117,15 @@ public class ArgomentoTesiDatabase {
 	}
 		
 	/**
-	 * Return a list of Theses, used in Search
+	 * Return a list of Theses, used in Search servlet.
 	 * 
-	 * @param con
-	 * @param area
-	 * @param nome
-	 * @param livello
-	 * @param lingua
-	 * @return
-	 * @throws SQLException
+	 * @param con A connection to the database.
+	 * @param area (null = optional) The area of the thesis.
+	 * @param nome (null = optional) The name of the university in which you search for the thesis.
+	 * @param livello (null = optional) The level of the thesis to search.
+	 * @param lingua (null = optional) The language in which you search the thesis.
+	 * @return listThesis A list of thesis with the features you are looking for.
+	 * @throws SQLException SQLException If an error occurs.
 	 */
 	public static List<ThesisSearchRow> searchArgomentoTesi(Connection con, String area, String nomeUni, String livello, String lingua) throws SQLException {
 		/**
@@ -203,12 +202,12 @@ public class ArgomentoTesiDatabase {
 	}
 	
 	/**
-	 * Return a Thesis, for Search, search by ID
+	 * Return a Thesis, for Search's servlets, search by ID.
 	 * 
-	 * @param conn
-	 * @param ID
-	 * @return
-	 * @throws SQLException
+	 * @param conn A connection to the database.
+	 * @param ID The ID of the thesis to search.
+	 * @return A thesis with its corresponding list of languages, professors, areas.
+	 * @throws SQLException If an error occurs.
 	 */
 	
 	public static ThesisSearchRow getArgomentoTesiID(Connection conn, String ID)
@@ -250,12 +249,12 @@ public class ArgomentoTesiDatabase {
 	
 	
 	/**
-	 * Return a Thesis, for Evaluation, search by ID
+	 * Return a Thesis, for Evaluation, search by ID.
 	 * 
-	 * @param conn
-	 * @param ID
-	 * @return
-	 * @throws SQLException
+	 * @param conn A connection to the database.
+	 * @param ID The ID of the thesis to search.
+	 * @return The Thesis with the ID you have searched for. 
+	 * @throws SQLException If an error occurs.
 	 */
 	public static Thesis getArgomentoTesi(Connection conn, String ID)
 			throws SQLException 
@@ -303,11 +302,11 @@ public class ArgomentoTesiDatabase {
 	
 
 	/**
-	 * Change thesis status
+	 * Change thesis status.
 	 * 
-	 * @param con connection to the database
-	 * @param id thesis id
-	 * @throws SQLException
+	 * @param con A connection to the database.
+	 * @param id The thesis' ID.
+	 * @throws SQLException If an error occurs.
 	 */
 	public static void changeThesisStatus(Connection con, String status, int id) throws SQLException 
 	{
