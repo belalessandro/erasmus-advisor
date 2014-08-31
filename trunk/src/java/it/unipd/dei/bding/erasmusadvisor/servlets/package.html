@@ -1,0 +1,40 @@
+<!--
+-- Copyright (C) 2014 EA-Team
+-- 
+-- This file is part of Erasmus-Advisor project.
+-- 
+-- Erasmus-Advisor can not be copied and/or distributed 
+-- without the express permission of EA-Team
+-->
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+<body bgcolor="white">
+
+Manages the Web application (controller).
+
+It is the CONTROLLER of the MVC architecture. 
+Each class is a Servlet and handles a specific macro-concept. 
+For each of them is associated with one or more JSP pages (VIEW) 
+to display the requested data. The organization of the methods 
+follows the most natural way: GET to receive one or more data to the Servlet, 
+POST to send data or submit operations. 
+In response to the actions requested by the user, 
+the typical Servlet is responsible for receiving any parameters, 
+creating and properly closing a (single) connection to the database 
+(which is used by the static methods of the package database), 
+perform the required operations, working in transactional mode 
+(commit, in case of success, or rollback) and handle any errors. 
+The results are then sent to the appropriate JSP pages, 
+or they can be returned in JSON format, 
+if the request is asynchronous. 
+Furthermore, such an organization allows the use of Ajax techniques, 
+and the interfacing with applications for mobile devices.
+
+@author <a href="mailto:alessandro.beltramin@studenti.unipd.it">Alessandro Beltramin</a>
+@author <a href="">Mauro Piazza</a>
+@author <a href="">Luca Schiappadini</a>
+@author <a href="">Nicola Tommasi</a>
+@since 1.00
+</body>
+</html>
