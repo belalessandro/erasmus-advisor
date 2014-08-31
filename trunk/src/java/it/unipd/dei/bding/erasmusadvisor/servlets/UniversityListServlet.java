@@ -24,24 +24,46 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.dbutils.DbUtils;
 
 /**
- * Servlet for getting lists of university, used in search university page
- * and in autocomplete field throught ajax request.
+ * Servlet for getting lists of university.
+ *  
+ * It is used in the university search page
+ * and in the auto-complete field, through Ajax requests.
  * 
- * Mapped to /university/list
+ * <p> Base URL: /university/list
+ * 
+ * <p> Accepts: GET, AJAX
+ * 
+ * <p> Operations: SEARCH
+ * 
+ * @see UniversityListServlet
  * @author Alessandro, Luca, Nicola
- *
-
  */
 public class UniversityListServlet extends AbstractDatabaseServlet {
-	/**
-	 * Serial ID
-	 */
-	private static final long serialVersionUID = 1542213213154354L;
 	/**
 	 * Operation constants
 	 */
 	private final static String SEARCH = "search";
 	
+	/**
+	 * Serial ID
+	 */
+	private static final long serialVersionUID = 1542213213154354L;
+	
+	/**
+	 * Gets the list of universities
+	 * 
+	 * <p> Ajax requests are recognized through the Header 
+	 * "X-Requested-With" set to "XMLHttpRequest"
+	 * 
+	 * @param request 
+	 * 				request from the client
+	 * @param response 
+	 * 				response to the client 
+	 * @throws ServletException
+	 * 			 	if any error occurs while executing the servlet
+	 * @throws IOException
+	 *  			if any error occurs in the client/server communication.
+	 */
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException 
 		{
@@ -102,6 +124,18 @@ public class UniversityListServlet extends AbstractDatabaseServlet {
 		}
 	}
 	
+	/**
+	 * Handles the search operation
+	 * 
+	 * @param request 
+	 * 				request from the client
+	 * @param response 
+	 * 				response to the client 
+	 * @throws ServletException
+	 * 			 	if any error occurs while executing the servlet
+	 * @throws IOException
+	 *  			if any error occurs in the client/server communication.
+	 */
 	private void search(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 
@@ -153,6 +187,19 @@ public class UniversityListServlet extends AbstractDatabaseServlet {
 		getServletContext().getRequestDispatcher("/jsp/search_university.jsp").forward(req, resp);
 	}
 	
+	/**
+	 * Preloads the data, such as all the available cities 
+	 * the user can filter by
+	 * 
+	 * @param request 
+	 * 				request from the client
+	 * @param response 
+	 * 				response to the client 
+	 * @throws ServletException
+	 * 			 	if any error occurs while executing the servlet
+	 * @throws IOException
+	 *  			if any error occurs in the client/server communication.
+	 */
 	private void preload(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		
@@ -181,7 +228,18 @@ public class UniversityListServlet extends AbstractDatabaseServlet {
 		getServletContext().getRequestDispatcher("/jsp/search_university.jsp").forward(req, resp);
 	}
 
-	
+	/**
+     * Handles error forwarding between pages.
+     * 
+	 * @param request 
+	 * 				request from the client
+	 * @param response 
+	 * 				response to the client 
+	 * @throws ServletException
+	 * 			 	if any error occurs while executing the servlet
+	 * @throws IOException
+	 *  			if any error occurs in the client/server communication.
+	 */
 	private void errorForward(HttpServletRequest request, HttpServletResponse response) 
     		throws ServletException, IOException  {
     	// Error management
@@ -193,6 +251,11 @@ public class UniversityListServlet extends AbstractDatabaseServlet {
     		.forward(request, response); // ERROR PAGE
     }
 	
+	/**
+     * Converts the List of UniversitaBean to a JSON Object
+     * 
+	 * @param nameList the list of universities
+	 */
 	private JsonArray convertToJson(List<UniversitaBean> nameList) {
 		JsonArrayBuilder jb = Json.createArrayBuilder();
 		

@@ -19,10 +19,16 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.dbutils.DbUtils;
 
 /**
- * Mapped to /city/list
+ * Manages lists of City.
  * 
+ * <p> Base URL: /city/list
+ * 
+ * <p> Accepts: GET
+ * 
+ * <p> Operations: SEARCH
+ * 
+ * @see UniversityListServlet
  * @author Alessandro, Luca
- * 
  */
 public class CityListServlet extends AbstractDatabaseServlet {
 	/**
@@ -30,7 +36,18 @@ public class CityListServlet extends AbstractDatabaseServlet {
 	 */
 	private final static String SEARCH = "search";
 
-	
+ 	/**
+	 * Gets the list
+	 * 
+	 * @param request 
+	 * 				request from the client
+	 * @param response 
+	 * 				response to the client 
+	 * @throws ServletException
+	 * 			 	if any error occurs while executing the servlet
+	 * @throws IOException
+	 *  			if any error occurs in the client/server communication.
+	 */
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException 
 		{
@@ -53,6 +70,18 @@ public class CityListServlet extends AbstractDatabaseServlet {
 		}
 	}
 	
+	/**
+	 * Handles the search operation
+	 * 
+	 * @param request 
+	 * 				request from the client
+	 * @param response 
+	 * 				response to the client 
+	 * @throws ServletException
+	 * 			 	if any error occurs while executing the servlet
+	 * @throws IOException
+	 *  			if any error occurs in the client/server communication.
+	 */
 	private void search(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 
@@ -118,6 +147,18 @@ public class CityListServlet extends AbstractDatabaseServlet {
 		getServletContext().getRequestDispatcher("/jsp/search_city.jsp").forward(req, resp);
 	}
 	
+	/**
+	 * Preloads the data
+	 * 
+	 * @param request 
+	 * 				request from the client
+	 * @param response 
+	 * 				response to the client 
+	 * @throws ServletException
+	 * 			 	if any error occurs while executing the servlet
+	 * @throws IOException
+	 *  			if any error occurs in the client/server communication.
+	 */
 	private void preload(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		
@@ -150,7 +191,18 @@ public class CityListServlet extends AbstractDatabaseServlet {
 		getServletContext().getRequestDispatcher("/jsp/search_city.jsp").forward(req, resp);
 	}
 
-	
+	/**
+     * Handles error forwarding between pages.
+     * 
+	 * @param request 
+	 * 				request from the client
+	 * @param response 
+	 * 				response to the client 
+	 * @throws ServletException
+	 * 			 	if any error occurs while executing the servlet
+	 * @throws IOException
+	 *  			if any error occurs in the client/server communication.
+	 */
 	private void errorForward(HttpServletRequest request, HttpServletResponse response) 
     		throws ServletException, IOException  {
     	// Error management
