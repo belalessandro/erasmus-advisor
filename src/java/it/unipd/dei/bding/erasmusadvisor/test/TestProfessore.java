@@ -1,20 +1,15 @@
 package it.unipd.dei.bding.erasmusadvisor.test;
 
-import it.unipd.dei.bding.erasmusadvisor.beans.ArgomentoTesiBean;
-import it.unipd.dei.bding.erasmusadvisor.beans.StudenteBean;
 import it.unipd.dei.bding.erasmusadvisor.database.ProfessoreDatabase;
-import it.unipd.dei.bding.erasmusadvisor.resources.Thesis;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-/**
- * Esempio di blocco "finally" corretto per disconnessione db 
- * @author Alessandro
- *
- */
 
+/**
+ * Test class
+ */
 public class TestProfessore {
 		
 
