@@ -18,11 +18,34 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.dbutils.DbUtils;
 
+/**
+ * Servlet used for managing a specific participation
+ * of a student to a flow.
+ * <p> Base URL: /flow/participation
+ * 
+ * <p> Accepts: POST
+ * 
+ * <p> Operations: INSERT
+ * 
+ * @author Luca
+ */
 public class ParticipationServlet extends AbstractDatabaseServlet 
 {
 
 	private static final long serialVersionUID = 7749343141345811031L;
 
+	/**
+	 * Handles an operation FORM
+	 * 
+	 * @param request 
+	 * 				request from the client
+	 * @param response 
+	 * 				response to the client 
+	 * @throws ServletException
+	 * 			 	if any error occurs while executing the servlet
+	 * @throws IOException
+	 *  			if any error occurs in the client/server communication.
+	 */
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException 
 	{
@@ -35,6 +58,7 @@ public class ParticipationServlet extends AbstractDatabaseServlet
 		Connection conn = null;
 		Message m = null;
 
+		// insert operation
 		if (operation.equals("insert"))
 		{
 			String flow = req.getParameter("flowID");

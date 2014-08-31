@@ -29,23 +29,43 @@ import org.apache.commons.dbutils.DbUtils;
 
 
 /**
+ * Servlet used for manage and display all student's evaluations.
+ * 
+ * <p> Base URL: /city/evaluations
+ * 
+ * <p> Accepts: GET
+ * 
+ * <p> Operations: FILL UP
+ * 
  * @author Luca
- *
  */
 public class StudentEvaluationsServlet extends AbstractDatabaseServlet 
 {
 	private static final long serialVersionUID = 2083328547201501964L;
 
+	/**
+	 * Get all evaluations given by the logged student.
+	 * 
+	 * @param request 
+	 * 				request from the client
+	 * @param response 
+	 * 				response to the client 
+	 * @throws ServletException
+	 * 			 	if any error occurs while executing the servlet
+	 * @throws IOException
+	 *  			if any error occurs in the client/server communication.
+	 */
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException 
 	{
-
+		// Database Connection
 		Connection conn = null;
 		Message m = null;
 
 		// TODO: DA SESSIONE
 		LoggedUser lu = new LoggedUser(UserType.STUDENTE, "JuventinoDOC"); 
 		
+		// Data model
 		List<ValutazioneCittaBean> cities = null;
 		List<ValutazioneFlussoBean> flows = null;
 		List<ValutazioneInsegnamentoBean> classes = null;
@@ -54,6 +74,8 @@ public class StudentEvaluationsServlet extends AbstractDatabaseServlet
 		
 		try {
 			conn = DS.getConnection();
+			
+			// Filling entities
 			cities = ValutazioneCittaDatabase.getEvalByUser(conn, lu.getUser());
 			flows = ValutazioneFlussoDatabase.getEvalByUser(conn, lu.getUser());
 			classes = ValutazioneInsegnamentoDatabase.getEvalByUser(conn, lu.getUser());
@@ -68,7 +90,8 @@ public class StudentEvaluationsServlet extends AbstractDatabaseServlet
 		}
 
 		if (m == null)
-		{		
+		{	
+			// Update the view with the content retrieved
 			req.setAttribute("cities", cities);
 			req.setAttribute("classes", classes);
 			req.setAttribute("flows", flows);

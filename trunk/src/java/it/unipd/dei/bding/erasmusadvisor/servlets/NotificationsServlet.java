@@ -26,7 +26,16 @@ import org.apache.commons.dbutils.DbUtils;
 
 
 /**
- * Servlet implementation class Notifications
+ * Servlet used for managing all coordinator's and
+ * flow manager's notifications.
+ * 
+ * <p> Base URL: /notifications
+ * 
+ * <p> Accepts: GET, POST
+ * 
+ * <p> Operations: INSERT, EDIT, DELETE
+ * 
+ * @author Mauro
  */
 public class NotificationsServlet extends AbstractDatabaseServlet {
 	private static final long serialVersionUID = 1L;
@@ -38,6 +47,7 @@ public class NotificationsServlet extends AbstractDatabaseServlet {
     private static final String UPDATE = "update";
     private static final String DELETE = "delete";
     private static final String AJAX = "ajax";
+    
     /**
      * Default constructor. 
      */
@@ -51,6 +61,7 @@ public class NotificationsServlet extends AbstractDatabaseServlet {
 		// get the coordinator from current user
 		LoggedUser lu = new LoggedUser(UserType.COORDINATORE, "ErasmusCoordinator");
 //		LoggedUser lu = new LoggedUser(UserType.RESPONSABILE, "erick.burn");
+		
 		// required variables
 		Notifications notifications = null;
 		Connection con = null;
@@ -110,7 +121,7 @@ public class NotificationsServlet extends AbstractDatabaseServlet {
 			operation = request.getParameter("operation");
 		
 		if (operation == null || operation.isEmpty()) {
-			/* Error or not authorized. */
+			// Error or not authorized. 
 			getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(request, response);
 			return;
 		} 
@@ -121,7 +132,9 @@ public class NotificationsServlet extends AbstractDatabaseServlet {
 	}
 	
 	/**
-	 * Handle the accepting and discarding operations by the flow manager and the coordinator.
+	 * Manages all the accepting and discarding operations performed
+	 * by a flow manager or a coordinator. A json object is sent back to the 
+	 * origin page to get the view up to date with the model.
 	 * 
 	 * @param lu logged user
 	 * @param request request object
@@ -151,10 +164,12 @@ public class NotificationsServlet extends AbstractDatabaseServlet {
 		try {
 			con = DS.getConnection();
 			
+			// checking the operation to perform
 			if(execute.equals("accept"))
 			{
 				switch(type) 
 				{
+				// checking the user
 				case "flowmanager":
 					if(lu.isCoord())
 					{
@@ -180,6 +195,7 @@ public class NotificationsServlet extends AbstractDatabaseServlet {
 			}
 			else if(execute.equals("discard"))
 			{
+				// checking the user
 				switch(type) 
 				{
 				case "flowmanager":
@@ -208,7 +224,7 @@ public class NotificationsServlet extends AbstractDatabaseServlet {
 			
 			DbUtils.close(con);
 		} catch (SQLException e) {
-			m = new Message("Error while accepting/discarding the", "XXX", e.getMessage());
+			m = new Message("Error while accepting/discarding the " + type, "XXX", e.getMessage());
 			request.setAttribute("message", m);
 			errorForward(request, response);
 			return;
@@ -224,15 +240,18 @@ public class NotificationsServlet extends AbstractDatabaseServlet {
 		writer.close();
 	}
 	
+	
+	/**
+	 * Function useful to redirect to the error page.
+	 * @param request request object
+	 * @param response response object
+	 * @throws ServletException 
+	 * @throws IOException
+	 */
 	private void errorForward(HttpServletRequest request, HttpServletResponse response) 
     		throws ServletException, IOException  {
-    	// Error management
-        	
-    	//Message m = new Message("Error while updating the city.","XXX", "");
-    	//request.setAttribute("message", m);
-    		
     	getServletContext().getRequestDispatcher("/jsp/error.jsp")
-    		.forward(request, response); // ERROR PAGE
+    		.forward(request, response); 
     }
 
 }

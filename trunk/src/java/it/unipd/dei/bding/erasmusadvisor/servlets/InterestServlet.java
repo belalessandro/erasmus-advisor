@@ -27,14 +27,34 @@ import org.apache.commons.dbutils.DbUtils;
  */
 
 /**
+ * Manages all interests related to a student 
+ * 
+ * <p> Base URL: /student/interests
+ * 
+ * <p> Accepts: POST
+ * 
+ * <p> Operations: DELETE, INSERT
+ * 
  * @author Luca
- *
  */
+
 public class InterestServlet extends AbstractDatabaseServlet 
 {
 
 	private static final long serialVersionUID = -177735757618533981L;
-
+	
+	/**
+	 * Handles an operation FORM
+	 * 
+	 * @param request 
+	 * 				request from the client
+	 * @param response 
+	 * 				response to the client 
+	 * @throws ServletException
+	 * 			 	if any error occurs while executing the servlet
+	 * @throws IOException
+	 *  			if any error occurs in the client/server communication.
+	 */
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException 
 	{		
@@ -43,6 +63,7 @@ public class InterestServlet extends AbstractDatabaseServlet
 		// TODO bisogna usare la sessione per determinare l'utente, questo parametro non è necessario
 		String user = (new LoggedUser(UserType.STUDENTE, "user")).getUser();
 		
+		// database connection
 		Connection conn = null;
 		Message m = null;
 
@@ -97,7 +118,11 @@ public class InterestServlet extends AbstractDatabaseServlet
 			}
 			
 			if (m == null)
-			{		
+			{	
+				/** 
+				 * Show results to the JSP page. 
+				 *
+				 */
 				resp.setContentType("text/plain"); 
 				resp.setCharacterEncoding("UTF-8");
 				resp.getWriter().write(updatedInterests + "");

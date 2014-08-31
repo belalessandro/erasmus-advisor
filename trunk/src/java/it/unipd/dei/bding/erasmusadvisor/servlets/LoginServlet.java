@@ -18,13 +18,35 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.commons.dbutils.DbUtils;
 
+/**
+ * Servlet used for managing student's, coordinator's and flowmanager's
+ * login 
+ * 
+ * <p> Base URL: /student/interests
+ * 
+ * <p> Accepts: POST
+ * 
+ * <p> Operations: LOGIN
+ * 
+ * @author Luca
+ */
+
 public class LoginServlet extends AbstractDatabaseServlet {
 
-	/**
-	 * Login servlet
-	 */
 	private static final long serialVersionUID = 1L;
-
+	
+	/**
+	 * Handles a login operation FORM
+	 * 
+	 * @param request 
+	 * 				request from the client
+	 * @param response 
+	 * 				response to the client 
+	 * @throws ServletException
+	 * 			 	if any error occurs while executing the servlet
+	 * @throws IOException
+	 *  			if any error occurs in the client/server communication.
+	 */
 	protected void doPost(HttpServletRequest request,HttpServletResponse response) 
 			throws ServletException, IOException 
 	{
@@ -38,10 +60,12 @@ public class LoginServlet extends AbstractDatabaseServlet {
 		Message m = null;
 
 		try {
-			UserDatabase userDb = new UserDatabase();
-
+			
+			// Database connection
 			conn = DS.getConnection();
+			
 			//Finds the user in the database
+			UserDatabase userDb = new UserDatabase();
 			UserBean user = userDb.login(conn, email);
 			
 			if (user != null) {
