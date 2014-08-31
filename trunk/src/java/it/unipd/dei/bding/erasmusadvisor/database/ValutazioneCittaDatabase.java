@@ -12,17 +12,17 @@ import org.apache.commons.dbutils.handlers.BeanHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
 
 /**
- * Database operations about ValutazioneCitta 
+ * Database operations about "ValutazioneCitta". 
  * @author Mauro, Luca
  *
  */
 public class ValutazioneCittaDatabase {
 	
 	/**
-	 * Insert a new student's city evaluation into the Database
-	 * @param con database connection
-	 * @param val student's city evaluation
-	 * @throws SQLException
+	 * Insert a new student's city evaluation into the Database.
+	 * @param con A database connection.
+	 * @param val Student's city evaluation.
+	 * @throws SQLException If an error occurs.
 	 */
 	public static void createValutazioneCitta(Connection con, ValutazioneCittaBean val) 
 		throws SQLException {
@@ -46,11 +46,12 @@ public class ValutazioneCittaDatabase {
 	}
 	
 	/**
-	 * Returns all the evaluation to cities inserted by a specific student
-	 * @param conn A connection to the database
-	 * @param user The User
-	 * @return A list of evaluations
-	 * @throws SQLException If something goes wrong
+	 * Returns all the evaluation to cities inserted by a specific student.
+	 * 
+	 * @param conn A connection to the database.
+	 * @param user The username.
+	 * @return A list of evaluations.
+	 * @throws SQLException If an error occurs.
 	 */
 	public static List<ValutazioneCittaBean> getEvalByUser(Connection conn, String user) throws SQLException
 	{
@@ -63,13 +64,14 @@ public class ValutazioneCittaDatabase {
 	}
 	
 	/**
-	 * Delete an evaluation
-	 * @param conn A connection to the database
-	 * @param user The student that inserted the evaluation
-	 * @param city The city evaluated
-	 * @param country The country of the city
-	 * @return The number of rows affected
-	 * @throws SQLException If something goes wrong
+	 * Delete an evaluation.
+	 * 
+	 * @param conn A connection to the database.
+	 * @param user The student that inserted the evaluation.
+	 * @param city The city evaluated.
+	 * @param country The country of the city.
+	 * @return The number of rows affected.
+	 * @throws SQLException If an error occurs while removing the evaluation.
 	 */
 	public static int deleteEvaluation(Connection conn, String user, String city, String country) throws SQLException
 	{

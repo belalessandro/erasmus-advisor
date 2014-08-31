@@ -20,20 +20,20 @@ import org.apache.commons.dbutils.handlers.BeanHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
 
 /**
- * Database operations about Universita 
+ * Database operations about "Universita" .
  * @author Alessandro, Nicola
  *
  */
 public class UniversitaDatabase {
 	/**
-	 * Executes a statement to store a new Universita into the database,
+	 * Executes a statement to store a new "Universita" into the database,
 	 * without closing the connection.
 	 * 
-	 * @param con The connection to the database
-	 * @param uni The Universita to be stored
+	 * @param con The connection to the database.
+	 * @param uni The "Universita" to be stored.
 	 * 
 	 * @throws SQLException
-	 *             if any error occurs while storing the Universita.
+	 *             if any error occurs while storing the "Universita".
 	 */
 	public static void createUniversita(Connection con, UniversitaBean uni)
 			throws SQLException {
@@ -63,13 +63,13 @@ public class UniversitaDatabase {
 	 * Executes a statement to update a Universita into the database,
 	 * without closing the connection.
 	 * 
-	 * @param con The connection to the database
-	 * @param uni The Universita to be updated
+	 * @param con The connection to the database.
+	 * @param uni The "Universita" to be updated.
 	 * 
-	 * @return the number of rows affected	
+	 * @return The number of rows affected.	
 	 * 
 	 * @throws SQLException
-	 *             if any error occurs while storing the Universita.
+	 *             if any error occurs while storing the "Universita".
 	 */
 	public static int updateUniversita(Connection con, UniversitaBean uni, String old_name)
 			throws SQLException {
@@ -88,11 +88,12 @@ public class UniversitaDatabase {
 	
 
 	/**
-	 * Delete a Universita (University) from the database.
-	 * @param conn A connection to the database
-	 * @param id The id of the university to delete
+	 * Delete a "Universita" (University) from the database.
+	 * 
+	 * @param conn A connection to the database.
+	 * @param id The id of the university to delete.
 	 * @return The number of rows affected: zero means an id that do not correspond to any university.
-	 * @throws SQLException If an error occurs.
+	 * @throws SQLException If an error occurs in SQL query execution.
 	 */
 	public static int deleteUniversita(Connection conn, String name) throws SQLException
 	{
@@ -146,13 +147,13 @@ public class UniversitaDatabase {
 	}
 	
 	/**
-	 * Search a University by country or by city or both
+	 * Search a University by country or by city or both.
 	 * 
-	 * @param con
-	 * @param country
-	 * @param city
-	 * @return
-	 * @throws SQLException
+	 * @param con A connection to the database.
+	 * @param country (optional= null) The country in which the university is to search.
+	 * @param city (optional= null) The city in which the university is to search.
+	 * @return A list of universities.
+	 * @throws SQLException If an error occurs in SQL query execution.
 	 */
 	public static List<UniversitaBean> searchUniversityByCity(Connection con, String country, String city) throws SQLException {
 		/**

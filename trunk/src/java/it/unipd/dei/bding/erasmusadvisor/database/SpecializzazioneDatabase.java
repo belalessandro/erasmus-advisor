@@ -9,7 +9,7 @@ import java.sql.SQLException;
 import org.apache.commons.dbutils.DbUtils;
 
 /**
- * Creates a new CorsoDiLaurea into the database.
+ * Database operations about "Specializzazione".
  * 
  * @author Nicola
  */
@@ -17,10 +17,11 @@ import org.apache.commons.dbutils.DbUtils;
 public class SpecializzazioneDatabase {
 
 	/**
-	 * Stores a new Specializzazione into the database
+	 * Stores a new "Specializzazione" into the database.
+	 * 
 	 * 
 	 * @throws SQLException
-	 *             if any error occurs while storing the Specializzazione.
+	 *             if any error occurs while storing the "Specializzazione".
 	 */
 	public static void createSpecializzazione(final Connection conn, final SpecializzazioneBean specializzazione) throws SQLException {
 		/**

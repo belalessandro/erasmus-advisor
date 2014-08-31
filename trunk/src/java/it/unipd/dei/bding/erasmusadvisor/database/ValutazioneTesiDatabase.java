@@ -13,7 +13,7 @@ import org.apache.commons.dbutils.handlers.BeanListHandler;
 
 
 /**
- * Database operations about ValutazioneTesi 
+ * Database operations about "ValutazioneTesi" 
  * @author Mauro, Luca
  *
  */
@@ -21,9 +21,10 @@ public class ValutazioneTesiDatabase
 {
 	/**
 	 * Insert a new ValutazioneTesi instance into the database. 
-	 * @param con connection to the database
-	 * @param val student's evaluation
-	 * @throws SQLException 
+	 * 
+	 * @param con A connection to the database.
+	 * @param val A student's evaluation.
+	 * @throws SQLException If an error occurs in SQL query executing.
 	 */
 	public static void createValutazioneTesi(Connection con, ValutazioneTesiBean val) throws SQLException 
 	{
@@ -44,11 +45,12 @@ public class ValutazioneTesiDatabase
 
 	}
 	/**
-	 * Returns all the evaluation to theses inserted by a specific student
-	 * @param conn A connection to the database
-	 * @param user The User
-	 * @return A list of evaluations
-	 * @throws SQLException If something goes wrong
+	 * Returns all the evaluation to theses inserted by a specific student.
+	 * 
+	 * @param conn A connection to the database.
+	 * @param user The User.
+	 * @return A list of evaluations.
+	 * @throws SQLException If something goes wrong.
 	 */
 	public static List<ValutazioneTesiBean> getEvalByUser(Connection conn, String user) throws SQLException
 	{
@@ -61,12 +63,13 @@ public class ValutazioneTesiDatabase
 	}
 	
 	/**
-	 * Delete an evaluation
-	 * @param conn A connection to the database
-	 * @param user The student that inserted the evaluation
-	 * @param id The thesis evaluated
-	 * @return The number of rows affected
-	 * @throws SQLException If something goes wrong
+	 * Delete an evaluation.
+	 * 
+	 * @param conn A connection to the database.
+	 * @param user The student that inserted the evaluation.
+	 * @param id The thesis evaluated.
+	 * @return The number of rows affected.
+	 * @throws SQLException If something goes wrong.
 	 */
 	public static int deleteEvaluation(Connection conn, String user, int id) throws SQLException
 	{
