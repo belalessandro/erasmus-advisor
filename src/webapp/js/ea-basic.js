@@ -47,12 +47,24 @@ $(function() {
 
 		
 		$( "#datepicker" ).datepicker({
-			inline: true
+			inline: true,
+			dateFormat: "dd-mm-yy",
+			gotoCurrent: true
 		});
+		
+		
+		
 		$( "#datepicker2" ).datepicker({
-			inline: true
+			inline: true,
+			dateFormat: "dd-mm-yy",
+			gotoCurrent: true
 		});
 
+		$( "#datepicker" ).click(function() {
+			var str = $( "#datepicker" ).datepicker( "option", "dateFormat" );
+			console.log(str);
+			
+		});
 		
 		$( "#slider" ).slider({
 			range: true,

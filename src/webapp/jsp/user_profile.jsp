@@ -21,22 +21,17 @@
 	
 	<!-- questi servono per il datepicker -->
 	<link href="<c:url value="/css"/>/datepicker3.css" rel="stylesheet">
-	<link href="<c:url value="/css"/>/ui-lightness/jquery-ui-1.10.4.custom.css" rel="stylesheet">
+	<link href="<c:url value="/css"/>/ui-lightness/jquery-ui-1.10.4.custom.css" rel="stylesheet" type="text/css">
 	<script src="<c:url value="/js"/>/jquery.min.js"></script>
+	<script src="<c:url value="/js"/>/bootstrap.min.js"></script>
 	<script src="<c:url value="/js"/>/jquery-1.10.2.js"></script>
 	<script src="<c:url value="/js"/>/jquery-ui-1.10.4.custom.js"></script>
-	<script src="<c:url value="/js"/>/ea-basic.js"></script>	
-	<script src="<c:url value="/js"/>/bootstrap-datepicker.js"></script>
-	<script src="<c:url value="/js"/>/bootstrap.min.js"></script>
 	
+	<script src="<c:url value="/js"/>/bootstrap-datepicker.js"></script>
+	<script src="<c:url value="/js"/>/ea-basic.js"></script>	
 	<style>
 	.ui-autocomplete-loading {
 		background: white url("<c:url value="/img"/>/ui-anim_basic_16x16.gif") right center no-repeat;
-	}
-	.datepicker {
-		z-index:1151;
-	}
-	
 	</style>
 	<script>
 	$(function() {
@@ -103,19 +98,20 @@
 					}
 				}); // end autocomplete function
 		
-		// mauro: questi sono necessari altrimenti quei figli di puttana di datepicker non funzionano
-		$( "#datepicker" ).datepicker( "option", "dateFormat", "dd/mm/yy" );
-		$( "#datepicker" ).datepicker({ gotoCurrent: true });
-		$( "#datepicker" ).datepicker( "setDate", new Date().getDate() + "/" + eval(new Date().getMonth() + 1) + "/" + new Date().getFullYear() );
-		$( "#datepicker2" ).datepicker( "option", "dateFormat", "dd/mm/yy" );
-		$( "#datepicker2" ).datepicker({ gotoCurrent: true });
-		$( "#datepicker2" ).datepicker( "setDate", new Date().getDate() + "/" + eval(new Date().getMonth() + 1) + "/" + new Date().getFullYear() );
-		
+		// mauro: necessario per visualizzare nel format-date giusto
+		var inizio = "<c:out value="${subscription.annoInizio}"/>";
+		var fine = "<c:out value="${subscription.annoFine}"/>";
+		var i = inizio.split("-");
+		var f = fine.split("-");
+		$( "#datepicker" ).datepicker( "setDate", i[2] + "-" + i[1] + "-" + i[0]);
+		$( "#datepicker2" ).datepicker( "setDate", f[2] + "-" + f[1] + "-" + f[0]);
 	}); // and ready function
+	
+	
 	</script>
-	<!-- Questo è per evitare che quei f.d.p. di datepicker non vadano sotto il modal -->
-	<style type="text/css">
-		.datepicker {
+	<!-- Questo è per evitare che i datepicker non vadano sotto il modal -->
+	<style>
+	.datepicker {
 			z-index:1000000 !important;
 		}
 	</style>
@@ -198,11 +194,17 @@
 													<div class="col-lg-5"></div>
 													<div class="col-lg-7">
 															<div class="input-group sign_in_input_group">
-																<span class="input-group-addon sign_in_input_small">From</span><input type="text" class="form-control"  id="datepicker" name="date_from"  value="<c:out value="${subscription.annoInizio}"/>">
+																<span class="input-group-addon sign_in_input_small">From</span><input data-date-format="dd-mm-yyyy" type="text" class="form-control"  id="datepicker" name="date_from" />
 															</div>
 															<div class="input-group sign_in_input_group">
-																<span class="input-group-addon sign_in_input_small">To</span><input type="text" class="form-control" id="datepicker2" name="date_to" value="<c:out value="${subscription.annoFine}"/>">
+																<span class="input-group-addon sign_in_input_small">To</span><input data-date-format="dd-mm-yyyy" type="text" class="form-control" id="datepicker2" name="date_to" />
 															</div>
+<!-- 														<div class="input-group sign_in_input_group"> -->
+<!-- 														<span class="input-group-addon sign_in_input_small">From</span> -->
+<!-- 														<div class="input-append date" id="dp3"  data-date-format="dd-mm-yyyy"> -->
+<%-- 														  	<input name="" class="form-control" size="16" type="text" value="<c:out value="${subscription.annoInizio}"/>" id="datepicker"> --%>
+<!-- 														</div> -->
+<!-- 														</div> -->
 													</div>
 												</div>
 												<br>
