@@ -1,0 +1,39 @@
+<!--
+-- Copyright (C) 2014 EA-Team
+-- 
+-- This file is part of Erasmus-Advisor project.
+-- 
+-- Erasmus-Advisor can not be copied and/or distributed 
+-- without the express permission of EA-Team
+-->
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+<body bgcolor="white">
+
+Contains the methods to execute SQL instructions in the database.
+
+Static methods in each class receives an instance of Connection and execute the specific SQL query. 
+The connection is never closed, it is the responsibility of the caller 
+(eg Servlet) to properly close the connection and handle any transactions. 
+The Statement, ResultSet and PrepearedStatement, in contrast, 
+are always closed in the method directly after use. 
+In passing parameters to methods, instead of the individual fields, 
+you can use the appropriate Bean, populating them beforehand with the necessary fields. 
+In this way, there is a greater flexibility and homogeneity. 
+This package sometimes uses the library Apache Commons BeanUtils and DbUtils, 
+which provide methods to accomplish many repetitive tasks of JDBC 
+(such as the closure of the correct Connection, populating Bean, querying and parsing the results). 
+The library is not an ORM, but it is very lightweight and maintains 
+correspondence with manual instructions: whenever possible, 
+it will be used in order to simplify the code. 
+The operations carried out by the methods are of type: 
+Create, Update, Delete, Read (synonyms Get / Search / Filter / Find)
+
+@author <a href="mailto:alessandro.beltramin@studenti.unipd.it">Alessandro Beltramin</a>
+@author <a href="">Mauro Piazza</a>
+@author <a href="">Luca Schiappadini</a>
+@author <a href="">Nicola Tommasi</a>
+@since 1.00
+</body>
+</html>
