@@ -4,56 +4,26 @@ import java.io.Serializable;
 import java.sql.Date;
 
 /**
- * Represents the ...
- * 
- * @author Alessandro
- * @version 1.0
- *  
- */
+* Bean which represents the "Coordinatore" table in the database 
+* 
+* @author Alessandro
+* @version 1.0
+*  
+*/
 public class CoordinatoreBean implements Serializable {
-	/**
-	 * 
-	 */
+	
 	private static final long serialVersionUID = 4054409786449348156L;
 
 	/**
-	 *
+	 * Columns
 	 */
 	private String nomeUtente;
-
-	/**
-	 *
-	 */
 	private String email;
-
-	/**
-	 *
-	 */
 	private Date dataRegistrazione;
-
-	/**
-	 *
-	 */
 	private String password;
-
-	/**
-	 *
-	 */
 	private String salt;
-
-	/**
-	 *
-	 */
 	private Date ultimoAccesso;
-
-	/**
-	 *
-	 */
 	private boolean attivo;
-
-	/**
-	 *
-	 */
 	private String nomeUniversita;
 
 	/**

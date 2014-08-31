@@ -3,12 +3,12 @@ package it.unipd.dei.bding.erasmusadvisor.beans;
 import java.io.Serializable;
 
 /**
- * Represents the ...
- * 
- * @author Alessandro
- * @version 1.0
- *  
- */
+* Bean which represents the "CorsoDiLaurea" table in the database 
+* 
+* @author Alessandro
+* @version 1.0
+*  
+*/
 public class CorsoDiLaureaBean implements Serializable {
 	/**
 	 * 
@@ -22,23 +22,11 @@ public class CorsoDiLaureaBean implements Serializable {
 	private static final String UNIQUE = "UNIQUE";
 	
 	/**
-	 *
+	 * Columns
 	 */
 	private int id;
-
-	/**
-	 *
-	 */
 	private String nome;
-
-	/**
-	 *
-	 */
 	private String livello;
-
-	/**
-	 *
-	 */
 	private String nomeUniversita;
 
 	/**

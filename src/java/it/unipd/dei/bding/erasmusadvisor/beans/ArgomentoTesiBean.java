@@ -3,46 +3,24 @@ package it.unipd.dei.bding.erasmusadvisor.beans;
 import java.io.Serializable;
 
 /**
- * Represents the ...
- * 
- * @author Alessandro
- * @version 1.0
- *  
- */
+* Bean which represents the "ArgomentoTesi" table in the database 
+* 
+* @author Alessandro
+* @version 1.0
+*  
+*/
 public class ArgomentoTesiBean implements Serializable {
-	/**
-	 * 
-	 */
+	
 	private static final long serialVersionUID = 2260439098317947249L;
 
 	/**
-	 *
+	 * Columns
 	 */
 	private int id;
-
-	/**
-	 *
-	 */
 	private String nome;
-
-	/**
-	 *
-	 */
 	private String nomeUniversita;
-
-	/**
-	 *
-	 */
 	private boolean triennale;
-
-	/**
-	 *
-	 */
 	private boolean magistrale;
-
-	/**
-	 *
-	 */
 	private String stato;
 
 	/**

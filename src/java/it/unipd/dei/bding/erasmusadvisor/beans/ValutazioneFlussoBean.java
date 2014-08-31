@@ -4,56 +4,26 @@ import java.io.Serializable;
 import java.sql.Date;
 
 /**
- * Represents the ...
- * 
- * @author Alessandro
- * @version 1.0
- *  
- */
+* Bean which represents the "ValutazioneFlusso" table in the database 
+* 
+* @author Alessandro
+* @version 1.0
+*  
+*/
 public class ValutazioneFlussoBean implements Serializable {
-	/**
-	 * 
-	 */
+	
 	private static final long serialVersionUID = -4999388511032220342L;
 
 	/**
-	 *
+	 * Columns
 	 */
 	private String nomeUtenteStudente;
-
-	/**
-	 *
-	 */
 	private String idFlusso;
-
-	/**
-	 *
-	 */
 	private int soddEsperienza;
-
-	/**
-	 *
-	 */
 	private int soddAccademica;
-
-	/**
-	 *
-	 */
 	private int didattica;
-
-	/**
-	 *
-	 */
 	private int valutazioneResponsabile;
-
-	/**
-	 *
-	 */
 	private Date dataInserimento;
-
-	/**
-	 *
-	 */
 	private String commento;
 
 	/**

@@ -3,26 +3,20 @@ package it.unipd.dei.bding.erasmusadvisor.beans;
 import java.io.Serializable;
 
 /**
- * Represents the ...
- * 
- * @author Alessandro
- * @version 1.0
- *  
- */
+* Bean which represents the "Citta" table in the database 
+* 
+* @author Alessandro
+* @version 1.0
+*  
+*/
 public class CittaBean implements Serializable {
-	/**
-	 * 
-	 */
+	
 	private static final long serialVersionUID = 5963735648471148344L;
 
 	/**
-	 *
+	 * Columns
 	 */
 	private String nome;
-
-	/**
-	 *
-	 */
 	private String stato;
 
 	/**

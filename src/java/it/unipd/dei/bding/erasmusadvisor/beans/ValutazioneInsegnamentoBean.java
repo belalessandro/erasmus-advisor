@@ -4,56 +4,26 @@ import java.io.Serializable;
 import java.sql.Date;
 
 /**
- * Represents the ...
- * 
- * @author Alessandro
- * @version 1.0
- *  
- */
+* Bean which represents the "ValutazioneInsegnamento" table in the database 
+* 
+* @author Alessandro
+* @version 1.0
+*  
+*/
 public class ValutazioneInsegnamentoBean implements Serializable {
-	/**
-	 * 
-	 */
+	
 	private static final long serialVersionUID = 4780429788958187651L;
 
 	/**
-	 *
+	 * Columns
 	 */
 	private String nomeUtenteStudente;
-
-	/**
-	 *
-	 */
 	private int idInsegnamento;
-
-	/**
-	 *
-	 */
 	private int qtaInsegnamanto;
-
-	/**
-	 *
-	 */
 	private int interesse;
-
-	/**
-	 *
-	 */
 	private int difficolta;
-
-	/**
-	 *
-	 */
 	private int rispettoDelleOre;
-
-	/**
-	 *
-	 */
 	private Date dataInserimento;
-
-	/**
-	 *
-	 */
 	private String commento;
 
 	/**

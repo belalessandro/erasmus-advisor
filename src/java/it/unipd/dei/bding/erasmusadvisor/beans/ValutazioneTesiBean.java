@@ -4,56 +4,26 @@ import java.io.Serializable;
 import java.sql.Date;
 
 /**
- * Represents the ...
- * 
- * @author Alessandro
- * @version 1.0
- *  
- */
+* Bean which represents the "ValutazioneTesi" table in the database 
+* 
+* @author Alessandro
+* @version 1.0
+*  
+*/
 public class ValutazioneTesiBean implements Serializable {
-	/**
-	 * 
-	 */
+	
 	private static final long serialVersionUID = -1569276918498251354L;
 
 	/**
-	 *
+	 * Columns
 	 */
 	private String nomeUtenteStudente;
-
-	/**
-	 *
-	 */
 	private int idArgomentoTesi;
-
-	/**
-	 *
-	 */
 	private int impegnoNecessario;
-
-	/**
-	 *
-	 */
 	private int interesseArgomento;
-
-	/**
-	 *
-	 */
 	private int disponibilitaRelatore;
-
-	/**
-	 *
-	 */
 	private int soddisfazione;
-
-	/**
-	 *
-	 */
 	private Date dataInserimento;
-
-	/**
-	 *
-	 */
 	private String commento;
 
 	/**

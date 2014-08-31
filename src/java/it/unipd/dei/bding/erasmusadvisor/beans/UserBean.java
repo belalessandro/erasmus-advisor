@@ -9,13 +9,20 @@ import java.security.NoSuchAlgorithmException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * Bean which generalizes the account tables in the database 
+ *   (ResponsabileFlusso, Studente, Coordinatore)
+ *   
+ * @author Federico
+ *
+ */
 public class UserBean implements Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
-
+	
+	/**
+	 * Columns
+	 */
 	private String email;
 	
 	private String nomeUtente;

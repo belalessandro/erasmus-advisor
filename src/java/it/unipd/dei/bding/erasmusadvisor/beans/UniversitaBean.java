@@ -3,46 +3,24 @@ package it.unipd.dei.bding.erasmusadvisor.beans;
 import java.io.Serializable;
 
 /**
- * Represents the ...
- * 
- * @author Alessandro
- * @version 1.0
- *  
- */
+* Bean which represents the "Universita" table in the database 
+* 
+* @author Alessandro
+* @version 1.0
+*  
+*/
 public class UniversitaBean implements Serializable {
-	/**
-	 * 
-	 */
+	
 	private static final long serialVersionUID = 6881425108525773469L;
 
 	/**
-	 *
+	 * Columns
 	 */
 	private String nome;
-
-	/**
-	 *
-	 */
 	private String link;
-
-	/**
-	 *
-	 */
 	private int posizioneClassifica;
-
-	/**
-	 *
-	 */
 	private boolean presenzaAlloggi;
-
-	/**
-	 *
-	 */
 	private String nomeCitta;
-
-	/**
-	 *
-	 */
 	private String statoCitta;
 
 	/**

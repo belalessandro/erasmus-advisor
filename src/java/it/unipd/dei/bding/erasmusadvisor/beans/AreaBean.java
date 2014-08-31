@@ -3,20 +3,18 @@ package it.unipd.dei.bding.erasmusadvisor.beans;
 import java.io.Serializable;
 
 /**
- * Represents the ...
+ * Bean which represents the "Area" table in the database 
  * 
  * @author Alessandro
  * @version 1.0
  *  
  */
 public class AreaBean implements Serializable {
-	/**
-	 * 
-	 */
+	
 	private static final long serialVersionUID = 313939512860366547L;
 	
 	/**
-	 *
+	 * Columns
 	 */
 	private String nome;
 

@@ -3,61 +3,27 @@ package it.unipd.dei.bding.erasmusadvisor.beans;
 import java.io.Serializable;
 
 /**
- * Represents the ...
- * 
- * @author Alessandro
- * @version 1.0
- *  
- */
+* Bean which represents the "Insegnamento" table in the database 
+* 
+* @author Alessandro
+* @version 1.0
+*  
+*/
 public class InsegnamentoBean implements Serializable {
-	/**
-	 * 
-	 */
+	
 	private static final long serialVersionUID = -4250470171725790549L;
 
 	/**
-	 *
+	 * Columns
 	 */
 	private int id;
-
-	/**
-	 *
-	 */
 	private String nome;
-
-	/**
-	 *
-	 */
 	private int crediti;
-
-	/**
-	 *
-	 */
 	private String nomeUniversita;
-
-	/**
-	 *
-	 */
 	private int periodoErogazione;
-
-	/**
-	 *
-	 */
 	private String stato;
-
-	/**
-	 *
-	 */
 	private int annoCorso;
-
-	/**
-	 *
-	 */
 	private String nomeArea;
-
-	/**
-	 *
-	 */
 	private String nomeLingua;
 
 	/**
