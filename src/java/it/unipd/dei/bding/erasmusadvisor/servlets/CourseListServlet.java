@@ -35,7 +35,7 @@ public class CourseListServlet extends AbstractDatabaseServlet {
 	private static final long serialVersionUID = 124559389265503855L;
 
 	/**
-	 * Gets a list of courses 
+	 * Returns a list of courses 
 	 */
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {

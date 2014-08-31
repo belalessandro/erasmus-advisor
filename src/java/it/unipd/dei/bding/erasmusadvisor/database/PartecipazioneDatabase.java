@@ -17,7 +17,7 @@ import org.apache.commons.dbutils.handlers.BeanListHandler;
 public class PartecipazioneDatabase
 {
 	/**
-	 * Get all the flow a student has joined
+	 * Returns all the flow a student has joined
 	 * @param conn A connection to the database.
 	 * @param stud A student
 	 * @return a list of partecipations bean

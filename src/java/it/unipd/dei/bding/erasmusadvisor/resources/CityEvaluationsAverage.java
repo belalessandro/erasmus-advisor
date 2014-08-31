@@ -6,7 +6,7 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * Compute the average of the a city's evalutation list
+ * Compute the average of the a city's evaluation list.
  * @author Luca
  *
  */
@@ -21,7 +21,7 @@ public class CityEvaluationsAverage implements Serializable
 	
 	/**
 	 * Initialize the class computing the evaluations' average. If the list is void the average is set to 0 for all the fields.
-	 * @param list a list of evaluations
+	 * @param list a list of evaluations.
 	 */
 	public CityEvaluationsAverage(List<ValutazioneCittaBean> list)
 	{
@@ -44,8 +44,8 @@ public class CityEvaluationsAverage implements Serializable
 	}
 
 	/**
-	 * Get the average of the evaluations in the Cost of Life field
-	 * @return the average
+	 * Returns the average of the evaluations in the Cost of Life field.
+	 * @return The average.
 	 */
 	public int getCostOfLife()
 	{
@@ -53,8 +53,8 @@ public class CityEvaluationsAverage implements Serializable
 	}
 
 	/**
-	 * Get the average of the evaluations in the House Availability field
-	 * @return the average
+	 * Returns the average of the evaluations in the House Availability field.
+	 * @return The average.
 	 */
 	public int getHouseAvailability()
 	{
@@ -62,8 +62,8 @@ public class CityEvaluationsAverage implements Serializable
 	}
 
 	/**
-	 * Get the average of the evaluations in the Liveability field
-	 * @return the average
+	 * Returns the average of the evaluations in the Liveability field.
+	 * @return The average.
 	 */
 	public int getLiveability()
 	{
@@ -71,8 +71,8 @@ public class CityEvaluationsAverage implements Serializable
 	}
 	
 	/**
-	 * Get the average of the evaluations in the Social Life field
-	 * @return the average
+	 * Returns the average of the evaluations in the Social Life field.
+	 * @return The average.
 	 */
 	public int getSocialLife()
 	{

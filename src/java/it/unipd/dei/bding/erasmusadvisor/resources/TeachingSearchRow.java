@@ -13,9 +13,11 @@ import java.util.List;
 public class TeachingSearchRow {
 	private InsegnamentoBean arg;
 	private List<ProfessoreBean> listaProfessori;
+	
 	/**
-	 * @param arg
-	 * @param listaProfessori
+	 * Initializes the object, setting the search results.
+	 * @param arg The class.
+	 * @param listaProfessori The list of class teachers.
 	 */
 	public TeachingSearchRow(InsegnamentoBean arg,
 			List<ProfessoreBean> listaProfessori) {
@@ -23,31 +25,38 @@ public class TeachingSearchRow {
 		this.arg = arg;
 		this.listaProfessori = listaProfessori;
 	}
+	
 	/**
-	 * @return the arg
+	 * Returns the class.
+	 * @return The class.
 	 */
 	public InsegnamentoBean getArg() {
 		return arg;
 	}
+	
 	/**
-	 * @param arg the arg to set
+	 * Sets the class.
+	 * @param arg The class.
 	 */
 	public void setArg(InsegnamentoBean arg) {
 		this.arg = arg;
 	}
+	
 	/**
-	 * @return the listaProfessori
+	 * Returns the list of class teachers.
+	 * @return A list of teachers.
 	 */
 	public List<ProfessoreBean> getListaProfessori() {
 		return listaProfessori;
 	}
+	
 	/**
-	 * @param listaProfessori the listaProfessori to set
+	 * Sets the class teachers.
+	 * @param listaProfessori The value to set.
 	 */
 	public void setListaProfessori(List<ProfessoreBean> listaProfessori) {
 		this.listaProfessori = listaProfessori;
 	}
 	
-
 }
 	

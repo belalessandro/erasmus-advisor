@@ -8,7 +8,11 @@ import java.io.Serializable;
  * @author Alessandro
  * @version 1.1
  */
-public class LoggedUser implements Serializable {
+public class LoggedUser implements Serializable 
+{
+
+	private static final long serialVersionUID = -3768523744321447192L;
+
 	/**
 	 * Stores the authorization level
 	 */
@@ -21,8 +25,9 @@ public class LoggedUser implements Serializable {
 
 	
 	/**
-	 * Creates a model for a logged user, specifying an authorization level
-	 * @param auth LoggedUser.AUTH_STUDENT, LoggedUser.AUTH_FLOWRESP or LoggedUser.AUTH_COORD
+	 * Creates a model for a logged user, specifying an authorization level.
+	 * @param auth The user type.
+	 * @param user The user name.
 	 */
 	public LoggedUser(final UserType auth, final String user) {
 		super();
@@ -30,146 +35,40 @@ public class LoggedUser implements Serializable {
 		this.user = user;
 	}
 
-
 	/**
 	 * Checks if the logged user is a Student.
 	 *
-	 * @return true if the logged user is a Student
+	 * @return {@code true} if the logged user is a Student.
 	 */
 	public boolean isStudent() {
 		return auth.equals(UserType.STUDENTE);
 	}
 
-
 	/**
 	 * Checks if the logged user is a Flow Responsible.
 	 *
-	 * @return true if the logged user is a Flow Responsible
+	 * @return {@code true} if the logged user is a Flow Manager.
 	 */
 	public boolean isFlowResp() {
 		return auth.equals(UserType.RESPONSABILE);
 	}
 
-
 	/**
 	 * Checks if the logged user is a Coordinator.
 	 *
-	 * @return true if the logged user is a Coordinator
+	 * @return {@code true} if the logged user is an Erasmus Coordinator.
 	 */
 	public boolean isCoord() {
 		return auth.equals(UserType.COORDINATORE);
 	}
 
-
 	/**
-	 * Returns the field user.
+	 * Returns the user name.
 	 *
-	 * @return the value of user
+	 * @return The user name.
 	 */
 	public String getUser() {
 		return user;
 	}
 	
-	
 }
-
-///**
-// * Represents a logged user.
-// * 
-// * @author Alessandro
-// * @version 1.00
-// */
-//public class LoggedUser {
-//	
-//	/**
-//	 * If the logged user has authorization level: Studente 
-//	 */
-//	private boolean isStudent;
-//
-//	
-//	/**
-//	 * If the logged user has authorization level: ResponsabileFlusso 
-//	 */
-//	private boolean isFlowResp;
-//
-//	
-//	/**
-//	 * If the logged user has authorization level: Coordinatore 
-//	 */
-//	private boolean isCoord;
-//
-//
-//	/**
-//	 * @param isStudent
-//	 * @param isFlowResp
-//	 * @param isCoord
-//	 */
-//	public LoggedUser(boolean isStudent, boolean isFlowResp, boolean isCoord) {
-//		super();
-//		this.isStudent = isStudent;
-//		this.isFlowResp = isFlowResp;
-//		this.isCoord = isCoord;
-//	}
-//
-//
-//	/**
-//	 * Returns the field isStudent.
-//	 *
-//	 * @return the value of isStudent
-//	 */
-//	public boolean isStudent() {
-//		return isStudent;
-//	}
-//
-//
-//	/**
-//	 * Sets the field isStudent
-//	 *
-//	 * @param isStudent The value to set
-//	 */
-//	public void setStudent(boolean isStudent) {
-//		this.isStudent = isStudent;
-//	}
-//
-//
-//	/**
-//	 * Returns the field isFlowResp.
-//	 *
-//	 * @return the value of isFlowResp
-//	 */
-//	public boolean isFlowResp() {
-//		return isFlowResp;
-//	}
-//
-//
-//	/**
-//	 * Sets the field isFlowResp
-//	 *
-//	 * @param isFlowResp The value to set
-//	 */
-//	public void setFlowResp(boolean isFlowResp) {
-//		this.isFlowResp = isFlowResp;
-//	}
-//
-//
-//	/**
-//	 * Returns the field isCoord.
-//	 *
-//	 * @return the value of isCoord
-//	 */
-//	public boolean isCoord() {
-//		return isCoord;
-//	}
-//
-//
-//	/**
-//	 * Sets the field isCoord
-//	 *
-//	 * @param isCoord The value to set
-//	 */
-//	public void setCoord(boolean isCoord) {
-//		this.isCoord = isCoord;
-//	}
-//	
-//	
-//}

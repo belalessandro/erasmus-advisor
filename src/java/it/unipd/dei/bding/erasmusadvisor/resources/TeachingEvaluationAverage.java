@@ -6,7 +6,7 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * Compute the average of the a class's evalutation list
+ * Compute the average of the a class's evaluation list.
  * @author Luca
  *
  */
@@ -20,8 +20,8 @@ public class TeachingEvaluationAverage implements Serializable
 	int interest = 0;
 
 	/**
-	 * Initialize the class computing the evaluations' average. If the list is void the average is set to 0 for all the fields.
-	 * @param list a list of evaluations
+	 * Initializes the class computing the evaluations' average. If the list is void the average is set to 0 for all the fields.
+	 * @param list A list of evaluations.
 	 */
 	public TeachingEvaluationAverage(List<ValutazioneInsegnamentoBean> list)
 	{
@@ -44,8 +44,8 @@ public class TeachingEvaluationAverage implements Serializable
 	}
 
 	/**
-	 * Get the average of the evaluations in the Teaching Quality field
-	 * @return the average
+	 * Returns the average of the evaluations in the Teaching Quality field.
+	 * @return The average.
 	 */
 	public int getTeachingQuality()
 	{
@@ -53,8 +53,8 @@ public class TeachingEvaluationAverage implements Serializable
 	}
 
 	/**
-	 * Get the average of the evaluations in the Schedule Compliance field
-	 * @return the average
+	 * Returns the average of the evaluations in the Schedule Compliance field.
+	 * @return The average.
 	 */
 	public int getScheduleCompliance()
 	{
@@ -62,8 +62,8 @@ public class TeachingEvaluationAverage implements Serializable
 	}
 
 	/**
-	 * Get the average of the evaluations in the Difficulty field
-	 * @return the average
+	 * Returns the average of the evaluations in the Difficulty field.
+	 * @return The average.
 	 */
 	public int getDifficulty()
 	{
@@ -71,8 +71,8 @@ public class TeachingEvaluationAverage implements Serializable
 	}
 
 	/**
-	 * Get the average of the evaluations in the Interest field
-	 * @return the average
+	 * Returns the average of the evaluations in the Interest field.
+	 * @return The average.
 	 */
 	public int getInterest()
 	{

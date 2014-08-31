@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Contains all the details of a University needed by an end user.
+ * Contains all the details of a University displayed to an end user.
  * 
  * @author Luca, Alessandro
  *
@@ -19,10 +19,10 @@ public class University {
 	private List<ValutazioneUniversitaBean> listaValutazioni;
 	
 	/**
-	 * Initialize the class.
+	 * Initializes the university.
 	 * 
-	 * @param universita the University
-	 * @param listaValutazioni the list of the University evalutaions
+	 * @param universita The University.
+	 * @param listaValutazioni The list of the University evaluations.
 	 */
 	public University(UniversitaBean universita,
 			List<ValutazioneUniversitaBean> listaValutazioni) {
@@ -33,34 +33,34 @@ public class University {
 	/**
 	 * Returns the University.
 	 *
-	 * @return a bean representing the University
+	 * @return A bean representing the University.
 	 */
 	public UniversitaBean getUniversita() {
 		return universita;
 	}
 
 	/**
-	 * Sets the University
+	 * Sets the University.
 	 *
-	 * @param universita The value to set
+	 * @param universita The value to set.
 	 */
 	public void setUniversita(UniversitaBean universita) {
 		this.universita = universita;
 	}
 
 	/**
-	 * Returns the evaluations to the University
+	 * Returns the evaluations to the University.
 	 *
-	 * @return a list of beans representing the evaluations
+	 * @return A list of beans representing the evaluations.
 	 */
 	public List<ValutazioneUniversitaBean> getListaValutazioni() {
 		return listaValutazioni;
 	}
 
 	/**
-	 * Sets the evaluations to the University
+	 * Sets the evaluations to the University.
 	 *
-	 * @param listaValutazioni the list of evaluations
+	 * @param listaValutazioni The list of evaluations.
 	 */
 	public void setListaValutazioni(
 			ArrayList<ValutazioneUniversitaBean> listaValutazioni) {

@@ -6,35 +6,62 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+/**
+ * Realizes a data structure that contains a list of all the cities located in a defined country.
+ * @author Luca
+ *
+ */
 public class CountryCityListBean {
 
 	private List<String> cities;
 	private String country;
 
+	/**
+	 * Returns the country name.
+	 * @return The country name.
+	 */
 	public String getCountry()
 	{
 		return country;
 	}
 	
+	/**
+	 * Sets the country name.
+	 * @param country The country name.
+	 */
 	public void setCountry(String country)
 	{
 		this.country = country;
 	}
 	
+	/**
+	 * Returns all the cities located in the same country.
+	 * @return A list of names of cities.
+	 */
 	public List<String> getCities() {
 		return cities;
 	}
 
+	/**
+	 * Set the cities.
+	 * @param cities A list of names of cities.
+	 */
 	public void setCities(List<String> cities) 
 	{
 		this.cities = cities;
 	}
 
 	/**
-	 * Empty constructor
+	 * Empty constructor.
 	 */
 	public CountryCityListBean() {}
 	
+	/**
+	 * Creates a list of CountryCityListBean from a list of CittaBean, realizing a sort of map that links every country
+	 * with the cities located there.
+	 * @param in A list of cities, sorted by the field stato.
+	 * @return A list of countries with their cities.
+	 */
 	public List<CountryCityListBean> initialize(List<CittaBean> in)
 	{
 		List<CountryCityListBean> list = new ArrayList<CountryCityListBean>();

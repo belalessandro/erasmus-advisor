@@ -19,7 +19,7 @@ import org.apache.commons.dbutils.handlers.BeanListHandler;
 public class GetCorsoDiLaureaValues 
 {
 	/**
-	 * Get the name domains of CorsoDiLaurea
+	 * Returns the name domains of CorsoDiLaurea
 	 * @param conn A connection to the database.
 	 * @return a list of university names
 	 * @throws SQLException If an error occurs running the SQL query.
@@ -39,7 +39,7 @@ public class GetCorsoDiLaureaValues
 	}
 	
 	/**
-	 * Get the name domains of CorsoDiLaurea filtered by university
+	 * Returns the name domains of CorsoDiLaurea filtered by university
 	 * @param conn A connection to the database.
 	 * @param university university name.
 	 * @return a list of university names
@@ -60,7 +60,7 @@ public class GetCorsoDiLaureaValues
 	}
 	
 	/**
-	 * Get the name domains of CorsoDiLaurea starting with some letters
+	 * Returns the name domains of CorsoDiLaurea starting with some letters
 	 * @param conn A connection to the database.
 	 * @return a list of university names
 	 * @throws SQLException If an error occurs running the SQL query.
@@ -81,7 +81,7 @@ public class GetCorsoDiLaureaValues
 	}
 
 	/**
-	 * Get the name domains of CorsoDiLaurea starting with some letters filtered by university.
+	 * Returns the name domains of CorsoDiLaurea starting with some letters filtered by university.
 	 * @param conn A connection to the database.
 	 * @param startingWith starting string
 	 * @param university university name

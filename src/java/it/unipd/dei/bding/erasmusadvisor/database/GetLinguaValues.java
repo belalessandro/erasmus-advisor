@@ -19,7 +19,7 @@ import org.apache.commons.dbutils.handlers.BeanListHandler;
 public class GetLinguaValues 
 {
 	/**
-	 * Get the domain of Lingua (so the languages in the databases)
+	 * Returns the domain of Lingua (so the languages in the databases)
 	 * @param conn A connection to the database.
 	 * @return A list of languages
 	 * @throws SQLException If an error occurs running the SQL query.

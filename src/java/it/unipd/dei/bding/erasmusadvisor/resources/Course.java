@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * Contains all the details of a Degree Course displayed to an end user.
  * @author Nicola
  */
 
@@ -16,8 +17,9 @@ public class Course {
 	private List<AreaBean> listaAree;
 	
 	/**
-	 * @param corso
-	 * @param aree
+	 * Initializes the course.
+	 * @param corso The degree course.
+	 * @param aree The course's areas.
 	 */
 	public Course(CorsoDiLaureaBean corso,
 			List<AreaBean> listaAree) {
@@ -26,36 +28,36 @@ public class Course {
 	}
 
 	/**
-	 * Returns the field corso.
+	 * Returns the degree course.
 	 *
-	 * @return the value of corso
+	 * @return The degree course.
 	 */
 	public CorsoDiLaureaBean getCorso() {
 		return corso;
 	}
 
 	/**
-	 * Sets the field corso
+	 * Sets the degree course.
 	 *
-	 * @param corso The value to set
+	 * @param corso The value to set.
 	 */
 	public void setCorso(CorsoDiLaureaBean corso) {
 		this.corso = corso;
 	}
 
 	/**
-	 * Returns the field listaValutazioni.
+	 * Returns the areas of the degree course.
 	 *
-	 * @return the value of listaValutazioni
+	 * @return A list of areas.
 	 */
 	public List<AreaBean> getListaAree() {
 		return listaAree;
 	}
 
 	/**
-	 * Sets the field listaValutazioni
+	 * Sets the areas of the degree course.
 	 *
-	 * @param listaValutazioni The value to set
+	 * @param listaAree The value to set.
 	 */
 	public void setListaAree(
 			ArrayList<AreaBean> listaAree) {

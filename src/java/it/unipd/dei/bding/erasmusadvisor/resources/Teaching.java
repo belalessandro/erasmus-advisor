@@ -12,7 +12,8 @@ import it.unipd.dei.bding.erasmusadvisor.beans.ValutazioneInsegnamentoBean;
 
 
 /**
- * Contains all the details of a Class needed by an end user. Named Teaching to avoid conflicts with the standard library Class class.
+ * Contains all the details of a Class displayed an end user (This class has been named 
+ * Teaching to avoid conflicts with the standard library Class class.)
  * 
  * @author Luca
  *
@@ -25,12 +26,12 @@ public class Teaching
 	private LinguaBean lingua;
 	
 	/**
-	 * Initialize the Teaching
+	 * Initializes the teaching.
 	 * 
-	 * @param insegnamento the Teaching
-	 * @param listaValutazioni the teaching's evaluations
-	 * @param professori the theaching's teachers
-	 * @param lingua the theaching's language
+	 * @param insegnamento The teaching.
+	 * @param listaValutazioni The teaching's evaluations.
+	 * @param professori The theaching's teachers.
+	 * @param lingua The theaching's language.
 	 */
 	public Teaching(InsegnamentoBean insegnamento, List<ValutazioneInsegnamentoBean> listaValutazioni, 
 			List<ProfessoreBean> professori, LinguaBean lingua)
@@ -43,8 +44,8 @@ public class Teaching
 	}
 	
 	/**
-	 * Get the teaching
-	 * @return a bean representing the teaching
+	 * Returns the teaching.
+	 * @return A bean representing the teaching.
 	 */
 	public InsegnamentoBean getInsegnamento()
 	{
@@ -52,8 +53,8 @@ public class Teaching
 	}
 	
 	/**
-	 * Set the teaching
-	 * @param bean the teaching
+	 * Sets the teaching.
+	 * @param bean The teaching.
 	 */
 	public void setInsegnamento (InsegnamentoBean bean)
 	{
@@ -61,8 +62,8 @@ public class Teaching
 	}
 	
 	/**
-	 * Get the teaching's language
-	 * @return a bean representing the language
+	 * Returns the teaching's language.
+	 * @return A bean representing the language.
 	 */
 	public LinguaBean getLingua()
 	{
@@ -70,8 +71,8 @@ public class Teaching
 	}
 	
 	/**
-	 * Set the teaching's language
-	 * @param bean the language
+	 * Sets the teaching's language.
+	 * @param bean The language.
 	 */
 	public void setLingua(LinguaBean bean)
 	{
@@ -79,8 +80,8 @@ public class Teaching
 	}
 	
 	/**
-	 * Get the evaluations to the teaching
-	 * @return a list of beans representing the evaluations
+	 * Returns the evaluations to the teaching.
+	 * @return A list of beans representing the evaluations.
 	 */
 	public List<ValutazioneInsegnamentoBean> getValutazioni()
 	{
@@ -88,8 +89,8 @@ public class Teaching
 	}
 	
 	/**
-	 * Set the evaluations to the teaching
-	 * @param bean the evaluations
+	 * Sets the evaluations to the teaching.
+	 * @param bean The evaluations.
 	 */
 	public void setValutazioni(List<ValutazioneInsegnamentoBean> bean)
 	{
@@ -97,8 +98,8 @@ public class Teaching
 	}
 	
 	/**
-	 * Get the teachers
-	 * @return the teachers
+	 * Returns the teachers.
+	 * @return The teachers.
 	 */
 	public List<ProfessoreBean> getProfessori()
 	{
@@ -106,8 +107,8 @@ public class Teaching
 	}
 	
 	/**
-	 * Set the teachers
-	 * @param bean a list of teachers
+	 * Sets the teachers.
+	 * @param bean A list of teachers.
 	 */
 	public void setProfessori(List<ProfessoreBean> bean)
 	{

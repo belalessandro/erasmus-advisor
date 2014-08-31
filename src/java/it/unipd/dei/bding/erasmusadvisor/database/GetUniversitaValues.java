@@ -19,7 +19,7 @@ import org.apache.commons.dbutils.handlers.BeanListHandler;
 public class GetUniversitaValues 
 {
 	/**
-	 * Get the name domains of Universita
+	 * Returns the name domains of Universita
 	 * @param conn A connection to the database.
 	 * @return a list of university names
 	 * @throws SQLException If an error occurs running the SQL query.
@@ -39,7 +39,7 @@ public class GetUniversitaValues
 	}
 	
 	/**
-	 * Get the name domains of Universita starting with some letters
+	 * Returns the name domains of Universita starting with some letters
 	 * @param conn A connection to the database.
 	 * @return a list of university names
 	 * @throws SQLException If an error occurs running the SQL query.

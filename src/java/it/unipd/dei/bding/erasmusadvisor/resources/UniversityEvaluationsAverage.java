@@ -7,7 +7,7 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * Compute the average of a university evalutation list
+ * ComputeS the average of a university evaluation list.
  * @author Luca
  *
  */
@@ -21,8 +21,8 @@ public class UniversityEvaluationsAverage implements Serializable
 	int classroomQuality = 0;
 
 	/**
-	 * Initialize the class computing the evaluations' average. If the list is void the average is set to 0 for all the fields.
-	 * @param list a list of evaluations
+	 * Initializes the class computing the evaluations' average. If the list is void the average is set to 0 for all the fields.
+	 * @param list A list of evaluations.
 	 */
 	public UniversityEvaluationsAverage(List<ValutazioneUniversitaBean> list)
 	{
@@ -45,8 +45,8 @@ public class UniversityEvaluationsAverage implements Serializable
 	}
 
 	/**
-	 * Get the average of the evaluations in the Urban Location field
-	 * @return the average
+	 * Returns the average of the evaluations in the Urban Location field.
+	 * @return The average.
 	 */
 	public int getUrbanLocation()
 	{
@@ -54,8 +54,8 @@ public class UniversityEvaluationsAverage implements Serializable
 	}
 
 	/**
-	 * Get the average of the evaluations in the Erasmus Events field
-	 * @return the average
+	 * Returns the average of the evaluations in the Erasmus Events field.
+	 * @return The average.
 	 */
 	public int getErasmusEvents()
 	{
@@ -63,8 +63,8 @@ public class UniversityEvaluationsAverage implements Serializable
 	}
 
 	/**
-	 * Get the average of the evaluations in the Teachings Quality field
-	 * @return the average
+	 * Returns the average of the evaluations in the Teachings Quality field.
+	 * @return The average.
 	 */
 	public int getTeachingsQuality()
 	{
@@ -72,8 +72,8 @@ public class UniversityEvaluationsAverage implements Serializable
 	}
 
 	/**
-	 * Get the average of the evaluations in the Classroom Quality field
-	 * @return the average
+	 * Returns the average of the evaluations in the Classroom Quality field.
+	 * @return The average.
 	 */
 	public int getClassroomQuality()
 	{

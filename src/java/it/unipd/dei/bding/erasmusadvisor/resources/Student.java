@@ -5,7 +5,7 @@ import it.unipd.dei.bding.erasmusadvisor.beans.IscrizioneBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.StudenteBean;
 
 /**
- * Contains all the details of a Student needed by an end user.
+ * Contains all the details of a Student displayed to an end user.
  * 
  * @author Luca
  *
@@ -18,9 +18,9 @@ public class Student
 	CorsoDiLaureaBean corsodilaurea;
 	
 	/**
-	 * Initialize the Student
-	 * @param studente the student
-	 * @param corso the degree course the student follows
+	 * Initialize the Student.
+	 * @param studente The student.
+	 * @param corso The degree course the student follows.
 	 */
 	public Student(StudenteBean studente, IscrizioneBean corso, CorsoDiLaureaBean corsodilaurea)
 	{
@@ -30,8 +30,8 @@ public class Student
 	}
 	
 	/**
-	 * Returns the degree course
-	 * @return the degree course
+	 * Returns the degree course.
+	 * @return The degree course.
 	 */
 	public CorsoDiLaureaBean getCorso()
 	{
@@ -39,8 +39,8 @@ public class Student
 	}
 	
 	/**
-	 * sets the degree course
-	 * @param obj the degree course
+	 * Sets the degree course.
+	 * @param obj The degree course.
 	 */
 	public void setCorso(CorsoDiLaureaBean obj)
 	{
@@ -48,8 +48,8 @@ public class Student
 	}
 	
 	/**
-	 * Returns the student
-	 * @return the student
+	 * Returns the student.
+	 * @return The student.
 	 */
 	public StudenteBean getStudente()
 	{
@@ -57,8 +57,8 @@ public class Student
 	}
 	
 	/**
-	 * Set the student
-	 * @param obj a bean representing the student
+	 * Sets the student.
+	 * @param obj A bean representing the student.
 	 */
 	public void setStudente(StudenteBean obj)
 	{
@@ -66,8 +66,8 @@ public class Student
 	}
 	
 	/**
-	 * Returns the degree course
-	 * @return the degree course
+	 * Returns the degree course.
+	 * @return The degree course.
 	 */
 	public IscrizioneBean getIscrizione()
 	{
@@ -75,8 +75,8 @@ public class Student
 	}
 	
 	/**
-	 * sets the degree course
-	 * @param obj the degree course
+	 * Sets the degree course.
+	 * @param obj The degree course.
 	 */
 	public void setIscrizione(IscrizioneBean obj)
 	{

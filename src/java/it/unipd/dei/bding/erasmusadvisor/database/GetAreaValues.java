@@ -19,7 +19,7 @@ import org.apache.commons.dbutils.handlers.BeanListHandler;
 public class GetAreaValues 
 {
 	/**
-	 * Get the domain of Area
+	 * Returns the domain of Area
 	 * @param conn A connection to the database.
 	 * @return a list of areas
 	 * @throws SQLException If an error occurs running the SQL query.

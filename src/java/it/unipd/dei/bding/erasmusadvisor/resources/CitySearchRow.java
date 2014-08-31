@@ -16,8 +16,9 @@ public class CitySearchRow {
 	private List<LinguaBean> listaLingue;
 	
 	/**
-	 * @param citta
-	 * @param listaLingue
+	 * Initializes the object, setting the search results.
+	 * @param citta The city.
+	 * @param listaLingue A list of languages spoken in the city.
 	 */
 	public CitySearchRow(CittaBean citta, List<LinguaBean> listaLingue) {
 		this.citta = citta;
@@ -25,36 +26,36 @@ public class CitySearchRow {
 	}
 
 	/**
-	 * Returns the field citta.
+	 * Returns the city.
 	 *
-	 * @return the value of citta
+	 * @return The city.
 	 */
 	public CittaBean getCitta() {
 		return citta;
 	}
 
 	/**
-	 * Sets the field citta
+	 * Sets the city.
 	 *
-	 * @param citta The value to set
+	 * @param citta The city.
 	 */
 	public void setCitta(CittaBean citta) {
 		this.citta = citta;
 	}
 
 	/**
-	 * Returns the field listaLingue.
+	 * Returns the list of languages spoken in the city.
 	 *
-	 * @return the value of listaLingue
+	 * @return The list of languages spoken in the city.
 	 */
 	public List<LinguaBean> getListaLingue() {
 		return listaLingue;
 	}
 
 	/**
-	 * Sets the field listaLingue
+	 * Sets the list of languages spoken in the city.
 	 *
-	 * @param listaLingue The value to set
+	 * @param listaLingue The list of languages spoken in the city.
 	 */
 	public void setListaLingue(List<LinguaBean> listaLingue) {
 		this.listaLingue = listaLingue;

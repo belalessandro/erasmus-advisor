@@ -41,7 +41,7 @@ public class Notifications
 	}
 	
 	/**
-	 * Get a list of flow manager that need to be checked.
+	 * Returns a list of flow manager that need to be checked.
 	 * @return list of beans of flow managers
 	 */
 	public List<ResponsabileFlussoBean> getResponsabiliFlusso() { return responsabiliFlusso; }
@@ -55,7 +55,7 @@ public class Notifications
 	}
 	
 	/**
-	 * Get a list of classes that need to be checked.
+	 * Returns a list of classes that need to be checked.
 	 * @return list of beans of classes
 	 */
 	public List<InsegnamentoBean> getInsegnamenti() { return insegnamenti; }
@@ -69,7 +69,7 @@ public class Notifications
 	}
 	
 	/**
-	 * Get a list of thesis that need to be checked.
+	 * Returns a list of thesis that need to be checked.
 	 * @return list of beans of thesis
 	 */
 	public List<ArgomentoTesiBean> getArgomentiTesi() { return argomentiTesi; }
@@ -83,13 +83,13 @@ public class Notifications
 	}
 	
 	/**
-	 * Get the list of class's professors
+	 * Returns the list of class's professors
 	 * @return the list of class's professors
 	 */
 	public List<List<ProfessoreBean>> getProfessoriInsegnamenti() { return professoriInsegnamento; }
 	
 	/**
-	 * Get the list of class's professors
+	 * Returns the list of class's professors
 	 * @param professoriInsegnamento the list of class's professors
 	 */
 	public void setProfessoriInsegnamenti(List<List<ProfessoreBean>> professoriInsegnamento)
@@ -98,7 +98,7 @@ public class Notifications
 	}
 	
 	/**
-	 * Get the list of thesis' professors
+	 * Returns the list of thesis' professors
 	 * @return the list of thesis' professors
 	 */
 	public List<List<ProfessoreBean>> getProfessoriTesi() { return professoriTesi; }

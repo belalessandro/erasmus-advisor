@@ -6,7 +6,7 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * Compute the average of a thesis' evalutation list
+ * Compute the average of a thesis' evaluation list.
  * @author Luca
  *
  */
@@ -20,8 +20,8 @@ public class ThesisEvaluationsAverage implements Serializable
 	int satisfaction = 0;
 
 	/**
-	 * Initialize the class computing the evaluations' average. If the list is void the average is set to 0 for all the fields.
-	 * @param list a list of evaluations
+	 * Initializes the class computing the evaluations' average. If the list is void the average is set to 0 for all the fields.
+	 * @param list A list of evaluations.
 	 */
 	public ThesisEvaluationsAverage(List<ValutazioneTesiBean> list)
 	{
@@ -44,8 +44,8 @@ public class ThesisEvaluationsAverage implements Serializable
 	}
 
 	/**
-	 * Get the average of the evaluations in the Effort Needed field
-	 * @return the average
+	 * Returns the average of the evaluations in the Effort Needed field.
+	 * @return The average.
 	 */
 	public int getEffortNeeded()
 	{
@@ -53,8 +53,8 @@ public class ThesisEvaluationsAverage implements Serializable
 	}
 
 	/**
-	 * Get the average of the evaluations in the Subject Appeal field
-	 * @return the average
+	 * Returns the average of the evaluations in the Subject Appeal field.
+	 * @return The average.
 	 */
 	public int getSubjectAppeal()
 	{
@@ -62,8 +62,8 @@ public class ThesisEvaluationsAverage implements Serializable
 	}
 
 	/**
-	 * Get the average of the evaluations in the Supervisor Availability field
-	 * @return the average
+	 * Returns the average of the evaluations in the Supervisor Availability field.
+	 * @return The average.
 	 */
 	public int getSupervisorAvailability()
 	{
@@ -71,8 +71,8 @@ public class ThesisEvaluationsAverage implements Serializable
 	}
 
 	/**
-	 * Get the average of the evaluations in the Satisfaction field
-	 * @return the average
+	 * Returns the average of the evaluations in the Satisfaction field.
+	 * @return The average.
 	 */
 	public int getSatisfaction()
 	{

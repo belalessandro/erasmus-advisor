@@ -9,7 +9,7 @@ import it.unipd.dei.bding.erasmusadvisor.beans.ResponsabileFlussoBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.ValutazioneFlussoBean;
 
 /**
- * Contains all the details of a Flow needed by an end user.
+ * Contains all the details of a Flow displayed to an end user.
  * 
  * @author Luca
  *
@@ -23,13 +23,13 @@ public class Flow
 	private List<ValutazioneFlussoBean> listaValutazioni;
 	
 	/**
-	 * Initialize the Flow 
+	 * Initializes the flow.
 	 * 
-	 * @param flow the flow
-	 * @param responsabile the flow manager
-	 * @param corsiOrigine the flow's starting degree courses
-	 * @param certificati the flow's required language certifications
-	 * @param listaValutazioni the flow's evaluations
+	 * @param flow The flow.
+	 * @param responsabile The flow manager.
+	 * @param corsiOrigine The flow's starting degree courses.
+	 * @param certificati The flow's required language certifications.
+	 * @param listaValutazioni The flow's evaluations.
 	 */
 	public Flow(FlussoBean flow, ResponsabileFlussoBean responsabile, List<CorsoDiLaureaBean> corsiOrigine, 
 			List<CertificatiLinguisticiBean> certificati, List<ValutazioneFlussoBean> listaValutazioni)
@@ -42,8 +42,8 @@ public class Flow
 	}
 	
 	/**
-	 * Get the manager
-	 * @return the flow manager
+	 * Returns the flow manager.
+	 * @return The flow manager.
 	 */
 	public ResponsabileFlussoBean getResponsabile()
 	{
@@ -51,8 +51,8 @@ public class Flow
 	}
 	
 	/**
-	 * Set the manager
-	 * @param obj the manager
+	 * Sets The manager.
+	 * @param obj The manager.
 	 */
 	public void setResponsabile(ResponsabileFlussoBean obj)
 	{
@@ -60,8 +60,8 @@ public class Flow
 	}
 	
 	/**
-	 * Get the required language certifications
-	 * @return a list of beans representing the certifications
+	 * Returns the required language certifications.
+	 * @return A list of beans representing the certifications.
 	 */
 	public List<CertificatiLinguisticiBean> getCertificati()
 	{
@@ -69,8 +69,8 @@ public class Flow
 	}
 	
 	/**
-	 * Set the required language certifications
-	 * @param obj a list of certificates
+	 * Sets the required language certifications.
+	 * @param obj A list of certificates.
 	 */
 	public void setCertificati(List<CertificatiLinguisticiBean> obj)
 	{
@@ -78,8 +78,8 @@ public class Flow
 	}
 	
 	/**
-	 * Get the flow
-	 * @return the flow
+	 * Returns the flow.
+	 * @return The flow.
 	 */
 	public FlussoBean getFlusso()
 	{
@@ -87,8 +87,8 @@ public class Flow
 	}
 	
 	/**
-	 * Set the flow
-	 * @param obj The flow
+	 * Sets the flow.
+	 * @param obj The flow.
 	 */
 	public void setFlusso(FlussoBean obj)
 	{
@@ -96,8 +96,8 @@ public class Flow
 	}
 	
 	/**
-	 * Get the flow's starting degree courses
-	 * @return a list of degree courses
+	 * Returns the flow's starting degree courses.
+	 * @return A list of degree courses.
 	 */
 	public List<CorsoDiLaureaBean> getCorsi()
 	{
@@ -105,8 +105,8 @@ public class Flow
 	}
 	
 	/**
-	 * Set the flow starting degree courses
-	 * @param obj a list of degree courses
+	 * Sets the flow starting degree courses.
+	 * @param obj A list of degree courses.
 	 */
 	public void setCorsi(List<CorsoDiLaureaBean> obj)
 	{
@@ -114,8 +114,8 @@ public class Flow
 	}
 	
 	/**
-	 * Get the flow's evaluations
-	 * @return a list of evaluations
+	 * Returns the flow's evaluations.
+	 * @return A list of evaluations.
 	 */
 	public List<ValutazioneFlussoBean> getListaValutazioni()
 	{
@@ -123,8 +123,8 @@ public class Flow
 	}
 	
 	/**
-	 * Set the flow evaluations
-	 * @param obj a list of evaluations
+	 * Sets the flow evaluations.
+	 * @param obj A list of evaluations.
 	 */
 	public void setListaValutazioni(List<ValutazioneFlussoBean> obj)
 	{
