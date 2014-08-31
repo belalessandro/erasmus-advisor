@@ -9,7 +9,7 @@ import java.sql.SQLException;
 import org.apache.commons.dbutils.DbUtils;
 
 /**
- * Database operations about LinguaCitta
+ * Database operations about LinguaCitta.
  * @author Alessandro
  *
  */
@@ -19,11 +19,11 @@ public class LinguaCittaDatabase {
 	 * Executes a statement to store a new LinguaCitta into the database,
 	 * without closing the connection.
 	 * 
-	 * @param con The connection to the database
-	 * @param linguaCitta The LinguaCitta to be stored
+	 * @param con The connection to the database.
+	 * @param linguaCitta The LinguaCitta to be stored.
 	 * 
 	 * @throws SQLException
-	 *             if any error occurs while storing the LinguaCitta.
+	 *             If any error occurs while storing the LinguaCitta.
 	 */
 	public static void createLinguaCitta(Connection con, LinguaCittaBean linguaCitta)
 			throws SQLException {

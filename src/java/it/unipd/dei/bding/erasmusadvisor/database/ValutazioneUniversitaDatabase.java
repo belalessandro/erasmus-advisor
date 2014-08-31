@@ -12,7 +12,7 @@ import org.apache.commons.dbutils.handlers.BeanHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
 
 /**
- * Represents an University evaluation in the Database
+ * Represents an University evaluation in the Database.
  * 
  * @author mauro, Luca
  *
@@ -47,11 +47,12 @@ public class ValutazioneUniversitaDatabase
 				val.getCommento());
 	}
 	/**
-	 * Returns all the evaluation to universities inserted by a specific student
-	 * @param conn A connection to the database
-	 * @param user The User
-	 * @return A list of evaluations
-	 * @throws SQLException If something goes wrong
+	 * Returns all the evaluation to universities inserted by a specific student.
+	 * 
+	 * @param conn A connection to the database.
+	 * @param user The User.
+	 * @return A list of evaluations.
+	 * @throws SQLException If something goes wrong.
 	 */
 	public static List<ValutazioneUniversitaBean> getEvalByUser(Connection conn, String user) throws SQLException
 	{
@@ -64,12 +65,13 @@ public class ValutazioneUniversitaDatabase
 	}
 	
 	/**
-	 * Delete an evaluation
-	 * @param conn A connection to the database
-	 * @param user The student that inserted the evaluation
-	 * @param name The university evaluated
-	 * @return The number of rows affected
-	 * @throws SQLException If something goes wrong
+	 * Delete an evaluation.
+	 * 
+	 * @param conn A connection to the database.
+	 * @param user The student that inserted the evaluation.
+	 * @param name The university evaluated.
+	 * @return The number of rows affected.
+	 * @throws SQLException If something goes wrong.
 	 */
 	public static int deleteEvaluation(Connection conn, String user, String name) throws SQLException
 	{

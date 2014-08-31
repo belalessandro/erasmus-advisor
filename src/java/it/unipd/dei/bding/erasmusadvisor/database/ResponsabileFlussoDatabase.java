@@ -10,7 +10,7 @@ import org.apache.commons.dbutils.ResultSetHandler;
 import org.apache.commons.dbutils.handlers.BeanHandler;
 
 /**
- * Represents the entity ReponsabileFlusso
+ * Represents the entity "ReponsabileFlusso".
  * 
  * @author mauro
  *
@@ -20,9 +20,9 @@ public class ResponsabileFlussoDatabase
 	/**
 	 * Set the field abilitato of a flow manager to false.
 	 * 
-	 * @param con connection to the database
-	 * @param username flow manager username
-	 * @throws SQLException 
+	 * @param con A connection to the database.
+	 * @param username Flow manager username.
+	 * @throws SQLException If an error occurs in SQL query.
 	 */
 	public static void enableResponsabileFlusso(Connection con, String username) throws SQLException 
 	{
@@ -36,9 +36,9 @@ public class ResponsabileFlussoDatabase
 	/**
 	 * Set the field attivo of a flow manager to false.
 	 * 
-	 * @param con connection to the database
-	 * @param username flow manager username
-	 * @throws SQLException 
+	 * @param con A connection to the database.
+	 * @param username Flow manager username.
+	 * @throws SQLException If an error occurs in SQL query.
 	 */
 	public static void disableResponsabileFlusso(Connection con, String username) throws SQLException 
 	{
@@ -53,10 +53,10 @@ public class ResponsabileFlussoDatabase
 	/**
 	 * Return the flow manager with the user name given.
 	 * 
-	 * @param con connection to the database 
-	 * @param user user name
-	 * @return a flow manage
-	 * @throws SQLException
+	 * @param con A connection to the database.
+	 * @param username Flow manager username.
+	 * @return A flow manager.
+	 * @throws SQLException If an error occurs in SQL query.
 	 */
 	public static ResponsabileFlussoBean getReponsabileFlusso(Connection con, String user) throws SQLException {
 		

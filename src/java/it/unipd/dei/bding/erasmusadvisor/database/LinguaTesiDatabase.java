@@ -10,7 +10,7 @@ import org.apache.commons.dbutils.DbUtils;
 import org.apache.commons.dbutils.QueryRunner;
 
 /**
- * Database operations about LinguaTesi
+ * Database operations about "LinguaTesi".
  * @author Alessandro
  *
  */
@@ -20,8 +20,8 @@ public class LinguaTesiDatabase {
 	 * Executes a statement to store a new LinguaTesi into the database,
 	 * without closing the connection.
 	 * 
-	 * @param con The connection to the database
-	 * @param linguaTesi The LinguaTesi to be stored
+	 * @param con The connection to the database.
+	 * @param linguaTesi The LinguaTesi to be stored.
 	 * 
 	 * @throws SQLException
 	 *             if any error occurs while storing the LinguaTesi.
@@ -45,12 +45,12 @@ public class LinguaTesiDatabase {
 	}
 
 	/**
-	 * Delete Lingua Tesi instances by the thesis id given.
+	 * Delete "LinguaTesi" instances by the thesis id given.
 	 * 
-	 * @param con connection to the database
-	 * @param idArgomentoTesi id of the thesis
-	 * @return number of row deleted
-	 * @throws SQLException
+	 * @param con A connection to the database.
+	 * @param idArgomentoTesi Id of the thesis.
+	 * @return Number of row deleted.
+	 * @throws SQLException if an error occurs while removing "LinguaTesi".
 	 */
 	public static int  deleteLinguaTesi(Connection con, int idArgomentoTesi) throws SQLException 
 	{
@@ -58,9 +58,6 @@ public class LinguaTesiDatabase {
 		QueryRunner run = new QueryRunner();
 		
 		return run.update(con, sql, idArgomentoTesi);
-		
-		
-		
 	}
 
 }

@@ -13,21 +13,21 @@ import org.apache.commons.dbutils.ResultSetHandler;
 import org.apache.commons.dbutils.handlers.BeanHandler;
 
 /**
- * Database operations about Origine
+ * Database operations about "Origine".
  * @author Alessandro
  *
  */
 public class OrigineDatabase {
 
 	/**
-	 * Executes a statement to store a new Origine into the database,
+	 * Executes a statement to store a new "Origine" into the database,
 	 * without closing the connection.
 	 * 
-	 * @param con The connection to the database
-	 * @param origine The Origine to be stored
+	 * @param con The connection to the database.
+	 * @param origine The "Origine" to be stored.
 	 * 
 	 * @throws SQLException
-	 *             if any error occurs while storing the Origine.
+	 *             if any error occurs while storing the "Origine".
 	 */
 	public static void createOrigine(Connection con, OrigineBean origine)
 			throws SQLException {
@@ -49,10 +49,10 @@ public class OrigineDatabase {
 	
 	/**
 	 * Delete origine instances by flow id.
-	 * @param con connection to the database
-	 * @param flowId flow id
-	 * @return number of rows deleted
-	 * @throws SQLException
+	 * @param con A connection to the database.
+	 * @param flowId Flow's id.
+	 * @return Number of rows deleted.
+	 * @throws SQLException If an error occurs while deleting an "Origine".
 	 */
 	public static int deleteOrigineByFlowId(Connection con, String flowId) throws SQLException
 	{
@@ -64,11 +64,11 @@ public class OrigineDatabase {
 	}
 
 	/**
-	 * Return flow's origins
-	 * @param conn connection to the database
-	 * @param id id of the flow
-	 * @return a list of OrigineBean objects
-	 * @throws SQLException 
+	 * Return a list of Flow's "Origine".
+	 * @param conn A connection to the database.
+	 * @param id Id of the flow.
+	 * @return A list of OrigineBean objects.
+	 * @throws SQLException If an error occurs while getting an "Origine".
 	 */
 	public static List<OrigineBean> getOriginsByFlowId(Connection conn, String id) throws SQLException {
 		final String sql = "SELECT * FROM Origine WHERE idFlusso = ?;";

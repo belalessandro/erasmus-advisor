@@ -10,21 +10,21 @@ import org.apache.commons.dbutils.DbUtils;
 import org.apache.commons.dbutils.QueryRunner;
 
 /**
- * Database operations about Svolgimento
+ * Database operations about "Svolgimento".
  * @author Alessandro
  *
  */
 public class SvolgimentoDatabase {
 
 	/**
-	 * Executes a statement to store a new Svolgimento into the database,
+	 * Executes a statement to store a new "Svolgimento" into the database,
 	 * without closing the connection.
 	 * 
-	 * @param con The connection to the database
-	 * @param svolgimento The Svolgimento to be stored
+	 * @param con The connection to the database.
+	 * @param svolgimento The "Svolgimento" to be stored.
 	 * 
 	 * @throws SQLException
-	 *             if any error occurs while storing the Svolgimento.
+	 *             If any error occurs while storing the "Svolgimento".
 	 */
 	public static void createSvolgimento(Connection con, SvolgimentoBean svolgimento)
 			throws SQLException {
@@ -45,11 +45,11 @@ public class SvolgimentoDatabase {
 	}
 	
 	/**
-	 * Delete Svolgimento's instances by idInsegnamento value.
+	 * Delete "Svolgimento"'s instances by idInsegnamento value.
 	 * @param con database connection
 	 * @param idInsegnamento Insegnamento's id 
 	 * @return number of rows deleted
-	 * @throws SQLException
+	 * @throws SQLException  If any error occurs.
 	 */
 	public static int deleteSvolgimentoByClassId(Connection con, int idInsegnamento) throws SQLException
 	{

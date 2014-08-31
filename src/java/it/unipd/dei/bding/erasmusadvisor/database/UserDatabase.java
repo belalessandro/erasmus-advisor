@@ -2,6 +2,7 @@ package it.unipd.dei.bding.erasmusadvisor.database;
 
 import it.unipd.dei.bding.erasmusadvisor.beans.UserBean;
 
+
 import java.sql.Connection;
 import java.sql.SQLException;
 
@@ -12,11 +13,12 @@ import org.apache.commons.dbutils.handlers.BeanHandler;
 public class UserDatabase {
 
 	/**
+	 * Check the login of an user.
 	 * 
-	 * @param conn A connection to the database
-	 * @param email The email of the user
-	 * @return The user corresponding to the email
-	 * @throws SQLException If the user does not exist
+	 * @param conn A connection to the database.
+	 * @param email The email of the user.
+	 * @return The user corresponding to the email.
+	 * @throws SQLException If the user does not exist.
 	 */
 	public UserBean login(Connection conn, String email) throws SQLException {
 

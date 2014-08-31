@@ -12,7 +12,7 @@ import org.apache.commons.dbutils.handlers.BeanHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
 
 /**
- * Database operations about ValutazioneFlusso
+ * Database operations about "ValutazioneFlusso".
  * @author Mauro, Luca
  *
  */
@@ -20,9 +20,10 @@ public class ValutazioneFlussoDatabase
 {
 	/**
 	 * Insert a new flow evaluation into the database.
-	 * @param con connection to the database
-	 * @param val evaluation
-	 * @throws SQLException 
+	 * 
+	 * @param con A connection to the database.
+	 * @param val A flow evaluation.
+	 * @throws SQLException if an error occurs.
 	 */
 	public static void creaValutazioneFlusso(Connection con, ValutazioneFlussoBean val) throws SQLException 
 	{
@@ -44,11 +45,12 @@ public class ValutazioneFlussoDatabase
 	}
 
 	/**
-	 * Returns all the evaluation to flows inserted by a specific student
-	 * @param conn A connection to the database
-	 * @param user The User
-	 * @return A list of evaluations
-	 * @throws SQLException If something goes wrong
+	 * Returns all the evaluation to flows inserted by a specific student.
+	 * 
+	 * @param conn A connection to the database.
+	 * @param user The User.
+	 * @return A list of evaluations.
+	 * @throws SQLException If something goes wrong.
 	 */
 	public static List<ValutazioneFlussoBean> getEvalByUser(Connection conn, String user) throws SQLException
 	{
@@ -61,12 +63,13 @@ public class ValutazioneFlussoDatabase
 	}
 	
 	/**
-	 * Delete an evaluation
-	 * @param conn A connection to the database
-	 * @param user The student that inserted the evaluation
-	 * @param id The flow evaluated
-	 * @return The number of rows affected
-	 * @throws SQLException If something goes wrong
+	 * Delete an evaluation.
+	 * 
+	 * @param conn A connection to the database.
+	 * @param user The student that inserted the evaluation.
+	 * @param id The flow evaluated.
+	 * @return The number of rows affected.
+	 * @throws SQLException If something goes wrong.
 	 */
 	public static int deleteEvaluation(Connection conn, String user, String id) throws SQLException
 	{

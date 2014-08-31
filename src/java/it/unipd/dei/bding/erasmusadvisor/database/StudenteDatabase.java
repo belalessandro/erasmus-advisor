@@ -15,7 +15,7 @@ import org.apache.commons.dbutils.handlers.BeanHandler;
 
 
 /**
- * Database operations about Studente 
+ * Database operations about "Studente".
  * @author Luca
  *
  */
@@ -23,6 +23,14 @@ import org.apache.commons.dbutils.handlers.BeanHandler;
 public class StudenteDatabase 
 {
 
+	/**
+	 * Gets Studente by the database, given student's username.
+	 * 
+	 * @param conn A connection to the database.
+	 * @param username Student's username.
+	 * @return A Studente.
+	 * @throws SQLException If an error occurs.
+	 */
 	public static Student getStudent(Connection conn, String username) throws SQLException
 	{
 		final String statement1 = "SELECT * FROM Studente WHERE nomeutente = ?";
@@ -48,16 +56,15 @@ public class StudenteDatabase
 	}
 
 	/**
-	 * Update a student instance with the username given
+	 * Update a student's instance with the username given.
 	 * 
-	 * @param con connection to the database
-	 * @param stud model of a student
-	 * @throws SQLException
+	 * @param con A connection to the database.
+	 * @param stud Model of a student ("Studente").
+	 * @throws SQLException If an error occurs.
 	 */
 	public static void updateStudent(Connection con, Student stud) throws SQLException 
 	{
 		StudenteBean studente = stud.getStudente();
-		CorsoDiLaureaBean corso = stud.getCorso();
 		IscrizioneBean iscrizione = stud.getIscrizione();
 		
 		StringBuilder stmt1 = new StringBuilder()
@@ -131,9 +138,9 @@ public class StudenteDatabase
 	/**
 	 * Update a student instance with the username given.
 	 * 
-	 * @param con connection to the database
-	 * @param studente a student bean model
-	 * @throws SQLException
+	 * @param con A connection to the database.
+	 * @param studente A student bean model.
+	 * @throws SQLException if an error occurs.
 	 */
 	public static void updateStudent(Connection con, StudenteBean studente) throws SQLException 
 	{

@@ -5,6 +5,7 @@ import it.unipd.dei.bding.erasmusadvisor.beans.InsegnamentoBean;
 
 
 
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -15,14 +16,24 @@ import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.ResultSetHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
 
+
+
+/**
+ * @author 
+ *
+ *Database operations about "Riconoscimento".
+ *
+ */
+
 public class RiconoscimentoDatabase 
 {
 	/**
 	 * Returns all classes validated by the flow manager.
-	 * @param conn connection to the database
-	 * @param ID flow id
-	 * @return all classes validated as a list of InsegnamentoBean
-	 * @throws SQLException If an error occurs
+	 * 
+	 * @param conn A connection to the database.
+	 * @param ID Flow's id.
+	 * @return All classes validated as a list of InsegnamentoBean.
+	 * @throws SQLException If an error occurs.
 	 */
 	public static List<InsegnamentoBean> getInsegnamentiRiconosciuti(Connection conn, String ID)
 			throws SQLException 
@@ -37,11 +48,12 @@ public class RiconoscimentoDatabase
 	}
 
 	/**
-	 * Delete Riconoscimento's instances with the flow id given.
-	 * @param con connection to the database
-	 * @param flowId the flow id given
-	 * @return number of instances deleted
-	 * @throws SQLException If an error occurs
+	 * Delete "Riconoscimento"'s instances with the flow id given.
+	 * 
+	 * @param con A connection to the database.
+	 * @param flowId The flow's id given.
+	 * @return Number of instances of "Riconoscimento" deleted.
+	 * @throws SQLException If an error occurs.
 	 */
 	public static int deleteRiconoscimentoByFlowId(Connection con, String flowId) throws SQLException 
 	{
@@ -53,11 +65,12 @@ public class RiconoscimentoDatabase
 	}
 	
 	/**
-	 * Add an acknoledge class to a flow
-	 * @param conn A connection to the database
-	 * @param flowId the flow id
-	 * @param classId the class id 
-	 * @throws SQLException If an error occurs
+	 * Add an acknoledge class to a flow.
+	 * 
+	 * @param conn A connection to the database.
+	 * @param flowId Flow's id.
+	 * @param classId Class' id.
+	 * @throws SQLException If an error occurs.
 	 */
 	public static void addRiconoscimento(Connection conn, String flowId, int classId) throws SQLException
 	{

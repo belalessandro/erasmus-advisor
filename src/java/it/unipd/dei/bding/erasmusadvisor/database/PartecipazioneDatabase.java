@@ -1,8 +1,6 @@
 package it.unipd.dei.bding.erasmusadvisor.database;
 
 import it.unipd.dei.bding.erasmusadvisor.beans.PartecipazioneBean;
-import it.unipd.dei.bding.erasmusadvisor.beans.StudenteBean;
-
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -14,13 +12,20 @@ import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.ResultSetHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
 
+/**
+ * @author Mauro
+ * 
+ * Database operations about "Partecipazione".
+ *
+ */
 public class PartecipazioneDatabase
 {
 	/**
-	 * Returns all the flow a student has joined
+	 * Returns all the flow a student has joined.
+	 * 
 	 * @param conn A connection to the database.
-	 * @param stud A student
-	 * @return a list of partecipations bean
+	 * @param stud A student.
+	 * @return A list of partecipations bean.
 	 * @throws SQLException If an error occurs running the SQL query.
 	 */
 	public static List<PartecipazioneBean> getFlows(Connection conn, String stud) 
@@ -38,6 +43,16 @@ public class PartecipazioneDatabase
 		return list;
 	}
 	
+	/**
+	 * Add a student's partecipation to a flow.
+	 * 
+	 * @param conn A connection to the database.
+	 * @param flow Flow's id.
+	 * @param user A username.
+	 * @param inizio The start date of Erasmus.
+	 * @param fine The end date of Erasmus.
+	 * @throws SQLException if an error occurs while adding "Partecipazione".
+	 */
 	public static void addParticipation(Connection conn, String flow, String user, Date inizio, Date fine) throws SQLException
 	{
 		String insertStmt = "INSERT INTO Partecipazione (idflusso, nomeutentestudente, inizio, fine) VALUES (?, ?, ?, ?)";

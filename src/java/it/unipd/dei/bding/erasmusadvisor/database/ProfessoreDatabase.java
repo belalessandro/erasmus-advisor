@@ -13,8 +13,21 @@ import org.apache.commons.dbutils.QueryRunner;
  * 
  * @author Nicola
  *
+ *Database operations about the "Professore" relation.
+ *
  */
 public class ProfessoreDatabase {
+	/**
+	 * Search a professor in the database: if found it, then returns his id,
+	 * else create a new professor and returns his id.
+	 * 
+	 * @param con A connection to the database.	
+	 * @param nome The professor's name.
+	 * @param cognome The professor's surname.
+	 * @param universita The name of the university.
+	 * @return The ID of the teacher searched or inserted.
+	 * @throws SQLException if an error occurs in the SQL query.
+	 */
 	public static int selectOrInsertProfessore (Connection con, String nome, 
 			String cognome, String universita) throws SQLException
 	
@@ -23,7 +36,7 @@ public class ProfessoreDatabase {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		
-		//Search if The Teaches has already Classes or Theses and returning the id
+		//Search if The Teacher has already Classes or Theses and returning the id
 		String statement =  " SELECT P.id FROM Professore AS P " +
 							" INNER JOIN Svolgimento AS S ON P.id = S.idProfessore " +
 							" INNER JOIN Insegnamento AS I on I.id = S.idInsegnamento " +
@@ -65,11 +78,12 @@ public class ProfessoreDatabase {
 	
 	
 	/**
-	 * Create a new Teacher and return is Id
-	 * @param con
-	 * @param prof
-	 * @return idProf
-	 * @throws SQLException
+	 * Create a new "Professore" and return his Id.
+	 * 
+	 * @param con A connection to the database.
+	 * @param prof A "Professore" bean to insert
+	 * @return idProf The id of the professor just created.
+	 * @throws SQLException If an error occurs while storing "Professore".
 	 */
 	public static int createProfessore(Connection con, ProfessoreBean prof)
 			throws SQLException {
@@ -97,10 +111,12 @@ public class ProfessoreDatabase {
 	}
 	
 	/**
-	* Delete a Teacher
+	* Delete a "Professore".
 	* 
-	* @return the number of rows affected	
-	* @throws SQLException if any error occurs 
+	* @param nome The professor's name.
+	* @param cognome The professor's surname.
+	* @return The number of rows affected.
+	* @throws SQLException if any error occurs while removing a Professore.
 	*/
 	public static int deleteProfessore (Connection con, String nome, String cognome) throws SQLException 
 	{
@@ -113,28 +129,4 @@ public class ProfessoreDatabase {
 		return run.update(con, statement, nome, cognome);
 		
 	}
-	
-	/**
-	 * Search a Teacher by name and surname and fits into Teacher model   
-	 */
-	/*public static Teacher searchTeacher(Connection con, String nome, String cognome) throws SQLException {
-		*//**
-		 * The SQL statements to be executed
-		 *//*
-		String statement = "SELECT * "
-				+ "FROM Professore AS P "
-				+ "WHERE P.Nome = ? AND P.Cognome = ?";
-		
-		// Entity Bean
-		ProfessoreBean arg = new ProfessoreBean();
-		QueryRunner run = new QueryRunner();
-		
-		// Gets the Teacher
-		ResultSetHandler<ProfessoreBean> h = new BeanHandler<ProfessoreBean>(ProfessoreBean.class);
-		arg = run.query(con, statement, h, nome, cognome); 
-		
-		if (arg == null)
-			throw new SQLException("Teacher not found");
-	}
-	*/
 }
