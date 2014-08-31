@@ -8,6 +8,7 @@ import it.unipd.dei.bding.erasmusadvisor.beans.IscrizioneBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.ResponsabileFlussoBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.StudenteBean;
 import it.unipd.dei.bding.erasmusadvisor.database.CoordinatoreDatabase;
+import it.unipd.dei.bding.erasmusadvisor.database.IscrizioneDatabase;
 import it.unipd.dei.bding.erasmusadvisor.database.ResponsabileFlussoDatabase;
 import it.unipd.dei.bding.erasmusadvisor.database.StudenteDatabase;
 import it.unipd.dei.bding.erasmusadvisor.resources.LoggedUser;
@@ -17,6 +18,7 @@ import it.unipd.dei.bding.erasmusadvisor.resources.UserType;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.URLEncoder;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.SQLException;
@@ -74,7 +76,13 @@ public class UserProfileServlet extends AbstractDatabaseServlet
 		
 //		LoggedUser lu = new LoggedUser(UserType.STUDENTE, "mario.rossi");
 //		LoggedUser lu = new LoggedUser(UserType.RESPONSABILE, "erick.burn");
-		LoggedUser lu = new LoggedUser(UserType.COORDINATORE, "ErasmusCoordinator");
+//		LoggedUser lu = new LoggedUser(UserType.COORDINATORE, "ErasmusCoordinator");
+		
+		HttpSession session = req.getSession();
+		LoggedUser lu = (LoggedUser) session.getAttribute("loggedUser");
+		
+		if(lu == null)
+			lu = new LoggedUser(UserType.STUDENTE, "mario.rossi");
 		
 		try {
 			con = DS.getConnection();
@@ -132,7 +140,17 @@ public class UserProfileServlet extends AbstractDatabaseServlet
 		
 		String operation = req.getParameter("operation");
 		
-		if (operation == null || operation.isEmpty() || !lu.isFlowResp()) {
+		
+//		PrintWriter w = resp.getWriter();
+//		w.println("<html>");
+//		w.println("<body>");
+//		w.println("<p>" + operation + "</p>");
+//		
+//		w.println("</body>");
+//		w.println("</html>");
+//		w.flush();
+//		w.close();
+		if (operation == null || operation.isEmpty()) {
 			
 			// Error
 			m = new Message("Not authorized or operation null", "", "");
@@ -162,11 +180,10 @@ public class UserProfileServlet extends AbstractDatabaseServlet
 		ResponsabileFlussoBean responsabile = null;
 		
 		try {
-			
-			
 			if(lu.isCoord())
 			{
 				// populate the bean
+				coordinatore = new CoordinatoreBean();
 				BeanUtilities.populateBean(coordinatore, request);
 				
 				// get the connection
@@ -179,7 +196,19 @@ public class UserProfileServlet extends AbstractDatabaseServlet
 			else if(lu.isFlowResp())
 			{
 				// populate the bean
+				responsabile = new ResponsabileFlussoBean();
 				BeanUtilities.populateBean(responsabile, request);
+				
+				PrintWriter w = response.getWriter();
+				w.println("<html>");
+				w.println("<body>");
+				w.println("<p>" + responsabile.getNome() + "</p>");
+				w.println("<p>" + request.getParameter("date_from") + "</p>");
+				w.println("<p>" + request.getParameter("date_to") + "</p>");
+				w.println("</body>");
+				w.println("</html>");
+				w.flush();
+				w.close();
 				
 				// get the connection
 				con = DS.getConnection();
@@ -190,28 +219,53 @@ public class UserProfileServlet extends AbstractDatabaseServlet
 			else if(lu.isStudent())
 			{
 				// populate the bean
+				studente = new StudenteBean();
 				BeanUtilities.populateBean(studente, request);
 				
-				corso.setId(Integer.parseInt(request.getParameter("courseId")));
-				corso.setNome("courseName");
-				corso.setLivello(request.getParameter("courseLevel"));
-				corso.setNomeUniversita(request.getParameter("courseUniversity"));
 				
-				iscrizione.setIdCorso(corso.getId());
-				iscrizione.setNomeUtenteStudente(studente.getNomeUtente());
-				iscrizione.setAnnoInizio(Date.valueOf(request.getParameter("date_from")));
-				iscrizione.setAnnoFine(Date.valueOf(request.getParameter("date_to")));
+//				corso.setId(Integer.parseInt(request.getParameter("courseId")));
+//				corso.setNome("courseName");
+//				corso.setLivello(request.getParameter("courseLevel"));
+//				corso.setNomeUniversita(request.getParameter("courseUniversity"));
 				
-				Student stud = new Student(studente, iscrizione, corso);
+//				int corsoId = Integer.parseInt(request.getParameter("courseId"));
 				
 				
+//				iscrizione = new IscrizioneBean();
+//				iscrizione.setIdCorso(Integer.parseInt(request.getParameter("courseId")));
+//				iscrizione.setNomeUtenteStudente(studente.getNomeUtente());
+//				iscrizione.setAnnoInizio(Date.valueOf(request.getParameter("date_from")));
+//				iscrizione.setAnnoFine(Date.valueOf(request.getParameter("date_to")));
+//				
+				
+				PrintWriter w = response.getWriter();
+				w.println("<html>");
+				w.println("<body>");
+				w.println("<p>" + request.getParameter("old_courseId") + "</p>");
+				w.println("<p>" + request.getParameter("courseName") + "</p>");
+				w.println("<p>" + request.getParameter("courseUniversity") + "</p>");
+				w.println("<p>" + request.getParameter("date_from") + "</p>");
+				w.println("<p>" + request.getParameter("date_to") + "</p>");
+				w.println("</body>");
+				w.println("</html>");
+				w.flush();
+				w.close();
+
 				
 				// get the connection
 				con = DS.getConnection();
 				
-				StudenteDatabase.updateStudent(con, stud);
+				StudenteDatabase.updateStudent(con, studente);
 				
+				IscrizioneDatabase.createIscrizione(con, iscrizione);
 				
+				DbUtils.close(con);
+				
+				// Creating response path
+				StringBuilder builder = new StringBuilder()
+						.append(request.getContextPath())
+						.append("/user/profile?edited=success");
+				response.sendRedirect(builder.toString());
 			}
 			
 			DbUtils.close(con);
@@ -220,16 +274,14 @@ public class UserProfileServlet extends AbstractDatabaseServlet
 			// TODO: manage the case ERROR CODE = EA003
 			
 			// Error
-			m = new Message("Error while editing user profile.", "XXX", e.getMessage());
+			m = new Message("Error while editing user profile.", String.valueOf(e.getErrorCode()) + " " +  e.getSQLState() , e.getMessage());
 			request.setAttribute("message", m);
 			errorForward(request, response);
 			return;
 		} finally {
 			DbUtils.closeQuietly(con);
+			con = null;
 		}
-		
-		
-		
 	}
 
 	/**

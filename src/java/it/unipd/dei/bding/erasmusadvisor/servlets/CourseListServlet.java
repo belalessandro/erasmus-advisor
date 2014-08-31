@@ -8,12 +8,13 @@ import it.unipd.dei.bding.erasmusadvisor.resources.Message;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
-
 import java.util.List;
+
 import javax.json.Json;
 import javax.json.JsonArray;
 import javax.json.JsonArrayBuilder;
-
+import javax.json.JsonObject;
+import javax.json.JsonObjectBuilder;
 import javax.json.JsonWriter;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -48,6 +49,7 @@ public class CourseListServlet extends AbstractDatabaseServlet {
 			 */
 			
 			String startingWith = req.getParameter("term");
+			String university = req.getParameter("university");
 			
 			// database connection
 			Connection conn = null;
@@ -55,13 +57,26 @@ public class CourseListServlet extends AbstractDatabaseServlet {
 			// model
 			List<CorsoDiLaureaBean> nameList = null;
 			
+			// Json objects
+			JsonWriter jsonWriter = null;
+			
 			try {
 				conn = DS.getConnection();
 				
-				if (startingWith != null && !startingWith.isEmpty())
-					nameList = GetCorsoDiLaureaValues.getDomainStartingWith(conn, startingWith);
+				if (startingWith != null && !startingWith.isEmpty() && university != null && !university.isEmpty())
+					nameList = GetCorsoDiLaureaValues.getDomainStartingWith(conn, startingWith, university);
 				else 
-					nameList = GetCorsoDiLaureaValues.getDomain(conn);
+				{
+					// tell the user to select a university
+					if(university == null || university.isEmpty())
+					{
+						jsonWriter = Json.createWriter(resp.getWriter());
+						jsonWriter.writeObject(convertToJson("error","university"));
+						jsonWriter.close();
+					}
+					else
+						nameList = GetCorsoDiLaureaValues.getDomain(conn, university);
+				}
 				
 			} catch (SQLException e) {
 				// Do nothing..
@@ -74,7 +89,8 @@ public class CourseListServlet extends AbstractDatabaseServlet {
 			resp.setContentType("application/json");
 			if (nameList != null) {
 				/* NOT IMPLEMENTED YET */
-				JsonWriter jsonWriter = Json.createWriter(resp.getWriter());
+				
+				jsonWriter = Json.createWriter(resp.getWriter());
 				jsonWriter.writeArray(convertToJson(nameList));
 				jsonWriter.close();
 			}
@@ -88,17 +104,57 @@ public class CourseListServlet extends AbstractDatabaseServlet {
 
 	}
 	
+	/**
+	 * Create a new json object to send
+	 * @param key key of the json
+	 * @param value value of the json
+	 * @return the json object
+	 */
+	private JsonObject convertToJson(String key, String value)
+	{
+		JsonObjectBuilder jb = Json.createObjectBuilder();
+		
+		jb.add(key,value);
+		
+		return jb.build();
+		
+	}
+	
+	/**
+	 * Set up the json with the appropriate values after courses are selected.
+	 * @param nameList courses list
+	 * @return json array to send
+	 */
 	private JsonArray convertToJson(List<CorsoDiLaureaBean> nameList) {
 		// eg. {"id":"Botaurus stellaris","label":"Great Bittern","value":"Great Bittern"}
 		JsonArrayBuilder jb = Json.createArrayBuilder();
 		
+		/*
+		 * NEW VERSION
+		 */
 		for (CorsoDiLaureaBean corso : nameList) {
 			jb.add(Json.createObjectBuilder()
 				     .add("id", corso.getNome())
 				     .add("label", corso.getNome())
-				     .add("value", corso.getNome()));
+				     .add("value", corso.getNome() + " (" + corso.getLivello() + ")"));
 		}
 		
 		return jb.build();
 	}
+	
+	
+	
+//	private JsonArray convertToJson(List<CorsoDiLaureaBean> nameList) {
+//		// eg. {"id":"Botaurus stellaris","label":"Great Bittern","value":"Great Bittern"}
+//		JsonArrayBuilder jb = Json.createArrayBuilder();
+//		
+//		for (CorsoDiLaureaBean corso : nameList) {
+//			jb.add(Json.createObjectBuilder()
+//				     .add("id", corso.getNome())
+//				     .add("label", corso.getNome())
+//				     .add("value", corso.getNome()));
+//		}
+//		
+//		return jb.build();
+//	}
 }

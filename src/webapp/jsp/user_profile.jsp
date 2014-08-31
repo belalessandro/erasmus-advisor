@@ -19,15 +19,106 @@
 	
 	<script src="<c:url value="/js"/>/ea-form-validation.js"></script>
 	
-	<!-- Datepicker -->
+	<!-- questi servono per il datepicker -->
 	<link href="<c:url value="/css"/>/datepicker3.css" rel="stylesheet">
 	<link href="<c:url value="/css"/>/ui-lightness/jquery-ui-1.10.4.custom.css" rel="stylesheet">
 	<script src="<c:url value="/js"/>/jquery.min.js"></script>
 	<script src="<c:url value="/js"/>/jquery-1.10.2.js"></script>
 	<script src="<c:url value="/js"/>/jquery-ui-1.10.4.custom.js"></script>
-	<script src="<c:url value="/js"/>/ea-basic.js"></script>
+	<script src="<c:url value="/js"/>/ea-basic.js"></script>	
 	<script src="<c:url value="/js"/>/bootstrap-datepicker.js"></script>
 	<script src="<c:url value="/js"/>/bootstrap.min.js"></script>
+	
+	<style>
+	.ui-autocomplete-loading {
+		background: white url("<c:url value="/img"/>/ui-anim_basic_16x16.gif") right center no-repeat;
+	}
+	.datepicker {
+		z-index:1151;
+	}
+	
+	</style>
+	<script>
+	$(function() {
+		var cache = {};
+		$("#universityNames" ).autocomplete({
+					minLength : 2,
+					source : function(request, response) {
+						var term = request.term;
+						if (term in cache) {
+							response(cache[term]);
+							return;
+						}
+						$.getJSON("<c:url value="/university/list"/>", request,
+								function(data, status, xhr) {
+									xhr.setRequestHeader("X-Requested-With",
+											"XMLHttpRequest");
+									cache[term] = data;
+									response(data);
+								});
+					}
+				});
+	});
+	</script>
+	<script>
+	/*
+	* [NEW VERSION]
+	*/
+	$(function() {
+		var cache = {};
+		
+		$("#universityNames").change(function() {
+			cache = {};
+		});
+		
+		
+		$("#corsoNames" ).autocomplete({
+					minLength : 2,
+					source : function(request, response) {
+						var term = request.term;
+
+						request.university = $("#universityNames").val();
+						if (term in cache) {
+							response(cache[term]);
+							return;
+						}
+						$.getJSON("<c:url value="/course/list"/>", request,
+								function(data, status, xhr) {
+									xhr.setRequestHeader("X-Requested-With",
+											"XMLHttpRequest");
+									
+									if(data["error"] == "university")
+									{
+										console.log("university is null");
+										$("#universityNames").css("border","1px solid red");
+										$("#alert-university").show();
+									}
+									else
+									{	$("#universityNames").css("border","1px solid #ccc");
+										$("#alert-university").hide();
+										cache[term] = data;
+										response(data);
+									}
+								});
+					}
+				}); // end autocomplete function
+		
+		// mauro: questi sono necessari altrimenti quei figli di puttana di datepicker non funzionano
+		$( "#datepicker" ).datepicker( "option", "dateFormat", "dd/mm/yy" );
+		$( "#datepicker" ).datepicker({ gotoCurrent: true });
+		$( "#datepicker" ).datepicker( "setDate", new Date().getDate() + "/" + eval(new Date().getMonth() + 1) + "/" + new Date().getFullYear() );
+		$( "#datepicker2" ).datepicker( "option", "dateFormat", "dd/mm/yy" );
+		$( "#datepicker2" ).datepicker({ gotoCurrent: true });
+		$( "#datepicker2" ).datepicker( "setDate", new Date().getDate() + "/" + eval(new Date().getMonth() + 1) + "/" + new Date().getFullYear() );
+		
+	}); // and ready function
+	</script>
+	<!-- Questo è per evitare che quei f.d.p. di datepicker non vadano sotto il modal -->
+	<style type="text/css">
+		.datepicker {
+			z-index:1000000 !important;
+		}
+	</style>
 </head>
 
 <body role="document">
@@ -43,6 +134,15 @@
 		<div class="col-md-9 general_main_border">
 			<h2 align="center">User Account</h2>
 			<br>
+
+			<!-- Avviso di avvenuta modifica dell'entita -->
+			<c:if test="${!empty param.edited && param.edited == 'success'}">
+				<div class="alert alert-success alert-dismissible" role="alert" >
+				  <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+				  <h4 class="text-center">Account Successfully Edited!</h4>
+				</div>
+			</c:if>
+
 
 			<div class="panel panel-default">
 				<!-- Default panel contents -->
@@ -71,7 +171,7 @@
 									<div class="modal-body">
 										<!-- action deve puntare alla servlet che gestisce il cambio delle informazioni -->
 										<!-- notare che ogni input deve avere il campo value settato a quanto è presente nel DB -->
-										<form name='registration' onSubmit="return userProfileFormValidation();" method="post" action="#">
+										<form name='registration' onSubmit="return userProfileFormValidation();" method="post" action="<c:url value="/user/profile"/>">
 											<!-- student's input -->
 											<c:if test="${student != null}">
 												<div class="input-group sign_in_input_group">
@@ -87,33 +187,53 @@
 												</div>
 												<br>
 												<div class="input-group sign_in_input_group">
-													<span class="input-group-addon sign_in_input">University</span> <input id="autocomplete" class="form-control" name="courseUniversity" value="<c:out value="${course.nomeUniversita}" />">
+													<span class="input-group-addon sign_in_input">University</span> <input id="universityNames" class="form-control" name="courseUniversity" value="<c:out value="${course.nomeUniversita}" />">
 												</div>
 												<br>
 												<div class="input-group sign_in_input_group">
-													<span class="input-group-addon sign_in_input">Degree Course</span> <input id="autocomplete2" class="form-control" name="courseName" value="<c:out value="${course.nome}" />">
+													<span class="input-group-addon sign_in_input">Degree Course</span> <input id="corsoNames" class="form-control" name="courseName" value="<c:out value="${course.nome} (${course.livello})" />">
 												</div>
 												<br>
 												<div class="row">
 													<div class="col-lg-5"></div>
 													<div class="col-lg-7">
-														<div class="input-group sign_in_input_group">
-															<span class="input-group-addon sign_in_input_small">From</span><input type="text" class="form-control" id="datepicker" name="date_from" value="<c:out value="${subscription.annoInizio}" />">
-														</div>
-														<div class="input-group sign_in_input_group">
-															<span class="input-group-addon sign_in_input_small">To</span><input type="text" class="form-control" id="datepicker2" name="date_to" value="<c:out value="${subscription.annoFine}" />">
-														</div>
+															<div class="input-group sign_in_input_group">
+																<span class="input-group-addon sign_in_input_small">From</span><input type="text" class="form-control"  id="datepicker" name="date_from"  value="<c:out value="${subscription.annoInizio}"/>">
+															</div>
+															<div class="input-group sign_in_input_group">
+																<span class="input-group-addon sign_in_input_small">To</span><input type="text" class="form-control" id="datepicker2" name="date_to" value="<c:out value="${subscription.annoFine}"/>">
+															</div>
+													</div>
+												</div>
+												<br>
+												
+												<!-- Alerts -->
+												<div class="row">
+													<div class="col-lg-12">&nbsp;</div>	
+												</div>
+												<div class="row">
+													<div class="col-lg-offset-4 col-lg-7">
+														<span id="alert-university" style="display:none" class="label label-danger">Select the university first, please...</span>
 													</div>
 												</div>
 												
 												<!-- student hidden params -->
 												<input type="hidden" name="nomeUtente" value="<c:out value="${student.nomeUtente}"/>" >
-												<input type="hidden" name="courseId" value="<c:out value="${course.id}"/>" >
+												<input type="hidden" name="dataRegistrazione" value="<c:out value="${student.dataRegistrazione}"/>" >
+												<input type="hidden" name="old_courseId" value="<c:out value="${course.id}"/>" >
 												<input type="hidden" name="courseLevel" value="<c:out value="${course.livello}"/>" >
 											</c:if>
 											
 											<!-- flow manager input -->
 											<c:if test="${flowmanager != null }">
+												<div class="input-group sign_in_input_group">
+													<span class="input-group-addon sign_in_input">Name*</span> <input type="text" class="form-control" name="email" id="email" value="<c:out value="${flowmanager.nome}"/>">
+												</div>
+												<br>
+												<div class="input-group sign_in_input_group">
+													<span class="input-group-addon sign_in_input">Surname*</span> <input type="text" class="form-control" name="email" id="email" value="<c:out value="${flowmanager.cognome}"/>">
+												</div>
+												<br>
 												<div class="input-group sign_in_input_group">
 													<span class="input-group-addon sign_in_input">E-mail*</span> <input type="text" class="form-control" name="email" id="email" value="<c:out value="${flowmanager.email}"/>">
 												</div>
@@ -132,6 +252,9 @@
 												<br>
 												
 												<!-- flowmanager hidden params -->
+												<input type="hidden" name="attivo" value="<c:out value="${flowmanager.attivo}"/>" >
+												<input type="hidden" name="abilitato" value="<c:out value="${flowmanager.abilitato}"/>" >
+												<input type="hidden" name="dataRegistrazione" value="<c:out value="${flowmanager.dataRegistrazione}"/>" >
 												<input type="hidden" name="idCourse" value="<c:out value="${flowmanager.nomeUtente}"/>" >
 											</c:if>
 											
@@ -155,7 +278,7 @@
 												</div>
 												<br>
 												
-												<!-- flowmanager hidden params -->
+												<!-- coordinator hidden params -->
 												<input type="hidden" name="idCourse" value="<c:out value="${coordinator.nomeUtente}"/>" >
 											</c:if>
 											
