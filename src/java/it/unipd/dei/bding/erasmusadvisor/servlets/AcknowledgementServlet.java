@@ -14,12 +14,37 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.dbutils.DbUtils;
 
+/**
+ * Servlet used for managing all acknowledgements of
+ * classes in a flow.
+ * 
+ * <p> Base URL: /class/acknowledgement
+ * 
+ * <p> Accepts: POST
+ * 
+ * <p> Operations: INSERT
+ * 
+ * @author Luca
+ */
+
 public class AcknowledgementServlet  extends AbstractDatabaseServlet 
 {
 
 	private static final long serialVersionUID = 6205996354245462055L;
 
-	// il controllo errori di questa classe è inesistente
+	// TODO : il controllo errori di questa classe è inesistente
+	/**
+	 * Handles an operation FORM
+	 * 
+	 * @param request 
+	 * 				request from the client
+	 * @param response 
+	 * 				response to the client 
+	 * @throws ServletException
+	 * 			 	if any error occurs while executing the servlet
+	 * @throws IOException
+	 *  			if any error occurs in the client/server communication.
+	 */
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException 
 	{

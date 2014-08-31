@@ -18,15 +18,31 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.dbutils.DbUtils;
 
 /**
+ * Servlet used for inserting new city's evaluations.
+ * 
+ * <p> Base URL: /city/evaluations
+ * 
+ * <p> Accepts: POST
+ * 
+ * <p> Operations: INSERT, DELETE
+ * 
  * @author Mauro, Luca
- * Class used for inserting new city's evaluations.
  */
 public class CityEvaluationsServlet extends AbstractDatabaseServlet 
 {
 	private static final long serialVersionUID = 5260727560731303514L;
 
 	/**
-	 * Insert the new city evaluation into the database
+	 * Handles insert / delete operation FORM
+	 * 
+	 * @param request 
+	 * 				request from the client
+	 * @param response 
+	 * 				response to the client 
+	 * @throws ServletException
+	 * 			 	if any error occurs while executing the servlet
+	 * @throws IOException
+	 *  			if any error occurs in the client/server communication.
 	 */
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
@@ -55,7 +71,16 @@ public class CityEvaluationsServlet extends AbstractDatabaseServlet
 		}	
 		
 	}
-	
+	/**
+	 * Method for deleting an evaluation.
+	 * Redirect to /student/evaluations
+	 * 
+	 * @param req request object 
+	 * @param resp response object
+	 * @param lu the user currently logged
+	 * @throws ServletException
+	 * @throws IOException
+	 */
 	private void delete (HttpServletRequest req, HttpServletResponse resp, LoggedUser lu)
 			throws ServletException, IOException
 	{
@@ -93,6 +118,17 @@ public class CityEvaluationsServlet extends AbstractDatabaseServlet
 		
 	}
 	
+	/**
+	 * Method used for inserting a new evaluation for the 
+	 * current city.
+	 * Redirect to the city evaluated.
+	 * 
+	 * @param req request object 
+	 * @param resp response object
+	 * @param lu the user currently logged
+	 * @throws ServletException
+	 * @throws IOException
+	 */
 	private void insert(HttpServletRequest req, HttpServletResponse resp, LoggedUser lu)
 			throws ServletException, IOException
 	{
@@ -135,7 +171,15 @@ public class CityEvaluationsServlet extends AbstractDatabaseServlet
 		}
 	}
 
-	// Error management
+	/**
+	 * Method used for forwarding to the error page
+	 * with the appropriate message.
+	 * 
+	 * @param req request object 
+	 * @param resp response object
+	 * @throws ServletException
+	 * @throws IOException
+	 */
     private void errorForward(HttpServletRequest request, HttpServletResponse response) 
     		throws ServletException, IOException  
     {	

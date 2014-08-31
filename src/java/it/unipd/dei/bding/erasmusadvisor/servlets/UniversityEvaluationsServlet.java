@@ -17,7 +17,17 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.dbutils.DbUtils;
 
-
+/**
+ * Servlet used for inserting new class' evaluations.
+ * 
+ * <p> Base URL: /city/evaluations
+ * 
+ * <p> Accepts: POST
+ * 
+ * <p> Operations: INSERT, DELETE
+ * 
+ * @author Mauro, Luca, Alessandro
+ */
 public class UniversityEvaluationsServlet extends AbstractDatabaseServlet 
 {
 
@@ -25,7 +35,16 @@ public class UniversityEvaluationsServlet extends AbstractDatabaseServlet
 	private static final long serialVersionUID = -3739887046591409010L;
 
 	/**
-	 * Insert the new city evaluation into the database
+	 * Handles insert / delete operation FORM.
+	 * 
+	 * @param request 
+	 * 				request from the client
+	 * @param response 
+	 * 				response to the client 
+	 * @throws ServletException
+	 * 			 	if any error occurs while executing the servlet
+	 * @throws IOException
+	 *  			if any error occurs in the client/server communication.
 	 */
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
@@ -55,6 +74,21 @@ public class UniversityEvaluationsServlet extends AbstractDatabaseServlet
 		
 	}
 
+	/**
+	 * Method for deleting an evaluation.
+	 * Redirect to /student/evaluations
+	 * 
+	 * @param req 
+	 * 			request object 
+	 * @param resp 
+	 * 			response object
+	 * @param lu 
+	 * 			the user currently logged
+	 * @throws ServletException
+	 * 			if any error occurs while executing the servlet
+	 * @throws IOException
+	 * 			if any error occurs in the client/server communication.
+	 */
 	private void delete (HttpServletRequest req, HttpServletResponse resp, LoggedUser lu)
 			throws ServletException, IOException
 	{		
@@ -90,6 +124,22 @@ public class UniversityEvaluationsServlet extends AbstractDatabaseServlet
 		}
 	}
 	
+	/**
+	 * Method used for inserting a new evaluation for the 
+	 * current class.
+	 * Redirect to the city evaluated.
+	 * 
+	 * @param req 
+	 * 			request object 
+	 * @param resp 
+	 * 			response object
+	 * @param lu 
+	 * 			the user currently logged
+	 * @throws ServletException
+	 * 			if any error occurs while executing the servlet
+	 * @throws IOException
+	 * 			if any error occurs in the client/server communication.
+	 */
 	private void insert (HttpServletRequest req, HttpServletResponse resp, LoggedUser lu)
 			throws ServletException, IOException
 	{
@@ -129,7 +179,19 @@ public class UniversityEvaluationsServlet extends AbstractDatabaseServlet
 		
 	}
 
-	// Error management
+	/**
+	 * Method used for forwarding to the error page
+	 * with the appropriate message.
+	 * 
+	 * @param req 
+	 * 			request object 
+	 * @param resp 
+	 * 			response object
+	 * @throws ServletException
+	 * 			if any error occurs while executing the servlet
+	 * @throws IOException
+	 * 			if any error occurs in the client/server communication.
+	 */
     private void errorForward(HttpServletRequest request, HttpServletResponse response) 
     		throws ServletException, IOException  
     {	
