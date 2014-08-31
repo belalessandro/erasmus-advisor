@@ -4,61 +4,27 @@ import java.io.Serializable;
 import java.sql.Date;
 
 /**
- * Represents the ...
- * 
- * @author Alessandro
- * @version 1.0
- *  
- */
+* Bean which represents the "ValutazioneCitta" table in the database 
+* 
+* @author Alessandro
+* @version 1.0
+*  
+*/
 public class ValutazioneCittaBean implements Serializable {
-	/**
-	 * 
-	 */
+	
 	private static final long serialVersionUID = -22416953176376311L;
 
 	/**
-	 *
+	 * Columns
 	 */
 	private String nomeUtenteStudente;
-
-	/**
-	 *
-	 */
 	private String nomeCitta;
-
-	/**
-	 *
-	 */
 	private String statoCitta;
-
-	/**
-	 *
-	 */
 	private int costoDellaVita;
-
-	/**
-	 *
-	 */
 	private int disponibilitaAlloggi;
-
-	/**
-	 *
-	 */
 	private int vivibilitaUrbana;
-
-	/**
-	 *
-	 */
 	private int vitaSociale;
-
-	/**
-	 *
-	 */
 	private Date dataInserimento;
-
-	/**
-	 *
-	 */
 	private String commento;
 
 	/**

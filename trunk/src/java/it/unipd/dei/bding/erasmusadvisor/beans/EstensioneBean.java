@@ -3,26 +3,20 @@ package it.unipd.dei.bding.erasmusadvisor.beans;
 import java.io.Serializable;
 
 /**
- * Represents the ...
- * 
- * @author Alessandro
- * @version 1.0
- *  
- */
+* Bean which represents the "Estensione" table in the database 
+* 
+* @author Alessandro
+* @version 1.0
+*  
+*/
 public class EstensioneBean implements Serializable {
-	/**
-	 * 
-	 */
+	
 	private static final long serialVersionUID = 1261818163793967769L;
 
 	/**
-	 *
+	 * Columns
 	 */
 	private int idArgomentoTesi;
-
-	/**
-	 *
-	 */
 	private String area;
 
 	/**

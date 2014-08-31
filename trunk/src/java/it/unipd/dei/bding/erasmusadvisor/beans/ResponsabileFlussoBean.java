@@ -4,71 +4,29 @@ import java.io.Serializable;
 import java.sql.Date;
 
 /**
- * Represents the ...
- * 
- * @author Alessandro
- * @version 1.0
- *  
- */
+* Bean which represents the "ResponsabileFlusso" table in the database 
+* 
+* @author Alessandro
+* @version 1.0
+*  
+*/
 public class ResponsabileFlussoBean implements Serializable {
-	/**
-	 * 
-	 */
+	
 	private static final long serialVersionUID = 2625192943857821639L;
 
 	/**
-	 *
+	 * Columns
 	 */
 	private String nomeUtente;
-
-	/**
-	 *
-	 */
 	private String nome;
-
-	/**
-	 *
-	 */
 	private String cognome;
-
-	/**
-	 *
-	 */
 	private String email;
-
-	/**
-	 *
-	 */
 	private Date dataRegistrazione;
-
-	/**
-	 *
-	 */
 	private String password;
-
-	/**
-	 *
-	 */
 	private String salt;
-
-	/**
-	 *
-	 */
 	private Date ultimoAccesso;
-
-	/**
-	 *
-	 */
 	private boolean attivo;
-	
-	/**
-	 * 
-	 */
 	private boolean abilitato;
-
-	/**
-	 *
-	 */
 	private String nomeUniversita;
 
 	/**

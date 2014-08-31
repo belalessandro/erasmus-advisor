@@ -3,12 +3,12 @@ package it.unipd.dei.bding.erasmusadvisor.beans;
 import java.io.Serializable;
 
 /**
- * Represents the ...
- * 
- * @author Alessandro
- * @version 1.0
- *  
- */
+* Bean which represents the "Documentazione" table in the database 
+* 
+* @author Alessandro
+* @version 1.0
+*  
+*/
 public class DocumentazioneBean implements Serializable {
 	/**
 	 * 

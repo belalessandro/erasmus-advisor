@@ -3,26 +3,20 @@ package it.unipd.dei.bding.erasmusadvisor.beans;
 import java.io.Serializable;
 
 /**
- * Represents the ...
- * 
- * @author Alessandro
- * @version 1.0
- *  
- */
+* Bean which represents the "LinguaTesi" table in the database 
+* 
+* @author Alessandro
+* @version 1.0
+*  
+*/
 public class LinguaTesiBean implements Serializable {
-	/**
-	 * 
-	 */
+	
 	private static final long serialVersionUID = 7283985145983287087L;
 
 	/**
-	 *
+	 * Columns
 	 */
 	private String siglaLingua;
-
-	/**
-	 *
-	 */
 	private int idArgomentoTesi;
 
 	/**

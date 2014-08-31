@@ -3,26 +3,20 @@ package it.unipd.dei.bding.erasmusadvisor.beans;
 import java.io.Serializable;
 
 /**
- * Represents the ...
- * 
- * @author Alessandro
- * @version 1.0
- *  
- */
+* Bean which represents the "Gestione" table in the database 
+* 
+* @author Alessandro
+* @version 1.0
+*  
+*/
 public class GestioneBean implements Serializable {
-	/**
-	 * 
-	 */
+	
 	private static final long serialVersionUID = -8091270884377247879L;
 
 	/**
-	 *
+	 * Columns
 	 */
 	private int idArgomentoTesi;
-
-	/**
-	 *
-	 */
 	private int idProfessore;
 
 	/**

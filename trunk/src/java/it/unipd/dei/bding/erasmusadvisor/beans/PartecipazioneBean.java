@@ -4,36 +4,22 @@ import java.io.Serializable;
 import java.sql.Date;
 
 /**
- * Represents the ...
- * 
- * @author Alessandro
- * @version 1.0
- *  
- */
+* Bean which represents the "Partecipazione" table in the database 
+* 
+* @author Alessandro
+* @version 1.0
+*  
+*/
 public class PartecipazioneBean implements Serializable {
-	/**
-	 * 
-	 */
+	
 	private static final long serialVersionUID = -4929346344491070921L;
 
 	/**
-	 *
+	 * Columns
 	 */
 	private String nomeUtenteStudente;
-
-	/**
-	 *
-	 */
 	private String idFlusso;
-
-	/**
-	 *
-	 */
 	private Date inizio;
-
-	/**
-	 *
-	 */
 	private Date fine;
 
 	/**

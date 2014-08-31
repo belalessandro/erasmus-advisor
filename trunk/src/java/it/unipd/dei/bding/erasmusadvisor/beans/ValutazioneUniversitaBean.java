@@ -4,56 +4,26 @@ import java.io.Serializable;
 import java.sql.Date;
 
 /**
- * Represents the ...
- * 
- * @author Alessandro
- * @version 1.0
- *  
- */
+* Bean which represents the "ValutazioneUniversita" table in the database 
+* 
+* @author Alessandro
+* @version 1.0
+*  
+*/
 public class ValutazioneUniversitaBean implements Serializable {
-	/**
-	 * 
-	 */
+	
 	private static final long serialVersionUID = 3337358926240396619L;
 
 	/**
-	 *
+	 * Columns
 	 */
 	private String nomeUtenteStudente;
-
-	/**
-	 *
-	 */
 	private String nomeUniversita;
-
-	/**
-	 *
-	 */
 	private int collocazioneUrbana;
-
-	/**
-	 *
-	 */
 	private int iniziativeErasmus;
-
-	/**
-	 *
-	 */
 	private int qtaInsegnamenti;
-
-	/**
-	 *
-	 */
 	private int qtaAule;
-
-	/**
-	 *
-	 */
 	private Date dataInserimento;
-
-	/**
-	 *
-	 */
 	private String commento;
 
 	/**

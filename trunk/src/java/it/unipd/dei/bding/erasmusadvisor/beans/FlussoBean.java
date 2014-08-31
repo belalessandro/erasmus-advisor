@@ -4,56 +4,26 @@ import java.io.Serializable;
 import java.sql.Date;
 
 /**
- * Represents the ...
- * 
- * @author Alessandro
- * @version 1.0
- *  
- */
+* Bean which represents the "Flusso" table in the database 
+* 
+* @author Alessandro
+* @version 1.0
+*  
+*/
 public class FlussoBean implements Serializable {
-	/**
-	 * 
-	 */
+	
 	private static final long serialVersionUID = 7311535251244471827L;
 
 	/**
-	 *
+	 * Columns
 	 */
 	private String id;
-
-	/**
-	 *
-	 */
 	private String destinazione;
-
-	/**
-	 *
-	 */
 	private String respFlusso;
-
-	/**
-	 *
-	 */
 	private int postiDisponibili;
-
-	/**
-	 *
-	 */
 	private boolean attivo;
-
-	/**
-	 *
-	 */
 	private Date dataUltimaModifica;
-
-	/**
-	 *
-	 */
 	private int durata;
-
-	/**
-	 *
-	 */
 	private String dettagli;
 
 	/**

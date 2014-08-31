@@ -6,51 +6,25 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * Represents the data about a Studente.
- * 
- * @author Alessandro
- * @version 0.1
- *  
- */
+* Bean which represents the "Studente" table in the database 
+* 
+* @author Alessandro
+* @version 1.0
+*  
+*/
 public class StudenteBean implements Serializable {
-	/**
-	 * 
-	 */
+	
 	private static final long serialVersionUID = -8326089057059842805L;
 
 	/**
-	 *
+	 * Columns
 	 */
 	private String nomeUtente;
-
-	/**
-	 *
-	 */
 	private String email;
-
-	/**
-	 *
-	 */
 	private Date dataRegistrazione;
-
-	/**
-	 *
-	 */
 	private String password;
-
-	/**
-	 *
-	 */
 	private String salt;
-
-	/**
-	 *
-	 */
 	private Date ultimoAccesso;
-
-	/**
-	 *
-	 */
 	private boolean attivo;
 
 	/**

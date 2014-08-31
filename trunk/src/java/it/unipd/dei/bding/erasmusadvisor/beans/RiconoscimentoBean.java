@@ -3,26 +3,20 @@ package it.unipd.dei.bding.erasmusadvisor.beans;
 import java.io.Serializable;
 
 /**
- * Represents the ...
- * 
- * @author Alessandro
- * @version 1.0
- *  
- */
+* Bean which represents the "Riconoscimento" table in the database 
+* 
+* @author Alessandro
+* @version 1.0
+*  
+*/
 public class RiconoscimentoBean implements Serializable {
-	/**
-	 * 
-	 */
+	
 	private static final long serialVersionUID = 1830989893360695787L;
 
 	/**
-	 *
+	 * Columns
 	 */
 	private int idInsegnamento;
-
-	/**
-	 *
-	 */
 	private String idFlusso;
 
 	/**

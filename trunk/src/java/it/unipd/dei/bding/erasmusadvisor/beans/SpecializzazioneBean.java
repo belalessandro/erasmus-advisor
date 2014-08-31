@@ -3,26 +3,20 @@ package it.unipd.dei.bding.erasmusadvisor.beans;
 import java.io.Serializable;
 
 /**
- * Represents the ...
- * 
- * @author Alessandro
- * @version 1.0
- *  
- */
+* Bean which represents the "Specializzazione" table in the database 
+* 
+* @author Alessandro
+* @version 1.0
+*  
+*/
 public class SpecializzazioneBean implements Serializable {
-	/**
-	 * 
-	 */
+	
 	private static final long serialVersionUID = 3775156427191745821L;
 
 	/**
-	 *
+	 * Columns
 	 */
 	private String nomeArea;
-
-	/**
-	 *
-	 */
 	private int idCorso;
 
 	/**

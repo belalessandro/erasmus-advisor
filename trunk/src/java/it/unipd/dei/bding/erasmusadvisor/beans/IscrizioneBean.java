@@ -4,36 +4,22 @@ import java.io.Serializable;
 import java.sql.Date;
 
 /**
- * Represents the ...
- * 
- * @author Alessandro
- * @version 1.0
- *  
- */
+* Bean which represents the "Iscrizione" table in the database 
+* 
+* @author Alessandro
+* @version 1.0
+*  
+*/
 public class IscrizioneBean implements Serializable {
-	/**
-	 * 
-	 */
+	
 	private static final long serialVersionUID = -4462510397327053873L;
 
 	/**
-	 *
+	 * Columns
 	 */
 	private int idCorso;
-
-	/**
-	 *
-	 */
 	private String nomeUtenteStudente;
-
-	/**
-	 *
-	 */
 	private Date annoInizio;
-
-	/**
-	 *
-	 */
 	private Date annoFine;
 
 	/**

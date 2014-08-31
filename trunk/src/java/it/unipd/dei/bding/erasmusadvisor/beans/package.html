@@ -20,6 +20,12 @@
 
 Contains the beans used by the application.
 
+Along with the package resources, it is the MODEL of the MVC architecture. 
+The Entity Beans contained in this package have a one-to-one correspondence 
+with the database schema: for each table in the database, it corresponds to a bean class, 
+whose attributes are instance variables private, accessible only by the getter / setter methods. 
+The data types are mapped appropriately to maintain compatibility between the relational model and the object.
+
 @author <a href="mailto:alessandro.beltramin@studenti.unipd.it">Alessandro Beltramin</a>
 @since 1.00
 </body>
