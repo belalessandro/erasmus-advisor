@@ -2,7 +2,6 @@ package it.unipd.dei.bding.erasmusadvisor.database;
 
 
 
-
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
@@ -20,9 +19,10 @@ import org.apache.commons.dbutils.handlers.ColumnListHandler;
 public class GetStatoValues 
 {
 	/**
-	 * Returns the values for the attribute Citta.Stato
+	 * Returns the values for the attribute Citta.Stato.
+	 * 
 	 * @param conn A connection to the database.
-	 * @return A list of countries
+	 * @return A list of countries.
 	 * @throws SQLException If an error occurs running the SQL query.
 	 */
 	public static List<String> getValues(Connection conn) throws SQLException

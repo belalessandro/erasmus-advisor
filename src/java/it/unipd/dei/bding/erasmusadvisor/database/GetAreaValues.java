@@ -11,7 +11,7 @@ import org.apache.commons.dbutils.ResultSetHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
 
 /**
- * Get the values of the domain of Area
+ * Get the values of the domain of "Area".
  * @author Luca
  *
  */
@@ -19,9 +19,10 @@ import org.apache.commons.dbutils.handlers.BeanListHandler;
 public class GetAreaValues 
 {
 	/**
-	 * Returns the domain of Area
+	 * Returns the domain of Area.
+	 * 
 	 * @param conn A connection to the database.
-	 * @return a list of areas
+	 * @return A list of areas.
 	 * @throws SQLException If an error occurs running the SQL query.
 	 */
 	public static List<AreaBean> getAreaDomain(Connection conn) throws SQLException

@@ -10,18 +10,18 @@ import org.apache.commons.dbutils.DbUtils;
 import org.apache.commons.dbutils.QueryRunner;
 
 /**
- * Database operations about Gestione
+ * Database operations about "Gestione"
  * @author Alessandro
  *
  */
 public class GestioneDatabase {
 	
 	/**
-	 * Executes a statement to store a new Gestione into the database,
+	 * Executes a statement to store a new "Gestione" into the database,
 	 * without closing the connection.
 	 * 
-	 * @param con The connection to the database
-	 * @param gestione The Gestione to be stored
+	 * @param con The connection to the database.
+	 * @param gestione The "Gestione" to be stored.
 	 * 
 	 * @throws SQLException
 	 *             if any error occurs while storing the Gestione.
@@ -45,12 +45,12 @@ public class GestioneDatabase {
 	}
 
 	/**
-	 * Delete Gestione instances by the thesis given.
+	 * Delete "Gestione" instances by the thesis given.
 	 * 
-	 * @param con connection to the database
-	 * @param idThesis id of the thesis
-	 * @return number of instances deleted
-	 * @throws SQLException
+	 * @param con A connection to the database.
+	 * @param idThesis Id of the thesis to delete.
+	 * @return Number of instances deleted.
+	 * @throws SQLException if an error occurs while deleting the "Gestione".
 	 */
 	public static int  deleteGestioneByThesisId(Connection con, int idThesis) throws SQLException 
 	{
