@@ -18,11 +18,8 @@ import it.unipd.dei.bding.erasmusadvisor.resources.UserType;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.net.URLEncoder;
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.SQLException;
-import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -31,22 +28,20 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.commons.dbutils.DbUtils;
 
+/**
+ * Manages the profile of a generic User.
+ * 
+ * <p> Base URL: /user/profile
+ * 
+ * <p> Accepts: GET, POST
+ * 
+ * <p> Operations: EDIT
+ * 
+ * @author Mauro
+ */
 public class UserProfileServlet extends AbstractDatabaseServlet 
 {
-	/**
-	 * (Autorizzazioni: solo STUDENTE)
-	 * 
-	 * mappato su /student/profile
-	 * 
-	 * quando riceve GET
-	 * 			-> ritorna su user_profile.jsp tutti i campi collegati allo studente loggato
-	 * 
-	 * 
-	 * quando riceve POST
-	 *   		-> Se operazione è "update" modifica i campi relativi allo studente loggato
-	 *   
-	 *   @author: luca
-	 */
+	private static final long serialVersionUID = -7349132696365020115L;
 	
 	/**
 	 * Operation constants
@@ -55,7 +50,18 @@ public class UserProfileServlet extends AbstractDatabaseServlet
     private static final String EDIT = "edit";
     private static final String DELETE = "delete";
 	
-	
+    /**
+	 * Gets the user profile page.
+	 * 
+	 * @param request 
+	 * 				request from the client
+	 * @param response 
+	 * 				response to the client 
+	 * @throws ServletException
+	 * 			 	if any error occurs while executing the servlet
+	 * @throws IOException
+	 *  			if any error occurs in the client/server communication.
+	 */
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException 
 	{
@@ -127,6 +133,18 @@ public class UserProfileServlet extends AbstractDatabaseServlet
 		}
 	}
 	
+	/**
+	 * Handles an operation form.
+	 * 
+	 * @param request 
+	 * 				request from the client
+	 * @param response 
+	 * 				response to the client 
+	 * @throws ServletException
+	 * 			 	if any error occurs while executing the servlet
+	 * @throws IOException
+	 *  			if any error occurs in the client/server communication.
+	 */
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException 
 	{
@@ -159,12 +177,24 @@ public class UserProfileServlet extends AbstractDatabaseServlet
 			return;
 			
 		} 
-		else if (operation.equals("edit")) 
+		else if (operation.equals(EDIT)) 
 		{
 			edit(lu, req, resp);
 		}
 	}
 	
+	/**
+	 * Handles an edit post request.
+	 * 
+	 * @param request 
+	 * 				request from the client
+	 * @param response 
+	 * 				response to the client 
+	 * @throws ServletException
+	 * 			 	if any error occurs while executing the servlet
+	 * @throws IOException
+	 *  			if any error occurs in the client/server communication.
+	 */
 	private void edit(LoggedUser lu, HttpServletRequest request, HttpServletResponse response) 
 			throws ServletException, IOException {
 		
@@ -285,13 +315,17 @@ public class UserProfileServlet extends AbstractDatabaseServlet
 	}
 
 	/**
-     * Handle error forwarding between pages.
+     * Handles error forwarding between pages.
      * 
-     * @param request request object
-     * @param response response object
-     * @throws ServletException
-     * @throws IOException
-     */
+	 * @param request 
+	 * 				request from the client
+	 * @param response 
+	 * 				response to the client 
+	 * @throws ServletException
+	 * 			 	if any error occurs while executing the servlet
+	 * @throws IOException
+	 *  			if any error occurs in the client/server communication.
+	 */
     private void errorForward(HttpServletRequest request, HttpServletResponse response) 
     		throws ServletException, IOException  {
     	// Error management
