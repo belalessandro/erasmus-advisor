@@ -9,6 +9,7 @@ import it.unipd.dei.bding.erasmusadvisor.beans.UniversitaBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.ValutazioneFlussoBean;
 import it.unipd.dei.bding.erasmusadvisor.resources.Flow;
 import it.unipd.dei.bding.erasmusadvisor.resources.FlowSearchRow;
+import it.unipd.dei.bding.erasmusadvisor.resources.LoggedUser;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -29,6 +30,10 @@ import org.apache.commons.dbutils.handlers.BeanListHandler;
 /**
  * Database operations about "Flusso". 
  * @author Luca, Alessandro
+ *
+ */
+/**
+ * @author Nicola
  *
  */
 public class FlussoDatabase 
@@ -174,7 +179,7 @@ public class FlussoDatabase
 	
 /**
  * Flow Search with optional filter fields, 
- * limiting the results to the student's allowed destinations
+ * limiting the results to the student's allowed destinations.
  * 
  * (null = optional)
  * 
@@ -189,10 +194,16 @@ public class FlussoDatabase
  * @return A list of FlowSearchRow
  * @throws SQLException In case of error.
  */
-	public static List<FlowSearchRow> filterFlowBy(Connection conn, String nomeUtenteStudente, 
+	public static List<FlowSearchRow> filterFlowBy(Connection conn, LoggedUser utente, 
 			String stato, String citta, Integer durata, Integer minPosti, String nomeCertificato, 
 			String livelloCertificato) throws SQLException 
 	{
+		if (utente.isFlowResp())
+		{
+			return filterByFlowResp(conn, utente, stato, citta, durata, minPosti, nomeCertificato, livelloCertificato);
+		}
+		
+		
 		/**
 		 * SQL statement for getting the flow ID's with the specified conditions
 		 */
@@ -237,7 +248,7 @@ public class FlussoDatabase
 		try {
 			pstmt = conn.prepareStatement(statement1);
 			int col = 1;
-			pstmt.setString(col++, nomeUtenteStudente); // required
+			pstmt.setString(col++, utente.getUser()); // required
 			pstmt.setString(col++, stato);
 			pstmt.setString(col++, stato);
 			pstmt.setString(col++, citta);
@@ -249,6 +260,111 @@ public class FlussoDatabase
 			pstmt.setString(col++, nomeCertificato);
 			pstmt.setString(col++, nomeCertificato);
 			pstmt.setString(col++, livelloCertificato);
+			rs = pstmt.executeQuery(); // execute query
+			flussoList = h.handle(rs); // load results to flussoList
+			
+		} finally {
+			DbUtils.close(pstmt); // close the statement (*always*)
+			DbUtils.close(rs); // close the result set (*always*)
+		}
+		
+		// Queries for other row fields
+		for (FlussoBean f : flussoList) {
+			// Gets the destination university of the flow
+			ResultSetHandler<UniversitaBean> h1 = 
+				new BeanHandler<UniversitaBean>(UniversitaBean.class);
+			UniversitaBean universita = run.query(conn, statement2, h1, f.getDestinazione());
+			
+			// Gets the certifications for the flow
+			ResultSetHandler<List<CertificatiLinguisticiBean>> h2 = 
+					new BeanListHandler<CertificatiLinguisticiBean>(CertificatiLinguisticiBean.class);
+			List<CertificatiLinguisticiBean> docList = run.query(conn, statement3, h2, f.getId());
+			
+			// adding one flow-result to the results list 
+			FlowSearchRow resultRow = new FlowSearchRow(f, universita, docList);
+			results.add(resultRow);
+		}
+		
+		return results;
+	}
+
+	/**
+	 * Flow Search with optional filter fields, 
+	 * limiting the results to the flow's manager flows.
+	 * 
+	 * (null = optional)
+	 * 
+	 * @param conn The connection to the database, it will *not* be closed
+	 * @param utente (required) The name of the user.
+	 * @param stato (optional) The country toward which the flow.
+	 * @param citta  (optional) The city toward which the flow.
+	 * @param durata  (optional) The durations of the Flow.
+	 * @param minPosti (optional) The minimum number of available seats.
+	 * @param nomeCertificato nomeCertificato (optional) The language's certificate required for the flow.
+	 * @param livelloCertificato Certificate's level (required only if nome Certificato is not null).
+	 * @return A list of FlowSearchRow.
+	 * @throws SQLException In case of error.
+	 */
+	private static List<FlowSearchRow> filterByFlowResp(Connection conn,
+			LoggedUser utente, String stato, String citta, Integer durata,
+			Integer minPosti, String nomeCertificato, String livelloCertificato) throws SQLException {
+		
+		
+		/**
+		 * SQL statement for getting the flow ID's with the specified conditions
+		 */
+		final String statement1 = "SELECT DISTINCT F.Id, "
+				+ "F.PostiDisponibili, F.Durata, F.Destinazione FROM Flusso AS F "
+				+ "JOIN Universita AS U ON F.Destinazione = U.Nome "
+				+ "JOIN Documentazione AS D ON F.Id = D.IdFlusso "
+				+ "JOIN Origine AS O ON F.Id = O.IdFlusso "
+				+ "JOIN Iscrizione AS I ON O.IdCorso = I.IdCorso "
+				+ "WHERE (? IS NULL OR U.StatoCitta = ?) " // by StatoCitta (optional)
+				+ "AND (? IS NULL OR U.NomeCitta = ?) " // by NomeCitta (optional)
+				+ "AND (? IS NULL OR F.Durata = ?) " // by Durata (optional)
+				+ "AND (? IS NULL OR F.PostiDisponibili >= ?) " // by min. PostiDisponibili (optional)
+				+ "AND (? IS NULL OR (D.NomeCertificato = ? "
+					+ "AND D.LivelloCertificato = ?)) " // by Certificato (optional)
+				+ "AND F.respFlusso = ? " 
+				+ "ORDER BY F.Id ASC";
+		
+		/**
+		 * SQL statement for getting, for each flow, the other row fields
+		 */
+		final String statement2 = "SELECT nome, nomeCitta, statoCitta FROM Universita "
+				+ "WHERE nome = ? ";
+	
+		final String statement3 = "SELECT NomeCertificato AS NomeLingua, LivelloCertificato AS Livello "
+				+ "FROM Documentazione "
+				+ "WHERE IdFlusso = ? "
+				+ "ORDER BY NomeCertificato, LivelloCertificato ASC";
+		
+		// query facility
+		QueryRunner run = new QueryRunner();
+		ResultSetHandler<List<FlussoBean>> h = new BeanListHandler<FlussoBean>(FlussoBean.class);
+		
+		// result model
+		List<FlowSearchRow> results = new ArrayList<FlowSearchRow>();
+		
+		// First query
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		List<FlussoBean> flussoList = null;
+		try {
+			pstmt = conn.prepareStatement(statement1);
+			int col = 1;
+			pstmt.setString(col++, stato);
+			pstmt.setString(col++, stato);
+			pstmt.setString(col++, citta);
+			pstmt.setString(col++, citta);
+			pstmt.setObject(col++, durata, Types.SMALLINT);
+			pstmt.setObject(col++, durata, Types.SMALLINT);
+			pstmt.setObject(col++, minPosti, Types.SMALLINT);
+			pstmt.setObject(col++, minPosti, Types.SMALLINT);
+			pstmt.setString(col++, nomeCertificato);
+			pstmt.setString(col++, nomeCertificato);
+			pstmt.setString(col++, livelloCertificato);
+			pstmt.setString(col++, utente.getUser());
 			rs = pstmt.executeQuery(); // execute query
 			flussoList = h.handle(rs); // load results to flussoList
 			
