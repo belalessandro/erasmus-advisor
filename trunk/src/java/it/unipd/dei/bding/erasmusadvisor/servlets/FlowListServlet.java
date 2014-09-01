@@ -19,6 +19,7 @@ import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.dbutils.DbUtils;
 
@@ -92,8 +93,10 @@ public class FlowListServlet extends AbstractDatabaseServlet
 	private void search(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		
-		// TODO: DA SESSIONE
-		LoggedUser lu = new LoggedUser(UserType.STUDENTE, "mario.rossi"); 
+		// TODO: DA SESSIONE --> Nicola: done! 
+		
+		HttpSession session = req.getSession();
+		LoggedUser lu = (LoggedUser) session.getAttribute("loggedUser");
 
 		// Incoming parameters for the search filter
 		String stato = req.getParameter("country");
@@ -126,7 +129,7 @@ public class FlowListServlet extends AbstractDatabaseServlet
 
 			conn = DS.getConnection();
 			
-			results = FlussoDatabase.filterFlowBy(conn, lu.getUser(), stato, citta, durata, 
+			results = FlussoDatabase.filterFlowBy(conn, lu, stato, citta, durata, 
 					minPosti, nomeCertificato, livelloCertificato);
 			
 			// Pre-charging form values
@@ -192,7 +195,7 @@ public class FlowListServlet extends AbstractDatabaseServlet
     }
 	
 	/**
-	 * Preloads the data
+	 * Preloads the data.
 	 * 
 	 * @param request 
 	 * 				request from the client

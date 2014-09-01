@@ -3,6 +3,8 @@ package it.unipd.dei.bding.erasmusadvisor.test;
 import it.unipd.dei.bding.erasmusadvisor.beans.CertificatiLinguisticiBean;
 import it.unipd.dei.bding.erasmusadvisor.database.FlussoDatabase;
 import it.unipd.dei.bding.erasmusadvisor.resources.FlowSearchRow;
+import it.unipd.dei.bding.erasmusadvisor.resources.LoggedUser;
+import it.unipd.dei.bding.erasmusadvisor.resources.UserType;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -24,12 +26,12 @@ public class TestFlussoDatabase {
 	/**
 	 * The username for accessing the database
 	 */
-	private static final String USER = "EATeam";
+	private static final String USER = "postgres";
 
 	/**
 	 * The password for accessing the database
 	 */
-	private static final String PASSWORD = "EATeam";
+	private static final String PASSWORD = "postgres";
 
 	public static void main(String[] args) {
 
@@ -51,10 +53,10 @@ public class TestFlussoDatabase {
 		try {
 			con = DriverManager.getConnection(DATABASE, USER, PASSWORD); // UNICA CONNESSIONE
 			//con.setAutoCommit(false);
-			
+			LoggedUser lu = new LoggedUser(UserType.RESPONSABILE, "pilu");
 			
 			//List<CitySearchRow> results = CittaDatabase.filterCityBySiglaLingua(con, "eng");
-			List<FlowSearchRow> results = FlussoDatabase.filterFlowBy(con, "mario.rossi", "France", null, null, 2, null, null);
+			List<FlowSearchRow> results = FlussoDatabase.filterFlowBy(con, lu, null, null, null, null, null, null);
 			
 			for (FlowSearchRow result : results) {
 				System.out.print(result.getFlusso().getId() + " | langs:");
