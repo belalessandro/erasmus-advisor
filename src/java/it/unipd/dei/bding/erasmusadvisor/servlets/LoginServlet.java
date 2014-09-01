@@ -6,6 +6,7 @@ import it.unipd.dei.bding.erasmusadvisor.resources.LoggedUser;
 import it.unipd.dei.bding.erasmusadvisor.resources.Message;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.SQLException;
 
@@ -77,6 +78,21 @@ public class LoginServlet extends AbstractDatabaseServlet {
 						HttpSession session = request.getSession(true);
 						LoggedUser logged = new LoggedUser(user.getType(), user.getNomeUtente());
 						session.setAttribute("loggedUser", logged);
+						
+						LoggedUser lu = (LoggedUser) session.getAttribute("loggedUser");
+						
+						PrintWriter w = response.getWriter();
+						w.println("<html>");
+						w.println("<body>");
+						w.println("<p>" + lu.toString() + "</p>");
+						w.println("<p>" + lu.getUser() + "</p>");
+						w.println("<p>" + user.getNomeUtente() + "</p>");
+						w.println("<p>" + lu.isStudent() + "</p>");
+						w.println("<p>" + lu.isCoord()+ "</p>");
+						w.println("</body>");
+						w.println("</html>");
+						w.flush();
+						w.close();
 						
 						// luca: traferisce il controllo alla index
 						getServletContext().getRequestDispatcher("/jsp/index.jsp").forward(request, response);

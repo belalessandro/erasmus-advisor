@@ -35,6 +35,10 @@ public class StudenteDatabase
 	{
 		final String statement1 = "SELECT * FROM Studente WHERE nomeutente = ?";
 		final String statement2 = "SELECT * FROM Iscrizione WHERE nomeutentestudente = ?";
+		// TODO: mauro: fare in modo che venga visualizzata l'ultima iscrizione effettuata
+//		final String statement2 = "SELECT I1.idCorso, I1.nomeUtenteStudente, I1.annoInizio, I1.annoFine "
+//				+ "FROM Iscrizione AS I1 JOIN Iscrizione AS I2 ON I1.NomeUtenteStudente = I2.NomeUtenteStudente "
+//				+ "WHERE I1.annoInizio > I2.annofine AND I1.nomeUtenteStudente = ?;";
 		final String statement3 = "SELECT * FROM CorsoDiLaurea WHERE id = ?";
 		
 		StudenteBean studente = new StudenteBean();

@@ -58,12 +58,23 @@
 	});
 	</script>
 	<script>
+	/*
+	* [NEW VERSION]
+	*/
 	$(function() {
 		var cache = {};
+		
+		$("#universityNames").change(function() {
+			cache = {};
+		});
+		
+		
 		$("#corsoNames" ).autocomplete({
 					minLength : 2,
 					source : function(request, response) {
 						var term = request.term;
+
+						request.university = $("#universityNames").val();
 						if (term in cache) {
 							response(cache[term]);
 							return;
@@ -72,12 +83,23 @@
 								function(data, status, xhr) {
 									xhr.setRequestHeader("X-Requested-With",
 											"XMLHttpRequest");
-									cache[term] = data;
-									response(data);
+									
+									if(data["error"] == "university")
+									{
+										console.log("university is null");
+										$("#universityNames").css("border","1px solid red");
+										$("#alert-university").show();
+									}
+									else
+									{	$("#universityNames").css("border","1px solid #ccc");
+										$("#alert-university").hide();
+										cache[term] = data;
+										response(data);
+									}
 								});
 					}
-				});
-	});
+				}); // end autocomplete function
+	}); // and ready function
 	</script>
 	
 	<script>

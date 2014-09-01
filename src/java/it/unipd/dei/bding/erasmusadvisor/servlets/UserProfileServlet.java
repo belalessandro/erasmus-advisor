@@ -8,6 +8,7 @@ import it.unipd.dei.bding.erasmusadvisor.beans.IscrizioneBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.ResponsabileFlussoBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.StudenteBean;
 import it.unipd.dei.bding.erasmusadvisor.database.CoordinatoreDatabase;
+import it.unipd.dei.bding.erasmusadvisor.database.CorsoDiLaureaDatabase;
 import it.unipd.dei.bding.erasmusadvisor.database.IscrizioneDatabase;
 import it.unipd.dei.bding.erasmusadvisor.database.ResponsabileFlussoDatabase;
 import it.unipd.dei.bding.erasmusadvisor.database.StudenteDatabase;
@@ -19,6 +20,7 @@ import it.unipd.dei.bding.erasmusadvisor.resources.UserType;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.SQLException;
 
 import javax.servlet.ServletException;
@@ -44,7 +46,7 @@ public class UserProfileServlet extends AbstractDatabaseServlet
 	/**
 	 * (Autorizzazioni: solo STUDENTE)
 	 * 
-	 * mappato su /student/profile
+	 * mappato su /user/profile
 	 * 
 	 * quando riceve GET
 	 * 			-> ritorna su user_profile.jsp tutti i campi collegati allo studente loggato
@@ -98,15 +100,14 @@ public class UserProfileServlet extends AbstractDatabaseServlet
 		}
 		TODO LoggedUser lu = (LoggedUser)req.getSession().getAttribute("loggedUser");*/
 		
-//		LoggedUser lu = new LoggedUser(UserType.STUDENTE, "mario.rossi");
+		
+//		HttpSession session = req.getSession();
+//		LoggedUser lu = (LoggedUser) session.getAttribute("loggedUser");
+		
+		LoggedUser lu = new LoggedUser(UserType.STUDENTE, "mario.rossi");
 //		LoggedUser lu = new LoggedUser(UserType.RESPONSABILE, "erick.burn");
 //		LoggedUser lu = new LoggedUser(UserType.COORDINATORE, "ErasmusCoordinator");
 		
-		HttpSession session = req.getSession();
-		LoggedUser lu = (LoggedUser) session.getAttribute("loggedUser");
-		
-		if(lu == null)
-			lu = new LoggedUser(UserType.STUDENTE, "mario.rossi");
 		
 		try {
 			con = DS.getConnection();
@@ -176,16 +177,6 @@ public class UserProfileServlet extends AbstractDatabaseServlet
 		
 		String operation = req.getParameter("operation");
 		
-		
-//		PrintWriter w = resp.getWriter();
-//		w.println("<html>");
-//		w.println("<body>");
-//		w.println("<p>" + operation + "</p>");
-//		
-//		w.println("</body>");
-//		w.println("</html>");
-//		w.flush();
-//		w.close();
 		if (operation == null || operation.isEmpty()) {
 			
 			// Error
@@ -216,6 +207,7 @@ public class UserProfileServlet extends AbstractDatabaseServlet
 	 * 			 	if any error occurs while executing the servlet
 	 * @throws IOException
 	 *  			if any error occurs in the client/server communication.
+	 * @throws ParseException 
 	 */
 	private void edit(LoggedUser lu, HttpServletRequest request, HttpServletResponse response) 
 			throws ServletException, IOException {
@@ -226,10 +218,9 @@ public class UserProfileServlet extends AbstractDatabaseServlet
 		
 		// populate the bean
 		CoordinatoreBean coordinatore = null;
-		StudenteBean studente = null;
-		CorsoDiLaureaBean corso = null;
-		IscrizioneBean iscrizione = null;
-		ResponsabileFlussoBean responsabile = null;
+		StudenteBean student = null;
+		IscrizioneBean subscription = null;
+		ResponsabileFlussoBean manager = null;
 		
 		try {
 			if(lu.isCoord())
@@ -248,19 +239,10 @@ public class UserProfileServlet extends AbstractDatabaseServlet
 			else if(lu.isFlowResp())
 			{
 				// populate the bean
-				responsabile = new ResponsabileFlussoBean();
-				BeanUtilities.populateBean(responsabile, request);
+				manager = new ResponsabileFlussoBean();
+				BeanUtilities.populateBean(manager, request);
 				
 				PrintWriter w = response.getWriter();
-				w.println("<html>");
-				w.println("<body>");
-				w.println("<p>" + responsabile.getNome() + "</p>");
-				w.println("<p>" + request.getParameter("date_from") + "</p>");
-				w.println("<p>" + request.getParameter("date_to") + "</p>");
-				w.println("</body>");
-				w.println("</html>");
-				w.flush();
-				w.close();
 				
 				// get the connection
 				con = DS.getConnection();
@@ -271,47 +253,70 @@ public class UserProfileServlet extends AbstractDatabaseServlet
 			else if(lu.isStudent())
 			{
 				// populate the bean
-				studente = new StudenteBean();
-				BeanUtilities.populateBean(studente, request);
+				student = new StudenteBean();
+				BeanUtilities.populateBean(student, request);
 				
+				// processing the course name and level
+				String[] res = null;
+				res = extractCourseNameAndLevel(request.getParameter("courseName"));
+				String courseName = res[0].trim();
+				String courseLevel = res[1].trim();
+				String courseUniversity = request.getParameter("courseUniversity").trim();
 				
-//				corso.setId(Integer.parseInt(request.getParameter("courseId")));
-//				corso.setNome("courseName");
-//				corso.setLivello(request.getParameter("courseLevel"));
-//				corso.setNomeUniversita(request.getParameter("courseUniversity"));
+
+				// getting old course id
+				int old_courseId = Integer.parseInt(request.getParameter("old_courseId"));
 				
-//				int corsoId = Integer.parseInt(request.getParameter("courseId"));
-				
-				
-//				iscrizione = new IscrizioneBean();
-//				iscrizione.setIdCorso(Integer.parseInt(request.getParameter("courseId")));
-//				iscrizione.setNomeUtenteStudente(studente.getNomeUtente());
-//				iscrizione.setAnnoInizio(Date.valueOf(request.getParameter("date_from")));
-//				iscrizione.setAnnoFine(Date.valueOf(request.getParameter("date_to")));
-//				
-				
-				PrintWriter w = response.getWriter();
-				w.println("<html>");
-				w.println("<body>");
-				w.println("<p>" + request.getParameter("old_courseId") + "</p>");
-				w.println("<p>" + request.getParameter("courseName") + "</p>");
-				w.println("<p>" + request.getParameter("courseUniversity") + "</p>");
-				w.println("<p>" + request.getParameter("date_from") + "</p>");
-				w.println("<p>" + request.getParameter("date_to") + "</p>");
-				w.println("</body>");
-				w.println("</html>");
-				w.flush();
-				w.close();
+
 
 				
 				// get the connection
 				con = DS.getConnection();
 				
-				StudenteDatabase.updateStudent(con, studente);
+				// initialize a new subscription
+				subscription = new IscrizioneBean();
 				
-				IscrizioneDatabase.createIscrizione(con, iscrizione);
+				subscription.setNomeUtenteStudente(student.getNomeUtente());
+				subscription.setAnnoInizio(Date.valueOf(request.getParameter("date_from")));
+				subscription.setAnnoFine(Date.valueOf(request.getParameter("date_to")));
 				
-				DbUtils.close(con);
+				// checking if old_courseid is the same to the new one
+				int new_courseId = CorsoDiLaureaDatabase.getCourseId(con, courseName, courseLevel, courseUniversity);
+				
+//				PrintWriter w = response.getWriter();
+//				
+//				w.println("<html>");
+//				w.println("<body>");
+//				w.println("<p>old:" + old_courseId + "</p>");
+//				w.println("<p>new:" + new_courseId + "</p>");
+//				w.println("<p>" + courseName + "</p>");
+//				w.println("<p>" + courseLevel + "</p>");
+//				w.println("<p>" + courseUniversity + "</p>");
+//				w.println("</body>");
+//				w.println("</html>");
+//				w.flush();
+//				w.close();
+				
+				// Starting the transaction
+				con.setAutoCommit(false);
+				if(old_courseId == new_courseId)
+				{
+					// update dates of the current subscription
+					StudenteDatabase.updateStudent(con, student);
+					subscription.setIdCorso(old_courseId);
+					IscrizioneDatabase.updateIscrizione(con, subscription);
+					con.commit();
+				}
+					
+				else
+				{
+					// add a new subscription
+					StudenteDatabase.updateStudent(con, student);
+					subscription.setIdCorso(new_courseId);
+					IscrizioneDatabase.createIscrizione(con, subscription);
+					con.commit();
+				}
+				
 				
 				// Creating response path
 				StringBuilder builder = new StringBuilder()
@@ -320,22 +325,89 @@ public class UserProfileServlet extends AbstractDatabaseServlet
 				response.sendRedirect(builder.toString());
 			}
 			
-			DbUtils.close(con);
+			
 		} catch (SQLException e) {
 			
 			// TODO: manage the case ERROR CODE = EA003
+			if(e.getSQLState().equals("EA003"))
+			{
+				sendErrorOverlappingDates(request, response);
+			}
+			else
+			{
+				// Error
+				m = new Message("Error while editing user profile.", String.valueOf(e.getErrorCode()) + " " +  e.getSQLState() , e.getMessage());
+				request.setAttribute("message", m);
+				errorForward(request, response);
+				return;
+			}
 			
-			// Error
-			m = new Message("Error while editing user profile.", String.valueOf(e.getErrorCode()) + " " +  e.getSQLState() , e.getMessage());
-			request.setAttribute("message", m);
-			errorForward(request, response);
-			return;
 		} finally {
-			DbUtils.closeQuietly(con);
-			con = null;
+			
+			try {
+				con.setAutoCommit(true);
+				DbUtils.close(con);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} finally {
+				DbUtils.closeQuietly(con);
+				con = null;
+			}
+			
 		}
 	}
 	
+	/**
+	 * Method used for sending a warn to the user.
+	 * @param request request object
+	 * @param response response object
+	 * @throws IOException
+	 */
+	private void sendErrorOverlappingDates(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		
+		// let the page show an error
+		StringBuilder builder = new StringBuilder()
+				.append(request.getContextPath())
+				.append("/user/profile?error=overlapping");
+		response.sendRedirect(builder.toString());
+		
+	}
+
+	/**
+	 * Extract a name and the level from a complete course 
+	 * name.
+	 * 
+	 * Example: Information Engineering (UNDERGRADUATE) 
+	 * 			returns s[0] = "Information Engineering" 
+	 * 					s[1] = "UNDERGRADUATE"
+	 * 
+	 * @param parameter string to parse
+	 */
+	private String[] extractCourseNameAndLevel(String parameter) {
+		
+		String[] res = new String[2];
+		
+		int init = 0;
+		int end = parameter.length();
+		boolean open = false;
+		for(int i = 0; i < parameter.length(); i++)
+		{
+			if(parameter.charAt(i) == '(' && !open)
+			{
+				open = true;
+				init = i + 1;
+			}
+			else if(parameter.charAt(i) == ')' && open)
+				end = i;
+		}
+		
+		res[0] = parameter.substring(0, init - 1);
+		res[1] = parameter.substring(init, end);
+		
+		return res;
+	}
+
 	/**
 	 * Disable an user.
 	 * 
