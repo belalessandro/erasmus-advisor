@@ -10,10 +10,9 @@ import org.apache.commons.dbutils.DbUtils;
 import org.apache.commons.dbutils.QueryRunner;
 
 /**
+ * Database operations about the "Professore" relation.
  * 
  * @author Nicola
- *
- *Database operations about the "Professore" relation.
  *
  */
 public class ProfessoreDatabase {

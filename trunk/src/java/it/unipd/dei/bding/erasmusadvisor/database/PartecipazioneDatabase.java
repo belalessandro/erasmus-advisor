@@ -13,9 +13,9 @@ import org.apache.commons.dbutils.ResultSetHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
 
 /**
- * @author Mauro
- * 
  * Database operations about "Partecipazione".
+ * 
+ * @author Mauro
  *
  */
 public class PartecipazioneDatabase

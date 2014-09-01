@@ -18,7 +18,7 @@ import org.apache.commons.dbutils.handlers.BeanHandler;
 public class ResponsabileFlussoDatabase 
 {
 	/**
-	 * Set the field abilitato of a flow manager to false.
+	 * Set the field "abilitato" of a flow manager to true.
 	 * 
 	 * @param con A connection to the database.
 	 * @param username Flow manager username.
@@ -34,7 +34,7 @@ public class ResponsabileFlussoDatabase
 	}
 
 	/**
-	 * Set the field attivo of a flow manager to false.
+	 * Set the field "attivo" of a flow manager to false.
 	 * 
 	 * @param con A connection to the database.
 	 * @param username Flow manager username.

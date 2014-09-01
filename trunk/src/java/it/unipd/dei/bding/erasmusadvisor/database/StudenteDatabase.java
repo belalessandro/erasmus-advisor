@@ -154,5 +154,22 @@ public class StudenteDatabase
 				studente.getPassword(),studente.getNomeUtente());
 	}
 	
+	/**
+	 * Set the field "attivo" of a student to false.
+	 * 
+	 * @param con A connection to the database.
+	 * @param username Student username.
+	 * @throws SQLException If an error occurs in SQL query.
+	 */
+	public static void disableStudente(Connection con, String username) throws SQLException 
+	{
+		final String sql = "UPDATE Studente SET attivo = 'f' WHERE NomeUtente = ?;";
+		
+		QueryRunner run = new QueryRunner();
+		
+		run.update(con, sql, username);
+	}
+
+	
 	
 }

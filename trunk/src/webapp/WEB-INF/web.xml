@@ -92,6 +92,15 @@
 	</servlet-mapping>
 	
 	<servlet>
+		<servlet-name>UserProfileServlet</servlet-name>
+		<servlet-class>it.unipd.dei.bding.erasmusadvisor.servlets.UserProfileServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>UserProfileServlet</servlet-name>
+		<url-pattern>/user/profile</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
 		<servlet-name>IndexServlet</servlet-name>
 		<servlet-class>it.unipd.dei.bding.erasmusadvisor.servlets.IndexServlet</servlet-class>
 	</servlet>

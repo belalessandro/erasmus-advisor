@@ -10,6 +10,13 @@ import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.ResultSetHandler;
 import org.apache.commons.dbutils.handlers.BeanHandler;
 
+/**
+ *  Check the Login of a user.
+ * 
+ * @author Fede
+ *
+ */
+
 public class UserDatabase {
 
 	/**
