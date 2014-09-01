@@ -21,7 +21,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.dbutils.DbUtils;
 
 /**
- * Servlet for getting lists of Country
+ * Servlet for getting lists of Country.
  * 
  * <p> Base URL: /country/list
  * 

@@ -22,13 +22,32 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
- * Form processing for the Sign in
+ * Form processing for the Sign in.
+ * 
+ * <p> Base URL: /signin
+ * 
+ * <p> Accepts: GET, POST
+ * 
+ * <p> Operations: (none)
  * 
  * @author Alessandro
- * 
  */
 public class SignInServlet extends AbstractDatabaseServlet {
+	
+	private static final long serialVersionUID = -7165499740814517742L;
 
+	/**
+	 * Gets the Sign-in FORM
+	 * 
+	 * @param request 
+	 * 				request from the client
+	 * @param response 
+	 * 				response to the client 
+	 * @throws ServletException
+	 * 			 	if any error occurs while executing the servlet
+	 * @throws IOException
+	 *  			if any error occurs in the client/server communication.
+	 */
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// luca: il get restituisce il form, il post processa il sign in
@@ -56,6 +75,18 @@ public class SignInServlet extends AbstractDatabaseServlet {
 		}
 	}
 
+	/**
+	 * Processes the new subscription.
+	 * 
+	 * @param request 
+	 * 				request from the client
+	 * @param response 
+	 * 				response to the client 
+	 * @throws ServletException
+	 * 			 	if any error occurs while executing the servlet
+	 * @throws IOException
+	 *  			if any error occurs in the client/server communication.
+	 */
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 

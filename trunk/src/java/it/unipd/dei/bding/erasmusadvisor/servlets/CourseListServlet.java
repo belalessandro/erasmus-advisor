@@ -22,7 +22,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.dbutils.DbUtils;
 /**
- * Servlet for getting lists of Course
+ * Servlet for getting lists of Course.
  * 
  * <p> Base URL: /course/list
  * 

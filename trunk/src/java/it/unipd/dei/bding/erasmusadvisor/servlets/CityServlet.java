@@ -395,6 +395,18 @@ public class CityServlet extends AbstractDatabaseServlet
 		}
     }
     
+	/**
+	 * Handles logic for edit operation.
+	 * 
+	 * @param request 
+	 * 				request from the client
+	 * @param response 
+	 * 				response to the client 
+	 * @throws ServletException
+	 * 			 	if any error occurs while executing the servlet
+	 * @throws IOException
+	 *  			if any error occurs in the client/server communication.
+	 */
     private void edit(HttpServletRequest request, HttpServletResponse response) {
         //handle logic for edit operation...
     }

@@ -1,7 +1,5 @@
 package it.unipd.dei.bding.erasmusadvisor.servlets;
 
-import it.unipd.dei.bding.erasmusadvisor.database.UserDatabase;
-
 import java.io.IOException;
 
 import javax.servlet.ServletException;

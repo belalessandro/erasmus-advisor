@@ -1,6 +1,3 @@
-/**
- * 
- */
 package it.unipd.dei.bding.erasmusadvisor.servlets;
 
 
@@ -58,6 +55,18 @@ public class FlowServlet extends AbstractDatabaseServlet {
     private static final String EDIT = "edit";
     private static final String DELETE = "delete";
 	
+    /**
+	 * Get the details of a specific flow.
+	 * 
+	 * @param request 
+	 * 				request from the client
+	 * @param response 
+	 * 				response to the client 
+	 * @throws ServletException
+	 * 			 	if any error occurs while executing the servlet
+	 * @throws IOException
+	 *  			if any error occurs in the client/server communication.
+	 */
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException
 	{
@@ -129,9 +138,17 @@ public class FlowServlet extends AbstractDatabaseServlet {
 		}
 	}
 
-	
 	/**
-	 * Insert or update the flow sent with a POST form
+	 * Handles a POST form and performs the specified operation.
+	 * 
+	 * @param request 
+	 * 				request from the client
+	 * @param response 
+	 * 				response to the client 
+	 * @throws ServletException
+	 * 			 	if any error occurs while executing the servlet
+	 * @throws IOException
+	 *  			if any error occurs in the client/server communication.
 	 */
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
@@ -262,7 +279,7 @@ public class FlowServlet extends AbstractDatabaseServlet {
 	
 
 	/**
-	 * Handle logic for insert operation.
+	 * Handles logic for insert operation.
 	 * 
 	 * @param request
 	 * @param response
@@ -387,7 +404,18 @@ public class FlowServlet extends AbstractDatabaseServlet {
 		response.sendRedirect(builder.toString());	
     }
 
-
+	/**
+	 * Handles logic for delete operation.
+	 * 
+	 * @param request 
+	 * 				request from the client
+	 * @param response 
+	 * 				response to the client 
+	 * @throws ServletException
+	 * 			 	if any error occurs while executing the servlet
+	 * @throws IOException
+	 *  			if any error occurs in the client/server communication.
+	 */
     private void delete(HttpServletRequest req, HttpServletResponse resp) 
     		throws ServletException, IOException 
     {
@@ -425,10 +453,35 @@ public class FlowServlet extends AbstractDatabaseServlet {
 			// An error maybe?
 		}
     }
+    
+	/**
+	 * Handles logic for edit operation.
+	 * 
+	 * @param request 
+	 * 				request from the client
+	 * @param response 
+	 * 				response to the client 
+	 * @throws ServletException
+	 * 			 	if any error occurs while executing the servlet
+	 * @throws IOException
+	 *  			if any error occurs in the client/server communication.
+	 */
     private void edit(HttpServletRequest request, HttpServletResponse response) {
         //handle logic for edit operation...
     }
 
+	/**
+     * Handles error forwarding between pages.
+     * 
+	 * @param request 
+	 * 				request from the client
+	 * @param response 
+	 * 				response to the client 
+	 * @throws ServletException
+	 * 			 	if any error occurs while executing the servlet
+	 * @throws IOException
+	 *  			if any error occurs in the client/server communication.
+	 */
     private void errorForward(HttpServletRequest request, HttpServletResponse response) 
     		throws ServletException, IOException  {
     	// Error management

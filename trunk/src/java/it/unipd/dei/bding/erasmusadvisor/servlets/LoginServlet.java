@@ -20,7 +20,7 @@ import org.apache.commons.dbutils.DbUtils;
 
 /**
  * Servlet used for managing student's, coordinator's and flowmanager's
- * login 
+ * login. 
  * 
  * <p> Base URL: /student/interests
  * 

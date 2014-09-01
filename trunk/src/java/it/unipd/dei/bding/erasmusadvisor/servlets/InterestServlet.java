@@ -27,7 +27,7 @@ import org.apache.commons.dbutils.DbUtils;
  */
 
 /**
- * Manages all interests related to a student 
+ * Manages all interests related to a student. 
  * 
  * <p> Base URL: /student/interests
  * 
