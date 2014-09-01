@@ -74,21 +74,11 @@
 	<!-- profile servlets -->
 	<servlet>
 		<servlet-name>Notifications</servlet-name>
-	<servlet-class>it.unipd.dei.bding.erasmusadvisor.servlets.NotificationsServlet</servlet-class>
+		<servlet-class>it.unipd.dei.bding.erasmusadvisor.servlets.NotificationsServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>Notifications</servlet-name>
 		<url-pattern>/notifications</url-pattern>
-	</servlet-mapping>
-	
-
-	<servlet>
-		<servlet-name>UserProfileServlet</servlet-name>
-		<servlet-class>it.unipd.dei.bding.erasmusadvisor.servlets.UserProfileServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>UserProfileServlet</servlet-name>
-		<url-pattern>/user/profile</url-pattern>
 	</servlet-mapping>
 	
 	<servlet>
