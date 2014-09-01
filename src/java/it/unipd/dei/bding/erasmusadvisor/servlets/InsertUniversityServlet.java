@@ -1,14 +1,7 @@
-/**
- * 
- */
 package it.unipd.dei.bding.erasmusadvisor.servlets;
 
-import it.unipd.dei.bding.erasmusadvisor.beans.AreaBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.CittaBean;
-import it.unipd.dei.bding.erasmusadvisor.beans.LinguaBean;
 import it.unipd.dei.bding.erasmusadvisor.database.CittaDatabase;
-import it.unipd.dei.bding.erasmusadvisor.database.GetAreaValues;
-import it.unipd.dei.bding.erasmusadvisor.database.GetLinguaValues;
 import it.unipd.dei.bding.erasmusadvisor.resources.CountryCityListBean;
 import it.unipd.dei.bding.erasmusadvisor.resources.Message;
 
@@ -23,20 +16,37 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.dbutils.DbUtils;
 
+
 /**
- * Servlet for pre-processing the Insert FORM of a new University
+ * Pre-processes the Insert FORM of a new University.
+ * 
  * It returns the JSP page insert_unversity.jsp, populated with the
  * required fields
  * 
- * * Notice: Only doGet(..) is allowed here! *
+ * <p> Base URL: /university/insert
  * 
- * Mapped to /university/insert
+ * <p> Accepts: GET
  * 
- * @author Luca
- *
+ * <p> Operations: (none)
+ * 
+ * @author Alessandro, Luca
  */
 public class InsertUniversityServlet extends AbstractDatabaseServlet {
+	
+	private static final long serialVersionUID = -8032658403183722097L;
 
+	/**
+	 * Forwards the pre-loaded data to the insert form
+	 * 
+	 * @param request 
+	 * 				request from the client
+	 * @param response 
+	 * 				response to the client 
+	 * @throws ServletException
+	 * 			 	if any error occurs while executing the servlet
+	 * @throws IOException
+	 *  			if any error occurs in the client/server communication.
+	 */
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		

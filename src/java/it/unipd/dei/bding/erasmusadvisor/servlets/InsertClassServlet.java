@@ -1,6 +1,3 @@
-/**
- * 
- */
 package it.unipd.dei.bding.erasmusadvisor.servlets;
 
 import it.unipd.dei.bding.erasmusadvisor.beans.AreaBean;
@@ -21,19 +18,36 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.dbutils.DbUtils;
 
 /**
- * Servlet for pre-processing the Insert FORM of a new Class
+ * Pre-processes the Insert FORM of a new Class.
+ * 
  * It returns the JSP page insert_class.jsp, populated with the
  * required fields
  * 
- * * Notice: Only doGet(..) is allowed here! *
+ * <p> Base URL: /class/insert
  * 
- * Mapped to /class/insert
+ * <p> Accepts: GET
  * 
+ * <p> Operations: (none)
+ * 
+ * @see InsertUniversityServlet
  * @author Luca
- *
  */
 public class InsertClassServlet extends AbstractDatabaseServlet {
 
+	private static final long serialVersionUID = 184518310339821216L;
+
+	/**
+	 * Forwards the pre-loaded data to the insert form
+	 * 
+	 * @param request 
+	 * 				request from the client
+	 * @param response 
+	 * 				response to the client 
+	 * @throws ServletException
+	 * 			 	if any error occurs while executing the servlet
+	 * @throws IOException
+	 *  			if any error occurs in the client/server communication.
+	 */
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		

@@ -1,10 +1,6 @@
-/**
- * 
- */
 package it.unipd.dei.bding.erasmusadvisor.servlets;
 
 import it.unipd.dei.bding.erasmusadvisor.beans.LinguaBean;
-import it.unipd.dei.bding.erasmusadvisor.database.CittaDatabase;
 import it.unipd.dei.bding.erasmusadvisor.database.GetLinguaValues;
 import it.unipd.dei.bding.erasmusadvisor.resources.Message;
 
@@ -20,19 +16,36 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.dbutils.DbUtils;
 
 /**
- * Servlet for pre-processing the Insert FORM of a new City
+ * Pre-processes the Insert FORM of a new City.
+ * 
  * It returns the JSP page insert_city.jsp, populated with the
  * required fields
  * 
- * * Notice: Only doGet(..) is allowed here! *
+ * <p> Base URL: /city/insert
  * 
- * Mapped to /city/insert
+ * <p> Accepts: GET
  * 
+ * <p> Operations: (none)
+ * 
+ * @see InsertCityServlet
  * @author Luca
- *
  */
 public class InsertCityServlet extends AbstractDatabaseServlet {
 
+	private static final long serialVersionUID = -4729886437975080823L;
+
+	/**
+	 * Forwards the pre-loaded data to the insert form
+	 * 
+	 * @param request 
+	 * 				request from the client
+	 * @param response 
+	 * 				response to the client 
+	 * @throws ServletException
+	 * 			 	if any error occurs while executing the servlet
+	 * @throws IOException
+	 *  			if any error occurs in the client/server communication.
+	 */
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		
