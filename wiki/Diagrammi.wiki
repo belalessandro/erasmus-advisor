@@ -9,7 +9,7 @@ Qui vengono presentati i diagrammi di architettura delle servlet.
 http://www.websequencediagrams.com/cgi-bin/cdraw?lz=dGl0bGUgR0VUIC91bml2ZXJzaXR5P25hbWU9VW5pcGQKCm5vdGUgbGVmdCBvZiBVABsJU2VydmxldDogZG9HZXQoLi4pCgAMES0-ACcJYURhdGFiYXNlOiBzZWFyY2gAQApNb2RlbEJ5TmFtZSguLiwgbmFtZQBCCwAxCS0tPisAJw86IG5ldwCBCgsARgUoKQCBLgZyaWdoAIEnDgB6C1NFTEVDVCAqIEZST00AFwsgV0hFUkUgbm9tZT0_AG8WAIFKCkJlYW46IHJlc3VsdFNldACBKQtCZWFuAB8MAIEnCHNldACBBAtCZWFuAIJaBwCBAitWYWx1dGF6aW9uaQCBIxUAgmoKAIEqGAAtFQCBPRAADBkAgUAYTGlzdDwAQhk-AIQUCwCDbQUtLT4tAIQLFACDZhQAg20MAIRwCXJldHVybiAAhS0KAIREBQCDZBgAhScKaWYgKHN1Y2Nlc3MpXG4gc2V0QXR0cmlidXRlcwCBEhMrc2hvd18AhhMKLmpzcDogcmVxLgAtDQCFahgtACoVZm9yd2FyZCB0byBKU1AgcGFnZQoAVRMAhFsTPGpzcDpnZXRQcm9wZXJ0eSAuLi4uIC8AglQLAIR1CACBIxUAURUAFRY8Yzpmb3JFYWNoPi4uPC8ABAoAgRMXAIQ8GgCBHBggAIRIHQCCZBQAh0sPAIMGFVNIT1cgVEhFIFBBR0U&s=default&nonsense=something_that_ends_with.png
 
 ||Nome||Descrizione||
-|| UniversityServlet|| è la servlet mappata in "\university" e contenuta nel package *servlets*; si occupa di aprire una *sola* connessione al database e richiuderla correttamente ||
+|| UniversityServlet|| è la servlet mappata in "/university" e contenuta nel package *servlets*; si occupa di aprire una *sola* connessione al database e richiuderla correttamente ||
 || UniversitaDatabase|| è la classe per le operazioni sul database che riguardano Universita; contiene metodi statici con le varie istruzioni SQL, che vengono eseguite sulla Connection passata come parametro ||
 || UniversityModel|| è il data model contenuto nel package *resources*||
 || UniversitaBean|| è l'entity bean contenuto nel package *beans*: esso mappa lo schema della relazione Universita nelle rispettive variabili Java: ci *deve* essere corrispondenza biunivoca con i nomi nel database ||
@@ -42,4 +42,50 @@ show_university.jsp->show_university.jsp: <c:forEach>..</c:forEach>
 show_university.jsp-->ValutazioniUniversitaBean:<jsp:getProperty .... /> 
 ValutazioniUniversitaBean-->show_university.jsp:
 note right of show_university.jsp: SHOW THE PAGE
+</wiki:comment>
+
+
+= Esempio di POST =
+
+http://www.websequencediagrams.com/cgi-bin/cdraw?lz=dGl0bGUgUE9TVCAvdW5pdmVyc2l0eQoKaW5wdXRfAAgKLmpzcC0-VQAZCVNlcnZsZXQ6IFN1Ym1pdHMAPQZGT1JNIApub3RlIGxlZnQgb2YgACATZG9Qb3N0KC4uKQBRFgBTFW9wZXJhdGlvbiA9ICJpbnNlcnQiABQrcGFyYW1ldGVycyBmaWxsZWQgYnkgdXNlcgoAgUMRLT4rAIFfCWFCZWFuOiB1bmkgPSBuZXcAgUUKABUFKCk7ACwUACwTLnNldE5hbWUAgXEFABAjLi4uAC8rTGluawCCSwUAgnYFcmlnaACCZBhCRUdJTiBUUkFOU0FDVElPTgCBYR9EYXRhYmFzZTogY3JlYXRlAIIQCihjb25uLCB1bmkAgUYLAIIrBQCDNQwANgt1bmkuZ2V0Tm9tZSgADCcAgXkNAFQILQBCGwCCBAUAgW4ZAIFDC0lOU0VSVCBJTlRPAINJCwCCcgVhbHQgU3VjY2VzcwogICAALBMAhXQVcmV0dXJuAIJgIkNPTU1JVACEYxRWSUVXOiBzZW5kcyByZWRpcmVjdCB0bwCHDQw_bmFtZT14eHh4eHgAg14PADgGU0hPV1MgVEhFXG5ORVcgVU5JVkVSU0lUWQplbHNlIEVycm9yAIE9GQCCUAoAh1YKdGhyb3dzIFNRTEV4Y2VwdGlvAIFBI1JPTExCQUNLAIFMGmZvcndhcmRzIHRvIHRoZSBFUlJPUiBwYWdlAIE3IAAkBk1FU1NBR0UKZW5kCg&s=default&somethingnosense=.png
+
+||Nome||Descrizione||
+|| insert_university.jsp || è la pagina della *webapp* contenuta in _/jsp_ che contiene il FORM di inserimento. L'utente vi accede da /university/insert e, dopo aver compilato i campi necessari, esegue il POST "submit". ||
+|| UniversityServlet|| è la servlet mappata in "/university" e contenuta nel package *servlets*; si occupa di aprire una *sola* connessione al database e richiuderla correttamente ||
+|| UniversitaDatabase|| è la classe per le operazioni sul database che riguardano Universita; contiene metodi statici con le varie istruzioni SQL, che vengono eseguite sulla Connection passata come parametro ||
+|| UniversitaBean|| è l'entity bean contenuto nel package *beans*: esso mappa lo schema della relazione Universita nelle rispettive variabili Java: ci *deve* essere corrispondenza biunivoca con i nomi nel database ||
+|| VIEW || è l'output che viene visualizzato all'utente ||
+
+
+<wiki:comment>
+https://www.websequencediagrams.com/#
+
+title POST /university
+
+input_university.jsp->UniversityServlet: Submits POST FORM 
+note left of UniversityServlet: doPost(..)
+input_university.jsp-->UniversityServlet: operation = "insert"
+input_university.jsp-->UniversityServlet: parameters filled by user
+UniversityServlet->+UniversitaBean: uni = new UniversitaBean();
+UniversityServlet->UniversitaBean: uni.setName(..)
+UniversityServlet->UniversitaBean: ...
+UniversityServlet->UniversitaBean: uni.setLink(..)
+note right of UniversityServlet: BEGIN TRANSACTION
+UniversityServlet->+UniversitaDatabase: createUniversita(conn, uni)
+UniversitaBean-->UniversitaDatabase: uni.getNome()
+UniversitaBean-->UniversitaDatabase: ...
+UniversitaBean-->-UniversitaDatabase: uni.getLink()
+note right of UniversitaDatabase: INSERT INTO Universita ...
+alt Success
+    UniversitaDatabase->UniversityServlet: return
+note right of UniversityServlet: COMMIT
+UniversityServlet->VIEW: sends redirect to /university?name=xxxxxx
+note right of VIEW: SHOWS THE\nNEW UNIVERSITY
+else Error
+    UniversitaDatabase->-UniversityServlet: throws SQLException
+note right of UniversityServlet: ROLLBACK
+UniversityServlet->VIEW: forwards to the ERROR page
+note right of VIEW: SHOWS THE\nERROR MESSAGE
+end
+
 </wiki:comment>
