@@ -150,9 +150,19 @@
 						</div>
 						<!--Bottone modifica informazioni-->
 						<div class="col-sm-6 column" align="right">
-							<button class="btn btn-primary" data-toggle="modal" data-target="#myModal">
-								<span class="glyphicon glyphicon glyphicon-pencil"></span> Edit your account
-							</button>
+							<div class="btn-group">
+								<button class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+									<span class="glyphicon glyphicon glyphicon-pencil"></span> Edit your account
+								</button>
+							</div>
+							<div class="btn-group">
+								<form  method="post" action="<c:url value="/user/profile"/>" enctype="plain/text" onClick="if(confirm('Are you sure to remove your account?')) alert('You account has been removed!');else return false;">
+									<input name="operation" type="hidden" value="remove" />
+	    							<button type="submit" class="btn btn-primary">
+										<span class="glyphicon glyphicon glyphicon-remove"></span> Remove your account
+									</button>
+								</form>
+							</div>
 						</div>
 
 						<!--Edit form-->

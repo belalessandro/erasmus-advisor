@@ -19,7 +19,7 @@ import org.apache.commons.dbutils.handlers.BeanListHandler;
 
 
 /**
- * @author 
+ * @author Nicola
  *
  *Database operations about "Riconoscimento".
  *
@@ -65,7 +65,7 @@ public class RiconoscimentoDatabase
 	}
 	
 	/**
-	 * Add an acknoledge class to a flow.
+	 * Add an acknowledge class to a flow.
 	 * 
 	 * @param conn A connection to the database.
 	 * @param flowId Flow's id.

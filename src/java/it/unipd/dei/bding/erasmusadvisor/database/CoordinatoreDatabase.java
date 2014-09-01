@@ -46,6 +46,18 @@ public class CoordinatoreDatabase
 		return  run.query(con, sql.toString(), rsh, username);
 	}
 	
+	public static int removeCoordinatore(Connection con, String username) throws SQLException
+	{
+		StringBuilder sql = new StringBuilder() 
+			.append("UPDATE Studente SET attivo = 'false' ")
+			.append("WHERE nomeUtente = ? ; ");
+		
+		QueryRunner run = new QueryRunner();
+		ResultSetHandler<CoordinatoreBean> rsh = new BeanHandler<CoordinatoreBean>(CoordinatoreBean.class);
+		
+		return  run.update(con, sql.toString(), rsh, username);
+	}
+	
 	/**
 	 * Returns the bean of the coordinator's university with the username given.
 	 * 

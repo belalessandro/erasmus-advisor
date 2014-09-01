@@ -41,8 +41,26 @@ import org.apache.commons.dbutils.DbUtils;
  */
 public class UserProfileServlet extends AbstractDatabaseServlet 
 {
-	private static final long serialVersionUID = -7349132696365020115L;
+	/**
+	 * (Autorizzazioni: solo STUDENTE)
+	 * 
+	 * mappato su /student/profile
+	 * 
+	 * quando riceve GET
+	 * 			-> ritorna su user_profile.jsp tutti i campi collegati allo studente loggato
+	 * 
+	 * 
+	 * quando riceve POST
+	 *   		-> Se operazione è "update" modifica i campi relativi allo studente loggato
+	 *   		-> Se l'operazione e' "remove" imposta a false il campo "attivo" dell'utente.
+	 *   
+	 *   @author: luca
+	 */
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7349132696365020115L;
 	/**
 	 * Operation constants
 	 */
@@ -181,6 +199,10 @@ public class UserProfileServlet extends AbstractDatabaseServlet
 		{
 			edit(lu, req, resp);
 		}
+		else if (operation.equals("remove")) 
+		{
+			remove(lu, req, resp);
+		}
 	}
 	
 	/**
@@ -313,6 +335,71 @@ public class UserProfileServlet extends AbstractDatabaseServlet
 			con = null;
 		}
 	}
+	
+	/**
+	 * Disable an user.
+	 * 
+	 * @param lu A logged User.
+	 * @param request An HttpServletRequest.
+	 * @param response An HttpServletResponse.
+	 * @throws ServletException
+	 * @throws IOException If an error occurs.
+	 */
+	private void remove(LoggedUser lu, HttpServletRequest request, HttpServletResponse response) 
+			throws ServletException, IOException {
+				// required variables
+				Connection con = null;
+				Message m = null;
+				
+				try {
+					if(lu.isCoord())
+					{
+						// get the connection
+						con = DS.getConnection();
+						//disable an erasmus' manager.
+						CoordinatoreDatabase.removeCoordinatore(con, lu.getUser());
+					}
+					else if(lu.isFlowResp())
+					{
+						// get the connection
+						con = DS.getConnection();
+						//disable a flow's manager.
+						ResponsabileFlussoDatabase.disableResponsabileFlusso(con, lu.getUser());
+					}
+					else if(lu.isStudent())
+					{
+						// get the connection
+						con = DS.getConnection();
+						
+						StudenteDatabase.disableStudente(con, lu.getUser());
+						
+						DbUtils.close(con);
+						
+						// Creating response path
+						StringBuilder builder = new StringBuilder()
+								.append(request.getContextPath())
+								.append("/jsp/home.jsp");
+						response.sendRedirect(builder.toString());
+					}
+					
+					DbUtils.close(con);
+				} catch (SQLException e) {
+					
+					// TODO: manage the case ERROR CODE = EA003
+					
+					// Error
+					m = new Message("Error while editing user profile.", String.valueOf(e.getErrorCode()) + " " +  e.getSQLState() , e.getMessage());
+					request.setAttribute("message", m);
+					errorForward(request, response);
+					return;
+				} finally {
+					DbUtils.closeQuietly(con);
+					con = null;
+				}
+		
+		
+	}
+	
 
 	/**
      * Handles error forwarding between pages.
