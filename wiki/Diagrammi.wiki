@@ -2,10 +2,12 @@
 
 = Introduzione =
 
-Qui vengono presentati i diagrammi di architettura delle servlet.
-
+Qui vengono presentati dei diagrammi di esempio che illustrano l’architettura adottata nelle servlet.
 
 = Esempio di GET =
+
+In questo esempio, si suppone che un browser client voglia visualizzare i dettagli completi di una specifica università: esso non deve far altro che inviare una richiesta HTTP GET all’indirizzo “/university”, specificandone il nome attraverso il parametro “name”. Sarà compito della Servlet gestire la richiesta e visualizzare quanto richiesto.
+
 http://www.websequencediagrams.com/cgi-bin/cdraw?lz=dGl0bGUgR0VUIC91bml2ZXJzaXR5P25hbWU9VW5pcGQKCm5vdGUgbGVmdCBvZiBVABsJU2VydmxldDogZG9HZXQoLi4pCgAMES0-ACcJYURhdGFiYXNlOiBzZWFyY2gAQApNb2RlbEJ5TmFtZSguLiwgbmFtZQBCCwAxCS0tPisAJw86IG5ldwCBCgsARgUoKQCBLgZyaWdoAIEnDgB6C1NFTEVDVCAqIEZST00AFwsgV0hFUkUgbm9tZT0_AG8WAIFKCkJlYW46IHJlc3VsdFNldACBKQtCZWFuAB8MAIEnCHNldACBBAtCZWFuAIJaBwCBAitWYWx1dGF6aW9uaQCBIxUAgmoKAIEqGAAtFQCBPRAADBkAgUAYTGlzdDwAQhk-AIQUCwCDbQUtLT4tAIQLFACDZhQAg20MAIRwCXJldHVybiAAhS0KAIREBQCDZBgAhScKaWYgKHN1Y2Nlc3MpXG4gc2V0QXR0cmlidXRlcwCBEhMrc2hvd18AhhMKLmpzcDogcmVxLgAtDQCFahgtACoVZm9yd2FyZCB0byBKU1AgcGFnZQoAVRMAhFsTPGpzcDpnZXRQcm9wZXJ0eSAuLi4uIC8AglQLAIR1CACBIxUAURUAFRY8Yzpmb3JFYWNoPi4uPC8ABAoAgRMXAIQ8GgCBHBggAIRIHQCCZBQAh0sPAIMGFVNIT1cgVEhFIFBBR0U&s=default&nonsense=something_that_ends_with.png
 
 ||Nome||Descrizione||
@@ -46,6 +48,8 @@ note right of show_university.jsp: SHOW THE PAGE
 
 
 = Esempio di POST =
+
+In questo esempio, si suppone che l’utente abbia compilato i campi di un FORM (ad es. di una pagina di inserimento precedentemente richiesta) e lo abbia sottomesso attraverso una richiesta HTTP POST all’indirizzo “/university”, specificando un’operazione di “insert”. La servlet gestisce l’operazione, visualizzando al termine la pagina con i dettagli dell’università appena inserita, oppure un messaggio di errore.
 
 http://www.websequencediagrams.com/cgi-bin/cdraw?lz=dGl0bGUgUE9TVCAvdW5pdmVyc2l0eQoKaW5wdXRfAAgKLmpzcC0-VQAZCVNlcnZsZXQ6IFN1Ym1pdHMAPQZGT1JNIApub3RlIGxlZnQgb2YgACATZG9Qb3N0KC4uKQBRFgBTFW9wZXJhdGlvbiA9ICJpbnNlcnQiABQrcGFyYW1ldGVycyBmaWxsZWQgYnkgdXNlcgoAgUMRLT4rAIFfCWFCZWFuOiB1bmkgPSBuZXcAgUUKABUFKCk7ACwUACwTLnNldE5hbWUAgXEFABAjLi4uAC8rTGluawCCSwUAgnYFcmlnaACCZBhCRUdJTiBUUkFOU0FDVElPTgCBYR9EYXRhYmFzZTogY3JlYXRlAIIQCihjb25uLCB1bmkAgUYLAIIrBQCDNQwANgt1bmkuZ2V0Tm9tZSgADCcAgXkNAFQILQBCGwCCBAUAgW4ZAIFDC0lOU0VSVCBJTlRPAINJCwCCcgVhbHQgU3VjY2VzcwogICAALBMAhXQVcmV0dXJuAIJgIkNPTU1JVACEYxRWSUVXOiBzZW5kcyByZWRpcmVjdCB0bwCHDQw_bmFtZT14eHh4eHgAg14PADgGU0hPV1MgVEhFXG5ORVcgVU5JVkVSU0lUWQplbHNlIEVycm9yAIE9GQCCUAoAh1YKdGhyb3dzIFNRTEV4Y2VwdGlvAIFBI1JPTExCQUNLAIFMGmZvcndhcmRzIHRvIHRoZSBFUlJPUiBwYWdlAIE3IAAkBk1FU1NBR0UKZW5kCg&s=default&somethingnosense=.png
 
