@@ -83,12 +83,12 @@
 	
 
 	<servlet>
-		<servlet-name>StudentProfileServlet</servlet-name>
-		<servlet-class>it.unipd.dei.bding.erasmusadvisor.servlets.StudentProfileServlet</servlet-class>
+		<servlet-name>UserProfileServlet</servlet-name>
+		<servlet-class>it.unipd.dei.bding.erasmusadvisor.servlets.UserProfileServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
-		<servlet-name>StudentProfileServlet</servlet-name>
-		<url-pattern>/student/profile</url-pattern>
+		<servlet-name>UserProfileServlet</servlet-name>
+		<url-pattern>/user/profile</url-pattern>
 	</servlet-mapping>
 	
 	<servlet>
