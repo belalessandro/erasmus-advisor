@@ -101,10 +101,8 @@
 		// mauro: necessario per visualizzare nel format-date giusto
 		var inizio = "<c:out value="${subscription.annoInizio}"/>";
 		var fine = "<c:out value="${subscription.annoFine}"/>";
-		var i = inizio.split("-");
-		var f = fine.split("-");
-		$( "#datepicker" ).datepicker( "setDate", i[2] + "-" + i[1] + "-" + i[0]);
-		$( "#datepicker2" ).datepicker( "setDate", f[2] + "-" + f[1] + "-" + f[0]);
+		$( "#datepicker" ).datepicker( "setDate", inizio);
+		$( "#datepicker2" ).datepicker( "setDate", fine);
 	}); // and ready function
 	
 	
@@ -139,6 +137,13 @@
 				</div>
 			</c:if>
 
+			<!-- Avviso di date sovrapposte -->
+			<c:if test="${!empty param.error && param.error == 'overlapping'}">
+				<div class="alert alert-danger alert-dismissible" role="alert" >
+				  <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+				  <h4 class="text-center">Error! From and To dates overlap with a previous course! Try again with correct dates.</h4>
+				</div>
+			</c:if>
 
 			<div class="panel panel-default">
 				<!-- Default panel contents -->
@@ -204,10 +209,10 @@
 													<div class="col-lg-5"></div>
 													<div class="col-lg-7">
 															<div class="input-group sign_in_input_group">
-																<span class="input-group-addon sign_in_input_small">From</span><input data-date-format="dd-mm-yyyy" type="text" class="form-control"  id="datepicker" name="date_from" />
+																<span class="input-group-addon sign_in_input_small">From</span><input data-date-format="yyyy-mm-dd" type="text" class="form-control"  id="datepicker" name="date_from" />
 															</div>
 															<div class="input-group sign_in_input_group">
-																<span class="input-group-addon sign_in_input_small">To</span><input data-date-format="dd-mm-yyyy" type="text" class="form-control" id="datepicker2" name="date_to" />
+																<span class="input-group-addon sign_in_input_small">To</span><input data-date-format="yyyy-mm-dd" type="text" class="form-control" id="datepicker2" name="date_to" />
 															</div>
 <!-- 														<div class="input-group sign_in_input_group"> -->
 <!-- 														<span class="input-group-addon sign_in_input_small">From</span> -->
@@ -479,6 +484,7 @@
 					</c:otherwise>
 				</c:choose>
 			</c:if>
+			
 		</div>
 	</div>
 	<!-- footer -->

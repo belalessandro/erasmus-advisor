@@ -12,6 +12,7 @@ import java.util.List;
 import org.apache.commons.dbutils.DbUtils;
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.ResultSetHandler;
+import org.apache.commons.dbutils.handlers.BeanHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
 
 /**
@@ -82,4 +83,35 @@ public class CorsoDiLaureaDatabase  {
 
 		return list;
 	}
+	
+	/**
+	 * Method used for getting a course id with the name, level and university given.
+	 * 
+	 * @param con database connection
+	 * @param courseName name of the course
+	 * @param level level of the course
+	 * @param universityName university of the course
+	 * @return the id of the course
+	 * @throws SQLException
+	 */
+	public static int getCourseId(Connection con, String courseName, String level, String universityName) throws SQLException
+	{
+		final String sql = "SELECT id FROM CorsoDiLaurea WHERE Nome = ? AND Livello = CAST(? AS TIPOLAUREA) AND nomeUniversita = ?;";
+		int id = 0;
+		CorsoDiLaureaBean course = null;
+		
+		
+		QueryRunner run = new QueryRunner();
+		ResultSetHandler<CorsoDiLaureaBean> rsh = new BeanHandler<CorsoDiLaureaBean>(CorsoDiLaureaBean.class);
+		
+		course = run.query(con, sql, rsh, courseName, level, universityName);
+		
+		if(course == null)
+			id = 0;
+		else
+			id = course.getId();
+		
+		return id;
+	}
+	
 }
