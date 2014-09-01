@@ -48,6 +48,7 @@ public class UserBean implements Serializable {
 	public UserBean(UserBean user, int type) {
 		this.email = user.email;
 		this.password = user.password;
+		this.nomeUtente = user.nomeUtente;
 		this.salt = user.salt;
 
 		if (type == 0) {
