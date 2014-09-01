@@ -51,7 +51,7 @@ note right of show_university.jsp: SHOW THE PAGE
 
 In questo esempio, si suppone che l’utente abbia compilato i campi di un FORM (ad es. di una pagina di inserimento precedentemente richiesta) e lo abbia sottomesso attraverso una richiesta HTTP POST all’indirizzo “/university”, specificando un’operazione di “insert”. La servlet gestisce l’operazione, visualizzando al termine la pagina con i dettagli dell’università appena inserita, oppure un messaggio di errore.
 
-http://www.websequencediagrams.com/cgi-bin/cdraw?lz=dGl0bGUgUE9TVCAvdW5pdmVyc2l0eQoKaW5wdXRfAAgKLmpzcC0-VQAZCVNlcnZsZXQ6IFN1Ym1pdHMAPQZGT1JNIApub3RlIGxlZnQgb2YgACATZG9Qb3N0KC4uKQBRFgBTFW9wZXJhdGlvbiA9ICJpbnNlcnQiABQrcGFyYW1ldGVycyBmaWxsZWQgYnkgdXNlcgoAgUMRLT4rAIFfCWFCZWFuOiB1bmkgPSBuZXcAgUUKABUFKCk7ACwUACwTLnNldE5hbWUAgXEFABAjLi4uAC8rTGluawCCSwUAgnYFcmlnaACCZBhCRUdJTiBUUkFOU0FDVElPTgCBYR9EYXRhYmFzZTogY3JlYXRlAIIQCihjb25uLCB1bmkAgUYLAIIrBQCDNQwANgt1bmkuZ2V0Tm9tZSgADCcAgXkNAFQILQBCGwCCBAUAgW4ZAIFDC0lOU0VSVCBJTlRPAINJCwCCcgVhbHQgU3VjY2VzcwogICAALBMAhXQVcmV0dXJuAIJgIkNPTU1JVACEYxRWSUVXOiBzZW5kcyByZWRpcmVjdCB0bwCHDQw_bmFtZT14eHh4eHgAg14PADgGU0hPV1MgVEhFXG5ORVcgVU5JVkVSU0lUWQplbHNlIEVycm9yAIE9GQCCUAoAh1YKdGhyb3dzIFNRTEV4Y2VwdGlvAIFBI1JPTExCQUNLAIFMGmZvcndhcmRzIHRvIHRoZSBFUlJPUiBwYWdlAIE3IAAkBk1FU1NBR0UKZW5kCg&s=default&somethingnosense=.png
+http://www.websequencediagrams.com/cgi-bin/cdraw?lz=dGl0bGUgUE9TVCAvdW5pdmVyc2l0eQoKaW5zZXJ0XwAJCi5qc3AtPlUAGglTZXJ2bGV0OiBTdWJtaXRzAD4GRk9STSAKbm90ZSBsZWZ0IG9mIAAgE2RvUG9zdCguLikAURcAVBVvcGVyYXRpb24gPSAiAIEaBiIAFCxwYXJhbWV0ZXJzIGZpbGxlZCBieSB1c2VyCgCBRREtPisAgWEJYUJlYW46IHVuaSA9IG5ldwCBRwoAFQUoKTsALBQALBMuc2V0TmFtZQCBcwUAECMuLi4ALytMaW5rAIJNBQCCeAVyaWdoAIJmGEJFR0lOIFRSQU5TQUNUSU9OAIFhH0RhdGFiYXNlOiBjcmVhdGUAghAKKGNvbm4sIHVuaQCBRgsAgisFAIM2DAA2C3VuaS5nZXROb21lKAAMJwCBeQ0AVAgtAEIbAIIEBQCBbhkAgUMLSU5TRVJUIElOVE8Ag0kLAIJyBWFsdCBTdWNjZXNzCiAgIAAsEwCFdhVyZXR1cm4AgmAiQ09NTUlUAIRjFFZJRVc6IHNlbmRzIHJlZGlyZWN0IHRvAIcQDD9uYW1lPXh4eHh4eACDXg8AOAZTSE9XUyBUSEVcbk5FVyBVTklWRVJTSVRZCmVsc2UgRXJyb3IAgT0ZAIJQCgCHWAp0aHJvd3MgU1FMRXhjZXB0aW8AgUEjUk9MTEJBQ0sAgUwaZm9yd2FyZHMgdG8gdGhlIEVSUk9SIHBhZ2UAgTcgACQGTUVTU0FHRQplbmQ&s=default&s=default&somethingnosense=.png
 
 ||Nome||Descrizione||
 || insert_university.jsp || è la pagina della *webapp* contenuta in _/jsp_ che contiene il FORM di inserimento. L'utente vi accede da /university/insert e, dopo aver compilato i campi necessari, esegue il POST "submit". ||
@@ -66,10 +66,10 @@ https://www.websequencediagrams.com/#
 
 title POST /university
 
-input_university.jsp->UniversityServlet: Submits POST FORM 
+insert_university.jsp->UniversityServlet: Submits POST FORM 
 note left of UniversityServlet: doPost(..)
-input_university.jsp-->UniversityServlet: operation = "insert"
-input_university.jsp-->UniversityServlet: parameters filled by user
+insert_university.jsp-->UniversityServlet: operation = "insert"
+insert_university.jsp-->UniversityServlet: parameters filled by user
 UniversityServlet->+UniversitaBean: uni = new UniversitaBean();
 UniversityServlet->UniversitaBean: uni.setName(..)
 UniversityServlet->UniversitaBean: ...
