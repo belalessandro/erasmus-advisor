@@ -54,7 +54,7 @@ public class CourseServlet extends AbstractDatabaseServlet {
 	 * @throws IOException
 	 *  			if any error occurs in the client/server communication.
 	 */
-	public void doPost(HttpServletRequest req, HttpServletResponse resp)
+	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		// get the operation
 		String operation = req.getParameter("operation");

@@ -48,7 +48,7 @@ public class SignInServlet extends AbstractDatabaseServlet {
 	 * @throws IOException
 	 *  			if any error occurs in the client/server communication.
 	 */
-	public void doGet(HttpServletRequest request, HttpServletResponse response)
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// luca: il get restituisce il form, il post processa il sign in
 		// non facciamo porcherie con doPost che chiam il doGet
@@ -87,7 +87,7 @@ public class SignInServlet extends AbstractDatabaseServlet {
 	 * @throws IOException
 	 *  			if any error occurs in the client/server communication.
 	 */
-	public void doPost(HttpServletRequest request, HttpServletResponse response)
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
 		String username = (String) request.getAttribute("user");
