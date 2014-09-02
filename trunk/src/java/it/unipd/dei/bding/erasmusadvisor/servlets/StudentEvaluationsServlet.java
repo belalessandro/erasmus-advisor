@@ -12,7 +12,6 @@ import it.unipd.dei.bding.erasmusadvisor.database.ValutazioneTesiDatabase;
 import it.unipd.dei.bding.erasmusadvisor.database.ValutazioneUniversitaDatabase;
 import it.unipd.dei.bding.erasmusadvisor.resources.LoggedUser;
 import it.unipd.dei.bding.erasmusadvisor.resources.Message;
-import it.unipd.dei.bding.erasmusadvisor.resources.UserType;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -22,6 +21,7 @@ import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.dbutils.DbUtils;
 
@@ -56,12 +56,29 @@ public class StudentEvaluationsServlet extends AbstractDatabaseServlet
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException 
 	{
+		
+
+		// Gets operation parameter
+		String operation = req.getParameter("operation");
+		
+		// Gets user from session
+		HttpSession session = req.getSession();
+		LoggedUser lu = (LoggedUser) session.getAttribute("loggedUser");
+		
+		/**
+		 * Authorization check. Permissions required: STUDENT
+		 */
+		if (!lu.isStudent() || operation == null || operation.isEmpty() ) {
+			req.setAttribute("message", 
+					new Message("Not authorized or operation not allowed", "E200", ""));
+			errorForward(req, resp);
+			return;
+		} 
+		
+		
 		// Database Connection
 		Connection conn = null;
 		Message m = null;
-
-		// TODO: DA SESSIONE
-		LoggedUser lu = new LoggedUser(UserType.STUDENTE, "JuventinoDOC"); 
 		
 		// Data model
 		List<ValutazioneCittaBean> cities = null;
@@ -103,4 +120,26 @@ public class StudentEvaluationsServlet extends AbstractDatabaseServlet
 			getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(req, resp);
 		}
 	}
+	
+
+
+	
+	/**
+     * Handles error forwarding between pages.
+     * 
+	 * @param request 
+	 * 				request from the client
+	 * @param response 
+	 * 				response to the client 
+	 * @throws ServletException
+	 * 			 	if any error occurs while executing the servlet
+	 * @throws IOException
+	 *  			if any error occurs in the client/server communication.
+	 */
+    private void errorForward(HttpServletRequest request, HttpServletResponse response) 
+    		throws ServletException, IOException  {
+    		
+    	getServletContext().getRequestDispatcher("/jsp/error.jsp")
+    		.forward(request, response); // ERROR PAGE
+    }
 }
