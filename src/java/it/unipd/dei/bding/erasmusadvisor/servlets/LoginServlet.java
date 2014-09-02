@@ -6,13 +6,10 @@ import it.unipd.dei.bding.erasmusadvisor.resources.LoggedUser;
 import it.unipd.dei.bding.erasmusadvisor.resources.Message;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -23,7 +20,7 @@ import org.apache.commons.dbutils.DbUtils;
  * Servlet used for managing student's, coordinator's and flowmanager's
  * login. 
  * 
- * <p> Base URL: /student/interests
+ * <p> Base URL: /login
  * 
  * <p> Accepts: POST
  * 
