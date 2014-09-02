@@ -50,10 +50,24 @@ public class SignInServlet extends AbstractDatabaseServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// luca: il get restituisce il form, il post processa il sign in
-		// non facciamo porcherie con doPost che chiam il doGet
-		request.getRequestDispatcher("/jsp/sign_in.jsp").forward(request,
-				response);
+		// Gets the current session (if exists)
+		HttpSession session = request.getSession(false);
+		
+		// Checks if User is already logged! 
+		if (session != null && session.getAttribute("loggedUser") != null) {
+			// He has to do the Logout first!
+			
+			StringBuilder builder = new StringBuilder()
+				.append(request.getContextPath() + "/index");
+			
+			// Redirect to index
+			response.sendRedirect(builder.toString());
+			
+		} else { // Ok.. proceeds with the signin FORM
+
+			request.getRequestDispatcher("/jsp/sign_in.jsp").forward(request,
+					response);
+		}
 
 	}
 
@@ -90,7 +104,19 @@ public class SignInServlet extends AbstractDatabaseServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		String username = (String) request.getAttribute("user");
+		// Gets the current session (if exists)
+		HttpSession session = request.getSession(false);
+		
+		// Check: User must not be already logged! 
+		if (session != null && session.getAttribute("loggedUser") != null) {
+			request.setAttribute("message", new Message("Operation impossibile.",
+					"E200", "A logged user can not post a new signin!"));
+			errorForward(request, response); // Error forward!
+			return;
+		}
+
+		// Parameters
+		String username = (String) request.getParameter("user");
 		Message m = null;
 		UserType auth = UserType.STUDENTE;
 
@@ -109,7 +135,7 @@ public class SignInServlet extends AbstractDatabaseServlet {
 				SecureRandom random = new SecureRandom();
 				s.setSalt("" + random.nextLong());
 				s.setPassword(hashPassword(s.getPassword(), s.getSalt()));
-				s.setNomeUtente(request.getParameter("user"));
+				s.setNomeUtente(username);
 				s.setAbilitato(false);
 				s.setAttivo(true);
 
@@ -127,14 +153,14 @@ public class SignInServlet extends AbstractDatabaseServlet {
 				SecureRandom random = new SecureRandom();
 				s.setSalt("" + random.nextLong());
 				s.setPassword(hashPassword(s.getPassword(), s.getSalt()));
-				s.setNomeUtente(request.getParameter("user"));
+				s.setNomeUtente(username);
 
 				new CreateStudenteDatabase(DS.getConnection(), s)
 						.createStudente();
 			}
 
 			LoggedUser logged = new LoggedUser(auth, username);
-			HttpSession session = request.getSession();
+			session = request.getSession();
 			session.setAttribute("loggedUser", logged);
 
 		} catch (NumberFormatException ex) {
@@ -162,10 +188,30 @@ public class SignInServlet extends AbstractDatabaseServlet {
 			getServletContext().getRequestDispatcher("/jsp/index.jsp").forward(
 					request, response);
 		} else {
-			// come back to sign_in JSP
+			// Error Page
 			request.setAttribute("message", m);
-			request.getRequestDispatcher("/jsp/sign_in.jsp").forward(request,
-					response);
+			errorForward(request, response);
 		}
 	}
+	
+
+    /**
+     * Handles error forwarding between pages.
+     * 
+	 * @param request 
+	 * 				request from the client
+	 * @param response 
+	 * 				response to the client 
+	 * @throws ServletException
+	 * 			 	if any error occurs while executing the servlet
+	 * @throws IOException
+	 *  			if any error occurs in the client/server communication.
+	 */
+    private void errorForward(HttpServletRequest request, HttpServletResponse response) 
+    		throws ServletException, IOException  {
+    	// Error management
+    		
+    	request.getServletContext().getRequestDispatcher("/jsp/error.jsp")
+    		.forward(request, response); // ERROR PAGE
+    }
 }

@@ -48,13 +48,27 @@ public class LoginServlet extends AbstractDatabaseServlet {
 	protected void doPost(HttpServletRequest request,HttpServletResponse response) 
 			throws ServletException, IOException 
 	{
+		// Gets the current session (if exists)
+		HttpSession session = request.getSession(false);
+		
+		// Check: User must not be already logged! 
+		if (session != null && session.getAttribute("loggedUser") != null) {
+			request.setAttribute("message", new Message("Operation impossibile.",
+					"E200", "You must logout, before doing another login!"));
+			errorForward(request, response); // Error forward!
+			return;
+		}
+		
 		response.setContentType("text/html;charset=UTF-8");
 
+		// Parameters
 		String email = request.getParameter("email");
 		String pass = request.getParameter("pass");
 
+		// The connection
 		Connection conn = null;
 
+		// models
 		Message m = null;
 
 		try {
@@ -74,7 +88,7 @@ public class LoginServlet extends AbstractDatabaseServlet {
 						// TODO: deve aggiornare l'ultimo accesso nel database!!!!
 						
 						//Starts the session
-						HttpSession session = request.getSession(true);
+						session = request.getSession(true);
 						LoggedUser logged = new LoggedUser(user.getType(), user.getNomeUtente());
 						session.setAttribute("loggedUser", logged);
 						
@@ -98,7 +112,7 @@ public class LoginServlet extends AbstractDatabaseServlet {
 			}
 		} 
 		catch (SQLException e) {
-			m = new Message("Email or password incorrect!");
+			m = new Message("Email or password incorrect!", "E200", "Retry, please.");
 			request.setAttribute("message", m);
 			errorForward(request, response);
 		} 
