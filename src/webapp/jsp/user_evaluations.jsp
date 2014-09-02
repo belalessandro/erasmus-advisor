@@ -13,6 +13,7 @@
 	<!-- CSS -->
 	<link href="<c:url value="/css"/>/ea-main.css" rel="stylesheet">
 	<link href="<c:url value="/css"/>/bootstrap.min.css" rel="stylesheet">
+	<link href="<c:url value="/fonts"/>/font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet">
 		
 	<!-- Javascript -->
 	<script src="<c:url value="/js"/>/bootstrap.min.js"></script>

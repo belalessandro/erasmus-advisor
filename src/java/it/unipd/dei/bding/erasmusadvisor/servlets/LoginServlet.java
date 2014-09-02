@@ -80,13 +80,13 @@ public class LoginServlet extends AbstractDatabaseServlet {
 						session.setAttribute("loggedUser", logged);
 						
 						// luca: traferisce il controllo alla index
-						getServletContext().getRequestDispatcher("/jsp/index.jsp").forward(request, response);
+						//getServletContext().getRequestDispatcher("/jsp/index.jsp").forward(request, response);
 						
-						//StringBuilder builder = new StringBuilder()
-						//.append("/erasmus-advisor/index");
+						StringBuilder builder = new StringBuilder()
+						.append("/erasmus-advisor/index");
 				
-						//response.sendRedirect(builder.toString());
-						//return;
+						response.sendRedirect(builder.toString());
+						return;
 					}
 				} 
 				catch (IllegalStateException e) {

@@ -60,8 +60,7 @@ public class IndexServlet extends AbstractDatabaseServlet {
 
 		try {
 			conn = DS.getConnection();
-			interests = InteresseDatabase.getInterestInformationsFromUser(conn, 
-					lu.getUser());
+			interests = InteresseDatabase.getInterestInformationsFromUser(conn,lu.getUser());
 		} catch (SQLException ex) {
 			m = new Message("Error while getting the index page.", "",
 					ex.getMessage());
@@ -75,12 +74,12 @@ public class IndexServlet extends AbstractDatabaseServlet {
 		 */
 		if (m == null) {
 			req.setAttribute("interests", interests);
-			getServletContext().getRequestDispatcher("/jsp/index.jsp").forward(
-					req, resp);
-		} else {
+			
+			getServletContext().getRequestDispatcher("/jsp/index.jsp").forward(req, resp);
+		} 
+		else {
 			req.setAttribute("message", m);
-			getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(
-					req, resp);
+			getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(req, resp);
 		}
 	}
 }
