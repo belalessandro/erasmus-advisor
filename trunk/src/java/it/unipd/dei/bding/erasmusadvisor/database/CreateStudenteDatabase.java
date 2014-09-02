@@ -7,7 +7,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 /**
- * Creates a new "Studente" into the database.
+ * Creates a new "Studente" into the database and closes the connection.
  * 
  * @author Alessandro
  */

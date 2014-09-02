@@ -7,7 +7,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 /**
- * Creates a new "Studente" into the database.
+ * Creates a new "ResponsabileFlusso" into the database and closes the connection.
  * 
  * @author Fede
  */
@@ -70,6 +70,8 @@ public class CreateResponsabileDatabase {
 			pstmt.execute();
 			
 			if(responsabile.getNomeUniversita()!=null && pstmt != null){
+				pstmt.close(); // the previous
+				
 				pstmt = con.prepareStatement(UNISTMT);
 				pstmt.setString(1, responsabile.getNomeUniversita());
 				pstmt.setString(2, responsabile.getNomeUtente());
