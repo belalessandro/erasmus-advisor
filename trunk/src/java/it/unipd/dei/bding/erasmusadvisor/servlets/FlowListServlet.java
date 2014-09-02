@@ -93,8 +93,6 @@ public class FlowListServlet extends AbstractDatabaseServlet
 	private void search(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		
-		// TODO: DA SESSIONE --> Nicola: done! 
-		
 		HttpSession session = req.getSession();
 		LoggedUser lu = (LoggedUser) session.getAttribute("loggedUser");
 
@@ -138,7 +136,7 @@ public class FlowListServlet extends AbstractDatabaseServlet
 			
 		} catch (SQLException ex) {
 			m = new Message("Error while getting the flow list.",
-					"XXX", ex.getMessage());
+					"E200", ex.getMessage());
 			req.setAttribute("message", m);
 			errorForward(req, resp);
 			return;
