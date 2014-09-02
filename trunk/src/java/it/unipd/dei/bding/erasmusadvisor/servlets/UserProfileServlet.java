@@ -101,14 +101,23 @@ public class UserProfileServlet extends AbstractDatabaseServlet
 		TODO LoggedUser lu = (LoggedUser)req.getSession().getAttribute("loggedUser");*/
 		
 		
-//		HttpSession session = req.getSession();
-//		LoggedUser lu = (LoggedUser) session.getAttribute("loggedUser");
+		HttpSession session = req.getSession();
+		LoggedUser lu = (LoggedUser) session.getAttribute("loggedUser");
 		
-		LoggedUser lu = new LoggedUser(UserType.STUDENTE, "mario.rossi");
+//		LoggedUser lu = new LoggedUser(UserType.STUDENTE, "mario.rossi");
 //		LoggedUser lu = new LoggedUser(UserType.RESPONSABILE, "erick.burn");
 //		LoggedUser lu = new LoggedUser(UserType.COORDINATORE, "ErasmusCoordinator");
 		
-		
+//		PrintWriter w = resp.getWriter();
+//		
+//		w.println("<html>");
+//		w.println("<body>");
+//		w.println("<p>" + lu.getUser() + "</p>");
+//		w.println("<p>" + lu.isStudent() + "</p>");
+//		w.println("</body>");
+//		w.println("</html>");
+//		w.flush();
+//		w.close();
 		try {
 			con = DS.getConnection();
 			

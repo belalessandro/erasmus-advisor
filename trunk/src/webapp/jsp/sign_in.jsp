@@ -106,6 +106,7 @@
 	// gestisce i controlli visualizzati in base al tipo di account desiderato
 		function userTypeSelection()
 		{
+			
 			document.registration.setAttribute("style", "display: inline;");
 			
 			if (document.getElementById("typeStudent").checked)
@@ -115,6 +116,10 @@
 				
 				document.getElementById("form_name").setAttribute("style", "display: none;");
 				document.getElementById("form_surname").setAttribute("style", "display: none;");
+				
+				// modify hidden params
+				document.getElementById("userTypeSelected").setAttribute("name", "userType");
+				document.getElementById("userTypeSelected").setAttribute("value", "Student");
 			}
 			else if (document.getElementById("typeManager").checked)
 			{
@@ -123,6 +128,10 @@
 	
 				document.getElementById("form_degree_course").setAttribute("style", "display: none;");
 				document.getElementById("form_dates").setAttribute("style", "display: none;");
+				
+				// modify hidden params
+				document.getElementById("userTypeSelected").setAttribute("name", "userType");
+				document.getElementById("userTypeSelected").setAttribute("value", "Manager");
 			}
 		}
 	</script>
@@ -224,6 +233,8 @@
 					</div>
 					<input type="submit" class="btn btn-primary" value="Register Now!">
 				</div>
+				<!-- Hidden params -->
+				<input type="hidden" id="userTypeSelected" />
 			</form>
 		</div>
 		<div class ="col-md-2"></div>
