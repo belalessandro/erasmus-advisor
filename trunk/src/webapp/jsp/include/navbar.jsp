@@ -14,7 +14,11 @@
 		<c:if test="${param.pageName != 'sign_in'}">
 			<li><a href="<c:url value="/notifications"/>">Notifications</a></li>
 			<li><a href="<c:url value="/user/profile"/>">Account</a></li>
-			<li><a href="<c:url value="/logout"/>"><span class="fa fa-sign-out fa-fw"></span>Logout</a></li>
+			<li>
+				<form method="post" action ="<c:url value="/logout"/>">
+					<button type="submit" class="navbar_submit"><span class="fa fa-sign-out fa-fw"></span>Logout</button>
+				</form>
+			</li>
 		</c:if>
 	</ul>
 </div>
