@@ -35,10 +35,6 @@ public class StudenteDatabase
 	{
 		final String statement1 = "SELECT * FROM Studente WHERE nomeutente = ?";
 		final String statement2 = "SELECT * FROM Iscrizione WHERE nomeutentestudente = ?";
-		// TODO: mauro: fare in modo che venga visualizzata l'ultima iscrizione effettuata
-//		final String statement2 = "SELECT I1.idCorso, I1.nomeUtenteStudente, I1.annoInizio, I1.annoFine "
-//				+ "FROM Iscrizione AS I1 JOIN Iscrizione AS I2 ON I1.NomeUtenteStudente = I2.NomeUtenteStudente "
-//				+ "WHERE I1.annoInizio > I2.annofine AND I1.nomeUtenteStudente = ?;";
 		final String statement3 = "SELECT * FROM CorsoDiLaurea WHERE id = ?";
 		
 		StudenteBean studente = new StudenteBean();
@@ -103,7 +99,6 @@ public class StudenteDatabase
 			pstmt3.setDate(4, iscrizione.getAnnoFine());
 			
 			pstmt1.executeUpdate();
-			pstmt2.execute();
 			
 			con.commit();
 			
@@ -149,13 +144,13 @@ public class StudenteDatabase
 	public static void updateStudent(Connection con, StudenteBean studente) throws SQLException 
 	{
 		StringBuilder sql = new StringBuilder()
-		.append("UPDATE Studente SET email = ?, dataregistrazione = ?, password = ?, attivo = 't' ")
+		.append("UPDATE Studente SET email = ?, dataregistrazione = ?, password = ?, salt = ?, attivo = 't' ")
 		.append("WHERE nomeutente = ?;");
 		
 		QueryRunner run = new QueryRunner();
 		
 		run.update(con, sql.toString(), studente.getEmail(), studente.getDataRegistrazione(), 
-				studente.getPassword(),studente.getNomeUtente());
+				studente.getPassword(), studente.getSalt(), studente.getNomeUtente());
 	}
 	
 	/**
@@ -172,6 +167,27 @@ public class StudenteDatabase
 		QueryRunner run = new QueryRunner();
 		
 		run.update(con, sql, username);
+	}
+
+	/**
+	 * Method used for creating a new Studente instance into 
+	 * the database.
+	 * 
+	 * @param con database connection
+	 * @param student StudenteBean object
+	 * @throws SQLException
+	 */
+	public static void createStudente(Connection con, StudenteBean student) throws SQLException {
+		final StringBuilder sql = new StringBuilder()
+			.append("INSERT INTO Studente (NomeUtente, Email, DataRegistrazione, Password, Salt, UltimoAccesso, Attivo) ")
+			.append("VALUES(?, ?, DEFAULT, ?, ?, CURRENT_DATE , TRUE);");
+		
+		QueryRunner run = new QueryRunner();
+		
+		ResultSetHandler<StudenteBean> rsh = new BeanHandler<StudenteBean>(StudenteBean.class);
+		
+		run.insert(con, sql.toString(), rsh, student.getNomeUtente(), student.getEmail(), student.getPassword(), student.getSalt());
+		
 	}
 
 	

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <!-- luca: non mi è ben chiaro come dovrebbe funzionare il form di questa pagina
 	per quanto riguarda il passaggio delle informazioni al server.
@@ -244,11 +245,11 @@
 											<!-- flow manager input -->
 											<c:if test="${flowmanager != null }">
 												<div class="input-group sign_in_input_group">
-													<span class="input-group-addon sign_in_input">Name*</span> <input type="text" class="form-control" name="email" id="email" value="<c:out value="${flowmanager.nome}"/>">
+													<span class="input-group-addon sign_in_input">Name*</span> <input type="text" class="form-control" name="nome" id="email" value="<c:out value="${flowmanager.nome}"/>">
 												</div>
 												<br>
 												<div class="input-group sign_in_input_group">
-													<span class="input-group-addon sign_in_input">Surname*</span> <input type="text" class="form-control" name="email" id="email" value="<c:out value="${flowmanager.cognome}"/>">
+													<span class="input-group-addon sign_in_input">Surname*</span> <input type="text" class="form-control" name="cognome" id="email" value="<c:out value="${flowmanager.cognome}"/>">
 												</div>
 												<br>
 												<div class="input-group sign_in_input_group">
@@ -264,7 +265,7 @@
 												</div>
 												<br>
 												<div class="input-group sign_in_input_group">
-													<span class="input-group-addon sign_in_input">University</span> <input id="autocomplete" class="form-control" name="nomeUniversita" value="<c:out value="${flowmanager.nomeUniversita}" />">
+													<span class="input-group-addon sign_in_input">University</span> <input id="universityNames" class="form-control" name="nomeUniversita" value="<c:out value="${flowmanager.nomeUniversita}" />">
 												</div>
 												<br>
 												
@@ -272,7 +273,7 @@
 												<input type="hidden" name="attivo" value="<c:out value="${flowmanager.attivo}"/>" >
 												<input type="hidden" name="abilitato" value="<c:out value="${flowmanager.abilitato}"/>" >
 												<input type="hidden" name="dataRegistrazione" value="<c:out value="${flowmanager.dataRegistrazione}"/>" >
-												<input type="hidden" name="idCourse" value="<c:out value="${flowmanager.nomeUtente}"/>" >
+												<input type="hidden" name="nomeUtente" value="<c:out value="${flowmanager.nomeUtente}"/>" >
 											</c:if>
 											
 											
@@ -291,12 +292,13 @@
 												</div>
 											<br>
 												<div class="input-group sign_in_input_group">
-													<span class="input-group-addon sign_in_input">University</span> <input id="autocomplete" class="form-control" name="nomeUniversita" value="<c:out value="${coordinator.nomeUniversita}" />">
+													<span class="input-group-addon sign_in_input">University</span> <input id="universityNames" class="form-control" name="nomeUniversita" value="<c:out value="${coordinator.nomeUniversita}" />">
 												</div>
 												<br>
 												
 												<!-- coordinator hidden params -->
-												<input type="hidden" name="idCourse" value="<c:out value="${coordinator.nomeUtente}"/>" >
+												<input type="hidden" name="nomeUtente" value="<c:out value="${coordinator.nomeUtente}"/>" >
+												<input type="hidden" name="attivo" value="<c:out value="${coordinator.attivo }"/>"/>
 											</c:if>
 											
 											<br>
@@ -344,7 +346,7 @@
 							<tr>
 								<td></td>
 								<td>Password</td>
-								<td><c:out value="${student.password}" /></td>
+								<td><c:forEach begin="0" end="10">*</c:forEach></td>
 								<td></td>
 							</tr>
 							<tr>
@@ -407,7 +409,7 @@
 							<tr>
 								<td></td>
 								<td>Password</td>
-								<td><c:out value="${coordinator.password}" /></td>
+								<td><c:forEach begin="0" end="10">*</c:forEach></td>
 								<td></td>
 							</tr>
 							<tr>
@@ -446,6 +448,18 @@
 							</tr>
 							<tr>
 								<td></td>
+								<td>Nome</td>
+								<td><c:out value="${flowmanager.nome}"/></td>
+								<td></td>
+							</tr>
+							<tr>
+								<td></td>
+								<td>Cognome</td>
+								<td><c:out value="${flowmanager.cognome}"/></td>
+								<td></td>
+							</tr>
+							<tr>
+								<td></td>
 								<td>E-mail</td>
 								<td><c:out value="${flowmanager.email}" /></td>
 								<td></td>
@@ -453,7 +467,7 @@
 							<tr>
 								<td></td>
 								<td>Password</td>
-								<td><c:out value="${flowmanager.password}" /></td>
+								<td><c:forEach begin="0" end="10">*</c:forEach></td>
 								<td></td>
 							</tr>
 							<tr>

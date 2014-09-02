@@ -17,6 +17,8 @@ import org.apache.commons.dbutils.handlers.BeanHandler;
  */
 public class ResponsabileFlussoDatabase 
 {
+	
+	
 	/**
 	 * Set the field "abilitato" of a flow manager to true.
 	 * 
@@ -61,7 +63,7 @@ public class ResponsabileFlussoDatabase
 	public static ResponsabileFlussoBean getReponsabileFlusso(Connection con, String user) throws SQLException {
 		
 		final StringBuilder sql = new StringBuilder()
-			.append("SELECT NomeUtente, Email, DataRegistrazione, Password, ultimoaccesso, attivo, abilitato, nomeuniversita ")
+			.append("SELECT NomeUtente, Nome, Cognome, Email, DataRegistrazione, Password, ultimoaccesso, Attivo, Abilitato, NomeUniversita ")
 			.append("FROM ResponsabileFlusso ")
 			.append("WHERE NomeUtente = ?;");
 		
@@ -70,6 +72,51 @@ public class ResponsabileFlussoDatabase
 		
 		return run.query(con, sql.toString(), rsh, user);
 	}
+
+	
+	/**
+	 * Method for udpating a Responsabile di Flusso with the user name given.
+	 * 
+	 * @param con database connection
+	 * @param manager ResponsabileFlussoBean object 
+	 * @throws SQLException
+	 */
+	public static int  updateResponsabileFlusso(Connection con, ResponsabileFlussoBean manager) throws SQLException 
+	{
+		final StringBuilder sql = new StringBuilder()
+			.append("UPDATE ResponsabileFlusso SET Nome = ?, Cognome = ?, Email = ?, Password = ?, Salt = ?, Attivo = ?, Abilitato = ?, NomeUniversita = ? ")
+			.append("WHERE NomeUtente = ?;");
+		
+		QueryRunner run = new QueryRunner();
+		
+		int v  = run.update(con, sql.toString(), manager.getNome(), manager.getCognome(), manager.getEmail(), 
+				manager.getPassword(), manager.getSalt(), manager.isAttivo(), manager.isAbilitato(), manager.getNomeUniversita(), manager.getNomeUtente());
+		
+		return v;
+	}
+
+	public static void createResponsabileFlusso(Connection con, ResponsabileFlussoBean manager) throws SQLException 
+	{
+		final StringBuilder sql = new StringBuilder()
+			.append("INSERT INTO ResponsabileFlusso (NomeUtente, Nome, Cognome, Email, DataRegistrazione, Password, Salt, NomeUniversita, UltimoAccesso, Attivo, Abilitato) ")
+			.append("VALUES(?, ?, ?, ?, DEFAULT, ?, ?, ?, CURRENT_DATE , TRUE, FALSE)");
+		
+		QueryRunner run = new QueryRunner();
+		ResultSetHandler<ResponsabileFlussoBean> rsh = new BeanHandler<ResponsabileFlussoBean>(ResponsabileFlussoBean.class);
+		
+		run.insert(con, sql.toString(), rsh, manager.getNomeUtente(), manager.getNome(), manager.getCognome(), manager.getEmail(),
+				manager.getPassword(), manager.getSalt(), manager.getNomeUniversita());
+		
+	}
+
+//	public static int updateResponsabileFlusso(Connection con, ResponsabileFlussoBean manager) throws SQLException {
+//		
+//		final String sql = "update ResponsabileFlusso set Nome = ?, Cognome = ?, Email = ?, Password = ?, Salt = ? , Attivo = ?, Abilitato = ?, NomeUniversita = ? where nomeutente = ?;";
+//		
+//		QueryRunner run = new QueryRunner();
+//		
+//		return run.update(con, sql, manager.getNome(), manager.getCognome(), manager.getEmail(), manager.getPassword(), manager.getSalt(),manager.isAttivo(), manager.isAbilitato(), manager.getNomeUniversita(), manager.getNomeUtente());
+//	}
 	
 
 }

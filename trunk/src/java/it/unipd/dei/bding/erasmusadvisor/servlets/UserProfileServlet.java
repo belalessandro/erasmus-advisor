@@ -19,6 +19,10 @@ import it.unipd.dei.bding.erasmusadvisor.resources.UserType;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.SQLException;
@@ -68,7 +72,8 @@ public class UserProfileServlet extends AbstractDatabaseServlet
 	 */
 	private static final String INSERT = "insert";
     private static final String EDIT = "edit";
-    private static final String DELETE = "delete";
+    private static final String DELETE = "remove";
+    
 	
     /**
 	 * Gets the user profile page.
@@ -91,33 +96,14 @@ public class UserProfileServlet extends AbstractDatabaseServlet
 		CoordinatoreBean coordinator = null;
 		ResponsabileFlussoBean manager = null;
 		
-		
-		/* TODO
-		HttpSession session = req.getSession(false);
-		if (session == null)
-		{
-			getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(req, resp);
-		}
-		TODO LoggedUser lu = (LoggedUser)req.getSession().getAttribute("loggedUser");*/
-		
-		
 		HttpSession session = req.getSession();
 		LoggedUser lu = (LoggedUser) session.getAttribute("loggedUser");
 		
-//		LoggedUser lu = new LoggedUser(UserType.STUDENTE, "mario.rossi");
-//		LoggedUser lu = new LoggedUser(UserType.RESPONSABILE, "erick.burn");
-//		LoggedUser lu = new LoggedUser(UserType.COORDINATORE, "ErasmusCoordinator");
-		
-//		PrintWriter w = resp.getWriter();
-//		
-//		w.println("<html>");
-//		w.println("<body>");
-//		w.println("<p>" + lu.getUser() + "</p>");
-//		w.println("<p>" + lu.isStudent() + "</p>");
-//		w.println("</body>");
-//		w.println("</html>");
-//		w.flush();
-//		w.close();
+		if(lu == null)
+		{
+			lu = new LoggedUser(UserType.COORDINATORE, "ErasmusCoordinator");
+		}
+
 		try {
 			con = DS.getConnection();
 			
@@ -176,10 +162,13 @@ public class UserProfileServlet extends AbstractDatabaseServlet
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException 
 	{
-		// TODO: DA SESSIONE
-		LoggedUser lu = new LoggedUser(UserType.STUDENTE, "mario.rossi");
-//		LoggedUser lu = new LoggedUser(UserType.RESPONSABILE, "erick.burn");
-//		LoggedUser lu = new LoggedUser(UserType.COORDINATORE, "ErasmusCoordinator"); 
+		HttpSession session = req.getSession();
+		LoggedUser lu = (LoggedUser) session.getAttribute("loggedUser");
+		
+		if(lu == null)
+		{
+			lu = new LoggedUser(UserType.COORDINATORE, "ErasmusCoordinator");
+		}
 		
 		// Required  fields
 		Message m = null;
@@ -199,7 +188,7 @@ public class UserProfileServlet extends AbstractDatabaseServlet
 		{
 			edit(lu, req, resp);
 		}
-		else if (operation.equals("remove")) 
+		else if (operation.equals(DELETE)) 
 		{
 			remove(lu, req, resp);
 		}
@@ -226,7 +215,7 @@ public class UserProfileServlet extends AbstractDatabaseServlet
 		Message m = null;
 		
 		// populate the bean
-		CoordinatoreBean coordinatore = null;
+		CoordinatoreBean coordinator = null;
 		StudenteBean student = null;
 		IscrizioneBean subscription = null;
 		ResponsabileFlussoBean manager = null;
@@ -235,15 +224,18 @@ public class UserProfileServlet extends AbstractDatabaseServlet
 			if(lu.isCoord())
 			{
 				// populate the bean
-				coordinatore = new CoordinatoreBean();
-				BeanUtilities.populateBean(coordinatore, request);
+				coordinator = new CoordinatoreBean();
+				BeanUtilities.populateBean(coordinator, request);
+				
+				// set the password
+				SecureRandom random = new SecureRandom();
+				coordinator.setSalt("" + random.nextLong());
+				coordinator.setPassword(hashPassword(coordinator.getPassword(), coordinator.getSalt()));
 				
 				// get the connection
 				con = DS.getConnection();
 				
-				// update the instance
-				// TODO
-//				CoordinatoreDatabase.updateCoordinatore(con, coordinatore);
+				CoordinatoreDatabase.updateCoordinatore(con, coordinator);
 			}
 			else if(lu.isFlowResp())
 			{
@@ -251,19 +243,26 @@ public class UserProfileServlet extends AbstractDatabaseServlet
 				manager = new ResponsabileFlussoBean();
 				BeanUtilities.populateBean(manager, request);
 				
-				PrintWriter w = response.getWriter();
+				// set the password
+				SecureRandom random = new SecureRandom();
+				manager.setSalt("" + random.nextLong());
+				manager.setPassword(hashPassword(manager.getPassword(), manager.getSalt()));
 				
 				// get the connection
 				con = DS.getConnection();
 				
-				// TODO
-//				ResponsabileFlussoDatabase.updateResponsabileFlusso(con, responsabile);
+				ResponsabileFlussoDatabase.updateResponsabileFlusso(con, manager);
 			}
 			else if(lu.isStudent())
 			{
 				// populate the bean
 				student = new StudenteBean();
 				BeanUtilities.populateBean(student, request);
+				
+				// set the password
+				SecureRandom random = new SecureRandom();
+				student.setSalt("" + random.nextLong());
+				student.setPassword(hashPassword(student.getPassword(), student.getSalt()));				
 				
 				// processing the course name and level
 				String[] res = null;
@@ -272,12 +271,8 @@ public class UserProfileServlet extends AbstractDatabaseServlet
 				String courseLevel = res[1].trim();
 				String courseUniversity = request.getParameter("courseUniversity").trim();
 				
-
 				// getting old course id
 				int old_courseId = Integer.parseInt(request.getParameter("old_courseId"));
-				
-
-
 				
 				// get the connection
 				con = DS.getConnection();
@@ -289,55 +284,28 @@ public class UserProfileServlet extends AbstractDatabaseServlet
 				subscription.setAnnoInizio(Date.valueOf(request.getParameter("date_from")));
 				subscription.setAnnoFine(Date.valueOf(request.getParameter("date_to")));
 				
-				// checking if old_courseid is the same to the new one
+				// getting the course id
 				int new_courseId = CorsoDiLaureaDatabase.getCourseId(con, courseName, courseLevel, courseUniversity);
-				
-//				PrintWriter w = response.getWriter();
-//				
-//				w.println("<html>");
-//				w.println("<body>");
-//				w.println("<p>old:" + old_courseId + "</p>");
-//				w.println("<p>new:" + new_courseId + "</p>");
-//				w.println("<p>" + courseName + "</p>");
-//				w.println("<p>" + courseLevel + "</p>");
-//				w.println("<p>" + courseUniversity + "</p>");
-//				w.println("</body>");
-//				w.println("</html>");
-//				w.flush();
-//				w.close();
-				
+
 				// Starting the transaction
 				con.setAutoCommit(false);
-				if(old_courseId == new_courseId)
-				{
-					// update dates of the current subscription
-					StudenteDatabase.updateStudent(con, student);
-					subscription.setIdCorso(old_courseId);
-					IscrizioneDatabase.updateIscrizione(con, subscription);
-					con.commit();
-				}
-					
-				else
-				{
-					// add a new subscription
-					StudenteDatabase.updateStudent(con, student);
-					subscription.setIdCorso(new_courseId);
-					IscrizioneDatabase.createIscrizione(con, subscription);
-					con.commit();
-				}
+				StudenteDatabase.updateStudent(con, student);
+				subscription.setIdCorso(new_courseId);
+				IscrizioneDatabase.updateIscrizione(con, subscription, old_courseId);
 				
-				
-				// Creating response path
-				StringBuilder builder = new StringBuilder()
-						.append(request.getContextPath())
-						.append("/user/profile?edited=success");
-				response.sendRedirect(builder.toString());
+				con.commit();
 			}
 			
+			// Creating response path
+			StringBuilder builder = new StringBuilder()
+					.append(request.getContextPath())
+					.append("/user/profile?edited=success");
+			
+			response.sendRedirect(builder.toString());
 			
 		} catch (SQLException e) {
 			
-			// TODO: manage the case ERROR CODE = EA003
+			// managing overlapping courses
 			if(e.getSQLState().equals("EA003"))
 			{
 				sendErrorOverlappingDates(request, response);
@@ -347,23 +315,28 @@ public class UserProfileServlet extends AbstractDatabaseServlet
 				// Error
 				m = new Message("Error while editing user profile.", String.valueOf(e.getErrorCode()) + " " +  e.getSQLState() , e.getMessage());
 				request.setAttribute("message", m);
+				
 				errorForward(request, response);
 				return;
 			}
 			
 		} finally {
-			
+			// closing the connection
 			try {
-				con.setAutoCommit(true);
+				if(con != null)
+					con.setAutoCommit(true);
 				DbUtils.close(con);
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				// Error
+				m = new Message("Error while editing user profile.", String.valueOf(e.getErrorCode()) + " " +  e.getSQLState() , e.getMessage());
+				request.setAttribute("message", m);
+				
+				errorForward(request, response);
+				return;
 			} finally {
 				DbUtils.closeQuietly(con);
 				con = null;
 			}
-			
 		}
 	}
 	
@@ -481,6 +454,30 @@ public class UserProfileServlet extends AbstractDatabaseServlet
 		
 	}
 	
+	/**
+	 * Method used for hash a particular password with the salt given.
+	 * 
+	 * @param password password to hash
+	 * @param salt salt
+	 * @return the hashed password
+	 */
+	private String hashPassword(String password, String salt) {
+		MessageDigest digest;
+		try {
+			digest = MessageDigest.getInstance("SHA-256");
+			String salted = password + salt;
+			try {
+				byte[] hash = digest.digest(salted.getBytes("UTF-8"));
+				return new String(hash, "UTF-8");
+			} catch (UnsupportedEncodingException e) {
+				//e.printStackTrace();
+				throw new IllegalStateException();
+			}
+		} catch (NoSuchAlgorithmException e) {
+			//e.printStackTrace();
+			throw new IllegalStateException();
+		}
+	}
 
 	/**
      * Handles error forwarding between pages.
