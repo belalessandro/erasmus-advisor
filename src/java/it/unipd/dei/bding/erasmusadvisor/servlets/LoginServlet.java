@@ -71,6 +71,8 @@ public class LoginServlet extends AbstractDatabaseServlet {
 					//Checks the password
 					boolean correct = user.checkPassword(pass);
 					if (correct) {
+						// TODO: deve aggiornare l'ultimo accesso nel database!!!!
+						
 						//Starts the session
 						HttpSession session = request.getSession(true);
 						LoggedUser logged = new LoggedUser(user.getType(), user.getNomeUtente());
@@ -98,12 +100,31 @@ public class LoginServlet extends AbstractDatabaseServlet {
 		catch (SQLException e) {
 			m = new Message("Email or password incorrect!");
 			request.setAttribute("message", m);
-			getServletContext().getRequestDispatcher("/jsp/home.jsp").forward(
-					request, response);
+			errorForward(request, response);
 		} 
 		finally {
 			DbUtils.closeQuietly(conn);
 		}
 
 	}
+    
+    /**
+     * Handles error forwarding between pages.
+     * 
+	 * @param request 
+	 * 				request from the client
+	 * @param response 
+	 * 				response to the client 
+	 * @throws ServletException
+	 * 			 	if any error occurs while executing the servlet
+	 * @throws IOException
+	 *  			if any error occurs in the client/server communication.
+	 */
+    private void errorForward(HttpServletRequest request, HttpServletResponse response) 
+    		throws ServletException, IOException  {
+    	// Error management
+    		
+    	request.getServletContext().getRequestDispatcher("/jsp/error.jsp")
+    		.forward(request, response); // ERROR PAGE
+    }
 }

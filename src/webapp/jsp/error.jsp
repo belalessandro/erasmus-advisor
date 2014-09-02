@@ -13,7 +13,11 @@
 	<link href="<c:url value="/css"/>/bootstrap.min.css" rel="stylesheet">
 	<link href="<c:url value="/fonts"/>/font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet">
 	<script src="<c:url value="/js"/>/bootstrap.min.js"></script>
-	
+	<script>
+	function goBack() {
+   		window.history.back()
+	}
+	</script>
 </head>
 
 <body>
@@ -33,6 +37,8 @@
 			<br>
 			<!-- display the message -->
     		<c:import url="/jsp/include/showMessage.jsp"/>
+    		<br>
+    		<p align="center"><a href="#" class="btn btn-primary" onclick="goBack()">Go Back</a></p>
 		</div>
 		<div class ="col-md-2"></div>
 	</div>
