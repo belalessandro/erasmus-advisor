@@ -1,10 +1,8 @@
 package it.unipd.dei.bding.erasmusadvisor.servlets;
 
 import it.unipd.dei.bding.erasmusadvisor.database.InteresseDatabase;
-
 import it.unipd.dei.bding.erasmusadvisor.resources.LoggedUser;
 import it.unipd.dei.bding.erasmusadvisor.resources.Message;
-import it.unipd.dei.bding.erasmusadvisor.resources.UserType;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -13,6 +11,7 @@ import java.sql.SQLException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.dbutils.DbUtils;
 
@@ -58,16 +57,30 @@ public class InterestServlet extends AbstractDatabaseServlet
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException 
 	{		
-		String operation = req.getParameter("operation");
-
-		// TODO bisogna usare la sessione per determinare l'utente, questo parametro non è necessario
-		String user = (new LoggedUser(UserType.STUDENTE, "user")).getUser();
 		
-		// database connection
 		Connection conn = null;
 		Message m = null;
-
-		if (operation.equals("delete"))
+		
+		// Gets operation parameter
+		String operation = req.getParameter("operation");
+		
+		// Gets user from session
+		HttpSession session = req.getSession();
+		LoggedUser lu = (LoggedUser) session.getAttribute("loggedUser");
+		
+		/**
+		 * Authorization check. Permissions required: STUDENT
+		 */
+		if (!lu.isStudent() || operation == null || operation.isEmpty() ) {
+			req.setAttribute("message", 
+					new Message("Not authorized or operation not allowed", "E200", ""));
+			errorForward(req, resp);
+			return;
+		} 
+		/** 
+		 * OPERATION DISPATCHER 
+		 */
+		else if (operation.equals("delete"))
 		{
 			String flow = req.getParameter("flowID");
 			long updatedInterests = 0;
@@ -75,7 +88,7 @@ public class InterestServlet extends AbstractDatabaseServlet
 			int results = 0;
 			try {
 				conn = DS.getConnection();
-				results = InteresseDatabase.removeInterest(conn, flow, user);
+				results = InteresseDatabase.removeInterest(conn, flow, lu.getUser());
 				updatedInterests = InteresseDatabase.getCountInteresseByFlusso(conn, flow);
 
 			} 
@@ -106,7 +119,7 @@ public class InterestServlet extends AbstractDatabaseServlet
 			
 			try {
 				conn = DS.getConnection();
-				InteresseDatabase.addInterest(conn, flow, user);
+				InteresseDatabase.addInterest(conn, flow, lu.getUser());
 				updatedInterests = InteresseDatabase.getCountInteresseByFlusso(conn, flow);
 			} 
 			catch (SQLException ex) 
@@ -138,4 +151,23 @@ public class InterestServlet extends AbstractDatabaseServlet
 			}
 		}
 	}
+	
+	/**
+     * Handles error forwarding between pages.
+     * 
+	 * @param request 
+	 * 				request from the client
+	 * @param response 
+	 * 				response to the client 
+	 * @throws ServletException
+	 * 			 	if any error occurs while executing the servlet
+	 * @throws IOException
+	 *  			if any error occurs in the client/server communication.
+	 */
+    private void errorForward(HttpServletRequest request, HttpServletResponse response) 
+    		throws ServletException, IOException  {
+    		
+    	getServletContext().getRequestDispatcher("/jsp/error.jsp")
+    		.forward(request, response); // ERROR PAGE
+    }
 }
