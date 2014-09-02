@@ -1,30 +1,30 @@
 -- Domains
 
 CREATE DOMAIN SEMESTRE AS SMALLINT
-	CHECK(VALUE = 1 OR VALUE = 2 OR VALUE IS NULL);
+        CHECK(VALUE = 1 OR VALUE = 2 OR VALUE IS NULL);
 
 CREATE DOMAIN ANNOACCADEMICO AS SMALLINT
-	NOT NULL
-	CHECK(VALUE >= 1 AND VALUE <= 6);
+        NOT NULL
+        CHECK(VALUE >= 1 AND VALUE <= 6);
 
 CREATE DOMAIN VALUTAZIONE AS SMALLINT
-	NOT NULL
-	CHECK(VALUE >= 1 AND VALUE <= 5);
+        NOT NULL
+        CHECK(VALUE >= 1 AND VALUE <= 5);
 
 CREATE DOMAIN EMAIL AS TEXT
-	NOT NULL
+        NOT NULL
     CHECK(
         VALUE ~* '^([A-Za-z0-9._-]+)@([A-Za-z0-9._-]+)[.]([a-z]{2,4})$'
     );
     
 CREATE DOMAIN USERNAME AS TEXT
-	NOT NULL
-	CHECK(
-	    LENGTH(VALUE) > 3 AND
-   		LENGTH(VALUE) < 50 AND
-    	VALUE ~* '^[A-Za-z][A-Za-z0-9._-]+$'
-	);
-	
+        NOT NULL
+        CHECK(
+            LENGTH(VALUE) > 3 AND
+                LENGTH(VALUE) < 50 AND
+        VALUE ~* '^[A-Za-z][A-Za-z0-9._-]+$'
+        );
+        
 -- Enums
 CREATE TYPE TIPOLAUREA AS ENUM ('UNDERGRADUATE', 'GRADUATE', 'UNIQUE');
 
@@ -356,7 +356,7 @@ ALTER TABLE Estensione ADD FOREIGN KEY (Area) REFERENCES Area (Nome) ON UPDATE C
 ALTER TABLE Documentazione ADD FOREIGN KEY (IdFlusso) REFERENCES Flusso (Id) ON DELETE CASCADE ON UPDATE CASCADE;
 
 ALTER TABLE Documentazione ADD FOREIGN KEY (NomeCertificato,LivelloCertificato) REFERENCES CertificatiLinguistici (NomeLingua,Livello)
-																	ON UPDATE CASCADE;
+                                                                                                                                        ON UPDATE CASCADE;
 
 ALTER TABLE LinguaTesi ADD FOREIGN KEY (SiglaLingua) REFERENCES Lingua (Sigla) ON UPDATE CASCADE;
 
