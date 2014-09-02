@@ -126,12 +126,13 @@ public class UserBean implements Serializable {
 				if (password.compareTo(new String(hash, "UTF-8")) == 0) {
 					return true;
 				}
-			} catch (UnsupportedEncodingException e) {
-				e.printStackTrace();
+			} 
+			catch (UnsupportedEncodingException e) {
+				//e.printStackTrace();
 				throw new IllegalStateException();
 			}
 		} catch (NoSuchAlgorithmException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 			throw new IllegalStateException();
 		}
 		return false;

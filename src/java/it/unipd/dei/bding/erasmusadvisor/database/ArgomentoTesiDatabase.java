@@ -321,20 +321,9 @@ public class ArgomentoTesiDatabase {
 			
 			pstmt.execute();
 			
-		} catch(SQLException e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				if(pstmt != null)
-					pstmt.close();
-				if(con != null)
-					pstmt.close();
-			} catch(SQLException ex) {
-				ex.printStackTrace();
-			} finally {
-				pstmt = null;
-				con = null;
-			}
+		} 
+		finally {
+			DbUtils.close(pstmt); // close the statement (*always*)
 		}
 		
 	}
