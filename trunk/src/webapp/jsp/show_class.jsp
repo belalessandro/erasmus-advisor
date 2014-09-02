@@ -239,7 +239,9 @@
                                 <input type="hidden" name="operation" value="delete"/>
                                 <input type="hidden" name="id" value="${classBean.id}"/>
                                 <input type="hidden" name="name" value="${classBean.nome}"/>
-								<input type="submit" value="Delete" class="btn btn-primary entity_nav_button">
+								<input type="submit" value="Delete"  
+									onclick="return confirm('Do you really want to remove this class from the database?');" 
+									class="btn btn-primary entity_nav_button">
 							</form>
 						</li>
 					</ul>
