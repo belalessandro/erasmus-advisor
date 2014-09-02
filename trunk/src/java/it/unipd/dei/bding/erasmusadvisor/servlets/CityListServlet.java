@@ -5,6 +5,7 @@ import it.unipd.dei.bding.erasmusadvisor.database.CittaDatabase;
 import it.unipd.dei.bding.erasmusadvisor.database.GetLinguaValues;
 import it.unipd.dei.bding.erasmusadvisor.database.GetStatoValues;
 import it.unipd.dei.bding.erasmusadvisor.resources.CitySearchRow;
+import it.unipd.dei.bding.erasmusadvisor.resources.LoggedUser;
 import it.unipd.dei.bding.erasmusadvisor.resources.Message;
 
 import java.io.IOException;
@@ -15,6 +16,7 @@ import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.dbutils.DbUtils;
 
@@ -36,6 +38,8 @@ public class CityListServlet extends AbstractDatabaseServlet {
 	 */
 	private final static String SEARCH = "search";
 
+	private static final long serialVersionUID = -7957292442185949670L;
+
  	/**
 	 * Gets the list
 	 * 
@@ -51,17 +55,34 @@ public class CityListServlet extends AbstractDatabaseServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException 
 		{
-		// incoming parameters
+		// Gets operation parameter
 		String operation = req.getParameter("operation");
 		
-		if (operation != null && !operation.isEmpty()
-				&& operation.equals(SEARCH)) {
+		// Gets user from session
+		HttpSession session = req.getSession();
+		LoggedUser lu = (LoggedUser) session.getAttribute("loggedUser");
+		
+		/**
+		 * Authorization check. Permissions required: LOGGED
+		 */
+		if (lu == null ) {
+			req.setAttribute("message", 
+					new Message("Not authorized.", "E200", ""));
+			errorForward(req, resp);
+			return;
+		} 
+		/** 
+		 * OPERATION DISPATCHER 
+		 */
+		else if (operation != null && ! operation.isEmpty() 
+				&& operation.equals(SEARCH)  ) {
 			/**
 			 * SEARCH
 			 */
 			search(req, resp);
 
-		} else {
+		} 
+		else {
 			/**
 			 * default: PRELOAD FORM
 			 */
