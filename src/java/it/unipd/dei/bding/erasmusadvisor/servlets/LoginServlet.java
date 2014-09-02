@@ -103,7 +103,7 @@ public class LoginServlet extends AbstractDatabaseServlet {
 					}
 				} 
 				catch (IllegalStateException e) {
-					m = new Message("Server error! Please contact an admin");
+					m = new Message("Server error! Please contact an admin", "E200", "");
 					
 				}
 			} 
