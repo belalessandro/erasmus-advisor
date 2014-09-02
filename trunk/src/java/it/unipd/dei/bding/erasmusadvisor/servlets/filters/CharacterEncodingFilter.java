@@ -25,6 +25,9 @@ public class CharacterEncodingFilter implements Filter {
 
 	    }
 
+	    /**
+	     * Sets the UTF-8 character encoding to request and response
+	     */
 	    @Override
 	    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)
 	            throws IOException, ServletException {
