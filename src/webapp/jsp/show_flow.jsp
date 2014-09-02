@@ -177,7 +177,8 @@
 							<form method="post" action="<c:url value="/flow"/>">
                                 <input type="hidden" name="operation" value="delete"/>
                                 <input type="hidden" name="id" value="${flow.id}"/>
-								<input type="submit" value="Delete" class="btn btn-primary entity_nav_button">
+								<input type="submit" value="Delete" class="btn btn-primary entity_nav_button" 
+									onclick="return confirm('Do you really want to remove this flow from the database?');">
 							</form>
 						</li>
 					</ul>

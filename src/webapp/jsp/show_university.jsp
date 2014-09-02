@@ -62,7 +62,8 @@
 							<form method="post" action="<c:url value="/university"/>">
                                 <input type="hidden" name="operation" value="delete"/>
                                 <input type="hidden" name="name" value="${university.nome}"/>
-								<input type="submit" value="Delete" class="btn btn-primary entity_nav_button">
+								<input type="submit" value="Delete" class="btn btn-primary entity_nav_button"
+									onclick="return confirm('Do you really want to remove this university from the database?');">
 							</form>
 						</li>
 					</ul>

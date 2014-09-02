@@ -75,7 +75,9 @@
                                 <input type="hidden" name="operation" value="delete"/>
                                 <input type="hidden" name="city" value="${city.nome}"/>
                                 <input type="hidden" name="country" value="${city.stato}"/>
-								<input type="submit" value="Delete" class="btn btn-primary entity_nav_button">
+								<input type="submit" value="Delete" 
+									onclick="return confirm('Do you really want to remove this city from the database?');" 
+									class="btn btn-primary entity_nav_button">
 							</form>
 						</li>
 					</ul>
