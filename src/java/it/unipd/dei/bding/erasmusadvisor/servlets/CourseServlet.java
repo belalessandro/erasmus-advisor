@@ -189,11 +189,13 @@ public class CourseServlet extends AbstractDatabaseServlet {
 		
 		// Success!
 		// Creating response path
-		StringBuilder builder = new StringBuilder()
+		String addedEntity = request.getParameter("name");
+		request.setAttribute("addedEntity", addedEntity);
+		getServletContext().getRequestDispatcher("/jsp/entity_added.jsp").forward(request, response);
+		/*StringBuilder builder = new StringBuilder()
 				.append(request.getContextPath())
-				.append("/course?id=")
-				.append(corsoDiLaureaBean.getId());
-		response.sendRedirect(builder.toString());	
+				.append("/jsp/include/showMessage.jsp");
+		response.sendRedirect(builder.toString());*/	
     }
 	
 	/**
