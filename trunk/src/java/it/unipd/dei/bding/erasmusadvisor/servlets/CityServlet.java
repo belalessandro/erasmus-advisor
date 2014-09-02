@@ -8,6 +8,7 @@ import it.unipd.dei.bding.erasmusadvisor.database.GetLinguaValues;
 import it.unipd.dei.bding.erasmusadvisor.database.LinguaCittaDatabase;
 import it.unipd.dei.bding.erasmusadvisor.resources.City;
 import it.unipd.dei.bding.erasmusadvisor.resources.CityEvaluationsAverage;
+import it.unipd.dei.bding.erasmusadvisor.resources.LoggedUser;
 import it.unipd.dei.bding.erasmusadvisor.resources.Message;
 
 import java.io.IOException;
@@ -19,6 +20,7 @@ import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.dbutils.DbUtils;
 
@@ -36,31 +38,14 @@ import org.apache.commons.dbutils.DbUtils;
  */
 public class CityServlet extends AbstractDatabaseServlet 
 {
-	/*
-	 * (Autorizzazioni: GET Tutti, 
-	 * 					POST SOLO Resp.Flusso)
-	 * 
-	 * mappato su /city
-	 * 
-	 * quando riceve GET
-	 * 			-> Se c'è un id restituisce e visualizza la citta' su show_city.jsp
-	 * 			-> altrimenti: se è resp.flusso 
-	 * 						-> mostra il form di insert_city.jsp 
-	 * 						-> altrimenti: redirect su /city/list
-	 * 
-	 * quando riceve POST
-	 *   		-> Se operazione è "remove" rimuove l'interesse collegato allo studente loggato e IdFlusso come parametro
-	 *   		-> Se operazione è "insert" inserisce l'interesse collegato allo studente loggato e IdFlusso come parametro
-	 *   		-> Se operazione è "edit"   edita l'entita citta (deve comparire solo con coordinatore)
-	 */
-	
 	/**
 	 * Operation constants
 	 */
-	
 	private static final String INSERT = "insert";
     private static final String EDIT = "edit";
     private static final String DELETE = "delete";
+    
+	private static final long serialVersionUID = 3531286954851445885L;
     
 	/**
 	 * Get the details of a specific city
@@ -77,6 +62,22 @@ public class CityServlet extends AbstractDatabaseServlet
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException 
 	{
+
+		// Gets user from session
+		HttpSession session = req.getSession();
+		LoggedUser lu = (LoggedUser) session.getAttribute("loggedUser");
+		
+		/**
+		 * Authorization check. Permissions required: LOGGED
+		 */
+		if ( lu == null ) {
+			req.setAttribute("message", 
+					new Message("Not authorized.", "E200", ""));
+			errorForward(req, resp);
+			return;
+		} 
+		
+		// Gets input parameters
 		String city = req.getParameter("name");
 		String country = req.getParameter("country");
 
@@ -90,6 +91,9 @@ public class CityServlet extends AbstractDatabaseServlet
 			// the connection to database
 			Connection conn = null;
 			
+			/**
+			 * Gets the data from database
+			 */
 			try {
 				conn = DS.getConnection();
 				results = new CittaDatabase().searchCityByName(conn, city, country);
@@ -118,13 +122,17 @@ public class CityServlet extends AbstractDatabaseServlet
 			else
 			{
 				req.setAttribute("message", m);
-				getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(req, resp);
+				errorForward(req, resp);
 			}
 
 		} 
 		else {
-			/* Redirect to insert form. */
-			getServletContext().getRequestDispatcher("/jsp/insert_city.jsp").forward(req, resp);
+			/* Redirects to the search form. */
+			StringBuilder builder = new StringBuilder()
+				.append(req.getContextPath())
+				.append( "/city/list");
+			
+			resp.sendRedirect(builder.toString());	
 		}
 
 	}
@@ -144,20 +152,25 @@ public class CityServlet extends AbstractDatabaseServlet
 	protected void  doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException 
 	{
+		// Gets operation parameter
 		String operation = req.getParameter("operation");
 		
-		// the connection to database
-		Connection conn = null;
-		Message m = null;
+		// Gets user from session
+		HttpSession session = req.getSession();
+		LoggedUser lu = (LoggedUser) session.getAttribute("loggedUser");
 		
-		if (operation == null || operation.isEmpty() /*|| !lu.isFlowResp()*/) {
-			// Error
-			m = new Message("Not authorized or operation null", "", "");
-			req.setAttribute("message", m);
+		/**
+		 * Authorization check. Permissions required: FlowManager, Coordinator
+		 */
+		if (! (lu.isCoord() || lu.isFlowResp()) || operation == null || operation.isEmpty() ) {
+			req.setAttribute("message", 
+					new Message("Not authorized or operation not allowed", "E200", ""));
 			errorForward(req, resp);
 			return;
-			
 		} 
+		/** 
+		 * OPERATION DISPATCHER 
+		 */
 		else if (operation.equals(INSERT))
 		{
 			insert(req, resp);
@@ -168,93 +181,7 @@ public class CityServlet extends AbstractDatabaseServlet
 		}
 		else if(operation.equals(EDIT)) 
 		{
-			/**
-			 * EDIT OPERATION
-			 */
-			// TODO: Check user is type coordinator
-			
-			// get parameters
-			String new_name = req.getParameter("new_name");
-			String new_country = req.getParameter("new_country");
-			String old_name = req.getParameter("old_name");
-			String old_country = req.getParameter("old_country");
-			
-			String[] languages = req.getParameterValues("language[]");
-			
-			// edit the entity
-			try {
-				// starting database operations
-				conn = DS.getConnection();
-				
-				ArrayList<LinguaBean> linguaDomainList = (ArrayList<LinguaBean>) GetLinguaValues.getLinguaDomain(conn);
-				ArrayList<LinguaCittaBean> linguaCittaBeanList = new ArrayList<LinguaCittaBean>();
-				
-				// populate the bean
-				int k = 0;
-				int i = 0;
-
-				while(i < linguaDomainList.size() && k < languages.length)
-				{
-					// represents "sigla"
-					LinguaBean current = linguaDomainList.get(i);
-					if(languages[k].equals(current.getSigla()))
-					{
-						LinguaCittaBean linguaCittaBean = new LinguaCittaBean();
-						linguaCittaBean.setNomeCitta(new_name);
-						linguaCittaBean.setSiglaLingua(current.getSigla());
-						linguaCittaBean.setStatoCitta(new_country);
-						
-						linguaCittaBeanList.add(linguaCittaBean);
-						k++;
-						
-						// Do again the search for the next element
-						i = 0;
-					}
-					
-					i++;
-				}
-				
-				// n = # of row updated
-				int n = new CittaDatabase().editCity(conn, new_name, new_country, old_name, old_country, linguaCittaBeanList);
-				DbUtils.close(conn);
-				
-				if(n == 1)
-				{
-					// success
-					// Creating response path
-					StringBuilder builder = new StringBuilder()
-						.append("/erasmus-advisor/city?name=")
-						.append(new_name)
-						.append("&country=")
-						.append(new_country)
-						.append("&edited=success");
-					resp.sendRedirect(builder.toString());	
-				}
-				else
-				{
-					// Error management
-					m = new Message("Error while updating the city.","XXX", "");
-					req.setAttribute("message", m);
-					
-					getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(req, resp); // ERROR PAGE
-					return;
-				}
-					
-					
-			} 
-			catch (SQLException e) 
-			{
-				// Error management
-				m = new Message("Error while submitting evaluations.","XXX", e.getMessage());
-				req.setAttribute("message", m);
-				
-				getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(req, resp); // ERROR PAGE
-				return;
-			} 
-			finally 
-			{
-				DbUtils.closeQuietly(conn);
-			}
+			edit(req, resp);
 		}
 	}
 	
@@ -398,17 +325,105 @@ public class CityServlet extends AbstractDatabaseServlet
 	/**
 	 * Handles logic for edit operation.
 	 * 
-	 * @param request 
+	 * @param req
 	 * 				request from the client
-	 * @param response 
+	 * @param resp 
 	 * 				response to the client 
 	 * @throws ServletException
 	 * 			 	if any error occurs while executing the servlet
 	 * @throws IOException
 	 *  			if any error occurs in the client/server communication.
 	 */
-    private void edit(HttpServletRequest request, HttpServletResponse response) {
-        //handle logic for edit operation...
+    private void edit(HttpServletRequest req, HttpServletResponse resp)
+    		throws ServletException, IOException {
+
+		// get parameters
+		String new_name = req.getParameter("new_name");
+		String new_country = req.getParameter("new_country");
+		String old_name = req.getParameter("old_name");
+		String old_country = req.getParameter("old_country");
+		
+		String[] languages = req.getParameterValues("language[]");
+		
+
+		// the connection to database
+		Connection conn = null;
+		Message m = null;
+		
+		// edit the entity
+		try {
+			// starting database operations
+			conn = DS.getConnection();
+			
+			ArrayList<LinguaBean> linguaDomainList = (ArrayList<LinguaBean>) GetLinguaValues.getLinguaDomain(conn);
+			ArrayList<LinguaCittaBean> linguaCittaBeanList = new ArrayList<LinguaCittaBean>();
+			
+			// populate the bean
+			int k = 0;
+			int i = 0;
+
+			while(i < linguaDomainList.size() && k < languages.length)
+			{
+				// represents "sigla"
+				LinguaBean current = linguaDomainList.get(i);
+				if(languages[k].equals(current.getSigla()))
+				{
+					LinguaCittaBean linguaCittaBean = new LinguaCittaBean();
+					linguaCittaBean.setNomeCitta(new_name);
+					linguaCittaBean.setSiglaLingua(current.getSigla());
+					linguaCittaBean.setStatoCitta(new_country);
+					
+					linguaCittaBeanList.add(linguaCittaBean);
+					k++;
+					
+					// Do again the search for the next element
+					i = 0;
+				}
+				
+				i++;
+			}
+			
+			// n = # of row updated
+			int n = new CittaDatabase().editCity(conn, new_name, new_country, old_name, old_country, linguaCittaBeanList);
+			DbUtils.close(conn);
+			
+			if(n == 1)
+			{
+				// success
+				// Creating response path
+				StringBuilder builder = new StringBuilder()
+					.append("/erasmus-advisor/city?name=")
+					.append(new_name)
+					.append("&country=")
+					.append(new_country)
+					.append("&edited=success");
+				resp.sendRedirect(builder.toString());	
+			}
+			else
+			{
+				// Error management
+				m = new Message("Error while updating the city.","XXX", "");
+				req.setAttribute("message", m);
+				
+				getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(req, resp); // ERROR PAGE
+				return;
+			}
+				
+				
+		} 
+		catch (SQLException e) 
+		{
+			// Error management
+			m = new Message("Error while submitting evaluations.","XXX", e.getMessage());
+			req.setAttribute("message", m);
+			
+			getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(req, resp); // ERROR PAGE
+			return;
+		} 
+		finally 
+		{
+			DbUtils.closeQuietly(conn);
+		}
     }
     
     /**

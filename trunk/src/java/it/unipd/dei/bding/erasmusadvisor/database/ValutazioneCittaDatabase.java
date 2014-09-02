@@ -26,8 +26,10 @@ public class ValutazioneCittaDatabase {
 	 */
 	public static void createValutazioneCitta(Connection con, ValutazioneCittaBean val) 
 		throws SQLException {
-		final String statement = "INSERT INTO ValutazioneCitta (nomeutentestudente, nomecitta, statocitta, costodellavita, disponibilitaalloggi, vivibilitaurbana, vitasociale, datainserimento, commento)"
-						+ "VALUES (?, ?, ?, ?, ?, ?, ?, DEFAULT, ?);";
+		final String statement = "INSERT INTO ValutazioneCitta (nomeutentestudente, nomecitta, "
+				+ "statocitta, costodellavita, disponibilitaalloggi, "
+				+ "vivibilitaurbana, vitasociale, datainserimento, commento) "
+				+ "VALUES (?, ?, ?, ?, ?, ?, ?, DEFAULT, ?);";
 
 		
 		ResultSetHandler<ValutazioneCittaBean> rsh = new BeanHandler<ValutazioneCittaBean>(ValutazioneCittaBean.class);

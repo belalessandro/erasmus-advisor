@@ -1,13 +1,13 @@
 package it.unipd.dei.bding.erasmusadvisor.servlets;
 
 import it.unipd.dei.bding.erasmusadvisor.beans.AreaBean;
-
 import it.unipd.dei.bding.erasmusadvisor.beans.LinguaBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.UniversitaBean;
 import it.unipd.dei.bding.erasmusadvisor.database.GetAreaValues;
 import it.unipd.dei.bding.erasmusadvisor.database.GetLinguaValues;
 import it.unipd.dei.bding.erasmusadvisor.database.GetUniversitaValues;
 import it.unipd.dei.bding.erasmusadvisor.database.InsegnamentoDatabase;
+import it.unipd.dei.bding.erasmusadvisor.resources.LoggedUser;
 import it.unipd.dei.bding.erasmusadvisor.resources.Message;
 import it.unipd.dei.bding.erasmusadvisor.resources.TeachingSearchRow;
 
@@ -19,6 +19,7 @@ import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.dbutils.DbUtils;
 
@@ -61,17 +62,34 @@ public class ClassListServlet extends AbstractDatabaseServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException 
 		{
-		// incoming parameters
+		// Gets operation parameter
 		String operation = req.getParameter("operation");
 		
-		if (operation != null && !operation.isEmpty()
-				&& operation.equals(SEARCH)) {
+		// Gets user from session
+		HttpSession session = req.getSession();
+		LoggedUser lu = (LoggedUser) session.getAttribute("loggedUser");
+		
+		/**
+		 * Authorization check. Permissions required: LOGGED
+		 */
+		if (lu == null ) {
+			req.setAttribute("message", 
+					new Message("Not authorized.", "E200", ""));
+			errorForward(req, resp);
+			return;
+		} 
+		/** 
+		 * OPERATION DISPATCHER 
+		 */
+		else if (operation != null && ! operation.isEmpty() 
+				&& operation.equals(SEARCH)  ) {
 			/**
 			 * SEARCH
 			 */
 			search(req, resp);
 
-		} else {
+		} 
+		else {
 			/**
 			 * default: PRELOAD FORM
 			 */
