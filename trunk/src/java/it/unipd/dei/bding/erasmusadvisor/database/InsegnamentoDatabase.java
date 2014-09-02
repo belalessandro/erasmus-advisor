@@ -96,7 +96,7 @@ public class InsegnamentoDatabase
 		 */
 		final String statement= "SELECT * FROM Insegnamento AS I " +
 						   		" WHERE (? IS NULL OR I.nomeArea = ?) AND (? IS NULL OR I.nomeUniversita = ?) AND " +
-						   		"(? IS NULL OR I.annoDiCorso = ?) AND (? IS NULL OR I.periodoErogazione = ?) AND (? IS NULL OR I.nomeLingua = ?)" ;
+						   		"(? IS NULL OR I.annoCorso = ?) AND (? IS NULL OR I.periodoErogazione = ?) AND (? IS NULL OR I.nomeLingua = ?)" ;
 
 		// query facility
 		ResultSetHandler<List<InsegnamentoBean>> h = new BeanListHandler<InsegnamentoBean>(InsegnamentoBean.class);
