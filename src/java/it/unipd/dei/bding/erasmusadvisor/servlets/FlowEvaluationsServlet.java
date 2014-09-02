@@ -8,7 +8,6 @@ import it.unipd.dei.bding.erasmusadvisor.beans.ValutazioneFlussoBean;
 import it.unipd.dei.bding.erasmusadvisor.database.ValutazioneFlussoDatabase;
 import it.unipd.dei.bding.erasmusadvisor.resources.LoggedUser;
 import it.unipd.dei.bding.erasmusadvisor.resources.Message;
-import it.unipd.dei.bding.erasmusadvisor.resources.UserType;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -17,6 +16,7 @@ import java.sql.SQLException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.dbutils.DbUtils;
 
@@ -33,6 +33,12 @@ import org.apache.commons.dbutils.DbUtils;
  */
 public class FlowEvaluationsServlet extends AbstractDatabaseServlet 
 {
+	/**
+	 * Operation constants
+	 */
+	private static final String INSERT = "insert";
+    private static final String DELETE = "delete";
+    
 	private static final long serialVersionUID = 2580713092841797453L;
 	
 	/**
@@ -50,25 +56,30 @@ public class FlowEvaluationsServlet extends AbstractDatabaseServlet
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 
-		// Verify logged user
-		// TODO: DA SESSIONE
-		LoggedUser lu = new LoggedUser(UserType.STUDENTE, "JuventinoDOC");
-
+		// Gets operation parameter
 		String operation = req.getParameter("operation");
 		
-		if (operation == null || operation.isEmpty() || !lu.isStudent()) {
-			// Error
-			Message m = null;
-			m = new Message("Not authorized or operation null", "", "");
-			req.setAttribute("message", m);
+		// Gets user from session
+		HttpSession session = req.getSession();
+		LoggedUser lu = (LoggedUser) session.getAttribute("loggedUser");
+		
+		/**
+		 * Authorization check. Permissions required: STUDENT
+		 */
+		if (!lu.isStudent() || operation == null || operation.isEmpty() ) {
+			req.setAttribute("message", 
+					new Message("Not authorized or operation not allowed", "E200", ""));
 			errorForward(req, resp);
 			return;
 		} 
-		else if (operation.equals("insert"))
+		/** 
+		 * OPERATION DISPATCHER 
+		 */
+		else if (operation.equals(INSERT))
 		{
 			insert(req, resp, lu);
 		} 
-		else if (operation.equals("delete"))
+		else if (operation.equals(DELETE))
 		{
 			delete(req, resp, lu);
 		}	

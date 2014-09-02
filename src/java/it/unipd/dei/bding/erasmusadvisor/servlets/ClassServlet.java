@@ -31,6 +31,7 @@ import javax.json.JsonWriter;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.dbutils.DbUtils;
 
@@ -72,24 +73,29 @@ public class ClassServlet extends AbstractDatabaseServlet
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException
 	{
+		// Gets user from session
+		HttpSession session = req.getSession();
+		LoggedUser lu = (LoggedUser) session.getAttribute("loggedUser");
+		
+		/**
+		 * Authorization check. Permissions required: LOGGED
+		 */
+		if ( lu == null ) {
+			req.setAttribute("message", 
+					new Message("Not authorized or operation not allowed", "E200", ""));
+			errorForward(req, resp);
+			return;
+		} 
 		
 		String ID = req.getParameter("id");
 
 		if (ID == null || ID.isEmpty()) {
-			/* Redirect to insert form. */
-			resp.sendRedirect(req.getContextPath() + "/jsp/insert_class.jsp");
+			/* Redirect to search form. */
+			resp.sendRedirect(req.getContextPath() + "/class/list");
 			return;
 		}
 		
-		/**
-		 *  Gets the university model from the database
-		 */
-		
-
-		// TODO: DA SESSIONE
-		LoggedUser lu = new LoggedUser(UserType.STUDENTE, "user"); 
-		
-		// model
+		// models and beans
 		Teaching results = null;
 		Message m = null;
 		List<LinguaBean> languageDomain = null;
@@ -99,6 +105,9 @@ public class ClassServlet extends AbstractDatabaseServlet
 		// database connection
 		Connection conn = null;
 					
+		/**
+		 * Gets data from database
+		 */
 		try {
 			conn = DS.getConnection();
 			results = InsegnamentoDatabase.getInsegnamento(conn, Integer.parseInt(ID));
@@ -106,10 +115,11 @@ public class ClassServlet extends AbstractDatabaseServlet
 			areaDomain = GetAreaValues.getAreaDomain(conn);
 			// TODO i flussi in questa lista dovrebbero essere quelli a cui ha partecipato l'utente
 			// meno quelli che già riconoscono l'insegnamento
+			// TODO ale: chi ha fatto cio'?? METTERE UN IF lu.isStudent() !!!
 			flows = PartecipazioneDatabase.getFlows(conn, lu.getUser());
 		} 
 		catch (SQLException ex) {
-			m = new Message("Error while getting the class.", "XXX", ex.getMessage());
+			m = new Message("Error while getting the class.", "E200", ex.getMessage());
 		} 
 		finally {
 			DbUtils.closeQuietly(conn); // always closes the connection 
@@ -143,7 +153,7 @@ public class ClassServlet extends AbstractDatabaseServlet
 		} 
 		else { // Error page
 			req.setAttribute("message", m);
-			getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(req, resp);
+			errorForward(req, resp);
 		}
 	}
 	
@@ -162,9 +172,7 @@ public class ClassServlet extends AbstractDatabaseServlet
 	protected void  doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException 
 	{
-		// TODO: DA SESSIONE
-		LoggedUser lu = new LoggedUser(UserType.RESPONSABILE, "erick.burn"); 
-		Message m = null;
+		// Operation parameter
 		String operation = null;
 		
 		if(req.getHeader("X-Requested-With") != null && req.getHeader("X-Requested-With").equals("XMLHttpRequest"))
@@ -172,30 +180,44 @@ public class ClassServlet extends AbstractDatabaseServlet
 		else
 			operation = req.getParameter("operation");
 	
-		if (operation == null || operation.isEmpty() || !lu.isFlowResp()) 
-		{
-			// Error
-			m = new Message("Not authorized or operation null", "", "");
-			req.setAttribute("message", m);
-			errorForward(req, resp);
-			return;
-		} 
-		else if (operation.equals(INSERT))
-		{	
-			insert(req, resp);
-		} 
-		else if (operation.equals(DELETE))
-		{
-			delete(req, resp);
-		}
-		else if (operation.equals(AJAX))
+		
+		// Gets user from session
+		HttpSession session = req.getSession();
+		LoggedUser lu = (LoggedUser) session.getAttribute("loggedUser");
+		
+		boolean allowed = false;
+		
+		if (lu.isCoord() || lu.isFlowResp())
+			allowed = true; // TODO ale: restrict a solo universita' di appartenenza
+		
+		/** 
+		 * OPERATION DISPATCHER 
+		 */
+		if (operation != null && // Permissions required: LOGGED
+				operation.equals(AJAX) && (lu != null))
 		{
 			report(req, resp);
 		}
-		else if(operation.equals(EDIT))
+		else if (operation != null && // Permissions required: FlowManager, Coordinator
+				operation.equals(INSERT) && (allowed))
+		{	
+			insert(req, resp, lu);
+		} 
+		else if (operation != null && // Permissions required: FlowManager, Coordinator
+				operation.equals(DELETE) && (allowed))
+		{
+			delete(req, resp);
+		}
+		else if(operation != null && // Permissions required: FlowManager, Coordinator
+				operation.equals(EDIT) && (allowed))
 		{	
 			edit(req, resp);
 			
+		} 
+		else {
+			req.setAttribute("message", 
+					new Message("Not authorized or operation not allowed", "E200", ""));
+			errorForward(req, resp);
 		}
 		
 	}
@@ -234,7 +256,7 @@ public class ClassServlet extends AbstractDatabaseServlet
 			DbUtils.close(con);
 			
 		} catch (SQLException e) {
-			m = new Message("Error while reporting the thesis.", "XXX", e.getMessage());
+			m = new Message("Error while reporting the thesis.", "E200", e.getMessage());
 			request.setAttribute("message", m);
 			errorForward(request, response);
 			return;
@@ -266,12 +288,8 @@ public class ClassServlet extends AbstractDatabaseServlet
 	 * @throws IOException
 	 *  			if any error occurs in the client/server communication.
 	 */
-	private void insert(HttpServletRequest request, HttpServletResponse response) 
+	private void insert(HttpServletRequest request, HttpServletResponse response, LoggedUser lu) 
 			throws ServletException, IOException  {
-		
-		// TODO: DA SESSIONE
-		LoggedUser lu = new LoggedUser(UserType.RESPONSABILE, "erick.burn"); 
-
 		
 		// the connection to database
 		Connection conn = null;
@@ -300,8 +318,11 @@ public class ClassServlet extends AbstractDatabaseServlet
 			return;
 		}
 		
-		insegnamentoBean.setStato("NOT VERIFIED"); // Setting status
-		// TODO: in base all'autorhization
+		// Setting status
+		if (lu.isFlowResp() || lu.isCoord()) 
+			insegnamentoBean.setStato("VERIFIED");
+		else
+			insegnamentoBean.setStato("NOT VERIFIED");
 		
 		String[] profNames = request.getParameterValues("professorName");
 		String[] profSurnames = request.getParameterValues("professorSurname");
@@ -415,16 +436,18 @@ public class ClassServlet extends AbstractDatabaseServlet
 			} 
 			catch (SQLException e)
 			{
-				m = new Message("Error while deleting the class.", "", e.getMessage());
+				m = new Message("Error while deleting the class.", "E200", e.getMessage());
 				req.setAttribute("message", m);
-				getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(req, resp);
+				errorForward(req, resp);
 			}
 			finally {
 				DbUtils.closeQuietly(conn); // always closes the connection 
 			}
 		} 
 		else {
-			// An error maybe?
+			m = new Message("Error while deleting the class.", "E100", "Bad parameters.");
+			req.setAttribute("message", m);
+			errorForward(req, resp);
 		}
     }
     
@@ -447,9 +470,8 @@ public class ClassServlet extends AbstractDatabaseServlet
 		InsegnamentoBean insegnamentoBean = new InsegnamentoBean();
 		BeanUtilities.populateBean(insegnamentoBean, request);
 		
-		// TODO ale: se e' resp. flusso bisogna impostare lo stato verified
-		// altrimenti NOT VERIFIED!!
-		// insegnamentoBean.setStato("NOT VERIFIED"); // Setting status
+		// Sets additional fields
+		insegnamentoBean.setStato("VERIFIED"); // because it is a FlowManager or Coordinator
 					
 		String[] professorName = request.getParameterValues("professorName");
 		String[] professorSurname = request.getParameterValues("professorSurname");
@@ -505,7 +527,7 @@ public class ClassServlet extends AbstractDatabaseServlet
 			m = new Message("Error while editing " + insegnamentoBean.getNome() + " instance.","XXX", e.getMessage());
 			request.setAttribute("message", m);
 			
-			getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(request, response); // ERROR PAGE
+			errorForward(request, response);
 			return;
 		} finally {
 			DbUtils.closeQuietly(con);
@@ -527,9 +549,6 @@ public class ClassServlet extends AbstractDatabaseServlet
     private void errorForward(HttpServletRequest request, HttpServletResponse response) 
     		throws ServletException, IOException  {
     	// Error management
-        	
-    	//Message m = new Message("Error while updating the city.","XXX", "");
-    	//request.setAttribute("message", m);
     		
     	getServletContext().getRequestDispatcher("/jsp/error.jsp")
     		.forward(request, response); // ERROR PAGE

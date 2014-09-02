@@ -6,7 +6,6 @@ import it.unipd.dei.bding.erasmusadvisor.database.CorsoDiLaureaDatabase;
 import it.unipd.dei.bding.erasmusadvisor.database.SpecializzazioneDatabase;
 import it.unipd.dei.bding.erasmusadvisor.resources.LoggedUser;
 import it.unipd.dei.bding.erasmusadvisor.resources.Message;
-import it.unipd.dei.bding.erasmusadvisor.resources.UserType;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -17,6 +16,7 @@ import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.dbutils.DbUtils;
 
@@ -56,27 +56,33 @@ public class CourseServlet extends AbstractDatabaseServlet {
 	 */
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		// get the operation
+
+		// Gets operation parameter
 		String operation = req.getParameter("operation");
+		
+		// Gets user from session
+		HttpSession session = req.getSession();
+		LoggedUser lu = (LoggedUser) session.getAttribute("loggedUser");
 
-		// TODO: DA SESSIONE
-		LoggedUser lu = new LoggedUser(UserType.RESPONSABILE, "erick.burn"); 
-
-		if (operation == null || operation.isEmpty() || !lu.isFlowResp()) {
-
-			// Error
-			Message m = new Message("Not authorized or operation null", "", "");
-			req.setAttribute("message", m);
+		/**
+		 * Authorization check. Permissions required: FlowManager, Coordinator
+		 */
+		if (! (lu.isCoord() || lu.isFlowResp()) || operation == null || operation.isEmpty() ) {
+			req.setAttribute("message", 
+					new Message("Not authorized or operation not allowed", "E200", ""));
 			errorForward(req, resp);
 			return;
-
-		} else if (operation.equals(INSERT)) {
+		} 
+		/** 
+		 * OPERATION DISPATCHER 
+		 */
+		else if (operation.equals(INSERT)) {
 			
 			/**
 			 * INSERT OPERATION
 			 */
 
-			insert(req, resp);
+			insert(req, resp, lu);
 
 		} else if (operation.equals(EDIT)) {
 			
@@ -113,12 +119,8 @@ public class CourseServlet extends AbstractDatabaseServlet {
 	 * @throws IOException
 	 *  			if any error occurs in the client/server communication.
 	 */
-	private void insert(HttpServletRequest request, HttpServletResponse response) 
+	private void insert(HttpServletRequest request, HttpServletResponse response, LoggedUser lu) 
 			throws ServletException, IOException  {
-		
-		// TODO: DA SESSIONE
-		LoggedUser lu = new LoggedUser(UserType.RESPONSABILE, "erick.burn"); 
-
 		
 		// entity beans
 		CorsoDiLaureaBean corsoDiLaureaBean  = null;
