@@ -125,8 +125,8 @@ public class FlowEvaluationsServlet extends AbstractDatabaseServlet
 		catch (SQLException e) 
 		{
 			// Error management
-			e.printStackTrace();
-			m = new Message("Error while deleting the evaluation.","", e.getMessage());
+			//e.printStackTrace();
+			m = new Message("Error while deleting the evaluation.","E200", e.getMessage());
 			req.setAttribute("message", m);
 			errorForward(req, resp); 
 			return;

@@ -62,7 +62,7 @@ public class IndexServlet extends AbstractDatabaseServlet {
 			conn = DS.getConnection();
 			interests = InteresseDatabase.getInterestInformationsFromUser(conn,lu.getUser());
 		} catch (SQLException ex) {
-			m = new Message("Error while getting the index page.", "",
+			m = new Message("Error while getting the index page.", "E200",
 					ex.getMessage());
 		} finally {
 			DbUtils.closeQuietly(conn); 

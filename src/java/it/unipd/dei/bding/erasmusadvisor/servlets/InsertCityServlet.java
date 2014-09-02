@@ -2,6 +2,7 @@ package it.unipd.dei.bding.erasmusadvisor.servlets;
 
 import it.unipd.dei.bding.erasmusadvisor.beans.LinguaBean;
 import it.unipd.dei.bding.erasmusadvisor.database.GetLinguaValues;
+import it.unipd.dei.bding.erasmusadvisor.resources.LoggedUser;
 import it.unipd.dei.bding.erasmusadvisor.resources.Message;
 
 import java.io.IOException;
@@ -12,6 +13,7 @@ import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.dbutils.DbUtils;
 
@@ -49,11 +51,28 @@ public class InsertCityServlet extends AbstractDatabaseServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		
-
+		// Gets user from session
+		HttpSession session = req.getSession();
+		LoggedUser lu = (LoggedUser) session.getAttribute("loggedUser");
+		
+		/**
+		 * Authorization check. Permissions required: FlowManager, Coordinator
+		 */
+		if (! (lu.isCoord() || lu.isFlowResp())  ) {
+			req.setAttribute("message", 
+					new Message("Not authorized.", "E200", ""));
+			errorForward(req, resp);
+			return;
+		} 
+		
+		// bean, db connection, model
 		List<LinguaBean> languageDomain = null;
 		Connection conn = null;
 		Message m = null;
 		
+		/**
+		 * Gets data from the database
+		 */
 		try {
 			conn = DS.getConnection();
 			languageDomain = GetLinguaValues.getLinguaDomain(conn);
@@ -77,4 +96,23 @@ public class InsertCityServlet extends AbstractDatabaseServlet {
 			getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(req, resp);
 		}
 	}
+	
+	/**
+     * Handles error forwarding between pages.
+     * 
+	 * @param request 
+	 * 				request from the client
+	 * @param response 
+	 * 				response to the client 
+	 * @throws ServletException
+	 * 			 	if any error occurs while executing the servlet
+	 * @throws IOException
+	 *  			if any error occurs in the client/server communication.
+	 */
+    private void errorForward(HttpServletRequest request, HttpServletResponse response) 
+    		throws ServletException, IOException  {
+    		
+    	getServletContext().getRequestDispatcher("/jsp/error.jsp")
+    		.forward(request, response); // ERROR PAGE
+    }
 }

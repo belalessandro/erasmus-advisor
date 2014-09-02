@@ -79,12 +79,12 @@ public class FlussoDatabase
 	 * Gets a flow, searched by ID, with the corresponding 
 	 * list of professors, courses, certificates, evaluations.
 	 * 
-	 * @param ds A Data Source for getting the connection.
+	 * @param conn the connection.
 	 * @param ID The Flow ID.
 	 * @return A Flow with the corresponding list of professors, courses, certificates, evaluations.
 	 * @throws SQLException If an error occurs.
 	 */
-	public static Flow getFlusso(DataSource ds, String ID)
+	public static Flow getFlusso(Connection conn, String ID)
 			throws SQLException 
 	{
 		final String statement1 = "SELECT * FROM Flusso WHERE ID = ?";
@@ -102,10 +102,10 @@ public class FlussoDatabase
 		List<CertificatiLinguisticiBean> certificati = null;
 		List<ValutazioneFlussoBean> listaValutazioni = null;
 
-		QueryRunner run = new QueryRunner(ds);
+		QueryRunner run = new QueryRunner();
 		
 		ResultSetHandler<FlussoBean> h1 = new BeanHandler<FlussoBean>(FlussoBean.class);
-		flow = run.query(statement1, h1, ID);
+		flow = run.query(conn, statement1, h1, ID);
 		
 		if (flow == null)
 		{
@@ -114,19 +114,19 @@ public class FlussoDatabase
 
 		// Gets the evaluations
 		ResultSetHandler<List<ValutazioneFlussoBean>> h2 = new BeanListHandler<ValutazioneFlussoBean>(ValutazioneFlussoBean.class);
-		listaValutazioni = run.query(statement2, h2, ID);
+		listaValutazioni = run.query(conn, statement2, h2, ID);
 		
 		// Gets the manager
 		ResultSetHandler<ResponsabileFlussoBean> h3 = new BeanHandler<ResponsabileFlussoBean>(ResponsabileFlussoBean.class);
-		responsabile = run.query(statement3, h3, flow.getRespFlusso());
+		responsabile = run.query(conn, statement3, h3, flow.getRespFlusso());
 		
 		// Gets the courses
 		ResultSetHandler<List<CorsoDiLaureaBean>> h4 = new BeanListHandler<CorsoDiLaureaBean>(CorsoDiLaureaBean.class);
-		corsiOrigine = run.query(statement4, h4, ID);
+		corsiOrigine = run.query(conn, statement4, h4, ID);
 		
 		// Gets the certificates
 		ResultSetHandler<List<CertificatiLinguisticiBean>> h5 = new BeanListHandler<CertificatiLinguisticiBean>(CertificatiLinguisticiBean.class);
-		certificati = run.query(statement5, h5, ID);
+		certificati = run.query(conn, statement5, h5, ID);
 		
 		// Returns the results
 		return new Flow(flow, responsabile, corsiOrigine, certificati, listaValutazioni);

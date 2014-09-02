@@ -5,6 +5,7 @@ import it.unipd.dei.bding.erasmusadvisor.beans.CorsoDiLaureaBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.ResponsabileFlussoBean;
 import it.unipd.dei.bding.erasmusadvisor.database.CorsoDiLaureaDatabase;
 import it.unipd.dei.bding.erasmusadvisor.database.GetCertificatiLinguisticiValues;
+import it.unipd.dei.bding.erasmusadvisor.resources.LoggedUser;
 import it.unipd.dei.bding.erasmusadvisor.resources.Message;
 
 import java.io.IOException;
@@ -15,6 +16,7 @@ import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.dbutils.DbUtils;
 
@@ -52,14 +54,22 @@ public class InsertFlowServlet extends AbstractDatabaseServlet {
 	 */
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		// TODO: notare che manca l'istruzione che recupera i corsi selezionabili in base al responsabil di flusso	
+		
+		// Gets user from session
+		HttpSession session = req.getSession();
+		LoggedUser lu = (LoggedUser) session.getAttribute("loggedUser");
+		
+		/**
+		 * Authorization check. Permissions required: FlowManager
+		 */
+		if (! lu.isFlowResp()  ) {
+			req.setAttribute("message", 
+					new Message("Not authorized.", "E200", ""));
+			errorForward(req, resp);
+			return;
+		} 
 
-		//LoggedUser lu = (LoggedUser) req.getSession().getAttribute("loggedUser");
-		// if !lu.isResp()... => ERROR
-		
-		ResponsabileFlussoBean flowResp = new ResponsabileFlussoBean();
-		flowResp.setNomeUtente("pilu");
-		
+		// beans, db connection, model
 		List<CertificatiLinguisticiBean> certificatesDomain = null;
 		List<CorsoDiLaureaBean> possibleCourses = null;
 		Connection conn = null;
@@ -68,6 +78,10 @@ public class InsertFlowServlet extends AbstractDatabaseServlet {
 		try {
 			conn = DS.getConnection();
 			certificatesDomain = GetCertificatiLinguisticiValues.getCertificatiLinguisticiDomain(conn);
+			
+			ResponsabileFlussoBean flowResp = new ResponsabileFlussoBean();
+			flowResp.setNomeUtente(lu.getUser());
+			
 			possibleCourses = CorsoDiLaureaDatabase.getPossibleCourses(conn, flowResp);
 		} 
 		catch (SQLException ex) {
@@ -90,4 +104,23 @@ public class InsertFlowServlet extends AbstractDatabaseServlet {
 			getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(req, resp);
 		}
 	}
+	
+	/**
+     * Handles error forwarding between pages.
+     * 
+	 * @param request 
+	 * 				request from the client
+	 * @param response 
+	 * 				response to the client 
+	 * @throws ServletException
+	 * 			 	if any error occurs while executing the servlet
+	 * @throws IOException
+	 *  			if any error occurs in the client/server communication.
+	 */
+    private void errorForward(HttpServletRequest request, HttpServletResponse response) 
+    		throws ServletException, IOException  {
+    		
+    	getServletContext().getRequestDispatcher("/jsp/error.jsp")
+    		.forward(request, response); // ERROR PAGE
+    }
 }
