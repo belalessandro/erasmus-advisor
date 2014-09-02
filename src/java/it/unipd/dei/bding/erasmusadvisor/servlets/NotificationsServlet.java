@@ -19,8 +19,10 @@ import javax.json.JsonObjectBuilder;
 import javax.json.JsonReader;
 import javax.json.JsonWriter;
 import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.dbutils.DbUtils;
 
@@ -58,9 +60,23 @@ public class NotificationsServlet extends AbstractDatabaseServlet {
 	 */
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException 
 	{
-		// get the coordinator from current user
-		LoggedUser lu = new LoggedUser(UserType.COORDINATORE, "ErasmusCoordinator");
-//		LoggedUser lu = new LoggedUser(UserType.RESPONSABILE, "erick.burn");
+
+		// Gets operation parameter
+		String operation = req.getParameter("operation");
+		
+		// Gets user from session
+		HttpSession session = req.getSession();
+		LoggedUser lu = (LoggedUser) session.getAttribute("loggedUser");
+		
+		/**
+		 * Authorization check. Permissions required: FlowManager, Coordinator
+		 */
+		if (! (lu.isCoord() || lu.isFlowResp()) || operation == null || operation.isEmpty() ) {
+			req.setAttribute("message", 
+					new Message("Not authorized or operation not allowed", "E200", ""));
+			errorForward(req, resp);
+			return;
+		} 
 		
 		// required variables
 		Notifications notifications = null;

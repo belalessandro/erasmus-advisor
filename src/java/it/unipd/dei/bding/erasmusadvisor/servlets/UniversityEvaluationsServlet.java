@@ -5,7 +5,6 @@ import it.unipd.dei.bding.erasmusadvisor.beans.ValutazioneUniversitaBean;
 import it.unipd.dei.bding.erasmusadvisor.database.ValutazioneUniversitaDatabase;
 import it.unipd.dei.bding.erasmusadvisor.resources.LoggedUser;
 import it.unipd.dei.bding.erasmusadvisor.resources.Message;
-import it.unipd.dei.bding.erasmusadvisor.resources.UserType;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -14,6 +13,7 @@ import java.sql.SQLException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.dbutils.DbUtils;
 
@@ -49,20 +49,25 @@ public class UniversityEvaluationsServlet extends AbstractDatabaseServlet
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 
-		// Verify logged user
-		// TODO: DA SESSIONE
-		LoggedUser lu = new LoggedUser(UserType.STUDENTE, "mario.rossi");
-
+		// Gets operation parameter
 		String operation = req.getParameter("operation");
 		
-		if (operation == null || operation.isEmpty() || !lu.isStudent()) {
-			// Error
-			Message m = null;
-			m = new Message("Not authorized or operation null", "", "");
-			req.setAttribute("message", m);
+		// Gets user from session
+		HttpSession session = req.getSession();
+		LoggedUser lu = (LoggedUser) session.getAttribute("loggedUser");
+		
+		/**
+		 * Authorization check. Permissions required: STUDENT
+		 */
+		if (!lu.isStudent() || operation == null || operation.isEmpty() ) {
+			req.setAttribute("message", 
+					new Message("Not authorized or operation not allowed", "E200", ""));
 			errorForward(req, resp);
 			return;
 		} 
+		/** 
+		 * OPERATION DISPATCHER 
+		 */
 		else if (operation.equals("insert"))
 		{
 			insert(req, resp, lu);
