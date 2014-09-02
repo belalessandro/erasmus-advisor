@@ -283,29 +283,16 @@ public class InsegnamentoDatabase
 		
 		pstmt = con.prepareStatement(sql);
 		
-		try{
+		try
+		{
 			pstmt.setString(1, status);
 			pstmt.setInt(2, id);
 			
 			pstmt.execute();
 			
-		} catch(SQLException e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				if(pstmt != null)
-					pstmt.close();
-				if(con != null)
-					con.close();
-			} catch(SQLException ex) {
-				ex.printStackTrace();
-			} finally {
-				pstmt = null;
-				con = null;		
-			}
+		} 
+		finally {
+			DbUtils.close(pstmt); // close the statement (*always*)
 		}
-//		QueryRunner run = new QueryRunner();
-//		
-//		run.update(con, sql, status, id);
 	}
 }
