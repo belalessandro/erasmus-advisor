@@ -218,10 +218,6 @@ public class StudenteBean implements Serializable {
             stud.setSalt("fdasdfs");
             stud.setAttivo(true);
      
-            // Output: "Prova Nome [attivo] [email valida]"
-            System.out.print(stud.getNomeUtente());
-            System.out.print(stud.isAttivo() ? " [attivo]" : " [non attivo]");
-            System.out.println(stud.isEmailValid() ? " [email valida]" : " [email NON valida]");
         }
     //}
 }

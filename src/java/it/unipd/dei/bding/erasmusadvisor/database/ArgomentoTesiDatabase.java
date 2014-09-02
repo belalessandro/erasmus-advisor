@@ -65,7 +65,6 @@ public class ArgomentoTesiDatabase {
 			}
 		} finally {
 			DbUtils.closeQuietly(pstmt);
-			//System.out.println("PreparedStatement closed");
 		}
 		return generatedId;
 	}

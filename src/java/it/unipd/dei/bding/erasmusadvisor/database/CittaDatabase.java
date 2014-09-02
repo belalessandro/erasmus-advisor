@@ -49,7 +49,6 @@ public class CittaDatabase
 			pstmt.execute();
 		} finally {
 			DbUtils.closeQuietly(pstmt);
-			//System.out.println("PreparedStatement closed");
 		}
 	}
 
