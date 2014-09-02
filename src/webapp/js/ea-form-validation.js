@@ -286,14 +286,47 @@ function professor_validation(profName)
 
 function date_interval_validation(startDate, endDate)
 {
+//	try
+//	{
+//		var fromAr = startDate.value.split("/");
+//		var toAr = endDate.value.split("/");
+//		var from = new Date();
+//		from.setFullYear(fromAr[2], fromAr[0], fromAr[1]);
+//		var to = new Date();
+//		to.setFullYear(toAr[2], toAr[0], toAr[1]);
+//		
+//		if (from < to)
+//		{
+//			return true;
+//		}
+//		else
+//		{
+//			alert("You have to insert a valid interval.");  
+//			startDate.focus();
+//			return false;
+//		}
+//	}
+//	catch(err)
+//	{
+//		alert("You have to insert a valid interval.");  
+//		startDate.focus();
+//		return false;
+//	}
+	
+	/*
+	 * New version
+	 */
+	
 	try
 	{
-		var fromAr = startDate.value.split("/");
-		var toAr = endDate.value.split("/");
+		var fromAr = startDate.value.split("-");
+		var toAr = endDate.value.split("-");
 		var from = new Date();
-		from.setFullYear(fromAr[2], fromAr[0], fromAr[1]);
+		from.setFullYear(fromAr[0], fromAr[1], fromAr[2]);
 		var to = new Date();
-		to.setFullYear(toAr[2], toAr[0], toAr[1]);
+		to.setFullYear(toAr[0], toAr[1], toAr[2]);
+		console.log("from: " + from);
+		console.log("To: " + to);
 		
 		if (from < to)
 		{

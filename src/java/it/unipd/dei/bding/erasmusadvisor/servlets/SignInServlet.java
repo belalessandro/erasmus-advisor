@@ -1,25 +1,33 @@
 package it.unipd.dei.bding.erasmusadvisor.servlets;
 
 import it.unipd.dei.bding.erasmusadvisor.beans.BeanUtilities;
+import it.unipd.dei.bding.erasmusadvisor.beans.IscrizioneBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.ResponsabileFlussoBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.StudenteBean;
-import it.unipd.dei.bding.erasmusadvisor.database.CreateResponsabileDatabase;
-import it.unipd.dei.bding.erasmusadvisor.database.CreateStudenteDatabase;
+import it.unipd.dei.bding.erasmusadvisor.database.CorsoDiLaureaDatabase;
+import it.unipd.dei.bding.erasmusadvisor.database.IscrizioneDatabase;
+import it.unipd.dei.bding.erasmusadvisor.database.ResponsabileFlussoDatabase;
+import it.unipd.dei.bding.erasmusadvisor.database.StudenteDatabase;
 import it.unipd.dei.bding.erasmusadvisor.resources.LoggedUser;
 import it.unipd.dei.bding.erasmusadvisor.resources.Message;
 import it.unipd.dei.bding.erasmusadvisor.resources.UserType;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
+import java.sql.Connection;
+import java.sql.Date;
 import java.sql.SQLException;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+import org.apache.commons.dbutils.DbUtils;
 
 /**
  * Form processing for the Sign in.
@@ -71,6 +79,16 @@ public class SignInServlet extends AbstractDatabaseServlet {
 
 	}
 
+	/**
+	 * Method used for hash a particular password with the salt given.
+	 * 
+	 * @param password 
+	 * 				password to hash
+	 * @param salt 
+	 * 				salt
+	 * @return the hashed password
+	 */
+
 	private String hashPassword(String password, String salt) {
 		MessageDigest digest;
 		try {
@@ -117,46 +135,77 @@ public class SignInServlet extends AbstractDatabaseServlet {
 
 		// Parameters
 		String username = (String) request.getParameter("user");
+		Connection con = null;
 		Message m = null;
-		UserType auth = UserType.STUDENTE;
+		UserType auth = null;
 
 		try {
 			String type = (String) request.getParameter("userType");
 			if (type.equals("Manager")) {
+				
+				// set authorization
 				auth = UserType.RESPONSABILE;
-				ResponsabileFlussoBean s = new ResponsabileFlussoBean();
-				// Sporcooooo.. da valutare se utilizzare gli stessi nomi per la
-				// conversione automatica o farlo a mano
-				BeanUtilities.populateBean(s, request); // popola automaticam. i
-														// campi i cui nomi
-														// coincidono con quelli
-														// dei
-														// beans
+				
+				// populate 
+				ResponsabileFlussoBean manager = new ResponsabileFlussoBean();
+				BeanUtilities.populateBean(manager, request);
+				
+				// set the password
 				SecureRandom random = new SecureRandom();
-				s.setSalt("" + random.nextLong());
-				s.setPassword(hashPassword(s.getPassword(), s.getSalt()));
-				s.setNomeUtente(username);
-				s.setAbilitato(false);
-				s.setAttivo(true);
+				manager.setSalt("" + random.nextLong());
+				manager.setPassword(hashPassword(manager.getPassword(), manager.getSalt()));
+				manager.setNomeUtente(username);
+				manager.setAbilitato(false);
+				manager.setAttivo(true);
 
-				new CreateResponsabileDatabase(DS.getConnection(), s)
-						.createManager();
-			} else {
-				StudenteBean s = new StudenteBean();
-				// Sporcooooo.. da valutare se utilizzare gli stessi nomi per la
-				// conversione automatica o farlo a mano
-				BeanUtilities.populateBean(s, request); // popola automaticam. i
-														// campi i cui nomi
-														// coincidono con quelli
-														// dei
-														// beans
+				
+				
+				// insert into the database
+				con = DS.getConnection();
+				
+				ResponsabileFlussoDatabase.createResponsabileFlusso(con, manager);
+				
+			} else if(type.equals("Student")) {
+				// set authorization
+				auth = UserType.STUDENTE;
+				
+				// populate 
+				StudenteBean student = new StudenteBean();
+				BeanUtilities.populateBean(student, request);
+				
+				// settin the password
 				SecureRandom random = new SecureRandom();
-				s.setSalt("" + random.nextLong());
-				s.setPassword(hashPassword(s.getPassword(), s.getSalt()));
-				s.setNomeUtente(username);
+				student.setSalt("" + random.nextLong());
+				student.setPassword(hashPassword(student.getPassword(), student.getSalt()));
+				student.setNomeUtente(username);
 
-				new CreateStudenteDatabase(DS.getConnection(), s)
-						.createStudente();
+				// processing the course name and level
+				String[] res = null;
+				res = extractCourseNameAndLevel(request.getParameter("courseName"));
+				String courseName = res[0].trim();
+				String courseLevel = res[1].trim();
+				String courseUniversity = request.getParameter("nomeUniversita").trim();
+				
+				// getting the connection
+				con = DS.getConnection();
+				
+				// getting the course id
+				int courseId = CorsoDiLaureaDatabase.getCourseId(con, courseName, courseLevel, courseUniversity);
+				
+				
+				// initialize a new subscription
+				IscrizioneBean subscription = new IscrizioneBean();
+				
+				subscription.setIdCorso(courseId);
+				subscription.setNomeUtenteStudente(student.getNomeUtente());
+				subscription.setAnnoInizio(Date.valueOf(request.getParameter("date_from")));
+				subscription.setAnnoFine(Date.valueOf(request.getParameter("date_to")));
+				
+				// inserting into the database
+				
+				con.setAutoCommit(false);
+				StudenteDatabase.createStudente(con, student);
+				IscrizioneDatabase.createIscrizione(con, subscription);
 			}
 
 			LoggedUser logged = new LoggedUser(auth, username);
@@ -177,14 +226,20 @@ public class SignInServlet extends AbstractDatabaseServlet {
 						"Cannot create the user: unexpected error while accessing the database.",
 						"E200", ex.getMessage());
 			}
+		} finally {
+			try {
+				con.setAutoCommit(true);
+				DbUtils.close(con);
+			} catch (SQLException ex) {
+				m = new Message(
+						"Cannot close the connection",
+						"XXX", ex.getMessage());
+			} finally {
+				DbUtils.closeQuietly(con);
+			}
 		}
 
-		// stores the employee and the message as a request attribute
-		// request.setAttribute("student", s);
-
 		if (m == null) {
-			// forwards the control to the index JSP
-			// luca: cambiato da user_profile a index.jsp
 			getServletContext().getRequestDispatcher("/jsp/index.jsp").forward(
 					request, response);
 		} else {
@@ -194,6 +249,39 @@ public class SignInServlet extends AbstractDatabaseServlet {
 		}
 	}
 	
+	/**
+	 * Extract a name and the level from a complete course 
+	 * name.
+	 * 
+	 * Example: Information Engineering (UNDERGRADUATE) 
+	 * 			returns s[0] = "Information Engineering" 
+	 * 					s[1] = "UNDERGRADUATE"
+	 * 
+	 * @param parameter string to parse
+	 */
+	private String[] extractCourseNameAndLevel(String parameter) {
+		
+		String[] res = new String[2];
+		
+		int init = 0;
+		int end = parameter.length();
+		boolean open = false;
+		for(int i = 0; i < parameter.length(); i++)
+		{
+			if(parameter.charAt(i) == '(' && !open)
+			{
+				open = true;
+				init = i + 1;
+			}
+			else if(parameter.charAt(i) == ')' && open)
+				end = i;
+		}
+		
+		res[0] = parameter.substring(0, init - 1);
+		res[1] = parameter.substring(init, end);
+		
+		return res;
+	}
 
     /**
      * Handles error forwarding between pages.

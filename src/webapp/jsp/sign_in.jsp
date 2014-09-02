@@ -183,13 +183,13 @@
 					<br>
 					<div id="form_name" class="sign_in_input_group">
 						<div class="input-group sign_in_input_group">
-							<span class="input-group-addon sign_in_input">Name*</span> <input type="text" class="form-control" name="name" id="name" placeholder="Insert your name">	
+							<span class="input-group-addon sign_in_input">Name*</span> <input type="text" class="form-control" name="nome" id="name" placeholder="Insert your name">	
 						</div>
 						<br>
 					</div>
 					<div id="form_surname" class="sign_in_input_group">
 						<div class="input-group sign_in_input_group">
-							<span class="input-group-addon sign_in_input">Surname*</span> <input type="text" class="form-control" name="surname" id="surname" placeholder="Insert your surname">			
+							<span class="input-group-addon sign_in_input">Surname*</span> <input type="text" class="form-control" name="cognome" id="surname" placeholder="Insert your surname">			
 						</div>
 						<br>
 					</div>
@@ -202,12 +202,12 @@
 					</div>
 					<br>
 					<div class="input-group sign_in_input_group">
-						<span class="input-group-addon sign_in_input">University</span><input id="universityNames" class="form-control" name="university" title="type &quot;a&quot;" placeholder="Insert the University"/>
+						<span class="input-group-addon sign_in_input">University</span><input id="universityNames" class="form-control" name="nomeUniversita" title="type &quot;a&quot;" placeholder="Insert the University"/>
 					</div>
 					<br>
 					<div id="form_degree_course" class="sign_in_input_group">
 						<div class="input-group sign_in_input_group">
-							<span class="input-group-addon sign_in_input">Degree Course</span> <input id="corsoNames" class="form-control" name="degree" title="type &quot;a&quot;" placeholder="Insert your Degree Course"/>
+							<span class="input-group-addon sign_in_input">Degree Course</span> <input id="corsoNames" class="form-control" name="courseName" title="type &quot;a&quot;" placeholder="Insert your Degree Course"/>
 						</div>
 						<br>
 					</div>
@@ -215,10 +215,10 @@
 						<div class="col-lg-5"></div>
 						<div class="col-lg-7">
 							<div class="input-group sign_in_input_group">
-								<span class="input-group-addon sign_in_input_small">From</span><input type="text" class="form-control" id="datepicker" name="date_from" placeholder="dd/mm/yyyy">
+								<span class="input-group-addon sign_in_input_small">From</span><input type="text" class="form-control" id="datepicker" name="date_from" data-date-format="yyyy-mm-dd">
 							</div>
 							<div class="input-group sign_in_input_group">
-								<span class="input-group-addon sign_in_input_small">To</span><input type="text" class="form-control" id="datepicker2" name="date_to" placeholder="dd/mm/yyyy">
+								<span class="input-group-addon sign_in_input_small">To</span><input type="text" class="form-control" id="datepicker2" name="date_to" data-date-format="yyyy-mm-dd">
 							</div>
 						</div>
 					</div>
