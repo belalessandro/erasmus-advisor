@@ -40,6 +40,24 @@
 		<filter-name>encodingFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping> 
+	
+	<!-- Login - Session Check Filter -->
+	<filter>
+		<filter-name>LoginCheckFilter</filter-name>
+		<filter-class>it.unipd.dei.bding.erasmusadvisor.servlets.filters.LoginCheckFilter</filter-class>
+		<init-param>
+			<param-name>excludePatterns</param-name>
+			<param-value>/erasmus-advisor/css/*;/erasmus-advisor/img/*;/erasmus-advisor/js/*;/erasmus-advisor/fonts/*;/erasmus-advisor/signin;/erasmus-advisor/login;/erasmus-advisor/</param-value>
+    	</init-param>
+    	<init-param>
+			<param-name>enabled</param-name>
+			<param-value>true</param-value>
+    	</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>LoginCheckFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping> 
 
 	<!-- Servlet list. Remember to keep servlet and servlet-mapping combined -->
         
