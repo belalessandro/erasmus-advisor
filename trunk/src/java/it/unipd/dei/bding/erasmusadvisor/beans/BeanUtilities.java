@@ -5,12 +5,9 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.beanutils.BeanUtils;
-import org.owasp.html.HtmlSanitizer;
-import org.owasp.html.HtmlSanitizer.Policy;
 import org.owasp.html.PolicyFactory;
 import org.owasp.html.Sanitizers;
 
-import com.sun.mail.util.BEncoderStream;
 
 /**
  * Some utilities to populate beans, usually based on incoming request
