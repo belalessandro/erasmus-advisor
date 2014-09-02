@@ -47,7 +47,7 @@
 		<filter-class>it.unipd.dei.bding.erasmusadvisor.servlets.filters.LoginCheckFilter</filter-class>
 		<init-param>
 			<param-name>excludePatterns</param-name>
-			<param-value>/erasmus-advisor/css/*;/erasmus-advisor/img/*;/erasmus-advisor/js/*;/erasmus-advisor/fonts/*;/erasmus-advisor/signin;/erasmus-advisor/login;/erasmus-advisor/</param-value>
+			<param-value>/erasmus-advisor/css/*;/erasmus-advisor/img/*;/erasmus-advisor/js/*;/erasmus-advisor/fonts/*;/erasmus-advisor/signin;/erasmus-advisor/login;/erasmus-advisor/course/list;/erasmus-advisor/university/list;/erasmus-advisor/;</param-value>
     	</init-param>
     	<init-param>
 			<param-name>enabled</param-name>
