@@ -81,7 +81,7 @@
 			<h1>Erasmus Advisor</h1>
 			<h4>Plan your Erasmus experience and share your evaluations.</h4>
 			<br>
-			<a href="<c:url value="/signin"/>" class="btn btn-primary">Sign in</a>
+			<a href="<c:url value="/signin"/>" class="btn btn-primary">Sign up</a>
 			<a href="jsp/index.jsp" class="btn btn-primary">Test to index</a>
 			<br>
 			<br>
