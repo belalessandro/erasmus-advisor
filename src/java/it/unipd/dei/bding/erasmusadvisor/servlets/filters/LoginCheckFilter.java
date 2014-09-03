@@ -60,8 +60,9 @@ public class LoginCheckFilter implements Filter {
 				&& (session == null || session.getAttribute("loggedUser") == null)) {
 			
 	    	Message m = new Message("User not logged.","E100", 
-	    			"You seem not logged or session is expired. You must do the login.");
+	    			"You seem to be not logged or your session is expired. You must login to access to this page.");
 	    	request.setAttribute("message", m);
+	    	request.setAttribute("errorType", "userNotLogged");
 	    	errorForward(request, response);
 		} else {
 			chain.doFilter(req, res); // Logged-in user found, so just continue request.
