@@ -15,16 +15,6 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.commons.dbutils.DbUtils;
 
-/*
- * (Autorizzazioni: solo STUDENTE)
- * 
- * mappato su /student/interests
- * 
- * quando riceve POST
- *   		-> Se operazione è "delete" rimuove l'interesse collegato allo studente loggato e IdFlusso come parametro
- *   		-> Se operazione è "insert" inserisce l'interesse collegato allo studente loggato e IdFlusso come parametro
- */
-
 /**
  * Manages all interests related to a student. 
  * 
@@ -36,7 +26,6 @@ import org.apache.commons.dbutils.DbUtils;
  * 
  * @author Luca
  */
-
 public class InterestServlet extends AbstractDatabaseServlet 
 {
 	/**
