@@ -19,7 +19,6 @@ import it.unipd.dei.bding.erasmusadvisor.resources.Flow;
 import it.unipd.dei.bding.erasmusadvisor.resources.FlowEvaluationAverage;
 import it.unipd.dei.bding.erasmusadvisor.resources.LoggedUser;
 import it.unipd.dei.bding.erasmusadvisor.resources.Message;
-import it.unipd.dei.bding.erasmusadvisor.resources.UserType;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -233,7 +232,12 @@ public class FlowServlet extends AbstractDatabaseServlet {
 		
 		// Additional settings for the bean
 		flussoBean.setRespFlusso(lu.getUser());
-		flussoBean.setAttivo(false); // TODO: in base a chi lo inserisce 
+		
+		// Sets active field
+		if (lu.isCoord() || lu.isFlowResp())
+			flussoBean.setAttivo(true);
+		else
+			flussoBean.setAttivo(false);
 		
 		String[] paramCert = request.getParameterValues("certificate[]");
 		if (paramCert != null) {
@@ -492,9 +496,6 @@ public class FlowServlet extends AbstractDatabaseServlet {
     private void errorForward(HttpServletRequest request, HttpServletResponse response) 
     		throws ServletException, IOException  {
     	// Error management
-        	
-    	//Message m = new Message("Error while updating the city.","XXX", "");
-    	//request.setAttribute("message", m);
     		
     	getServletContext().getRequestDispatcher("/jsp/error.jsp")
     		.forward(request, response); // ERROR PAGE
