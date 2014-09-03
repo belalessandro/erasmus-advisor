@@ -76,6 +76,25 @@
 	    			else {  // splash! and nothing happens
 	    			}      
 	            });
+	    		// funziona che rimuove la partecipazione
+	            $('#flow_remove_participation').click(function() {  
+	    	    	var r = confirm("Do you want to remove your participation to this flow?");
+	    			if (r == true) 
+	    			{               
+		                var flow = "<c:out value="${flow.id}"/>";
+		            	$.post('<c:url value="/flow/participation"/>', 
+		                		{ operation: "delete", flowID : flow},
+		                		function(responseText) { 
+									$('#remove-participation-success').show();
+									
+		                			var actualInterest = parseInt(responseText);
+		                		    document.getElementById("flow_remove_participation").setAttribute("style", "display: none;");
+		                		    document.getElementById("flow_add_participation").setAttribute("style", "display: block;");
+		                	});
+	    			} 
+	    			else {  // splash! and nothing happens
+	    			}      
+	            });
         });		
 		function formatInterest(numInterest)
 		{
@@ -140,7 +159,13 @@
 			<!-- Avviso rimozione interesse con successo -->
 			<div id="remove-interest-success" class="alert alert-success" role="alert" style="display:none">
 				<button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-				<div class="text-center">This flow has been successfully removed from your interests</div>  
+				<div class="text-center">This flow has been successfully removed from your interests.</div>  
+			</div>
+			
+			<!-- Avviso rimozione partecipazione con successo -->
+			<div id="remove-participation-success" class="alert alert-success" role="alert" style="display:none">
+				<button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+				<div class="text-center">You have successfully removed your participation from this flow.</div>  
 			</div>
 			
 			<div class="entity_details">
@@ -172,6 +197,9 @@
 						<li class="active"><span id="flow_add_interest">Add interest</span></li>
 						<li class="active"><span id="flow_remove_interest" style="display: none !important;">Remove interest</span></li>
 						<li class="active"><span id="flow_add_partecipation" data-toggle="modal" data-target="#participationForm">Add participation</span></li>
+						<li class="active">
+							<span id="flow_remove_participation" style="display: none !important;">Remove participation</span>
+						</li>
 						<li class="active"><span data-toggle="modal" data-target="#editForm">Edit</span></li>
 						<li class="active">
 							<form method="post" action="<c:url value="/flow"/>">
