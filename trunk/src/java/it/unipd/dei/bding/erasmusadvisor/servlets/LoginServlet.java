@@ -95,22 +95,21 @@ public class LoginServlet extends AbstractDatabaseServlet {
 						// luca: traferisce il controllo alla index
 						//getServletContext().getRequestDispatcher("/jsp/index.jsp").forward(request, response);
 						
-						getServletContext().getRequestDispatcher("/index").forward(request, response);
-						/*StringBuilder builder = new StringBuilder()
+						StringBuilder builder = new StringBuilder()
+						.append(request.getContextPath())
 						.append("/index");
 				
-						response.sendRedirect(builder.toString());*/
+						response.sendRedirect(builder.toString());
 						return;
 					}
 				} 
 				catch (IllegalStateException e) {
-					m = new Message("Server error! Please contact an admin", "E200", "");
-					
+					m = new Message("Server error! Please contact an admin", "E200", "");		
 				}
 			} 
 			else if(!user.isAttivo())
 			{
-				m = new Message("Your account is disabled, please contact the SysAdmin!", "E200", "");
+				m = new Message("Your account is disabled, please contact the admin!", "E200", "");
 				request.setAttribute("message", m);
 				errorForward(request, response);
 			}
