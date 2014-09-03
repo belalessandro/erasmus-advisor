@@ -162,8 +162,8 @@ public class FlowEvaluationsServlet extends AbstractDatabaseServlet
 		
 		// Populate the bean
 		ValutazioneFlussoBean val = new ValutazioneFlussoBean();
-		val.setNomeUtenteStudente(lu.getUser());
 		BeanUtilities.populateBean(val, req);
+		val.setNomeUtenteStudente(lu.getUser());
 		
 		try {
 			// Starting database operations

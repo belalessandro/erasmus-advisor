@@ -19,6 +19,8 @@ import org.apache.commons.dbutils.handlers.BeanListHandler;
 public class ValutazioneInsegnamentoDatabase 
 {
 	/**
+	 * Creates a new ValutazioneInsegnamento
+	 * 
 	 * @param con A connection to the database.
 	 * @param val An evaluation.
 	 * @throws SQLException If something goes wrong.
@@ -27,10 +29,12 @@ public class ValutazioneInsegnamentoDatabase
 		throws SQLException
 	{
 		StringBuilder builder = new StringBuilder()
-			.append("INSERT INTO ValutazioneInsegnamento (nomeutentestudente,idinsegnamento,qtainsegnamanto,interesse,difficolta,rispettodelleore,datainserimento,commento)")
+			.append("INSERT INTO ValutazioneInsegnamento (nomeutentestudente, idinsegnamento, qtainsegnamanto, ")
+			.append("interesse, difficolta, rispettodelleore, datainserimento, commento) ")
 			.append("VALUES (?, ?, ?, ?, ?, ?, default, ?);");
 		
-		ResultSetHandler<ValutazioneInsegnamentoBean> rsh = new BeanHandler<ValutazioneInsegnamentoBean>(ValutazioneInsegnamentoBean.class);
+		ResultSetHandler<ValutazioneInsegnamentoBean> rsh = 
+				new BeanHandler<ValutazioneInsegnamentoBean>(ValutazioneInsegnamentoBean.class);
 		QueryRunner run = new QueryRunner();
 		
 		run.insert(con, builder.toString(), rsh, 
