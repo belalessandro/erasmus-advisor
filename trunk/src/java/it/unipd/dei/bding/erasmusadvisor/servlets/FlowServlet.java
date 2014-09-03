@@ -178,7 +178,7 @@ public class FlowServlet extends AbstractDatabaseServlet {
 		} 
 		else if (operation.equals(INSERT)) // TODO: FlowManager puo' eliminare solo i propri
 		{		
-			insert(req, resp);
+			insert(req, resp, lu);
 		} 
 		else if (operation.equals(EDIT) )  // TODO: FlowManager puo' eliminare solo i propri
 		{
@@ -190,16 +190,17 @@ public class FlowServlet extends AbstractDatabaseServlet {
 	/**
 	 * Handles logic for insert operation.
 	 * 
-	 * @param request
-	 * @param response
+	 * @param request 
+	 * 				request from the client
+	 * @param response 
+	 * 				response to the client 
 	 * @throws ServletException
+	 * 			 	if any error occurs while executing the servlet
 	 * @throws IOException
+	 *  			if any error occurs in the client/server communication.
 	 */
-	private void insert(HttpServletRequest request, HttpServletResponse response) 
+	private void insert(HttpServletRequest request, HttpServletResponse response, LoggedUser lu) 
 			throws ServletException, IOException  {
-		
-		// TODO: DA SESSIONE
-		LoggedUser lu = new LoggedUser(UserType.RESPONSABILE, "erick.burn"); 
 
 		
 		// the connection to database
