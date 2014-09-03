@@ -33,6 +33,8 @@ public class UserBean implements Serializable {
 
 	private UserType type;
 
+	private boolean attivo;
+
 	/**
 	 * Empty constructor (defaults to no authorizations)
 	 */
@@ -50,6 +52,7 @@ public class UserBean implements Serializable {
 		this.password = user.password;
 		this.nomeUtente = user.nomeUtente;
 		this.salt = user.salt;
+		this.attivo = user.attivo;
 
 		if (type == 0) {
 			this.type = UserType.STUDENTE;
@@ -94,6 +97,21 @@ public class UserBean implements Serializable {
 
 	public void setSalt(String salt) {
 		this.salt = salt;
+	}
+	
+	public void setAttivo(boolean attivo)
+	{
+		this.attivo = attivo;
+	}
+	
+	public boolean getAttivo()
+	{
+		return attivo;
+	}
+	
+	public boolean isAttivo()
+	{
+		return attivo;
 	}
 
 	/**

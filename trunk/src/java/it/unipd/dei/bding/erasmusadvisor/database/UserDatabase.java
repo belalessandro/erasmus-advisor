@@ -29,9 +29,9 @@ public class UserDatabase {
 	 */
 	public UserBean login(Connection conn, String email) throws SQLException {
 
-		final String statement1 = "SELECT Email, NomeUtente, Password, Salt FROM Studente WHERE Email = ?";
-		final String statement2 = "SELECT Email, NomeUtente, Password, Salt FROM ResponsabileFlusso WHERE Email = ?";
-		final String statement3 = "SELECT Email, NomeUtente, Password, Salt FROM Coordinatore WHERE Email = ?";
+		final String statement1 = "SELECT Email, NomeUtente, Password, Salt, Attivo FROM Studente WHERE Email = ?";
+		final String statement2 = "SELECT Email, NomeUtente, Password, Salt, Attivo FROM ResponsabileFlusso WHERE Email = ?";
+		final String statement3 = "SELECT Email, NomeUtente, Password, Salt, Attivo FROM Coordinatore WHERE Email = ?";
 
 		UserBean user = new UserBean();
 
@@ -51,7 +51,7 @@ public class UserDatabase {
 				user = run.query(conn, statement3, h, email);
 				fails++;
 				if (user == null) {
-					throw new SQLException("City not found.");
+					throw new SQLException("User not found.");
 				}
 			}
 		}

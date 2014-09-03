@@ -80,7 +80,7 @@ public class LoginServlet extends AbstractDatabaseServlet {
 			UserDatabase userDb = new UserDatabase();
 			UserBean user = userDb.login(conn, email);
 			
-			if (user != null) {
+			if (user != null && user.isAttivo()) {
 				try {
 					//Checks the password
 					boolean correct = user.checkPassword(pass);
@@ -95,10 +95,11 @@ public class LoginServlet extends AbstractDatabaseServlet {
 						// luca: traferisce il controllo alla index
 						//getServletContext().getRequestDispatcher("/jsp/index.jsp").forward(request, response);
 						
-						StringBuilder builder = new StringBuilder()
-						.append("/erasmus-advisor/index");
+						getServletContext().getRequestDispatcher("/index").forward(request, response);
+						/*StringBuilder builder = new StringBuilder()
+						.append("/index");
 				
-						response.sendRedirect(builder.toString());
+						response.sendRedirect(builder.toString());*/
 						return;
 					}
 				} 
@@ -107,8 +108,11 @@ public class LoginServlet extends AbstractDatabaseServlet {
 					
 				}
 			} 
-			else {
-
+			else if(!user.isAttivo())
+			{
+				m = new Message("Your account is disabled, please contact the SysAdmin!", "E200", "");
+				request.setAttribute("message", m);
+				errorForward(request, response);
 			}
 		} 
 		catch (SQLException e) {
