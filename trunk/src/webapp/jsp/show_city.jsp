@@ -47,7 +47,7 @@
 		<div class="col-md-9 general_main_border">
 		
 			<!-- Showed when successfully edited -->
-			<c:if test="${!empty param.edited && param.edited == 'success'}">
+			<c:if test="${!empty param.edited && param.edited == 'success' && !sessionScope.loggedUser.student}">
 				<div class="alert alert-success alert-dismissible" role="alert" >
 				  <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
 				  <h4 class="text-center">City Successfully Edited!</h4>
@@ -68,7 +68,10 @@
 					<!-- evaluate visibile solo da studente
 						edit e delete solo da reponsabili di flusso e coordinatori erasmus -->
 					<ul class="nav nav-stacked pull-right">
-						<li class="active"><span data-toggle="modal" data-target="#evaluateForm">Evaluate</span></li>
+						<c:if test="${sessionScope.loggedUser.student}">
+							<li class="active"><span data-toggle="modal" data-target="#evaluateForm">Evaluate</span></li>
+						</c:if>
+						<c:if test="${!sessionScope.loggedUser.student}">
 						<li class="active"><span data-toggle="modal" data-target="#editForm">Edit</span></li>
 						<li class="active">
 							<form method="post" action="<c:url value="/city"/>">
@@ -80,11 +83,15 @@
 									class="btn btn-primary entity_nav_button">
 							</form>
 						</li>
+						</c:if>
 					</ul>
 				</div>
 			</div>
 			<br>			
+			
+			
 			<!--Form di valutazione a comparsa-->
+			<c:if test="${sessionScope.loggedUser.student}">
 			<div class="modal fade" id="evaluateForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false">
 				<div class="modal-dialog">
 					<div class="modal-content">
@@ -138,9 +145,11 @@
 					</div>
 				</div>
 			</div>
+			</c:if>
 			<!-- fine Form di valutazione a comparsa-->
 			
 			<!--Form di edit a comparsa-->
+			<c:if test="${!sessionScope.loggedUser.student}">
 			<div class="modal fade" id="editForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false">
 				<div class="modal-dialog">
 					<div class="modal-content">
@@ -186,7 +195,8 @@
 					</div>
 				</div>
 			</div>
-			<!-- fine Form di valutazione a comparsa-->	
+			</c:if>
+			<!-- fine Form di edit a comparsa-->	
 			<br>	
 			<c:choose>
 				<c:when test="${fn:length(evaluations) == 0}">
