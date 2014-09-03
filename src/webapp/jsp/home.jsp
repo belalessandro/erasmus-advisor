@@ -19,6 +19,8 @@
 		<link href="<c:url value="/css"/>/bootstrap.min.css" rel="stylesheet">
 		<link href="<c:url value="/css"/>/bootstrap-theme.min.css" rel="stylesheet">
 		
+		<script src="<c:url value="/js"/>/ea-form-validation.js"></script>
+		
 		<script>
 			// il codice dello script è tutto per lo sfondo rotante
 			var bgimages=new Array()
@@ -67,9 +69,9 @@
 			</div>
 			<div class="navbar-collapse collapse">
 				<!-- action deve puntare alla servlet che gestisce la registrazione -->
-				<form class="navbar-form navbar-right" method="post" action="<c:url value="/login"/>">
-					<div class="form-group"><input type="text" placeholder="Email" name="email" class="form-control"></div>
-					<div class="form-group"><input type="password" placeholder="Password" name="pass" class="form-control"></div>
+				<form name="login_form" class="navbar-form navbar-right" method="post" action="<c:url value="/login"/>" onSubmit="return loginValidation();">
+					<div class="form-group"><input type="text" placeholder="Email" name="email" id="email" class="form-control"></div>
+					<div class="form-group"><input type="password" placeholder="Password" name="pass" id="pass" class="form-control"></div>
 					<button type="submit" class="btn btn-primary">Login</button>
 				</form>
 			</div>

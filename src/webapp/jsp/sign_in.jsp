@@ -21,7 +21,7 @@
 	<script src="<c:url value="/js"/>/jquery.min.js"></script>
 	<script src="<c:url value="/js"/>/jquery-1.10.2.js"></script>
 	<script src="<c:url value="/js"/>/jquery-ui-1.10.4.custom.js"></script>
-	<script src="<c:url value="/js"/>/ea-basic.js"></script>	
+	<script src="<c:url value="/js"/>/ea-datepicker.js"></script>	
 	<script src="<c:url value="/js"/>/bootstrap-datepicker.js"></script>
 	<script src="<c:url value="/js"/>/bootstrap.min.js"></script>
 	

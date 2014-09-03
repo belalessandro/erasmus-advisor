@@ -29,7 +29,7 @@
 	<script src="<c:url value="/js"/>/jquery-ui-1.10.4.custom.js"></script>
 	
 	<script src="<c:url value="/js"/>/bootstrap-datepicker.js"></script>
-	<script src="<c:url value="/js"/>/ea-basic.js"></script>	
+	<script src="<c:url value="/js"/>/ea-datepicker.js"></script>	
 	<style>
 	.ui-autocomplete-loading {
 		background: white url("<c:url value="/img"/>/ui-anim_basic_16x16.gif") right center no-repeat;
