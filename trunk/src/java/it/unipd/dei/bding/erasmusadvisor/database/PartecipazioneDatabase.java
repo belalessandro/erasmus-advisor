@@ -1,6 +1,7 @@
 package it.unipd.dei.bding.erasmusadvisor.database;
 
 import it.unipd.dei.bding.erasmusadvisor.beans.PartecipazioneBean;
+
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -51,7 +52,7 @@ public class PartecipazioneDatabase
 	 * @param user A username.
 	 * @param inizio The start date of Erasmus.
 	 * @param fine The end date of Erasmus.
-	 * @throws SQLException if an error occurs while adding "Partecipazione".
+	 * @throws SQLException If an error occurs while adding "Partecipazione".
 	 */
 	public static void addParticipation(Connection conn, String flow, String user, Date inizio, Date fine) throws SQLException
 	{
@@ -69,5 +70,22 @@ public class PartecipazioneDatabase
 		finally {
 			DbUtils.closeQuietly(pstmt);
 		}
+	}
+	
+	/**
+	 * Remove a participation.
+	 * 
+	 * @param conn A connection to the database.
+	 * @param flow The flow's ID
+	 * @param user The user name.
+	 * @return The number of rows affected.
+	 * @throws SQLException If an error occurs running the SQL query.
+	 */
+	public static int removeParticipation(Connection conn, String flow, String user) throws SQLException
+	{
+		final String statement = "DELETE From Partecipazione WHERE idflusso = ? AND nomeutentestudente = ?";
+		
+		QueryRunner run = new QueryRunner();
+		return run.update(conn, statement, flow, user);
 	}
 }

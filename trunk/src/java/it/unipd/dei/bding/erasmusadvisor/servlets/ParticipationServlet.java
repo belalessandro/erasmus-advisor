@@ -25,7 +25,7 @@ import org.apache.commons.dbutils.DbUtils;
  * 
  * <p> Accepts: POST
  * 
- * <p> Operations: INSERT
+ * <p> Operations: INSERT, DELETE
  * 
  * @author Luca
  */
@@ -87,7 +87,6 @@ public class ParticipationServlet extends AbstractDatabaseServlet
 				Date startDate = new Date(f.parse(startDateString).getTime());
 				Date endDate = new Date(f.parse(endDateString).getTime());
 				
-				
 				conn = DS.getConnection();
 				PartecipazioneDatabase.addParticipation(conn, flow, lu.getUser(), startDate,endDate);
 
@@ -106,13 +105,42 @@ public class ParticipationServlet extends AbstractDatabaseServlet
 				StringBuilder builder = new StringBuilder()
 					.append("/erasmus-advisor/flow?id=")
 					.append(flow);
-			
+
 				resp.sendRedirect(builder.toString());
 			}
 			else
 			{
 				req.setAttribute("message", m);
 				getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(req, resp);
+			}
+		}
+		// delete operation
+		else if (operation.equals("delete"))
+		{
+			String flow = req.getParameter("flowID");
+			
+			int results = 0;
+			try {
+				conn = DS.getConnection();
+				results = PartecipazioneDatabase.removeParticipation(conn, flow, lu.getUser());
+			} 
+			catch (SQLException ex) 
+			{
+				m = new Message("Error while deleting your participation.", "", ex.getMessage());
+			} 
+			finally {
+				DbUtils.closeQuietly(conn); // always closes the connection 
+			}
+			
+			if (m == null && results > 0)
+			{
+				resp.setContentType("text/plain"); 
+				resp.setCharacterEncoding("UTF-8");
+				resp.getWriter().write("success");
+			}
+			else
+			{
+				// nothing happens
 			}
 		}
 	}
