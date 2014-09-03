@@ -33,8 +33,6 @@ import org.apache.commons.dbutils.DbUtils;
  * 
  * <p> Accepts: GET
  * 
- * <p> Operations: FILL UP
- * 
  * @author Luca
  */
 public class StudentEvaluationsServlet extends AbstractDatabaseServlet 
@@ -57,9 +55,6 @@ public class StudentEvaluationsServlet extends AbstractDatabaseServlet
 			throws ServletException, IOException 
 	{
 		
-
-		// Gets operation parameter
-		String operation = req.getParameter("operation");
 		
 		// Gets user from session
 		HttpSession session = req.getSession();
@@ -68,7 +63,7 @@ public class StudentEvaluationsServlet extends AbstractDatabaseServlet
 		/**
 		 * Authorization check. Permissions required: STUDENT
 		 */
-		if (!lu.isStudent() || operation == null || operation.isEmpty() ) {
+		if (!lu.isStudent() ) {
 			req.setAttribute("message", 
 					new Message("Not authorized or operation not allowed", "E200", ""));
 			errorForward(req, resp);
