@@ -120,6 +120,10 @@
 		// funziona che aggiunge che questo corso è riconosciuto per il flusso
 	    function acknowledge()
 	    {
+			// controlla se è stata selezionata una opzione, in caso contrario interrompe la procedura
+			if (ackClassFormValidation() == false)
+				return;
+			
 	    	var flow = document.getElementById("ackFlow").value;
 	    	var teaching = "<c:out value="${classBean.id}"/>";
 	    	
@@ -363,9 +367,7 @@
 							<h4 class="modal-title" id="myModalLabel">Edit <b><c:out value="${classBean.nome}"/></b></h4>
 						</div>
 						<div class="modal-body">
-							<!-- action deve puntare alla servlet che gestisce la modifica dell'entità -->
-							<!-- notare che ogni input deve avere il campo value settato a quanto è presente nel DB -->
-							<form name='classEditForm' method="post" action='<c:url value="/class"/>'>	
+							<form name='classEditForm' method="post" action='<c:url value="/class"/>' onSubmit="return editClassFormValidation();">	
 								<div class="input-group insert_new_input_group">
 									<span class="input-group-addon insert_new_input">Name*</span> <input type="text" class="form-control" name="nome" id="name" value="<c:out value="${classBean.nome}"/>">
 								</div>
@@ -614,7 +616,7 @@
 							<c:if test="${eval.interesse == 5}">
 								<span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <span class="glyphicon glyphicon-star"></span> <br>  
 							</c:if> 
-					</div>
+						</div>
 						<div class="col-xs-12 col-sm-12 col-md-7">
 							<p>
 							<c:if test="${not empty eval.commento}">
