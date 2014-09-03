@@ -38,7 +38,7 @@ import org.apache.commons.dbutils.DbUtils;
  * 
  * <p> Operations: (none)
  * 
- * @author Alessandro
+ * @author Mauro, Luca
  */
 public class SignInServlet extends AbstractDatabaseServlet {
 	
@@ -156,7 +156,7 @@ public class SignInServlet extends AbstractDatabaseServlet {
 				manager.setPassword(hashPassword(manager.getPassword(), manager.getSalt()));
 				manager.setNomeUtente(username);
 				manager.setAbilitato(false);
-				manager.setAttivo(true);
+				manager.setAttivo(true); // TODO perche' attivo?????
 
 				
 				
