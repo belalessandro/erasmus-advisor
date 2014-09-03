@@ -128,6 +128,12 @@
                 			if (responseText == "success")
                 			{
 	                			$('#rowAck-' + teaching).remove();
+	                			// se la tabella è vuota la nasconde
+	                			if ($('#ackTable >tbody >tr').length === 0 ) 
+	                			{
+		                		    document.getElementById("ackTable").setAttribute("style", "display: none;");
+		                		    $('#ack_table_intro').html('<div class="row text-center"><h4>There are no acknowledged classes for <b><c:out value="${flow.id}"/></b>.</h4></div>');
+	                			}
                 			}
                 			
                 	});
@@ -146,7 +152,11 @@
 		// inizializza tablesorter
 		$(document).ready(function() 
     	{ 
-        	$("#resultTable").tablesorter();
+            $("#ackTable").tablesorter({ 
+     	        headers: { 
+     	            5: { sorter: false }
+     	        } 
+    	    });
    		}); 
 	</script>
 </head>
@@ -434,8 +444,9 @@
 					<h4>There are no acknowledged classes for <b><c:out value="${flow.id}"/></b>.</h4>
 					</div>
 				</c:when>
-				<c:otherwise>	
-					<table class="table table-bordered table-hover table-striped tablesorter" id="resultTable">
+				<c:otherwise>
+					<div id="ack_table_intro"></div>	
+					<table class="table table-bordered table-hover table-striped tablesorter" id="ackTable">
 						<caption><h4>Acknowledged classes for this flow</h4></caption>
 						<thead>
 							<tr>

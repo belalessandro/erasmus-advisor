@@ -17,10 +17,12 @@
 	<link href="<c:url value="/css"/>/ea-main.css" rel="stylesheet">
 	<link href="<c:url value="/css"/>/bootstrap.min.css" rel="stylesheet">
 	<link href="<c:url value="/fonts"/>/font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet">
+	<link href="<c:url value="/css"/>/tablesorter/style.css" rel="stylesheet"> 
 		
 	<!-- Javascript -->
 	<script src="<c:url value="/js"/>/jquery.min.js"></script>
 	<script src="<c:url value="/js"/>/bootstrap.min.js"></script>
+	<script src="<c:url value="/js"/>/jquery.tablesorter.min.js"></script>
 	
 	<script>
 	// funzione per l'azione di eliminazione di un interesse
@@ -34,6 +36,12 @@
 	                		{ operation: "delete", flowID : flow},
 	                		function(responseText) { 
 	                			$('#row-' + flow).remove();
+	                			// se la tabella è vuota la nasconde
+	                			if ($('#interest_table >tbody >tr').length === 0 ) 
+	                			{
+		                		    document.getElementById("interest_table").setAttribute("style", "display: none;");
+		                			$('#interest_table_intro').html("<h4>You have not express interest for any flow yet.</h4>");
+	                			}
 	                		});
     			} 
     			else {
@@ -41,6 +49,16 @@
     			} 
             });
         });
+
+		// inizializza tablesorter
+		$(document).ready(function() 
+    	{ 
+            $("#interest_table").tablesorter({ 
+     	        headers: { 
+     	            3: { sorter: false }
+     	        } 
+    	    });
+   		}); 
 	</script>
 </head>
 <body>
@@ -58,47 +76,43 @@
 			<h4 class="text-center">${userName}, welcome in Erasmus Advisor!</h4>
 			<br>
 			<br>
-			<div class="panel panel-default">
-				<!-- Default panel contents -->
-				<div class="col-sm-1 column"></div>
-				<c:choose>
-					<c:when test="${fn:length(interests) == 0}">
-						<div class="row text-center">
-							<h4>You have not express interest for any flow yet.</h4>
-						</div>
-					</c:when>
-					<c:otherwise>	
-					<div class="panel-heading text-center">
-						<strong>You have express interest for the flows</strong>
+			<c:choose>
+				<c:when test="${fn:length(interests) == 0}">
+					<div class="row text-center">
+						<h4>You have not express interest for any flow yet.</h4>
 					</div>
-					<table class="table">
-						<thead>
-							<tr>
-								<th>Flow ID</th>
-								<th>Target University</th>
-								<th>Target City</th>
-								<th class="index_table_col_remove" align="center">Remove</th>
+				</c:when>
+				<c:otherwise>	
+				<div class="row text-center" id="interest_table_intro">
+					<h4>You have express interest for the flows:</h4>
+				</div>
+				<table class="table table-bordered table-hover table-striped tablesorter" id="interest_table">
+					<thead>
+						<tr>
+							<th>Flow ID</th>
+							<th>Target University</th>
+							<th>Target City</th>
+							<th class="index_table_col_remove" align="center">Remove</th>
+						</tr>
+					</thead>
+					<tbody>
+						<c:forEach var="interest" items='${interests}' varStatus="status">
+							<tr id="row-${interest.flowID}">
+								<td><a href="<c:url value="/flow"/>?id=${interest.flowID}" target="_blank">${interest.flowID}</a></td>
+								<td><a href="<c:url value="/university"/>?name=${interest.universityName}" target="_blank">${interest.universityName}</a></td>
+								<td><a href="<c:url value="/city"/>?name=${interest.cityName}&country=${interest.countryName}" target="_blank">${interest.cityName} (${interest.countryName})</a></td>
+								<td align="center">
+									<button type="button" class="btn btn-default btn-xs index_button_remove" id="${interest.flowID}">
+										<span class="glyphicon glyphicon glyphicon-remove"></span>
+									</button>
+								</td>
 							</tr>
-						</thead>
-						<tbody>
-							<c:forEach var="interest" items='${interests}' varStatus="status">
-								<tr id="row-${interest.flowID}">
-									<td><a href="<c:url value="/flow"/>?id=${interest.flowID}" target="_blank">${interest.flowID}</a></td>
-									<td><a href="<c:url value="/university"/>?name=${interest.universityName}" target="_blank">${interest.universityName}</a></td>
-									<td><a href="<c:url value="/city"/>?name=${interest.cityName}&country=${interest.countryName}" target="_blank">${interest.cityName} (${interest.countryName})</a></td>
-									<td align="center">
-										<button type="button" class="btn btn-default btn-xs index_button_remove" id="${interest.flowID}">
-											<span class="glyphicon glyphicon glyphicon-remove"></span>
-										</button>
-									</td>
-								</tr>
-							</c:forEach>		
-						</tbody>
-					</table>
-					</c:otherwise>
-				</c:choose>
-			</div>
-		</div>	
+						</c:forEach>		
+					</tbody>
+				</table>
+				</c:otherwise>
+			</c:choose>
+		</div>
 	</div>
 	<!-- footer -->
 	<jsp:include page="/jsp/include/footer.jsp" />
