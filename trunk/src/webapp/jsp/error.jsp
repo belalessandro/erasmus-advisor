@@ -38,7 +38,7 @@
 			<!-- display the message -->
     		<c:import url="/jsp/include/showMessage.jsp"/>
     		<br>
-    		<p align="center"><a href="#" class="btn btn-primary" onclick="goBack()">Go Back</a></p>
+    		<div class="text-center"><button class="btn btn-primary" onclick="goBack()">Go Back</button></div>
 		</div>
 		<div class ="col-md-2"></div>
 	</div>

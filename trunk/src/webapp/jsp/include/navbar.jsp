@@ -5,7 +5,7 @@
 <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
 	<!-- nella pagina di sign in il logo rimanda alla home -->
 	<c:choose>
-		<c:when test="${param.pageName == 'sign_in'}"><a href="/erasmus-advisor/"></c:when>
+		<c:when test="${param.pageName == 'sign_in'}"><a href="<c:url value="/"/>"></c:when>
 		<c:otherwise><a href="<c:url value="/index"/>"></c:otherwise>
 	</c:choose>
 	<img src="<c:url value="/img"/>/logo.svg" class="nav_logo"></a>

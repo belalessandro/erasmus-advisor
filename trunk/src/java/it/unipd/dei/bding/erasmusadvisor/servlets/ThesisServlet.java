@@ -79,8 +79,8 @@ public class ThesisServlet extends AbstractDatabaseServlet {
 
 		if (ID == null || ID.isEmpty()) 
 		{
-			/* Redirect to insert form. */
-			resp.sendRedirect(req.getContextPath() + "/jsp/insert_thesis.jsp");
+			/* Redirect to the search form. */
+			resp.sendRedirect(req.getContextPath() + "/thesis/list");
 			return;
 		}
 		

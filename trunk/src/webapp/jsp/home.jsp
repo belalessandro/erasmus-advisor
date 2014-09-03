@@ -15,17 +15,17 @@
 
 		<title>Erasmus Advisor</title>
 
-		<link href="css/ea-main.css" rel="stylesheet">
-		<link href="css/bootstrap.min.css" rel="stylesheet">
-		<link href="css/bootstrap-theme.min.css" rel="stylesheet">
+		<link href="<c:url value="/css"/>/ea-main.css" rel="stylesheet">
+		<link href="<c:url value="/css"/>/bootstrap.min.css" rel="stylesheet">
+		<link href="<c:url value="/css"/>/bootstrap-theme.min.css" rel="stylesheet">
 		
 		<script>
 			// il codice dello script è tutto per lo sfondo rotante
 			var bgimages=new Array()
 			
-			bgimages[0]="img/home_back_1.jpg"
-			bgimages[1]="img/home_back_2.jpg"
-			bgimages[2]="img/home_back_3.jpg"
+			bgimages[0]="<c:url value="/img"/>/home_back_1.jpg"
+			bgimages[1]="<c:url value="/img"/>/home_back_2.jpg"
+			bgimages[2]="<c:url value="/img"/>/home_back_3.jpg"
 			
 			//preload images
 			var pathToImg=new Array()
@@ -53,7 +53,7 @@
 	</head>
 
 	<!-- qui si setta l'immagine di sfondo di default (visualizzata all'inizio o se non va lo script) -->
-	<body class="home_body" background="img/home_back_3.jpg">
+	<body class="home_body" background="<c:url value="/img"/>/home_back_3.jpg">
 		
 		<!-- menù superiore -->
 		<div class="navbar navbar-inverse home_nav_style" role="navigation">

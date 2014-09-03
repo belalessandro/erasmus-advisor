@@ -61,8 +61,8 @@ public class UniversityServlet extends AbstractDatabaseServlet {
 		String univName = req.getParameter("name");
 
 		if (univName == null || univName.isEmpty()) {
-			/* Redirect to insert form. */
-			resp.sendRedirect(req.getContextPath() + "/jsp/insert_university.jsp");
+			/* Redirect to the search form. */
+			resp.sendRedirect(req.getContextPath() + "/university/list");
 			return;
 		}
 		
