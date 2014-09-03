@@ -24,7 +24,7 @@ import org.apache.commons.dbutils.DbUtils;
  * 
  * <p> Accepts: POST
  * 
- * <p> Operations: INSERT
+ * <p> Operations: INSERT, DELETE
  * 
  * @author Luca
  */
@@ -35,6 +35,7 @@ public class AcknowledgementServlet  extends AbstractDatabaseServlet
 	 * Operation constants
 	 */
 	private static final String INSERT = "insert";
+	private static final String DELETE = "delete";
 
 	private static final long serialVersionUID = 6205996354245462055L;
 
@@ -99,6 +100,35 @@ public class AcknowledgementServlet  extends AbstractDatabaseServlet
 				resp.setCharacterEncoding("UTF-8");
 				resp.getWriter().write("success");
 			}
+			else
+			{
+				req.setAttribute("message", m);
+				getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(req, resp);
+			}
+		}
+		else if (operation.equals(DELETE))
+		{
+			String flow = req.getParameter("flowID");
+			int classId = Integer.parseInt(req.getParameter("classID"));
+	
+			try {
+				conn = DS.getConnection();
+				RiconoscimentoDatabase.removeRiconoscimento(conn, flow, classId);
+			} 
+			catch (SQLException ex) 
+			{
+				ex.printStackTrace();
+				m = new Message("Error while setting the acknoledgement.", "", ex.getMessage());
+			} 
+			finally {
+				DbUtils.closeQuietly(conn); // always closes the connection 
+			}
+			
+			if (m == null)
+			{
+				resp.setContentType("text/plain"); 
+				resp.setCharacterEncoding("UTF-8");
+				resp.getWriter().write("success");
 			}
 			else
 			{
@@ -106,6 +136,7 @@ public class AcknowledgementServlet  extends AbstractDatabaseServlet
 				getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(req, resp);
 			}
 		}
+	}
 	
     /**
      * Handles error forwarding between pages.

@@ -19,9 +19,9 @@ import org.apache.commons.dbutils.handlers.BeanListHandler;
 
 
 /**
- * @author Nicola
- *
- *Database operations about "Riconoscimento".
+ * Database operations about "Riconoscimento".
+ * 
+ * @author Nicola, Luca
  *
  */
 
@@ -46,26 +46,9 @@ public class RiconoscimentoDatabase
 		ResultSetHandler<List<InsegnamentoBean>> h = new BeanListHandler<InsegnamentoBean>(InsegnamentoBean.class);
 		return run.query(conn, statement, h, ID);
 	}
-
-	/**
-	 * Delete "Riconoscimento"'s instances with the flow id given.
-	 * 
-	 * @param con A connection to the database.
-	 * @param flowId The flow's id given.
-	 * @return Number of instances of "Riconoscimento" deleted.
-	 * @throws SQLException If an error occurs.
-	 */
-	public static int deleteRiconoscimentoByFlowId(Connection con, String flowId) throws SQLException 
-	{
-		final String sql = "DELETE FROM Riconoscimento WHERE IdFlusso = ?;";
-		
-		QueryRunner run = new QueryRunner();
-		
-		return run.update(con, sql);
-	}
 	
 	/**
-	 * Add an acknowledge class to a flow.
+	 * Add an acknowledged class to a flow.
 	 * 
 	 * @param conn A connection to the database.
 	 * @param flowId Flow's id.
@@ -85,6 +68,25 @@ public class RiconoscimentoDatabase
 		} finally {
 			DbUtils.closeQuietly(pstmt);
 		}
+	}
+	/**
+	 * Remove an acknowledged class from a flow.
+	 * 
+	 * @param conn A connection to the database.
+	 * @param flowId Flow's id.
+	 * @param classId Class' id.
+	 * @returns The number of rows affected.
+	 * @throws SQLException If an error occurs.
+	 */
+	
+	public static int removeRiconoscimento(Connection conn, String flowId, int classId) throws SQLException
+	{
+
+		final String sql = "DELETE FROM Riconoscimento WHERE IdFlusso = ? AND idinsegnamento = ?";
+		
+		QueryRunner run = new QueryRunner();
+		
+		return run.update(conn, sql, flowId, classId);
 	}
 
 }
