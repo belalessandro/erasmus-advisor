@@ -200,6 +200,15 @@ public class FlowServlet extends AbstractDatabaseServlet {
 	 */
 	private void insert(HttpServletRequest request, HttpServletResponse response, LoggedUser lu) 
 			throws ServletException, IOException  {
+<<<<<<< .mine
+		
+		// TODO: DA SESSIONE, Nicola:Done!
+		
+		HttpSession session = request.getSession();
+		LoggedUser lu = (LoggedUser) session.getAttribute("loggedUser");
+		//LoggedUser lu = new LoggedUser(UserType.RESPONSABILE, "erick.burn"); 
+=======
+>>>>>>> .r360
 
 		
 		// the connection to database
