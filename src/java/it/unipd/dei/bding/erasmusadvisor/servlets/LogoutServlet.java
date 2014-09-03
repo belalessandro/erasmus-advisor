@@ -41,7 +41,7 @@ public class LogoutServlet extends AbstractDatabaseServlet
 		response.setContentType("text/html;charset=UTF-8");
 
 		// get the session
-		HttpSession session = request.getSession();
+		HttpSession session = request.getSession(false);
 		session.removeAttribute("loggedUser");
 		
 		// logout the user

@@ -94,9 +94,9 @@ public class InsegnamentoDatabase
 		/**
 		 * The SQL statements to be executed
 		 */
-		final String statement= "SELECT * FROM Insegnamento AS I " +
+		final String statement= "SELECT * FROM Insegnamento AS I INNER JOIN LINGUA AS L ON I.nomeLingua = L.sigla " +
 						   		" WHERE (? IS NULL OR I.nomeArea = ?) AND (? IS NULL OR I.nomeUniversita = ?) AND " +
-						   		"(? IS NULL OR I.annoCorso = ?) AND (? IS NULL OR I.periodoErogazione = ?) AND (? IS NULL OR I.nomeLingua = ?)" ;
+						   		"(? IS NULL OR I.annoCorso = ?) AND (? IS NULL OR I.periodoErogazione = ?) AND (? IS NULL OR L.nome = ?)" ;
 
 		// query facility
 		ResultSetHandler<List<InsegnamentoBean>> h = new BeanListHandler<InsegnamentoBean>(InsegnamentoBean.class);
