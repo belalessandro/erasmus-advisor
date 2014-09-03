@@ -241,7 +241,6 @@
 							<h4 class="modal-title" id="myModalLabel">Insert an evaluation for <b><c:out value="${thesis.nome}"/></b></h4>
 						</div>
 						<div class="modal-body">
-							<!-- action deve puntare alla servlet che gestisce l'inserimento della valutazione -->
 							<form name='thesisEvaluationForm' method="post" action="<c:url value="/thesis/evaluations"/>">
 								<div class="col-md-6 text-center">Effort Needed:</div>
 								<div class="col-md-6 text-center">
@@ -295,9 +294,7 @@
 							<h4 class="modal-title" id="myModalLabel">Edit <b><c:out value="${thesis.nome}"/></b></h4>
 						</div>
 						<div class="modal-body">
-							<!-- action deve puntare alla servlet che gestisce la modifica dell'entità -->
-							<!-- notare che ogni input deve avere il campo value settato a quanto è presente nel DB -->
-							<form name='thesisEditForm' method="post" action="<c:url value="/thesis"/>">	
+							<form name='thesisEditForm' method="post" action="<c:url value="/thesis"/>" onSubmit="return editThesisFormValidation();">	
 								<div class="input-group insert_new_input_group">
 									<span class="input-group-addon insert_new_input">Name*</span> <input type="text" class="form-control" name="nome" id="name" value="<c:out value="${thesis.nome}"/>">
 								</div>
@@ -321,7 +318,7 @@
 								<br>
 								<div class="row text-center">
 									<span></span>
-									<span class="input-group-addon insert_new_select_label_inline">Select the thesis' language*</span>
+									<span class="input-group-addon insert_new_select_label_inline">Select the thesis' languages*</span>
 									<select class="selectpicker text-left" id="language" name="language" multiple data-width="auto">
 										<c:forEach var="languageDomain" items='${languageDomain}'>
 											<option value="${languageDomain.sigla}" 
@@ -336,8 +333,8 @@
 								<br>
 								<div class="row text-center">
 									<span></span>
-									<span class="input-group-addon insert_new_select_label_inline">Select the thesis' area*</span>
-									<select class="selectpicker text-left" id="language" name="area" multiple data-width="auto">
+									<span class="input-group-addon insert_new_select_label_inline">Select the thesis' areas*</span>
+									<select class="selectpicker text-left" id="area" name="area" multiple data-width="auto">
 										<c:forEach var="areaDomain" items='${areaDomain}'>
 											<option value="${areaDomain.nome}" 
 												<c:forEach var="area" items='${areas}' >

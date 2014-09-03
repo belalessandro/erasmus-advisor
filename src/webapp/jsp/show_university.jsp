@@ -79,7 +79,6 @@
 							<h4 class="modal-title" id="myModalLabel">Insert an evaluation for <b><c:out value="${university.nome}"/></b></h4>
 						</div>
 						<div class="modal-body">
-							<!-- action deve puntare alla servlet che gestisce l'inserimento della valutazione -->
 							<form name='universityEvaluationForm' method="post" action="<c:url value="/university/evaluations"/>">
 								<div class="col-md-6 text-center">Urban Location:</div>
 								<div class="col-md-6 text-center">
@@ -134,9 +133,7 @@
 							<h4 class="modal-title" id="myModalLabel">Edit <b><c:out value="${university.nome}"/></b></h4>
 						</div>
 						<div class="modal-body">
-							<!-- action deve puntare alla servlet che gestisce la modifica dell'entità -->
-							<!-- notare che ogni input deve avere il campo value settato a quanto è presente nel DB -->
-							<form name='universityEditForm'  method="post" action="<c:url value="/university"/>">
+							<form name='universityEditForm'  method="post" action="<c:url value="/university"/>" onSubmit="return editUniversityFormValidation();">
 								<div class="input-group insert_new_input_group">
 									<span class="input-group-addon insert_new_input">Name*</span> <input type="text" class="form-control" name="nome" id="name" value="<c:out value="${university.nome}"/>">
 								</div>

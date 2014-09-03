@@ -307,8 +307,7 @@
 							<h4 class="modal-title" id="myModalLabel">Edit <b><c:out value="${flow.id}"/></b></h4>
 						</div>
 						<div class="modal-body">
-							
-							<form name='flowEditForm'  method="post"  action="<c:url value="/flow"/>" >
+							<form name='flowEditForm'  method="post"  action="<c:url value="/flow"/>" onSubmit="return editFlowFormValidation();">
 								<div class="input-group insert_new_input_group">
 									<span class="input-group-addon insert_new_input">ID*</span> <input type="text" class="form-control" name="id" id="name" value="<c:out value="${flow.id}"/>">
 								</div>
@@ -387,7 +386,7 @@
 							<h4 class="modal-title" id="myModalLabel">Set the participation to <b><c:out value="${flow.id}"/></b></h4>
 						</div>
 						<div class="modal-body">
-							<form name='participationForm'  method="post"  action="<c:url value="/flow/participation"/>" >
+							<form name='participationForm' method="post" action="<c:url value="/flow/participation"/>" onSubmit="return addParticipationFlowFormValidation();">
 								<div class="row">
 									<div class="col-lg-2"></div>
 									<div class="col-lg-8">

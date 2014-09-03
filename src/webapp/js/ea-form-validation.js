@@ -39,7 +39,7 @@ function signInFormValidation()
 					{
 						if(string_validation(uni) && string_validation(course))
 						{
-							if (date_interval_validation(startDate, endDate))
+							if (date_interval_validation(startDate, endDate, "dd-mm-yy"))
 							{
 								return true;
 							}
@@ -116,6 +116,41 @@ function insertFlowFormValidation()
 		}
 	}
 	return false;	
+}
+
+function editFlowFormValidation()
+{
+	var name = document.flowEditForm.name;
+	var destination = document.flowEditForm.university;
+	var origins = document.flowEditForm.origin;
+	var certificates = document.flowEditForm.certificate;
+	var seats = document.flowEditForm.seats;
+	var length = document.flowEditForm.length;
+	
+	if (natural_validation(seats) && natural_validation(length))
+	{
+		if (string_validation(name) && string_validation(destination))
+		{
+			if (multiselect_validate(origins) && multiselect_validate(certificates))
+			{
+				return true;
+			}
+		}
+	}
+	return false;	
+	
+}
+
+function addParticipationFlowFormValidation()
+{
+	var startDate = document.participationForm.datepicker;
+	var endDate = document.participationForm.datepicker2;
+	
+	if (date_interval_validation(startDate, endDate, "mm/dd/yyyy"))
+	{
+		return true;
+	}
+	return false;
 }
 
 function insertCityFormValidation()
@@ -212,9 +247,6 @@ function editClassFormValidation()
 	
 	// in questo caso si può omettere la validazione dei select singoli
 	// in quanto hanno giò una opzione selezionata
-	
-	//alert(name.value + " " + uni.value + " " + cfu.value + " " + 
-	//		year.value + " " + semester.value + " " + lang.value + " " + area.value + " " + profName.length);
 
 	if(string_validation(name))
 	{
@@ -270,6 +302,34 @@ function insertThesisFormValidation()
 	return false;
 }
 
+function editThesisFormValidation()
+{
+	var name = document.thesisEditForm.name;
+	var uni = document.thesisEditForm.university;
+	var lang = document.thesisEditForm.language;
+	var area = document.thesisEditForm.area;
+	var undergraduate = document.thesisEditForm.undergraduate;
+	var graduate = document.thesisEditForm.graduate;
+	
+	var profName = document.getElementsByName("professorName");
+	var profSur = document.getElementsByName("professorSurname");
+	
+	if(string_validation(name))
+	{
+		if (professor_validation(profName) && professor_validation(profSur))
+		{
+			if (multiselect_validate(lang) && multiselect_validate(area))
+			{
+				if (checkbox_one_or_both_validation(undergraduate, graduate) && string_validation(uni))
+				{
+					return true;
+				}
+			}
+		}
+	}
+	return false;
+}
+
 function insertUniversityFormValidation()
 {
 	var name = document.insert_university.name;
@@ -289,6 +349,28 @@ function insertUniversityFormValidation()
 		}
 	}
 	return false;
+}
+
+function editUniversityFormValidation()
+{
+	var name = document.universityEditForm.name;
+	var country = document.universityEditForm.country;
+	var city = document.universityEditForm.city;
+	var link = document.universityEditForm.link;
+	var ranking = document.universityEditForm.ranking;
+
+	if (string_validation(name) && string_validation(country))
+	{
+		if(string_validation(city) && string_validation(link))
+		{
+			if (natural_validation(ranking))
+			{
+				return true;
+			}
+		}
+	}
+	return false;
+	
 }
 
 function loginValidation()
@@ -347,18 +429,28 @@ function professor_validation(profName)
 		return false;
 }
 
-function date_interval_validation(startDate, endDate)
+function date_interval_validation(startDate, endDate, format)
 {
 	try
 	{
+		if (format == "mm/dd/yyyy")
+		{
+	      var fromAr = startDate.value.split("/");
+	      var toAr = endDate.value.split("/");
+	      var from = new Date();
+	      from.setFullYear(fromAr[2], fromAr[0], fromAr[1]);
+	      var to = new Date();
+	      to.setFullYear(toAr[2], toAr[0], toAr[1]);			
+		}
+		else if (format == "dd-mm-yy")
+		{
 		var fromAr = startDate.value.split("-");
 		var toAr = endDate.value.split("-");
 		var from = new Date();
 		from.setFullYear(fromAr[0], fromAr[1], fromAr[2]);
 		var to = new Date();
 		to.setFullYear(toAr[0], toAr[1], toAr[2]);
-		console.log("from: " + from);
-		console.log("To: " + to);
+		}
 		
 		if (from < to)
 		{
@@ -373,7 +465,7 @@ function date_interval_validation(startDate, endDate)
 	}
 	catch(err)
 	{
-		alert("You have to insert a valid interval.");  
+		alert("You have to insert a valid date interval.");  
 		startDate.focus();
 		return false;
 	}
