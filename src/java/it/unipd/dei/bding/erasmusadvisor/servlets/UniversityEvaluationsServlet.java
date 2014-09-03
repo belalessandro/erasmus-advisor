@@ -7,6 +7,7 @@ import it.unipd.dei.bding.erasmusadvisor.resources.LoggedUser;
 import it.unipd.dei.bding.erasmusadvisor.resources.Message;
 
 import java.io.IOException;
+import java.net.URLEncoder;
 import java.sql.Connection;
 import java.sql.SQLException;
 
@@ -166,7 +167,7 @@ public class UniversityEvaluationsServlet extends AbstractDatabaseServlet
 			// Creating response path
 			StringBuilder builder = new StringBuilder()
 				.append("/erasmus-advisor/university?name=")
-				.append(val.getNomeUniversita());
+				.append(URLEncoder.encode(val.getNomeUniversita(), "utf-8"));
 		
 			resp.sendRedirect(builder.toString());
 			
