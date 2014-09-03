@@ -300,9 +300,11 @@ public class ThesisServlet extends AbstractDatabaseServlet {
 		argomentoTesiBean.setTriennale(triennale == null ? false : true);
 		argomentoTesiBean.setMagistrale(magistrale == null ? false : true);
 		
-		// Setting additional fields 
-		argomentoTesiBean.setStato("NOT VERIFIED"); // Setting status 
-		//TODO: in base all'authorization
+		// Setting additional fields, according to roles
+		if (lu.isCoord() || lu.isFlowResp())
+			argomentoTesiBean.setStato("VERIFIED");
+		else
+			argomentoTesiBean.setStato("NOT VERIFIED");
 		
 		// Getting professors from the FORM submitted
 		String[] profNames = request.getParameterValues("professorName");

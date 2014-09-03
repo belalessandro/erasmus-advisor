@@ -314,7 +314,6 @@ public class UniversityServlet extends AbstractDatabaseServlet {
     private void edit(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
     {
     	
-		// TODO: check the user is type coordinator
     	Connection con = null;
     	Message m = null;
     	
