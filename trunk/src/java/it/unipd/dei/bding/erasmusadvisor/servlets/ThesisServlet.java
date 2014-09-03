@@ -18,7 +18,6 @@ import it.unipd.dei.bding.erasmusadvisor.resources.LoggedUser;
 import it.unipd.dei.bding.erasmusadvisor.resources.Message;
 import it.unipd.dei.bding.erasmusadvisor.resources.Thesis;
 import it.unipd.dei.bding.erasmusadvisor.resources.ThesisEvaluationsAverage;
-import it.unipd.dei.bding.erasmusadvisor.resources.UserType;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -34,6 +33,7 @@ import javax.json.JsonWriter;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.dbutils.DbUtils;
 
@@ -161,8 +161,7 @@ public class ThesisServlet extends AbstractDatabaseServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-
-		LoggedUser lu = new LoggedUser(UserType.RESPONSABILE, "erick.burn");
+		// Operation parameter
 		String operation = null;
 		
 		if(req.getHeader("X-Requested-With") != null && req.getHeader("X-Requested-With").equals("XMLHttpRequest"))
@@ -170,28 +169,40 @@ public class ThesisServlet extends AbstractDatabaseServlet {
 		else
 			operation = req.getParameter("operation");
 		
+		// Gets user from session
+		HttpSession session = req.getSession();
+		LoggedUser lu = (LoggedUser) session.getAttribute("loggedUser");
 		
+		// Manager permissions
+		boolean allowed = false;
 		
-		if (operation == null || operation.isEmpty() || !lu.isFlowResp()) {
-			/* Error or not authorized. */
-			getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(req, resp);
-			return;
-		} 
-		else if (operation.equals(INSERT)) 
-		{		
-			insert(req, resp);
-		} 
-		else if (operation.equals(UPDATE)) 
-		{
-			edit(req, resp);
-		} 
-		else if (operation.equals(DELETE)) 
-		{
-			delete(req, resp);
-		}
-		else if (operation.equals(AJAX))
+		if (lu.isCoord() || lu.isFlowResp())
+			allowed = true; // TODO ale: restrict a solo ambito di appartenenza
+		
+		/** 
+		 * OPERATION DISPATCHER 
+		 */
+		if (operation != null && operation.equals(AJAX) && (lu != null))
 		{
 			report(req, resp);
+		}
+		else if (operation != null && operation.equals(INSERT) && (allowed)) 
+		{		// Permissions required: FlowManager, Coordinator
+			insert(req, resp, lu);
+		} 
+		else if (operation != null && operation.equals(UPDATE) && (allowed)) 
+		{		// Permissions required: FlowManager, Coordinator
+			edit(req, resp, lu);
+		} 
+		else if (operation != null && operation.equals(DELETE) && (allowed)) 
+		{		// Permissions required: FlowManager, Coordinator
+			delete(req, resp);
+		}
+		else 
+		{
+			req.setAttribute("message", 
+					new Message("Not authorized or operation not allowed", "E200", ""));
+			errorForward(req, resp);
 		}
 		
 	}
@@ -261,12 +272,8 @@ public class ThesisServlet extends AbstractDatabaseServlet {
 	 * @throws IOException
 	 *  			if any error occurs in the client/server communication.
 	 */
-	private void insert(HttpServletRequest request, HttpServletResponse response) 
+	private void insert(HttpServletRequest request, HttpServletResponse response, LoggedUser lu) 
 			throws ServletException, IOException  {
-		
-		// TODO: DA SESSIONE
-		LoggedUser lu = new LoggedUser(UserType.RESPONSABILE, "erick.burn"); 
-
 		
 		// the connection to database
 		Connection conn = null;
@@ -463,7 +470,9 @@ public class ThesisServlet extends AbstractDatabaseServlet {
 			}
 		} 
 		else {
-			// An error maybe?
+			m = new Message("Bad parameters.", "E100", "");
+			req.setAttribute("message", m);
+			errorForward(req, resp);
 		}
     }
     
@@ -480,7 +489,8 @@ public class ThesisServlet extends AbstractDatabaseServlet {
 	 * @throws IOException
 	 *  			if any error occurs in the client/server communication.
 	 */
-    private void edit(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
+    private void edit(HttpServletRequest req, HttpServletResponse resp, LoggedUser lu) 
+    		throws IOException, ServletException {
 		
     	// data models, connection
     	Message m = null;
@@ -488,9 +498,13 @@ public class ThesisServlet extends AbstractDatabaseServlet {
     	
 		ArgomentoTesiBean argomento = new ArgomentoTesiBean();
 		BeanUtilities.populateBean(argomento, req);
-		argomento.setStato("NOT VERIFIED");
 
-		// TODO: impostare setStato a seconda dei privilegi utente
+		// Sets status according to role
+		if (lu.isCoord() || lu.isFlowResp())
+			argomento.setStato("VERIFIED");
+		else
+			argomento.setStato("NOT VERIFIED");
+
 		
 		// set checkbox values
 		String triennale = req.getParameter("triennale");

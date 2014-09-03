@@ -100,7 +100,7 @@ public class UserProfileServlet extends AbstractDatabaseServlet
 		LoggedUser lu = (LoggedUser) session.getAttribute("loggedUser");
 		
 		if(lu == null)
-		{
+		{	// TODO cancellare appena possibile
 			lu = new LoggedUser(UserType.COORDINATORE, "ErasmusCoordinator");
 		}
 
