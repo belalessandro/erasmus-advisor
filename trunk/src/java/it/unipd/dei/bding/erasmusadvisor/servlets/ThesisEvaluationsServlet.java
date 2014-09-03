@@ -156,8 +156,8 @@ public class ThesisEvaluationsServlet extends AbstractDatabaseServlet
 		
 		// Populate the bean
 		ValutazioneTesiBean val = new ValutazioneTesiBean();
-		val.setNomeUtenteStudente(lu.getUser());
 		BeanUtilities.populateBean(val, req);
+		val.setNomeUtenteStudente(lu.getUser());
 		
 		try {
 			// Starting database operations

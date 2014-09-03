@@ -161,8 +161,8 @@ public class ClassEvaluationsServlet extends AbstractDatabaseServlet
 		
 		// Populate the bean
 		ValutazioneInsegnamentoBean val = new ValutazioneInsegnamentoBean();
-		val.setNomeUtenteStudente(lu.getUser());
 		BeanUtilities.populateBean(val, req);
+		val.setNomeUtenteStudente(lu.getUser());
 		
 		try {
 			// Starting database operations
