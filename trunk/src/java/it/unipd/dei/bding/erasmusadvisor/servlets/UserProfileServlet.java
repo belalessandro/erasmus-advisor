@@ -424,16 +424,10 @@ public class UserProfileServlet extends AbstractDatabaseServlet
 					{
 						// get the connection
 						con = DS.getConnection();
-						
+						//disable a student.
 						StudenteDatabase.disableStudente(con, lu.getUser());
 						
 						DbUtils.close(con);
-						
-						// Creating response path
-						StringBuilder builder = new StringBuilder()
-								.append(request.getContextPath())
-								.append("/jsp/home.jsp");
-						response.sendRedirect(builder.toString());
 					}
 					
 					DbUtils.close(con);
@@ -450,8 +444,22 @@ public class UserProfileServlet extends AbstractDatabaseServlet
 					DbUtils.closeQuietly(con);
 					con = null;
 				}
-		
-		
+			// Logout
+				
+			response.setContentType("text/html;charset=UTF-8");
+
+			// get the session
+			HttpSession session = request.getSession(false);
+			session.removeAttribute("loggedUser");
+			
+			// logout the user
+			request.logout();
+			
+			// redirect
+			StringBuilder builder = new StringBuilder()
+					.append(request.getContextPath())
+					.append("/");
+			response.sendRedirect(builder.toString());
 	}
 	
 	/**
