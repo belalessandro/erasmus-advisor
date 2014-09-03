@@ -173,30 +173,36 @@
 		<div class="col-md-9 general_main_border">
 		
 			<!-- Notifica di avvenuta modifica del flusso -->
-			<c:if test="${!empty param.edited && param.edited == 'success'}">
-				<div class="alert alert-success alert-dismissible" role="alert" >
-				  <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-				  <h4 class="text-center">Flow Successfully Edited!</h4>
-				</div>
+			<c:if test="${sessionScope.loggedUser.flowResp}">
+				<c:if test="${!empty param.edited && param.edited == 'success'}">
+					<div class="alert alert-success alert-dismissible" role="alert" >
+					  <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+					  <h4 class="text-center">Flow Successfully Edited!</h4>
+					</div>
+				</c:if>
 			</c:if>
 			
 			<!-- Avviso aggiunta interesse con successo -->
-			<div id="add-interest-success" class="alert alert-success" role="alert" style="display:none">
-				<button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-				<div class="text-center">This flow has been successfully add to your interests!</div>  
-			</div>
+			<c:if test="${sessionScope.loggedUser.student}">
+				<div id="add-interest-success" class="alert alert-success" role="alert" style="display:none">
+					<button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+					<div class="text-center">This flow has been successfully add to your interests!</div>  
+				</div>
+
 			
-			<!-- Avviso rimozione interesse con successo -->
-			<div id="remove-interest-success" class="alert alert-success" role="alert" style="display:none">
-				<button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-				<div class="text-center">This flow has been successfully removed from your interests.</div>  
-			</div>
+				<!-- Avviso rimozione interesse con successo -->
+				<div id="remove-interest-success" class="alert alert-success" role="alert" style="display:none">
+					<button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+					<div class="text-center">This flow has been successfully removed from your interests.</div>  
+				</div>
 			
-			<!-- Avviso rimozione partecipazione con successo -->
-			<div id="remove-participation-success" class="alert alert-success" role="alert" style="display:none">
-				<button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-				<div class="text-center">You have successfully removed your participation from this flow.</div>  
-			</div>
+						
+				<!-- Avviso rimozione partecipazione con successo -->
+				<div id="remove-participation-success" class="alert alert-success" role="alert" style="display:none">
+					<button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+					<div class="text-center">You have successfully removed your participation from this flow.</div>  
+				</div>
+			</c:if>
 			
 			<div class="entity_details">
 				<div class="entity_details_text">
@@ -223,27 +229,32 @@
 						add partecipation solo se non si è partecipato già al flusso						
 					 -->
 					<ul class="nav nav-stacked pull-right">
-						<li class="active"><span data-toggle="modal" data-target="#evaluateForm">Evaluate</span></li>
-						<li class="active"><span id="flow_add_interest">Add interest</span></li>
-						<li class="active"><span id="flow_remove_interest" style="display: none !important;">Remove interest</span></li>
-						<li class="active"><span id="flow_add_partecipation" data-toggle="modal" data-target="#participationForm">Add participation</span></li>
-						<li class="active">
-							<span id="flow_remove_participation" style="display: none !important;">Remove participation</span>
-						</li>
-						<li class="active"><span data-toggle="modal" data-target="#editForm">Edit</span></li>
-						<li class="active">
-							<form method="post" action="<c:url value="/flow"/>">
-                                <input type="hidden" name="operation" value="delete"/>
-                                <input type="hidden" name="id" value="${flow.id}"/>
-								<input type="submit" value="Delete" class="btn btn-primary entity_nav_button" 
-									onclick="return confirm('Do you really want to remove this flow from the database?');">
-							</form>
-						</li>
+						<c:if test="${sessionScope.loggedUser.student}">
+							<li class="active"><span data-toggle="modal" data-target="#evaluateForm">Evaluate</span></li>
+							<li class="active"><span id="flow_add_interest">Add interest</span></li>
+							<li class="active"><span id="flow_remove_interest" style="display: none !important;">Remove interest</span></li>
+							<li class="active"><span id="flow_add_partecipation" data-toggle="modal" data-target="#participationForm">Add participation</span></li>
+							<li class="active">
+								<span id="flow_remove_participation" style="display: none !important;">Remove participation</span>
+							</li>
+						</c:if>
+						<c:if test="${sessionScope.loggedUser.flowResp}">
+							<li class="active"><span data-toggle="modal" data-target="#editForm">Edit</span></li>
+							<li class="active">
+								<form method="post" action="<c:url value="/flow"/>">
+	                                <input type="hidden" name="operation" value="delete"/>
+	                                <input type="hidden" name="id" value="${flow.id}"/>
+									<input type="submit" value="Delete" class="btn btn-primary entity_nav_button" 
+										onclick="return confirm('Do you really want to remove this flow from the database?');">
+								</form>
+							</li>
+						</c:if>
 					</ul>
 				</div>
 			</div>
 			
 			<!--Form di valutazione a comparsa-->
+			<c:if test="${sessionScope.loggedUser.student}">
 			<div class="modal fade" id="evaluateForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false">
 				<div class="modal-dialog">
 					<div class="modal-content">
@@ -296,9 +307,11 @@
 					</div>
 				</div>
 			</div>
+			</c:if>
 			<!-- fine Form di valutazione a comparsa-->
 			
 			<!--Form di edit a comparsa-->
+			<c:if test="${sessionScope.loggedUser.flowResp}">
 			<div class="modal fade" id="editForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false">
 				<div class="modal-dialog">
 					<div class="modal-content">
@@ -375,9 +388,11 @@
 					</div>
 				</div>
 			</div>
+			</c:if>
 			<!-- fine Form di valutazione a comparsa-->		
 			
 			<!--Form di inserimento partecipazione -->
+			<c:if test="${sessionScope.loggedUser.student}">
 			<div class="modal fade" id="participationForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false">
 				<div class="modal-dialog">
 					<div class="modal-content">
@@ -414,6 +429,7 @@
 					</div>
 				</div>
 			</div>
+			</c:if>
 			<!-- fine Form di inserimento partecipazione-->	
 			
 			<br>	

@@ -169,6 +169,29 @@ public class CoordinatoreDatabase
 		
 		return v;
 	}
+
+	
+	/**
+	 * Method for udpating a Responsabile di Flusso with the user name given
+	 * without setting the password.
+	 * 
+	 * @param con database connection
+	 * @param manager ResponsabileFlussoBean object 
+	 * @return the number of instances updated [1]
+	 * @throws SQLException
+	 */
+	public static int updateCoordinatoreWithoutPassword(Connection con, CoordinatoreBean coordinator)  throws SQLException 
+	{
+		final StringBuilder sql = new StringBuilder()
+		.append("UPDATE Coordinatore SET Email = ?, Attivo = ?, NomeUniversita = ? ")
+		.append("WHERE NomeUtente = ?;");
+	
+		QueryRunner run = new QueryRunner();
+		
+		int v  = run.update(con, sql.toString(), coordinator.getEmail(), coordinator.isAttivo(), coordinator.getNomeUniversita(), coordinator.getNomeUtente());
+		
+		return v;
+	}
 	
 	
 }

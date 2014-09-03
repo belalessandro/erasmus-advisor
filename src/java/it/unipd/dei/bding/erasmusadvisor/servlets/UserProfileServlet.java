@@ -228,14 +228,19 @@ public class UserProfileServlet extends AbstractDatabaseServlet
 				BeanUtilities.populateBean(coordinator, request);
 				
 				// set the password
-				SecureRandom random = new SecureRandom();
-				coordinator.setSalt("" + random.nextLong());
-				coordinator.setPassword(hashPassword(coordinator.getPassword(), coordinator.getSalt()));
+				if(!coordinator.getPassword().trim().isEmpty())
+				{
+					SecureRandom random = new SecureRandom();
+					coordinator.setSalt("" + random.nextLong());
+					coordinator.setPassword(hashPassword(coordinator.getPassword(), coordinator.getSalt()));	
+				}
 				
 				// get the connection
 				con = DS.getConnection();
-				
-				CoordinatoreDatabase.updateCoordinatore(con, coordinator);
+				if(!coordinator.getPassword().isEmpty())
+					CoordinatoreDatabase.updateCoordinatore(con, coordinator);
+				else
+					CoordinatoreDatabase.updateCoordinatoreWithoutPassword(con, coordinator);
 			}
 			else if(lu.isFlowResp())
 			{
@@ -244,14 +249,20 @@ public class UserProfileServlet extends AbstractDatabaseServlet
 				BeanUtilities.populateBean(manager, request);
 				
 				// set the password
-				SecureRandom random = new SecureRandom();
-				manager.setSalt("" + random.nextLong());
-				manager.setPassword(hashPassword(manager.getPassword(), manager.getSalt()));
+				if(!manager.getPassword().trim().isEmpty())
+				{
+					SecureRandom random = new SecureRandom();
+					manager.setSalt("" + random.nextLong());
+					manager.setPassword(hashPassword(manager.getPassword(), manager.getSalt()));
+				}
 				
 				// get the connection
 				con = DS.getConnection();
 				
-				ResponsabileFlussoDatabase.updateResponsabileFlusso(con, manager);
+				if(!manager.getPassword().isEmpty())
+					ResponsabileFlussoDatabase.updateResponsabileFlusso(con, manager);
+				else
+					ResponsabileFlussoDatabase.updateResponsabileFlussoWithoutPassword(con, manager);
 			}
 			else if(lu.isStudent())
 			{
@@ -260,9 +271,13 @@ public class UserProfileServlet extends AbstractDatabaseServlet
 				BeanUtilities.populateBean(student, request);
 				
 				// set the password
-				SecureRandom random = new SecureRandom();
-				student.setSalt("" + random.nextLong());
-				student.setPassword(hashPassword(student.getPassword(), student.getSalt()));				
+				if(!student.getPassword().trim().isEmpty())
+				{
+					SecureRandom random = new SecureRandom();
+					student.setSalt("" + random.nextLong());
+					student.setPassword(hashPassword(student.getPassword(), student.getSalt()));
+				}
+								
 				
 				// processing the course name and level
 				String[] res = null;
@@ -289,7 +304,11 @@ public class UserProfileServlet extends AbstractDatabaseServlet
 
 				// Starting the transaction
 				con.setAutoCommit(false);
-				StudenteDatabase.updateStudent(con, student);
+				if(!student.getPassword().isEmpty())
+					StudenteDatabase.updateStudent(con, student);
+				else
+					StudenteDatabase.updateStudentWithoutPassword(con, student);
+				
 				subscription.setIdCorso(new_courseId);
 				IscrizioneDatabase.updateIscrizione(con, subscription, old_courseId);
 				
@@ -304,6 +323,18 @@ public class UserProfileServlet extends AbstractDatabaseServlet
 			response.sendRedirect(builder.toString());
 			
 		} catch (SQLException e) {
+			
+			
+			PrintWriter w = response.getWriter();
+			w.println("<html>");
+			w.println("<body>");
+			w.println("<p>" + e.getErrorCode() + "</p>");
+			w.println("<p>" + e.getSQLState() + "</p>");
+			w.println("<p>" + e.getMessage()+ "</p>");
+			w.println("</body>");
+			w.println("<html>");
+			w.flush();
+			w.close();
 			
 			// managing overlapping courses
 			if(e.getSQLState().equals("EA003"))

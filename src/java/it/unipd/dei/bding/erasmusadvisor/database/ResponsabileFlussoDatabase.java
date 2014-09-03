@@ -79,6 +79,7 @@ public class ResponsabileFlussoDatabase
 	 * 
 	 * @param con database connection
 	 * @param manager ResponsabileFlussoBean object 
+	 * @return number of instances changed [1]
 	 * @throws SQLException
 	 */
 	public static int  updateResponsabileFlusso(Connection con, ResponsabileFlussoBean manager) throws SQLException 
@@ -106,6 +107,31 @@ public class ResponsabileFlussoDatabase
 		
 		run.insert(con, sql.toString(), rsh, manager.getNomeUtente(), manager.getNome(), manager.getCognome(), manager.getEmail(),
 				manager.getPassword(), manager.getSalt(), manager.getNomeUniversita());
+		
+	}
+
+	
+	/**
+	 * Method for udpating a Responsabile di Flusso with the user name given
+	 * without setting the password.
+	 * 
+	 * @param con database connection
+	 * @param manager ResponsabileFlussoBean object 
+	 * @return number of instances changed [1]
+	 * @throws SQLException
+	 */
+	public static int updateResponsabileFlussoWithoutPassword(Connection con, ResponsabileFlussoBean manager) throws SQLException 
+	{
+		final StringBuilder sql = new StringBuilder()
+		.append("UPDATE ResponsabileFlusso SET Nome = ?, Cognome = ?, Email = ?, Attivo = ?, Abilitato = ?, NomeUniversita = ? ")
+		.append("WHERE NomeUtente = ?;");
+	
+		QueryRunner run = new QueryRunner();
+		
+		int v  = run.update(con, sql.toString(), manager.getNome(), manager.getCognome(), manager.getEmail(), 
+				 		manager.isAttivo(), manager.isAbilitato(), manager.getNomeUniversita(), manager.getNomeUtente());
+		
+		return v;
 		
 	}
 

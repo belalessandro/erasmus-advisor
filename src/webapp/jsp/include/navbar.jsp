@@ -12,7 +12,9 @@
 	<img src="<c:url value="/img"/>/logo.svg" class="nav_logo"></a>
 	<ul class="nav nav-pills pull-right nav_style">
 		<c:if test="${(param.pageName != 'sign_in') && (param.pageName != 'error_not_logged')}">
-			<li><a href="<c:url value="/notifications"/>">Notifications</a></li>
+			<c:if test="${!sessionScope.loggedUser.student}">
+				<li><a href="<c:url value="/notifications"/>">Notifications</a></li>
+			</c:if>
 			<li><a href="<c:url value="/user/profile"/>">Account</a></li>
 			<li>
 				<form method="post" action ="<c:url value="/logout"/>">

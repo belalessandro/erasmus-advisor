@@ -191,5 +191,25 @@ public class StudenteDatabase
 	}
 
 	
+	/**
+	 * Method used for creating a new Studente instance into 
+	 * the database and modify also the password.
+	 * 
+	 * @param con database connection
+	 * @param student StudenteBean object
+	 * @throws SQLException
+	 */
+	public static void updateStudentWithoutPassword(Connection con, StudenteBean student) throws SQLException 
+	{
+		StringBuilder sql = new StringBuilder()
+		.append("UPDATE Studente SET email = ?, dataregistrazione = ?, attivo = 't' ")
+		.append("WHERE nomeutente = ?;");
+		
+		QueryRunner run = new QueryRunner();
+		
+		run.update(con, sql.toString(), student.getEmail(), student.getDataRegistrazione(), student.getNomeUtente());
+	}
+
+	
 	
 }

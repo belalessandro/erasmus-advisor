@@ -191,11 +191,11 @@
 												</div>
 												<br>
 												<div class="input-group sign_in_input_group">
-													<span class="input-group-addon sign_in_input">Password*</span> <input type="password" class="form-control" name="password" id="password" value="<c:out value="${student.password}"/>">
+													<span class="input-group-addon sign_in_input">Password*</span> <input type="password" class="form-control" name="password" id="password" >
 												</div>
 												<br>
 												<div class="input-group sign_in_input_group">
-													<span class="input-group-addon sign_in_input">Confirm Password*</span> <input type="password" class="form-control" name="password2" id="password2" value="<c:out value="${student.password}" />">
+													<span class="input-group-addon sign_in_input">Confirm Password*</span> <input type="password" class="form-control" name="password2" id="password2">
 												</div>
 												<br>
 												<div class="input-group sign_in_input_group">
@@ -215,12 +215,6 @@
 															<div class="input-group sign_in_input_group">
 																<span class="input-group-addon sign_in_input_small">To</span><input data-date-format="yyyy-mm-dd" type="text" class="form-control" id="datepicker2" name="date_to" />
 															</div>
-<!-- 														<div class="input-group sign_in_input_group"> -->
-<!-- 														<span class="input-group-addon sign_in_input_small">From</span> -->
-<!-- 														<div class="input-append date" id="dp3"  data-date-format="dd-mm-yyyy"> -->
-<%-- 														  	<input name="" class="form-control" size="16" type="text" value="<c:out value="${subscription.annoInizio}"/>" id="datepicker"> --%>
-<!-- 														</div> -->
-<!-- 														</div> -->
 													</div>
 												</div>
 												<br>
@@ -257,11 +251,11 @@
 												</div>
 												<br>
 												<div class="input-group sign_in_input_group">
-													<span class="input-group-addon sign_in_input">Password*</span> <input type="password" class="form-control" name="password" id="password" value="<c:out value="${flowmanager.password}"/>">
+													<span class="input-group-addon sign_in_input">Password*</span> <input type="password" class="form-control" name="password" id="password">
 												</div>
 												<br>
 												<div class="input-group sign_in_input_group">
-													<span class="input-group-addon sign_in_input">Confirm Password*</span> <input type="password" class="form-control" name="password2" id="password2" value="<c:out value="${flowmanager.password}" />">
+													<span class="input-group-addon sign_in_input">Confirm Password*</span> <input type="password" class="form-control" name="password2" id="password2">
 												</div>
 												<br>
 												<div class="input-group sign_in_input_group">
@@ -284,11 +278,11 @@
 												</div>
 												<br>
 												<div class="input-group sign_in_input_group">
-													<span class="input-group-addon sign_in_input">Password*</span> <input type="password" class="form-control" name="password" id="password" value="<c:out value="${coordinator.password}"/>">
+													<span class="input-group-addon sign_in_input">Password*</span> <input type="password" class="form-control" name="password" id="password">
 												</div>
 												<br>
 												<div class="input-group sign_in_input_group">
-													<span class="input-group-addon sign_in_input">Confirm Password*</span> <input type="password" class="form-control" name="password2" id="password2" value="<c:out value="${coordinator.password}" />">
+													<span class="input-group-addon sign_in_input">Confirm Password*</span> <input type="password" class="form-control" name="password2" id="password2" >
 												</div>
 											<br>
 												<div class="input-group sign_in_input_group">
