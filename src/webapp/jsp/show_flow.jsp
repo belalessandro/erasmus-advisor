@@ -87,7 +87,6 @@
 		                		function(responseText) { 
 									$('#remove-participation-success').show();
 									
-		                			var actualInterest = parseInt(responseText);
 		                		    document.getElementById("flow_remove_participation").setAttribute("style", "display: none;");
 		                		    document.getElementById("flow_add_participation").setAttribute("style", "display: block;");
 		                	});
@@ -115,6 +114,27 @@
     			$('#number_of_interested_stud').html("There are <b>"+numInterest+"</b> students that have expressed interest for this flow");
 			}
 		}
+		
+		// funziona che rimuove un riconoscimento
+        function removeAck(teaching) 
+		{  
+	    	var r = confirm("Do you really want to remove the acknowledgement to this class?");
+			if (r == true) 
+			{               
+                var flow = "<c:out value="${flow.id}"/>";
+            	$.post('<c:url value="/class/acknowledgement"/>', 
+                		{ operation: "delete", flowID : flow, classID : teaching},
+                		function(responseText) { 
+                			if (responseText == "success")
+                			{
+	                			$('#rowAck-' + teaching).remove();
+                			}
+                			
+                	});
+			} 
+			else {  // splash! and nothing happens
+			}      
+        }
 		
 		// inizializza i select avanzati
 		$(document).ready(function() {
@@ -424,16 +444,22 @@
 								<th>CFU</th>
 								<th>Year</th>
 								<th>Semester</th>
+								<th>Action</th> <!-- visibili solo per il suo manager -->
 							</tr>
 						</thead>
 						<tbody>
 							<c:forEach var="recCl" items='${recognisedClasses}' varStatus="status">
-								<tr>
+								<tr id="rowAck-${recCl.id}">
 									<td><a href="<c:url value="/class"/>?id=${recCl.id}" target="_blank">${recCl.nome}</a></td>
 									<td>${recCl.nomeArea}</td>
 									<td>${recCl.crediti}</td>
 									<td>${recCl.annoCorso}</td>
 									<td>${recCl.periodoErogazione}</td>
+									<td>
+										<button onclick="removeAck('<c:out value="${recCl.id}"/>')" type="button" class="btn btn-default btn-xs">
+											<span class="glyphicon glyphicon glyphicon-remove"></span>
+										</button>
+									</td>
 								</tr>
 							</c:forEach>					
 						</tbody>
