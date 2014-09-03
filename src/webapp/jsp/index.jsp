@@ -55,8 +55,7 @@
 		<div class="col-md-9 general_main_border" >
 			<h2 align="center">Erasmus Advisor</h2>
 			<br>
-			[Qui teoricamente si potrebbe mettere una qualche breve spiegazione del sito.
-			Sotto, da specifiche, ci vanno gli interessi espressi dall'utente]
+			<h4 class="text-center">${userName}, welcome in Erasmus Advisor!</h4>
 			<br>
 			<br>
 			<div class="panel panel-default">

@@ -75,8 +75,8 @@ public class FlowServlet extends AbstractDatabaseServlet {
 		String ID = req.getParameter("id");
 
 		if (ID == null || ID.isEmpty()) {
-			/* Redirect to insert form. */
-			resp.sendRedirect(req.getContextPath() + "/jsp/insert_flow.jsp");
+			/* Redirect to the search form. */
+			resp.sendRedirect(req.getContextPath() + "/flow/list");
 			return;
 		}
 		

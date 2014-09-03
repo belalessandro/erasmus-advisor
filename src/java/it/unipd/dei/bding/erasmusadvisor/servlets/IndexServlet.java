@@ -74,6 +74,7 @@ public class IndexServlet extends AbstractDatabaseServlet {
 		 */
 		if (m == null) {
 			req.setAttribute("interests", interests);
+			req.setAttribute("userName", lu.getUser());
 			
 			getServletContext().getRequestDispatcher("/jsp/index.jsp").forward(req, resp);
 		} 
