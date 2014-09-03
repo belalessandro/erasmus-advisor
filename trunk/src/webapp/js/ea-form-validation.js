@@ -2,6 +2,8 @@
 // 
 // note that functions depend on html elements' ID and, in some cases, 
 // on HTML elements' name, so they have to be consistent
+//
+// author: luca
 
 // function called from the forms
 function signInFormValidation()  
@@ -230,29 +232,34 @@ function insertUniversityFormValidation()
 	return false;
 }
 
+function loginValidation()
+{
+	var email = document.login_form.email;
+	var password = document.login_form.pass;
+	
+	if (email_validation(email) && login_pwd_validation(password))
+	{
+		return true;
+	}
+	return false;
+}
+
 // mauro: Questo va e potrebbe servire per la validazione della valutazione 
 //$(function() {
 //	var values = [];
 //	impostare <form id="evaluations" ...>
 //	$("#evaluations .rating").on('rating.change', function(event, value, caption) {
 //	    console.log(value);
-//	    console.log(caption);
-//	    
-//	    
+//	    console.log(caption);	    
 //	});
 //	
 //	
 //	$("#evaluations").submit(function(event) {
-////		alert("ciao stronzo!"); 
 //		event.preventDefault();
 //		
 //		ratings = $("#evaluations .rating");
-//		
-//		
-//		
+//			
 //	});
-//	
-//	
 //	
 //	$('#teachingsQuality').on('rating.change', function(event, value, caption) {
 //	    console.log(value);
@@ -260,9 +267,6 @@ function insertUniversityFormValidation()
 //	});
 //
 //});
-	
-	
-
 
 // validate the single elements
 
@@ -286,37 +290,6 @@ function professor_validation(profName)
 
 function date_interval_validation(startDate, endDate)
 {
-//	try
-//	{
-//		var fromAr = startDate.value.split("/");
-//		var toAr = endDate.value.split("/");
-//		var from = new Date();
-//		from.setFullYear(fromAr[2], fromAr[0], fromAr[1]);
-//		var to = new Date();
-//		to.setFullYear(toAr[2], toAr[0], toAr[1]);
-//		
-//		if (from < to)
-//		{
-//			return true;
-//		}
-//		else
-//		{
-//			alert("You have to insert a valid interval.");  
-//			startDate.focus();
-//			return false;
-//		}
-//	}
-//	catch(err)
-//	{
-//		alert("You have to insert a valid interval.");  
-//		startDate.focus();
-//		return false;
-//	}
-	
-	/*
-	 * New version
-	 */
-	
 	try
 	{
 		var fromAr = startDate.value.split("-");
@@ -468,6 +441,22 @@ function userid_validation(uid,mx,my)
 	}  
 	return true;  
 }  
+
+function login_pwd_validation(s)
+{
+	if (s === undefined)
+	{
+		alert("You have to insert a password.");  
+		return false;
+	}
+	else if (s.value.length == 0)
+	{
+		alert("You have to insert a password.");  
+		s.focus();  
+		return false;
+	}
+	return true;
+}
 
 function pwd_validation(pwd,pwd2,mx,my)  
 {  

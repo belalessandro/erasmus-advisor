@@ -1,23 +1,11 @@
-// file da eliminare
-//
-// questo file è un mischiotto di funzioni javascript prese dalle pagine prima della grande unificazione
-// le loro funzioni sono importanti, ma non sono riuscito a dividerle una dalle altre
-// nel gestire una pagina html controllare se il file è necessario provando a eliminarlo
-// dall'include e guardando se tutto si comporta come dovrebbe
-//
-// d'altronde un po' di codice dal significato oscuro serve in ogni applicazione che si rispetti
-
+// inizializza il datepicker
 
 $(function() {
 		
 		$( "#button" ).button();
 		$( "#radioset" ).buttonset();
-		
-
-		
+				
 		$( "#tabs" ).tabs();
-		
-
 		
 		$( "#dialog" ).dialog({
 			autoOpen: false,
@@ -44,14 +32,12 @@ $(function() {
 			event.preventDefault();
 		});
 		
-
 		
 		$( "#datepicker" ).datepicker({
 			inline: true,
 			dateFormat: "dd-mm-yy",
 			gotoCurrent: true
 		});
-		
 		
 		
 		$( "#datepicker2" ).datepicker({

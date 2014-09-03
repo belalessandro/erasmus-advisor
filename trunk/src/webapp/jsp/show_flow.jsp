@@ -28,7 +28,7 @@
 	<script src="<c:url value="/js"/>/bootstrap.min.js"></script>	
 	<script src="<c:url value="/js"/>/star-rating.min.js"></script>	
 	<script src="<c:url value="/js"/>/jquery.tablesorter.min.js"></script>
-	<script src="<c:url value="/js"/>/ea-basic.js"></script>	
+	<script src="<c:url value="/js"/>/ea-datepicker.js"></script>	
 	<script src="<c:url value="/js"/>/bootstrap-datepicker.js"></script>
 	<link href="<c:url value="/css"/>/tablesorter/style.css" rel="stylesheet"> 
 	
