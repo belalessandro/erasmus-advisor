@@ -3,15 +3,15 @@
 
 <!-- inizio barra di navigazione -->
 <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-	<!-- nella pagina di sign in il logo rimanda alla home -->
 	<c:choose>
-		<c:when test="${param.pageName == 'sign_in'}"><a href="<c:url value="/"/>"></c:when>
+		<c:when test="${(param.pageName != 'sign_in') && (param.pageName != 'error_not_logged')}">
+			<a href="<c:url value="/"/>">
+		</c:when>
 		<c:otherwise><a href="<c:url value="/index"/>"></c:otherwise>
 	</c:choose>
 	<img src="<c:url value="/img"/>/logo.svg" class="nav_logo"></a>
 	<ul class="nav nav-pills pull-right nav_style">
-		<!-- nella pagina di sign in non si vedono le voci di menù -->
-		<c:if test="${param.pageName != 'sign_in'}">
+		<c:if test="${(param.pageName != 'sign_in') && (param.pageName != 'error_not_logged')}">
 			<li><a href="<c:url value="/notifications"/>">Notifications</a></li>
 			<li><a href="<c:url value="/user/profile"/>">Account</a></li>
 			<li>

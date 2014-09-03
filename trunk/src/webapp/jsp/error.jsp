@@ -24,7 +24,14 @@
 	<div class="container">
 		<!-- barra di navigazione -->
 		<jsp:include page="/jsp/include/navbar.jsp">
-			<jsp:param name="pageName" value="sign_in"/>
+    		<c:choose>
+    			<c:when test="${(not empty errorType) && (errorType == 'userNotLogged')}">
+					<jsp:param name="pageName" value="error_not_logged"/>
+				</c:when>
+    			<c:otherwise>
+    				<jsp:param name="pageName" value="error_logged"/>
+    			</c:otherwise>
+    		</c:choose>
 		</jsp:include>
 
 		<!-- Class Header -->
@@ -37,10 +44,19 @@
 			<br>
 			<!-- display the message -->
     		<c:import url="/jsp/include/showMessage.jsp"/>
-    		<br>
-    		<div class="text-center"><button class="btn btn-primary" onclick="goBack()">Go Back</button></div>
+    		<div class="text-center">
+    		<c:choose>
+    			<c:when test="${(not empty errorType) && (errorType == 'userNotLogged')}">
+    				<div class="col-md-6"><a href="<c:url value="/"/>" class="btn btn-primary">Home page</a></div>
+    				<div class="col-md-6"><a href="<c:url value="/signin"/>" class="btn btn-primary">Sign in</a></div>
+       			</c:when>
+    			<c:otherwise>
+    				<button class="btn btn-primary" onclick="goBack()">Go Back</button>
+    			</c:otherwise>
+    		</c:choose>
+    		</div>
 		</div>
-		<div class ="col-md-2"></div>
+		<div class="col-md-2"></div>
 	</div>
 	<!--/container-->
 	<!-- footer -->

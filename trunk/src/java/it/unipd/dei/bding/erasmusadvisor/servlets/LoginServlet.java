@@ -140,7 +140,8 @@ public class LoginServlet extends AbstractDatabaseServlet {
     private void errorForward(HttpServletRequest request, HttpServletResponse response) 
     		throws ServletException, IOException  {
     	// Error management
-    		
+
+    	request.setAttribute("errorType", "userNotLogged");	
     	request.getServletContext().getRequestDispatcher("/jsp/error.jsp")
     		.forward(request, response); // ERROR PAGE
     }
