@@ -10,6 +10,7 @@ import it.unipd.dei.bding.erasmusadvisor.resources.Notifications;
 import it.unipd.dei.bding.erasmusadvisor.resources.UserType;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.SQLException;
 
@@ -59,19 +60,24 @@ public class NotificationsServlet extends AbstractDatabaseServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException 
-	{
-
-		// Gets operation parameter
-		String operation = req.getParameter("operation");
-		
+	{		
 		// Gets user from session
 		HttpSession session = req.getSession();
 		LoggedUser lu = (LoggedUser) session.getAttribute("loggedUser");
 		
+//		PrintWriter w = resp.getWriter();
+//		w.println("<html>");
+//		w.println("<body>");
+//		w.println("<p>" + lu.getUser()+ "</p>");
+//		w.println("<p>" + lu.isFlowResp()+ "</p>");
+//		w.println("</body>");
+//		w.println("<html>");
+//		w.flush();
+//		w.close();
 		/**
 		 * Authorization check. Permissions required: FlowManager, Coordinator
 		 */
-		if (! (lu.isCoord() || lu.isFlowResp()) || operation == null || operation.isEmpty() ) {
+		if (! (lu.isCoord() || lu.isFlowResp())) {
 			req.setAttribute("message", 
 					new Message("Not authorized or operation not allowed", "E200", ""));
 			errorForward(req, resp);
@@ -119,7 +125,40 @@ public class NotificationsServlet extends AbstractDatabaseServlet {
 				req.setAttribute("message", m);
 				getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(req, resp);
 			}
+		} else if(lu.isFlowResp())
+		{
+			try {
+				con = DS.getConnection();
+				
+				notifications = CoordinatoreDatabase.getNotifications(con, lu.getUser());
+				
+				DbUtils.close(con);
+			} catch (SQLException e) {
+				m = new Message("Error while getting notifications.", "XXX", e.getMessage());
+				req.setAttribute("message", m);
+				errorForward(req, resp);
+			} finally {
+				DbUtils.closeQuietly(con);
+			}
+			
+			if(m == null && notifications != null)
+			{
+				// send parameters
+				req.setAttribute("classes", notifications.getInsegnamenti());
+				req.setAttribute("classProfessors", notifications.getProfessoriInsegnamenti());
+				req.setAttribute("theses", notifications.getArgomentiTesi());
+				req.setAttribute("thesisProfessors", notifications.getProfessoriTesi());
+				
+				// send the results to the relatve JSP page
+				getServletContext().getRequestDispatcher("/jsp/user_notifications.jsp").forward(req, resp);
+			}
+			else
+			{
+				req.setAttribute("message", m);
+				getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(req, resp);
+			}
 		}
+		
 	}
 
 	/**

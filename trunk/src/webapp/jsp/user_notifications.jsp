@@ -147,57 +147,59 @@
 			<h2 align="center">Moderation Panel</h2>
 			<br>
 			
-			<!-- inizio sezione coordinatore erasmus -->
-			<!-- i risultati vanno creati dinamicamente
-				alla pressione sui tasti corrisponde l'azione di conferma o rimozione -->
-				
-			<h4 align="center">New Flow Managers</h4>
-			<div class="alert alert-dismissable alert-danger">
-				<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-				There are * 2 * Flow Manager whose identity needs to be confirmed! Deactivate the account in case of doubt.
-			</div>			
-			<table class="table table-condensed table-hover table-striped tablesorter" id="coordinatorTable">
-				<thead>
-					<tr>
-						<th>Actions</th>
-						<th>User Name</th>
-						<th>Email</th>
-						<th>Registration Date</th>
-						<th>State</th>
-					</tr>
-				</thead>
-				<tbody>
-				
-					<c:forEach var="flowManager" items="${flowManagers}">
-						<tr class="danger">
-							<td>
-								<button  onclick="acceptDiscardButtonClick('<c:out value="${flowManager.nomeUtente}"/>', 'flowmanager', 'accept', event)" type="button" class="btn btn-default btn-xs">
-									<span class="glyphicon glyphicon-ok"></span>
-								</button>
-								<button onclick="acceptDiscardButtonClick('<c:out value="${flowManager.nomeUtente}"/>', 'flowmanager', 'discard', event)" type="button" class="btn btn-default btn-xs">
-									<span class="glyphicon glyphicon glyphicon-remove"></span>
-								</button>
-							</td>
-							<td><c:out value="${flowManager.nomeUtente}"/></td>
-							<td><c:out value="${flowManager.email}"/></td>
-							<td><c:out value="${flowManager.dataRegistrazione}"/></td>
-							<td class="status">To Be Approved</td>
+			<!-- BEGIN COORDINATOR -->
+			<c:if test="${flowManagers != null}">	
+				<h3 align="center">New Flow Managers</h3>
+				<br>
+				<c:if test="${!empty flowManagers }">
+					<div class="alert alert-dismissable alert-danger">
+						<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+						There are Flow Managers whose identity needs to be confirmed! Deactivate the account in case of doubt.
+					</div>
+				</c:if>			
+				<table class="table table-condensed table-hover table-striped tablesorter" id="coordinatorTable">
+					<thead>
+						<tr>
+							<th>Actions</th>
+							<th>User Name</th>
+							<th>Email</th>
+							<th>Registration Date</th>
+							<th>State</th>
 						</tr>
-					</c:forEach>
-				</tbody>
-			</table>
-			<br><br>
-			<!-- fine sezione coordinatore erasmus -->
+					</thead>
+					<tbody>
+					
+						<c:forEach var="flowManager" items="${flowManagers}">
+							<tr class="danger">
+								<td>
+									<button  onclick="acceptDiscardButtonClick('<c:out value="${flowManager.nomeUtente}"/>', 'flowmanager', 'accept', event)" type="button" class="btn btn-default btn-xs">
+										<span class="glyphicon glyphicon-ok"></span>
+									</button>
+									<button onclick="acceptDiscardButtonClick('<c:out value="${flowManager.nomeUtente}"/>', 'flowmanager', 'discard', event)" type="button" class="btn btn-default btn-xs">
+										<span class="glyphicon glyphicon glyphicon-remove"></span>
+									</button>
+								</td>
+								<td><c:out value="${flowManager.nomeUtente}"/></td>
+								<td><c:out value="${flowManager.email}"/></td>
+								<td><c:out value="${flowManager.dataRegistrazione}"/></td>
+								<td class="status">To Be Approved</td>
+							</tr>
+						</c:forEach>
+					</tbody>
+				</table>
+				<br><br>
+			</c:if>
+			<!-- END COORDINATOR SECTION -->
 			
-			<!-- inizio sezione responsabile di flusso -->
-			
-			<!-- i risultati vanno creati dinamicamente
-				alla pressione sui tasti corrisponde l'azione di conferma o rimozione -->
-			<h4 align="center">Reported Courses</h4>
-			<div class="alert alert-danger alert-dismissable">
-				<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-				There are new courses that need a check.
-			</div>
+			<!-- BEGIN FLOW MANAGER AND COORDINATOR SECTION -->
+			<h3 align="center">Reported classes</h3>
+			<br>
+			<c:if test="${!empty classes}">
+				<div class="alert alert-danger alert-dismissable">
+					<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+					There are new classes that need a check.
+				</div>
+			</c:if>
 			
 			<table class="table table-condensed table-hover table-striped tablesorter" id="classTable">
 				<thead>
@@ -214,7 +216,7 @@
 						<tr class="danger">
 							<td>
 								<button onclick="acceptDiscardButtonClick(<c:out value="${classBean.id}"/>, 'class', 'accept', event)" type="button" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-ok"></span></button>
-								<button onclick="acceptDiscardButtonClick(<c:out value="${classBean.id}"/>, 'class', 'discard', event)" type="button" class="btn btn-default btn-xs"><span class="glyphicon glyphicon glyphicon-remove"></span></button>
+								<button onclick="acceptDiscardButtonClick(<c:out value="${classBean.id}"/>, 'class', 'discard', event)" type="button"  class="btn btn-default btn-xs"><span class="glyphicon glyphicon glyphicon-remove"></span></button>
 							</td>
 							<td><a href="<c:url value="/class?id="/><c:out value="${classBean.id}"/>" target="_blank"><c:out value="${classBean.nome}"/></a></td>
 							<td><c:out value="${classBean.nomeUniversita}"/></td>
@@ -234,12 +236,14 @@
 			</table>
 			<br><br>
 			
-			<h4 align="center">Reported Theses</h4>
-			<div class="alert alert-danger alert-dismissable">
-				<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-				There are new theses that need a check.
-			</div>
-			
+			<h3>Reported theses</h3>
+			<br>
+			<c:if test="${!empty theses}">
+				<div class="alert alert-danger alert-dismissable">
+					<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+					There are new theses that need a check.
+				</div>
+			</c:if>
 			<table class="table table-condensed table-hover table-striped tablesorter" id="thesisTable">
 				<thead>
 					<tr>
@@ -273,7 +277,8 @@
 					</c:forEach>
 				</tbody>
 			</table>
-			<!-- fine sezione responsabile di flusso -->
+			<!-- END FLOW MANAGER AND COORDINATOR SECTION -->
+			
 		</div>	
 	</div>
 	<!-- footer -->

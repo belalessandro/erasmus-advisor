@@ -109,14 +109,7 @@ public class ResponsabileFlussoDatabase
 		
 	}
 
-//	public static int updateResponsabileFlusso(Connection con, ResponsabileFlussoBean manager) throws SQLException {
-//		
-//		final String sql = "update ResponsabileFlusso set Nome = ?, Cognome = ?, Email = ?, Password = ?, Salt = ? , Attivo = ?, Abilitato = ?, NomeUniversita = ? where nomeutente = ?;";
-//		
-//		QueryRunner run = new QueryRunner();
-//		
-//		return run.update(con, sql, manager.getNome(), manager.getCognome(), manager.getEmail(), manager.getPassword(), manager.getSalt(),manager.isAttivo(), manager.isAbilitato(), manager.getNomeUniversita(), manager.getNomeUtente());
-//	}
+	
 	
 
 }
