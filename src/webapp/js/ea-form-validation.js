@@ -133,6 +133,22 @@ function insertCityFormValidation()
 	return false;
 }
 
+function editCityFormValidation()
+{
+	var city = document.cityEditForm.name;
+	var country = document.cityEditForm.country;
+	var languages = document.cityEditForm.language;
+	if (string_validation(city) && string_validation(country))
+	{
+		if (multiselect_validate(languages))
+		{
+			return true;
+		}
+	}
+	return false;
+	
+}
+
 function insertCourseFormValidation()
 {
 	var name = document.insert_course.name;
@@ -179,6 +195,49 @@ function insertClassFormValidation()
 				}
 			}
 		}
+	}
+	return false;
+}
+
+function editClassFormValidation()
+{
+	var name = document.classEditForm.name;
+	var uni = document.classEditForm.universityNames;
+	var cfu = document.classEditForm.credits;
+	var year = document.classEditForm.year;
+	var semester = document.classEditForm.semester;
+
+	var profName = document.getElementsByName("professorName");
+	var profSur = document.getElementsByName("professorSurname");
+	
+	// in questo caso si può omettere la validazione dei select singoli
+	// in quanto hanno giò una opzione selezionata
+	
+	//alert(name.value + " " + uni.value + " " + cfu.value + " " + 
+	//		year.value + " " + semester.value + " " + lang.value + " " + area.value + " " + profName.length);
+
+	if(string_validation(name))
+	{
+		if (professor_validation(profName) && professor_validation(profSur))
+		{	
+			if (natural_validation(cfu) && string_validation(uni))
+			{
+				if (semester_validation(semester) && year_validation(year))
+				{
+					return true;
+				}
+			}
+		}
+	}
+	return false;
+}
+
+function ackClassFormValidation()
+{
+	var flow = document.getElementById("ackFlow");
+	if (select_validate(flow))
+	{
+		return true;
 	}
 	return false;
 }
@@ -485,7 +544,7 @@ function email_validation(uemail)
 	}  
 	else  
 	{  
-		alert("You have entered an invalid email address!");  
+		alert("You have to enter a valid email address.");  
 		uemail.focus();  
 		return false;  
 	}  

@@ -149,9 +149,7 @@
 							<h4 class="modal-title" id="myModalLabel">Edit <b><c:out value="${city.nome}"/></b></h4>
 						</div>
 						<div class="modal-body">
-							<!-- action deve puntare alla servlet che gestisce la modifica dell'entità -->
-							<!-- notare che ogni input deve avere il campo value settato a quanto è presente nel DB -->
-							<form name='cityEditForm' method="post" action="<c:url value="/city"/> ">
+							<form name='cityEditForm' method="post" action="<c:url value="/city"/>" onSubmit="return editCityFormValidation();">
 								<div class="input-group insert_new_input_group">
 									<span class="input-group-addon insert_new_input">Name*</span> <input type="text" class="form-control" id="name" name="new_name" value="<c:out value="${city.nome}"/>" >
 								</div>
