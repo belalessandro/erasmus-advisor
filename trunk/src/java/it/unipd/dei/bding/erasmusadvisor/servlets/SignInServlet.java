@@ -238,8 +238,8 @@ public class SignInServlet extends AbstractDatabaseServlet {
                 } catch (SQLException ex) {
                         if (ex.getSQLState().equals("23505")) {
                                 m = new Message("Cannot create the user account: name "
-                                                + username + " already exists.", "E300",
-                                                ex.getMessage());
+                                                + username + " or mail already exist.", "E300",
+                                                "Username or email already exist");
                         } else {
                                 m = new Message(
                                                 "Cannot create the user: unexpected error while accessing the database.",

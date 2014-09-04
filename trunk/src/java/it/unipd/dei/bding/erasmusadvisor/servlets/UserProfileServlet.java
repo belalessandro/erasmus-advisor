@@ -16,7 +16,6 @@ import it.unipd.dei.bding.erasmusadvisor.resources.Student;
 import it.unipd.dei.bding.erasmusadvisor.resources.UserType;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -347,6 +346,10 @@ public class UserProfileServlet extends AbstractDatabaseServlet
 			if(e.getSQLState().equals("EA003"))
 			{
 				sendErrorOverlappingDates(request, response);
+			}
+			else if (e.getSQLState().equals("23505")) {
+                m = new Message("Cannot create the user account: name or mail already exist.", "E300",
+                        "Username or email already exist");
 			}
 			else
 			{
