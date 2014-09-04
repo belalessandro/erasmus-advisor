@@ -81,7 +81,7 @@ public class ParticipationServlet extends AbstractDatabaseServlet
 			String startDateString = req.getParameter("date_from");
 			String endDateString = req.getParameter("date_to");
 			
-			SimpleDateFormat f = new SimpleDateFormat("mm/dd/yyyy");
+			SimpleDateFormat f = new SimpleDateFormat("MM/dd/yyyy");
 			
 			try {
 				Date startDate = new Date(f.parse(startDateString).getTime());
