@@ -263,7 +263,6 @@
 							<h4 class="modal-title" id="myModalLabel">Insert an evaluation for <b><c:out value="${flow.id}"/></b></h4>
 						</div>
 						<div class="modal-body">
-							<!-- action deve puntare alla servlet che gestisce l'inserimento della valutazione -->
 							<form name='flowEvaluationForm' method="post" action='<c:url value="/flow/evaluations"/>' >
 								<div class="col-md-6 text-center">Gratification:</div>
 								<div class="col-md-6 text-center">
@@ -328,7 +327,7 @@
 								<div class="row text-center">
 									<span></span>
 									<span class="input-group-addon insert_new_select_label_inline">Insert the flow's starting degree courses*</span>
-									<select class="selectpicker text-left" multiple id="origin" name="origins[]" data-width="auto">
+									<select class="selectpicker text-left" multiple id="origin" name="origins[]" data-width="100%">
 										<c:forEach var="possibleCourse" items='${possibleCourses}'>
 											<option value="${possibleCourse.id}" 
 												<c:forEach var="origin" items='${origins}' >
