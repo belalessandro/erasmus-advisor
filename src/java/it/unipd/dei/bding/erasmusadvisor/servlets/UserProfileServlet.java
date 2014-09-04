@@ -350,6 +350,9 @@ public class UserProfileServlet extends AbstractDatabaseServlet
 			else if (e.getSQLState().equals("23505")) {
                 m = new Message("Cannot create the user account: name or mail already exist.", "E300",
                         "Username or email already exist");
+                request.setAttribute("message", m);
+                errorForward(request, response);
+				return;
 			}
 			else
 			{
