@@ -34,12 +34,15 @@
 		<!-- corpo della pagina -->
 		<div class="col-md-9 general_main_border">
 			<!-- Showed when successfully edited -->
-			<c:if test="${!empty param.edited && param.edited == 'success'}">
-				<div class="alert alert-success alert-dismissible" role="alert" >
-				  <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-				  <h4 class="text-center">University Successfully Edited!</h4>
-				</div>
+			<c:if test="${!sessionScope.loggedUser.student}">
+				<c:if test="${!empty param.edited && param.edited == 'success'}">
+					<div class="alert alert-success alert-dismissible" role="alert" >
+					  <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+					  <h4 class="text-center">University Successfully Edited!</h4>
+					</div>
+				</c:if>
 			</c:if>
+			
 			<div class="entity_details">
 				<div class="entity_details_text">
 					<h2><c:out value="${university.nome}"/></h2> 
@@ -56,21 +59,26 @@
 					<!-- evalutate visibile solo da studente
 						edit e delete solo da reponsabili di flusso e coordinatori erasmus -->
 					<ul class="nav nav-stacked pull-right">
-						<li class="active"><span data-toggle="modal" data-target="#evaluateForm">Evaluate</span></li>
-						<li class="active"><span data-toggle="modal" data-target="#editForm">Edit</span></li>
-						<li class="active">
-							<form method="post" action="<c:url value="/university"/>">
-                                <input type="hidden" name="operation" value="delete"/>
-                                <input type="hidden" name="name" value="${university.nome}"/>
-								<input type="submit" value="Delete" class="btn btn-primary entity_nav_button"
-									onclick="return confirm('Do you really want to remove this university from the database?');">
-							</form>
-						</li>
+						<c:if test="${sessionScope.loggedUser.student}">
+							<li class="active"><span data-toggle="modal" data-target="#evaluateForm">Evaluate</span></li>
+						</c:if>
+						<c:if test="${!sessionScope.loggedUser.student}">
+							<li class="active"><span data-toggle="modal" data-target="#editForm">Edit</span></li>
+							<li class="active">
+								<form method="post" action="<c:url value="/university"/>">
+	                                <input type="hidden" name="operation" value="delete"/>
+	                                <input type="hidden" name="name" value="${university.nome}"/>
+									<input type="submit" value="Delete" class="btn btn-primary entity_nav_button"
+										onclick="return confirm('Do you really want to remove this university from the database?');">
+								</form>
+							</li>
+						</c:if>
 					</ul>
 				</div>
 			</div>
 			
 			<!--Form di valutazione a comparsa-->
+			<c:if test="${sessionScope.loggedUser.student}">
 			<div class="modal fade" id="evaluateForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false">
 				<div class="modal-dialog">
 					<div class="modal-content">
@@ -122,9 +130,11 @@
 					</div>
 				</div>
 			</div>
+			</c:if>
 			<!-- fine Form di valutazione a comparsa-->
 			
 			<!--Form di edit a comparsa-->
+			<c:if test="${!sessionScope.loggedUser.student}">
 			<div class="modal fade" id="editForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false">
 				<div class="modal-dialog">
 					<div class="modal-content">
@@ -170,6 +180,7 @@
 					</div>
 				</div>
 			</div>
+			</c:if>
 			<!-- fine Form di edit a comparsa-->	
 			<br>	
 			<c:choose>
