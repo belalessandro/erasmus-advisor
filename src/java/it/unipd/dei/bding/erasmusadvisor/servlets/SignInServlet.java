@@ -13,6 +13,7 @@ import it.unipd.dei.bding.erasmusadvisor.resources.Message;
 import it.unipd.dei.bding.erasmusadvisor.resources.UserType;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -180,10 +181,27 @@ public class SignInServlet extends AbstractDatabaseServlet {
 
                                 // processing the course name and level
                                 String[] res = null;
+                                String courseName = null;
+                                String courseLevel = null;
                                 res = extractCourseNameAndLevel(request.getParameter("courseName"));
-                                String courseName = res[0].trim();
-                                String courseLevel = res[1].trim();
+                                
+                                // manage the course insertion error
+                                if(res != null)
+                                {
+                                	courseName = res[0].trim();
+                                	courseLevel = res[1].trim();
+                                	
+                                	if(courseName.isEmpty() || courseLevel.isEmpty())
+                                		throw new NullPointerException("course");
+                                }	
+                                else
+                                	throw new NullPointerException("course");
+                                
                                 String courseUniversity = request.getParameter("nomeUniversita").trim();
+                                
+                                // manage the university insertion error
+                                if(courseUniversity == null || courseUniversity.isEmpty())
+                                	throw new NullPointerException("university");
                                 
                                 // getting the connection
                                 con = DS.getConnection();
@@ -191,6 +209,9 @@ public class SignInServlet extends AbstractDatabaseServlet {
                                 // getting the course id
                                 int courseId = CorsoDiLaureaDatabase.getCourseId(con, courseName, courseLevel, courseUniversity);
                                 
+                                // manage when the university is wrong
+                                if(courseId == 0)
+                                	throw new NullPointerException("university");
                                 
                                 // initialize a new subscription
                                 IscrizioneBean subscription = new IscrizioneBean();
@@ -225,9 +246,48 @@ public class SignInServlet extends AbstractDatabaseServlet {
                                                 "Cannot create the user: unexpected error while accessing the database.",
                                                 "E200", ex.getMessage());
                         }
+                } catch (NullPointerException e) {
+                	if (e.getMessage().equals("course"))
+                	{
+//                		PrintWriter w = response.getWriter();
+//                		w.println("<html>");
+//                		w.println("<body>");
+//                		w.println("<p>Course is wrong!</p>");
+//                		w.println("</body>");
+//                		w.println("</html>");
+//                		w.flush();
+//                		w.close();
+                		// Creating response path
+            			StringBuilder builder = new StringBuilder()
+            					.append(request.getContextPath())
+            					.append("/signin?err=course");
+            			
+            			response.sendRedirect(builder.toString());
+            			return;
+                	}
+                	else if (e.getMessage().equals("university")) 
+                	{
+//                		PrintWriter w = response.getWriter();
+//                		w.println("<html>");
+//                		w.println("<body>");
+//                		w.println("<p>University is wrong!</p>");
+//                		w.println("</body>");
+//                		w.println("</html>");
+//                		w.flush();
+//                		w.close();
+                		
+                		// Creating response path
+            			StringBuilder builder = new StringBuilder()
+            					.append(request.getContextPath())
+            					.append("/signin?err=university");
+            			
+            			response.sendRedirect(builder.toString());
+            			return;
+                	}
                 } finally {
                         try {
-                                con.setAutoCommit(true);
+                        		if(con != null)
+                        			con.setAutoCommit(true);
                                 DbUtils.close(con);
                         } catch (SQLException ex) {
                                 m = new Message(
@@ -243,6 +303,7 @@ public class SignInServlet extends AbstractDatabaseServlet {
         				
                         getServletContext().getRequestDispatcher("/jsp/index.jsp").forward(
                                         request, response);
+                        return;
                 } else {
                         // Error Page
                         request.setAttribute("message", m);
@@ -277,6 +338,9 @@ public class SignInServlet extends AbstractDatabaseServlet {
                         else if(parameter.charAt(i) == ')' && open)
                                 end = i;
                 }
+                
+                if(open == false)
+                	return null;
                 
                 res[0] = parameter.substring(0, init - 1);
                 res[1] = parameter.substring(init, end);

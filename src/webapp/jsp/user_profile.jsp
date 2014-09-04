@@ -138,6 +138,13 @@
 				</div>
 			</c:if>
 
+			<!-- Alert when the user has inserted a wrong course or university -->
+			<c:if test="${param.err != null && (param.err == 'university' || param.err == 'course')}">
+				<div class="alert alert-danger alert-dismissible" role="alert">
+				  <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+				  <strong>Warning!</strong> The <c:out value="${param.err}"/> you have inserted doesn't exists.
+				</div>
+			</c:if>
 			<!-- Avviso di date sovrapposte -->
 			<c:if test="${!empty param.error && param.error == 'overlapping'}">
 				<div class="alert alert-danger alert-dismissible" role="alert" >
