@@ -218,58 +218,48 @@ public class NotificationsServlet extends AbstractDatabaseServlet {
 			// checking the operation to perform
 			if(execute.equals("accept"))
 			{
-				switch(type) 
-				{
 				// checking the user
-				case "flowmanager":
+				if (type.equals("flowmanager")) {
 					if(lu.isCoord())
 					{
 						ResponsabileFlussoDatabase.enableResponsabileFlusso(con, json.getString("primarykey"));
 						builder.add("flowmanager","enabled");
 					}
-					break;
-				case "class":
+				} else if (type.equals("class")) {
 					if(lu.isFlowResp())
 					{
 						InsegnamentoDatabase.changeClassStatus(con, "VERIFIED", json.getInt("primarykey"));
 						builder.add("class","enabled");
 					}
-					break;
-				case "thesis":
+				} else if (type.equals("thesis")) {
 					if(lu.isFlowResp())
 					{
 						ArgomentoTesiDatabase.changeThesisStatus(con, "VERIFIED", json.getInt("primarykey"));
 						builder.add("thesis","enabled");
 					}
-					break;
 				}
 			}
 			else if(execute.equals("discard"))
 			{
 				// checking the user
-				switch(type) 
-				{
-				case "flowmanager":
+				if (type.equals("flowmanager")) {
 					if(lu.isCoord())
 					{
 						ResponsabileFlussoDatabase.disableResponsabileFlusso(con, json.getString("primarykey"));
 						builder.add("flowmanager","disabled");
 					}
-					break;
-				case "class":
+				} else if (type.equals("class")) {
 					if(lu.isFlowResp())
 					{
 						InsegnamentoDatabase.changeClassStatus(con, "DISABLED", json.getInt("primarykey"));
 						builder.add("class","disabled");
 					}
-					break;
-				case "thesis":
+				} else if (type.equals("thesis")) {
 					if(lu.isFlowResp())
 					{
 						ArgomentoTesiDatabase.changeThesisStatus(con, "DISABLED", json.getInt("primarykey"));
 						builder.add("thesis","disabled");
 					}
-					break;
 				}
 			}
 			
