@@ -76,42 +76,44 @@
 			<h4 class="text-center">${userName}, welcome in Erasmus Advisor!</h4>
 			<br>
 			<br>
-			<c:choose>
-				<c:when test="${fn:length(interests) == 0}">
-					<div class="row text-center">
-						<h4>You have not express interest for any flow yet.</h4>
+			<c:if test="${sessionScope.loggedUser.student}">
+				<c:choose>
+					<c:when test="${fn:length(interests) == 0}">
+						<div class="row text-center">
+							<h4>You have not express interest for any flow yet.</h4>
+						</div>
+					</c:when>
+					<c:otherwise>	
+					<div class="row text-center" id="interest_table_intro">
+						<h4>You have express interest for the flows:</h4>
 					</div>
-				</c:when>
-				<c:otherwise>	
-				<div class="row text-center" id="interest_table_intro">
-					<h4>You have express interest for the flows:</h4>
-				</div>
-				<table class="table table-bordered table-hover table-striped tablesorter" id="interest_table">
-					<thead>
-						<tr>
-							<th>Flow ID</th>
-							<th>Target University</th>
-							<th>Target City</th>
-							<th class="index_table_col_remove" align="center">Remove</th>
-						</tr>
-					</thead>
-					<tbody>
-						<c:forEach var="interest" items='${interests}' varStatus="status">
-							<tr id="row-${interest.flowID}">
-								<td><a href="<c:url value="/flow"/>?id=${interest.flowID}" target="_blank">${interest.flowID}</a></td>
-								<td><a href="<c:url value="/university"/>?name=${interest.universityName}" target="_blank">${interest.universityName}</a></td>
-								<td><a href="<c:url value="/city"/>?name=${interest.cityName}&country=${interest.countryName}" target="_blank">${interest.cityName} (${interest.countryName})</a></td>
-								<td align="center">
-									<button type="button" class="btn btn-default btn-xs index_button_remove" id="${interest.flowID}">
-										<span class="glyphicon glyphicon glyphicon-remove"></span>
-									</button>
-								</td>
+					<table class="table table-bordered table-hover table-striped tablesorter" id="interest_table">
+						<thead>
+							<tr>
+								<th>Flow ID</th>
+								<th>Target University</th>
+								<th>Target City</th>
+								<th class="index_table_col_remove" align="center">Remove</th>
 							</tr>
-						</c:forEach>		
-					</tbody>
-				</table>
-				</c:otherwise>
-			</c:choose>
+						</thead>
+						<tbody>
+							<c:forEach var="interest" items='${interests}' varStatus="status">
+								<tr id="row-${interest.flowID}">
+									<td><a href="<c:url value="/flow"/>?id=${interest.flowID}" target="_blank">${interest.flowID}</a></td>
+									<td><a href="<c:url value="/university"/>?name=${interest.universityName}" target="_blank">${interest.universityName}</a></td>
+									<td><a href="<c:url value="/city"/>?name=${interest.cityName}&country=${interest.countryName}" target="_blank">${interest.cityName} (${interest.countryName})</a></td>
+									<td align="center">
+										<button type="button" class="btn btn-default btn-xs index_button_remove" id="${interest.flowID}">
+											<span class="glyphicon glyphicon glyphicon-remove"></span>
+										</button>
+									</td>
+								</tr>
+							</c:forEach>		
+						</tbody>
+					</table>
+					</c:otherwise>
+				</c:choose>
+			</c:if>
 		</div>
 	</div>
 	<!-- footer -->
