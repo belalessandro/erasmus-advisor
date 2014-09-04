@@ -10,6 +10,7 @@ import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.ResultSetHandler;
 import org.apache.commons.dbutils.handlers.BeanHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
+import org.apache.commons.dbutils.handlers.ScalarHandler;
 
 /**
  * Database operations about "ValutazioneCitta". 
@@ -81,6 +82,30 @@ public class ValutazioneCittaDatabase {
 		
 		QueryRunner run = new QueryRunner();
 		return run.update(conn, statement, user, city, country);
+	}
+
+	/**
+	 * Returns if a user has already inserted an evaluation to a city.
+	 * @param conn A connection to the database.
+	 * @param user The student that inserted the evaluation. 
+	 * @param city The city evaluated.
+	 * @param country The country of the city.
+	 * @return {@code true} if the student has already inserted an evaluation for this city, {@code false} otherwise.
+	 * @throws SQLException If something goes wrong.
+	 */
+	public static boolean checkEvaluation(Connection conn, String user, String city, String country) throws SQLException
+	{
+		final String statement = "SELECT COUNT (*) FROM ValutazioneCitta WHERE nomeutentestudente = ? AND nomecitta = ? AND statocitta = ?";
+		
+		QueryRunner run = new QueryRunner();
+		
+		ResultSetHandler<Long> h1 = new ScalarHandler<Long>();
+		long result = run.query(conn, statement, h1, user, city, country);
+		
+		if (result > 0)
+			return true;
+		
+		return false;
 	}
 
 }

@@ -115,4 +115,33 @@ public class PartecipazioneDatabase
 		
 		return false;
 	}
+
+	/**
+	 * Returns if a student have participated to a flow towards a given city.
+	 * @param conn A connection to the database.
+	 * @param city The flow destination city.
+	 * @param country The flow destination country.
+	 * @param user The student user name.
+	 * @return {@code true} if the student has participated to at least a flow, {@code false} otherwise.
+	 * @throws SQLException If an error occurs running the SQL query.
+	 */
+	public static boolean checkParticipation(Connection conn, String city, String country, String user) throws SQLException 
+	{
+
+		final String statement = "SELECT COUNT (*) FROM Partecipazione AS P INNER JOIN Flusso AS F ON P.idflusso = F.id "
+				+ "INNER JOIN Universita AS U ON F.destinazione = U.nome "
+				+ "WHERE P.nomeutentestudente = ? AND U.nomecitta = ? AND U.statocitta = ?";
+		
+		QueryRunner run = new QueryRunner();
+		
+		ResultSetHandler<Long> h1 = new ScalarHandler<Long>();
+		long result = run.query(conn, statement, h1, user, city, country);
+		
+		if (result > 0)
+		{
+			return true;
+		}
+		
+		return false;
+	}
 }
