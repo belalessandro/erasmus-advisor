@@ -50,7 +50,7 @@
     		<c:choose>
     			<c:when test="${(not empty errorType) && (errorType == 'userNotLogged')}">
     				<div class="col-md-6"><a href="<c:url value="/"/>" class="btn btn-primary">Home page</a></div>
-    				<div class="col-md-6"><a href="<c:url value="/signin"/>" class="btn btn-primary">Sign in</a></div>
+    				<div class="col-md-6"><a href="<c:url value="/signin"/>" class="btn btn-primary">Sign up</a></div>
        			</c:when>
     			<c:otherwise>
     				<button class="btn btn-primary" onclick="goBack()">Go Back</button>

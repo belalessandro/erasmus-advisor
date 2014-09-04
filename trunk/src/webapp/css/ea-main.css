@@ -179,6 +179,16 @@ li.menu
     -webkit-border-radius: 20px;
 }
 
+.home_message
+{
+	font-size: 14px !important;
+	border-radius: 4px !important; 
+	padding: 10px !important;   
+	color: #fff;
+	background-color: #428bca;
+	border-color: #357ebd;"
+}
+
 /* search pages*/
 
 .search_scrollable_menu 
