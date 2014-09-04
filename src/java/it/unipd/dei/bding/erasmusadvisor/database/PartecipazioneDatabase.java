@@ -12,6 +12,7 @@ import org.apache.commons.dbutils.DbUtils;
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.ResultSetHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
+import org.apache.commons.dbutils.handlers.ScalarHandler;
 
 /**
  * Database operations about "Partecipazione".
@@ -87,5 +88,31 @@ public class PartecipazioneDatabase
 		
 		QueryRunner run = new QueryRunner();
 		return run.update(conn, statement, flow, user);
+	}
+	
+	/**
+	 * Returns if a student have participated to a flow towards a given university.
+	 * @param conn A connection to the database.
+	 * @param university The flow destination university.
+	 * @param user The student user name.
+	 * @return {@code true} if the student has participated to at least a flow, {@code false} otherwise.
+	 * @throws SQLException If an error occurs running the SQL query.
+	 */
+	public static boolean checkParticipation(Connection conn, String university, String user) throws SQLException
+	{
+		final String statement = "SELECT COUNT (*) FROM Partecipazione AS P INNER JOIN Flusso AS F ON P.idflusso = F.id "
+				+ "WHERE P.nomeutentestudente = ? AND F.destinazione = ?";
+		
+		QueryRunner run = new QueryRunner();
+		
+		ResultSetHandler<Long> h1 = new ScalarHandler<Long>();
+		long result = run.query(conn, statement, h1, user, university);
+		
+		if (result > 0)
+		{
+			return true;
+		}
+		
+		return false;
 	}
 }

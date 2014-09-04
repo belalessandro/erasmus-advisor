@@ -199,7 +199,9 @@
 						edit e delete solo da reponsabili di flusso e coordinatori erasmus -->
 					<ul class="nav nav-stacked pull-right">
 						<c:if test="${sessionScope.loggedUser.student}">
-							<li class="active"><span data-toggle="modal" data-target="#evaluateForm">Evaluate</span></li>
+							<c:if test="${!empty evalEnabled && evalEnabled == 'enabled'}">
+								<li class="active"><span data-toggle="modal" data-target="#evaluateForm">Evaluate</span></li>
+							</c:if>
 							<c:if test="${!empty thesis.stato && thesis.stato == 'NOT VERIFIED'}">
 								<li id="report-button" class="active"><span data-toggle="modal" data-target="#reportConfirmDialog">Report</span></li>
 							</c:if>

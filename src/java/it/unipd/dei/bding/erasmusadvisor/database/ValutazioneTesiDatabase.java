@@ -10,6 +10,7 @@ import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.ResultSetHandler;
 import org.apache.commons.dbutils.handlers.BeanHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
+import org.apache.commons.dbutils.handlers.ScalarHandler;
 
 
 /**
@@ -29,7 +30,7 @@ public class ValutazioneTesiDatabase
 	public static void createValutazioneTesi(Connection con, ValutazioneTesiBean val) throws SQLException 
 	{
 		final StringBuilder sql = new StringBuilder()
-		.append("INSERT INTO ValutazioneTesi (NomeUtenteStudente, idargomentotesi, impegnonecessario, interesseargomento, disponibilitarelatore, soddisfazione, Commento) ")
+		.append("INSERT INTO ValutazioneTesi (NomeUtenteStudente, idargomentotesi, impegnonecessario, interesseargomento, diponibilitarelatore, soddisfazione, Commento) ")
 		.append("VALUES (?, ?, ?, ?, ?, ?, ?);");
 		
 		QueryRunner run = new QueryRunner();
@@ -77,6 +78,29 @@ public class ValutazioneTesiDatabase
 		
 		QueryRunner run = new QueryRunner();
 		return run.update(conn, statement, user, id);
+	}
+	
+	/**
+	 * Returns if a user has already inserted an evaluation to a thesis.
+	 * @param conn A connection to the database.
+	 * @param user The student that inserted the evaluation. 
+	 * @param thesis The thesis.
+	 * @return {@code true} if the student has already inserted an evaluation for this thesis, {@code false} otherwise.
+	 * @throws SQLException If something goes wrong.
+	 */
+	public static boolean checkEvaluation(Connection conn, String user, int thesis) throws SQLException
+	{
+		final String statement = "SELECT COUNT (*) FROM ValutazioneTesi WHERE nomeutentestudente = ? AND idargomentotesi = ?";
+		
+		QueryRunner run = new QueryRunner();
+		
+		ResultSetHandler<Long> h1 = new ScalarHandler<Long>();
+		long result = run.query(conn, statement, h1, user, thesis);
+		
+		if (result > 0)
+			return true;
+		
+		return false;
 	}
 	
 
