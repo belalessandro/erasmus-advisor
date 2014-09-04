@@ -12,6 +12,7 @@ import it.unipd.dei.bding.erasmusadvisor.database.InsegnamentoDatabase;
 import it.unipd.dei.bding.erasmusadvisor.database.PartecipazioneDatabase;
 import it.unipd.dei.bding.erasmusadvisor.database.ProfessoreDatabase;
 import it.unipd.dei.bding.erasmusadvisor.database.SvolgimentoDatabase;
+import it.unipd.dei.bding.erasmusadvisor.database.UserDatabase;
 import it.unipd.dei.bding.erasmusadvisor.database.ValutazioneInsegnamentoDatabase;
 import it.unipd.dei.bding.erasmusadvisor.resources.LoggedUser;
 import it.unipd.dei.bding.erasmusadvisor.resources.Message;
@@ -352,6 +353,14 @@ public class ClassServlet extends AbstractDatabaseServlet
 		 */
 		try {
 			conn = DS.getConnection();
+			
+			if (lu.isStudent()) { // Checks whether the student has the permissions to insert
+				boolean studentAllowed = UserDatabase.canStudentInsert(conn, lu.getUser(), 
+						insegnamentoBean.getNomeUniversita());
+				if ( ! studentAllowed )
+					throw new SQLException("Students can not insert classes of universities they do not know!");
+			}
+			
 			conn.setAutoCommit(false); // BEGIN TRANSACTION
 			
 			int idInsegnamento = InsegnamentoDatabase.createInsegnamento(conn, insegnamentoBean);
