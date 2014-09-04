@@ -102,21 +102,32 @@ public class LoginServlet extends AbstractDatabaseServlet {
 						response.sendRedirect(builder.toString());
 						return;
 					}
+					else
+					{
+						m = new Message("Password incorrect!", "E200", "Retry, please.");
+						request.setAttribute("message", m);
+				    	request.setAttribute("errorType", "userNotLogged");	
+						errorForward(request, response);
+					}
 				} 
 				catch (IllegalStateException e) {
-					m = new Message("Server error! Please contact an admin", "E200", "");		
+					m = new Message("Server error! Please contact an admin", "E200", "");	
+			    	request.setAttribute("errorType", "userNotLogged");	
+					errorForward(request, response);	
 				}
 			} 
 			else if(!user.isAttivo())
 			{
 				m = new Message("Your account is disabled, please contact the admin!", "E200", "");
 				request.setAttribute("message", m);
+		    	request.setAttribute("errorType", "userNotLogged");	
 				errorForward(request, response);
 			}
 		} 
 		catch (SQLException e) {
 			m = new Message("Email or password incorrect!", "E200", "Retry, please.");
 			request.setAttribute("message", m);
+	    	request.setAttribute("errorType", "userNotLogged");	
 			errorForward(request, response);
 		} 
 		finally {
@@ -141,7 +152,6 @@ public class LoginServlet extends AbstractDatabaseServlet {
     		throws ServletException, IOException  {
     	// Error management
 
-    	request.setAttribute("errorType", "userNotLogged");	
     	request.getServletContext().getRequestDispatcher("/jsp/error.jsp")
     		.forward(request, response); // ERROR PAGE
     }
