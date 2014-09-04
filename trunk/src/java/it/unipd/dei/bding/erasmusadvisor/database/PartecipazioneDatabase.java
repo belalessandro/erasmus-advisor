@@ -1,7 +1,5 @@
 package it.unipd.dei.bding.erasmusadvisor.database;
 
-import it.unipd.dei.bding.erasmusadvisor.beans.PartecipazioneBean;
-
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -11,7 +9,6 @@ import java.util.List;
 import org.apache.commons.dbutils.DbUtils;
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.ResultSetHandler;
-import org.apache.commons.dbutils.handlers.BeanListHandler;
 import org.apache.commons.dbutils.handlers.ColumnListHandler;
 import org.apache.commons.dbutils.handlers.ScalarHandler;
 
@@ -131,7 +128,6 @@ public class PartecipazioneDatabase
 	 */
 	public static boolean checkParticipation(Connection conn, String city, String country, String user) throws SQLException 
 	{
-
 		final String statement = "SELECT COUNT (*) FROM Partecipazione AS P INNER JOIN Flusso AS F ON P.idflusso = F.id "
 				+ "INNER JOIN Universita AS U ON F.destinazione = U.nome "
 				+ "WHERE P.nomeutentestudente = ? AND U.nomecitta = ? AND U.statocitta = ?";
@@ -147,5 +143,30 @@ public class PartecipazioneDatabase
 		}
 		
 		return false;
+	}
+
+	/**
+	 * Returns if a student have participated to a flow.
+	 * @param conn A connection to the database.
+	 * @param flow The flow id.
+	 * @param user The student user name.
+	 * @return {@code true} if the student has participated to the flow, {@code false} otherwise.
+	 * @throws SQLException If an error occurs running the SQL query.
+	 */
+	public static boolean checkParticipationById(Connection conn, String id, String user) throws SQLException 
+	{
+		final String statement = "SELECT COUNT (*) FROM Partecipazione WHERE nomeutentestudente = ? AND idflusso = ?";
+		
+		QueryRunner run = new QueryRunner();
+		
+		ResultSetHandler<Long> h1 = new ScalarHandler<Long>();
+		long result = run.query(conn, statement, h1, user, id);
+		
+		if (result > 0)
+		{
+			return true;
+		}
+		
+		return false;		
 	}
 }

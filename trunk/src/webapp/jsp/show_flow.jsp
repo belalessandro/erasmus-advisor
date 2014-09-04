@@ -223,19 +223,26 @@
 					</p>
 				</div>
 				<div class="entity_details_text">
-					<!-- evalutate visibile solo da studente
-						show/remove interest solo da studente, se ha espresso interesse diventa remove interest
-						edit e delete solo da reponsabili di flusso e coordinatori erasmus
-						add partecipation solo se non si è partecipato già al flusso						
-					 -->
 					<ul class="nav nav-stacked pull-right">
 						<c:if test="${sessionScope.loggedUser.student}">
-							<li class="active"><span data-toggle="modal" data-target="#evaluateForm">Evaluate</span></li>
-							<li class="active"><span id="flow_add_interest">Add interest</span></li>
-							<li class="active"><span id="flow_remove_interest" style="display: none !important;">Remove interest</span></li>
-							<li class="active"><span id="flow_add_partecipation" data-toggle="modal" data-target="#participationForm">Add participation</span></li>
+							<c:if test="${!empty evalEnabled && evalEnabled == 'enabled'}">
+								<li class="active"><span data-toggle="modal" data-target="#evaluateForm">Evaluate</span></li>
+							</c:if>
+							<li class="active"><span id="flow_add_interest"
+								<c:if test="${!empty interestEnabled && interestEnabled == 'notEnabled'}">style="display: none !important;"</c:if>
+							>Add interest</span></li>
+							<li class="active"><span id="flow_remove_interest" 
+								<c:if test="${!empty interestEnabled && interestEnabled == 'enabled'}">style="display: none !important;"</c:if>
+							>Remove interest</span></li>
 							<li class="active">
-								<span id="flow_remove_participation" style="display: none !important;">Remove participation</span>
+								<span id="flow_add_participation" data-toggle="modal" data-target="#participationForm" 
+								<c:if test="${!empty partEnabled && partEnabled == 'notEnabled'}">style="display: none !important;"</c:if>
+								>Add participation</span>
+							</li>
+							<li class="active">
+								<span id="flow_remove_participation"  
+								<c:if test="${!empty partEnabled && partEnabled == 'enabled'}">style="display: none !important;"</c:if>
+								>Remove participation</span>
 							</li>
 						</c:if>
 						<c:if test="${sessionScope.loggedUser.flowResp}">
@@ -405,11 +412,11 @@
 									<div class="col-lg-2"></div>
 									<div class="col-lg-8">
 										<div class="input-group sign_in_input_group">
-											<span class="input-group-addon sign_in_input_small">From</span><input type="text" class="form-control" id="datepicker" name="date_from" placeholder="dd/mm/yyyy">
+											<span class="input-group-addon sign_in_input_small">From</span><input type="text" class="form-control" id="datepicker" name="date_from" placeholder="mm/dd/yyyy">
 										</div>
 										<br>
 										<div class="input-group sign_in_input_group">
-											<span class="input-group-addon sign_in_input_small">To</span><input type="text" class="form-control" id="datepicker2" name="date_to" placeholder="dd/mm/yyyy">
+											<span class="input-group-addon sign_in_input_small">To</span><input type="text" class="form-control" id="datepicker2" name="date_to" placeholder="mm/dd/yyyy">
 										</div>
 									</div>
 									<div class="col-lg-2"></div>
@@ -468,8 +475,12 @@
 								<th>Area</th>
 								<th>CFU</th>
 								<th>Year</th>
-								<th>Semester</th>
-								<th>Action</th> <!-- visibili solo per il suo manager -->
+								<th>Semester</th>						
+								<c:if test="${sessionScope.loggedUser.flowResp}">
+									<c:if test="${!empty removeAckEnabled && removeAckEnabled == 'enabled'}">
+										<th>Action</th> 
+									</c:if>
+								</c:if>
 							</tr>
 						</thead>
 						<tbody>
@@ -479,12 +490,16 @@
 									<td>${recCl.nomeArea}</td>
 									<td>${recCl.crediti}</td>
 									<td>${recCl.annoCorso}</td>
-									<td>${recCl.periodoErogazione}</td>
-									<td>
-										<button onclick="removeAck('<c:out value="${recCl.id}"/>')" type="button" class="btn btn-default btn-xs">
-											<span class="glyphicon glyphicon glyphicon-remove"></span>
-										</button>
-									</td>
+									<td>${recCl.periodoErogazione}</td>						
+									<c:if test="${sessionScope.loggedUser.flowResp}">
+										<c:if test="${!empty removeAckEnabled && removeAckEnabled == 'enabled'}">
+											<td>
+												<button onclick="removeAck('<c:out value="${recCl.id}"/>')" type="button" class="btn btn-default btn-xs">
+													<span class="glyphicon glyphicon glyphicon-remove"></span>
+												</button>
+											</td>
+										</c:if>
+									</c:if>
 								</tr>
 							</c:forEach>					
 						</tbody>

@@ -10,6 +10,7 @@ import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.ResultSetHandler;
 import org.apache.commons.dbutils.handlers.BeanHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
+import org.apache.commons.dbutils.handlers.ScalarHandler;
 
 /**
  * Database operations about "ValutazioneFlusso".
@@ -77,5 +78,28 @@ public class ValutazioneFlussoDatabase
 		
 		QueryRunner run = new QueryRunner();
 		return run.update(conn, statement, user, id);
+	}
+
+	/**
+	 * Returns if a user has already inserted an evaluation to a flow.
+	 * @param conn A connection to the database.
+	 * @param user The student that inserted the evaluation. 
+	 * @param id The flow.
+	 * @return {@code true} if the student has already inserted an evaluation for this flow, {@code false} otherwise.
+	 * @throws SQLException If something goes wrong.
+	 */
+	public static boolean checkEvaluation(Connection conn, String user, String id) throws SQLException
+	{
+		final String statement = "SELECT COUNT (*) FROM ValutazioneFlusso WHERE nomeutentestudente = ? AND idflusso = ?";
+		
+		QueryRunner run = new QueryRunner();
+		
+		ResultSetHandler<Long> h1 = new ScalarHandler<Long>();
+		long result = run.query(conn, statement, h1, user, id);
+		
+		if (result > 0)
+			return true;
+		
+		return false;
 	}
 }

@@ -103,5 +103,31 @@ public class InteresseDatabase
 			DbUtils.closeQuietly(pstmt);
 		}
 	}
+	
+
+	/**
+	 * Returns if a student have expressed interest towards the flow.
+	 * @param conn A connection to the database.
+	 * @param flow The flow id.
+	 * @param user The student user name.
+	 * @return {@code true} if the student has expressed interest towards the the flow, {@code false} otherwise.
+	 * @throws SQLException If an error occurs running the SQL query.
+	 */
+	public static boolean checkInterestById(Connection conn, String id, String user) throws SQLException 
+	{
+		final String statement = "SELECT COUNT (*) FROM Interesse WHERE nomeutentestudente = ? AND idflusso = ?";
+		
+		QueryRunner run = new QueryRunner();
+		
+		ResultSetHandler<Long> h1 = new ScalarHandler<Long>();
+		long result = run.query(conn, statement, h1, user, id);
+		
+		if (result > 0)
+		{
+			return true;
+		}
+		
+		return false;		
+	}
 
 }
