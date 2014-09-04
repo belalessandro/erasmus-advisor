@@ -283,7 +283,7 @@
 			
 			
 			<!--Form di riconoscimento a comparsa-->
-			<c:if test="${!sessionScope.loggedUser.student}">
+			<c:if test="${sessionScope.loggedUser.student}">
 			<div class="modal fade" id="acknowledgeForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false">
 				<div class="modal-dialog">
 					<div class="modal-content">
