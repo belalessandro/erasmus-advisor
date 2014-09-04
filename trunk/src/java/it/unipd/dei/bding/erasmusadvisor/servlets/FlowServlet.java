@@ -461,7 +461,8 @@ public class FlowServlet extends AbstractDatabaseServlet {
                         
                         // creating response path and redirect to the new page
                         StringBuilder builder = new StringBuilder()
-                        .append("/erasmus-advisor/flow?id=")
+        				.append(req.getContextPath())
+                        .append("/flow?id=")
                         .append(flussoBean.getId())
                         .append("&edited=success");
                         

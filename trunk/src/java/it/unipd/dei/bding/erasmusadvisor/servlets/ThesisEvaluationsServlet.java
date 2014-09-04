@@ -111,7 +111,8 @@ public class ThesisEvaluationsServlet extends AbstractDatabaseServlet
 			
 			// Creating response path
 			StringBuilder builder = new StringBuilder()
-				.append("/erasmus-advisor/student/evaluations");
+				.append(req.getContextPath())
+				.append("/student/evaluations");
 		
 			resp.sendRedirect(builder.toString());
 
@@ -167,7 +168,8 @@ public class ThesisEvaluationsServlet extends AbstractDatabaseServlet
 			
 			// Creating response path
 			StringBuilder builder = new StringBuilder()
-				.append("/erasmus-advisor/thesis?id=")
+				.append(req.getContextPath())
+				.append("/thesis?id=")
 				.append(val.getIdArgomentoTesi());
 		
 			resp.sendRedirect(builder.toString());

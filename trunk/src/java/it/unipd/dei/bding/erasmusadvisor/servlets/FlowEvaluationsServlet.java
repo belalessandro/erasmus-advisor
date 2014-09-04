@@ -117,7 +117,8 @@ public class FlowEvaluationsServlet extends AbstractDatabaseServlet
 			
 			// Creating response path
 			StringBuilder builder = new StringBuilder()
-				.append("/erasmus-advisor/student/evaluations");
+				.append(req.getContextPath())
+				.append("/student/evaluations");
 		
 			resp.sendRedirect(builder.toString());
 
@@ -174,7 +175,8 @@ public class FlowEvaluationsServlet extends AbstractDatabaseServlet
 			
 			// Creating response path
 			StringBuilder builder = new StringBuilder()
-				.append("/erasmus-advisor/flow?id=")
+				.append(req.getContextPath())
+				.append("/flow?id=")
 				.append(val.getIdFlusso());
 		
 			resp.sendRedirect(builder.toString());

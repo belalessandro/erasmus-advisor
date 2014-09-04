@@ -588,7 +588,8 @@ public class ThesisServlet extends AbstractDatabaseServlet {
 
 			// Creating response path and redirect to the new page
 			StringBuilder builder = new StringBuilder()
-					.append("/erasmus-advisor/thesis?id=")
+					.append(req.getContextPath())
+					.append("/thesis?id=")
 					.append(argomento.getId()).append("&edited=success");
 
 			resp.sendRedirect(builder.toString());
