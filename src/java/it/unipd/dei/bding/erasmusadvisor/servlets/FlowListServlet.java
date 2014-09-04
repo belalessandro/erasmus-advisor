@@ -9,7 +9,6 @@ import it.unipd.dei.bding.erasmusadvisor.resources.CountryCityListBean;
 import it.unipd.dei.bding.erasmusadvisor.resources.FlowSearchRow;
 import it.unipd.dei.bding.erasmusadvisor.resources.LoggedUser;
 import it.unipd.dei.bding.erasmusadvisor.resources.Message;
-import it.unipd.dei.bding.erasmusadvisor.resources.UserType;
 
 import java.io.IOException;
 import java.sql.Connection;
