@@ -197,8 +197,8 @@ public class ClassServlet extends AbstractDatabaseServlet
 		{
 			report(req, resp);
 		}
-		else if (operation != null && // Permissions required: FlowManager, Coordinator
-				operation.equals(INSERT) && (allowed))
+		else if (operation != null && // Permissions required: LOGGED
+				operation.equals(INSERT) && (lu != null))
 		{	
 			insert(req, resp, lu);
 		} 

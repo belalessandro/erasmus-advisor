@@ -183,11 +183,11 @@ public class ThesisServlet extends AbstractDatabaseServlet {
 		 * OPERATION DISPATCHER 
 		 */
 		if (operation != null && operation.equals(AJAX) && (lu != null))
-		{
+		{		// Permissions required: LOGGED
 			report(req, resp);
 		}
-		else if (operation != null && operation.equals(INSERT) && (allowed)) 
-		{		// Permissions required: FlowManager, Coordinator
+		else if (operation != null && operation.equals(INSERT) && (lu != null)) 
+		{		// Permissions required: LOGGED
 			insert(req, resp, lu);
 		} 
 		else if (operation != null && operation.equals(UPDATE) && (allowed)) 
