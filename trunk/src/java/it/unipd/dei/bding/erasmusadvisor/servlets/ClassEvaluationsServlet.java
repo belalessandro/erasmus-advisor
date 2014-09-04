@@ -187,6 +187,10 @@ public class ClassEvaluationsServlet extends AbstractDatabaseServlet
 				
 				m = new Message("No duplicate evaluations allowed", "E300", 
 						"You have already submitted an evaluation!");
+			} else if (e.getSQLState() != null && e.getSQLState().equals("EA005")) { 
+				/** Trigger EA005 error */
+				m = new Message("Evaluation not allowed.", "E300", 
+						"You can not evaluate flows you did not participate in!");
 			} else {
 				m = new Message("Error while submitting evaluations.","E200", e.getMessage());
 			}
