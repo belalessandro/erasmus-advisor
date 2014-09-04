@@ -41,10 +41,23 @@ public class UserDatabase {
 		
 		//Search for the email in the student table
 		user = run.query(conn, statement1, h, email);
+		
+		if (user!=null){
+			StringBuilder sql = new StringBuilder()
+				.append("UPDATE Studente SET ultimoAccesso = CURRENT_DATE WHERE email = ?;");
+			QueryRunner runner = new QueryRunner();
+			runner.update(conn, sql.toString(), email);		
+		}
 		int fails=0;
 		if (user == null) {
 			//If it is not a student, try Responsabile
 			user = run.query(conn, statement2, h, email);
+			if (user!=null){
+				StringBuilder sql = new StringBuilder()
+					.append("UPDATE ResponsabileFlusso SET ultimoAccesso = CURRENT_DATE WHERE email = ?;");
+				QueryRunner runner = new QueryRunner();
+				runner.update(conn, sql.toString(), email);		
+			}	
 			fails++;
 			if (user == null) {
 				//If it is not a responsible, try Coordinatore
@@ -53,6 +66,10 @@ public class UserDatabase {
 				if (user == null) {
 					throw new SQLException("User not found.");
 				}
+				StringBuilder sql = new StringBuilder()
+					.append("UPDATE Coordinatore SET ultimoAccesso = CURRENT_DATE WHERE email = ?;");
+				QueryRunner runner = new QueryRunner();
+				runner.update(conn, sql.toString(), email);
 			}
 		}
 		return new UserBean(user, fails);
