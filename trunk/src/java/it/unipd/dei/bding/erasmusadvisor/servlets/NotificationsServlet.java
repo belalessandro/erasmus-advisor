@@ -10,7 +10,6 @@ import it.unipd.dei.bding.erasmusadvisor.resources.Notifications;
 import it.unipd.dei.bding.erasmusadvisor.resources.UserType;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.SQLException;
 
@@ -36,7 +35,7 @@ import org.apache.commons.dbutils.DbUtils;
  * 
  * <p> Accepts: GET, POST
  * 
- * <p> Operations: INSERT, EDIT, DELETE
+ * <p> Operations: DELETE
  * 
  * @author Mauro
  */
@@ -46,9 +45,6 @@ public class NotificationsServlet extends AbstractDatabaseServlet {
 	/**
 	 * Operation constants
 	 */
-	private static final String INSERT = "insert";
-    private static final String UPDATE = "update";
-    private static final String DELETE = "delete";
     private static final String AJAX = "ajax";
     
     /**

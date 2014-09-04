@@ -1,9 +1,7 @@
 package it.unipd.dei.bding.erasmusadvisor.servlets;
 
-
 import it.unipd.dei.bding.erasmusadvisor.beans.BeanUtilities;
 import it.unipd.dei.bding.erasmusadvisor.beans.CoordinatoreBean;
-import it.unipd.dei.bding.erasmusadvisor.beans.CorsoDiLaureaBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.IscrizioneBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.ResponsabileFlussoBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.StudenteBean;
@@ -41,7 +39,7 @@ import org.apache.commons.dbutils.DbUtils;
  * 
  * <p> Accepts: GET, POST
  * 
- * <p> Operations: EDIT
+ * <p> Operations: EDIT, DELETE
  * 
  * @author Mauro
  */
@@ -60,7 +58,7 @@ public class UserProfileServlet extends AbstractDatabaseServlet
 	 *   		-> Se operazione è "update" modifica i campi relativi allo studente loggato
 	 *   		-> Se l'operazione e' "remove" imposta a false il campo "attivo" dell'utente.
 	 *   
-	 *   @author: luca
+	 *  @author: Mauro
 	 */
 	
 	/**
@@ -70,7 +68,6 @@ public class UserProfileServlet extends AbstractDatabaseServlet
 	/**
 	 * Operation constants
 	 */
-	private static final String INSERT = "insert";
     private static final String EDIT = "edit";
     private static final String DELETE = "remove";
     
