@@ -197,7 +197,7 @@
 											</a>
 										</td>
 										<td>
-											<a href="<c:url value="${university.link}"/>" target="_blank">
+											<a href="<c:out value="${university.link}"/>" target="_blank">
 													<c:out value="${university.link}"/>
 											</a>
 										</td>
