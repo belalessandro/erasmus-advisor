@@ -155,7 +155,7 @@ public class SignInServlet extends AbstractDatabaseServlet {
                                 manager.setPassword(hashPassword(manager.getPassword(), manager.getSalt()));
                                 manager.setNomeUtente(username);
                                 manager.setAbilitato(false);
-                                manager.setAttivo(true); // TODO perche' attivo?????
+                                manager.setAttivo(true);
 
                                 
                                 
@@ -232,13 +232,15 @@ public class SignInServlet extends AbstractDatabaseServlet {
                         } catch (SQLException ex) {
                                 m = new Message(
                                                 "Cannot close the connection",
-                                                "XXX", ex.getMessage());
+                                                "E200", ex.getMessage());
                         } finally {
                                 DbUtils.closeQuietly(con);
                         }
                 }
 
                 if (m == null) {
+        				request.setAttribute("userName", username); // the username shown
+        				
                         getServletContext().getRequestDispatcher("/jsp/index.jsp").forward(
                                         request, response);
                 } else {
