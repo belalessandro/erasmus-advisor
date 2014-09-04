@@ -10,6 +10,7 @@ import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.ResultSetHandler;
 import org.apache.commons.dbutils.handlers.BeanHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
+import org.apache.commons.dbutils.handlers.ScalarHandler;
 
 /**
  * Database operations about "ValutazioneInsegnamento".
@@ -76,9 +77,32 @@ public class ValutazioneInsegnamentoDatabase
          */
         public static int deleteEvaluation(Connection conn, String user, int id) throws SQLException
         {
-                final String statement = "DELETE FROM ValutazioneInsegnamento WHERE nomeutentestudente = ? AND idinsegnamento = ?";
+        	final String statement = "DELETE FROM ValutazioneInsegnamento WHERE nomeutentestudente = ? AND idinsegnamento = ?";
                 
-                QueryRunner run = new QueryRunner();
-                return run.update(conn, statement, user, id);
+        	QueryRunner run = new QueryRunner();
+        	return run.update(conn, statement, user, id);
         }
+
+    	/**
+    	 * Returns if a user has already inserted an evaluation to a class.
+    	 * @param conn A connection to the database.
+    	 * @param user The student that inserted the evaluation. 
+    	 * @param id The teaching.
+    	 * @return {@code true} if the student has already inserted an evaluation for this class, {@code false} otherwise.
+    	 * @throws SQLException If something goes wrong.
+    	 */
+		public static boolean checkEvaluation(Connection conn, String user, int id) throws SQLException
+		{
+			final String statement = "SELECT COUNT (*) FROM ValutazioneInsegnamento WHERE nomeutentestudente = ? AND idinsegnamento = ?";
+			
+			QueryRunner run = new QueryRunner();
+			
+			ResultSetHandler<Long> h1 = new ScalarHandler<Long>();
+			long result = run.query(conn, statement, h1, user, id);
+			
+			if (result > 0)
+				return true;
+			
+			return false;
+		}
 }

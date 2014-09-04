@@ -12,6 +12,7 @@ import org.apache.commons.dbutils.DbUtils;
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.ResultSetHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
+import org.apache.commons.dbutils.handlers.ColumnListHandler;
 import org.apache.commons.dbutils.handlers.ScalarHandler;
 
 /**
@@ -23,24 +24,27 @@ import org.apache.commons.dbutils.handlers.ScalarHandler;
 public class PartecipazioneDatabase
 {
 	/**
-	 * Returns all the flow a student has joined.
+	 * Returns all the flow a student can set the acknowledgment for a teaching.
 	 * 
 	 * @param conn A connection to the database.
 	 * @param stud A student.
-	 * @return A list of partecipations bean.
+	 * @param teaching A class id.
+	 * @return A list of strings.
 	 * @throws SQLException If an error occurs running the SQL query.
 	 */
-	public static List<PartecipazioneBean> getFlows(Connection conn, String stud) 
+	public static List<String> getFlowsForAcknowledgment(Connection conn, String stud, int teaching) 
 			throws SQLException
 	{
-		final String statement = "SELECT * FROM Partecipazione WHERE nomeutentestudente = ?"; 
+		final String statement = "SELECT idflusso FROM Partecipazione WHERE nomeutentestudente = ?"
+				+ " EXCEPT "
+				+ "SELECT idflusso FROM Riconoscimento WHERE idinsegnamento = ?"; 
 		
 		QueryRunner run = new QueryRunner();
 		
-		List<PartecipazioneBean> list = null;
+		List<String> list = null;
 		
-		ResultSetHandler<List<PartecipazioneBean>> h1 = new BeanListHandler<PartecipazioneBean>(PartecipazioneBean.class);
-		list = run.query(conn, statement, h1, stud);
+		ResultSetHandler<List<String>> h1 = new ColumnListHandler<String>("idflusso");
+		list = run.query(conn, statement, h1, stud, teaching);
 				
 		return list;
 	}

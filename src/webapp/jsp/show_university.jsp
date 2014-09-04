@@ -56,8 +56,6 @@
 					</p>
 				</div>
 				<div class="entity_details_text">
-					<!-- evalutate visibile solo da studente
-						edit e delete solo da reponsabili di flusso e coordinatori erasmus -->
 					<ul class="nav nav-stacked pull-right">
 						<c:if test="${sessionScope.loggedUser.student}">
 							<c:if test="${!empty evalEnabled && evalEnabled == 'enabled'}">

@@ -298,11 +298,18 @@ public class SignInServlet extends AbstractDatabaseServlet {
                         }
                 }
 
-                if (m == null) {
-        				request.setAttribute("userName", username); // the username shown
+                if (m == null) 
+                {
+        				//request.setAttribute("userName", username); // the username shown
         				
-                        getServletContext().getRequestDispatcher("/jsp/index.jsp").forward(
-                                        request, response);
+                        //getServletContext().getRequestDispatcher("/jsp/index.jsp").forward(
+                        //                request, response);
+                        
+						StringBuilder builder = new StringBuilder()
+						.append(request.getContextPath())
+						.append("/index");
+				
+						response.sendRedirect(builder.toString());
                         return;
                 } else {
                         // Error Page

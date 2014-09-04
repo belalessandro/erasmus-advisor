@@ -8,7 +8,6 @@ import it.unipd.dei.bding.erasmusadvisor.database.GetLinguaValues;
 import it.unipd.dei.bding.erasmusadvisor.database.LinguaCittaDatabase;
 import it.unipd.dei.bding.erasmusadvisor.database.PartecipazioneDatabase;
 import it.unipd.dei.bding.erasmusadvisor.database.ValutazioneCittaDatabase;
-import it.unipd.dei.bding.erasmusadvisor.database.ValutazioneUniversitaDatabase;
 import it.unipd.dei.bding.erasmusadvisor.resources.City;
 import it.unipd.dei.bding.erasmusadvisor.resources.CityEvaluationsAverage;
 import it.unipd.dei.bding.erasmusadvisor.resources.LoggedUser;
