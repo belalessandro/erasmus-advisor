@@ -91,7 +91,11 @@ public class ParticipationServlet extends AbstractDatabaseServlet
 				PartecipazioneDatabase.addParticipation(conn, flow, lu.getUser(), startDate,endDate);
 
 			} 
-			catch (SQLException | ParseException ex) 
+			catch (SQLException ex) 
+			{
+				m = new Message("Error while adding your partecipation.", "", ex.getMessage());
+			} 
+			catch (ParseException ex) 
 			{
 				m = new Message("Error while adding your partecipation.", "", ex.getMessage());
 			} 
