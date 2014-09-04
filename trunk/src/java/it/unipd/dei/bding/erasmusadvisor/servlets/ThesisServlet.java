@@ -13,7 +13,9 @@ import it.unipd.dei.bding.erasmusadvisor.database.GestioneDatabase;
 import it.unipd.dei.bding.erasmusadvisor.database.GetAreaValues;
 import it.unipd.dei.bding.erasmusadvisor.database.GetLinguaValues;
 import it.unipd.dei.bding.erasmusadvisor.database.LinguaTesiDatabase;
+import it.unipd.dei.bding.erasmusadvisor.database.PartecipazioneDatabase;
 import it.unipd.dei.bding.erasmusadvisor.database.ProfessoreDatabase;
+import it.unipd.dei.bding.erasmusadvisor.database.ValutazioneTesiDatabase;
 import it.unipd.dei.bding.erasmusadvisor.resources.LoggedUser;
 import it.unipd.dei.bding.erasmusadvisor.resources.Message;
 import it.unipd.dei.bding.erasmusadvisor.resources.Thesis;
@@ -83,6 +85,10 @@ public class ThesisServlet extends AbstractDatabaseServlet {
 			resp.sendRedirect(req.getContextPath() + "/thesis/list");
 			return;
 		}
+
+		// Gets user from session
+		HttpSession session = req.getSession();
+		LoggedUser lu = (LoggedUser) session.getAttribute("loggedUser");
 		
 		/**
 		 *  Gets the thesis model from the database
@@ -93,6 +99,7 @@ public class ThesisServlet extends AbstractDatabaseServlet {
 		Message m = null;
 		List<LinguaBean> languageDomain = null;
 		List<AreaBean> areaDomain = null;
+		boolean evalEnabled = false;
 		
 		// database connection
 		Connection conn = null;
@@ -102,6 +109,17 @@ public class ThesisServlet extends AbstractDatabaseServlet {
 			results = ArgomentoTesiDatabase.getArgomentoTesi(conn, ID);
 			languageDomain = GetLinguaValues.getLinguaDomain(conn);
 			areaDomain = GetAreaValues.getAreaDomain(conn);
+			// determina se abilitare l'inserimento della valutazione
+			if (lu.isStudent())
+			{
+				if (PartecipazioneDatabase.checkParticipation(conn, results.getArgomentoTesi().getNomeUniversita(), lu.getUser()))
+				{
+					if (!(ValutazioneTesiDatabase.checkEvaluation(conn, lu.getUser(), Integer.parseInt(ID))))
+					{
+						evalEnabled = true;
+					}
+				}
+			}
 			DbUtils.close(conn);
 		} 
 		catch (SQLException ex) {
@@ -136,6 +154,15 @@ public class ThesisServlet extends AbstractDatabaseServlet {
 				req.setAttribute("evaluationsAvg", new ThesisEvaluationsAverage(results.getListaValutazioni()));
 				req.setAttribute("languageDomain", languageDomain);
 				req.setAttribute("areaDomain", areaDomain);
+				
+				if (lu.isStudent() && evalEnabled == true)
+				{
+					req.setAttribute("evalEnabled", "enabled");
+				}
+				else
+				{
+					req.setAttribute("evalEnabled", "notEnabled");
+				}
 
 				getServletContext().getRequestDispatcher("/jsp/show_thesis.jsp").forward(req, resp);
 			}
