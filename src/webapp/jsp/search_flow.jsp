@@ -172,7 +172,13 @@
 		<div class="col-md-9 general_main_border">
 			<h2 class="text-center">Search a Flow</h2>
 			<br>
-			The results are automatically filtered to show you only the Erasmus flows that start from your degree course.
+			The results are automatically filtered to show you only the Erasmus flows			
+			<c:if test="${sessionScope.loggedUser.student}">
+				 that start from your degree course.
+			</c:if>
+			<c:if test="${sessionScope.loggedUser.flowResp}">
+				 that you manage.
+			</c:if>		
 			If you do not specify any parameter you will get their full list.
 			<br><br>
 			<form  method="get" action="<c:url value="/flow/list"/>" enctype="plain/text">
