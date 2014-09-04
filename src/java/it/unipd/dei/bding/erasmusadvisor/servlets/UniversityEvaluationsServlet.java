@@ -111,7 +111,8 @@ public class UniversityEvaluationsServlet extends AbstractDatabaseServlet
 			
 			// Creating response path
 			StringBuilder builder = new StringBuilder()
-				.append("/erasmus-advisor/student/evaluations");
+				.append(req.getContextPath())
+				.append("/student/evaluations");
 		
 			resp.sendRedirect(builder.toString());
 
@@ -166,7 +167,8 @@ public class UniversityEvaluationsServlet extends AbstractDatabaseServlet
 			
 			// Creating response path
 			StringBuilder builder = new StringBuilder()
-				.append("/erasmus-advisor/university?name=")
+				.append(req.getContextPath())
+				.append("/university?name=")
 				.append(URLEncoder.encode(val.getNomeUniversita(), "utf-8"));
 		
 			resp.sendRedirect(builder.toString());

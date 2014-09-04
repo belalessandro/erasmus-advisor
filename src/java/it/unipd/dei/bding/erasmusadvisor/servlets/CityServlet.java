@@ -392,7 +392,8 @@ public class CityServlet extends AbstractDatabaseServlet
 				// success
 				// Creating response path
 				StringBuilder builder = new StringBuilder()
-					.append("/erasmus-advisor/city?name=")
+					.append(req.getContextPath())
+					.append("/city?name=")
 					.append(new_name)
 					.append("&country=")
 					.append(new_country)

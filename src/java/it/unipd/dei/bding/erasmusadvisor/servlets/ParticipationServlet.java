@@ -103,7 +103,8 @@ public class ParticipationServlet extends AbstractDatabaseServlet
 			{
 				// Creating response path
 				StringBuilder builder = new StringBuilder()
-					.append("/erasmus-advisor/flow?id=")
+					.append(req.getContextPath())
+					.append("/flow?id=")
 					.append(flow);
 
 				resp.sendRedirect(builder.toString());

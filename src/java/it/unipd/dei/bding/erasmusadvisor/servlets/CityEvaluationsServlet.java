@@ -109,7 +109,8 @@ public class CityEvaluationsServlet extends AbstractDatabaseServlet
 			
 			// Creating response path
 			StringBuilder builder = new StringBuilder()
-				.append("/erasmus-advisor/student/evaluations");
+				.append(req.getContextPath())
+				.append("/student/evaluations");
 		
 			resp.sendRedirect(builder.toString());
 
@@ -167,7 +168,8 @@ public class CityEvaluationsServlet extends AbstractDatabaseServlet
 			
 			// Creating response path
 			StringBuilder builder = new StringBuilder()
-				.append("/erasmus-advisor/city?name=")
+				.append(req.getContextPath())
+				.append("/city?name=")
 				.append(val.getNomeCitta())
 				.append("&country=")
 				.append(val.getStatoCitta());

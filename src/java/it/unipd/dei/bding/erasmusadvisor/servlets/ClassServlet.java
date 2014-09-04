@@ -515,7 +515,8 @@ public class ClassServlet extends AbstractDatabaseServlet
 			
 			// Creating response path and redirect to the new page
 			StringBuilder builder = new StringBuilder()
-			.append("/erasmus-advisor/class?id=")
+			.append(request.getContextPath())
+			.append("/class?id=")
 			.append(insegnamentoBean.getId())
 			.append("&edited=success");
 			
