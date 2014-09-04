@@ -23,16 +23,18 @@
 <body>
 	<div class="container">
 		<!-- barra di navigazione -->
-		<jsp:include page="/jsp/include/navbar.jsp">
-    		<c:choose>
-    			<c:when test="${(not empty errorType) && (errorType == 'userNotLogged')}">
+   		<c:choose>
+   			<c:when test="${(not empty errorType) && (errorType == 'userNotLogged')}">
+				<jsp:include page="/jsp/include/navbar.jsp">
 					<jsp:param name="pageName" value="error_not_logged"/>
-				</c:when>
-    			<c:otherwise>
-    				<jsp:param name="pageName" value="error_logged"/>
-    			</c:otherwise>
-    		</c:choose>
-		</jsp:include>
+				</jsp:include>
+			</c:when>
+   			<c:otherwise>
+				<jsp:include page="/jsp/include/navbar.jsp">
+   					<jsp:param name="pageName" value="error_logged"/>
+				</jsp:include>
+   			</c:otherwise>
+   		</c:choose>
 
 		<!-- Class Header -->
 		<div class ="col-md-2"></div>

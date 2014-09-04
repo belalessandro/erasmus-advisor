@@ -4,7 +4,7 @@
 <!-- inizio barra di navigazione -->
 <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
 	<c:choose>
-		<c:when test="${(param.pageName != 'sign_in') && (param.pageName != 'error_not_logged')}">
+		<c:when test="${(param.pageName == 'sign_in') || (param.pageName == 'error_not_logged')}">
 			<a href="<c:url value="/"/>">
 		</c:when>
 		<c:otherwise><a href="<c:url value="/index"/>"></c:otherwise>
