@@ -162,7 +162,6 @@
 		</jsp:include>
 		
 		<!-- corpo della pagina -->
-		<!-- di fatto tutta questa pagina è generata con JSP -->
 		<div class="col-md-9 general_main_border">
 			
 			<!-- Avviso di avvenuta modifica -->
@@ -228,17 +227,14 @@
 					</p>
 				</div>
 				<div class="entity_details_text">
-					<!-- evalutate visibile solo da studente
-						edit e delete solo da reponsabili di flusso e coordinatori erasmus -->
 					<ul class="nav nav-stacked pull-right">
 						<c:if test="${sessionScope.loggedUser.student}">
-							<li class="active"><span data-toggle="modal" data-target="#evaluateForm">Evaluate</span></li>
+							<c:if test="${!empty evalEnabled && evalEnabled == 'enabled'}">
+								<li class="active"><span data-toggle="modal" data-target="#evaluateForm">Evaluate</span></li>
+							</c:if>
 							<c:if test="${fn:length(flows) > 0}">
 								<li class="active" id="ack-button"><span data-toggle="modal" data-target="#acknowledgeForm">Acknowledge</span></li>
-							</c:if>
-							<!-- Visualizza il tasto report solo se non in stato non verificato e non reported -->
-							<!-- TODO: inserire il controllo utente  -->
-							
+							</c:if>							
 							<c:if test="${!empty classBean.stato && classBean.stato == 'NOT VERIFIED'}">
 								<li class="active" id="report-button"><span data-toggle="modal" data-target="#reportConfirmDialog">Report</span></li>
 							</c:if>
@@ -302,8 +298,8 @@
 								<select class="selectpicker text-left" id="ackFlow" name="ackFlow" data-width="auto">
 	    							<option disabled selected>Nothing Selected</option> <!-- serve per la corretta validazione -->
 									<c:forEach var="flow" items='${flows}'>
-										<option value="${flow.idFlusso}">
-										${flow.idFlusso}</option>
+										<option value="${flow}">
+										${flow}</option>
 									</c:forEach>					
 			    				</select>
 							</div>

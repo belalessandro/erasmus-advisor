@@ -12,6 +12,7 @@ import it.unipd.dei.bding.erasmusadvisor.database.InsegnamentoDatabase;
 import it.unipd.dei.bding.erasmusadvisor.database.PartecipazioneDatabase;
 import it.unipd.dei.bding.erasmusadvisor.database.ProfessoreDatabase;
 import it.unipd.dei.bding.erasmusadvisor.database.SvolgimentoDatabase;
+import it.unipd.dei.bding.erasmusadvisor.database.ValutazioneInsegnamentoDatabase;
 import it.unipd.dei.bding.erasmusadvisor.resources.LoggedUser;
 import it.unipd.dei.bding.erasmusadvisor.resources.Message;
 import it.unipd.dei.bding.erasmusadvisor.resources.Teaching;
@@ -99,23 +100,34 @@ public class ClassServlet extends AbstractDatabaseServlet
 		Message m = null;
 		List<LinguaBean> languageDomain = null;
 		List<AreaBean> areaDomain = null;
-		List<PartecipazioneBean> flows = null;
+		List<String> flows = null;
 		
 		// database connection
 		Connection conn = null;
+		boolean evalEnabled = false;
 					
 		/**
 		 * Gets data from database
 		 */
 		try {
 			conn = DS.getConnection();
-			results = InsegnamentoDatabase.getInsegnamento(conn, Integer.parseInt(ID));
+			int classID = Integer.parseInt(ID);
+			results = InsegnamentoDatabase.getInsegnamento(conn, classID);
 			languageDomain = GetLinguaValues.getLinguaDomain(conn);
 			areaDomain = GetAreaValues.getAreaDomain(conn);
-			// TODO i flussi in questa lista dovrebbero essere quelli a cui ha partecipato l'utente
-			// meno quelli che già riconoscono l'insegnamento
-			// TODO ale: chi ha fatto cio'?? METTERE UN IF lu.isStudent() !!!
-			flows = PartecipazioneDatabase.getFlows(conn, lu.getUser());
+			if (lu.isStudent())
+			{
+				flows = PartecipazioneDatabase.getFlowsForAcknowledgment(conn, lu.getUser(), classID);
+
+				// determina se abilitare l'inserimento della valutazione
+				if (PartecipazioneDatabase.checkParticipation(conn, results.getInsegnamento().getNomeUniversita(), lu.getUser()))
+				{
+					if (!(ValutazioneInsegnamentoDatabase.checkEvaluation(conn, lu.getUser(), classID)))
+					{
+						evalEnabled = true;
+					}
+				}
+			}
 		} 
 		catch (SQLException ex) {
 			m = new Message("Error while getting the class.", "E200", ex.getMessage());
@@ -146,6 +158,15 @@ public class ClassServlet extends AbstractDatabaseServlet
 			req.setAttribute("languageDomain", languageDomain);
 			req.setAttribute("areaDomain", areaDomain);
 			req.setAttribute("evaluationsAvg", new TeachingEvaluationAverage(results.getValutazioni()));
+
+			if (lu.isStudent() && evalEnabled == true)
+			{
+				req.setAttribute("evalEnabled", "enabled");
+			}
+			else
+			{
+				req.setAttribute("evalEnabled", "notEnabled");
+			}
 			
 			getServletContext().getRequestDispatcher("/jsp/show_class.jsp").forward(req, resp);
 						
