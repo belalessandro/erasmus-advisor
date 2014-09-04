@@ -69,7 +69,9 @@
 						edit e delete solo da reponsabili di flusso e coordinatori erasmus -->
 					<ul class="nav nav-stacked pull-right">
 						<c:if test="${sessionScope.loggedUser.student}">
-							<li class="active"><span data-toggle="modal" data-target="#evaluateForm">Evaluate</span></li>
+							<c:if test="${!empty evalEnabled && evalEnabled == 'enabled'}">
+								<li class="active"><span data-toggle="modal" data-target="#evaluateForm">Evaluate</span></li>
+							</c:if>
 						</c:if>
 						<c:if test="${!sessionScope.loggedUser.student}">
 						<li class="active"><span data-toggle="modal" data-target="#editForm">Edit</span></li>

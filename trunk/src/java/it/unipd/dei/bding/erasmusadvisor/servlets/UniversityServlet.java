@@ -2,7 +2,9 @@ package it.unipd.dei.bding.erasmusadvisor.servlets;
 
 import it.unipd.dei.bding.erasmusadvisor.beans.BeanUtilities;
 import it.unipd.dei.bding.erasmusadvisor.beans.UniversitaBean;
+import it.unipd.dei.bding.erasmusadvisor.database.PartecipazioneDatabase;
 import it.unipd.dei.bding.erasmusadvisor.database.UniversitaDatabase;
+import it.unipd.dei.bding.erasmusadvisor.database.ValutazioneUniversitaDatabase;
 import it.unipd.dei.bding.erasmusadvisor.resources.LoggedUser;
 import it.unipd.dei.bding.erasmusadvisor.resources.Message;
 import it.unipd.dei.bding.erasmusadvisor.resources.University;
@@ -69,10 +71,15 @@ public class UniversityServlet extends AbstractDatabaseServlet {
 		/**
 		 *  Gets the university model from the database
 		 */
+
+		// Gets user from session
+		HttpSession session = req.getSession();
+		LoggedUser lu = (LoggedUser) session.getAttribute("loggedUser");
 		
 		// model
 		University results = null;
 		Message m = null;
+		boolean evalEnabled = false;
 		
 		// database connection
 		Connection conn = null;
@@ -81,6 +88,17 @@ public class UniversityServlet extends AbstractDatabaseServlet {
 
 			conn = DS.getConnection();
 			results = UniversitaDatabase.searchUniversityModelByName(conn, univName);
+			// determina se abilitare l'inserimento della valutazione
+			if (lu.isStudent())
+			{
+				if (PartecipazioneDatabase.checkParticipation(conn, results.getUniversita().getNome(), lu.getUser()))
+				{
+					if (!(ValutazioneUniversitaDatabase.checkEvaluation(conn, lu.getUser(), univName)))
+					{
+						evalEnabled = true;
+					}
+				}
+			}
 			DbUtils.close(conn);
 			
 		} catch (SQLException ex) {
@@ -116,6 +134,15 @@ public class UniversityServlet extends AbstractDatabaseServlet {
 				req.setAttribute("university", results.getUniversita());
 				req.setAttribute("evaluations", results.getListaValutazioni());
 				req.setAttribute("evaluationsAvg", new UniversityEvaluationsAverage(results.getListaValutazioni()));
+								
+				if (lu.isStudent() && evalEnabled == true)
+				{
+					req.setAttribute("evalEnabled", "enabled");
+				}
+				else
+				{
+					req.setAttribute("evalEnabled", "notEnabled");
+				}
 
 				getServletContext().getRequestDispatcher("/jsp/show_university.jsp").forward(req, resp);
 								

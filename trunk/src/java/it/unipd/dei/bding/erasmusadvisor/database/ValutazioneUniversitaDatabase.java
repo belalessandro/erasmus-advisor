@@ -10,6 +10,7 @@ import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.ResultSetHandler;
 import org.apache.commons.dbutils.handlers.BeanHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
+import org.apache.commons.dbutils.handlers.ScalarHandler;
 
 /**
  * Represents an University evaluation in the Database.
@@ -79,6 +80,29 @@ public class ValutazioneUniversitaDatabase
 		
 		QueryRunner run = new QueryRunner();
 		return run.update(conn, statement, user, name);
+	}
+
+	/**
+	 * Returns if a user has already inserted an evaluation to a university.
+	 * @param conn A connection to the database.
+	 * @param user The student that inserted the evaluation. 
+	 * @param uni The university.
+	 * @return {@code true} if the student has already inserted an evaluation for this university, {@code false} otherwise.
+	 * @throws SQLException If something goes wrong.
+	 */
+	public static boolean checkEvaluation(Connection conn, String user, String uni) throws SQLException
+	{
+		final String statement = "SELECT COUNT (*) FROM ValutazioneUniversita WHERE nomeutentestudente = ? AND nomeuniversita = ?";
+		
+		QueryRunner run = new QueryRunner();
+		
+		ResultSetHandler<Long> h1 = new ScalarHandler<Long>();
+		long result = run.query(conn, statement, h1, user, uni);
+		
+		if (result > 0)
+			return true;
+		
+		return false;
 	}
 
 }

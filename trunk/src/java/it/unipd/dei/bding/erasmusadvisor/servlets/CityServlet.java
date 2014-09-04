@@ -6,6 +6,9 @@ import it.unipd.dei.bding.erasmusadvisor.beans.LinguaCittaBean;
 import it.unipd.dei.bding.erasmusadvisor.database.CittaDatabase;
 import it.unipd.dei.bding.erasmusadvisor.database.GetLinguaValues;
 import it.unipd.dei.bding.erasmusadvisor.database.LinguaCittaDatabase;
+import it.unipd.dei.bding.erasmusadvisor.database.PartecipazioneDatabase;
+import it.unipd.dei.bding.erasmusadvisor.database.ValutazioneCittaDatabase;
+import it.unipd.dei.bding.erasmusadvisor.database.ValutazioneUniversitaDatabase;
 import it.unipd.dei.bding.erasmusadvisor.resources.City;
 import it.unipd.dei.bding.erasmusadvisor.resources.CityEvaluationsAverage;
 import it.unipd.dei.bding.erasmusadvisor.resources.LoggedUser;
@@ -82,7 +85,7 @@ public class CityServlet extends AbstractDatabaseServlet
 		String country = req.getParameter("country");
 
 		if (city != null && ! city.isEmpty() && country != null && ! country.isEmpty()) 
-		{
+		{			
 			// model
 			City results = null;
 			List<LinguaBean> languageDomain = null;
@@ -90,6 +93,7 @@ public class CityServlet extends AbstractDatabaseServlet
 			
 			// the connection to database
 			Connection conn = null;
+			boolean evalEnabled = false;
 			
 			/**
 			 * Gets the data from database
@@ -98,6 +102,19 @@ public class CityServlet extends AbstractDatabaseServlet
 				conn = DS.getConnection();
 				results = new CittaDatabase().searchCityByName(conn, city, country);
 				languageDomain = GetLinguaValues.getLinguaDomain(conn);
+				
+
+				// determina se abilitare l'inserimento della valutazione
+				if (lu.isStudent())
+				{
+					if (PartecipazioneDatabase.checkParticipation(conn, city, country, lu.getUser()))
+					{
+						if (!(ValutazioneCittaDatabase.checkEvaluation(conn, lu.getUser(), city, country)))
+						{
+							evalEnabled = true;
+						}
+					}
+				}
 			} 
 			catch (SQLException ex) {
 				m = new Message("Error while getting the city.", "XXX", ex.getMessage());
@@ -115,6 +132,15 @@ public class CityServlet extends AbstractDatabaseServlet
 				
 				req.setAttribute("languageDomain", languageDomain);
 				req.setAttribute("evaluationsAvg", new CityEvaluationsAverage(results.getEvalutationList()));
+				
+				if (lu.isStudent() && evalEnabled == true)
+				{
+					req.setAttribute("evalEnabled", "enabled");
+				}
+				else
+				{
+					req.setAttribute("evalEnabled", "notEnabled");
+				}
 
 				/* Show results to the JSP page. */
 				getServletContext().getRequestDispatcher("/jsp/show_city.jsp").forward(req, resp);
