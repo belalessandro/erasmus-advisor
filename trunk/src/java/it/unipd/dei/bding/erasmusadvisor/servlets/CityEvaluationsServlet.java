@@ -177,7 +177,15 @@ public class CityEvaluationsServlet extends AbstractDatabaseServlet
 		} 
 		catch (SQLException e) {
 			// Error management
-			m = new Message("Error while submitting evaluations.","E200", e.getMessage());
+			
+			/** Primary key error */
+			if (e.getSQLState() != null && e.getSQLState().equals("23505")) { 
+				
+				m = new Message("No duplicate evaluations allowed", "E300", 
+						"You have already submitted an evaluation!");
+			} else {
+				m = new Message("Error while submitting evaluations.","E200", e.getMessage());
+			}
 			req.setAttribute("message", m);
 			
 			errorForward(req, resp);

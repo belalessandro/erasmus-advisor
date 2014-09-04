@@ -414,7 +414,7 @@ public class CityServlet extends AbstractDatabaseServlet
 		catch (SQLException e) 
 		{
 			// Error management
-			m = new Message("Error while submitting evaluations.","XXX", e.getMessage());
+			m = new Message("Error","XXX", e.getMessage()); // TODO spiegare che errore e'???
 			req.setAttribute("message", m);
 			
 			getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(req, resp); // ERROR PAGE
