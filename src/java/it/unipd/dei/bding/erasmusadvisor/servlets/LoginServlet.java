@@ -104,10 +104,11 @@ public class LoginServlet extends AbstractDatabaseServlet {
 					}
 					else
 					{
-						m = new Message("Password incorrect!", "E200", "Retry, please.");
+						m = new Message("Incorrect password.", "E200", "Retry, please.");
 						request.setAttribute("message", m);
-				    	request.setAttribute("errorType", "userNotLogged");	
-						errorForward(request, response);
+				    	//request.setAttribute("errorType", "userNotLogged");	
+						//errorForward(request, response);
+						getServletContext().getRequestDispatcher("/jsp/home.jsp").forward(request, response);
 					}
 				} 
 				catch (IllegalStateException e) {
@@ -118,17 +119,18 @@ public class LoginServlet extends AbstractDatabaseServlet {
 			} 
 			else if(!user.isAttivo())
 			{
-				m = new Message("Your account is disabled, please contact the admin!", "E200", "");
+				m = new Message("Your account is disabled, please contact the Erasmus Coordinator of your University.", "E200", "");
 				request.setAttribute("message", m);
 		    	request.setAttribute("errorType", "userNotLogged");	
 				errorForward(request, response);
 			}
 		} 
 		catch (SQLException e) {
-			m = new Message("Email or password incorrect!", "E200", "Retry, please.");
+			m = new Message("Incorrect email or password.", "E200", "Retry, please.");
 			request.setAttribute("message", m);
-	    	request.setAttribute("errorType", "userNotLogged");	
-			errorForward(request, response);
+	    	//request.setAttribute("errorType", "userNotLogged");	
+			//errorForward(request, response);
+			getServletContext().getRequestDispatcher("/jsp/home.jsp").forward(request, response);
 		} 
 		finally {
 			DbUtils.closeQuietly(conn);
