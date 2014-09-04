@@ -122,35 +122,41 @@
 		<div class="col-md-9 general_main_border">
 		
 			<!-- Avviso di avvenuta modifica dell'entita -->
-			<c:if test="${!empty param.edited && param.edited == 'success'}">
-				<div class="alert alert-success alert-dismissible" role="alert" >
-				  <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-				  <h4 class="text-center">Thesis Successfully Edited!</h4>
-				</div>
+			<c:if test="${!sessionScope.loggedUser.student}">
+				<c:if test="${!empty param.edited && param.edited == 'success'}">
+					<div class="alert alert-success alert-dismissible" role="alert" >
+					  <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+					  <h4 class="text-center">Thesis Successfully Edited!</h4>
+					</div>
+				</c:if>
 			</c:if>
 			
 			<!-- Avviso che l'entità è in stato reported -->
-			<c:if test="${!empty thesis.stato && thesis.stato == 'REPORTED'}">
-				<div class="alert alert-danger" role="alert">
-					<div class="text-center"><b> <span class="glyphicon glyphicon-star"></span> Warning:</b> 
-					This thesis was recently reported to moderators for some reasons. </div>
-				</div>
-			</c:if>
+			<c:if test="${sessionScope.loggedUser.student}">
+				<c:if test="${!empty thesis.stato && thesis.stato == 'REPORTED'}">
+					<div class="alert alert-danger" role="alert">
+						<div class="text-center"><b> <span class="glyphicon glyphicon-star"></span> Warning:</b> 
+						This thesis was recently reported to moderators for some reasons. </div>
+					</div>
+				</c:if>
+
 			
-			<!-- Avviso che l'entità è in stato not verified -->
-			<c:if test="${!empty thesis.stato && thesis.stato == 'NOT VERIFIED'}">
-				<div class="alert alert-warning" role="alert">
-					<div class="text-center"><b> <span class="glyphicon glyphicon-star"></span> Warning:</b> 
-					This thesis has not been verified yet. </div>
-				</div>
-			</c:if>
+				<!-- Avviso che l'entità è in stato not verified -->
+				<c:if test="${!empty thesis.stato && thesis.stato == 'NOT VERIFIED'}">
+					<div class="alert alert-warning" role="alert">
+						<div class="text-center"><b> <span class="glyphicon glyphicon-star"></span> Warning:</b> 
+						This thesis has not been verified yet. </div>
+					</div>
+				</c:if>
 			
-			<!-- Avviso che l'entità è in stato not verified -->
+			
+			<!-- Avviso che l'entità è in stato disabled -->
 			<c:if test="${!empty thesis.stato && thesis.stato == 'DISABLED'}">
 				<div class="alert alert-warning" role="alert">
 					<div class="text-center"><b> <span class="glyphicon glyphicon-star"></span> Warning:</b> 
 					This thesis has been disabled. </div>
 				</div>
+			</c:if>
 			</c:if>
 			
 			<!-- Avviso del report avvenuto con successo -->
@@ -192,25 +198,30 @@
 					<!-- evalutate visibile solo da studente
 						edit e delete solo da reponsabili di flusso e coordinatori erasmus -->
 					<ul class="nav nav-stacked pull-right">
-						<li class="active"><span data-toggle="modal" data-target="#evaluateForm">Evaluate</span></li>
-						<c:if test="${!empty thesis.stato && thesis.stato == 'NOT VERIFIED'}">
-							<li id="report-button" class="active"><span data-toggle="modal" data-target="#reportConfirmDialog">Report</span></li>
+						<c:if test="${sessionScope.loggedUser.student}">
+							<li class="active"><span data-toggle="modal" data-target="#evaluateForm">Evaluate</span></li>
+							<c:if test="${!empty thesis.stato && thesis.stato == 'NOT VERIFIED'}">
+								<li id="report-button" class="active"><span data-toggle="modal" data-target="#reportConfirmDialog">Report</span></li>
+							</c:if>
 						</c:if>
-						<li class="active"><span data-toggle="modal" data-target="#editForm">Edit</span></li>
-						<li class="active">
-							<form method="post" action="<c:url value="/thesis"/>">
-                                <input type="hidden" name="operation" value="delete"/>
-                                <input type="hidden" name="id" value="${thesis.id}"/>
-                                <input type="hidden" name="name" value="${thesis.nome}"/>
-								<input type="submit" value="Delete" class="btn btn-primary entity_nav_button"
-									onclick="return confirm('Do you really want to remove this thesis from the database?');">
-							</form>
-						</li>
+						<c:if test="${!sessionScope.loggedUser.student}">
+							<li class="active"><span data-toggle="modal" data-target="#editForm">Edit</span></li>
+							<li class="active">
+								<form method="post" action="<c:url value="/thesis"/>">
+	                                <input type="hidden" name="operation" value="delete"/>
+	                                <input type="hidden" name="id" value="${thesis.id}"/>
+	                                <input type="hidden" name="name" value="${thesis.nome}"/>
+									<input type="submit" value="Delete" class="btn btn-primary entity_nav_button"
+										onclick="return confirm('Do you really want to remove this thesis from the database?');">
+								</form>
+							</li>
+						</c:if>
 					</ul>
 				</div>
 			</div>
 			
 			<!-- Finestra conferma Report a comparsa -->
+			<c:if test="${sessionScope.loggedUser.student}">
 			<div class="modal fade" id="reportConfirmDialog">
 				<div class="modal-dialog">
 					<div class="modal-content">
@@ -283,9 +294,11 @@
 					</div>
 				</div>
 			</div>
+			</c:if>
 			<!-- fine Form di valutazione a comparsa-->
 			
 			<!--Form di edit a comparsa-->
+			<c:if test="${!sessionScope.loggedUser.student}">
 			<div class="modal fade" id="editForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false">
 				<div class="modal-dialog">
 					<div class="modal-content">
@@ -372,7 +385,8 @@
 					</div>
 				</div>
 			</div>
-			<!-- fine Form di valutazione a comparsa-->	
+			</c:if>
+			<!-- fine Form di edit a comparsa-->	
 			<br>	
 			<c:choose>
 				<c:when test="${fn:length(evaluations) == 0}">

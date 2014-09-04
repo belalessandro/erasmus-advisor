@@ -174,11 +174,13 @@
 			</c:if>
 			
 			<!-- Avviso che l'entità è in stato reported -->
-			<c:if test="${!empty classBean.stato && classBean.stato == 'REPORTED'}">
-				<div class="alert alert-danger" role="alert">
-					<div class="text-center"><b> <span class="glyphicon glyphicon-star"></span> Warning:</b> 
-					This class was recently reported to moderators for some reasons.</div> 
-				</div>
+			<c:if test="${sessionScope.loggedUser.student}">
+				<c:if test="${!empty classBean.stato && classBean.stato == 'REPORTED'}">
+					<div class="alert alert-danger" role="alert">
+						<div class="text-center"><b> <span class="glyphicon glyphicon-star"></span> Warning:</b> 
+						This class was recently reported to moderators for some reasons.</div> 
+					</div>
+				</c:if>
 			</c:if>
 			
 			<!-- Avviso che l'entità è in stato not verified -->
@@ -189,7 +191,7 @@
 				</div>
 			</c:if>
 			
-			<!-- Avviso che l'entità è in stato not verified -->
+			<!-- Avviso che l'entità è in stato disabled -->
 			<c:if test="${!empty classBean.stato && classBean.stato == 'DISABLED'}">
 				<div class="alert alert-warning" role="alert">
 					<div class="text-center"><b> <span class="glyphicon glyphicon-star"></span> Warning:</b> 
@@ -198,17 +200,18 @@
 			</c:if>
 			
 			<!-- Avviso del report avvenuto con successo -->
-			<div id="report-success" class="alert alert-success" role="alert" style="display:none">
-				<button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-				<div class="text-center">Class successfully reported!</div>  
-			</div>
-			
-			<!-- Avviso avvenuto con successo -->
-			<div id="ack-success" class="alert alert-success" role="alert" style="display:none">
-				<button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-				<div class="text-center">Class successfully acknowledged!</div>  
-			</div>
-			
+			<c:if test="${sessionScope.loggedUser.student}">
+				<div id="report-success" class="alert alert-success" role="alert" style="display:none">
+					<button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+					<div class="text-center">Class successfully reported!</div>  
+				</div>
+
+				<!-- Avviso avvenuto con successo -->
+				<div id="ack-success" class="alert alert-success" role="alert" style="display:none">
+					<button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+					<div class="text-center">Class successfully acknowledged!</div>  
+				</div>
+			</c:if>			
 			
 			<div class="entity_details">
 				<div class="entity_details_text">
@@ -228,30 +231,37 @@
 					<!-- evalutate visibile solo da studente
 						edit e delete solo da reponsabili di flusso e coordinatori erasmus -->
 					<ul class="nav nav-stacked pull-right">
-						<li class="active"><span data-toggle="modal" data-target="#evaluateForm">Evaluate</span></li>
-						<c:if test="${fn:length(flows) > 0}">
-							<li class="active" id="ack-button"><span data-toggle="modal" data-target="#acknowledgeForm">Acknowledge</span></li>
+						<c:if test="${sessionScope.loggedUser.student}">
+							<li class="active"><span data-toggle="modal" data-target="#evaluateForm">Evaluate</span></li>
+							<c:if test="${fn:length(flows) > 0}">
+								<li class="active" id="ack-button"><span data-toggle="modal" data-target="#acknowledgeForm">Acknowledge</span></li>
+							</c:if>
+							<!-- Visualizza il tasto report solo se non in stato non verificato e non reported -->
+							<!-- TODO: inserire il controllo utente  -->
+							
+							<c:if test="${!empty classBean.stato && classBean.stato == 'NOT VERIFIED'}">
+								<li class="active" id="report-button"><span data-toggle="modal" data-target="#reportConfirmDialog">Report</span></li>
+							</c:if>
 						</c:if>
-						<!-- Visualizza il tasto report solo se non in stato non verificato e non reported -->
-						<!-- TODO: inserire il controllo utente  -->
-						<c:if test="${!empty classBean.stato && classBean.stato == 'NOT VERIFIED'}">
-							<li class="active" id="report-button"><span data-toggle="modal" data-target="#reportConfirmDialog">Report</span></li>
+						<c:if test="${!sessionScope.loggedUser.student}">	
+							<li class="active"><span data-toggle="modal" data-target="#editForm">Edit</span></li>
+							<li class="active">
+								<form method="post" action="<c:url value="/class"/>">
+	                                <input type="hidden" name="operation" value="delete"/>
+	                                <input type="hidden" name="id" value="${classBean.id}"/>
+	                                <input type="hidden" name="name" value="${classBean.nome}"/>
+									<input type="submit" value="Delete"  
+										onclick="return confirm('Do you really want to remove this class from the database?');" 
+										class="btn btn-primary entity_nav_button">
+								</form>
+							</li>
 						</c:if>
-						<li class="active"><span data-toggle="modal" data-target="#editForm">Edit</span></li>
-						<li class="active">
-							<form method="post" action="<c:url value="/class"/>">
-                                <input type="hidden" name="operation" value="delete"/>
-                                <input type="hidden" name="id" value="${classBean.id}"/>
-                                <input type="hidden" name="name" value="${classBean.nome}"/>
-								<input type="submit" value="Delete"  
-									onclick="return confirm('Do you really want to remove this class from the database?');" 
-									class="btn btn-primary entity_nav_button">
-							</form>
-						</li>
 					</ul>
 				</div>
 			</div>
+			
 			<!-- Finestra conferma Report a comparsa -->
+			<c:if test="${sessionScope.loggedUser.student}">
 			<div class="modal fade" id="reportConfirmDialog">
 				<div class="modal-dialog">
 					<div class="modal-content">
@@ -273,7 +283,11 @@
 				</div><!-- /.modal-dialog -->
 			</div><!-- /.modal -->
 			<br>
+			</c:if>
+			
+			
 			<!--Form di riconoscimento a comparsa-->
+			<c:if test="${!sessionScope.loggedUser.student}">
 			<div class="modal fade" id="acknowledgeForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false">
 				<div class="modal-dialog">
 					<div class="modal-content">
@@ -301,10 +315,12 @@
 						</div>
 					</div>
 				</div>
-			</div>			
+			</div>	
+			</c:if>		
 			<!--fine form di riconoscimento a comparsa-->
 			
 			<!--Form di valutazione a comparsa-->
+			<c:if test="${sessionScope.loggedUser.student}">
 			<div class="modal fade" id="evaluateForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false">
 				<div class="modal-dialog">
 					<div class="modal-content">
@@ -356,9 +372,11 @@
 					</div>
 				</div>
 			</div>
+			</c:if>
 			<!-- fine Form di valutazione a comparsa-->
 			
 			<!--Form di edit a comparsa-->
+			<c:if test="${!sessionScope.loggedUser.student}">
 			<div class="modal fade" id="editForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false">
 				<div class="modal-dialog">
 					<div class="modal-content">
@@ -447,7 +465,9 @@
 					</div>
 				</div>
 			</div>
+			</c:if>
 			<!-- fine Form di edit a comparsa-->	
+			
 			<br>	
 			<c:choose>
 				<c:when test="${fn:length(evaluations) == 0}">
