@@ -15,6 +15,7 @@ import it.unipd.dei.bding.erasmusadvisor.database.GetLinguaValues;
 import it.unipd.dei.bding.erasmusadvisor.database.LinguaTesiDatabase;
 import it.unipd.dei.bding.erasmusadvisor.database.PartecipazioneDatabase;
 import it.unipd.dei.bding.erasmusadvisor.database.ProfessoreDatabase;
+import it.unipd.dei.bding.erasmusadvisor.database.UserDatabase;
 import it.unipd.dei.bding.erasmusadvisor.database.ValutazioneTesiDatabase;
 import it.unipd.dei.bding.erasmusadvisor.resources.LoggedUser;
 import it.unipd.dei.bding.erasmusadvisor.resources.Message;
@@ -363,6 +364,15 @@ public class ThesisServlet extends AbstractDatabaseServlet {
 		 */
 		try {
 			conn = DS.getConnection();
+			
+
+			if (lu.isStudent()) { // Checks whether the student has the permissions to insert
+				boolean studentAllowed = UserDatabase.canStudentInsert(conn, lu.getUser(), 
+						argomentoTesiBean.getNomeUniversita());
+				if ( ! studentAllowed )
+					throw new SQLException("Students can not insert thesis of universities they do not know!");
+			}
+			
 			conn.setAutoCommit(false); // BEGIN TRANSACTION
 			
 			/**

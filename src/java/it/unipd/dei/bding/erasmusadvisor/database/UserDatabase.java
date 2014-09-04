@@ -2,10 +2,12 @@ package it.unipd.dei.bding.erasmusadvisor.database;
 
 import it.unipd.dei.bding.erasmusadvisor.beans.UserBean;
 
-
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import org.apache.commons.dbutils.DbUtils;
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.ResultSetHandler;
 import org.apache.commons.dbutils.handlers.BeanHandler;
@@ -73,5 +75,60 @@ public class UserDatabase {
 			}
 		}
 		return new UserBean(user, fails);
+	}
+	
+	
+	/**
+	 * Check if the student is allowed to insert a new class or thesis
+	 * 
+	 * @param conn A connection to the database.
+	 * @param nomeUtenteStudente the name of the student
+	 * @param nomeUniversita the destination of the university of the class or thesis
+	 * @return true if he is allowed
+	 * @throws SQLException If the user does not exist.
+	 */
+	public static boolean canStudentInsert(Connection conn, 
+			String nomeUtenteStudente, String nomeUniversita) throws SQLException {
+
+		final String statement1 = "SELECT EXISTS "
+				+ "("
+					+ "SELECT F.destinazione AS nomeuniversita FROM partecipazione AS P "
+					+ "JOIN Flusso AS F ON F.ID=P.idFlusso "
+					+ "WHERE P.nomeutentestudente=? AND F.destinazione = ? "
+				+ "UNION "
+					+ "SELECT C.nomeuniversita FROM iscrizione AS I "
+					+ "JOIN corsodilaurea AS C ON I.idCorso = C.id  "
+					+ "WHERE I.nomeutentestudente=? AND C.nomeuniversita = ? "
+				+ ")";
+
+		// Value to be returned
+		boolean isAllowed = false;
+		
+		// To be closed
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		
+		try {
+			
+		pstmt = conn.prepareStatement(statement1);
+		
+		int cnt=1;
+		pstmt.setString(cnt++, nomeUtenteStudente);
+		pstmt.setString(cnt++, nomeUniversita);
+		pstmt.setString(cnt++, nomeUtenteStudente);
+		pstmt.setString(cnt++, nomeUniversita);
+		
+		rs = pstmt.executeQuery();
+
+		if (rs.next())
+			isAllowed = rs.getBoolean(1);
+		
+		} finally {
+			DbUtils.closeQuietly(rs);
+			DbUtils.closeQuietly(pstmt);
+		}
+		
+		return isAllowed;
 	}
 }
