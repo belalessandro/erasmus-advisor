@@ -275,13 +275,29 @@ public class UserProfileServlet extends AbstractDatabaseServlet
 					student.setPassword(hashPassword(student.getPassword(), student.getSalt()));
 				}
 								
-				
 				// processing the course name and level
 				String[] res = null;
+				String courseName = null;
+                String courseLevel = null;
 				res = extractCourseNameAndLevel(request.getParameter("courseName"));
-				String courseName = res[0].trim();
-				String courseLevel = res[1].trim();
+				
+				// manage the course insertion error
+                if(res != null)
+                {
+                	courseName = res[0].trim();
+                	courseLevel = res[1].trim();
+                	
+                	if(courseName.isEmpty() || courseLevel.isEmpty())
+                		throw new NullPointerException("course");
+                }	
+                else
+                	throw new NullPointerException("course");
+                
 				String courseUniversity = request.getParameter("courseUniversity").trim();
+				
+				 // manage the university insertion error
+                if(courseUniversity == null || courseUniversity.isEmpty())
+                	throw new NullPointerException("university");
 				
 				// getting old course id
 				int old_courseId = Integer.parseInt(request.getParameter("old_courseId"));
@@ -299,14 +315,20 @@ public class UserProfileServlet extends AbstractDatabaseServlet
 				// getting the course id
 				int new_courseId = CorsoDiLaureaDatabase.getCourseId(con, courseName, courseLevel, courseUniversity);
 
+				// manage when the university is wrong
+                if(new_courseId == 0)
+                	throw new NullPointerException("university");
+                else
+                	subscription.setIdCorso(new_courseId);
+                
 				// Starting the transaction
 				con.setAutoCommit(false);
+				
 				if(!student.getPassword().isEmpty())
 					StudenteDatabase.updateStudent(con, student);
 				else
 					StudenteDatabase.updateStudentWithoutPassword(con, student);
 				
-				subscription.setIdCorso(new_courseId);
 				IscrizioneDatabase.updateIscrizione(con, subscription, old_courseId);
 				
 				con.commit();
@@ -320,18 +342,6 @@ public class UserProfileServlet extends AbstractDatabaseServlet
 			response.sendRedirect(builder.toString());
 			
 		} catch (SQLException e) {
-			
-			
-			PrintWriter w = response.getWriter();
-			w.println("<html>");
-			w.println("<body>");
-			w.println("<p>" + e.getErrorCode() + "</p>");
-			w.println("<p>" + e.getSQLState() + "</p>");
-			w.println("<p>" + e.getMessage()+ "</p>");
-			w.println("</body>");
-			w.println("<html>");
-			w.flush();
-			w.close();
 			
 			// managing overlapping courses
 			if(e.getSQLState().equals("EA003"))
@@ -348,6 +358,27 @@ public class UserProfileServlet extends AbstractDatabaseServlet
 				return;
 			}
 			
+		} catch (NullPointerException e) {
+        	if (e.getMessage().equals("course"))
+        	{
+        		// Creating response path
+    			StringBuilder builder = new StringBuilder()
+    					.append(request.getContextPath())
+    					.append("/user/profile?err=course");
+    			
+    			response.sendRedirect(builder.toString());
+    			return;
+        	}
+        	else if (e.getMessage().equals("university")) 
+        	{
+        		// Creating response path
+    			StringBuilder builder = new StringBuilder()
+    					.append(request.getContextPath())
+    					.append("/user/profile?err=university");
+    			
+    			response.sendRedirect(builder.toString());
+    			return;
+        	}
 		} finally {
 			// closing the connection
 			try {
@@ -395,27 +426,30 @@ public class UserProfileServlet extends AbstractDatabaseServlet
 	 * @param parameter string to parse
 	 */
 	private String[] extractCourseNameAndLevel(String parameter) {
-		
-		String[] res = new String[2];
-		
-		int init = 0;
-		int end = parameter.length();
-		boolean open = false;
-		for(int i = 0; i < parameter.length(); i++)
-		{
-			if(parameter.charAt(i) == '(' && !open)
-			{
-				open = true;
-				init = i + 1;
-			}
-			else if(parameter.charAt(i) == ')' && open)
-				end = i;
-		}
-		
-		res[0] = parameter.substring(0, init - 1);
-		res[1] = parameter.substring(init, end);
-		
-		return res;
+        
+        String[] res = new String[2];
+        
+        int init = 0;
+        int end = parameter.length();
+        boolean open = false;
+        for(int i = 0; i < parameter.length(); i++)
+        {
+                if(parameter.charAt(i) == '(' && !open)
+                {
+                        open = true;
+                        init = i + 1;
+                }
+                else if(parameter.charAt(i) == ')' && open)
+                        end = i;
+        }
+        
+        if(open == false)
+        	return null;
+        
+        res[0] = parameter.substring(0, init - 1);
+        res[1] = parameter.substring(init, end);
+        
+        return res;
 	}
 
 	/**

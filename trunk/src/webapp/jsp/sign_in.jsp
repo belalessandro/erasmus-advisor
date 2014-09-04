@@ -167,6 +167,20 @@
 				</div>
 				<hr>
 			</div>
+			
+			<div class="row">
+				<div class="col-lg-12">&nbsp;</div>
+			</div>
+			<!-- Alert when the user has inserted a wrong course or university -->
+			<div class="row">
+				<c:if test="${param.err != null && (param.err == 'university' || param.err == 'course')}">
+					<div class="alert alert-danger alert-dismissible" role="alert">
+					  <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+					  <strong>Warning!</strong> The <c:out value="${param.err}"/> you have inserted doesn't exists.
+					</div>
+				</c:if>
+			</div>
+			
 			<!-- action deve puntare alla servlet che gestisce la registrazione -->
 			<form name='registration' onSubmit="return signInFormValidation();" action="<c:url value="/signin"/>" method="post" style="display: none;"> 
 				<div align="center">
@@ -220,6 +234,15 @@
 							<div class="input-group sign_in_input_group">
 								<span class="input-group-addon sign_in_input_small">To</span><input type="text" class="form-control" id="datepicker2" name="date_to" data-date-format="yyyy-mm-dd">
 							</div>
+						</div>
+					</div>
+					<!-- Alerts -->
+					<div class="row">
+						<div class="col-lg-12">&nbsp;</div>	
+					</div>
+					<div class="row">
+						<div class="col-lg-offset-4 col-lg-7">
+							<span id="alert-university" style="display:none" class="label label-danger">Select the university first, please...</span>
 						</div>
 					</div>
 					<div class="row">
