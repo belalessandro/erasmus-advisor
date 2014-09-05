@@ -162,7 +162,7 @@ public class UserProfileServlet extends AbstractDatabaseServlet
 		LoggedUser lu = (LoggedUser) session.getAttribute("loggedUser");
 		
 		if(lu == null)
-		{
+		{	// TODO cancellare appena possibile
 			lu = new LoggedUser(UserType.COORDINATORE, "ErasmusCoordinator");
 		}
 		
@@ -568,11 +568,9 @@ public class UserProfileServlet extends AbstractDatabaseServlet
 	 *  			if any error occurs in the client/server communication.
 	 */
     private void errorForward(HttpServletRequest request, HttpServletResponse response) 
-    		throws ServletException, IOException  {
-    	// Error management
-        	
-    	//Message m = new Message("Error while updating the city.","XXX", "");
-    	//request.setAttribute("message", m);
+    		throws ServletException, IOException  
+    {
+
     		
     	getServletContext().getRequestDispatcher("/jsp/error.jsp")
     		.forward(request, response); // ERROR PAGE
