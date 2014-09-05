@@ -1,9 +1,13 @@
 package it.unipd.dei.bding.erasmusadvisor.servlets;
 
 import it.unipd.dei.bding.erasmusadvisor.beans.UserBean;
+import it.unipd.dei.bding.erasmusadvisor.database.CoordinatoreDatabase;
+import it.unipd.dei.bding.erasmusadvisor.database.ResponsabileFlussoDatabase;
+import it.unipd.dei.bding.erasmusadvisor.database.StudenteDatabase;
 import it.unipd.dei.bding.erasmusadvisor.database.UserDatabase;
 import it.unipd.dei.bding.erasmusadvisor.resources.LoggedUser;
 import it.unipd.dei.bding.erasmusadvisor.resources.Message;
+import it.unipd.dei.bding.erasmusadvisor.resources.UserType;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -85,16 +89,29 @@ public class LoginServlet extends AbstractDatabaseServlet {
 					//Checks the password
 					boolean correct = user.checkPassword(pass);
 					if (correct) {
-						// TODO: deve aggiornare l'ultimo accesso nel database!!!!
 						
-						//Starts the session
+						// Starts the session
 						session = request.getSession(true);
 						LoggedUser logged = new LoggedUser(user.getType(), user.getNomeUtente());
 						session.setAttribute("loggedUser", logged);
 						
-						// luca: traferisce il controllo alla index
-						//getServletContext().getRequestDispatcher("/jsp/index.jsp").forward(request, response);
+						// Update the last user access
+						switch (user.getType())
+						{
+						case STUDENTE:
+							StudenteDatabase.updateLastLogin(conn, user.getNomeUtente());
+							break;
 						
+						case RESPONSABILE:
+							ResponsabileFlussoDatabase.updateLastLogin(conn, user.getNomeUtente());
+							break;
+						
+						case COORDINATORE:
+							CoordinatoreDatabase.updateLastLogin(conn, user.getNomeUtente());
+							break;
+						}
+						
+						// Redirect
 						StringBuilder builder = new StringBuilder()
 						.append(request.getContextPath())
 						.append("/index");

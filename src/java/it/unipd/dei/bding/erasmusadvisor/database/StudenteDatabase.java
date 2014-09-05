@@ -60,84 +60,6 @@ public class StudenteDatabase {
 		return new Student(studente, iscrizione, corso);
 	}
 
-	/**
-	 * Update a student's instance with the username given.
-	 * 
-	 * @param con
-	 *            A connection to the database.
-	 * @param stud
-	 *            Model of a student ("Studente").
-	 * @throws SQLException
-	 *             If an error occurs.
-	 */
-	public static void updateStudent(Connection con, Student stud)
-			throws SQLException {
-		StudenteBean studente = stud.getStudente();
-		IscrizioneBean iscrizione = stud.getIscrizione();
-
-		StringBuilder stmt1 = new StringBuilder()
-				.append("UPDATE Studente SET email = ?, dataregistrazione = ?, password = ?, attivo = 't' ")
-				.append("WHERE nomeutente = ?;");
-
-		StringBuilder stmt2 = new StringBuilder()
-				.append("INSERT INTO Iscrizione (idcorso, nomeutentestudente, annoinizio, annofine ) ")
-				.append("VALUES (?, ?, ?, ?);");
-
-		PreparedStatement pstmt1 = null;
-		PreparedStatement pstmt2 = null;
-		PreparedStatement pstmt3 = null;
-
-		// start the transaction
-		try {
-
-			con.setAutoCommit(false);
-
-			pstmt1 = con.prepareStatement(stmt1.toString());
-			pstmt1.setString(1, studente.getEmail());
-			pstmt1.setDate(2, studente.getDataRegistrazione());
-			pstmt1.setString(3, studente.getPassword());
-			pstmt1.setString(4, studente.getNomeUtente());
-
-			pstmt3 = con.prepareStatement(stmt2.toString());
-			pstmt3.setInt(1, iscrizione.getIdCorso());
-			pstmt3.setString(2, iscrizione.getNomeUtenteStudente());
-			pstmt3.setDate(3, iscrizione.getAnnoInizio());
-			pstmt3.setDate(4, iscrizione.getAnnoFine());
-
-			pstmt1.executeUpdate();
-
-			con.commit();
-
-		} catch (SQLException e) {
-			if (con != null) {
-				try {
-					con.rollback();
-				} catch (SQLException excep) {
-					// TODO gestire meglio questa eccezione
-					e.printStackTrace();
-				}
-			}
-		} finally {
-			try {
-				if (pstmt1 != null)
-					pstmt1.close();
-				if (pstmt2 != null)
-					pstmt2.close();
-				if (pstmt3 != null)
-					pstmt3.close();
-				if (con != null)
-					con.close();
-			} catch (SQLException ex) {
-
-			} finally {
-				con.setAutoCommit(true);
-				pstmt1 = null;
-				pstmt2 = null;
-				pstmt3 = null;
-				con = null;
-			}
-		}
-	}
 
 	/**
 	 * Update a student instance with the username given.
@@ -226,6 +148,22 @@ public class StudenteDatabase {
 
 		run.update(con, sql.toString(), student.getEmail(),
 				student.getDataRegistrazione(), student.getNomeUtente());
+	}
+
+	/**
+	 * Method used for updating user access' date.
+	 * 
+	 * @param con  database connection
+	 * @param nomeUtente user name
+	 * @throws SQLException
+	 */
+	public static void updateLastLogin(Connection con, String nomeUtente) throws SQLException 
+	{
+		final String sql = "UPDATE Studente SET UltimoAccesso = CURRENT_DATE WHERE NomeUtente = ?;";
+		
+		QueryRunner run = new QueryRunner();
+		
+		run.update(con, sql, nomeUtente);
 	}
 
 }
