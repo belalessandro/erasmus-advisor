@@ -89,7 +89,6 @@ public class CourseListServlet extends AbstractDatabaseServlet {
 				
 			} catch (SQLException e) {
 				// Do nothing..
-				e.printStackTrace();
 			} 
 			finally {
 				DbUtils.closeQuietly(conn);

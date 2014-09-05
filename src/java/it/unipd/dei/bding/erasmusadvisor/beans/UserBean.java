@@ -145,12 +145,12 @@ public class UserBean implements Serializable {
 					return true;
 				}
 			} 
-			catch (UnsupportedEncodingException e) {
-				//e.printStackTrace();
+			catch (UnsupportedEncodingException e) 
+			{
 				throw new IllegalStateException();
 			}
-		} catch (NoSuchAlgorithmException e) {
-			//e.printStackTrace();
+		} catch (NoSuchAlgorithmException e) 
+		{
 			throw new IllegalStateException();
 		}
 		return false;
