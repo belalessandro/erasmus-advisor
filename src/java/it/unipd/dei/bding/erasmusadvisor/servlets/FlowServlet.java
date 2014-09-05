@@ -103,11 +103,22 @@ public class FlowServlet extends AbstractDatabaseServlet {
 		 */
 		try {
 			conn = DS.getConnection();
-			results = FlussoDatabase.getFlusso(conn, ID);
+			
+ 
+			if(lu.isFlowResp()) 
+				// getting only the flow that belongs to the flow manager, otherwise throw an error page
+				results = FlussoDatabase.getFlusso(conn, ID, lu.getUser());
+			else
+				results = FlussoDatabase.getFlusso(conn, ID);
+			
+			if (results == null)
+				throw new NullPointerException("access denied");
+			
 			certificatesDomain = GetCertificatiLinguisticiValues.getCertificatiLinguisticiDomain(conn);
 			possibleCourses = CorsoDiLaureaDatabase.getPossibleCourses(conn, results.getResponsabile());
 			interests = InteresseDatabase.getCountInteresseByFlusso(conn, ID);
 			recognisedClasses = RiconoscimentoDatabase.getInsegnamentiRiconosciuti(conn, ID);
+			
 			if (lu.isStudent())
 			{
 				// determina se abilitare l'inserimento della valutazione
@@ -133,6 +144,12 @@ public class FlowServlet extends AbstractDatabaseServlet {
 		catch (SQLException ex) {
 			m = new Message("Error while getting the flow.", "E200", ex.getMessage());
 		} 
+		catch (NullPointerException e)
+		{
+			if(e.getMessage().equals("access denied")) {
+				m = new Message("Sorry, you cannot access to a flow that does not belong to you.", "E400", "");
+			}
+		}
 		finally {
 			DbUtils.closeQuietly(conn);
 		}
@@ -241,11 +258,11 @@ public class FlowServlet extends AbstractDatabaseServlet {
 		{               
 			delete(req, resp);
 		} 
-		else if (operation.equals(INSERT)) // TODO: FlowManager puo' eliminare solo i propri
+		else if (operation.equals(INSERT)) 
 		{               
 			insert(req, resp, lu);
 		} 
-		else if (operation.equals(EDIT) )  // TODO: FlowManager puo' eliminare solo i propri
+		else if (operation.equals(EDIT) )  
 		{
 			edit(req, resp, lu);
 		}
@@ -275,7 +292,6 @@ public class FlowServlet extends AbstractDatabaseServlet {
 		FlussoBean flussoBean  = null;
 		List<DocumentazioneBean> documentazioneBeanList = new ArrayList<DocumentazioneBean>();
 		List<OrigineBean> origineBeanList = new ArrayList<OrigineBean>();
-
 
 		// models
 		Message m = null;
