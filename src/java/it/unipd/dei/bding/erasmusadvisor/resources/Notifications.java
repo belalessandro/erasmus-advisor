@@ -48,7 +48,7 @@ public class Notifications
 	
 	/**
 	 * Set the list of flow managers.
-	 * @param list of beans of flow managers
+	 * @param responsabili list of beans of flow managers
 	 */
 	public void setResponsabiliFlusso(List<ResponsabileFlussoBean> responsabili) {
 		this.responsabiliFlusso = responsabili;
@@ -56,13 +56,13 @@ public class Notifications
 	
 	/**
 	 * Returns a list of classes that need to be checked.
-	 * @return list of beans of classes
+	 * @return A list of beans of classes
 	 */
 	public List<InsegnamentoBean> getInsegnamenti() { return insegnamenti; }
 	
 	/**
 	 * Set the list of classes.
-	 * @param list of beans of classes
+	 * @param insegnamenti A list of beans of classes
 	 */
 	public void setInsegnamenti(List<InsegnamentoBean> insegnamenti) {
 		this.insegnamenti = insegnamenti;
@@ -70,13 +70,13 @@ public class Notifications
 	
 	/**
 	 * Returns a list of thesis that need to be checked.
-	 * @return list of beans of thesis
+	 * @return A list of beans of thesis
 	 */
 	public List<ArgomentoTesiBean> getArgomentiTesi() { return argomentiTesi; }
 	
 	/**
 	 * Set the list of thesis.
-	 * @param list of beans of thesis
+	 * @param argomenti A list of beans of thesis
 	 */
 	public void setArgomentiTesi(List<ArgomentoTesiBean> argomenti) {
 		this.argomentiTesi = argomenti;

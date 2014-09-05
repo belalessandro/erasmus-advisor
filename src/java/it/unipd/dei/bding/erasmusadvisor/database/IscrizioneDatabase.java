@@ -22,7 +22,6 @@ public class IscrizioneDatabase {
 	 * 
 	 * @param con A connection to the database.
 	 * @param subscription A bean representing the instance of "Iscrizione".
-	 * @return True if all is ok, false if there is a subscription overlap.
 	 * @throws SQLException If an error occurs while generating a new "Iscrizione".
 	 */
 	public static void createIscrizione(Connection con, IscrizioneBean subscription) throws SQLException 

@@ -184,7 +184,7 @@ public class FlussoDatabase
  * (null = optional)
  * 
  * @param conn The connection to the database, it will *not* be closed
- * @param nomeUtenteStudente (required) the name of the student
+ * @param utente (required) the name of the student
  * @param stato (optional) The country toward which the flow.
  * @param citta  (optional) The city toward which the flow.
  * @param durata  (optional) The durations of the Flow.

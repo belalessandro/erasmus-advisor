@@ -82,15 +82,17 @@ public class InsegnamentoDatabase
 	 * Return a list of class (TeachingSearchRow), with the corresponding list
 	 * of professors, used in Search.
 	 * 
-	 * @param con A connection to the database.
+	 * @param conn A connection to the database.
 	 * @param area (optional = null) The area of the class to search.
-	 * @param nome (optional = null) The class' university name.
-	 * @param livello (optional = null) The level of the class for: "Graduate" or "Undergraduate".
+	 * @param nomeUni (optional = null) The class' university name.
+	 * @param anno (optional = null) The year of the degree course in which the class is taught.
+	 * @param periodo (optional = null) The period of the year in which the class is taught.
 	 * @param lingua (optional = null) The language of the class.
 	 * @return A list of class TeachingSearchRow.
 	 * @throws SQLException if an error occurs while searching class.
 	 */
-	public static List<TeachingSearchRow> searchInsegnamento(Connection conn, String area, String nomeUni, Integer anno, Integer periodo, String lingua) throws SQLException {
+	public static List<TeachingSearchRow> searchInsegnamento(Connection conn, String area, String nomeUni, 
+			Integer anno, Integer periodo, String lingua) throws SQLException {
 		/**
 		 * The SQL statements to be executed
 		 */

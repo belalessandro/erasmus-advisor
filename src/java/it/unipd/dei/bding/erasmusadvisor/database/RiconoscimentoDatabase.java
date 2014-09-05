@@ -75,7 +75,7 @@ public class RiconoscimentoDatabase
 	 * @param conn A connection to the database.
 	 * @param flowId Flow's id.
 	 * @param classId Class' id.
-	 * @returns The number of rows affected.
+	 * @return The number of rows affected.
 	 * @throws SQLException If an error occurs.
 	 */
 	

@@ -148,7 +148,7 @@ public class PartecipazioneDatabase
 	/**
 	 * Returns if a student have participated to a flow.
 	 * @param conn A connection to the database.
-	 * @param flow The flow id.
+	 * @param id The flow id.
 	 * @param user The student user name.
 	 * @return {@code true} if the student has participated to the flow, {@code false} otherwise.
 	 * @throws SQLException If an error occurs running the SQL query.

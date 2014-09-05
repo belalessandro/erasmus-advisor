@@ -130,7 +130,7 @@ public class UserBean implements Serializable {
 
 	/**
 	 * Checks if the password is correct
-	 * @param password
+	 * @param pass The password
 	 * @return true if the password is correct
 	 * @throws IllegalStateException if there is a problem with the encoding
 	 */

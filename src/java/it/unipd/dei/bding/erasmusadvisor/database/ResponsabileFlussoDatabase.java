@@ -56,7 +56,7 @@ public class ResponsabileFlussoDatabase
 	 * Return the flow manager with the user name given.
 	 * 
 	 * @param con A connection to the database.
-	 * @param username Flow manager username.
+	 * @param user Flow manager username.
 	 * @return A flow manager.
 	 * @throws SQLException If an error occurs in SQL query.
 	 */
