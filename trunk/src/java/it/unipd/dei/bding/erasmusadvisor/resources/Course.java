@@ -19,7 +19,7 @@ public class Course {
 	/**
 	 * Initializes the course.
 	 * @param corso The degree course.
-	 * @param aree The course's areas.
+	 * @param listaAree The course's areas.
 	 */
 	public Course(CorsoDiLaureaBean corso,
 			List<AreaBean> listaAree) {

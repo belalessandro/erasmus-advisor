@@ -32,9 +32,9 @@ public class Message {
 	/**
 	 * Creates an error message.
 	 * 
-	 * @param code The code of the error.
+	 * @param errorCode The code of the error.
 	 * @param message The error message.
-	 * @param details Additional details about the error.
+	 * @param errorDetails Additional details about the error.
 	 */
 	public Message(final String message, final String errorCode, final String errorDetails) {
 		this.message = message;

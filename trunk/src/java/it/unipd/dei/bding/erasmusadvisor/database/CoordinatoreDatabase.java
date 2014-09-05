@@ -149,10 +149,10 @@ public class CoordinatoreDatabase
 	}
 
 	/**
-	 * Method for udpating a Responsabile di Flusso with the user name given.
+	 * Method for udpating an Erasmus Coordinator with the user name given.
 	 * 
 	 * @param con database connection
-	 * @param manager ResponsabileFlussoBean object 
+	 * @param coordinator CoordinatoreBean object 
 	 * @return the number of instances updated [1]
 	 * @throws SQLException
 	 */
@@ -172,11 +172,11 @@ public class CoordinatoreDatabase
 
 	
 	/**
-	 * Method for udpating a Responsabile di Flusso with the user name given
+	 * Method for updating an Erasmus Coordinator with the user name given
 	 * without setting the password.
 	 * 
 	 * @param con database connection
-	 * @param manager ResponsabileFlussoBean object 
+	 * @param coordinator CoordinatoreBean object 
 	 * @return the number of instances updated [1]
 	 * @throws SQLException
 	 */

@@ -52,7 +52,7 @@ public class EstensioneDatabase {
 	 * without closing the connection.
 	 * 
 	 * @param con The connection to the database.
-	 * @param uni The "Estensione" to be updated.
+	 * @param est The "Estensione" to be updated.
 	 * 
 	 * @return The number of rows affected.	
 	 * 

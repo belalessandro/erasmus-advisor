@@ -74,7 +74,7 @@ public class ArgomentoTesiDatabase {
 	 * without closing the connection.
 	 * 
 	 * @param con The connection to the database.
-	 * @param uni The Thesis to be updated.
+	 * @param arg The Thesis to be updated.
 	 * 
 	 * @return The number of rows affected.	
 	 * 
@@ -120,7 +120,7 @@ public class ArgomentoTesiDatabase {
 	 * 
 	 * @param con A connection to the database.
 	 * @param area (null = optional) The area of the thesis.
-	 * @param nome (null = optional) The name of the university in which you search for the thesis.
+	 * @param nomeUni (null = optional) The name of the university in which you search for the thesis.
 	 * @param livello (null = optional) The level of the thesis to search.
 	 * @param lingua (null = optional) The language in which you search the thesis.
 	 * @return listThesis A list of thesis with the features you are looking for.

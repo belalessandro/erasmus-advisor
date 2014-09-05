@@ -90,7 +90,7 @@ public class UniversitaDatabase {
 	 * Delete a "Universita" (University) from the database.
 	 * 
 	 * @param conn A connection to the database.
-	 * @param id The id of the university to delete.
+	 * @param name The name of the university to delete.
 	 * @return The number of rows affected: zero means an id that do not correspond to any university.
 	 * @throws SQLException If an error occurs in SQL query execution.
 	 */

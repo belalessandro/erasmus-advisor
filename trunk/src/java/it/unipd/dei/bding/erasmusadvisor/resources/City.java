@@ -47,7 +47,7 @@ public class City {
 	/**
 	 * Sets the city
 	 *
-	 * @param ity The city
+	 * @param city The city
 	 */
 	public void setCity(CittaBean city) 
 	{
