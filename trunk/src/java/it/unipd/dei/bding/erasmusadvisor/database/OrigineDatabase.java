@@ -10,7 +10,7 @@ import java.util.List;
 import org.apache.commons.dbutils.DbUtils;
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.ResultSetHandler;
-import org.apache.commons.dbutils.handlers.BeanHandler;
+import org.apache.commons.dbutils.handlers.BeanListHandler;
 
 /**
  * Database operations about "Origine".
@@ -74,7 +74,7 @@ public class OrigineDatabase {
 		final String sql = "SELECT * FROM Origine WHERE idFlusso = ?;";
 		QueryRunner run = new QueryRunner();
 		
-		ResultSetHandler<List<OrigineBean>> rsh = new BeanHandler(OrigineBean.class);
+		ResultSetHandler<List<OrigineBean>> rsh = new BeanListHandler<OrigineBean>(OrigineBean.class);
 		
 		return run.query(conn, sql, rsh,id);
 	}

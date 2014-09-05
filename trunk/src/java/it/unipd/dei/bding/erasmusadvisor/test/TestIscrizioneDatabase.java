@@ -1,8 +1,6 @@
 package it.unipd.dei.bding.erasmusadvisor.test;
 
-import it.unipd.dei.bding.erasmusadvisor.beans.InsegnamentoBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.IscrizioneBean;
-import it.unipd.dei.bding.erasmusadvisor.database.InsegnamentoDatabase;
 import it.unipd.dei.bding.erasmusadvisor.database.IscrizioneDatabase;
 
 import java.sql.Connection;
