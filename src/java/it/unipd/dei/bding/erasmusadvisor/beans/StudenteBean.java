@@ -157,37 +157,6 @@ public class StudenteBean implements Serializable {
 	public void setAttivo(boolean attivo) {
 		this.attivo = attivo;
 	}
-    
-    /**
-     * TODO VALIDAZIONE BEAN
-     */
-	/* 
-	public boolean isValid() {
-		return isBirthDateValid() && isEmailAddrValid() && isFoodValid()
-				&& isLuckyNumberValid() && isGenderValid() && isUserNameValid();
-	}
-
-	public boolean isPastaSelected() {
-		return isFoodTypeSelected("p");
-	}
-
-	public boolean isChineseSelected() {
-		return isFoodTypeSelected("c");
-	}
-
-	private boolean isFoodTypeSelected(String foodType) {
-		if (food == null) {
-			return false;
-		}
-		boolean selected = false;
-		for (int i = 0; i < food.length; i++) {
-			if (food[i].equals(foodType)) {
-				selected = true;
-				break;
-			}
-		}
-		return selected;
-	}*/
 
 	/**
 	 * Check for the field email
@@ -204,20 +173,4 @@ public class StudenteBean implements Serializable {
 		return matcher.matches();
 	}
     
-    /** TODO TESTING BEAN
-     * main di collaudo (TODO spostare in test)
-     * @param args
-     */
-    //public class TestStudenteBean {
-        public static void main(String[] args) {
-     
-            StudenteBean stud = new StudenteBean();
-            stud.setNomeUtente("Prova Nome");
-            stud.setEmail("prova@prova.it");
-            stud.setPassword("afjso");
-            stud.setSalt("fdasdfs");
-            stud.setAttivo(true);
-     
-        }
-    //}
 }

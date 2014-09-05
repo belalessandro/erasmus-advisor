@@ -61,15 +61,6 @@ public class NotificationsServlet extends AbstractDatabaseServlet {
 		HttpSession session = req.getSession();
 		LoggedUser lu = (LoggedUser) session.getAttribute("loggedUser");
 		
-//		PrintWriter w = resp.getWriter();
-//		w.println("<html>");
-//		w.println("<body>");
-//		w.println("<p>" + lu.getUser()+ "</p>");
-//		w.println("<p>" + lu.isFlowResp()+ "</p>");
-//		w.println("</body>");
-//		w.println("<html>");
-//		w.flush();
-//		w.close();
 		/**
 		 * Authorization check. Permissions required: FlowManager, Coordinator
 		 */
@@ -84,8 +75,6 @@ public class NotificationsServlet extends AbstractDatabaseServlet {
 		Notifications notifications = null;
 		Connection con = null;
 		Message m = null;
-		
-		// TODO: suddividere funzioni responsabile flusso con coordinatore
 		
 		if(lu.isCoord())
 		{
@@ -160,10 +149,13 @@ public class NotificationsServlet extends AbstractDatabaseServlet {
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
+	{
 		
-//		LoggedUser lu = new LoggedUser(UserType.RESPONSABILE, "erick.burn");
-		LoggedUser lu = new LoggedUser(UserType.COORDINATORE, "ErasmusCoordinator");
+		// Gets user from session
+		HttpSession session = request.getSession();
+		LoggedUser lu = (LoggedUser) session.getAttribute("loggedUser");
+		
 		String operation = null;
 		
 		if(request.getHeader("X-Requested-With") != null && request.getHeader("X-Requested-With").equals("XMLHttpRequest"))

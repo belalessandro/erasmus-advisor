@@ -39,7 +39,6 @@ public class AcknowledgementServlet  extends AbstractDatabaseServlet
 
 	private static final long serialVersionUID = 6205996354245462055L;
 
-	// TODO : il controllo errori di questa classe è inesistente
 	/**
 	 * Handles an operation FORM
 	 * 
@@ -151,12 +150,8 @@ public class AcknowledgementServlet  extends AbstractDatabaseServlet
 	 *  			if any error occurs in the client/server communication.
 	 */
     private void errorForward(HttpServletRequest request, HttpServletResponse response) 
-    		throws ServletException, IOException  {
-    	// Error management
-        	
-    	//Message m = new Message("Error while updating the city.","XXX", "");
-    	//request.setAttribute("message", m);
-    		
+    		throws ServletException, IOException 
+    {
     	getServletContext().getRequestDispatcher("/jsp/error.jsp")
     		.forward(request, response); // ERROR PAGE
     }
