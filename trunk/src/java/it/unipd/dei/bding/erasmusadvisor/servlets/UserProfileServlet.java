@@ -490,9 +490,6 @@ public class UserProfileServlet extends AbstractDatabaseServlet
 					
 					DbUtils.close(con);
 				} catch (SQLException e) {
-					
-					// TODO: manage the case ERROR CODE = EA003
-					
 					// Error
 					m = new Message("Error while editing user profile.", String.valueOf(e.getErrorCode()) + " " +  e.getSQLState() , e.getMessage());
 					request.setAttribute("message", m);

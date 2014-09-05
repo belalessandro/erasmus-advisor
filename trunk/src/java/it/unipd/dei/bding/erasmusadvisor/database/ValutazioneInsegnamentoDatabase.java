@@ -58,13 +58,27 @@ public class ValutazioneInsegnamentoDatabase
          */
         public static List<ValutazioneInsegnamentoBean> getEvalByUser(Connection conn, String user) throws SQLException
         {
-                final String statement = "SELECT * FROM ValutazioneInsegnamento WHERE nomeutentestudente = ?";
+//                final String statement = "SELECT * FROM ValutazioneInsegnamento WHERE nomeutentestudente = ?";
+        	
+        		StringBuilder statement = new StringBuilder()
+        			.append("SELECT NomeUtenteStudente, IdInsegnamento, QtaInsegnamanto, Interesse, Difficolta, RispettoDelleOre, DataInserimento, Commento, Nome AS nomeInsegnamento ")
+        			.append("FROM ValutazioneInsegnamento JOIN Insegnamento ON IdInsegnamento = Id ")
+        			.append("WHERE NomeUtenteStudente = ?");
                 
                 QueryRunner run = new QueryRunner();
                 ResultSetHandler<List<ValutazioneInsegnamentoBean>> h = new BeanListHandler<ValutazioneInsegnamentoBean>(ValutazioneInsegnamentoBean.class);
                 
-                return run.query(conn, statement, h, user);
+                return run.query(conn, statement.toString(), h, user);
         }
+//        public static List<ValutazioneInsegnamentoBean> getEvalByUser(Connection conn, String user) throws SQLException
+//        {
+//                final String statement = "SELECT * FROM ValutazioneInsegnamento WHERE nomeutentestudente = ?";
+//                
+//                QueryRunner run = new QueryRunner();
+//                ResultSetHandler<List<ValutazioneInsegnamentoBean>> h = new BeanListHandler<ValutazioneInsegnamentoBean>(ValutazioneInsegnamentoBean.class);
+//                
+//                return run.query(conn, statement, h, user);
+//        }
         
         /**
          * Delete an evaluation.

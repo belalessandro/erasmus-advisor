@@ -230,16 +230,16 @@
 						<c:if test="${sessionScope.loggedUser.student}">
 							<c:if test="${!empty evalEnabled && evalEnabled == 'enabled'}">
 								<li class="active"><span data-toggle="modal" data-target="#evaluateForm">Evaluate</span></li>
-							</c:if>
-							<c:if test="${fn:length(flows) > 0}">
-								<li class="active" id="ack-button"><span data-toggle="modal" data-target="#acknowledgeForm">Acknowledge</span></li>
-							</c:if>							
+							</c:if>				
 							<c:if test="${!empty classBean.stato && classBean.stato == 'NOT VERIFIED'}">
 								<li class="active" id="report-button"><span data-toggle="modal" data-target="#reportConfirmDialog">Report</span></li>
 							</c:if>
 						</c:if>
 						<c:if test="${!sessionScope.loggedUser.student}">	
 							<li class="active"><span data-toggle="modal" data-target="#editForm">Edit</span></li>
+							<c:if test="${fn:length(flows) > 0}">
+								<li class="active" id="ack-button"><span data-toggle="modal" data-target="#acknowledgeForm">Acknowledge</span></li>
+							</c:if>	
 							<li class="active">
 								<form method="post" action="<c:url value="/class"/>">
 	                                <input type="hidden" name="operation" value="delete"/>

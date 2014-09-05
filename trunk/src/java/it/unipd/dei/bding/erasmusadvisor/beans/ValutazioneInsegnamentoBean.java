@@ -25,6 +25,11 @@ public class ValutazioneInsegnamentoBean implements Serializable {
 	private int rispettoDelleOre;
 	private Date dataInserimento;
 	private String commento;
+	
+	/**
+	 * Optional
+	 */
+	private String nomeInsegnamento;
 
 	/**
 	 * Empty constructor
@@ -174,5 +179,25 @@ public class ValutazioneInsegnamentoBean implements Serializable {
 	public void setCommento(String commento) {
 		this.commento = commento;
 	}
+	
+	/**
+	 * Returns the field nomeInsegnamento
+	 *
+	 * @return the value of nomeInsegnamento
+	 */
+	public String getNomeInsegnamento() {
+		return nomeInsegnamento;
+	}
+	
+	/**
+	 * Sets the field nomeInsegnamento
+	 *
+	 * @param nomeInsegnamento The value to set
+	 */
+	public void setNomeInsegnamento(String nomeInsegnamento) {
+		this.nomeInsegnamento = nomeInsegnamento;
+	}
+	
+	
 }
 

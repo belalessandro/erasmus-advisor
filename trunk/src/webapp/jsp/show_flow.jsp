@@ -33,6 +33,12 @@
 	<link href="<c:url value="/css"/>/tablesorter/style.css" rel="stylesheet"> 
 	
 	<script src="<c:url value="/js"/>/ea-form-validation.js"></script>
+	
+	<style type="text/css">
+		.datepicker {
+			z-index:1000000 !important;
+		}
+	</style>
 		
 	<script>
         $(document).ready(function() { 

@@ -30,7 +30,7 @@ public class ValutazioneTesiDatabase
 	public static void createValutazioneTesi(Connection con, ValutazioneTesiBean val) throws SQLException 
 	{
 		final StringBuilder sql = new StringBuilder()
-		.append("INSERT INTO ValutazioneTesi (NomeUtenteStudente, idargomentotesi, impegnonecessario, interesseargomento, diponibilitarelatore, soddisfazione, Commento) ")
+		.append("INSERT INTO ValutazioneTesi (NomeUtenteStudente, idargomentotesi, impegnonecessario, interesseargomento, disponibilitarelatore, soddisfazione, Commento) ")
 		.append("VALUES (?, ?, ?, ?, ?, ?, ?);");
 		
 		QueryRunner run = new QueryRunner();
