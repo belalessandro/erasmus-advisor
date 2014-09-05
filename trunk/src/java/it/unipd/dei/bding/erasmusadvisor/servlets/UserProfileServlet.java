@@ -94,11 +94,6 @@ public class UserProfileServlet extends AbstractDatabaseServlet
 		
 		HttpSession session = req.getSession();
 		LoggedUser lu = (LoggedUser) session.getAttribute("loggedUser");
-		
-		if(lu == null)
-		{	// TODO cancellare appena possibile
-			lu = new LoggedUser(UserType.COORDINATORE, "ErasmusCoordinator");
-		}
 
 		try {
 			con = DS.getConnection();
@@ -160,11 +155,6 @@ public class UserProfileServlet extends AbstractDatabaseServlet
 	{
 		HttpSession session = req.getSession();
 		LoggedUser lu = (LoggedUser) session.getAttribute("loggedUser");
-		
-		if(lu == null)
-		{	// TODO cancellare appena possibile
-			lu = new LoggedUser(UserType.COORDINATORE, "ErasmusCoordinator");
-		}
 		
 		// Required  fields
 		Message m = null;

@@ -135,6 +135,23 @@ public class ResponsabileFlussoDatabase
 		
 	}
 
+	/**
+	 * Method used for updating user access' date.
+	 * 
+	 * @param con  database connection
+	 * @param nomeUtente user name
+	 * @throws SQLException
+	 */
+	public static void updateLastLogin(Connection con, String nomeUtente) throws SQLException 
+	{
+		final String sql = "UPDATE ResponsabileFlusso SET UltimoAccesso = CURRENT_DATE WHERE NomeUtente = ?;";
+		
+		QueryRunner run = new QueryRunner();
+		
+		run.update(con, sql, nomeUtente);
+	}
+
+
 	
 	
 
