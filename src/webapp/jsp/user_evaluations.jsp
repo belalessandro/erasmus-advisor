@@ -418,7 +418,7 @@
 				<section class="entity_box">
 					<div class="row user_evals_eval_title">
 						<span class="user_evals_eval_id">
-							<a href="<c:url value="/class"/>?id=${eval.idInsegnamento}" target ="_blank"><b><c:out value="${eval.idInsegnamento}"></c:out></b></a>, inserted on <c:out value="${eval.dataInserimento}"></c:out>.
+							<a href="<c:url value="/class"/>?id=${eval.idInsegnamento}" target ="_blank"><b><c:out value="${eval.nomeInsegnamento}"></c:out></b></a>, inserted on <c:out value="${eval.dataInserimento}"></c:out>.
 						</span>
 						<form method="post" action="<c:url value="/class/evaluations"/>" class="user_evals_delete_form">
 	                              <input type="hidden" name="operation" value="delete"/>
