@@ -48,7 +48,6 @@ $(function() {
 
 		$( "#datepicker" ).click(function() {
 			var str = $( "#datepicker" ).datepicker( "option", "dateFormat" );
-			console.log(str);
 			
 		});
 		
