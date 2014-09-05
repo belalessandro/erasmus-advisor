@@ -25,6 +25,11 @@ public class ValutazioneTesiBean implements Serializable {
 	private int soddisfazione;
 	private Date dataInserimento;
 	private String commento;
+	
+	/**
+	 * Optional
+	 */
+	private String nomeTesi;
 
 	/**
 	 * Empty constructor
@@ -173,6 +178,24 @@ public class ValutazioneTesiBean implements Serializable {
 	 */
 	public void setCommento(String commento) {
 		this.commento = commento;
+	}
+	
+	/**
+	 * Returns the field NomeTesi.
+	 *
+	 * @return the value of NomeTesi
+	 */
+	public String getNomeTesi() {
+		return nomeTesi;
+	}
+
+	/**
+	 * Sets the field NomeTesi
+	 *
+	 * @param NomeTesi The value to set
+	 */
+	public void setNomeTesi(String nomeTesi) {
+		this.nomeTesi = nomeTesi;
 	}
 }
 

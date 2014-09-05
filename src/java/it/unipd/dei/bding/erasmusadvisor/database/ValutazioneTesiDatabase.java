@@ -55,13 +55,25 @@ public class ValutazioneTesiDatabase
 	 */
 	public static List<ValutazioneTesiBean> getEvalByUser(Connection conn, String user) throws SQLException
 	{
-		final String statement = "SELECT * FROM ValutazioneTesi WHERE nomeutentestudente = ?";
+		StringBuilder statement = new StringBuilder()
+			.append("SELECT NomeUtentestudente, IdArgomentoTesi, ImpegnoNecessario, InteresseArgomento, DisponibilitaRelatore, Soddisfazione, DataInserimento, Commento, Nome As nomeTesi ")
+			.append("FROM ValutazioneTesi JOIN ArgomentoTesi ON idArgomentoTesi = id ")
+			.append("WHERE NomeUtenteStudente = ?");
 		
 		QueryRunner run = new QueryRunner();
 		ResultSetHandler<List<ValutazioneTesiBean>> h = new BeanListHandler<ValutazioneTesiBean>(ValutazioneTesiBean.class);
 		
-		return run.query(conn, statement, h, user);
+		return run.query(conn, statement.toString(), h, user);
 	}
+//	public static List<ValutazioneTesiBean> getEvalByUser(Connection conn, String user) throws SQLException
+//	{
+//		final String statement = "SELECT * FROM ValutazioneTesi WHERE nomeutentestudente = ?";
+//		
+//		QueryRunner run = new QueryRunner();
+//		ResultSetHandler<List<ValutazioneTesiBean>> h = new BeanListHandler<ValutazioneTesiBean>(ValutazioneTesiBean.class);
+//		
+//		return run.query(conn, statement, h, user);
+//	}
 	
 	/**
 	 * Delete an evaluation.

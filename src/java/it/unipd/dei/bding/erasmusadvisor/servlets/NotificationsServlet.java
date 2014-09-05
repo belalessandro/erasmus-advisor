@@ -121,6 +121,7 @@ public class NotificationsServlet extends AbstractDatabaseServlet {
 				m = new Message("Error while getting notifications.", "XXX", e.getMessage());
 				req.setAttribute("message", m);
 				errorForward(req, resp);
+				return;
 			} finally {
 				DbUtils.closeQuietly(con);
 			}
