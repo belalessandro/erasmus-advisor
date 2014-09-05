@@ -86,7 +86,6 @@
 									
 									if(data["error"] == "university")
 									{
-										console.log("university is null");
 										$("#universityNames").css("border","1px solid red");
 										$("#alert-university").show();
 									}

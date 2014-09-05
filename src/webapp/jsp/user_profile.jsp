@@ -85,7 +85,6 @@
 									
 									if(data["error"] == "university")
 									{
-										console.log("university is null");
 										$("#universityNames").css("border","1px solid red");
 										$("#alert-university").show();
 									}
@@ -99,7 +98,7 @@
 					}
 				}); // end autocomplete function
 		
-		// mauro: necessario per visualizzare nel format-date giusto
+		// necessario per visualizzare nel format-date giusto
 		var inizio = "<c:out value="${subscription.annoInizio}"/>";
 		var fine = "<c:out value="${subscription.annoFine}"/>";
 		$( "#datepicker" ).datepicker( "setDate", inizio);
@@ -179,7 +178,6 @@
 						</div>
 
 						<!--Edit form-->
-						<!-- notare che ogni input deve avere il campo value settato a quanto è presente nel DB -->
 						<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false">
 							<div class="modal-dialog">
 								<div class="modal-content">
@@ -188,8 +186,6 @@
 										<h3 class="modal-title" id="myModalLabel">Edit your profile information</h3>
 									</div>
 									<div class="modal-body">
-										<!-- action deve puntare alla servlet che gestisce il cambio delle informazioni -->
-										<!-- notare che ogni input deve avere il campo value settato a quanto è presente nel DB -->
 										<form name='registration' onSubmit="return userProfileFormValidation();" method="post" action="<c:url value="/user/profile"/>">
 											<!-- student's input -->
 											<c:if test="${student != null}">
@@ -320,7 +316,6 @@
 				</div>  			
     	
 				<!-- Information Table -->
-				<!-- Generated when student is logged -->
 				<c:if test='${student != null}'>
 					<table class="table">
 						<thead>
