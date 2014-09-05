@@ -107,11 +107,17 @@
 	
 	
 	</script>
-	<!-- Questo è per evitare che i datepicker non vadano sotto il modal -->
+	
 	<style>
+	<!-- Adattamenti necessari per la convivenza tra datepicker, autocomplete e modal -->
 	.datepicker {
 			z-index:1000000 !important;
 		}
+	.ui-autocomplete { 
+		position: absolute; 
+		cursor: default;
+		z-index:1000000 !important;
+	} 
 	</style>
 </head>
 
