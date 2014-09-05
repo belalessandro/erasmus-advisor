@@ -22,7 +22,9 @@ public class ArgomentoTesiBean implements Serializable {
 	private boolean triennale;
 	private boolean magistrale;
 	private String stato;
+	
 
+	
 	/**
 	 * Empty constructor
 	 */

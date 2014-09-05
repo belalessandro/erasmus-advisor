@@ -236,7 +236,7 @@
 			</table>
 			<br><br>
 			
-			<h3>Reported theses</h3>
+			<h3 align="center">Reported theses</h3>
 			<br>
 			<c:if test="${!empty theses}">
 				<div class="alert alert-danger alert-dismissable">

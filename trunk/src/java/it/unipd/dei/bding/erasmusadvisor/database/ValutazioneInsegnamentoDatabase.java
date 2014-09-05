@@ -57,9 +57,7 @@ public class ValutazioneInsegnamentoDatabase
          * @throws SQLException If something goes wrong.
          */
         public static List<ValutazioneInsegnamentoBean> getEvalByUser(Connection conn, String user) throws SQLException
-        {
-//                final String statement = "SELECT * FROM ValutazioneInsegnamento WHERE nomeutentestudente = ?";
-        	
+        {	
         		StringBuilder statement = new StringBuilder()
         			.append("SELECT NomeUtenteStudente, IdInsegnamento, QtaInsegnamanto, Interesse, Difficolta, RispettoDelleOre, DataInserimento, Commento, Nome AS nomeInsegnamento ")
         			.append("FROM ValutazioneInsegnamento JOIN Insegnamento ON IdInsegnamento = Id ")

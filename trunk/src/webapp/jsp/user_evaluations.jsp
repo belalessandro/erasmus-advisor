@@ -537,7 +537,7 @@
 				<section class="entity_box">
 					<div class="row user_evals_eval_title">
 						<span class="user_evals_eval_id">
-							<a href="<c:url value="/thesis"/>?id=${eval.idArgomentoTesi}" target ="_blank"><b><c:out value="${eval.idArgomentoTesi}"></c:out></b></a>, 
+							<a href="<c:url value="/thesis"/>?id=${eval.idArgomentoTesi}" target ="_blank"><b><c:out value="${eval.nomeTesi}"></c:out></b></a>, 
 							inserted on <c:out value="${eval.dataInserimento}"></c:out>.
 						</span>
 						<form method="post" action="<c:url value="/thesis/evaluations"/>" class="user_evals_delete_form">
