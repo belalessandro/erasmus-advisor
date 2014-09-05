@@ -108,7 +108,7 @@
 							$('#report-success').show();
 						}
 					},
-					error: function(data) {console.log("EA ERROR: failed to report the entity."); }
+					error: function(data) { }
 			    }); // end ajax
 			}); // end click function report-yes
 			

@@ -61,7 +61,7 @@
 	*/
 	function acceptDiscardButtonClick(primarykey, type, execute, event)
 	{
-		console.log("primarykey: " + primarykey + " type: " + type + " execute: " + execute);
+		
 // 		$(event.target).parent().hide();
 		// data to send
 		var jsonData = new Object();
@@ -83,8 +83,6 @@
 			url : "<c:url value="/notifications"/>",
 			success: function(data) { 
 				
-				console.log("success : " + data);
-				
 				if(data[type] == "enabled")
 				{
 					// parent node of accept/discard buttons (hiding the content)
@@ -101,8 +99,6 @@
 			 			if($(this).hasClass("status"))
 			 				$(this).html("Approved");
 			 		});
-					
-					console.log(type + " accepted");
 				}
 				if(data[type] == "disabled")
 				{
@@ -121,11 +117,9 @@
 			 				$(this).html("Removed");
 			 		});
 					
-			 		console.log(type + " discarded");
 				}
 			},
-			error: function(data) {console.log("EA ERROR: failed to report the entity.");
-			console.log(data);}
+			error: function(data) { }
 	    }); // end ajax	
 	} // end function acceptDiscard
 	
