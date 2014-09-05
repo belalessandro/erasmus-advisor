@@ -546,11 +546,9 @@ public class UserProfileServlet extends AbstractDatabaseServlet
 				byte[] hash = digest.digest(salted.getBytes("UTF-8"));
 				return new String(hash, "UTF-8");
 			} catch (UnsupportedEncodingException e) {
-				//e.printStackTrace();
 				throw new IllegalStateException();
 			}
 		} catch (NoSuchAlgorithmException e) {
-			//e.printStackTrace();
 			throw new IllegalStateException();
 		}
 	}

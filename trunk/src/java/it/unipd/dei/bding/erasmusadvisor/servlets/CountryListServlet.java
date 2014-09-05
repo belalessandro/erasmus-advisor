@@ -69,8 +69,7 @@ public class CountryListServlet extends AbstractDatabaseServlet {
 					nameList = GetStatoValues.getDomainStartingWith(conn, startingWith);
 				
 			} catch (SQLException e) {
-				// Do nothing..
-				e.printStackTrace();
+				// Do nothing...
 			} 
 			finally {
 				DbUtils.closeQuietly(conn);

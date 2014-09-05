@@ -13,117 +13,122 @@ import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.ResultSetHandler;
 import org.apache.commons.dbutils.handlers.BeanHandler;
 
-
 /**
  * Database operations about "Studente".
- * @author Luca
- *
+ * 
+ * @author Mauro
+ * 
  */
 
-public class StudenteDatabase 
-{
+public class StudenteDatabase {
 
 	/**
 	 * Gets Studente by the database, given student's username.
 	 * 
-	 * @param conn A connection to the database.
-	 * @param username Student's username.
+	 * @param conn
+	 *            A connection to the database.
+	 * @param username
+	 *            Student's username.
 	 * @return A Studente.
-	 * @throws SQLException If an error occurs.
+	 * @throws SQLException
+	 *             If an error occurs.
 	 */
-	public static Student getStudent(Connection conn, String username) throws SQLException
-	{
+	public static Student getStudent(Connection conn, String username)
+			throws SQLException {
 		final String statement1 = "SELECT * FROM Studente WHERE nomeutente = ?";
 		final String statement2 = "SELECT * FROM Iscrizione WHERE nomeutentestudente = ?";
 		final String statement3 = "SELECT * FROM CorsoDiLaurea WHERE id = ?";
-		
+
 		StudenteBean studente = new StudenteBean();
 		IscrizioneBean iscrizione = new IscrizioneBean();
 		CorsoDiLaureaBean corso = new CorsoDiLaureaBean();
 
 		QueryRunner run = new QueryRunner();
-		
-		ResultSetHandler<StudenteBean> h1 = new BeanHandler<StudenteBean>(StudenteBean.class);
+
+		ResultSetHandler<StudenteBean> h1 = new BeanHandler<StudenteBean>(
+				StudenteBean.class);
 		studente = run.query(conn, statement1, h1, username);
-		
-		ResultSetHandler<IscrizioneBean> h2 = new BeanHandler<IscrizioneBean>(IscrizioneBean.class);
+
+		ResultSetHandler<IscrizioneBean> h2 = new BeanHandler<IscrizioneBean>(
+				IscrizioneBean.class);
 		iscrizione = run.query(conn, statement2, h2, username);
-		
-		ResultSetHandler<CorsoDiLaureaBean> h3 = new BeanHandler<CorsoDiLaureaBean>(CorsoDiLaureaBean.class);
+
+		ResultSetHandler<CorsoDiLaureaBean> h3 = new BeanHandler<CorsoDiLaureaBean>(
+				CorsoDiLaureaBean.class);
 		corso = run.query(conn, statement3, h3, iscrizione.getIdCorso());
-		
+
 		return new Student(studente, iscrizione, corso);
 	}
 
 	/**
 	 * Update a student's instance with the username given.
 	 * 
-	 * @param con A connection to the database.
-	 * @param stud Model of a student ("Studente").
-	 * @throws SQLException If an error occurs.
+	 * @param con
+	 *            A connection to the database.
+	 * @param stud
+	 *            Model of a student ("Studente").
+	 * @throws SQLException
+	 *             If an error occurs.
 	 */
-	public static void updateStudent(Connection con, Student stud) throws SQLException 
-	{
+	public static void updateStudent(Connection con, Student stud)
+			throws SQLException {
 		StudenteBean studente = stud.getStudente();
 		IscrizioneBean iscrizione = stud.getIscrizione();
-		
+
 		StringBuilder stmt1 = new StringBuilder()
-			.append("UPDATE Studente SET email = ?, dataregistrazione = ?, password = ?, attivo = 't' ")
-			.append("WHERE nomeutente = ?;");
-		
+				.append("UPDATE Studente SET email = ?, dataregistrazione = ?, password = ?, attivo = 't' ")
+				.append("WHERE nomeutente = ?;");
+
 		StringBuilder stmt2 = new StringBuilder()
-			.append("INSERT INTO Iscrizione (idcorso, nomeutentestudente, annoinizio, annofine ) ")
-			.append("VALUES (?, ?, ?, ?);");
-		
+				.append("INSERT INTO Iscrizione (idcorso, nomeutentestudente, annoinizio, annofine ) ")
+				.append("VALUES (?, ?, ?, ?);");
+
 		PreparedStatement pstmt1 = null;
 		PreparedStatement pstmt2 = null;
 		PreparedStatement pstmt3 = null;
-		
+
 		// start the transaction
 		try {
-			
-			
+
 			con.setAutoCommit(false);
-			
+
 			pstmt1 = con.prepareStatement(stmt1.toString());
 			pstmt1.setString(1, studente.getEmail());
 			pstmt1.setDate(2, studente.getDataRegistrazione());
 			pstmt1.setString(3, studente.getPassword());
 			pstmt1.setString(4, studente.getNomeUtente());
-			
-			
+
 			pstmt3 = con.prepareStatement(stmt2.toString());
 			pstmt3.setInt(1, iscrizione.getIdCorso());
 			pstmt3.setString(2, iscrizione.getNomeUtenteStudente());
 			pstmt3.setDate(3, iscrizione.getAnnoInizio());
 			pstmt3.setDate(4, iscrizione.getAnnoFine());
-			
+
 			pstmt1.executeUpdate();
-			
+
 			con.commit();
-			
-		} catch(SQLException e)
-		{
+
+		} catch (SQLException e) {
 			if (con != null) {
-	            try {
-	                System.err.print("Transaction is being rolled back");
-	                con.rollback();
-	            } catch(SQLException excep) {
-	                e.printStackTrace();
-	            }
-	        }
+				try {
+					con.rollback();
+				} catch (SQLException excep) {
+					// TODO gestire meglio questa eccezione
+					e.printStackTrace();
+				}
+			}
 		} finally {
 			try {
-				if(pstmt1 != null)
+				if (pstmt1 != null)
 					pstmt1.close();
-				if(pstmt2 != null)
+				if (pstmt2 != null)
 					pstmt2.close();
-				if(pstmt3 != null)
+				if (pstmt3 != null)
 					pstmt3.close();
-				if(con != null)
+				if (con != null)
 					con.close();
-			} catch(SQLException ex) {
-				
+			} catch (SQLException ex) {
+
 			} finally {
 				con.setAutoCommit(true);
 				pstmt1 = null;
@@ -137,79 +142,90 @@ public class StudenteDatabase
 	/**
 	 * Update a student instance with the username given.
 	 * 
-	 * @param con A connection to the database.
-	 * @param studente A student bean model.
-	 * @throws SQLException if an error occurs.
+	 * @param con
+	 *            A connection to the database.
+	 * @param studente
+	 *            A student bean model.
+	 * @throws SQLException
+	 *             if an error occurs.
 	 */
-	public static void updateStudent(Connection con, StudenteBean studente) throws SQLException 
-	{
+	public static void updateStudent(Connection con, StudenteBean studente)
+			throws SQLException {
 		StringBuilder sql = new StringBuilder()
-		.append("UPDATE Studente SET email = ?, dataregistrazione = ?, password = ?, salt = ?, attivo = 't' ")
-		.append("WHERE nomeutente = ?;");
-		
+				.append("UPDATE Studente SET email = ?, dataregistrazione = ?, password = ?, salt = ?, attivo = 't' ")
+				.append("WHERE nomeutente = ?;");
+
 		QueryRunner run = new QueryRunner();
-		
-		run.update(con, sql.toString(), studente.getEmail(), studente.getDataRegistrazione(), 
-				studente.getPassword(), studente.getSalt(), studente.getNomeUtente());
+
+		run.update(con, sql.toString(), studente.getEmail(),
+				studente.getDataRegistrazione(), studente.getPassword(),
+				studente.getSalt(), studente.getNomeUtente());
 	}
-	
+
 	/**
 	 * Set the field "attivo" of a student to false.
 	 * 
-	 * @param con A connection to the database.
-	 * @param username Student username.
-	 * @throws SQLException If an error occurs in SQL query.
+	 * @param con
+	 *            A connection to the database.
+	 * @param username
+	 *            Student username.
+	 * @throws SQLException
+	 *             If an error occurs in SQL query.
 	 */
-	public static void disableStudente(Connection con, String username) throws SQLException 
-	{
+	public static void disableStudente(Connection con, String username)
+			throws SQLException {
 		final String sql = "UPDATE Studente SET attivo = 'f' WHERE NomeUtente = ?;";
-		
+
 		QueryRunner run = new QueryRunner();
-		
+
 		run.update(con, sql, username);
 	}
 
 	/**
-	 * Method used for creating a new Studente instance into 
-	 * the database.
+	 * Method used for creating a new Studente instance into the database.
 	 * 
-	 * @param con database connection
-	 * @param student StudenteBean object
+	 * @param con
+	 *            database connection
+	 * @param student
+	 *            StudenteBean object
 	 * @throws SQLException
 	 */
-	public static void createStudente(Connection con, StudenteBean student) throws SQLException {
+	public static void createStudente(Connection con, StudenteBean student)
+			throws SQLException {
 		final StringBuilder sql = new StringBuilder()
-			.append("INSERT INTO Studente (NomeUtente, Email, DataRegistrazione, Password, Salt, UltimoAccesso, Attivo) ")
-			.append("VALUES(?, ?, DEFAULT, ?, ?, CURRENT_DATE , TRUE);");
-		
+				.append("INSERT INTO Studente (NomeUtente, Email, DataRegistrazione, Password, Salt, UltimoAccesso, Attivo) ")
+				.append("VALUES(?, ?, DEFAULT, ?, ?, CURRENT_DATE , TRUE);");
+
 		QueryRunner run = new QueryRunner();
-		
-		ResultSetHandler<StudenteBean> rsh = new BeanHandler<StudenteBean>(StudenteBean.class);
-		
-		run.insert(con, sql.toString(), rsh, student.getNomeUtente(), student.getEmail(), student.getPassword(), student.getSalt());
-		
+
+		ResultSetHandler<StudenteBean> rsh = new BeanHandler<StudenteBean>(
+				StudenteBean.class);
+
+		run.insert(con, sql.toString(), rsh, student.getNomeUtente(),
+				student.getEmail(), student.getPassword(), student.getSalt());
+
 	}
 
-	
 	/**
-	 * Method used for creating a new Studente instance into 
-	 * the database and modify also the password.
+	 * Method used for creating a new Studente instance into the database and
+	 * modify also the password.
 	 * 
-	 * @param con database connection
-	 * @param student StudenteBean object
+	 * @param con
+	 *            database connection
+	 * @param student
+	 *            StudenteBean object
 	 * @throws SQLException
 	 */
-	public static void updateStudentWithoutPassword(Connection con, StudenteBean student) throws SQLException 
-	{
+	public static void updateStudentWithoutPassword(Connection con,
+			StudenteBean student) throws SQLException {
 		StringBuilder sql = new StringBuilder()
-		.append("UPDATE Studente SET email = ?, dataregistrazione = ?, attivo = 't' ")
-		.append("WHERE nomeutente = ?;");
-		
+				.append("UPDATE Studente SET email = ?, dataregistrazione = ?, attivo = 't' ")
+				.append("WHERE nomeutente = ?;");
+
 		QueryRunner run = new QueryRunner();
-		
-		run.update(con, sql.toString(), student.getEmail(), student.getDataRegistrazione(), student.getNomeUtente());
+
+		run.update(con, sql.toString(), student.getEmail(),
+				student.getDataRegistrazione(), student.getNomeUtente());
 	}
 
-	
-	
 }

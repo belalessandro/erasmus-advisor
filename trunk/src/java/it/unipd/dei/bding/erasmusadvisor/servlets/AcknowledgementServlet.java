@@ -86,7 +86,6 @@ public class AcknowledgementServlet  extends AbstractDatabaseServlet
 			} 
 			catch (SQLException ex) 
 			{
-				ex.printStackTrace();
 				m = new Message("Error while setting the acknoledgement.", "", ex.getMessage());
 			} 
 			finally {
@@ -116,7 +115,6 @@ public class AcknowledgementServlet  extends AbstractDatabaseServlet
 			} 
 			catch (SQLException ex) 
 			{
-				ex.printStackTrace();
 				m = new Message("Error while setting the acknoledgement.", "", ex.getMessage());
 			} 
 			finally {
