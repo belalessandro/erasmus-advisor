@@ -109,7 +109,7 @@ public class UserProfileServlet extends AbstractDatabaseServlet
 			DbUtils.close(con);
 		} 
 		catch (SQLException ex) {
-			m = new Message("Error while getting the user profile page.", "XXX", ex.getMessage());
+			m = new Message("Error while getting the user profile page.", "XXX", "Please, contact the admin.");
 		} 
 		finally {
 			DbUtils.closeQuietly(con); // always closes the connection 
@@ -347,7 +347,7 @@ public class UserProfileServlet extends AbstractDatabaseServlet
 			else
 			{
 				// Error
-				m = new Message("Error while editing user profile.", String.valueOf(e.getErrorCode()) + " " +  e.getSQLState() , e.getMessage());
+				m = new Message("Error while editing user profile.", String.valueOf(e.getErrorCode()) + " " +  e.getSQLState() , "Please, contact the admin.");
 				request.setAttribute("message", m);
 				
 				errorForward(request, response);
@@ -383,7 +383,7 @@ public class UserProfileServlet extends AbstractDatabaseServlet
 				DbUtils.close(con);
 			} catch (SQLException e) {
 				// Error
-				m = new Message("Error while editing user profile.", String.valueOf(e.getErrorCode()) + " " +  e.getSQLState() , e.getMessage());
+				m = new Message("Error while editing user profile.", String.valueOf(e.getErrorCode()) + " " +  e.getSQLState() , "Please, contact the admin.");
 				request.setAttribute("message", m);
 				
 				errorForward(request, response);
@@ -491,7 +491,7 @@ public class UserProfileServlet extends AbstractDatabaseServlet
 					DbUtils.close(con);
 				} catch (SQLException e) {
 					// Error
-					m = new Message("Error while editing user profile.", String.valueOf(e.getErrorCode()) + " " +  e.getSQLState() , e.getMessage());
+					m = new Message("Error while editing user profile.", String.valueOf(e.getErrorCode()) + " " +  e.getSQLState() , "Please, contact the admin.");
 					request.setAttribute("message", m);
 					errorForward(request, response);
 					return;

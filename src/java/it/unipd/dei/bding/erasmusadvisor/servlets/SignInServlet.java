@@ -234,16 +234,16 @@ public class SignInServlet extends AbstractDatabaseServlet {
 		} catch (NumberFormatException ex) {
 			m = new Message(
 					"Cannot create the user. Invalid input parameters.",
-					"E100", ex.getMessage());
+					"E100", "Please, contact the admin.");
 		} catch (SQLException ex) {
 			if (ex.getSQLState().equals("23505")) {
 				m = new Message("Cannot create the user account: name "
 						+ username + " or mail already exist.", "E300",
-						"Username or email already exist");
+						"Username or email already exist.");
 			} else {
 				m = new Message(
 						"Cannot create the user: unexpected error while accessing the database.",
-						"E200", ex.getMessage());
+						"E200", "Please, contact the admin.");
 			}
 		} catch (NullPointerException e) {
 			if (e.getMessage().equals("course"))
@@ -274,7 +274,7 @@ public class SignInServlet extends AbstractDatabaseServlet {
 			} catch (SQLException ex) {
 				m = new Message(
 						"Cannot close the connection",
-						"E200", ex.getMessage());
+						"E200", "Please, contact the admin.");
 			} finally {
 				DbUtils.closeQuietly(con);
 			}

@@ -86,7 +86,7 @@ public class AcknowledgementServlet  extends AbstractDatabaseServlet
 			} 
 			catch (SQLException ex) 
 			{
-				m = new Message("Error while setting the acknoledgement.", "", ex.getMessage());
+				m = new Message("Error while setting the acknoledgement.", "", "Please, contact the admin.");
 			} 
 			finally {
 				DbUtils.closeQuietly(conn); // always closes the connection 
@@ -115,7 +115,7 @@ public class AcknowledgementServlet  extends AbstractDatabaseServlet
 			} 
 			catch (SQLException ex) 
 			{
-				m = new Message("Error while setting the acknoledgement.", "", ex.getMessage());
+				m = new Message("Error while setting the acknoledgement.", "", "Please, contact the admin.");
 			} 
 			finally {
 				DbUtils.closeQuietly(conn); // always closes the connection 

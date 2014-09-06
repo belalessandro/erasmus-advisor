@@ -135,7 +135,7 @@ public class FlowListServlet extends AbstractDatabaseServlet
 			
 		} catch (SQLException ex) {
 			m = new Message("Error while getting the flow list.",
-					"E200", ex.getMessage());
+					"E200", "Please, contact the admin.");
 			req.setAttribute("message", m);
 			errorForward(req, resp);
 			return;
@@ -217,7 +217,7 @@ public class FlowListServlet extends AbstractDatabaseServlet
 			cities = CittaDatabase.getAllSortByCountry(conn);
 		} 
 		catch (SQLException ex) {
-			m = new Message("Error while getting the search page.", "XXX", ex.getMessage());
+			m = new Message("Error while getting the search page.", "XXX", "Please, contact the admin.");
 			req.setAttribute("message", m);
 			errorForward(req, resp);
 			return;

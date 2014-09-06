@@ -93,11 +93,11 @@ public class ParticipationServlet extends AbstractDatabaseServlet
 			} 
 			catch (SQLException ex) 
 			{
-				m = new Message("Error while adding your partecipation.", "", ex.getMessage());
+				m = new Message("Error while adding your partecipation.", "", "Please, contact the admin.");
 			} 
 			catch (ParseException ex) 
 			{
-				m = new Message("Error while adding your partecipation.", "", ex.getMessage());
+				m = new Message("Error while adding your partecipation.", "", "Please, contact the admin.");
 			} 
 			finally {
 				DbUtils.closeQuietly(conn); // always closes the connection 
@@ -131,7 +131,7 @@ public class ParticipationServlet extends AbstractDatabaseServlet
 			} 
 			catch (SQLException ex) 
 			{
-				m = new Message("Error while deleting your participation.", "", ex.getMessage());
+				m = new Message("Error while deleting your participation.", "", "Please, contact the admin.");
 			} 
 			finally {
 				DbUtils.closeQuietly(conn); // always closes the connection 

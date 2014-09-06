@@ -86,7 +86,7 @@ public class InsertFlowServlet extends AbstractDatabaseServlet {
 			possibleCourses = CorsoDiLaureaDatabase.getPossibleCourses(conn, flowResp);
 		} 
 		catch (SQLException ex) {
-			m = new Message("Error while getting the flow.", "XXX", ex.getMessage());
+			m = new Message("Error while getting the flow.", "E200", "Please, contact the admin.");
 		} 
 		finally {
 			DbUtils.closeQuietly(conn); // always closes the connection 

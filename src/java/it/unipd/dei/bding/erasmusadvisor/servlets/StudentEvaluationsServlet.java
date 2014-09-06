@@ -93,7 +93,7 @@ public class StudentEvaluationsServlet extends AbstractDatabaseServlet
 			universities = ValutazioneUniversitaDatabase.getEvalByUser(conn, lu.getUser());
 		} 
 		catch (SQLException ex) {
-			m = new Message("Error while getting the evaluations resume page.", "", ex.getMessage());
+			m = new Message("Error while getting the evaluations resume page.", "", "Please, contact the admin.");
 		} 
 		finally {
 			DbUtils.closeQuietly(conn); // always closes the connection 

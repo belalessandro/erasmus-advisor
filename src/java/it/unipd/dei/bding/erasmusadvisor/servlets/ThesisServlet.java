@@ -124,7 +124,7 @@ public class ThesisServlet extends AbstractDatabaseServlet {
 			DbUtils.close(conn);
 		} 
 		catch (SQLException ex) {
-			m = new Message("Error while getting the thesis.","XXX", ex.getMessage());
+			m = new Message("Error while getting the thesis.","XXX", "Please, contact the admin.");
 		} 
 		finally {
 			DbUtils.closeQuietly(conn);
@@ -269,7 +269,7 @@ public class ThesisServlet extends AbstractDatabaseServlet {
 			DbUtils.close(con);
 			
 		} catch (SQLException e) {
-			m = new Message("Error while reporting the thesis.", "XXX", e.getMessage());
+			m = new Message("Error while reporting the thesis.", "XXX", "Please, contact the admin.");
 			request.setAttribute("message", m);
 			errorForward(request, response);
 			return;
@@ -442,7 +442,7 @@ public class ThesisServlet extends AbstractDatabaseServlet {
 						"The university you specified is not present in the database!");
 			} 
 			else { 
-				m = new Message("Error while inserting a new Thesis.", "E200", e.getMessage());
+				m = new Message("Error while inserting a new Thesis.", "E200", "Please, contact the admin.");
 			}
 			request.setAttribute("message", m);
 			errorForward(request, response);
@@ -500,7 +500,7 @@ public class ThesisServlet extends AbstractDatabaseServlet {
 			} 
 			catch (SQLException e)
 			{
-				m = new Message("Error while deleting the thesis.", "", e.getMessage());
+				m = new Message("Error while deleting the thesis.", "", "Please, contact the admin.");
 				req.setAttribute("message", m);
 				getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(req, resp);
 			}
@@ -634,7 +634,7 @@ public class ThesisServlet extends AbstractDatabaseServlet {
 		} catch (SQLException e) {
 			// Error management
 			m = new Message("Error while editing " + argomento.getNome()
-					+ " instance.", "XXX", e.getMessage());
+					+ " instance.", "XXX", "Please, contact the admin.");
 			req.setAttribute("message", m);
 
 			getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(

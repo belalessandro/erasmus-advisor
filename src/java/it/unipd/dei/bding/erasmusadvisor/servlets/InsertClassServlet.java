@@ -63,7 +63,7 @@ public class InsertClassServlet extends AbstractDatabaseServlet {
 			areaDomain = GetAreaValues.getAreaDomain(conn);
 		} 
 		catch (SQLException ex) {
-			m = new Message("Error while getting the class.", "XXX", ex.getMessage());
+			m = new Message("Error while getting the class.", "XXX", "Please, contact the admin.");
 		} 
 		finally {
 			DbUtils.closeQuietly(conn); // always closes the connection 

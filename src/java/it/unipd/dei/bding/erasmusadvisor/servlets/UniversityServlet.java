@@ -103,7 +103,7 @@ public class UniversityServlet extends AbstractDatabaseServlet {
 			
 		} catch (SQLException ex) {
 			m = new Message("Error while getting the university.",
-					"XXX", ex.getMessage());
+					"XXX", "Please, contact the admin.");
 		} finally {
 			DbUtils.closeQuietly(conn);
 		}
@@ -255,7 +255,7 @@ public class UniversityServlet extends AbstractDatabaseServlet {
 				m = new Message("Operation not allowed: Duplicate data", "E300", 
 						"This university is already present in the database!");
 			} else {
-				m = new Message("Error while inserting a new university.", "E200", e.getMessage());
+				m = new Message("Error while inserting a new university.", "E200", "Please, contact the admin.");
 			}
 			request.setAttribute("message", m);
 			errorForward(request, response);
@@ -312,7 +312,7 @@ public class UniversityServlet extends AbstractDatabaseServlet {
 			} 
 			catch (SQLException e)
 			{
-				m = new Message("Error while deleting the university.", "", e.getMessage());
+				m = new Message("Error while deleting the university.", "", "Please, contact the admin.");
 				req.setAttribute("message", m);
 				getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(req, resp);
 			}
@@ -374,7 +374,7 @@ public class UniversityServlet extends AbstractDatabaseServlet {
 			response.sendRedirect(builder.toString());
 				
 		} catch (SQLException e) {
-			m = new Message("Error while editing a new university.", "XXX", e.getMessage());
+			m = new Message("Error while editing a new university.", "XXX", "Please, contact the admin.");
 			request.setAttribute("message", m);
 			errorForward(request, response);
 			return;

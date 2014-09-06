@@ -130,7 +130,7 @@ public class ClassServlet extends AbstractDatabaseServlet
 			}
 		} 
 		catch (SQLException ex) {
-			m = new Message("Error while getting the class.", "E200", ex.getMessage());
+			m = new Message("Error while getting the class.", "E200", "Please, contact the admin.");
 		} 
 		finally {
 			DbUtils.closeQuietly(conn); // always closes the connection 
@@ -276,7 +276,7 @@ public class ClassServlet extends AbstractDatabaseServlet
 			DbUtils.close(con);
 			
 		} catch (SQLException e) {
-			m = new Message("Error while reporting the thesis.", "E200", e.getMessage());
+			m = new Message("Error while reporting the thesis.", "E200", "Please, contact the admin.");
 			request.setAttribute("message", m);
 			errorForward(request, response);
 			return;
@@ -332,7 +332,7 @@ public class ClassServlet extends AbstractDatabaseServlet
 			insegnamentoBean.setNomeLingua(request.getParameter("NomeLingua"));
 			
 		} catch (NumberFormatException ex) {
-			m = new Message("Invalid input parameters.", "E100", ex.getMessage());
+			m = new Message("Invalid input parameters.", "E100", "Please, contact the admin.");
 			request.setAttribute("message", m);
 			errorForward(request, response);
 			return;
@@ -406,7 +406,7 @@ public class ClassServlet extends AbstractDatabaseServlet
 						"The university you specified is not present in the database!");
 			} 
 			else { 
-				m = new Message("Error while inserting a new class.", "E200", e.getMessage());
+				m = new Message("Error while inserting a new class.", "E200", "Please, contact the admin.");
 			}
 			request.setAttribute("message", m);
 			errorForward(request, response);
@@ -464,7 +464,7 @@ public class ClassServlet extends AbstractDatabaseServlet
 			} 
 			catch (SQLException e)
 			{
-				m = new Message("Error while deleting the class.", "E200", e.getMessage());
+				m = new Message("Error while deleting the class.", "E200", "Please, contact the admin.");
 				req.setAttribute("message", m);
 				errorForward(req, resp);
 			}
@@ -553,7 +553,7 @@ public class ClassServlet extends AbstractDatabaseServlet
 			
 		} catch (SQLException e) {
 			// Error management
-			m = new Message("Error while editing " + insegnamentoBean.getNome() + " instance.","XXX", e.getMessage());
+			m = new Message("Error while editing " + insegnamentoBean.getNome() + " instance.","XXX", "Please, contact the admin.");
 			request.setAttribute("message", m);
 			
 			errorForward(request, response);
