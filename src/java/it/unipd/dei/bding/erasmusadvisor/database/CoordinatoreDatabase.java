@@ -79,7 +79,7 @@ public class CoordinatoreDatabase
 	}
 	
 	/**
-	 * Returns all notifications related to a flow manager.
+	 * Returns all notifications related to a coordinator.
 	 * 
 	 * @param con A connection to the database.
 	 * @param username Coordinator's username.
