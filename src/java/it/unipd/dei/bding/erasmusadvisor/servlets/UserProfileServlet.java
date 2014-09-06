@@ -13,7 +13,6 @@ import it.unipd.dei.bding.erasmusadvisor.database.StudenteDatabase;
 import it.unipd.dei.bding.erasmusadvisor.resources.LoggedUser;
 import it.unipd.dei.bding.erasmusadvisor.resources.Message;
 import it.unipd.dei.bding.erasmusadvisor.resources.Student;
-import it.unipd.dei.bding.erasmusadvisor.resources.UserType;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -30,6 +29,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.dbutils.DbUtils;
+import org.postgresql.util.Base64;
 
 /**
  * Manages the profile of a generic User.
@@ -531,7 +531,9 @@ public class UserProfileServlet extends AbstractDatabaseServlet
 			String salted = password + salt;
 			try {
 				byte[] hash = digest.digest(salted.getBytes("UTF-8"));
-				return new String(hash, "UTF-8");
+				//return new String(hash, "UTF-8");
+				String base64 = Base64.encodeBytes(hash); // Fix issue 23
+			    return base64;
 			} catch (UnsupportedEncodingException e) {
 				throw new IllegalStateException();
 			}

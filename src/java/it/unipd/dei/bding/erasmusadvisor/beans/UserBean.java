@@ -9,6 +9,8 @@ import java.security.NoSuchAlgorithmException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.postgresql.util.Base64;
+
 /**
  * Bean which generalizes the account tables in the database 
  *   (ResponsabileFlusso, Studente, Coordinatore)
@@ -141,7 +143,10 @@ public class UserBean implements Serializable {
 			String salted = pass + salt;
 			try {
 				byte[] hash = digest.digest(salted.getBytes("UTF-8"));
-				if (password.compareTo(new String(hash, "UTF-8")) == 0) {
+				
+				String base64 = Base64.encodeBytes(hash); // Fix ..
+				if (password.compareTo(base64) == 0) { // .. issue 23
+				//if (password.compareTo(new String(hash, "UTF-8")) == 0) {
 					return true;
 				}
 			} 

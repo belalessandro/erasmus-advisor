@@ -27,6 +27,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.dbutils.DbUtils;
+import org.postgresql.util.Base64;
 
 /**
  * Form processing for the Sign in.
@@ -95,7 +96,9 @@ public class SignInServlet extends AbstractDatabaseServlet {
 			String salted = password + salt;
 			try {
 				byte[] hash = digest.digest(salted.getBytes("UTF-8"));
-				return new String(hash, "UTF-8");
+				//return new String(hash, "UTF-8");
+				String base64 = Base64.encodeBytes(hash); // Fix issue 23
+			    return base64;
 			} 
 			catch (UnsupportedEncodingException e) {
 				throw new IllegalStateException();
