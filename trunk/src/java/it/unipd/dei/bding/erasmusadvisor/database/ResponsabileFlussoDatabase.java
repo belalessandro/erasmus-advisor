@@ -1,13 +1,20 @@
 package it.unipd.dei.bding.erasmusadvisor.database;
 
+import it.unipd.dei.bding.erasmusadvisor.beans.ArgomentoTesiBean;
+import it.unipd.dei.bding.erasmusadvisor.beans.InsegnamentoBean;
+import it.unipd.dei.bding.erasmusadvisor.beans.ProfessoreBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.ResponsabileFlussoBean;
+import it.unipd.dei.bding.erasmusadvisor.resources.Notifications;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.ResultSetHandler;
 import org.apache.commons.dbutils.handlers.BeanHandler;
+import org.apache.commons.dbutils.handlers.BeanListHandler;
 
 /**
  * Represents the entity "ReponsabileFlusso".
@@ -149,6 +156,82 @@ public class ResponsabileFlussoDatabase
 		QueryRunner run = new QueryRunner();
 		
 		run.update(con, sql, nomeUtente);
+	}
+
+	/**
+	 * Returns all notifications related to a flow manager.
+	 * 
+	 * @param con A connection to the database.
+	 * @param username Flow manager's username.
+	 * @return notifications Notifications model with all fields initialized.
+	 * @throws SQLException If an error occurs.
+	 */
+	public static Notifications getNotifications(Connection con, String username) throws SQLException 
+	{
+		// required variables 
+		QueryRunner run = new QueryRunner();
+		List<ResponsabileFlussoBean> flowManagers = null;
+		List<InsegnamentoBean> classes = null;
+		ArrayList<List<ProfessoreBean>> classProfessors = new ArrayList<List<ProfessoreBean>>();
+		List<ArgomentoTesiBean> thesis = null;
+		ArrayList<List<ProfessoreBean>> thesisProfessors = new ArrayList<List<ProfessoreBean>>();
+		
+		StringBuilder getInsegnamenti = new StringBuilder()
+			.append("SELECT I.Id, I.Nome, I.Crediti, I.NomeUniversita, I.PeriodoErogazione, I.Stato, I.AnnoCorso, I.NomeArea, I.NomeLingua ")
+			.append("FROM Insegnamento AS I JOIN ResponsabileFlusso AS R ON I.NomeUniversita = R.NomeUniversita ")
+			.append("WHERE R.NomeUtente = ? AND I.Stato = 'REPORTED' ")
+			.append("UNION ")
+			.append("SELECT I.Id, I.Nome, I.Crediti, I.NomeUniversita, I.PeriodoErogazione, I.Stato, I.AnnoCorso, I.NomeArea, I.NomeLingua ")
+			.append("FROM Insegnamento AS I JOIN Flusso AS F ON I.NomeUniversita = F.Destinazione ")
+			.append("JOIN ResponsabileFlusso AS R ON R.NomeUtente = F.respFlusso ")
+			.append("WHERE R.NomeUtente = ? AND I.Stato = 'REPORTED'");
+		
+		StringBuilder getArgomenti = new StringBuilder()
+		 .append("SELECT A.Id, A.Nome, A.NomeUniversita, A.triennale, A.magistrale, A.stato ")
+		 .append("FROM ArgomentoTesi AS A JOIN ResponsabileFlusso AS R ON A.NomeUniversita = R.NomeUniversita ")
+		 .append("WHERE R.NomeUtente = ? AND A.Stato = 'REPORTED' ")
+		 .append("UNION ")
+		 .append("SELECT A.Id, A.Nome, A.NomeUniversita, A.triennale, A.magistrale, A.stato ")
+		 .append("FROM ArgomentoTesi AS A JOIN Flusso AS F ON A.NomeUniversita = F.Destinazione ")
+		 .append("JOIN ResponsabileFlusso AS R ON F.respFlusso = R.NomeUtente ")
+		 .append("WHERE R.NomeUtente = ? AND A.stato = 'REPORTED'");
+		
+		StringBuilder getProfessoriInsegnamento = new StringBuilder()
+		.append("SELECT P.id, P.Nome, P.Cognome ")
+		.append("FROM Professore AS P JOIN Svolgimento AS S ON P.id = S.IdProfessore ")
+		.append("WHERE S.IdInsegnamento = ?;");
+		
+		
+		final StringBuilder getProfessoriArgomenti = new StringBuilder()
+		.append("SELECT P.id, P.Nome, P.Cognome ")
+		.append("FROM Professore AS P JOIN Gestione AS G ON P.id = G.idProfessore ")
+		.append("WHERE G.IdArgomentoTesi = ?;");
+		
+		// setting handlers
+		ResultSetHandler<List<ResponsabileFlussoBean>> rshResponsabiliFlusso = new BeanListHandler<ResponsabileFlussoBean>(ResponsabileFlussoBean.class);
+		ResultSetHandler<List<InsegnamentoBean>> rshClasses = new BeanListHandler<InsegnamentoBean>(InsegnamentoBean.class);
+		ResultSetHandler<List<ProfessoreBean>> rshClassProfessors = new BeanListHandler<ProfessoreBean>(ProfessoreBean.class);
+		ResultSetHandler<List<ArgomentoTesiBean>> rshThesis = new BeanListHandler<ArgomentoTesiBean>(ArgomentoTesiBean.class);
+		ResultSetHandler<List<ProfessoreBean>> rshThesisProfessors = new BeanListHandler<ProfessoreBean>(ProfessoreBean.class);
+		
+		// get classes and theses
+		classes = run.query(con, getInsegnamenti.toString(), rshClasses, username, username);
+		thesis = run.query(con, getArgomenti.toString(), rshThesis, username, username);
+		
+		
+		// get relative professors
+		for(InsegnamentoBean c : classes)
+			classProfessors.add(run.query(con, getProfessoriInsegnamento.toString(), 
+					rshClassProfessors, c.getId()));
+		
+		for(ArgomentoTesiBean a : thesis)
+			thesisProfessors.add(run.query(con, getProfessoriArgomenti.toString(), 
+					rshThesisProfessors, a.getId()));
+		
+		// fill the model to return
+		Notifications notifications = new Notifications(flowManagers, classes, classProfessors, thesis, thesisProfessors);
+		
+		return notifications;
 	}
 
 

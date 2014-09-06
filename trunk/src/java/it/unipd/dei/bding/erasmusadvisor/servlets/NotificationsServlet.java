@@ -9,6 +9,7 @@ import it.unipd.dei.bding.erasmusadvisor.resources.Message;
 import it.unipd.dei.bding.erasmusadvisor.resources.Notifications;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.SQLException;
 
@@ -114,12 +115,22 @@ public class NotificationsServlet extends AbstractDatabaseServlet {
 			try {
 				con = DS.getConnection();
 				
-				notifications = CoordinatoreDatabase.getNotifications(con, lu.getUser());
+				notifications = ResponsabileFlussoDatabase.getNotifications(con, lu.getUser());
 				
 				DbUtils.close(con);
 			} catch (SQLException e) {
 				m = new Message("Error while getting notifications.", "XXX", "Please, contact the admin.");
 				req.setAttribute("message", m);
+				
+				PrintWriter w = resp.getWriter();
+				w.println("<hmtl>");
+				w.println("<body>");
+				w.println("<p>" + e.getMessage() + "</p>");
+				w.println("</body>");
+				w.println("<hmtl>");
+				w.flush();
+				w.close();
+				
 				errorForward(req, resp);
 				return;
 			} finally {
