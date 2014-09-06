@@ -160,7 +160,7 @@ public class UniversityListServlet extends AbstractDatabaseServlet {
 			
 		} catch (SQLException ex) {
 			m = new Message("Error while getting the thesis list.",
-					"XXX", ex.getMessage());
+					"XXX", "Please, contact the admin.");
 			req.setAttribute("message", m);
 			errorForward(req, resp);
 			return;
@@ -211,7 +211,7 @@ public class UniversityListServlet extends AbstractDatabaseServlet {
 			cities = CittaDatabase.getAllSortByCountry(conn);
 		} 
 		catch (SQLException ex) {
-			m = new Message("Error while getting the university list.", "XXX", ex.getMessage());
+			m = new Message("Error while getting the university list.", "XXX", "Please, contact the admin.");
 			req.setAttribute("message", m);
 			errorForward(req, resp);
 			return;

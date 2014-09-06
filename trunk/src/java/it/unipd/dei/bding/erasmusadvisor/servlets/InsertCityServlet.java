@@ -78,7 +78,7 @@ public class InsertCityServlet extends AbstractDatabaseServlet {
 			languageDomain = GetLinguaValues.getLinguaDomain(conn);
 		} 
 		catch (SQLException ex) {
-			m = new Message("Error while getting the city.", "XXX", ex.getMessage());
+			m = new Message("Error while getting the city.", "XXX", "Please, contact the admin.");
 		} 
 		finally {
 			DbUtils.closeQuietly(conn); // always closes the connection 

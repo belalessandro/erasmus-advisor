@@ -30,7 +30,7 @@ public abstract class AbstractDatabaseServlet extends HttpServlet {
 
 			throw new IllegalStateException(
 					"Impossible to access the connection pool to the database: "
-							+ e.getMessage());
+							+ "Please, contact the admin.");
 		} finally {
 			DS = ds;
 		}

@@ -84,7 +84,7 @@ public class NotificationsServlet extends AbstractDatabaseServlet {
 				
 				DbUtils.close(con);
 			} catch (SQLException e) {
-				m = new Message("Error while getting notifications.", "XXX", e.getMessage());
+				m = new Message("Error while getting notifications.", "XXX", "Please, contact the admin.");
 				req.setAttribute("message", m);
 				errorForward(req, resp);
 				return;
@@ -118,7 +118,7 @@ public class NotificationsServlet extends AbstractDatabaseServlet {
 				
 				DbUtils.close(con);
 			} catch (SQLException e) {
-				m = new Message("Error while getting notifications.", "XXX", e.getMessage());
+				m = new Message("Error while getting notifications.", "XXX", "Please, contact the admin.");
 				req.setAttribute("message", m);
 				errorForward(req, resp);
 				return;
@@ -257,7 +257,7 @@ public class NotificationsServlet extends AbstractDatabaseServlet {
 			
 			DbUtils.close(con);
 		} catch (SQLException e) {
-			m = new Message("Error while accepting/discarding the " + type, "XXX", e.getMessage());
+			m = new Message("Error while accepting/discarding the " + type, "XXX","Please, contact the admin.");
 			request.setAttribute("message", m);
 			errorForward(request, response);
 			return;

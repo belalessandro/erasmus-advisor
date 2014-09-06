@@ -142,7 +142,7 @@ public class FlowServlet extends AbstractDatabaseServlet {
 			}
 		} 
 		catch (SQLException ex) {
-			m = new Message("Error while getting the flow.", "E200", ex.getMessage());
+			m = new Message("Error while getting the flow.", "E200", "Please, contact the admin.");
 		} 
 		catch (NullPointerException e)
 		{
@@ -306,7 +306,7 @@ public class FlowServlet extends AbstractDatabaseServlet {
 			flussoBean.setDettagli(request.getParameter("details"));
 
 		} catch (NumberFormatException ex) {
-			m = new Message("Invalid input parameters.", "E100", ex.getMessage());
+			m = new Message("Invalid input parameters.", "E100", "Please, contact the admin.");
 			request.setAttribute("message", m);
 			errorForward(request, response);
 			return;
@@ -379,7 +379,7 @@ public class FlowServlet extends AbstractDatabaseServlet {
 						 "The university you specified is not present in the database!");
 			 } 
 			 else { 
-				 m = new Message("Error while inserting a new Flow.", "E200", e.getMessage());
+				 m = new Message("Error while inserting a new Flow.", "E200", "Please, contact the admin.");
 			 }
 
 			 request.setAttribute("message", m);
@@ -437,7 +437,7 @@ public class FlowServlet extends AbstractDatabaseServlet {
 			} 
 			catch (SQLException e)
 			{
-				m = new Message("Error while deleting the flow.", "", e.getMessage());
+				m = new Message("Error while deleting the flow.", "", "Please, contact the admin.");
 				req.setAttribute("message", m);
 				errorForward(req, resp);
 			}
@@ -553,7 +553,7 @@ public class FlowServlet extends AbstractDatabaseServlet {
 		} catch (SQLException e) {
 			// Error management
 			m = new Message("Error while editing " + flussoBean.getId() + " " + flussoBean.getDestinazione() + " instance.",
-					"E200", e.getMessage());
+					"E200", "Please, contact the admin.");
 			req.setAttribute("message", m);
 
 			errorForward(req, resp);

@@ -121,7 +121,7 @@ public class ThesisListServlet extends AbstractDatabaseServlet {
 			
 		} catch (SQLException ex) {
 			m = new Message("Error while getting the thesis list.",
-					"XXX", ex.getMessage());
+					"XXX","Please, contact the admin.");
 			req.setAttribute("message", m);
 			errorForward(req, resp);
 			return;
@@ -182,7 +182,7 @@ public class ThesisListServlet extends AbstractDatabaseServlet {
 			universityDomain = GetUniversitaValues.getDomain(conn);
 		} 
 		catch (SQLException ex) {
-			m = new Message("Error while getting the thesis list.", "XXX", ex.getMessage());
+			m = new Message("Error while getting the thesis list.", "XXX", "Please, contact the admin.");
 			req.setAttribute("message", m);
 			errorForward(req, resp);
 			return;

@@ -120,7 +120,7 @@ public class ThesisEvaluationsServlet extends AbstractDatabaseServlet
 		catch (SQLException e) 
 		{
 			// Error management
-			m = new Message("Error while deleting the evaluation.","", e.getMessage());
+			m = new Message("Error while deleting the evaluation.","", "Please, contact the admin.");
 			req.setAttribute("message", m);
 			errorForward(req, resp); 
 			return;
@@ -191,7 +191,7 @@ public class ThesisEvaluationsServlet extends AbstractDatabaseServlet
 				m = new Message("Evaluation not allowed.", "E300", 
 						"Evaluations must be from 1 to 5 stars!");
 			} else {
-				m = new Message("Error while submitting evaluations.","E200", e.getMessage());
+				m = new Message("Error while submitting evaluations.","E200","Please, contact the admin.");
 			}
 			req.setAttribute("message", m);
 			

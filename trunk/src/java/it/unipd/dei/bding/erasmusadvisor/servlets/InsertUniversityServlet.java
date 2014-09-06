@@ -76,7 +76,7 @@ public class InsertUniversityServlet extends AbstractDatabaseServlet {
 			cities = CittaDatabase.getAllSortByCountry(conn);
 		} 
 		catch (SQLException ex) {
-			m = new Message("Error while getting the university.", "E200", ex.getMessage());
+			m = new Message("Error while getting the university.", "E200", "Please, contact the admin.");
 		} 
 		finally {
 			DbUtils.closeQuietly(conn); // always closes the connection 

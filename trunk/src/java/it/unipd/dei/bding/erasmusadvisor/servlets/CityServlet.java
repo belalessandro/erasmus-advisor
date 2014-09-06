@@ -116,7 +116,7 @@ public class CityServlet extends AbstractDatabaseServlet
 				}
 			} 
 			catch (SQLException ex) {
-				m = new Message("Error while getting the city.", "XXX", ex.getMessage());
+				m = new Message("Error while getting the city.", "XXX", "Please, contact the admin.");
 			} 
 			finally {
 				DbUtils.closeQuietly(conn); // always closes the connection 
@@ -273,7 +273,7 @@ public class CityServlet extends AbstractDatabaseServlet
 				m = new Message("Operation not allowed: Duplicate data", "E300", 
 						"The couple city-country is already present in the database!");
 			} else {
-				m = new Message("Error while inserting a new city.", "E200", e.getMessage());
+				m = new Message("Error while inserting a new city.", "E200", "Please, contact the admin.");
 			}
 			request.setAttribute("message", m);
 			errorForward(request, response);
@@ -334,7 +334,7 @@ public class CityServlet extends AbstractDatabaseServlet
 			catch (SQLException e)
 			{
 
-				m = new Message("Error while deleting the city.", "XXX", e.getMessage());
+				m = new Message("Error while deleting the city.", "XXX", "Please, contact the admin.");
 				req.setAttribute("message", m);
 				getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(req, resp);
 			}

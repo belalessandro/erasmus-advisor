@@ -145,7 +145,7 @@ public class CityListServlet extends AbstractDatabaseServlet {
 			
 		} catch (SQLException ex) {
 			m = new Message("Error while getting the city list.",
-					"XXX", ex.getMessage());
+					"XXX", "Please, contact the admin.");
 			req.setAttribute("message", m);
 			errorForward(req, resp);
 			return;
@@ -195,7 +195,7 @@ public class CityListServlet extends AbstractDatabaseServlet {
 			countries = GetStatoValues.getValues(conn);
 		} 
 		catch (SQLException ex) {
-			m = new Message("Error while getting the city list.", "XXX", ex.getMessage());
+			m = new Message("Error while getting the city list.", "XXX", "Please, contact the admin.");
 			req.setAttribute("message", m);
 			errorForward(req, resp);
 			return;

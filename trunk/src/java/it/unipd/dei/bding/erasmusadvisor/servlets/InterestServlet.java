@@ -113,7 +113,7 @@ public class InterestServlet extends AbstractDatabaseServlet
 		} 
 		catch (SQLException ex) 
 		{
-			m = new Message("Error while inserting your interest.", "", ex.getMessage());
+			m = new Message("Error while inserting your interest.", "", "Please, contact the admin.");
 		} 
 		finally {
 			DbUtils.closeQuietly(conn); // always closes the connection 
@@ -173,7 +173,7 @@ public class InterestServlet extends AbstractDatabaseServlet
 		} 
 		catch (SQLException ex) 
 		{
-			m = new Message("Error while deleting your interest.", "", ex.getMessage());
+			m = new Message("Error while deleting your interest.", "", "Please, contact the admin.");
 		} 
 		finally {
 			DbUtils.closeQuietly(conn); // always closes the connection 

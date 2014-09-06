@@ -178,7 +178,7 @@ public class CourseServlet extends AbstractDatabaseServlet {
 						"The university you specified is not present in the database!");
 			} 
 			else { 
-				m = new Message("Error while inserting a new course.", "E200", e.getMessage());
+				m = new Message("Error while inserting a new course.", "E200", "Please, contact the admin.");
 			}
 			request.setAttribute("message", m);
 			errorForward(request, response);
