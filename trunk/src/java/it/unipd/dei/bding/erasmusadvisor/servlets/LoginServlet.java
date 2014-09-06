@@ -7,7 +7,6 @@ import it.unipd.dei.bding.erasmusadvisor.database.StudenteDatabase;
 import it.unipd.dei.bding.erasmusadvisor.database.UserDatabase;
 import it.unipd.dei.bding.erasmusadvisor.resources.LoggedUser;
 import it.unipd.dei.bding.erasmusadvisor.resources.Message;
-import it.unipd.dei.bding.erasmusadvisor.resources.UserType;
 
 import java.io.IOException;
 import java.sql.Connection;

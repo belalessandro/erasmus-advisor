@@ -31,6 +31,7 @@ public class TestUniversitaDatabase {
 	 */
 	private static final String PASSWORD = "postgres";
 
+	@SuppressWarnings("unused")
 	public static void main(String[] args) {
 
 		Connection con = null;

@@ -43,6 +43,7 @@ public class BeanUtilities {
 	 * automatically as described above.
 	 */
 
+	@SuppressWarnings("rawtypes")
 	public static void populateBean(Object bean, Map propertyMap) {
 		try {
 			Map sanitized=BeanUtilities.sanitize(propertyMap);
@@ -55,6 +56,7 @@ public class BeanUtilities {
 		}
 	}
 	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public static Map sanitize(Map propertyMap){
 		PolicyFactory policy = Sanitizers.FORMATTING.and(Sanitizers.LINKS);
 		for (Object key : propertyMap.keySet()) {

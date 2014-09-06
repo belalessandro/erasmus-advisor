@@ -208,7 +208,7 @@ public class ResponsabileFlussoDatabase
 		.append("WHERE G.IdArgomentoTesi = ?;");
 		
 		// setting handlers
-		ResultSetHandler<List<ResponsabileFlussoBean>> rshResponsabiliFlusso = new BeanListHandler<ResponsabileFlussoBean>(ResponsabileFlussoBean.class);
+		//ResultSetHandler<List<ResponsabileFlussoBean>> rshResponsabiliFlusso = new BeanListHandler<ResponsabileFlussoBean>(ResponsabileFlussoBean.class);
 		ResultSetHandler<List<InsegnamentoBean>> rshClasses = new BeanListHandler<InsegnamentoBean>(InsegnamentoBean.class);
 		ResultSetHandler<List<ProfessoreBean>> rshClassProfessors = new BeanListHandler<ProfessoreBean>(ProfessoreBean.class);
 		ResultSetHandler<List<ArgomentoTesiBean>> rshThesis = new BeanListHandler<ArgomentoTesiBean>(ArgomentoTesiBean.class);

@@ -1,13 +1,12 @@
 package it.unipd.dei.bding.erasmusadvisor.database;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-
 import it.unipd.dei.bding.erasmusadvisor.beans.CorsoDiLaureaBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.IscrizioneBean;
 import it.unipd.dei.bding.erasmusadvisor.beans.StudenteBean;
 import it.unipd.dei.bding.erasmusadvisor.resources.Student;
+
+import java.sql.Connection;
+import java.sql.SQLException;
 
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.ResultSetHandler;
