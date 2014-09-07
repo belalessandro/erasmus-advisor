@@ -26,12 +26,12 @@ public class TestFlussoDatabase {
 	/**
 	 * The username for accessing the database
 	 */
-	private static final String USER = "postgres";
+	private static final String USER = "EATeam";
 
 	/**
 	 * The password for accessing the database
 	 */
-	private static final String PASSWORD = "postgres";
+	private static final String PASSWORD = "EATeam";
 
 	public static void main(String[] args) {
 
@@ -53,7 +53,7 @@ public class TestFlussoDatabase {
 		try {
 			con = DriverManager.getConnection(DATABASE, USER, PASSWORD); // UNICA CONNESSIONE
 			//con.setAutoCommit(false);
-			LoggedUser lu = new LoggedUser(UserType.RESPONSABILE, "pilu");
+			LoggedUser lu = new LoggedUser(UserType.RESPONSABILE, "alessandro");
 			
 			//List<CitySearchRow> results = CittaDatabase.filterCityBySiglaLingua(con, "eng");
 			List<FlowSearchRow> results = FlussoDatabase.filterFlowBy(con, lu, null, null, null, null, null, null);
