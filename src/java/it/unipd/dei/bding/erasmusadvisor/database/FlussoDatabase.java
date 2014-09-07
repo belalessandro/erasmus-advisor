@@ -373,8 +373,8 @@ public class FlussoDatabase
 				+ "F.PostiDisponibili, F.Durata, F.Destinazione FROM Flusso AS F "
 				+ "JOIN Universita AS U ON F.Destinazione = U.Nome "
 				+ "JOIN Documentazione AS D ON F.Id = D.IdFlusso "
-				+ "JOIN Origine AS O ON F.Id = O.IdFlusso "
-				+ "JOIN Iscrizione AS I ON O.IdCorso = I.IdCorso "
+				//+ "JOIN Origine AS O ON F.Id = O.IdFlusso "
+				//+ "JOIN Iscrizione AS I ON O.IdCorso = I.IdCorso "
 				+ "WHERE (? IS NULL OR U.StatoCitta = ?) " // by StatoCitta (optional)
 				+ "AND (? IS NULL OR U.NomeCitta = ?) " // by NomeCitta (optional)
 				+ "AND (? IS NULL OR F.Durata = ?) " // by Durata (optional)
