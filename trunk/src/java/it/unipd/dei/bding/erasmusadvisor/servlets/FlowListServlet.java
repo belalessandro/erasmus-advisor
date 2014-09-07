@@ -183,9 +183,6 @@ public class FlowListServlet extends AbstractDatabaseServlet
 	private void errorForward(HttpServletRequest request, HttpServletResponse response) 
     		throws ServletException, IOException  {
     	// Error management
-        	
-    	//Message m = new Message("Error while updating the city.","XXX", "");
-    	//request.setAttribute("message", m);
     		
     	getServletContext().getRequestDispatcher("/jsp/error.jsp")
     		.forward(request, response); // ERROR PAGE

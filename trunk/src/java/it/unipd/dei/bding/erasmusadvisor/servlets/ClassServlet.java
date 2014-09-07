@@ -208,7 +208,7 @@ public class ClassServlet extends AbstractDatabaseServlet
 		boolean allowed = false;
 		
 		if (lu.isCoord() || lu.isFlowResp())
-			allowed = true; // TODO ale: restrict a solo universita' di appartenenza
+			allowed = true; // XXX
 		
 		/** 
 		 * OPERATION DISPATCHER 
