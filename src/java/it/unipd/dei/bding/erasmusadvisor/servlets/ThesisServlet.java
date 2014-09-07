@@ -205,7 +205,7 @@ public class ThesisServlet extends AbstractDatabaseServlet {
 		boolean allowed = false;
 		
 		if (lu.isCoord() || lu.isFlowResp())
-			allowed = true; // TODO ale: restrict a solo ambito di appartenenza
+			allowed = true; // XXX
 		
 		/** 
 		 * OPERATION DISPATCHER 
@@ -660,9 +660,6 @@ public class ThesisServlet extends AbstractDatabaseServlet {
     private void errorForward(HttpServletRequest request, HttpServletResponse response) 
     		throws ServletException, IOException  {
     	// Error management
-        	
-    	//Message m = new Message("Error while updating the city.","XXX", "");
-    	//request.setAttribute("message", m);
     		
     	getServletContext().getRequestDispatcher("/jsp/error.jsp")
     		.forward(request, response); // ERROR PAGE
