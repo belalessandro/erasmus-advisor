@@ -73,7 +73,27 @@
 		<div class="col-md-9 general_main_border" >
 			<h2 class="text-center"><strong>${userName}</strong>, welcome in Erasmus Advisor!</h2>
 			<br>
-			
+			<p class="index_description">
+			<c:choose>
+			<c:when test="${sessionScope.loggedUser.student}">
+				<b>Erasmus Advisor</b> is the ideal platform for every student who wants to join the Erasmus Programme and
+				to share the evaluations on his or her experience. 
+				<br><br> You could search the universities that are in the program, the cities
+				in which they are located, the classes and the theses you could find there and the flows that start from your degree course.
+				<br><br> If you have already done an exchange you could insert your evaluations and even add to the <b>Erasmus Advisor</b> database
+				the classes or the theses you attended that are missing. 
+				<br><br> If you are simply searching informations for your next Erasmus Experience you could express your interest
+				to the flows you might join to have a quick access to them below in this page and to share your plans with the 
+				other students that are subscribed to <b>Erasmus Advisor</b>. 
+			</c:when>
+			<c:otherwise>
+				<b>Erasmus Advisor</b> is the platform that allows the students who want to join the Erasmus Programme to find all the
+				informations they might want to choose which flow join.
+				<br><br> You should insert in the <b>Erasmus Advisor</b> database all the informations you know, from the flows you manage (and, eventually
+				the target city and university if missing) to the classes and the theses the student could attend in their experience.
+			</c:otherwise>
+			</c:choose>
+			</p>
 			<br>
 			<c:if test="${sessionScope.loggedUser.student}">
 				<c:choose>
