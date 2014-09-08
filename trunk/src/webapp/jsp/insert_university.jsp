@@ -121,7 +121,10 @@
 					<br>
 					<div class="col-md-6">
 						<div class="input-group insert_new_input_group_small">
-							<span class="input-group-addon insert_new_input_small">Position in university ranking*</span> <input type="text" class="form-control" name="posizioneClassifica" id="ranking" placeholder="">
+							<span class="input-group-addon insert_new_input_small">
+								<a href="http://www.topuniversities.com/university-rankings/world-university-rankings/2013#sorting=rank+region=140+country=+faculty=+stars=false+search=" target=_blank">Position in university ranking*</a>
+							</span> 
+							<input type="text" class="form-control" name="posizioneClassifica" id="ranking" placeholder="">
 						</div>
 					</div>
 					<div class="col-md-6">

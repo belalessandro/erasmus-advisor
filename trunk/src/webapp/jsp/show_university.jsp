@@ -50,7 +50,8 @@
 						Located in <a href="<c:url value="/city"/>?name=${fn:replace(university.nomeCitta, ' ', '+')}&country=${fn:replace(university.statoCitta, ' ', '+')}" target="_blank">
 							<c:out value="${university.nomeCitta}"/> (<c:out value="${university.statoCitta}"/>)</a> <br> 
 						Link to the official website: <a href="<c:out value="${university.link}"/>" target="_blank"><c:out value="${university.link}"/></a> <br> 
-						World Ranking: <c:out value="${university.posizioneClassifica}"/> <br> 
+						<a href="http://www.topuniversities.com/university-rankings/world-university-rankings/2013#sorting=rank+region=140+country=+faculty=+stars=false+search=" target=_blank">World Ranking</a>: 
+						<c:out value="${university.posizioneClassifica}"/> <br> 
 						<c:choose><c:when test="${university.presenzaAlloggi}">Has </c:when><c:otherwise>Has not </c:otherwise></c:choose>
 						a residence for Erasmus Students. <br> 
 					</p>
@@ -161,7 +162,10 @@
 								</div>
 								<br>
 								<div class="input-group insert_new_input_group">
-									<span class="input-group-addon insert_new_input_small">Position in university ranking*</span> <input type="text" class="form-control" name="posizioneClassifica" id="ranking" value="<c:out value="${university.posizioneClassifica}"/>">
+									<span class="input-group-addon insert_new_input_small">
+										<a href="http://www.topuniversities.com/university-rankings/world-university-rankings/2013#sorting=rank+region=140+country=+faculty=+stars=false+search=" target=_blank">Position in university ranking*</a>
+									</span> 
+									<input type="text" class="form-control" name="posizioneClassifica" id="ranking" value="<c:out value="${university.posizioneClassifica}"/>">
 								</div>
 								<br>
 								<div class="row text-center">

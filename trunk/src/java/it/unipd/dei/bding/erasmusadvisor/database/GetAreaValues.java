@@ -27,7 +27,7 @@ public class GetAreaValues
 	 */
 	public static List<AreaBean> getAreaDomain(Connection conn) throws SQLException
 	{
-		final String statement = "SELECT nome FROM Area"; 
+		final String statement = "SELECT nome FROM Area ORDER BY nome ASC"; 
 		
 		QueryRunner run = new QueryRunner();
 		

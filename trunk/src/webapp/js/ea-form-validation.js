@@ -34,9 +34,9 @@ function signInFormValidation()
 			{  
 				if(email_validation(uemail) && regterm_validation(regterm))  
 				{  
-					if ((uni.value.length > 0 || course.value.length > 0) 
-							|| (startDate.value.length > 0 || endDate.value.length > 0))
-					{
+//					if ((uni.value.length > 0 || course.value.length > 0) 
+//							|| (startDate.value.length > 0 || endDate.value.length > 0))
+//					{
 						if(string_validation(uni) && string_validation(course))
 						{
 							if (date_interval_validation(startDate, endDate, "dd-mm-yy"))
@@ -44,11 +44,12 @@ function signInFormValidation()
 								return true;
 							}
 						}
-					}
-					else
-					{
-						return true;
-					}
+//					}
+					// inserimento del corso di laurea ora obbligatorio
+//					else
+//					{
+//						return true;
+//					}
 				}   
 			}  
 		}  
