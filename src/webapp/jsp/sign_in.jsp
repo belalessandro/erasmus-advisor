@@ -180,11 +180,13 @@
 				</c:if>
 			</div>
 			
-			<!-- action deve puntare alla servlet che gestisce la registrazione -->
 			<form name='registration' onSubmit="return signInFormValidation();" action="<c:url value="/signin"/>" method="post" style="display: none;"> 
 				<div align="center">
 					<br>
-					<p>An * indicates a required field.</p>
+					<p>An * indicates a required field. <br>
+					Be sure to insert an University and a Degree Course that appears, after typing at least a couple of letters, 
+					in the autocomplete lists. <br> If you cannot find your University or your Course you will not be able to
+					sign up in Erasmus Advisor. In that case please contact the Erasmus Office in your University to report the issue.</p>
 					<br>
 					<div class="input-group sign_in_input_group">
 						<span class="input-group-addon sign_in_input">Username*</span> <input type="text" class="form-control" name="user" id="user" placeholder="Insert your username">
@@ -215,12 +217,12 @@
 					</div>
 					<br>
 					<div class="input-group sign_in_input_group">
-						<span class="input-group-addon sign_in_input">University*</span><input id="universityNames" class="form-control" name="nomeUniversita" title="type &quot;a&quot;" placeholder="Insert the University"/>
+						<span class="input-group-addon sign_in_input">University*</span><input id="universityNames" class="form-control" name="nomeUniversita" title="Type some letters for a hint." placeholder="Insert the University"/>
 					</div>
 					<br>
 					<div id="form_degree_course" class="sign_in_input_group">
 						<div class="input-group sign_in_input_group">
-							<span class="input-group-addon sign_in_input">Degree Course*</span> <input id="corsoNames" class="form-control" name="courseName" title="type &quot;a&quot;" placeholder="Insert your Degree Course"/>
+							<span class="input-group-addon sign_in_input">Degree Course*</span> <input id="corsoNames" class="form-control" name="courseName" title="Type some letters for a hint." placeholder="Insert your Degree Course"/>
 						</div>
 						<br>
 					</div>
@@ -241,7 +243,7 @@
 					</div>
 					<div class="row">
 						<div class="col-lg-offset-4 col-lg-7">
-							<span id="alert-university" style="display:none" class="label label-danger">Select the university first, please...</span>
+							<span id="alert-university" style="display:none" class="label label-danger">Select a university first, please.</span>
 						</div>
 					</div>
 					<div class="row">
