@@ -80,7 +80,8 @@
 		<div class="col-md-9 general_main_border">
 			<h2 class="text-center">Search a City</h2>
 			<br>
-			
+			If you do not specify any parameter you will get all the cities in the Erasmus Advisor database.
+			<br><br>
 			<form  method="get" action="<c:url value="/city/list"/>" enctype="plain/text">
 				<div class="col-md-4 text-center">
 					<div class="btn-group">

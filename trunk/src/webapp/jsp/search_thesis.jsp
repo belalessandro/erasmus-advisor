@@ -125,6 +125,8 @@
 		<div class="col-md-9 general_main_border">
 			<h2 class="text-center">Search a Thesis</h2>
 			<br>
+			If you do not specify any parameter you will get all the theses in the Erasmus Advisor database.
+			<br><br>
 			<form  method="get" action="<c:url value="/thesis/list"/>" enctype="plain/text">
 				<input name="operation" type="hidden" value="search" />
 				<div class="col-md-4 text-center">

@@ -136,8 +136,8 @@
 		<div class="col-md-9 general_main_border">
 			<h2 class="text-center">Search a Class</h2>
 			<br>
-			<!--  Notare che potrebbe essere meglio inserire un altro dropdown che ad esempio permetta di selezionare 
-			lo stato in cui si trova l'università e da lì aggiornare l'altro.-->
+			If you do not specify any parameter you will get all the classes in the Erasmus Advisor database.
+			<br><br>
 			<form  method="get" action="<c:url value="/class/list"/>" enctype="plain/text">
 				<div class="col-md-4 text-center">
 					<div class="btn-group">
