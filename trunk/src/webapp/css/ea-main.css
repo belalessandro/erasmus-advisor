@@ -350,6 +350,11 @@ tr:hover {
 	width:70px !important;
 	max-width:70px !important;
 }
+.index_description
+{
+	padding-right:5%;
+	padding-left:5%;
+}
 
 /*user_eval*/
 

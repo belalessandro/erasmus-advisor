@@ -183,9 +183,9 @@
 			<form name='registration' onSubmit="return signInFormValidation();" action="<c:url value="/signin"/>" method="post" style="display: none;"> 
 				<div align="center">
 					<br>
-					<p>An * indicates a required field. <br>
+					<p>An * indicates a required field. <br><br>
 					Be sure to insert an University and a Degree Course that appears, after typing at least a couple of letters, 
-					in the autocomplete lists. <br> If you cannot find your University or your Course you will not be able to
+					in the autocomplete lists. If you cannot find your University or your Course you will not be able to
 					sign up in Erasmus Advisor. In that case please contact the Erasmus Office in your University to report the issue.</p>
 					<br>
 					<div class="input-group sign_in_input_group">
