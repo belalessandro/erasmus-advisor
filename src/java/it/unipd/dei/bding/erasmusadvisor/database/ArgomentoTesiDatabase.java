@@ -137,7 +137,7 @@ public class ArgomentoTesiDatabase {
 		boolean triennale, magistrale;
 		triennale = magistrale = true ;
 		if (livello==null) {
-			statement = "SELECT A.id, A.nomeUniversita, A.triennale, A.magistrale, A.stato FROM ArgomentoTesi AS A " +
+			statement = "SELECT DISTINCT A.id, A.nomeUniversita, A.triennale, A.magistrale, A.stato FROM ArgomentoTesi AS A " +
 						"INNER JOIN Estensione AS E ON A.id=E.idArgomentoTesi " +
 						"INNER JOIN LinguaTesi AS L ON L.idArgomentoTesi = A.id INNER JOIN Lingua AS LI on L.siglaLingua=LI.sigla WHERE" +
 						" (? IS NULL OR A.NomeUniversita = ?)  AND (? IS NULL OR E.Area = ?) AND " +
@@ -145,7 +145,7 @@ public class ArgomentoTesiDatabase {
 		} 
 		else if(livello.equalsIgnoreCase("Graduate"))	
 		{
-			statement = "SELECT A.id, A.nomeUniversita, A.triennale, A.magistrale, A.stato FROM ArgomentoTesi AS A " +
+			statement = "SELECT DISTINCT A.id, A.nomeUniversita, A.triennale, A.magistrale, A.stato FROM ArgomentoTesi AS A " +
 					"INNER JOIN Estensione AS E ON A.id=E.idArgomentoTesi " +
 					"INNER JOIN LinguaTesi AS L ON L.idArgomentoTesi = A.id INNER JOIN Lingua AS LI on L.siglaLingua=LI.sigla WHERE" +
 					" (? IS NULL OR A.NomeUniversita = ?)  AND (? IS NULL OR E.Area = ?) AND " +
@@ -153,7 +153,7 @@ public class ArgomentoTesiDatabase {
 		}
 		else
 		{
-			statement = "SELECT A.id, A.nomeUniversita, A.triennale, A.magistrale, A.stato FROM ArgomentoTesi AS A " +
+			statement = "SELECT DISTINCT A.id, A.nomeUniversita, A.triennale, A.magistrale, A.stato FROM ArgomentoTesi AS A " +
 					"INNER JOIN Estensione AS E ON A.id=E.idArgomentoTesi " +
 					"INNER JOIN LinguaTesi AS L ON L.idArgomentoTesi = A.id INNER JOIN Lingua AS LI on L.siglaLingua=LI.sigla WHERE" +
 					" ( ? IS NULL OR A.NomeUniversita = ?)  AND (? IS NULL OR E.Area = ?) AND " +
