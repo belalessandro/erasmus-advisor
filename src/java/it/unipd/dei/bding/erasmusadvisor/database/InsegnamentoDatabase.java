@@ -191,7 +191,7 @@ public class InsegnamentoDatabase
 	{
 		final String statement1 = "SELECT * FROM Insegnamento WHERE ID = CAST (? AS INTEGER)";
 		final String statement2 = "SELECT * FROM Lingua WHERE Sigla = ?";
-		final String statement3 = "SELECT * FROM ValutazioneInsegnamento WHERE IdInsegnamento = CAST (? AS INTEGER)";
+		final String statement3 = "SELECT * FROM ValutazioneInsegnamento WHERE IdInsegnamento = CAST (? AS INTEGER) ORDER BY datainserimento DESC";
 		final String statement4 = "SELECT P.Nome, P.Cognome FROM Professore AS P "
 									+ "INNER JOIN Svolgimento AS S ON P.ID = S.IdProfessore "
 									+ "WHERE S.IdInsegnamento = CAST (? AS INTEGER)";

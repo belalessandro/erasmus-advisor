@@ -72,7 +72,7 @@ public class CittaDatabase
 		
 		final String statement1 = "SELECT L.nome FROM Lingua AS L INNER JOIN LinguaCitta AS C ON L.Sigla = C.SiglaLingua WHERE C.NomeCitta = ? AND C.StatoCitta = ?";
 		
-		final String statement2 = "SELECT * FROM ValutazioneCitta WHERE NomeCitta = ? AND StatoCitta = ?";
+		final String statement2 = "SELECT * FROM ValutazioneCitta WHERE NomeCitta = ? AND StatoCitta = ? ORDER BY datainserimento DESC";
 
 		// Entity Bean
 		CittaBean citta = new CittaBean();

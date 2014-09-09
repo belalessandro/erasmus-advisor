@@ -260,7 +260,7 @@ public class ArgomentoTesiDatabase {
 	{
 		final String statement1 = "SELECT * FROM ArgomentoTesi WHERE ID = CAST (? AS INTEGER)";
 		final String statement2 = "SELECT L.Sigla, L.Nome FROM Lingua AS L INNER JOIN LinguaTesi AS T ON L.Sigla = T.SiglaLingua WHERE idargomentotesi = CAST (? AS INTEGER)";
-		final String statement3 = "SELECT * FROM ValutazioneTesi WHERE idargomentotesi = CAST (? AS INTEGER)";
+		final String statement3 = "SELECT * FROM ValutazioneTesi WHERE idargomentotesi = CAST (? AS INTEGER) ORDER BY datainserimento DESC";
 		final String statement4 = "SELECT P.Nome, P.Cognome FROM Professore AS P INNER JOIN Gestione AS G ON P.ID = G.IdProfessore WHERE G.idargomentotesi = CAST (? AS INTEGER)";
 		final String statement5 = "SELECT area AS nome FROM Estensione WHERE idargomentotesi = CAST (? AS INTEGER);";
 		
