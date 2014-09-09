@@ -1,4 +1,4 @@
-
+-- inizio fixed domain
 
 --
 -- Data for Name: area; Type: TABLE DATA; Schema: public; Owner: mauro
@@ -87,105 +87,54 @@ INSERT INTO area VALUES ('Transport services');
 
 
 --
--- Data for Name: citta; Type: TABLE DATA; Schema: public; Owner: mauro
+-- Data for Name: lingua; Type: TABLE DATA; Schema: public; Owner: mauro
 --
 
-INSERT INTO citta VALUES ('Paris', 'France');
-INSERT INTO citta VALUES ('Copenhagen', 'Denmark');
-INSERT INTO citta VALUES ('London', 'United Kingdom');
-INSERT INTO citta VALUES ('Cambridge', 'United Kingdom');
-INSERT INTO citta VALUES ('Berlin', 'Germany');
-INSERT INTO citta VALUES ('Padua', 'Italy');
-INSERT INTO citta VALUES ('Dublin', 'Ireland');
-INSERT INTO citta VALUES ('Barcelona', 'Spain');
-INSERT INTO citta VALUES ('Pisa', 'Italy');
-INSERT INTO citta VALUES ('Bilbao', 'Spain');
-INSERT INTO citta VALUES ('Bordeaux', 'France');
-INSERT INTO citta VALUES ('Bucarest', 'Romania');
-INSERT INTO citta VALUES ('Wien', 'Austria');
-INSERT INTO citta VALUES ('Brussels', 'Belgium');
-INSERT INTO citta VALUES ('Hamburg', 'Germany');
-INSERT INTO citta VALUES ('Marinha grande', 'Portugal');
-INSERT INTO citta VALUES ('Fort de france', 'Martinique');
-INSERT INTO citta VALUES ('Dubnica nad váhom', 'Slovakia');
-INSERT INTO citta VALUES ('Heraklion', 'Greece');
-INSERT INTO citta VALUES ('Basse-terre', 'Guadeloupe');
-INSERT INTO citta VALUES ('Organisation - city', 'Organisation - country name');
-INSERT INTO citta VALUES ('Nouméa ', 'New caledonia');
-INSERT INTO citta VALUES ('Papara - tahiti', 'French polynesia');
-INSERT INTO citta VALUES ('Wien', 'Österreich');
-INSERT INTO citta VALUES ('Pierrefonds', 'France');
-INSERT INTO citta VALUES ('Uppsala', 'Sverige');
-INSERT INTO citta VALUES ('Apeldoorn', 'Nederland');
-INSERT INTO citta VALUES ('Oslo ', 'Norge');
-INSERT INTO citta VALUES ('St paul', 'Reunion');
-INSERT INTO citta VALUES ('Triesen', 'Liechtenstein');
-INSERT INTO citta VALUES ('Oranjestad', 'Aruba');
-INSERT INTO citta VALUES ('Nicosia', 'Cyprus');
-INSERT INTO citta VALUES ('St feliu de guíxols', 'España');
-INSERT INTO citta VALUES ('Riga', 'Latvia');
-INSERT INTO citta VALUES ('Praha', 'Czech republic');
-INSERT INTO citta VALUES ('Padova', 'Italia');
-INSERT INTO citta VALUES ('Ljubljana', 'Slovenia');
-INSERT INTO citta VALUES ('Sinop', 'Turkey');
-INSERT INTO citta VALUES ('Rovaniemi', 'Suomi / finland');
-INSERT INTO citta VALUES ('Hamrun', 'Malta');
-INSERT INTO citta VALUES ('Budapest', 'Hungary');
-INSERT INTO citta VALUES ('Salford', 'United kingdom');
-INSERT INTO citta VALUES ('Bruxelles', 'Belgium');
-INSERT INTO citta VALUES ('Warszawa', 'Poland');
-INSERT INTO citta VALUES ('Bucuresti', 'Romania');
-INSERT INTO citta VALUES ('Zagreb', 'Croatia');
-INSERT INTO citta VALUES ('Sofia', 'Bulgaria');
-INSERT INTO citta VALUES ('Copenhagen', 'Danmark');
-INSERT INTO citta VALUES ('Berlin', 'Deutschland');
-INSERT INTO citta VALUES ('Bremen', 'Germany');
-INSERT INTO citta VALUES ('Liege', 'Belgium');
-INSERT INTO citta VALUES ('Weimar', 'Germany');
-INSERT INTO citta VALUES ('Las Palmas de Gran Canaria', 'Spain');
-INSERT INTO citta VALUES ('Craiova', 'Romania');
-INSERT INTO citta VALUES ('Extremadura', 'Spain');
-
-
---
--- Data for Name: universita; Type: TABLE DATA; Schema: public; Owner: mauro
---
-
-INSERT INTO universita VALUES ('Universitat de Barcelona', 'http://www.ub.edu/uri/estudiantsNOUB/nie_en.htm', 4, false, 'Barcelona', 'Spain');
-INSERT INTO universita VALUES ('Dublin Institute of Technology- Main Site', 'http://www.dit.ie/', 45, true, 'Dublin', 'Ireland');
-INSERT INTO universita VALUES ('University of Cambridge', 'www.cam.ac.uk', 1, true, 'Cambridge', 'United Kingdom');
-INSERT INTO universita VALUES ('Università degli Studi di Pisa', 'www.unipi.it', 1, true, 'Pisa', 'Italy');
-INSERT INTO universita VALUES ('Universite Paris Descartes - UFR Mathematiques et Informatique', 'https://www.univ-paris5.fr/INTERNATIONAL/Venir-a-Paris-Descartes/Etudiants-en-programmes-d-echanges/Erasmus', 39, true, 'Paris', 'France');
-INSERT INTO universita VALUES ('Universite Jean Monnet', 'http://portail.univ-st-etienne.fr/bienvenue/international/etudiant-etranger-293679.kjsp?RH=ACCUEIL', 90, true, 'Paris', 'France');
-INSERT INTO universita VALUES ('Institut Polytechnique de Bordeaux', 'http://www.enseirb-matmeca.fr/international/student', 87, true, 'Bordeaux', 'France');
-INSERT INTO universita VALUES ('Universita degli Studi di Padova', 'www.unipd.it', 200, false, 'Padua', 'Italy');
-INSERT INTO universita VALUES ('Universitaet Bremen', 'www.uni-bremen.de/', 4, true, 'Bremen', 'Germany');
-INSERT INTO universita VALUES ('Université de Liege', 'www.ulg.ac.be/', 34, true, 'Liege', 'Belgium');
-INSERT INTO universita VALUES ('Technische Universitat Hamburg', 'www.tuhh.de/', 77, true, 'Hamburg', 'Germany');
-INSERT INTO universita VALUES ('Hochschule fur Angewandte Wissenschaften Hamburg', 'www.haw-hamburg.de', 34, true, 'Hamburg', 'Germany');
-INSERT INTO universita VALUES ('Bauhaus - Universitat Weimar', 'www.uni-weimar.de/', 179, true, 'Weimar', 'Germany');
-INSERT INTO universita VALUES ('Universidad Polit.de Catalunya', 'www.upc.edu', 167, true, 'Barcelona', 'Spain');
-INSERT INTO universita VALUES ('Universidad de Las Palmas de Gran Canaria', 'https://www.ulpgc.es', 178, true, 'Las Palmas de Gran Canaria', 'Spain');
-INSERT INTO universita VALUES ('Universitatea din Craiova', 'www.ucv.ro/', 210, true, 'Craiova', 'Romania');
-INSERT INTO universita VALUES ('Universidad de Extremadura', 'www.unex.es/', 300, true, 'Extremadura', 'Spain');
-INSERT INTO universita VALUES ('Danmarks Tekniske Universitet', 'www.dtu.dk/', 12, true, 'Copenhagen', 'Danmark');
-
-
---
--- Data for Name: argomentotesi; Type: TABLE DATA; Schema: public; Owner: mauro
---
-
-INSERT INTO argomentotesi VALUES (1, 'Random Access Memories', 'Universitatea din Craiova', false, true, 'NOT VERIFIED');
-INSERT INTO argomentotesi VALUES (2, 'Beyond The Walls - X Rays Application', 'Universitatea din Craiova', false, true, 'REPORTED');
-INSERT INTO argomentotesi VALUES (3, 'Retail The Project', 'Universitatea din Craiova', true, false, 'NOT VERIFIED');
-INSERT INTO argomentotesi VALUES (4, 'Face Recognition - Applications Deployment', 'Danmarks Tekniske Universitet', false, true, 'VERIFIED');
-
-
---
--- Name: argomentotesi_id_seq; Type: SEQUENCE SET; Schema: public; Owner: mauro
---
-
-SELECT pg_catalog.setval('argomentotesi_id_seq', 4, true);
+INSERT INTO lingua VALUES ('hye', 'Armenian');
+INSERT INTO lingua VALUES ('ast', 'Asturian');
+INSERT INTO lingua VALUES ('eus', 'Basque');
+INSERT INTO lingua VALUES ('bel', 'Belarusian');
+INSERT INTO lingua VALUES ('bos', 'Bosnian');
+INSERT INTO lingua VALUES ('bul', 'Bulgarian');
+INSERT INTO lingua VALUES ('cat', 'Catalan');
+INSERT INTO lingua VALUES ('ces', 'Czech');
+INSERT INTO lingua VALUES ('cym', 'Welsh');
+INSERT INTO lingua VALUES ('dan', 'Danish');
+INSERT INTO lingua VALUES ('deu', 'German');
+INSERT INTO lingua VALUES ('nld', 'Dutch');
+INSERT INTO lingua VALUES ('ell', 'Greek');
+INSERT INTO lingua VALUES ('eng', 'English');
+INSERT INTO lingua VALUES ('epo', 'Esperanto');
+INSERT INTO lingua VALUES ('fao', 'Faroese');
+INSERT INTO lingua VALUES ('fin', 'Finnish');
+INSERT INTO lingua VALUES ('fra', 'French');
+INSERT INTO lingua VALUES ('kat', 'Georgian');
+INSERT INTO lingua VALUES ('gle', 'Irish');
+INSERT INTO lingua VALUES ('heb', 'Hebrew');
+INSERT INTO lingua VALUES ('hrv', 'Croatian');
+INSERT INTO lingua VALUES ('hun', 'Hungarian');
+INSERT INTO lingua VALUES ('isl', 'Icelandic');
+INSERT INTO lingua VALUES ('ita', 'Italian');
+INSERT INTO lingua VALUES ('lit', 'Lithuanian');
+INSERT INTO lingua VALUES ('ltz', 'Luxembourgish');
+INSERT INTO lingua VALUES ('mkd', 'Macedonian');
+INSERT INTO lingua VALUES ('mlt', 'Maltese');
+INSERT INTO lingua VALUES ('pol', 'Polish');
+INSERT INTO lingua VALUES ('por', 'Portuguese');
+INSERT INTO lingua VALUES ('ron', 'Romanian');
+INSERT INTO lingua VALUES ('rus', 'Russian');
+INSERT INTO lingua VALUES ('slk', 'Slovak');
+INSERT INTO lingua VALUES ('slv', 'Slovenian');
+INSERT INTO lingua VALUES ('spa', 'Spanish');
+INSERT INTO lingua VALUES ('swe', 'Swedish');
+INSERT INTO lingua VALUES ('tur', 'Turkish');
+INSERT INTO lingua VALUES ('ukr', 'Ukrainian');
+INSERT INTO lingua VALUES ('wln', 'Walloon');
+INSERT INTO lingua VALUES ('sqi', 'Albanian');
+INSERT INTO lingua VALUES ('ara', 'Arabic');
+INSERT INTO lingua VALUES ('est', 'Estonian');
+INSERT INTO lingua VALUES ('lav', 'Latvian');
+INSERT INTO lingua VALUES ('nor', 'Norwegian');
 
 
 --
@@ -463,6 +412,94 @@ INSERT INTO certificatilinguistici VALUES ('nor', 'B2');
 INSERT INTO certificatilinguistici VALUES ('nor', 'C1');
 INSERT INTO certificatilinguistici VALUES ('nor', 'C2');
 
+-- fine fixed domain
+
+--
+-- Data for Name: citta; Type: TABLE DATA; Schema: public; Owner: mauro
+--
+
+INSERT INTO citta VALUES ('Paris', 'France');
+INSERT INTO citta VALUES ('Copenhagen', 'Denmark');
+INSERT INTO citta VALUES ('London', 'United Kingdom');
+INSERT INTO citta VALUES ('Cambridge', 'United Kingdom');
+INSERT INTO citta VALUES ('Berlin', 'Germany');
+INSERT INTO citta VALUES ('Padua', 'Italy');
+INSERT INTO citta VALUES ('Dublin', 'Ireland');
+INSERT INTO citta VALUES ('Barcelona', 'Spain');
+INSERT INTO citta VALUES ('Pisa', 'Italy');
+INSERT INTO citta VALUES ('Bilbao', 'Spain');
+INSERT INTO citta VALUES ('Bordeaux', 'France');
+INSERT INTO citta VALUES ('Bucarest', 'Romania');
+INSERT INTO citta VALUES ('Wien', 'Austria');
+INSERT INTO citta VALUES ('Brussels', 'Belgium');
+INSERT INTO citta VALUES ('Hamburg', 'Germany');
+INSERT INTO citta VALUES ('Marinha grande', 'Portugal');
+INSERT INTO citta VALUES ('Heraklion', 'Greece');
+INSERT INTO citta VALUES ('Pierrefonds', 'France');
+INSERT INTO citta VALUES ('Uppsala', 'Sweden');
+INSERT INTO citta VALUES ('Apeldoorn', 'Nederland');
+INSERT INTO citta VALUES ('Oslo ', 'Norge');
+INSERT INTO citta VALUES ('Triesen', 'Liechtenstein');
+INSERT INTO citta VALUES ('Nicosia', 'Cyprus');
+INSERT INTO citta VALUES ('Riga', 'Latvia');
+INSERT INTO citta VALUES ('Praha', 'Czech Republic');
+INSERT INTO citta VALUES ('Ljubljana', 'Slovenia');
+INSERT INTO citta VALUES ('Sinop', 'Turkey');
+INSERT INTO citta VALUES ('Rovaniemi', 'Finland');
+INSERT INTO citta VALUES ('Hamrun', 'Malta');
+INSERT INTO citta VALUES ('Budapest', 'Hungary');
+INSERT INTO citta VALUES ('Salford', 'United Kingdom');
+INSERT INTO citta VALUES ('Bruxelles', 'Belgium');
+INSERT INTO citta VALUES ('Warszawa', 'Poland');
+INSERT INTO citta VALUES ('Zagreb', 'Croatia');
+INSERT INTO citta VALUES ('Sofia', 'Bulgaria');
+INSERT INTO citta VALUES ('Bremen', 'Germany');
+INSERT INTO citta VALUES ('Liege', 'Belgium');
+INSERT INTO citta VALUES ('Weimar', 'Germany');
+INSERT INTO citta VALUES ('Las Palmas de Gran Canaria', 'Spain');
+INSERT INTO citta VALUES ('Craiova', 'Romania');
+INSERT INTO citta VALUES ('Extremadura', 'Spain');
+
+--
+-- Data for Name: universita; Type: TABLE DATA; Schema: public; Owner: mauro
+--
+
+INSERT INTO universita VALUES ('Universitat de Barcelona', 'http://www.ub.edu/uri/estudiantsNOUB/nie_en.htm', 4, false, 'Barcelona', 'Spain');
+INSERT INTO universita VALUES ('Dublin Institute of Technology- Main Site', 'http://www.dit.ie/', 45, true, 'Dublin', 'Ireland');
+INSERT INTO universita VALUES ('University of Cambridge', 'http://www.cam.ac.uk', 1, true, 'Cambridge', 'United Kingdom');
+INSERT INTO universita VALUES ('Università degli Studi di Pisa', 'http://www.unipi.it', 1, true, 'Pisa', 'Italy');
+INSERT INTO universita VALUES ('Universite Paris Descartes - UFR Mathematiques et Informatique', 'https://www.univ-paris5.fr/INTERNATIONAL/Venir-a-Paris-Descartes/Etudiants-en-programmes-d-echanges/Erasmus', 39, true, 'Paris', 'France');
+INSERT INTO universita VALUES ('Universite Jean Monnet', 'http://portail.univ-st-etienne.fr/bienvenue/international/etudiant-etranger-293679.kjsp?RH=ACCUEIL', 90, true, 'Paris', 'France');
+INSERT INTO universita VALUES ('Institut Polytechnique de Bordeaux', 'http://www.enseirb-matmeca.fr/international/student', 87, true, 'Bordeaux', 'France');
+INSERT INTO universita VALUES ('Universita degli Studi di Padova', 'http://www.unipd.it', 200, false, 'Padua', 'Italy');
+INSERT INTO universita VALUES ('Universitaet Bremen', 'http://www.uni-bremen.de/', 4, true, 'Bremen', 'Germany');
+INSERT INTO universita VALUES ('Universite de Liege', 'http://www.ulg.ac.be/', 34, true, 'Liege', 'Belgium');
+INSERT INTO universita VALUES ('Technische Universitat Hamburg', 'http://www.tuhh.de/', 77, true, 'Hamburg', 'Germany');
+INSERT INTO universita VALUES ('Hochschule fur Angewandte Wissenschaften Hamburg', 'http://www.haw-hamburg.de', 34, true, 'Hamburg', 'Germany');
+INSERT INTO universita VALUES ('Bauhaus - Universitat Weimar', 'http://www.uni-weimar.de/', 179, true, 'Weimar', 'Germany');
+INSERT INTO universita VALUES ('Universidad Polit.de Catalunya', 'http://www.upc.edu', 167, true, 'Barcelona', 'Spain');
+INSERT INTO universita VALUES ('Universidad de Las Palmas de Gran Canaria', 'https://www.ulpgc.es', 178, true, 'Las Palmas de Gran Canaria', 'Spain');
+INSERT INTO universita VALUES ('Universitatea din Craiova', 'http://www.ucv.ro/', 210, true, 'Craiova', 'Romania');
+INSERT INTO universita VALUES ('Universidad de Extremadura', 'http://www.unex.es/', 300, true, 'Extremadura', 'Spain');
+INSERT INTO universita VALUES ('Danmarks Tekniske Universitet', 'http://www.dtu.dk/', 12, true, 'Copenhagen', 'Denmark');
+
+
+--
+-- Data for Name: argomentotesi; Type: TABLE DATA; Schema: public; Owner: mauro
+--
+
+INSERT INTO argomentotesi VALUES (1, 'Random Access Memories', 'Universitatea din Craiova', false, true, 'NOT VERIFIED');
+INSERT INTO argomentotesi VALUES (2, 'Beyond The Walls - X Rays Application', 'Universitatea din Craiova', false, true, 'REPORTED');
+INSERT INTO argomentotesi VALUES (3, 'Retail The Project', 'Universitatea din Craiova', true, false, 'NOT VERIFIED');
+INSERT INTO argomentotesi VALUES (4, 'Face Recognition - Applications Deployment', 'Danmarks Tekniske Universitet', false, true, 'VERIFIED');
+
+
+--
+-- Name: argomentotesi_id_seq; Type: SEQUENCE SET; Schema: public; Owner: mauro
+--
+
+SELECT pg_catalog.setval('argomentotesi_id_seq', 4, true);
+
 
 --
 -- Data for Name: coordinatore; Type: TABLE DATA; Schema: public; Owner: mauro
@@ -482,7 +519,7 @@ INSERT INTO corsodilaurea VALUES (1, 'INGEGNERIA INFORMATICA', 'GRADUATE', 'Univ
 INSERT INTO corsodilaurea VALUES (2, 'INGEGNERIA DELLE TELECOMUNICAZIONI', 'GRADUATE', 'Universita degli Studi di Padova');
 INSERT INTO corsodilaurea VALUES (3, 'INGEGNERIA ELETTRONICA', 'GRADUATE', 'Universita degli Studi di Padova');
 INSERT INTO corsodilaurea VALUES (4, 'INGEGNERIA AEROSPAZIALE', 'GRADUATE', 'Universita degli Studi di Padova');
-INSERT INTO corsodilaurea VALUES (5, 'INGEGNERIA ELETTRICA', 'GRADUATE', 'Universita degli Studi di Padova');
+INSERT INTO corsodilaurea VALUES (5, 'INGEGNERIA ELETTRICA', 'UNDERGRADUATE', 'Universita degli Studi di Padova');
 INSERT INTO corsodilaurea VALUES (9, 'INGEGNERIA ENERGETICA', 'GRADUATE', 'Universita degli Studi di Padova');
 INSERT INTO corsodilaurea VALUES (10, 'ENVIRONMENTAL ENGINEERING', 'GRADUATE', 'Universita degli Studi di Padova');
 INSERT INTO corsodilaurea VALUES (11, 'INGEGNERIA L''AMBIENTE E IL TERRITORIO', 'GRADUATE', 'Universita degli Studi di Padova');
@@ -570,7 +607,7 @@ INSERT INTO flusso VALUES ('CRAIOVA01', 'Universitatea din Craiova', 'Mike', 3, 
 INSERT INTO flusso VALUES ('BADAJOZ01', 'Universidad de Extremadura', 'valcher', 2, true, '2014-09-07', 6, '');
 INSERT INTO flusso VALUES ('BARCELO04', 'Universitat de Barcelona', 'valcher', 4, true, '2014-09-07', 6, '');
 INSERT INTO flusso VALUES ('CAM001', 'University of Cambridge', 'cossu', 1, true, '2014-09-07', 6, '');
-INSERT INTO flusso VALUES ('LIEGE010', 'Université de Liege', 'Mike', 2, true, '2014-09-07', 6, '');
+INSERT INTO flusso VALUES ('LIEGE010', 'Universite de Liege', 'Mike', 2, true, '2014-09-07', 6, '');
 INSERT INTO flusso VALUES ('COP002', 'Danmarks Tekniske Universitet', 'Mike', 3, true, '2014-09-07', 6, '');
 
 
@@ -619,8 +656,8 @@ INSERT INTO professore VALUES (3, 'Sael', 'Rementarinof');
 INSERT INTO professore VALUES (4, 'Markov', 'Rachmaninov');
 INSERT INTO professore VALUES (5, 'Laryer', 'Latvaka');
 INSERT INTO professore VALUES (6, 'Romani', 'Setrumi');
-INSERT INTO professore VALUES (7, 'Robert', 'D. Junior');
-INSERT INTO professore VALUES (8, 'And', 'his Wife');
+INSERT INTO professore VALUES (7, 'Robert', 'Stark');
+INSERT INTO professore VALUES (8, 'Clarissa', 'Hayef');
 INSERT INTO professore VALUES (9, 'Proximo', 'Centauri');
 INSERT INTO professore VALUES (10, 'Major', 'Orsew');
 INSERT INTO professore VALUES (11, 'Nikolai', 'Oltrepaski');
@@ -629,7 +666,7 @@ INSERT INTO professore VALUES (13, 'Larry', 'Bird');
 INSERT INTO professore VALUES (14, 'Jack', 'Daniels');
 INSERT INTO professore VALUES (15, 'Micheal', 'Norton');
 INSERT INTO professore VALUES (16, 'Ronnie', 'Coleman');
-INSERT INTO professore VALUES (17, 'Morga', 'Freeman');
+INSERT INTO professore VALUES (17, 'Morgana', 'Freeman');
 INSERT INTO professore VALUES (18, 'Larry', 'Page');
 INSERT INTO professore VALUES (19, 'Harrison', 'Ford');
 
@@ -644,58 +681,6 @@ INSERT INTO gestione VALUES (2, 10);
 INSERT INTO gestione VALUES (3, 11);
 INSERT INTO gestione VALUES (4, 14);
 INSERT INTO gestione VALUES (4, 15);
-
-
---
--- Data for Name: lingua; Type: TABLE DATA; Schema: public; Owner: mauro
---
-
-INSERT INTO lingua VALUES ('hye', 'Armenian');
-INSERT INTO lingua VALUES ('ast', 'Asturian');
-INSERT INTO lingua VALUES ('eus', 'Basque');
-INSERT INTO lingua VALUES ('bel', 'Belarusian');
-INSERT INTO lingua VALUES ('bos', 'Bosnian');
-INSERT INTO lingua VALUES ('bul', 'Bulgarian');
-INSERT INTO lingua VALUES ('cat', 'Catalan');
-INSERT INTO lingua VALUES ('ces', 'Czech');
-INSERT INTO lingua VALUES ('cym', 'Welsh');
-INSERT INTO lingua VALUES ('dan', 'Danish');
-INSERT INTO lingua VALUES ('deu', 'German');
-INSERT INTO lingua VALUES ('nld', 'Dutch');
-INSERT INTO lingua VALUES ('ell', 'Greek');
-INSERT INTO lingua VALUES ('eng', 'English');
-INSERT INTO lingua VALUES ('epo', 'Esperanto');
-INSERT INTO lingua VALUES ('fao', 'Faroese');
-INSERT INTO lingua VALUES ('fin', 'Finnish');
-INSERT INTO lingua VALUES ('fra', 'French');
-INSERT INTO lingua VALUES ('kat', 'Georgian');
-INSERT INTO lingua VALUES ('gle', 'Irish');
-INSERT INTO lingua VALUES ('heb', 'Hebrew');
-INSERT INTO lingua VALUES ('hrv', 'Croatian');
-INSERT INTO lingua VALUES ('hun', 'Hungarian');
-INSERT INTO lingua VALUES ('isl', 'Icelandic');
-INSERT INTO lingua VALUES ('ita', 'Italian');
-INSERT INTO lingua VALUES ('lit', 'Lithuanian');
-INSERT INTO lingua VALUES ('ltz', 'Luxembourgish');
-INSERT INTO lingua VALUES ('mkd', 'Macedonian');
-INSERT INTO lingua VALUES ('mlt', 'Maltese');
-INSERT INTO lingua VALUES ('pol', 'Polish');
-INSERT INTO lingua VALUES ('por', 'Portuguese');
-INSERT INTO lingua VALUES ('ron', 'Romanian');
-INSERT INTO lingua VALUES ('rus', 'Russian');
-INSERT INTO lingua VALUES ('slk', 'Slovak');
-INSERT INTO lingua VALUES ('slv', 'Slovenian');
-INSERT INTO lingua VALUES ('spa', 'Spanish');
-INSERT INTO lingua VALUES ('swe', 'Swedish');
-INSERT INTO lingua VALUES ('tur', 'Turkish');
-INSERT INTO lingua VALUES ('ukr', 'Ukrainian');
-INSERT INTO lingua VALUES ('wln', 'Walloon');
-INSERT INTO lingua VALUES ('sqi', 'Albanian');
-INSERT INTO lingua VALUES ('ara', 'Arabic');
-INSERT INTO lingua VALUES ('est', 'Estonian');
-INSERT INTO lingua VALUES ('lav', 'Latvian');
-INSERT INTO lingua VALUES ('nor', 'Norwegian');
-
 
 --
 -- Data for Name: insegnamento; Type: TABLE DATA; Schema: public; Owner: mauro
@@ -837,16 +822,16 @@ INSERT INTO linguacitta VALUES ('ita', 'Pisa', 'Italy');
 INSERT INTO linguacitta VALUES ('spa', 'Bilbao', 'Spain');
 INSERT INTO linguacitta VALUES ('fra', 'Bordeaux', 'France');
 INSERT INTO linguacitta VALUES ('ron', 'Bucarest', 'Romania');
-INSERT INTO linguacitta VALUES ('ast', 'Wien', 'Austria');
+INSERT INTO linguacitta VALUES ('deu', 'Wien', 'Austria');
 INSERT INTO linguacitta VALUES ('nld', 'Brussels', 'Belgium');
 INSERT INTO linguacitta VALUES ('fra', 'Brussels', 'Belgium');
 INSERT INTO linguacitta VALUES ('deu', 'Brussels', 'Belgium');
-INSERT INTO linguacitta VALUES ('nld', 'Hamburg', 'Germany');
-INSERT INTO linguacitta VALUES ('nld', 'Bremen', 'Germany');
+INSERT INTO linguacitta VALUES ('deu', 'Hamburg', 'Germany');
+INSERT INTO linguacitta VALUES ('deu', 'Bremen', 'Germany');
 INSERT INTO linguacitta VALUES ('eng', 'Liege', 'Belgium');
 INSERT INTO linguacitta VALUES ('fra', 'Liege', 'Belgium');
 INSERT INTO linguacitta VALUES ('deu', 'Liege', 'Belgium');
-INSERT INTO linguacitta VALUES ('nld', 'Weimar', 'Germany');
+INSERT INTO linguacitta VALUES ('deu', 'Weimar', 'Germany');
 INSERT INTO linguacitta VALUES ('eng', 'Weimar', 'Germany');
 INSERT INTO linguacitta VALUES ('spa', 'Las Palmas de Gran Canaria', 'Spain');
 INSERT INTO linguacitta VALUES ('ron', 'Craiova', 'Romania');
