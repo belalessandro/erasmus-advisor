@@ -120,7 +120,7 @@ public class UniversitaDatabase {
 				+ "V.IniziativeErasmus, V.QtaInsegnamenti, V.QtaAule "
 				+ "FROM Universita AS U "
 				+ "INNER JOIN ValutazioneUniversita AS V ON U.Nome = V.NomeUniversita "
-				+ "WHERE U.Nome = ?";
+				+ "WHERE U.Nome = ? ORDER BY datainserimento DESC";
 
 
 		// Entity Bean
